@@ -1,0 +1,221 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 41,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-ske-s41-58dfe7fb1379",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S41-T1-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-ARE-041-1A', **{'method': 'POST', 'resource': '/v1/jobs', 'created': True, 'status': 201}}\nrecord = payload\nmeets_contract = bool(not (record[\"status\"] == 200 and record[\"method\"] == \"GET\"))\nstatus = (\"PASS\" if meets_contract else \"RETURN_CORRECT_HTTP_STATUS\")\nprint(\"S41-T1-A\", status)\n",
+      "justification_from_packet": "Skeptic sobre S41-T1-A-E1: no acepto el booleano invertido del starter. El paquete exige demostrar método, recurso y 201 coherentes en CASO-ARE-041-1A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «recursos, métodos y status».",
+      "status": "answered",
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S41-T1-A-E2",
+      "code": "REQUIRED = {'case_id', 'created', 'method', 'resource', 'status'}\nREJECT = 'RETURN_CORRECT_HTTP_STATUS'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"status\"] == 200 and record[\"method\"] == \"GET\")\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ARE-041-1A', **{'method': 'POST', 'resource': '/v1/jobs', 'created': True, 'status': 201}}\nadverse_fx = {\"case_id\": 'CASO-ARE-041-1A', **{'method': 'POST', 'resource': '/v1/jobs', 'created': False, 'status': 201}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('status', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Auditoría de S41-T1-A-E2: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-ARE-041-1A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S41-T1-A-E3",
+      "code": "REQUIRED = {'case_id', 'created', 'method', 'resource', 'status'}\nBREACH = 'RETURN_CORRECT_HTTP_STATUS'\nUNCERTAIN = 'REVIEW_RESOURCE_SEMANTICS'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"status\"] == 200 and record[\"method\"] == \"GET\"):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ARE-041-1A', **{'method': 'POST', 'resource': '/v1/jobs', 'created': True, 'status': 201}}\nbad = {\"case_id\": 'CASO-ARE-041-1A', **{'method': 'POST', 'resource': '/v1/jobs', 'created': False, 'status': 201}}\ngap = {k: good[k] for k in good if k != 'status'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S41-T1-A-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-ARE-041-1A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «recursos, métodos y status».",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S41-T1-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-ARE-041-1B', **{'key': 'idem-are-1', 'request_hash': 'abc', 'stored_hash': 'abc', 'effects': 1, 'cursor': 'job-020', 'version': 'v1'}}\nrecord = payload\nmeets_contract = bool(not (record[\"effects\"] > 1 or record[\"request_hash\"] != record[\"stored_hash\"]))\nstatus = (\"PASS\" if meets_contract else \"RETURN_IDEMPOTENCY_CONFLICT\")\nprint(\"S41-T1-B\", status)\n",
+      "justification_from_packet": "Auditoría de S41-T1-B-E1: el starter fallaba a propósito. Apliqué hash estable, un efecto, cursor y versión explícita con trazas del caso CASO-ARE-041-1B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S41-T1-B-E2",
+      "code": "REQUIRED = {'case_id', 'cursor', 'effects', 'key', 'request_hash', 'stored_hash', 'version'}\nREJECT = 'RETURN_IDEMPOTENCY_CONFLICT'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"effects\"] > 1 or record[\"request_hash\"] != record[\"stored_hash\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ARE-041-1B', **{'key': 'idem-are-1', 'request_hash': 'abc', 'stored_hash': 'abc', 'effects': 1, 'cursor': 'job-020', 'version': 'v1'}}\nadverse_fx = {\"case_id\": 'CASO-ARE-041-1B', **{'key': 'idem-are-1', 'request_hash': 'abc_X', 'stored_hash': 'abc', 'effects': 1, 'cursor': 'job-020', 'version': 'v1'}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('version', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Skeptic sobre S41-T1-B-E2: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-ARE-041-1B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «idempotencia, paginación y versionado».",
+      "status": "answered",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S41-T1-B-E3",
+      "code": "REQUIRED = {'case_id', 'cursor', 'effects', 'key', 'request_hash', 'stored_hash', 'version'}\nBREACH = 'RETURN_IDEMPOTENCY_CONFLICT'\nUNCERTAIN = 'REPLAY_STORED_RESPONSE'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"effects\"] > 1 or record[\"request_hash\"] != record[\"stored_hash\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ARE-041-1B', **{'key': 'idem-are-1', 'request_hash': 'abc', 'stored_hash': 'abc', 'effects': 1, 'cursor': 'job-020', 'version': 'v1'}}\nbad = {\"case_id\": 'CASO-ARE-041-1B', **{'key': 'idem-are-1', 'request_hash': 'abc_X', 'stored_hash': 'abc', 'effects': 1, 'cursor': 'job-020', 'version': 'v1'}}\ngap = {k: good[k] for k in good if k != 'version'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "En S41-T1-B-E3 contrasté el fixture válido contra el adverso del mismo subtema «idempotencia, paginación y versionado». La regla el contrato del subtema solo aprueba CASO-ARE-041-1B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S41-T2-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-ARE-041-2A', **{'handler_lines': 4, 'dependency_injectable': True, 'domain_imports_http': False, 'domain_called': True}}\nrecord = payload\nmeets_contract = bool(not (record[\"handler_lines\"] > 20 and record[\"domain_imports_http\"]))\nstatus = (\"PASS\" if meets_contract else \"THIN_THE_HANDLER\")\nprint(\"S41-T2-A\", status)\n",
+      "justification_from_packet": "Skeptic sobre S41-T2-A-E1: no acepto el booleano invertido del starter. El paquete exige demostrar handler delgado y dependencia sustituible en CASO-ARE-041-2A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «routing, dependencies y modelos».",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S41-T2-A-E2",
+      "code": "REQUIRED = {'case_id', 'dependency_injectable', 'domain_called', 'domain_imports_http', 'handler_lines'}\nREJECT = 'THIN_THE_HANDLER'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"handler_lines\"] > 20 and record[\"domain_imports_http\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ARE-041-2A', **{'handler_lines': 4, 'dependency_injectable': True, 'domain_imports_http': False, 'domain_called': True}}\nadverse_fx = {\"case_id\": 'CASO-ARE-041-2A', **{'handler_lines': 4, 'dependency_injectable': False, 'domain_imports_http': False, 'domain_called': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('domain_called', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S41-T2-A-E2 contrasté el fixture válido contra el adverso del mismo subtema «routing, dependencies y modelos». La regla el contrato del subtema solo aprueba CASO-ARE-041-2A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S41-T2-A-E3",
+      "code": "REQUIRED = {'case_id', 'dependency_injectable', 'domain_called', 'domain_imports_http', 'handler_lines'}\nBREACH = 'THIN_THE_HANDLER'\nUNCERTAIN = 'REVIEW_DEPENDENCY_BOUNDARY'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"handler_lines\"] > 20 and record[\"domain_imports_http\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ARE-041-2A', **{'handler_lines': 4, 'dependency_injectable': True, 'domain_imports_http': False, 'domain_called': True}}\nbad = {\"case_id\": 'CASO-ARE-041-2A', **{'handler_lines': 4, 'dependency_injectable': False, 'domain_imports_http': False, 'domain_called': True}}\ngap = {k: good[k] for k in good if k != 'domain_called'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S41-T2-A-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-ARE-041-2A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «routing, dependencies y modelos».",
+      "status": "answered",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S41-T2-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-ARE-041-2B', **{'input_valid': False, 'status': 422, 'response_fields': {'job_id', 'status'}, 'internal_fields': {'db_pk', 'secret'}, 'openapi_matches': True}}\nrecord = payload\nmeets_contract = bool(not (record[\"status\"] == 200 and bool(record[\"response_fields\"] & record[\"internal_fields\"])))\nstatus = (\"PASS\" if meets_contract else \"REJECT_AND_REDACT\")\nprint(\"S41-T2-B\", status)\n",
+      "justification_from_packet": "Skeptic sobre S41-T2-B-E1: no acepto el booleano invertido del starter. El paquete exige demostrar 422 tipado, vista pública y OpenAPI fiel en CASO-ARE-041-2B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «validación, serialización y documentación».",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S41-T2-B-E2",
+      "code": "REQUIRED = {'case_id', 'input_valid', 'internal_fields', 'openapi_matches', 'response_fields', 'status'}\nREJECT = 'REJECT_AND_REDACT'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"status\"] == 200 and bool(record[\"response_fields\"] & record[\"internal_fields\"]))\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ARE-041-2B', **{'input_valid': False, 'status': 422, 'response_fields': {'job_id', 'status'}, 'internal_fields': {'db_pk', 'secret'}, 'openapi_matches': True}}\nadverse_fx = {\"case_id\": 'CASO-ARE-041-2B', **{'input_valid': True, 'status': 422, 'response_fields': {'job_id', 'status'}, 'internal_fields': {'db_pk', 'secret'}, 'openapi_matches': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('openapi_matches', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S41-T2-B-E2 contrasté el fixture válido contra el adverso del mismo subtema «validación, serialización y documentación». La regla el contrato del subtema solo aprueba CASO-ARE-041-2B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S41-T2-B-E3",
+      "code": "REQUIRED = {'case_id', 'input_valid', 'internal_fields', 'openapi_matches', 'response_fields', 'status'}\nBREACH = 'REJECT_AND_REDACT'\nUNCERTAIN = 'REGENERATE_OPENAPI'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"status\"] == 200 and bool(record[\"response_fields\"] & record[\"internal_fields\"])):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ARE-041-2B', **{'input_valid': False, 'status': 422, 'response_fields': {'job_id', 'status'}, 'internal_fields': {'db_pk', 'secret'}, 'openapi_matches': True}}\nbad = {\"case_id\": 'CASO-ARE-041-2B', **{'input_valid': True, 'status': 422, 'response_fields': {'job_id', 'status'}, 'internal_fields': {'db_pk', 'secret'}, 'openapi_matches': True}}\ngap = {k: good[k] for k in good if k != 'openapi_matches'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Auditoría de S41-T2-B-E3: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-ARE-041-2B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S41-T3-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-ARE-041-3A', **{'work_kind': 'io', 'uses_await': True, 'cpu_offloaded': True, 'durable_job': True}}\nrecord = payload\nmeets_contract = bool(not (record[\"work_kind\"] == \"cpu\" and record[\"uses_await\"] and not record[\"cpu_offloaded\"]))\nstatus = (\"PASS\" if meets_contract else \"MOVE_WORK_OFF_EVENT_LOOP\")\nprint(\"S41-T3-A\", status)\n",
+      "justification_from_packet": "Auditoría de S41-T3-A-E1: el starter fallaba a propósito. Apliqué I/O awaited y CPU/durable fuera del event loop con trazas del caso CASO-ARE-041-3A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S41-T3-A-E2",
+      "code": "REQUIRED = {'case_id', 'cpu_offloaded', 'durable_job', 'uses_await', 'work_kind'}\nREJECT = 'MOVE_WORK_OFF_EVENT_LOOP'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"work_kind\"] == \"cpu\" and record[\"uses_await\"] and not record[\"cpu_offloaded\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ARE-041-3A', **{'work_kind': 'io', 'uses_await': True, 'cpu_offloaded': True, 'durable_job': True}}\nadverse_fx = {\"case_id\": 'CASO-ARE-041-3A', **{'work_kind': 'io', 'uses_await': False, 'cpu_offloaded': True, 'durable_job': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('durable_job', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S41-T3-A-E2 contrasté el fixture válido contra el adverso del mismo subtema «sync/async y background boundaries». La regla el contrato del subtema solo aprueba CASO-ARE-041-3A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S41-T3-A-E3",
+      "code": "REQUIRED = {'case_id', 'cpu_offloaded', 'durable_job', 'uses_await', 'work_kind'}\nBREACH = 'MOVE_WORK_OFF_EVENT_LOOP'\nUNCERTAIN = 'CHOOSE_BACKGROUND_BOUNDARY'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"work_kind\"] == \"cpu\" and record[\"uses_await\"] and not record[\"cpu_offloaded\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ARE-041-3A', **{'work_kind': 'io', 'uses_await': True, 'cpu_offloaded': True, 'durable_job': True}}\nbad = {\"case_id\": 'CASO-ARE-041-3A', **{'work_kind': 'io', 'uses_await': False, 'cpu_offloaded': True, 'durable_job': True}}\ngap = {k: good[k] for k in good if k != 'durable_job'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S41-T3-A-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-ARE-041-3A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «sync/async y background boundaries».",
+      "status": "answered",
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S41-T3-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-ARE-041-3B', **{'client_timeout_ms': 900, 'service_budget_ms': 700, 'db_budget_ms': 450, 'error_code': 'UPSTREAM_TIMEOUT', 'resource_closed': True}}\nrecord = payload\nmeets_contract = bool(not (record[\"db_budget_ms\"] > record[\"client_timeout_ms\"] or not record[\"resource_closed\"]))\nstatus = (\"PASS\" if meets_contract else \"CANCEL_AND_CLOSE\")\nprint(\"S41-T3-B\", status)\n",
+      "justification_from_packet": "Skeptic sobre S41-T3-B-E1: no acepto el booleano invertido del starter. El paquete exige demostrar timeouts decrecientes, error estable y cierre de recurso en CASO-ARE-041-3B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «errores, timeouts y lifecycle».",
+      "status": "answered",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S41-T3-B-E2",
+      "code": "REQUIRED = {'case_id', 'client_timeout_ms', 'db_budget_ms', 'error_code', 'resource_closed', 'service_budget_ms'}\nREJECT = 'CANCEL_AND_CLOSE'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"db_budget_ms\"] > record[\"client_timeout_ms\"] or not record[\"resource_closed\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ARE-041-3B', **{'client_timeout_ms': 900, 'service_budget_ms': 700, 'db_budget_ms': 450, 'error_code': 'UPSTREAM_TIMEOUT', 'resource_closed': True}}\nadverse_fx = {\"case_id\": 'CASO-ARE-041-3B', **{'client_timeout_ms': 0, 'service_budget_ms': 700, 'db_budget_ms': 450, 'error_code': 'UPSTREAM_TIMEOUT', 'resource_closed': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('resource_closed', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Auditoría de S41-T3-B-E2: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-ARE-041-3B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S41-T3-B-E3",
+      "code": "REQUIRED = {'case_id', 'client_timeout_ms', 'db_budget_ms', 'error_code', 'resource_closed', 'service_budget_ms'}\nBREACH = 'CANCEL_AND_CLOSE'\nUNCERTAIN = 'RECALCULATE_TIMEOUT_BUDGET'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"db_budget_ms\"] > record[\"client_timeout_ms\"] or not record[\"resource_closed\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ARE-041-3B', **{'client_timeout_ms': 900, 'service_budget_ms': 700, 'db_budget_ms': 450, 'error_code': 'UPSTREAM_TIMEOUT', 'resource_closed': True}}\nbad = {\"case_id\": 'CASO-ARE-041-3B', **{'client_timeout_ms': 0, 'service_budget_ms': 700, 'db_budget_ms': 450, 'error_code': 'UPSTREAM_TIMEOUT', 'resource_closed': True}}\ngap = {k: good[k] for k in good if k != 'resource_closed'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Auditoría de S41-T3-B-E3: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-ARE-041-3B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S41-T4-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-ARE-041-4A', **{'layers': {'contract', 'integration', 'unit'}, 'rule_unit': True, 'http_contract': True, 'adapter_integration': True, 'seeded_failure_detected': True}}\nrecord = payload\nmeets_contract = bool(not (len(record[\"layers\"]) == 1 and not record[\"seeded_failure_detected\"]))\nstatus = (\"PASS\" if meets_contract else \"BLOCK_UNTESTED_CONTRACT\")\nprint(\"S41-T4-A\", status)\n",
+      "justification_from_packet": "En S41-T4-A-E1 contrasté el fixture válido contra el adverso del mismo subtema «unit/contract/integration». La regla tres niveles y fallo sembrado detectado solo aprueba CASO-ARE-041-4A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S41-T4-A-E2",
+      "code": "REQUIRED = {'adapter_integration', 'case_id', 'http_contract', 'layers', 'rule_unit', 'seeded_failure_detected'}\nREJECT = 'BLOCK_UNTESTED_CONTRACT'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (len(record[\"layers\"]) == 1 and not record[\"seeded_failure_detected\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ARE-041-4A', **{'layers': {'contract', 'integration', 'unit'}, 'rule_unit': True, 'http_contract': True, 'adapter_integration': True, 'seeded_failure_detected': True}}\nadverse_fx = {\"case_id\": 'CASO-ARE-041-4A', **{'layers': {'contract', 'integration', 'unit'}, 'rule_unit': False, 'http_contract': True, 'adapter_integration': True, 'seeded_failure_detected': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('seeded_failure_detected', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S41-T4-A-E2 contrasté el fixture válido contra el adverso del mismo subtema «unit/contract/integration». La regla el contrato del subtema solo aprueba CASO-ARE-041-4A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S41-T4-A-E3",
+      "code": "REQUIRED = {'adapter_integration', 'case_id', 'http_contract', 'layers', 'rule_unit', 'seeded_failure_detected'}\nBREACH = 'BLOCK_UNTESTED_CONTRACT'\nUNCERTAIN = 'ADD_MISSING_TEST_LEVEL'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (len(record[\"layers\"]) == 1 and not record[\"seeded_failure_detected\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ARE-041-4A', **{'layers': {'contract', 'integration', 'unit'}, 'rule_unit': True, 'http_contract': True, 'adapter_integration': True, 'seeded_failure_detected': True}}\nbad = {\"case_id\": 'CASO-ARE-041-4A', **{'layers': {'contract', 'integration', 'unit'}, 'rule_unit': False, 'http_contract': True, 'adapter_integration': True, 'seeded_failure_detected': True}}\ngap = {k: good[k] for k in good if k != 'seeded_failure_detected'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "En S41-T4-A-E3 contrasté el fixture válido contra el adverso del mismo subtema «unit/contract/integration». La regla el contrato del subtema solo aprueba CASO-ARE-041-4A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S41-T4-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-ARE-041-4B', **{'old_consumer_passes': True, 'limit': 100, 'used': 73, 'trace_id': 'tr-are-041', 'pii_in_log': False}}\nrecord = payload\nmeets_contract = bool(not (record[\"used\"] > record[\"limit\"] or record[\"pii_in_log\"]))\nstatus = (\"PASS\" if meets_contract else \"THROTTLE_AND_REDACT\")\nprint(\"S41-T4-B\", status)\n",
+      "justification_from_packet": "Auditoría de S41-T4-B-E1: el starter fallaba a propósito. Apliqué consumer v1, cuota y trace redactado con trazas del caso CASO-ARE-041-4B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S41-T4-B-E2",
+      "code": "REQUIRED = {'case_id', 'limit', 'old_consumer_passes', 'pii_in_log', 'trace_id', 'used'}\nREJECT = 'THROTTLE_AND_REDACT'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"used\"] > record[\"limit\"] or record[\"pii_in_log\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ARE-041-4B', **{'old_consumer_passes': True, 'limit': 100, 'used': 73, 'trace_id': 'tr-are-041', 'pii_in_log': False}}\nadverse_fx = {\"case_id\": 'CASO-ARE-041-4B', **{'old_consumer_passes': True, 'limit': 0, 'used': 73, 'trace_id': 'tr-are-041', 'pii_in_log': False}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('pii_in_log', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Skeptic sobre S41-T4-B-E2: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-ARE-041-4B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «compatibility, rate limit y observabilidad».",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S41-T4-B-E3",
+      "code": "REQUIRED = {'case_id', 'limit', 'old_consumer_passes', 'pii_in_log', 'trace_id', 'used'}\nBREACH = 'THROTTLE_AND_REDACT'\nUNCERTAIN = 'INSPECT_COMPATIBILITY'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"used\"] > record[\"limit\"] or record[\"pii_in_log\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ARE-041-4B', **{'old_consumer_passes': True, 'limit': 100, 'used': 73, 'trace_id': 'tr-are-041', 'pii_in_log': False}}\nbad = {\"case_id\": 'CASO-ARE-041-4B', **{'old_consumer_passes': True, 'limit': 0, 'used': 73, 'trace_id': 'tr-are-041', 'pii_in_log': False}}\ngap = {k: good[k] for k in good if k != 'pii_in_log'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Auditoría de S41-T4-B-E3: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-ARE-041-4B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.92
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic en S41 Q0: «matriz método/recurso/status probada» es la respuesta que no oculta el error ni inventa evidencia. El paquete lo marca al hablar de Modela recursos con sustantivos, usa métodos HTTP por semántica y devuelve status que separan creación, validación, ause.",
+      "status": "answered",
+      "confidence": 0.78
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic en S41 Q1: «emitir REJECT_REQUEST y conservar evidencia» es la respuesta que no oculta el error ni inventa evidencia. El paquete lo marca al hablar de Modela recursos con sustantivos, usa métodos HTTP por semántica y devuelve status que separan creación, validación, ause.",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic en S41 Q2: «crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad» es la respuesta que no oculta el error ni inventa evidencia. El paquete lo marca al hablar de Modela recursos con sustantivos, usa métodos HTTP por semántica y devuelve status que separan creación, validación, ause.",
+      "status": "answered",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Descarté capturas vacías o PII real en Q3/S41. La opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» es la única que preserva auditoría según el texto del paquete: Modela recursos con sustantivos, usa métodos HTTP por semántica y devuelve status que separan creación, validación, ause.",
+      "status": "answered",
+      "confidence": 0.86
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:41:00.544052+00:00",
+  "session_started_at": "2026-07-23T17:39:53.953895+00:00",
+  "session_ended_at": "2026-07-23T17:41:00.542084+00:00",
+  "receipt_response_sha256": "7e9a5b79e78daf6ddd182f257bac627cd08ae2f37934d93237ee3e6ca56a6004",
+  "receipt_exercises_sha256": "ea1e418f6ab3f6795f0b260d6ddc581aadfcb6234167f6c4a5216ecff68a1b11",
+  "receipt_selfcheck_sha256": "06a58eee35666b425d20a2c3c5164a60ddb0247a42aaa466ff15a673cb3ab506"
+}

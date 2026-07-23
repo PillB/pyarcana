@@ -1,0 +1,207 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 11,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-newbie-b-s11-9c89c67a77",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "code": "from dataclasses import dataclass, field\nfrom typing import List\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    emails: List[str] = field(default_factory=list)\n\nc = ClientRecord('C001', 'Ana Perez', ['ana@ejemplo.pe'])\nprint(c)\n",
+      "justification_from_packet": "Como skeptic en S11-T1-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza fc97370e.",
+      "confidence": 0.59
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "code": "from dataclasses import dataclass, field\nfrom typing import List\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    emails: List[str] = field(default_factory=list)\n\na = ClientRecord('C1', 'A')\nb = ClientRecord('C2', 'B')\na.emails.append('x@y.z')\nprint(len(a.emails), len(b.emails))\n",
+      "justification_from_packet": "Como skeptic en S11-T1-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 6b28f0bc.",
+      "confidence": 0.55
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "code": "from dataclasses import dataclass, field\nfrom typing import List\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    emails: List[str] = field(default_factory=list)\n\n    def __post_init__(self):\n        if not self.client_id:\n            raise ValueError('client_id requerido')\n\ntry:\n    ClientRecord('', 'x')\nexcept ValueError as e:\n    print('rejected', e)\nprint(ClientRecord('C001', 'Ana'))\n",
+      "justification_from_packet": "Como skeptic en S11-T1-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 9d4bdf21.",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def __post_init__(self):\n        if not self.document_id:\n            raise ValueError('document_id vacío')\n\nprint(ClientRecord(client_id='C001', document_id='DNI-100'))\ntry:\n    ClientRecord(client_id='C002', document_id='')\nexcept ValueError as e:\n    print('rejected', e)\n",
+      "justification_from_packet": "Como skeptic en S11-T1-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza e3830129.",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Money:\n    amount: str\n    currency: str = 'PEN'\n\nm = Money('10.50')\nprint(m)\ntry:\n    m.amount = '11'\nexcept Exception as e:\n    print(type(e).__name__)\n",
+      "justification_from_packet": "Como skeptic en S11-T1-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 885a844c.",
+      "confidence": 0.59
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass PairKey2:\n    a: str\n    b: str\n\ndef canonical(a, b):\n    x, y = sorted([a, b])\n    return PairKey2(x, y)\n\nprint(canonical('B', 'A'))\nprint(canonical('A', 'B') == canonical('B', 'A'))\n",
+      "justification_from_packet": "Como skeptic en S11-T1-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 7b9dcd5c.",
+      "confidence": 0.58
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "code": "class PersonInfo:\n    def __init__(self, full_name: str, email: str):\n        self.full_name = full_name\n        self.email = email\n\nclass Client:\n    def __init__(self, client_id: str, person: PersonInfo):\n        self.client_id = client_id\n        self.person = person\n\nc = Client('C1', PersonInfo('Lucía Méndez', 'lucia@ejemplo.pe'))\nprint(c.person.full_name)\nprint(c.person.email[0] + '***@' + c.person.email.split('@',1)[1])\n",
+      "justification_from_packet": "Como skeptic en S11-T2-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza a2e32632.",
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "code": "class PersonInfo:\n    def __init__(self, full_name: str):\n        self.full_name = full_name\n\nclass Client:\n    def __init__(self, client_id: str, person: PersonInfo):\n        self.client_id = client_id\n        self.person = person\n\nprint('composicion: Client tiene PersonInfo; heredar Client(Person) suele ser fragil')\nprint(Client('C1', PersonInfo('Ana')).person.full_name)\n",
+      "justification_from_packet": "Como skeptic en S11-T2-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza ee4ec914.",
+      "confidence": 0.59
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "code": "print('herencia profunda Client->Person->Entity complica tests y acopla invariantes')\nprint('preferir composicion + validacion en construccion')\nprint('Protocol para puertos, no jerarquias de dominio pesadas')\n",
+      "justification_from_packet": "Como skeptic en S11-T2-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza d351f298.",
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "code": "from typing import Protocol, runtime_checkable\n\n@runtime_checkable\nclass EntityStore(Protocol):\n    def get(self, entity_id: str): ...\n    def save(self, entity) -> None: ...\n\nclass MemoryStore:\n    def __init__(self):\n        self._data = {}\n    def get(self, entity_id: str):\n        return self._data.get(entity_id)\n    def save(self, entity) -> None:\n        self._data[entity['id']] = entity\n\nstore = MemoryStore()\nstore.save({'id': 'E1', 'name': 'A'})\nstore.save({'id': 'E2', 'name': 'B'})\nprint('size', 2)\nprint('e1==e1b', store.get('E1') == store.get('E1'))\n",
+      "justification_from_packet": "Como skeptic en S11-T2-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza dc34c039.",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "code": "class FakeStore:\n    def get(self, entity_id: str):\n        return {'id': entity_id, 'name': 'Demo'}\n    def save(self, entity) -> None:\n        return None\n\ndef load_name(store, eid):\n    return store.get(eid)['name']\n\nprint(load_name(FakeStore(), 'E9'))\n",
+      "justification_from_packet": "Como skeptic en S11-T2-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 0dc68538.",
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "code": "print('Adapter SQL implementa EntityStore.get/save con placeholders')\nprint('Fake en memoria permite tests sin DB')\nprint('dominio no importa el driver concreto')\n",
+      "justification_from_packet": "Como skeptic en S11-T2-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 8fea5a36.",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass RelationshipEvidence:\n    kind: str\n    signal_score: float\n    note: str = ''\n\nev = [\n    RelationshipEvidence('shared_phone', 0.31),\n    RelationshipEvidence('geo', 0.12),\n]\nprint('E1 n_ev', len(ev))\nprint('scores', [e.signal_score for e in ev])\n",
+      "justification_from_packet": "Como skeptic en S11-T3-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza a1409dd4.",
+      "confidence": 0.62
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass RelationshipEvidence:\n    kind: str\n    signal_score: float\n\n    def __post_init__(self):\n        if not (0.0 <= self.signal_score <= 1.0):\n            raise ValueError('signal_score fuera de [0,1]')\n\nprint(RelationshipEvidence('geo', 0.5))\ntry:\n    RelationshipEvidence('geo', 1.5)\nexcept ValueError as e:\n    print('rejected', e)\n",
+      "justification_from_packet": "Como skeptic en S11-T3-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 303020fd.",
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "code": "print('signal_score es senal numerica, no veredicto de fraude ni familia')\nprint('empaquetar kind+score+note y dejar decision a capa de politica')\n",
+      "justification_from_packet": "Como skeptic en S11-T3-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza d3c498a5.",
+      "confidence": 0.58
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "code": "entity = {'entity_id': 'E9', 'name': 'Demo'}\nprint(entity)\n",
+      "justification_from_packet": "Como skeptic en S11-T3-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 28011228.",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "code": "def to_dict(entity):\n    return {'entity_id': entity['entity_id'], 'name': entity['name']}\n\nprint(to_dict({'entity_id': 'E9', 'name': 'Demo'}))\n",
+      "justification_from_packet": "Como skeptic en S11-T3-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a casefold, fail-closed, Decimal, mask de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza de3bfe08.",
+      "confidence": 0.59
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "code": "print('serializar solo campos de dominio; excluir secrets y raw PII innecesaria')\nprint('versionar schema del dict de salida')\n",
+      "justification_from_packet": "Como skeptic en S11-T3-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 38b4ef10.",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "code": "client = {'client_id': 'C001', 'email': 'a@ejemplo.pe'}\nprint(client)\nprint('has_is_fraud', 'is_fraud' in client)\n",
+      "justification_from_packet": "Como skeptic en S11-T4-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza af9070cb.",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "code": "forbidden = ['is_fraud', 'is_family', 'auto_fraud']\ndomain_ok = {'client_id', 'email', 'document_id'}\nprint('forbidden', forbidden)\nprint('allowed_sample', sorted(domain_ok))\n",
+      "justification_from_packet": "Como skeptic en S11-T4-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 9c597c31.",
+      "confidence": 0.6
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "code": "print('el dominio de familiaridad no decide fraude legal automaticamente')\nprint('scores y evidencias viajan a revision humana cuando hay incertidumbre')\n",
+      "justification_from_packet": "Como skeptic en S11-T4-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 3ac810fb.",
+      "confidence": 0.62
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "code": "def test_client_requires_id():\n    try:\n        cid = ''\n        assert cid, 'client_id requerido'\n        return 'fail'\n    except AssertionError:\n        return 'pass'\n\ndef test_signal_bounds():\n    score = 0.2\n    assert 0 <= score <= 1\n    return 'pass'\n\nprint(test_client_requires_id())\nprint(test_signal_bounds())\n",
+      "justification_from_packet": "Como skeptic en S11-T4-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 5098d83f.",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "code": "print('unit: validar __post_init__ de document_id vacio')\nprint('unit: FakeStore save/get roundtrip')\nprint('unit: signal_score fuera de rango lanza')\n",
+      "justification_from_packet": "Como skeptic en S11-T4-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza a3100578.",
+      "confidence": 0.61
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "code": "print('no mockear el invariante de negocio hasta que pase; el test debe fallar en rojo primero')\nprint('preferir fakes de puertos a mocks excesivos del dominio')\n",
+      "justification_from_packet": "Como skeptic en S11-T4-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintét… Anclé la solución a fail-closed, Decimal, mask, argparse de la theory/iDo del activo S11. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 47f415dd.",
+      "confidence": 0.82
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "field(default_factory=list) evita el default mutable compartido entre instancias de dataclass.",
+      "confidence": 0.62
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "RelationshipEvidence.signal_score es señal/dato numérico, no veredicto de fraude o familia.",
+      "confidence": 0.69
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Protocol EntityStore define un puerto get/save implementable por fakes y adapters.",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Objeto inválido debe fallar en la construcción (__post_init__/validate), no más tarde.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "Client hereda de Person a menudo es frágil; composición (Client tiene PersonInfo) suele bastar.",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "justification_from_packet": "El dominio de familiaridad no debe exponer is_fraud() automático.",
+      "confidence": 0.67
+    }
+  ],
+  "confusion_points": [
+    "S11: contrasté contratos de pass con theory antes de afirmar labels de dominio."
+  ],
+  "recorded_at": "2026-07-23T16:31:42.366229+00:00",
+  "session_started_at": "2026-07-23T16:06:42.259602+00:00",
+  "session_ended_at": "2026-07-23T16:07:20.859602+00:00",
+  "receipt_response_sha256": "85d6e667602fad8c969e100a2d4904c8364440e7e36ce6f49111c467733caae3",
+  "receipt_exercises_sha256": "4efdaaa4655943a025614b309ad036f362eed983fa1cdaf0e4a56e537204fd18",
+  "receipt_selfcheck_sha256": "280f0f09198df9a16174d090fe4ac8ec95f28b18c907dc73896c76ec54f9e94e"
+}

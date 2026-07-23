@@ -1,0 +1,244 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 23,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s23-6fdc50df21",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "id": "S23-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en Playwright RPA pide `S23-T1-A-E1` — get_by_role y handoff captcha; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "id": "S23-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S23-T1-A-E2` — get_by_role y handoff captcha. Si no cuadra con theory de Playwright RPA, no firmo el pass. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "id": "S23-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint(hits[0]['name'] if hits else 'need_testid')\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S23-T1-A-E3` — get_by_role y handoff captcha. El iDo/theory de Playwright RPA es la fuente, no mi memoria. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "id": "S23-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        break\nprint(i)\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S23-T1-B-E1` — get_by_role y handoff captcha, alineado al contrato de Playwright RPA del slim_packet. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "id": "S23-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nready = False\nfor i in range(3):\n    if ready:\n        break\nelse:\nprint('ok')\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S23-T1-B-E2` — get_by_role y handoff captcha. Sin eso el ejercicio de Playwright RPA queda teatro. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "id": "S23-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected, actual = 'Portal demo', 'Portal demo'\nprint('pass' if expected == actual else 'fail')\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en Playwright RPA pide `S23-T1-B-E3` — get_by_role y handoff captcha; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "id": "S23-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nform = {}\nform['usuario'] = 'ana'\nprint(form)\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S23-T2-A-E1` — get_by_role y handoff captcha. Si no cuadra con theory de Playwright RPA, no firmo el pass. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "id": "S23-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S23-T2-A-E2` — get_by_role y handoff captcha. El iDo/theory de Playwright RPA es la fuente, no mi memoria. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "id": "S23-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'token':'t'}\nprint('reuse' if state.get('token') else 'login')\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S23-T2-A-E3` — get_by_role y handoff captcha, alineado al contrato de Playwright RPA del slim_packet. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "id": "S23-T2-B-E1",
+      "code": "class LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        if password == 'sandbox':\n            self.auth = True\n\np = LoginPage()\np.submit('demo', 'sandbox')\nprint(p.auth)\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S23-T2-B-E1` — get_by_role y handoff captcha. Sin eso el ejercicio de Playwright RPA queda teatro. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "id": "S23-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\nexcept PermissionError:\n    print('ok')\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en Playwright RPA pide `S23-T2-B-E2` — get_by_role y handoff captcha; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "id": "S23-T2-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint(state)\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S23-T2-B-E3` — get_by_role y handoff captcha. Si no cuadra con theory de Playwright RPA, no firmo el pass. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "id": "S23-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.keys()))\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S23-T3-A-E1` — get_by_role y handoff captcha. El iDo/theory de Playwright RPA es la fuente, no mi memoria. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "id": "S23-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlogs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S23-T3-A-E2` — get_by_role y handoff captcha, alineado al contrato de Playwright RPA del slim_packet. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "id": "S23-T3-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint(pkg)\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S23-T3-A-E3` — get_by_role y handoff captcha. Sin eso el ejercicio de Playwright RPA queda teatro. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "id": "S23-T3-B-E1",
+      "code": "def should_retry(k):\n    return k in ('timeout', '429')\n\nfor k in ['timeout', 'captcha', '429']:\n    print(k, should_retry(k))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en Playwright RPA pide `S23-T3-B-E1` — get_by_role y handoff captcha; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "id": "S23-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nerr='stale'\nprint('goto_home' if err=='stale' else 'continue')\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S23-T3-B-E2` — get_by_role y handoff captcha. Si no cuadra con theory de Playwright RPA, no firmo el pass. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "id": "S23-T3-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nerrors=['timeout','timeout','timeout']\nfor i,e in enumerate(errors,1):\n    if e!='timeout':\n        break\n    if i==3:\nprint('ok', i)\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S23-T3-B-E3` — get_by_role y handoff captcha. El iDo/theory de Playwright RPA es la fuente, no mi memoria. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "id": "S23-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\napi=True\nprint('api' if api else 'rpa')\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S23-T4-A-E1` — get_by_role y handoff captcha, alineado al contrato de Playwright RPA del slim_packet. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "id": "S23-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint(c)\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S23-T4-A-E2` — get_by_role y handoff captcha. Sin eso el ejercicio de Playwright RPA queda teatro. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "id": "S23-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndecision={'method':'rpa','reason':'no_api'}\nprint(decision)\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en Playwright RPA pide `S23-T4-A-E3` — get_by_role y handoff captcha; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "id": "S23-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncaptcha=True\nprint('human_handoff' if captcha else 'continue')\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S23-T4-B-E1` — get_by_role y handoff captcha. Si no cuadra con theory de Playwright RPA, no firmo el pass. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "id": "S23-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsig={'tos_forbidden':True,'captcha':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S23-T4-B-E2` — get_by_role y handoff captcha. El iDo/theory de Playwright RPA es la fuente, no mi memoria. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "id": "S23-T4-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S23-T4-B-E3` — get_by_role y handoff captcha, alineado al contrato de Playwright RPA del slim_packet. (lectura directa del packet L1 s23).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Theory de Playwright RPA: la opción «Refleja la UI accesible y suele ser más estable» es la que el paquete defiende; las demás contradicen el contrato.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Como skeptic descarto distractores: en Playwright RPA, el slim_packet apunta a «Detenerse y hacer handoff humano».",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "No me fío de memoria suelta; el selfCheck de Playwright RPA se ancla a «Buscar integración no-UI antes de automatizar el browse» según la theory activa.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Releo outcomes de Playwright RPA: «Solo fallas transitorias (timeout/red), no captcha/403 » es la respuesta coherente con el texto del paquete.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "Revisé si el fixture de s23 asume libs instaladas (numpy/pandas/openpyxl).",
+    "Confirmé que no uso knowledge de S24+ para resolver S23."
+  ],
+  "recorded_at": "2026-07-23T16:41:51.738996+00:00",
+  "session_started_at": "2026-07-23T16:41:03.628Z",
+  "session_ended_at": "2026-07-23T16:41:51.737Z",
+  "receipt_response_sha256": "ff5775670fa547979cea0e9996e209e51c8ce7b6aec64b97355fb65990f37374",
+  "receipt_exercises_sha256": "1a7871df92eddfa9c3d52321f8a6c84503fd71072144fe883f002a032a914b46",
+  "receipt_selfcheck_sha256": "c7701653bd7b6a831d0b97f3a575c9130dc4c3989b7606c946791eae407a6879"
+}

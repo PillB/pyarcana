@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 7,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s07-78c8156861",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S07-T1-A-E1",
+      "code": "import unicodedata\nnames = ['José', 'Jose\\u0301', '']\nnormed = [unicodedata.normalize('NFC', s) for s in names]\nprint(\" | \".join(repr(x) for x in normed))\n",
+      "justification_from_packet": "Para S07-T1-A-E1 me apoyé en «Code points, normalización y casefold»: Python 3 str es Unicode. ord('ñ') / chr(241) exploran code points. La misma letra puede codificarse de formas distintas: NFC (compuesta) vs NFD (base + combinin… En el ejercicio usé unicodedata.normalize NFC. Normalicé cada nombre y dejé el vacío intacto como pide el contrato. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T1-A."
+    },
+    {
+      "exercise_id": "S07-T1-A-E2",
+      "code": "a, b = 'MAÑANA', 'mañana'\nprint(a.casefold() == b.casefold())\n",
+      "justification_from_packet": "Para S07-T1-A-E2 me apoyé en «Code points, normalización y casefold»: Python 3 str es Unicode. ord('ñ') / chr(241) exploran code points. La misma letra puede codificarse de formas distintas: NFC (compuesta) vs NFD (base + combinin… En el ejercicio usé casefold en ambos lados. MAÑANA y mañana coinciden tras casefold, no con comparación cruda. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T1-A."
+    },
+    {
+      "exercise_id": "S07-T1-A-E3",
+      "code": "import unicodedata\na = 'José'\nb = 'Jose\\u0301'\nprint('raw', a == b, 'nfc', unicodedata.normalize('NFC', a) == unicodedata.normalize('NFC', b))\nprint('causa: NFD residual (base+combining mark) vs NFC compuesta')\n",
+      "justification_from_packet": "Para S07-T1-A-E3 me apoyé en «Code points, normalización y casefold»: Python 3 str es Unicode. ord('ñ') / chr(241) exploran code points. La misma letra puede codificarse de formas distintas: NFC (compuesta) vs NFD (base + combinin… En el ejercicio usé comparación raw vs NFC. Muestro False crudo y True tras NFC para documentar NFD residual. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T1-A."
+    },
+    {
+      "exercise_id": "S07-T1-B-E1",
+      "code": "raw = 'Ana María Quispe Huamán'\ntoks = raw.split()\ngiven = ' '.join(toks[:-2])\naps = ' '.join(toks[-2:])\nprint(f\"{given} | {aps}\")\n",
+      "justification_from_packet": "Para S07-T1-B-E1 me apoyé en «Tildes, ñ, partículas y apellidos compuestos»: En Perú y Latam es común nombre(s) + apellido1 + apellido2. No fuerces el formato US (first/last único). Conserva el raw siempre. En texto y similaridad, el *po… En el ejercicio usé últimos dos tokens = apellidos. Given es el resto; no fuerzo formato first/last US. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T1-B."
+    },
+    {
+      "exercise_id": "S07-T1-B-E2",
+      "code": "raw = 'María del Carmen Quispe Ríos'\ntoks = raw.split()\ngiven = ' '.join(toks[:-2])\naps = ' '.join(toks[-2:])\nprint(f\"{given} | {aps}\")\n",
+      "justification_from_packet": "Para S07-T1-B-E2 me apoyé en «Tildes, ñ, partículas y apellidos compuestos»: En Perú y Latam es común nombre(s) + apellido1 + apellido2. No fuerces el formato US (first/last único). Conserva el raw siempre. En texto y similaridad, el *po… En el ejercicio usé misma heurística con partículas. del Carmen queda en given al cortar solo los dos apellidos finales. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T1-B."
+    },
+    {
+      "exercise_id": "S07-T1-B-E3",
+      "code": "def parse_nombre(raw):\n    toks = raw.split()\n    if len(toks) < 3:\n        return {\"status\": \"review\", \"raw\": raw, \"given\": None, \"apellidos\": None}\n    return {\n        \"status\": \"ok\",\n        \"raw\": raw,\n        \"given\": \" \".join(toks[:-2]),\n        \"apellidos\": toks[-2:],\n    }\n\nprint(parse_nombre(\"Madonna\"))\nprint(parse_nombre(\"Ana María Quispe Huamán\"))\n",
+      "justification_from_packet": "Para S07-T1-B-E3 me apoyé en «Tildes, ñ, partículas y apellidos compuestos»: En Perú y Latam es común nombre(s) + apellido1 + apellido2. No fuerces el formato US (first/last único). Conserva el raw siempre. En texto y similaridad, el *po… En el ejercicio usé review si len(tokens)<3. Madonna no inventa apellido2; se marca review y se conserva raw. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T1-B."
+    },
+    {
+      "exercise_id": "S07-T2-A-E1",
+      "code": "line = 'C001, Ana , Lima'\nfields = [p.strip() for p in line.split(',')]\nprint(fields)\n",
+      "justification_from_packet": "Para S07-T2-A-E1 me apoyé en «split / join / search / replace»: Antes de regex: strip, split, join, replace, find, startswith. El 80% de limpieza de direcciones y tokens se resuelve así. En texto y similaridad, el *porqué* e… En el ejercicio usé split(',') + strip. Limpieza literal sin regex, como recomienda str antes de re. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T2-A."
+    },
+    {
+      "exercise_id": "S07-T2-A-E2",
+      "code": "toks = ['Jr.', 'Unión', '450']\nprint(' '.join(toks), '|', '-'.join(toks))\n",
+      "justification_from_packet": "Para S07-T2-A-E2 me apoyé en «split / join / search / replace»: Antes de regex: strip, split, join, replace, find, startswith. El 80% de limpieza de direcciones y tokens se resuelve así. En texto y similaridad, el *porqué* e… En el ejercicio usé str.join con dos separadores. Espacio y guion demuestran join estable sin bordes extras. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T2-A."
+    },
+    {
+      "exercise_id": "S07-T2-A-E3",
+      "code": "raw = '999.000-111'\ndigits = raw.replace('.', '').replace('-', '')\nprint(digits)\n",
+      "justification_from_packet": "Para S07-T2-A-E3 me apoyé en «split / join / search / replace»: Antes de regex: strip, split, join, replace, find, startswith. El 80% de limpieza de direcciones y tokens se resuelve así. En texto y similaridad, el *porqué* e… En el ejercicio usé replace encadenado. Quito puntos y guiones del teléfono sintético a solo dígitos. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T2-A."
+    },
+    {
+      "exercise_id": "S07-T2-B-E1",
+      "code": "def normalize_email(raw):\n    s = raw.strip().casefold()\n    if s.count('@') != 1 or any(ch.isspace() for ch in s):\n        raise ValueError('review_error')\n    local, domain = s.split('@')\n    if not local or not domain:\n        raise ValueError('review_error')\n    return s\n\nprint(normalize_email('  A@B.COM '))\nfor bad in ['@b.com', 'a@@b.com', 'a b@c.com']:\n    try:\n        normalize_email(bad)\n    except ValueError:\n        print(bad, 'review_error')\nprint(normalize_email('user+tag@example.com'))\n",
+      "justification_from_packet": "Para S07-T2-B-E1 me apoyé en «Nombres, emails y teléfonos sin sobrevalidación»: Email: strip + casefold y una comprobación modesta pero completa: exactamente un @, parte local y dominio no vacíos, y ningún espacio. No confirma que el buzón … En el ejercicio usé normalize_email modestas. Un @, local/dominio no vacíos y cero espacios; plus addressing pasa. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T2-B."
+    },
+    {
+      "exercise_id": "S07-T2-B-E2",
+      "code": "raw = '(+51) 999-000-111'\nprint(''.join(c for c in raw if c.isdigit()))\n",
+      "justification_from_packet": "Para S07-T2-B-E2 me apoyé en «Nombres, emails y teléfonos sin sobrevalidación»: Email: strip + casefold y una comprobación modesta pero completa: exactamente un @, parte local y dominio no vacíos, y ningún espacio. No confirma que el buzón … En el ejercicio usé filter isdigit. No valido operadora; solo extraigo dígitos del fixture. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T2-B."
+    },
+    {
+      "exercise_id": "S07-T2-B-E3",
+      "code": "import re\nemail = 'user+tag@example.com'\nstrict = re.fullmatch(r'^[a-z]+@[a-z]+\\.com$', email)\nprint('rejected', strict is None)\nprint('politica: un @, local/dominio no vacios y cero espacios; entregabilidad fuera de alcance')\n",
+      "justification_from_packet": "Para S07-T2-B-E3 me apoyé en «Nombres, emails y teléfonos sin sobrevalidación»: Email: strip + casefold y una comprobación modesta pero completa: exactamente un @, parte local y dominio no vacíos, y ningún espacio. No confirma que el buzón … En el ejercicio usé regex hiper-estricta vs política. Muestro rejected=True y la política modest del theory. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T2-B."
+    },
+    {
+      "exercise_id": "S07-T3-A-E1",
+      "code": "import re\nprint(bool(re.fullmatch(r'^[A-Z]{3}$', 'LIM')), '|', bool(re.fullmatch(r'^[A-Z]{3}$', 'Lima')))\n",
+      "justification_from_packet": "Para S07-T3-A-E1 me apoyé en «Patrones, grupos y anchors»: Regex cuando el patrón es regular de verdad: DNI sintético 8 dígitos, códigos de región, prefijos. Usa re con grupos (...) y anchors ^$ para full match. En text… En el ejercicio usé re.fullmatch anchors. LIM cumple ^[A-Z]{3}$; Lima no. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T3-A."
+    },
+    {
+      "exercise_id": "S07-T3-A-E2",
+      "code": "import re\nm = re.fullmatch(r'^(?P<nom>\\w+) (?P<ap>\\w+)$', 'Ana Quispe')\nprint(m.groupdict() if m else None)\n",
+      "justification_from_packet": "Para S07-T3-A-E2 me apoyé en «Patrones, grupos y anchors»: Regex cuando el patrón es regular de verdad: DNI sintético 8 dígitos, códigos de región, prefijos. Usa re con grupos (...) y anchors ^$ para full match. En text… En el ejercicio usé grupos con nombre + groupdict. Extraigo nom y ap del fullmatch. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T3-A."
+    },
+    {
+      "exercise_id": "S07-T3-A-E3",
+      "code": "import re\ntext = 'DNI 12345678'\nprint('search', bool(re.search(r'\\d{8}', text)), '|', 'fullmatch', bool(re.fullmatch(r'\\d{8}', text)))\nprint('usar search para extraer en contexto; fullmatch cuando el string entero es el patrón')\n",
+      "justification_from_packet": "Para S07-T3-A-E3 me apoyé en «Patrones, grupos y anchors»: Regex cuando el patrón es regular de verdad: DNI sintético 8 dígitos, códigos de región, prefijos. Usa re con grupos (...) y anchors ^$ para full match. En text… En el ejercicio usé search vs fullmatch. search encuentra dígitos embebidos; fullmatch exige el string entero. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T3-A."
+    },
+    {
+      "exercise_id": "S07-T3-B-E1",
+      "code": "import re\npat = re.compile(r'\\b9\\d{8}\\b')\nprint('tel 999000111 →', pat.findall('tel 999000111'))\nprint('no match 123 →', pat.findall('no match 123'))\n",
+      "justification_from_packet": "Para S07-T3-B-E1 me apoyé en «Compilación, extracción y límites»: re.compile reutiliza el patrón en loops (claridad + micro-ahorro). findall / finditer extraen múltiples matches de un log sintético. En texto y similaridad, el … En el ejercicio usé re.compile reutilizado. Un patrón, dos strings: match y vacío. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T3-B."
+    },
+    {
+      "exercise_id": "S07-T3-B-E2",
+      "code": "import re\nlog = 'ok LIM-01 y CUS-02 fin'\nprint(re.findall(r'[A-Z]{3}-\\d{2}', log))\n",
+      "justification_from_packet": "Para S07-T3-B-E2 me apoyé en «Compilación, extracción y límites»: re.compile reutiliza el patrón en loops (claridad + micro-ahorro). findall / finditer extraen múltiples matches de un log sintético. En texto y similaridad, el … En el ejercicio usé findall de códigos. Extraigo LIM-01 y CUS-02 del log sintético. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T3-B."
+    },
+    {
+      "exercise_id": "S07-T3-B-E3",
+      "code": "print('riesgo: (a+)+b tiene cuantificadores anidados ambiguos y puede reventar en backtracking')\nprint('preferimos a+b o metodos str cuando el patron es literal/simple')\nprint('mitigacion: patrones acotados, anchors y evitar nested quantifiers')\n",
+      "justification_from_packet": "Para S07-T3-B-E3 me apoyé en «Compilación, extracción y límites»: re.compile reutiliza el patrón en loops (claridad + micro-ahorro). findall / finditer extraen múltiples matches de un log sintético. En texto y similaridad, el … En el ejercicio usé límites de backtracking. Documento el riesgo de (a+)+b y la preferencia por str o a+b. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T3-B."
+    },
+    {
+      "exercise_id": "S07-T4-A-E1",
+      "code": "def norm(s):\n    return ' '.join(s.split()).casefold()\n\nprint(norm('  Juan  PEREZ ') == norm('juan perez'))\n",
+      "justification_from_packet": "Para S07-T4-A-E1 me apoyé en «Exacta y por tokens (Jaccard simple)»: Matching de texto en intake: primero igualdad normalizada (NFC + casefold + collapse). Si no, similitud por tokens (Jaccard) como señal débil. En texto y simila… En el ejercicio usé collapse + casefold. Igualdad normalizada exacta tras join/split. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T4-A."
+    },
+    {
+      "exercise_id": "S07-T4-A-E2",
+      "code": "def token_jaccard(a, b):\n    A, B = set(a.casefold().split()), set(b.casefold().split())\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\n\nprint(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))\n",
+      "justification_from_packet": "Para S07-T4-A-E2 me apoyé en «Exacta y por tokens (Jaccard simple)»: Matching de texto en intake: primero igualdad normalizada (NFC + casefold + collapse). Si no, similitud por tokens (Jaccard) como señal débil. En texto y simila… En el ejercicio usé Jaccard de tokens. Intersección/unión redondeada a 3 decimales → 0.667. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T4-A."
+    },
+    {
+      "exercise_id": "S07-T4-A-E3",
+      "code": "a, b, score = 'Juan Perez', 'Juan P Perez', 0.67\nif score >= 1.0:\n    dec = 'exact'\nelif score >= 0.4:\n    dec = 'review'\nelse:\n    dec = 'no_match'\nprint(dec, a, b, score)\n",
+      "justification_from_packet": "Para S07-T4-A-E3 me apoyé en «Exacta y por tokens (Jaccard simple)»: Matching de texto en intake: primero igualdad normalizada (NFC + casefold + collapse). Si no, similitud por tokens (Jaccard) como señal débil. En texto y simila… En el ejercicio usé umbrales review/exact/no_match. 0.67 cae en review con raws visibles; sin auto-merge. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T4-A."
+    },
+    {
+      "exercise_id": "S07-T4-B-E1",
+      "code": "cases = [\n    {'pred': 'match', 'truth': 'no'},\n    {'pred': 'no', 'truth': 'match'},\n]\ntags = []\nfor c in cases:\n    if c['pred'] == 'match' and c['truth'] == 'no':\n        tags.append('FP')\n    elif c['pred'] == 'no' and c['truth'] == 'match':\n        tags.append('FN')\nprint(' | '.join(tags))\n",
+      "justification_from_packet": "Para S07-T4-B-E1 me apoyé en «FP/FN y conservación de evidencia»: FP (false positive): el sistema dice match y no debería. FN: debería matchear y no lo hizo. En nombres latam, tildes y partículas mueven ambos. En texto y simil… En el ejercicio usé tabla FP/FN. pred match+truth no = FP; pred no+truth match = FN. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T4-B."
+    },
+    {
+      "exercise_id": "S07-T4-B-E2",
+      "code": "evidence = {\n    'raw_a': 'Juan Perez',\n    'raw_b': 'Juan P Perez',\n    'score': 0.67,\n    'decision': 'review',\n    'reason': 'similitud parcial por tokens; requiere revisión humana',\n}\nprint(evidence)\n",
+      "justification_from_packet": "Para S07-T4-B-E2 me apoyé en «FP/FN y conservación de evidencia»: FP (false positive): el sistema dice match y no debería. FN: debería matchear y no lo hizo. En nombres latam, tildes y partículas mueven ambos. En texto y simil… En el ejercicio usé dict de evidencia 5 claves. Empaqueto raws, score, decision y reason para revisión. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T4-B."
+    },
+    {
+      "exercise_id": "S07-T4-B-E3",
+      "code": "print('No afirmamos parentesco: el score textual no es prueba de parentesco legal')\nprint('Falta fuente autoritativa; el Jaccard es señal débil de similaridad')\nprint('Conservamos evidencia (raw, score) para revisión humana sin claims de identidad')\n",
+      "justification_from_packet": "Para S07-T4-B-E3 me apoyé en «FP/FN y conservación de evidencia»: FP (false positive): el sistema dice match y no debería. FN: debería matchear y no lo hizo. En nombres latam, tildes y partículas mueven ambos. En texto y simil… En el ejercicio usé política anti-parentesco. El pipeline no afirma parentesco ni identidad legal desde Jaccard. Así el código del paquete activo se alinea con la instruction y el demo iDo de S07-T4-B."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #0: «¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?». Elijo «Formas Unicode distintas (NFC vs NFD)» porque en «Code points, normalización y casefold» el paquete indica: Python 3 str es Unicode. ord('ñ') / chr(241) exploran code points. La misma letra puede codificarse de formas distintas: NFC (compuesta) vs NFD (base + combining mark).. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #1: «En nombres latam, si solo hay un token, la política segura es…». Elijo «Marcar review y conservar raw» porque en «Tildes, ñ, partículas y apellidos compuestos» el paquete indica: En Perú y Latam es común nombre(s) + apellido1 + apellido2. No fuerces el formato US (first/last único). Conserva el raw siempre. En texto y similaridad, el *porqué* es ope. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #2: «¿Cuándo preferir str.replace/split sobre regex?». Elijo «Cuando la transformación es literal/simple» porque en «split / join / search / replace» el paquete indica: Antes de regex: strip, split, join, replace, find, startswith. El 80% de limpieza de direcciones y tokens se resuelve así. En texto y similaridad, el *porqué* es operat. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #3: «fullmatch(r'\\d{8}', 'DNI 12345678') devuelve…». Elijo «None (no es full match)» porque en «split / join / search / replace» el paquete indica: Antes de regex: strip, split, join, replace, find, startswith. El 80% de limpieza de direcciones y tokens se resuelve así. En texto y similaridad, el *porqué* es operat. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #4: «Un Jaccard 0.67 entre nombres debe…». Elijo «Ir a review con evidencia (raw, score)» porque en «Nombres, emails y teléfonos sin sobrevalidación» el paquete indica: Email: strip + casefold y una comprobación modesta pero completa: exactamente un @, parte local y dominio no vacíos, y ningún espacio. No confirma que el buzón exista; solo d. Las otras opciones chocan con esa política del theory activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:28:58.548360+00:00",
+  "session_started_at": "2026-07-23T16:22:56.299754+00:00",
+  "session_ended_at": "2026-07-23T16:23:43.358754+00:00",
+  "receipt_response_sha256": "274263ba6f9b3c84e5c42e143b9894af2e37ffd464bd909063371f1d40230949",
+  "receipt_exercises_sha256": "cca35cb455380f81babc2b84f43bc26bcc76e8b9200d6efa08861648c2fa3b44",
+  "receipt_selfcheck_sha256": "c0302e10ecc0b184989816ee04a1b9496db3095227119b95a89c67e031fbf760"
+}

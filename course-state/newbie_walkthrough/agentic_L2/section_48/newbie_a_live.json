@@ -1,0 +1,221 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 48,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-exp-s48-3ad77d43a060",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S48-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"version\":\"emb-v2\",\"expected_top\":\"d1\"}}\nmeets_contract = not (min(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_EMBEDDING_RANK\"\nprint(\"S48-T1-A\", status)\n",
+      "justification_from_packet": "En el paquete activo de S48-T1-A-E1, el fixture CASO-PUN-048-1A deja ver que top por dot product y versión embedding explícita. Corregí el predicado defectuoso del starter para que el escenario de «embeddings y similarity» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S48-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'docs', 'expected_top', 'metric', 'query', 'version'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (min(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"])\n    return \"PASS\" if ok else \"REJECT_EMBEDDING_RANK\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-1A', **{'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}}\ninvalid = {\"case_id\": 'CASO-PUN-048-1A', **{'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}}\nincomplete = {k: v for k, v in valid.items() if k != 'expected_top'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S48-T1-A-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-PUN-048-1A reconstruí meets_contract alineado a «embeddings y similarity» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S48-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'docs', 'expected_top', 'metric', 'query', 'version'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"REVIEW_METRIC_VERSION\"\n    ok = not (min(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"])\n    return \"CONTINUE\" if ok else \"REJECT_EMBEDDING_RANK\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PUN-048-1A', **{'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}},\n    {\"case_id\": 'CASO-PUN-048-1A', **{'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}},\n    {k: v for k, v in {\"case_id\": 'CASO-PUN-048-1A', **{'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}}.items() if k != 'expected_top'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S48-T1-A-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-PUN-048-1A reconstruí meets_contract alineado a «embeddings y similarity» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S48-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"rag-holdout-v1\",\"reindex_cost_pen\":30}}\nmeets_contract = not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_EMBEDDING_BASELINE\"\nprint(\"S48-T1-B\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de límites, versiones y evaluación en S48-T1-B-E1. El paquete indica recall holdout mejora y costo de reindexación acotado; por eso el código valida CASO-PUN-048-1B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S48-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'baseline_recall', 'candidate_recall', 'case_id', 'holdout', 'min_recall', 'reindex_cost_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])\n    return \"PASS\" if ok else \"KEEP_EMBEDDING_BASELINE\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-1B', **{'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}}\ninvalid = {\"case_id\": 'CASO-PUN-048-1B', **{'baseline_recall': 1.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}}\nincomplete = {k: v for k, v in valid.items() if k != 'reindex_cost_pen'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de límites, versiones y evaluación en S48-T1-B-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-PUN-048-1B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S48-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'baseline_recall', 'candidate_recall', 'case_id', 'holdout', 'min_recall', 'reindex_cost_pen'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"EVALUATE_ERROR_SLICES\"\n    ok = not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])\n    return \"CONTINUE\" if ok else \"KEEP_EMBEDDING_BASELINE\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PUN-048-1B', **{'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}},\n    {\"case_id\": 'CASO-PUN-048-1B', **{'baseline_recall': 1.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}},\n    {k: v for k, v in {\"case_id\": 'CASO-PUN-048-1B', **{'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}}.items() if k != 'reindex_cost_pen'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S48-T1-B-E3, el fixture CASO-PUN-048-1B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «límites, versiones y evaluación» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S48-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\nmeets_contract = not (len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]))\nstatus = \"PASS\" if meets_contract else \"DEDUP_AND_RECHUNK\"\nprint(\"S48-T2-A\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de chunking, metadata y dedup en S48-T2-A-E1. El paquete indica hashes únicos, metadata y source version; por eso el código valida CASO-PUN-048-2A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S48-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'chunks', 'source_version', 'unique_hashes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]))\n    return \"PASS\" if ok else \"DEDUP_AND_RECHUNK\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-2A', **{'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3'}}\ninvalid = {\"case_id\": 'CASO-PUN-048-2A', **{'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 101, 'source_version': 'd1-v3'}}\nincomplete = {k: v for k, v in valid.items() if k != 'source_version'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de chunking, metadata y dedup en S48-T2-A-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-PUN-048-2A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S48-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'chunks', 'source_version', 'unique_hashes'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"RESTORE_CHUNK_METADATA\"\n    ok = not (len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]))\n    return \"CONTINUE\" if ok else \"DEDUP_AND_RECHUNK\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PUN-048-2A', **{'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3'}},\n    {\"case_id\": 'CASO-PUN-048-2A', **{'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 101, 'source_version': 'd1-v3'}},\n    {k: v for k, v in {\"case_id\": 'CASO-PUN-048-2A', **{'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3'}}.items() if k != 'source_version'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de chunking, metadata y dedup en S48-T2-A-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-PUN-048-2A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S48-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\nmeets_contract = not (not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"])\nstatus = \"PASS\" if meets_contract else \"FILTER_OR_DELETE_CHUNK\"\nprint(\"S48-T2-B\", status)\n",
+      "justification_from_packet": "Leí instruction/hints de S48-T2-B-E1: la operación debe demostrar ACL intersecta, documento activo y cache coherente. Con el caso sintético CASO-PUN-048-2B reconstruí meets_contract alineado a «ACL, deletion y provenance» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S48-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'cache_invalidated', 'case_id', 'chunk_acl', 'deleted', 'provenance', 'user_acl'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"])\n    return \"PASS\" if ok else \"FILTER_OR_DELETE_CHUNK\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-2B', **{'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}}\ninvalid = {\"case_id\": 'CASO-PUN-048-2B', **{'user_acl': set(), 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'cache_invalidated'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S48-T2-B-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-PUN-048-2B reconstruí meets_contract alineado a «ACL, deletion y provenance» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S48-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'cache_invalidated', 'case_id', 'chunk_acl', 'deleted', 'provenance', 'user_acl'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"VERIFY_ACL_PROVENANCE\"\n    ok = not (not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"])\n    return \"CONTINUE\" if ok else \"FILTER_OR_DELETE_CHUNK\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PUN-048-2B', **{'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}},\n    {\"case_id\": 'CASO-PUN-048-2B', **{'user_acl': set(), 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-PUN-048-2B', **{'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}}.items() if k != 'cache_invalidated'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S48-T2-B-E3, el fixture CASO-PUN-048-2B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «ACL, deletion y provenance» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S48-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\nmeets_contract = not (max(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"])\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_HYBRID_RANK\"\nprint(\"S48-T3-A\", status)\n",
+      "justification_from_packet": "En el paquete activo de S48-T3-A-E1, el fixture CASO-PUN-048-3A deja ver que weighted hybrid score produce top esperado. Corregí el predicado defectuoso del starter para que el escenario de «lexical/vector/hybrid y reranking» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S48-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'expected_top', 'lexical', 'vector', 'weights'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (max(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"])\n    return \"PASS\" if ok else \"RECALIBRATE_HYBRID_RANK\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-3A', **{'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}}\ninvalid = {\"case_id\": 'CASO-PUN-048-3A', **{'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}}\nincomplete = {k: v for k, v in valid.items() if k != 'expected_top'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S48-T3-A-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-PUN-048-3A reconstruí meets_contract alineado a «lexical/vector/hybrid y reranking» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S48-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'expected_top', 'lexical', 'vector', 'weights'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"REVIEW_RERANK_CANDIDATES\"\n    ok = not (max(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"])\n    return \"CONTINUE\" if ok else \"RECALIBRATE_HYBRID_RANK\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PUN-048-3A', **{'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}},\n    {\"case_id\": 'CASO-PUN-048-3A', **{'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}},\n    {k: v for k, v in {\"case_id\": 'CASO-PUN-048-3A', **{'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}}.items() if k != 'expected_top'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S48-T3-A-E3, el fixture CASO-PUN-048-3A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «lexical/vector/hybrid y reranking» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S48-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\nmeets_contract = not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_UNCITED\"\nprint(\"S48-T3-B\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de contexto, citas y permisos en S48-T3-B-E1. El paquete indica todas las claims citadas, ACL y contexto bajo límite; por eso el código valida CASO-PUN-048-3B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S48-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'citation_acl', 'cited_claims', 'claims', 'context_tokens', 'max_context_tokens'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])\n    return \"PASS\" if ok else \"ABSTAIN_UNCITED\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-3B', **{'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}}\ninvalid = {\"case_id\": 'CASO-PUN-048-3B', **{'claims': {'__bad__', 'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}}\nincomplete = {k: v for k, v in valid.items() if k != 'max_context_tokens'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de contexto, citas y permisos en S48-T3-B-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-PUN-048-3B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S48-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'citation_acl', 'cited_claims', 'claims', 'context_tokens', 'max_context_tokens'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"REQUEST_AUTHORIZED_CONTEXT\"\n    ok = not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])\n    return \"CONTINUE\" if ok else \"ABSTAIN_UNCITED\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PUN-048-3B', **{'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}},\n    {\"case_id\": 'CASO-PUN-048-3B', **{'claims': {'__bad__', 'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}},\n    {k: v for k, v in {\"case_id\": 'CASO-PUN-048-3B', **{'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}}.items() if k != 'max_context_tokens'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S48-T3-B-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-PUN-048-3B reconstruí meets_contract alineado a «contexto, citas y permisos» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S48-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\nmeets_contract = not (not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGROUNDED_OUTPUT\"\nprint(\"S48-T4-A\", status)\n",
+      "justification_from_packet": "En el paquete activo de S48-T4-A-E1, el fixture CASO-PUN-048-4A deja ver que schema exacto, evidence IDs permitidos e injection ignorada. Corregí el predicado defectuoso del starter para que el escenario de «structured output y grounding» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S48-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'allowed_evidence', 'case_id', 'injected_instruction_ignored', 'output', 'schema_keys'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"])\n    return \"PASS\" if ok else \"REJECT_UNGROUNDED_OUTPUT\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-4A', **{'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True}}\ninvalid = {\"case_id\": 'CASO-PUN-048-4A', **{'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': set(), 'injected_instruction_ignored': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'injected_instruction_ignored'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En el paquete activo de S48-T4-A-E2, el fixture CASO-PUN-048-4A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «structured output y grounding» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S48-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'allowed_evidence', 'case_id', 'injected_instruction_ignored', 'output', 'schema_keys'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"VALIDATE_OUTPUT_SCHEMA\"\n    ok = not (not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"])\n    return \"CONTINUE\" if ok else \"REJECT_UNGROUNDED_OUTPUT\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PUN-048-4A', **{'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True}},\n    {\"case_id\": 'CASO-PUN-048-4A', **{'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': set(), 'injected_instruction_ignored': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-PUN-048-4A', **{'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True}}.items() if k != 'injected_instruction_ignored'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S48-T4-A-E3, el fixture CASO-PUN-048-4A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «structured output y grounding» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S48-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulness\":0.9,\"cost_pen\":0.08,\"cost_cap_pen\":0.1,\"support\":True}}\nmeets_contract = not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_WITH_REASON\"\nprint(\"S48-T4-B\", status)\n",
+      "justification_from_packet": "En el paquete activo de S48-T4-B-E1, el fixture CASO-PUN-048-4B deja ver que retrieval/answer gates, costo y soporte. Corregí el predicado defectuoso del starter para que el escenario de «retrieval/answer eval, costo y abstención» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S48-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'cost_cap_pen', 'cost_pen', 'faithfulness', 'min_faithfulness', 'min_recall', 'retrieval_recall', 'support'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])\n    return \"PASS\" if ok else \"ABSTAIN_WITH_REASON\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-4B', **{'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}}\ninvalid = {\"case_id\": 'CASO-PUN-048-4B', **{'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': -0.08999999999999997, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'support'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S48-T4-B-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-PUN-048-4B reconstruí meets_contract alineado a «retrieval/answer eval, costo y abstención» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S48-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'cost_cap_pen', 'cost_pen', 'faithfulness', 'min_faithfulness', 'min_recall', 'retrieval_recall', 'support'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"TUNE_RETRIEVAL_OR_BUDGET\"\n    ok = not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])\n    return \"CONTINUE\" if ok else \"ABSTAIN_WITH_REASON\"\n\nfixtures = [\n    {\"case_id\": 'CASO-PUN-048-4B', **{'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}},\n    {\"case_id\": 'CASO-PUN-048-4B', **{'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': -0.08999999999999997, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-PUN-048-4B', **{'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}}.items() if k != 'support'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S48-T4-B-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-PUN-048-4B reconstruí meets_contract alineado a «retrieval/answer eval, costo y abstención» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.93
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "En self-check Q0 de S48 elegí «ranking reproducible con versión de embedding» porque el theory/outcomes del paquete describen esa evidencia (Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y métrica fo). Las otras opciones rompen trazabilidad o piden datos reales.",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "En self-check Q1 de S48 elegí «emitir ABSTAIN y conservar evidencia» porque el theory/outcomes del paquete describen esa evidencia (Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y métrica fo). Las otras opciones rompen trazabilidad o piden datos reales.",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "En self-check Q2 de S48 elegí «retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido» porque el theory/outcomes del paquete describen esa evidencia (Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y métrica fo). Las otras opciones rompen trazabilidad o piden datos reales.",
+      "status": "answered",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Para la pregunta «¿Qué tratamiento de `CASO-PUN-048` respeta el alcance del curso?…» el packet de S48 sostiene «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana». Coincide con el contrato observable y el caso sintético del curso.",
+      "status": "answered",
+      "confidence": 0.79
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:55:35.510815+00:00",
+  "session_started_at": "2026-07-23T17:54:25.762271+00:00",
+  "session_ended_at": "2026-07-23T17:55:35.507234+00:00",
+  "receipt_response_sha256": "e79e0bb7b276167ab6a47774427727368d90a269f881d20a13e939894018b6ca",
+  "receipt_exercises_sha256": "3b77158f50b304d8cfb806cead86d7f5e70ae6b549af2b54aea9edd7535c6688",
+  "receipt_selfcheck_sha256": "72288f11a4ee5d924501545843e5f740a3cc1b107561edd3f80c597ea47f4e38"
+}

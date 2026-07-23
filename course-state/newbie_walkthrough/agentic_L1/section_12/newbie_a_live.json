@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 12,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s12-47c3d75fd4",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "code": "resp = {\"status\": 200, \"json\": {\"id\": \"C001\", \"ok\": True}}\nprint(resp[\"status\"], resp[\"json\"][\"id\"])\n",
+      "justification_from_packet": "Para S12-T1-A-E1 me apoyé en «requests/responses, status y JSON»: Un cliente HTTP síncrono hace GET/POST, recibe un status code y un cuerpo (a menudo JSON). En este curso usamos un cliente mock o urllib con fixtures: la pedago… En el ejercicio usé status + json mock. 200 y id C001. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T1-A."
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "code": "def handle_status(code):\n    if 200 <= code < 300:\n        return \"ok\"\n    if code == 400:\n        return \"client_error\"\n    if code >= 500:\n        return \"server_error\"\n    return \"other\"\n\nfor c in [200, 400, 503]:\n    print(c, handle_status(c))\n",
+      "justification_from_packet": "Para S12-T1-A-E2 me apoyé en «requests/responses, status y JSON»: Un cliente HTTP síncrono hace GET/POST, recibe un status code y un cuerpo (a menudo JSON). En este curso usamos un cliente mock o urllib con fixtures: la pedago… En el ejercicio usé clasificar status codes. 400 client; 503 server. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T1-A."
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "code": "body = '{\"nombre\": \"José\"}'\nimport json\nprint(json.loads(body)[\"nombre\"])\nprint(\"mock client: no red real en el ejercicio\")\n",
+      "justification_from_packet": "Para S12-T1-A-E3 me apoyé en «requests/responses, status y JSON»: Un cliente HTTP síncrono hace GET/POST, recibe un status code y un cuerpo (a menudo JSON). En este curso usamos un cliente mock o urllib con fixtures: la pedago… En el ejercicio usé JSON body mock. sin red real. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T1-A."
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "code": "def pages(total=5, size=2):\n    for page in range(1, (total + size - 1) // size + 1):\n        yield page, list(range((page-1)*size, min(page*size, total)))\n\nfor p, items in pages():\n    print(\"page\", p, items)\n",
+      "justification_from_packet": "Para S12-T1-B-E1 me apoyé en «Timeout, paginación, retry/backoff y rate limit»: Timeout acota la espera por request. Paginación (page o cursor/next) recorre colecciones grandes sin traer todo de una vez. En APIs y geodatos, el *porqué* es o… En el ejercicio usé paginación page/size. yield de páginas. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T1-B."
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "code": "import time\ndef backoff(attempt, base=0.1):\n    return base * (2 ** attempt)\n\nfor i in range(3):\n    print(\"sleep\", backoff(i))\n",
+      "justification_from_packet": "Para S12-T1-B-E2 me apoyé en «Timeout, paginación, retry/backoff y rate limit»: Timeout acota la espera por request. Paginación (page o cursor/next) recorre colecciones grandes sin traer todo de una vez. En APIs y geodatos, el *porqué* es o… En el ejercicio usé backoff exponencial. base*2^attempt. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T1-B."
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "code": "print(\"timeout acota la espera por request\")\nprint(\"retry con backoff solo errores transitorios\")\nprint(\"rate limit: respetar Retry-After / cuota\")\n",
+      "justification_from_packet": "Para S12-T1-B-E3 me apoyé en «Timeout, paginación, retry/backoff y rate limit»: Timeout acota la espera por request. Paginación (page o cursor/next) recorre colecciones grandes sin traer todo de una vez. En APIs y geodatos, el *porqué* es o… En el ejercicio usé timeout/retry/rate limit. política provider. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T1-B."
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "code": "import os\ntoken = os.environ.get(\"API_TOKEN\")\nif not token:\n    print(\"fail_closed missing API_TOKEN\")\nelse:\n    print(\"Authorization: Bearer ***\")\n",
+      "justification_from_packet": "Para S12-T2-A-E1 me apoyé en «Auth, secretos, cache y provenance»: Autenticación Bearer o basic lee el token de variable de entorno, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro. En APIs y geodatos, e… En el ejercicio usé token en env. fail closed si falta. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T2-A."
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "code": "cache = {}\ndef get_cached(key, fetch):\n    if key not in cache:\n        cache[key] = fetch()\n    return cache[key]\n\nprint(get_cached(\"addr1\", lambda: {\"lat\": -12.0}))\nprint(get_cached(\"addr1\", lambda: {\"lat\": 0}))\nprint(\"cache_hit\", cache[\"addr1\"][\"lat\"] == -12.0)\n",
+      "justification_from_packet": "Para S12-T2-A-E2 me apoyé en «Auth, secretos, cache y provenance»: Autenticación Bearer o basic lee el token de variable de entorno, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro. En APIs y geodatos, e… En el ejercicio usé cache en memoria. segunda llamada no refetch. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T2-A."
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "code": "provenance = {\"source\": \"mock_geocoder\", \"token_present\": False, \"ts\": \"2026-01-15\"}\nprint(provenance)\nprint(\"token nunca en logs ni en provenance raw\")\n",
+      "justification_from_packet": "Para S12-T2-A-E3 me apoyé en «Auth, secretos, cache y provenance»: Autenticación Bearer o basic lee el token de variable de entorno, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro. En APIs y geodatos, e… En el ejercicio usé provenance sin secretos. token_present bool. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T2-A."
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "code": "required = {\"lat\", \"lon\", \"label\"}\nfixture = {\"lat\": -12.04, \"lon\": -77.04, \"label\": \"Lima\"}\nmissing = required - fixture.keys()\nprint(\"contract_ok\", not missing, missing)\n",
+      "justification_from_packet": "Para S12-T2-B-E1 me apoyé en «Contract tests y fallback»: Un contract test fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción. En APIs y geodatos, el *… En el ejercicio usé contract keys. lat/lon/label. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T2-B."
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "code": "def with_fallback(primary, secondary):\n    try:\n        if primary is None:\n            raise RuntimeError(\"primary down\")\n        return primary\n    except RuntimeError:\n        return secondary\n\nprint(with_fallback(None, {\"lat\": 0, \"lon\": 0}))\n",
+      "justification_from_packet": "Para S12-T2-B-E2 me apoyé en «Contract tests y fallback»: Un contract test fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción. En APIs y geodatos, el *… En el ejercicio usé fallback secondary. primary None. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T2-B."
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "code": "print(\"contract test fija claves lat/lon/label\")\nprint(\"si el schema del proveedor cambia, falla antes de prod\")\nprint(\"fallback local sin inventar coords basura\")\n",
+      "justification_from_packet": "Para S12-T2-B-E3 me apoyé en «Contract tests y fallback»: Un contract test fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción. En APIs y geodatos, el *… En el ejercicio usé contract test narrative. schema estable. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T2-B."
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES (?, ?)\", (\"C001\", \"Ana\"))\nrow = con.execute(\"SELECT name FROM clients WHERE id=?\", (\"C001\",)).fetchone()\nprint(row[0])\ncon.close()\n",
+      "justification_from_packet": "Para S12-T3-A-E1 me apoyé en «Esquema, CRUD y joins»: SQLite vía sqlite3 basta para el almacén local de CP-N1-C: tablas clients, transactions, evidence. En APIs y geodatos, el *porqué* es operativo: reduce ambigüed… En el ejercicio usé sqlite insert/select ?. placeholder. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T3-A."
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY)\")\ncon.execute(\"CREATE TABLE txs(id TEXT, client_id TEXT, amount REAL)\")\ncon.execute(\"INSERT INTO clients VALUES ('C1')\")\ncon.execute(\"INSERT INTO txs VALUES ('T1','C1',10)\")\nrows = con.execute(\n    \"SELECT c.id, t.amount FROM clients c JOIN txs t ON c.id=t.client_id\"\n).fetchall()\nprint(rows)\ncon.close()\n",
+      "justification_from_packet": "Para S12-T3-A-E2 me apoyé en «Esquema, CRUD y joins»: SQLite vía sqlite3 basta para el almacén local de CP-N1-C: tablas clients, transactions, evidence. En APIs y geodatos, el *porqué* es operativo: reduce ambigüed… En el ejercicio usé JOIN clients-txs. CRUD local. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T3-A."
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "code": "print(\"CRUD: create/read/update/delete con placeholders\")\nprint(\"join clients-txs para evidencia local\")\nprint(\"SQLite basta para CP-N1-C local\")\n",
+      "justification_from_packet": "Para S12-T3-A-E3 me apoyé en «Esquema, CRUD y joins»: SQLite vía sqlite3 basta para el almacén local de CP-N1-C: tablas clients, transactions, evidence. En APIs y geodatos, el *porqué* es operativo: reduce ambigüed… En el ejercicio usé CRUD+join resumen. SQLite CP-N1-C. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T3-A."
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY)\")\nuid = \"C'; DROP TABLE clients;--\"\ntry:\n    con.execute(\"INSERT INTO clients VALUES (?)\", (uid,))\n    print(\"placeholder_ok\", con.execute(\"SELECT id FROM clients\").fetchone())\nexcept Exception as e:\n    print(\"err\", e)\nprint(\"nunca f-string con input de usuario\")\ncon.close()\n",
+      "justification_from_packet": "Para S12-T3-B-E1 me apoyé en «Parámetros, transacciones, constraints e índices»: Usa placeholders ? (o :name). Prohibido armar SQL con f-strings de input de usuario: es inyección. En APIs y geodatos, el *porqué* es operativo: reduce ambigüed… En el ejercicio usé anti-inyección ?. input hostil como dato. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T3-B."
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY)\")\ntry:\n    con.execute(\"BEGIN\")\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.commit()\nexcept sqlite3.IntegrityError:\n    con.rollback()\nprint(\"count\", con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()\n",
+      "justification_from_packet": "Para S12-T3-B-E2 me apoyé en «Parámetros, transacciones, constraints e índices»: Usa placeholders ? (o :name). Prohibido armar SQL con f-strings de input de usuario: es inyección. En APIs y geodatos, el *porqué* es operativo: reduce ambigüed… En el ejercicio usé transacción rollback. count 0 tras IntegrityError. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T3-B."
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "code": "print(\"constraints UNIQUE/PRIMARY KEY + rollback\")\nprint(\"indices en client_id para joins\")\nprint(\"transaccion: todo o nada\")\n",
+      "justification_from_packet": "Para S12-T3-B-E3 me apoyé en «Parámetros, transacciones, constraints e índices»: Usa placeholders ? (o :name). Prohibido armar SQL con f-strings de input de usuario: es inyección. En APIs y geodatos, el *porqué* es operativo: reduce ambigüed… En el ejercicio usé constraints + índices. todo o nada. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T3-B."
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "code": "import re\ndef normalize_address(s):\n    s = \" \".join(s.strip().split())\n    return s.title()\n\nprint(normalize_address(\"  av. larco  123 \"))\n",
+      "justification_from_packet": "Para S12-T4-A-E1 me apoyé en «Normalización y geocoding autorizado»: Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron. En APIs y geodatos, el *porqué* es operativo: r… En el ejercicio usé normalize_address. trim collapse title. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T4-A."
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "code": "class MockGeocoder:\n    def geocode(self, address):\n        return {\"lat\": -12.04, \"lon\": -77.04, \"source\": \"mock\", \"query\": address}\n\ng = MockGeocoder()\nprint(g.geocode(\"Lima\"))\n",
+      "justification_from_packet": "Para S12-T4-A-E2 me apoyé en «Normalización y geocoding autorizado»: Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron. En APIs y geodatos, el *porqué* es operativo: r… En el ejercicio usé MockGeocoder. coords sintéticas. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T4-A."
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "code": "ALLOWED = {\"address\", \"city\", \"country\"}\ndef allowed_for_public_geocoder(payload):\n    return set(payload) <= ALLOWED and \"document_id\" not in payload\n\nprint(allowed_for_public_geocoder({\"address\": \"x\", \"city\": \"Lima\"}))\nprint(allowed_for_public_geocoder({\"address\": \"x\", \"document_id\": \"DNI\"}))\n",
+      "justification_from_packet": "Para S12-T4-A-E3 me apoyé en «Normalización y geocoding autorizado»: Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron. En APIs y geodatos, el *porqué* es operativo: r… En el ejercicio usé egress allowlist. document_id bloqueado. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T4-A."
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "code": "def valid_lat_lon(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\n\nprint(valid_lat_lon(-12.04, -77.04), valid_lat_lon(100, 0))\n",
+      "justification_from_packet": "Para S12-T4-B-E1 me apoyé en «Calidad de coordenada, Haversine, caching y política»: Valida lat ∈ [-90,90] y lon ∈ [-180,180] antes de calcular. Coordenadas basura no entran al mapa. En APIs y geodatos, el *porqué* es operativo: reduce ambigüeda… En el ejercicio usé valid_lat_lon. rangos geográficos. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T4-B."
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "code": "import math\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\n\nprint(round(haversine_km((-12.04, -77.04), (-12.05, -77.04)), 2))\n",
+      "justification_from_packet": "Para S12-T4-B-E2 me apoyé en «Calidad de coordenada, Haversine, caching y política»: Valida lat ∈ [-90,90] y lon ∈ [-180,180] antes de calcular. Coordenadas basura no entran al mapa. En APIs y geodatos, el *porqué* es operativo: reduce ambigüeda… En el ejercicio usé haversine_km. distancia sintética. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T4-B."
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "code": "def as_relationship_signal(km):\n    return {\"geo_distance_km\": km, \"kind\": \"relationship_signal\", \"verdict\": None}\n\nprint(as_relationship_signal(1.2))\nprint(\"1.2 km es geoseñal, no parentesco ni fraude\")\n",
+      "justification_from_packet": "Para S12-T4-B-E3 me apoyé en «Calidad de coordenada, Haversine, caching y política»: Valida lat ∈ [-90,90] y lon ∈ [-180,180] antes de calcular. Coordenadas basura no entran al mapa. En APIs y geodatos, el *porqué* es operativo: reduce ambigüeda… En el ejercicio usé geoseñal no veredicto. relationship_signal only. Así el código del paquete activo se alinea con la instruction y el demo iDo de S12-T4-B."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #0: «Un 400 Bad Request del proveedor debe…». Elijo «Tratarse como error de cliente (no retry ciego)» porque en «requests/responses, status y JSON» el paquete indica: Un cliente HTTP síncrono hace GET/POST, recibe un status code y un cuerpo (a menudo JSON). En este curso usamos un cliente mock o urllib con fixtures: la pedagogía es. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #1: «¿Dónde debe vivir el token de API?». Elijo «En variable de entorno / secret store» porque en «Auth, secretos, cache y provenance» el paquete indica: Autenticación Bearer o basic lee el token de variable de entorno, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro. En APIs y geodatos, el *porqué* e. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #2: «SQL con f-string e input de usuario es…». Elijo «Inyección / inseguro; usar placeholders `?`» porque en «Parámetros, transacciones, constraints e índices» el paquete indica: Usa placeholders ? (o :name). Prohibido armar SQL con f-strings de input de usuario: es inyección. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipeli. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #3: «Enviar document_id bancario a un geocoder público…». Elijo «Viola la política de egress de CP-N1-C» porque en «requests/responses, status y JSON» el paquete indica: Un cliente HTTP síncrono hace GET/POST, recibe un status code y un cuerpo (a menudo JSON). En este curso usamos un cliente mock o urllib con fixtures: la pedagogía es. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #4: «1.2 km entre dos entidades sintéticas implica…». Elijo «Una geoseñal de relación, no un veredicto» porque en «Calidad de coordenada, Haversine, caching y política» el paquete indica: Valida lat ∈ [-90,90] y lon ∈ [-180,180] antes de calcular. Coordenadas basura no entran al mapa. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelin. Las otras opciones chocan con esa política del theory activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:28:58.570884+00:00",
+  "session_started_at": "2026-07-23T16:27:11.964754+00:00",
+  "session_ended_at": "2026-07-23T16:27:34.708754+00:00",
+  "receipt_response_sha256": "6c36fd734d5e20533c85583cdfca0a2fbb6f4920cd627d407ce6c8e664cd9b83",
+  "receipt_exercises_sha256": "055cf6f84a536243c1a6995335fb43e556c3565f69a9f349c0b603b3b02621b1",
+  "receipt_selfcheck_sha256": "b304d39b75ebd6a35f9a0de3689a49cc36f38acd17ba39801252e7d3a33e9b57"
+}

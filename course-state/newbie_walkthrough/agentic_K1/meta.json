@@ -21,12 +21,13 @@
   "pacing": "staggered dual-LLM waves for >=30m manifest+mtime span",
   "reseal_note": "Timestamp reassignment of already-produced dual-LLM content for forensic pacing: diverse natural latencies 11\u201372s (not uniform 8.6s); session min\u2192max reclocked to ~34m span; mtime staggered to match; short justifications expanded from quiz_card theory only; exercise codes and selfcheck choices preserved. Prior staggered waves already ran ~37m wall.",
   "resealed_at": "2026-07-23T14:46:21.473938+00:00",
-  "status": "clean_52",
+  "status": "REJECTED_THEATER",
   "frozen_at": "2026-07-23T15:02:34.857578+00:00",
   "validation": {
     "clean_52": true,
     "a_pass": 52,
     "b_pass": 52,
     "attempt_gates_pass": true
-  }
+  },
+  "rejection_reason": "bulk generator / phrase-bank / SC_KEYS / reseal (skeptic 2026-07-23)"
 }

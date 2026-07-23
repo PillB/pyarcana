@@ -22,9 +22,11 @@ from newbie_slim_packet import slim_packet  # noqa: E402
 from newbie_walkthrough_runner import attempt_dir, now_iso  # noqa: E402
 
 WALK = ROOT / "course-state/newbie_walkthrough"
-ALLOWED_PREFIX = ("agentic_J", "agentic_K")
+ALLOWED_PREFIX = ("agentic_J", "agentic_K", "agentic_L")
 REJECTED_THEATER = (
     "agentic_D", "agentic_E", "agentic_F", "agentic_G", "agentic_H", "agentic_I",
+    # K* bulk phrase-bank / SC_KEYS / reseal theater (forensics permanent)
+    "agentic_K1", "agentic_K2", "agentic_K1_timing_fail",
 )
 
 
@@ -48,8 +50,14 @@ def sha_payload(exercises: list, selfcheck: list) -> str:
 def init_attempt(attempt: str, *, prior_clean: str | None = None) -> Path:
     if not any(attempt.startswith(p) for p in ALLOWED_PREFIX):
         raise SystemExit(
-            f"llm_walk sealed path only for agentic_J*/K*; got {attempt}. "
-            f"Theater ids D–I permanently rejected for pass claims."
+            f"llm_walk sealed path only for agentic_J*/K*/L*; got {attempt}. "
+            f"Theater ids D–I and bulk K* generators permanently rejected for pass claims."
+        )
+    # Explicit K1/K2 reject even though prefix agentic_K matches
+    if attempt in ("agentic_K1", "agentic_K2") or attempt.startswith("agentic_K1_"):
+        raise SystemExit(
+            f"{attempt} sealed as REJECTED_THEATER (phrase-bank/SC_KEYS/reseal). "
+            f"Use agentic_L* for honest dual-LLM only."
         )
     root = attempt_dir(attempt)
     if root.exists():
@@ -186,7 +194,11 @@ def write_live(
 ) -> Path:
     """Sealed write: requires receipt matching payload hashes + latency ≥ 8s."""
     if not any(attempt.startswith(p) for p in ALLOWED_PREFIX):
-        raise RuntimeError(f"write_live refused for non-J/K attempt {attempt}")
+        raise RuntimeError(f"write_live refused for non-J/K/L attempt {attempt}")
+    if attempt in ("agentic_K1", "agentic_K2") or attempt.startswith("agentic_K1_"):
+        raise RuntimeError(
+            f"write_live refused for REJECTED_THEATER attempt {attempt}; use agentic_L*"
+        )
     root = attempt_dir(attempt)
     # Canonical hashes MUST match what the validator recomputes from live files:
     #   exercises_sha256 = sha256(json.dumps(exercises, sort_keys=True, ensure_ascii=False))

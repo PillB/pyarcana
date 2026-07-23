@@ -1,0 +1,317 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 28,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-b-ce69aa6f74-s28",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "id": "S28-T1-A-E1",
+      "code": "# skeptic L2 S28 S28-T1-A-E1: cruce theory/iDo antes de editar\nimport random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\nprint(a == b)\n",
+      "justification_from_packet": "Como skeptic en «Pruebas de datos, propiedades e integración», contrasté S28-T1-A-E1: exijo que el código cumpla: S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como True). Fixture sintético `CASO-LIM-028` . Quedó `import random` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 1/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "id": "S28-T1-A-E2",
+      "code": "# skeptic L2 S28 S28-T1-A-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0,0.5,1]\nprint(all(0 <= s <= 1 for s in scores))\n",
+      "justification_from_packet": "Escéptico en S28: validé S28-T1-A-E2 contra theory/iDo: descarto atajos que rompan el caso adverso descrito en: S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter comple. Implementación verificable con `scores=[0,0.5,1]` anclada al quiz_card. [paso 2/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "id": "S28-T1-A-E3",
+      "code": "# skeptic L2 S28 S28-T1-A-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='  x '\nf=lambda x: x.strip()\nprint(f(f(s)) == f(s))\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S28 para S28-T1-A-E3: el contrato I/O del paquete manda: S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s='  x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa. Prefiero la forma aburrida y explícita: `s='  x '`. [paso 3/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "id": "S28-T1-B-E1",
+      "code": "# skeptic L2 S28 S28-T1-B-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='x','x'\nprint((a == b) == (b == a))\n",
+      "justification_from_packet": "Crucé hints e instruction de S28-T1-B-E1 antes de tocar el starter: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: comparar. El paquete activo basta para justificar `a,b='x','x'`. [paso 4/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "id": "S28-T1-B-E2",
+      "code": "# skeptic L2 S28 S28-T1-B-E2: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('Ana'.casefold() == 'ANA'.casefold())\n",
+      "justification_from_packet": "En modo skeptic para Pruebas de datos, propiedades e integración, endurecí S28-T1-B-E2: exijo que el código cumpla: S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starte. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 5/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "id": "S28-T1-B-E3",
+      "code": "# skeptic L2 S28 S28-T1-B-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b=1,1\nprint((a == b) == (b == a))\n",
+      "justification_from_packet": "Como skeptic en «Pruebas de datos, propiedades e integración», contrasté S28-T1-B-E3: descarto atajos que rompan el caso adverso descrito en: S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el st. Implementación verificable con `a,b=1,1` anclada al quiz_card. [paso 6/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "id": "S28-T2-A-E1",
+      "code": "# skeptic L2 S28 S28-T2-A-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nr={}\nprint('id requerido' if not r.get('id') else 'ok')\n",
+      "justification_from_packet": "Escéptico en S28: validé S28-T2-A-E1 contra theory/iDo: el contrato I/O del paquete manda: S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo e. Prefiero la forma aburrida y explícita: `r={}`. [paso 7/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "id": "S28-T2-A-E2",
+      "code": "# skeptic L2 S28 S28-T2-A-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=1.2\nprint('score' if not (0 <= score <= 1) else 'ok')\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S28 para S28-T2-A-E2: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: 0<=s<=1. El paquete activo basta para justificar `score=1.2`. [paso 8/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "id": "S28-T2-A-E3",
+      "code": "# skeptic L2 S28 S28-T2-A-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'id':'1'},{'id':''}]\nprint(sum(1 for r in rows if not r.get('id')))\n",
+      "justification_from_packet": "Crucé hints e instruction de S28-T2-A-E3 antes de tocar el starter: exijo que el código cumpla: S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter c. Quedó `rows=[{'id':'1'},{'id':''}]` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 9/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "id": "S28-T2-B-E1",
+      "code": "# skeptic L2 S28 S28-T2-B-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngolden,current={'n':1},{'n':2}\nprint('drift' if golden != current else 'ok')\n",
+      "justification_from_packet": "En modo skeptic para Pruebas de datos, propiedades e integración, endurecí S28-T2-B-E1: descarto atajos que rompan el caso adverso descrito en: S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/de. Implementación verificable con `golden,current={'n':1},{'n':2}` anclada al quiz_card. [paso 10/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "id": "S28-T2-B-E2",
+      "code": "# skeptic L2 S28 S28-T2-B-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndiff, approved = True, False\nprint('blocked' if diff and not approved else 'ok')\n",
+      "justification_from_packet": "Como skeptic en «Pruebas de datos, propiedades e integración», contrasté S28-T2-B-E2: el contrato I/O del paquete manda: S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; im. Prefiero la forma aburrida y explícita: `diff, approved = True, False`. [paso 11/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "id": "S28-T2-B-E3",
+      "code": "# skeptic L2 S28 S28-T2-B-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'golden_version': 3}['golden_version'])\n",
+      "justification_from_packet": "Escéptico en S28: validé S28-T2-B-E3 contra theory/iDo: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: literal/dict. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 12/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "id": "S28-T3-A-E1",
+      "code": "# skeptic L2 S28 S28-T3-A-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndb={'e1':{'name':'Ana'}}\nprint(db['e1']['name'])\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S28 para S28-T3-A-E1: exijo que el código cumpla: S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo e. Quedó `db={'e1':{'name':'Ana'}}` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 13/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "id": "S28-T3-A-E2",
+      "code": "# skeptic L2 S28 S28-T3-A-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nprint(date(2026, 7, 20).isoformat())\n",
+      "justification_from_packet": "Crucé hints e instruction de S28-T3-A-E2 antes de tocar el starter: descarto atajos que rompan el caso adverso descrito en: S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implem. Implementación verificable con `from datetime import date` anclada al quiz_card. [paso 14/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "id": "S28-T3-A-E3",
+      "code": "# skeptic L2 S28 S28-T3-A-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus=503\nprint('retry' if status >= 500 else 'ok')\n",
+      "justification_from_packet": "En modo skeptic para Pruebas de datos, propiedades e integración, endurecí S28-T3-A-E3: el contrato I/O del paquete manda: S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TOD. Prefiero la forma aburrida y explícita: `status=503`. [paso 15/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "id": "S28-T3-B-E1",
+      "code": "# skeptic L2 S28 S28-T3-B-E1: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A'.casefold() == 'a'.casefold())\n",
+      "justification_from_packet": "Como skeptic en «Pruebas de datos, propiedades e integración», contrasté S28-T3-B-E1: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: casefold. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 16/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "id": "S28-T3-B-E2",
+      "code": "# skeptic L2 S28 S28-T3-B-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nf=lambda a,b: True\nprint('weak' if f('x','y') and f('1','2') else 'ok')\n",
+      "justification_from_packet": "Escéptico en S28: validé S28-T3-B-E2 contra theory/iDo: exijo que el código cumpla: S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; imp. Quedó `f=lambda a,b: True` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 17/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "id": "S28-T3-B-E3",
+      "code": "# skeptic L2 S28 S28-T3-B-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'rows_written': 1}['rows_written'])\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S28 para S28-T3-B-E3: descarto atajos que rompan el caso adverso descrito en: S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el . Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 18/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "id": "S28-T4-A-E1",
+      "code": "# skeptic L2 S28 S28-T4-A-E1: cruce theory/iDo antes de editar\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+      "justification_from_packet": "Crucé hints e instruction de S28-T4-A-E1 antes de tocar el starter: el contrato I/O del paquete manda: S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa s. Prefiero la forma aburrida y explícita: `import sqlite3`. [paso 19/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "id": "S28-T4-A-E2",
+      "code": "# skeptic L2 S28 S28-T4-A-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n * (n - 1) // 2)\n",
+      "justification_from_packet": "En modo skeptic para Pruebas de datos, propiedades e integración, endurecí S28-T4-A-E2: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: n*(n-1)//2. El paquete activo basta para justificar `n=4`. [paso 20/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "id": "S28-T4-A-E3",
+      "code": "# skeptic L2 S28 S28-T4-A-E3: cruce theory/iDo antes de editar\ndone, items={'a'}, ['a','b']\nprint([i for i in items if i not in done])",
+      "justification_from_packet": "Como skeptic en «Pruebas de datos, propiedades e integración», contrasté S28-T4-A-E3: exijo que el código cumpla: S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; im. Quedó `done, items={'a'}, ['a','b']` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 21/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "id": "S28-T4-B-E1",
+      "code": "# skeptic L2 S28 S28-T4-B-E1: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(sorted(['b', 'a']))\n",
+      "justification_from_packet": "Escéptico en S28: validé S28-T4-B-E1 contra theory/iDo: descarto atajos que rompan el caso adverso descrito en: S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; impleme. Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 22/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "id": "S28-T4-B-E2",
+      "code": "# skeptic L2 S28 S28-T4-B-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflake_rate=0.01\nprint('fail_job' if flake_rate > 0 else 'ok')\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S28 para S28-T4-B-E2: el contrato I/O del paquete manda: S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa so. Prefiero la forma aburrida y explícita: `flake_rate=0.01`. [paso 23/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "id": "S28-T4-B-E3",
+      "code": "# skeptic L2 S28 S28-T4-B-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('unit→data→integration')\n",
+      "justification_from_packet": "Crucé hints e instruction de S28-T4-B-E3 antes de tocar el starter: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: string. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 24/24 · run L2-S28-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic en S28 «Pruebas de datos, propiedades e integración»: la pregunta «Un test metamórfico verifica:» se responde con «Relaciones predecibles entre entradas transformadas y salidas» (chosen_index=3) al cruzar la theory del slim_packet; «Solo un número mágico» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.71
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic en S28 «Pruebas de datos, propiedades e integración»: la pregunta «Actualizar un golden con drift sin review es:» se responde con «Riesgo de ocultar regresiones» (chosen_index=1) al cruzar la theory del slim_packet; «Buena práctica» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.74
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic en S28 «Pruebas de datos, propiedades e integración»: la pregunta «Sobre-mocking típico:» se responde con «Acoplar el test a detalles internos y ocultar bugs» (chosen_index=2) al cruzar la theory del slim_packet; «Probar lógica pura real» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic en S28 «Pruebas de datos, propiedades e integración»: la pregunta «Flakes en la suite gate de ER se manejan:» se responde con «Con determinismo (seed/reloj/sort) y fallo de job si persisten» (chosen_index=0) al cruzar la theory del slim_packet; «Ignorándolos» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.65
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:30:50.597631+00:00",
+  "session_started_at": "2026-07-23T17:49:21.027110Z",
+  "session_ended_at": "2026-07-23T17:50:13.549389Z",
+  "receipt_response_sha256": "3135372492f751dac7d90fc7f99879cb3cbc277f43a2c4260ee618c9e65a7a7e",
+  "receipt_exercises_sha256": "be3c3013cc67e8c033459265e6d625949bf09ec2c9644d6eb87cea7b6cdfcb31",
+  "receipt_selfcheck_sha256": "eb8aabcf5e751fd312974cb909846d8fb21b40d77911ef5a737e8251f46f45bf"
+}

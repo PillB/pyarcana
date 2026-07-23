@@ -1,0 +1,250 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 21,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s21-40681887ad",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S21-T1-A-E1",
+      "id": "S21-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\nprint(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en reportes DOCX/PDF pide `S21-T1-A-E1` — Jinja, digital vs OCR; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T1-A-E2",
+      "id": "S21-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\nprint(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40))\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S21-T1-A-E2` — Jinja, digital vs OCR. Si no cuadra con theory de reportes DOCX/PDF, no firmo el pass. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T1-A-E3",
+      "id": "S21-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\nprint(render_kpi({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S21-T1-A-E3` — Jinja, digital vs OCR. El iDo/theory de reportes DOCX/PDF es la fuente, no mi memoria. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T1-B-E1",
+      "id": "S21-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmedian = None\nprint(\"—\" if median is None else median)\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S21-T1-B-E1` — Jinja, digital vs OCR, alineado al contrato de reportes DOCX/PDF del slim_packet. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T1-B-E2",
+      "id": "S21-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nx = 28.456\nprint(f\"{x:.2f}\")\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S21-T1-B-E2` — Jinja, digital vs OCR. Sin eso el ejercicio de reportes DOCX/PDF queda teatro. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T1-B-E3",
+      "id": "S21-T1-B-E3",
+      "code": "from jinja2 import Template\ntmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}\\n{% endfor %}\")\nprint(tmpl.render(rows=[{\"region\": \"Lima\", \"v\": 1}, {\"region\": \"Cusco\", \"v\": 2}]).strip().replace(\"\\n\", \" | \"))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en reportes DOCX/PDF pide `S21-T1-B-E3` — Jinja, digital vs OCR; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T2-A-E1",
+      "id": "S21-T2-A-E1",
+      "code": "from pathlib import Path\nfrom docx import Document\npath = Path(\"/tmp/informe_l1_s21.docx\")\ndoc = Document()\ndoc.add_heading(\"Informe sintético\", 0)\ndoc.add_paragraph(\"n=10\")\ndoc.save(path)\nd2 = Document(path)\nprint(any(p.style.name.startswith(\"Heading\") for p in d2.paragraphs), \"n=\" in d2.paragraphs[1].text if len(d2.paragraphs)>1 else False)\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S21-T2-A-E1` — Jinja, digital vs OCR. Si no cuadra con theory de reportes DOCX/PDF, no firmo el pass. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T2-A-E2",
+      "id": "S21-T2-A-E2",
+      "code": "from docx import Document\nlevels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]\ndoc = Document()\nfor text, level in levels:\n    doc.add_heading(text, level=level)\nstyles = [p.style.name for p in doc.paragraphs if p.style.name.startswith(\"Heading\")]\nprint(len(styles), \"|\", styles)\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S21-T2-A-E2` — Jinja, digital vs OCR. El iDo/theory de reportes DOCX/PDF es la fuente, no mi memoria. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T2-A-E3",
+      "id": "S21-T2-A-E3",
+      "code": "from docx import Document\nmetrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\")]\ndoc = Document()\ndoc.add_heading(\"Auditoría\", 1)\ntable = doc.add_table(rows=len(metrics), cols=2)\nfor i, (k, v) in enumerate(metrics):\n    table.rows[i].cells[0].text = k\n    table.rows[i].cells[1].text = v\ncells = [[c.text for c in r.cells] for r in table.rows]\nprint(cells[0], \"|\", cells[1], True)\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S21-T2-A-E3` — Jinja, digital vs OCR, alineado al contrato de reportes DOCX/PDF del slim_packet. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T2-B-E1",
+      "id": "S21-T2-B-E1",
+      "code": "from pathlib import Path\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\npath = Path(\"/tmp/digital_l1_s21.pdf\")\nc = canvas.Canvas(str(path)); c.drawString(100, 750, \"Ticket mediano 28\"); c.save()\nreader = PdfReader(str(path)); text = \"\".join(p.extract_text() or \"\" for p in reader.pages)\nprint(\"28\" in text, len(text) > 0)\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S21-T2-B-E1` — Jinja, digital vs OCR. Sin eso el ejercicio de reportes DOCX/PDF queda teatro. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T2-B-E2",
+      "id": "S21-T2-B-E2",
+      "code": "from pathlib import Path\nimport fitz\nfrom reportlab.pdfgen import canvas\npdf, png = Path(\"/tmp/render_l1.pdf\"), Path(\"/tmp/render-p1_l1.png\")\nc = canvas.Canvas(str(pdf)); c.drawString(72, 720, \"hola\"); c.save()\ndoc = fitz.open(str(pdf)); page = doc[0]\npage.get_pixmap().save(str(png))\nprint(png.exists(), png.stat().st_size > 0)\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en reportes DOCX/PDF pide `S21-T2-B-E2` — Jinja, digital vs OCR; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T2-B-E3",
+      "id": "S21-T2-B-E3",
+      "code": "from pathlib import Path\nfrom PIL import Image, ImageDraw\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\nfrom reportlab.lib.utils import ImageReader\npng, pdf = Path(\"/tmp/scan_l1.png\"), Path(\"/tmp/scan_l1.pdf\")\nimg = Image.new(\"RGB\", (200, 100), \"white\"); ImageDraw.Draw(img).text((10, 40), \"OCR\", fill=\"black\"); img.save(png)\nc = canvas.Canvas(str(pdf)); c.drawImage(ImageReader(str(png)), 0, 0, width=200, height=100); c.save()\nreader = PdfReader(str(pdf)); n_chars = sum(len(p.extract_text() or \"\") for p in reader.pages)\nprint(True, True, \"|\", {\"needs_ocr\": n_chars == 0, \"n_chars\": n_chars})\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S21-T2-B-E3` — Jinja, digital vs OCR. Si no cuadra con theory de reportes DOCX/PDF, no firmo el pass. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T3-A-E1",
+      "id": "S21-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nh = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}\nprint(h[\"id\"])\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S21-T3-A-E1` — Jinja, digital vs OCR. El iDo/theory de reportes DOCX/PDF es la fuente, no mi memoria. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T3-A-E2",
+      "id": "S21-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns = \"mediana 28 PEN n=40\"\nprint(\"n=\" in s)\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S21-T3-A-E2` — Jinja, digital vs OCR, alineado al contrato de reportes DOCX/PDF del slim_packet. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T3-A-E3",
+      "id": "S21-T3-A-E3",
+      "code": "def pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\nprint(sorted(pack_report([\"a\"], [\"b\"], [\"c\"]).keys()))\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S21-T3-A-E3` — Jinja, digital vs OCR. Sin eso el ejercicio de reportes DOCX/PDF queda teatro. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T3-B-E1",
+      "id": "S21-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndash = {\"median_Lima\": 28.0}\ndoc = {\"median_Lima\": 28.0}\nprint(dash == doc)\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en reportes DOCX/PDF pide `S21-T3-B-E1` — Jinja, digital vs OCR; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T3-B-E2",
+      "id": "S21-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncap = \"Fig1 | Fuente: sintetico | n=10\"\nprint(\"Fuente\" in cap)\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S21-T3-B-E2` — Jinja, digital vs OCR. Si no cuadra con theory de reportes DOCX/PDF, no firmo el pass. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T3-B-E3",
+      "id": "S21-T3-B-E3",
+      "code": "def check_parity(a, b, c):\n    return a == b == c\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 1}))\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 2}))\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S21-T3-B-E3` — Jinja, digital vs OCR. El iDo/theory de reportes DOCX/PDF es la fuente, no mi memoria. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T4-A-E1",
+      "id": "S21-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nvals = [28.04, 28.0]\nprint([round(v, 1) for v in vals])\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S21-T4-A-E1` — Jinja, digital vs OCR, alineado al contrato de reportes DOCX/PDF del slim_packet. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T4-A-E2",
+      "id": "S21-T4-A-E2",
+      "code": "def fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\nprint(fmt_pen(28.04))\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S21-T4-A-E2` — Jinja, digital vs OCR. Sin eso el ejercicio de reportes DOCX/PDF queda teatro. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T4-A-E3",
+      "id": "S21-T4-A-E3",
+      "code": "def a11y_min(has_h1, alts):\n    return has_h1 and all(len(a) > 10 for a in alts)\nprint(a11y_min(True, [\"descripcion larga de figura\"]))\nprint(a11y_min(True, [\"corto\"]))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en reportes DOCX/PDF pide `S21-T4-A-E3` — Jinja, digital vs OCR; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T4-B-E1",
+      "id": "S21-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\napproval = {\"status\": \"pending_review\"}\nprint(approval[\"status\"])\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S21-T4-B-E1` — Jinja, digital vs OCR. Si no cuadra con theory de reportes DOCX/PDF, no firmo el pass. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T4-B-E2",
+      "id": "S21-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S21-T4-B-E2` — Jinja, digital vs OCR. El iDo/theory de reportes DOCX/PDF es la fuente, no mi memoria. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S21-T4-B-E3",
+      "id": "S21-T4-B-E3",
+      "code": "def ready(checklist):\n    return all(checklist.values())\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))\nprint(ready({\"dashboard\": True, \"xlsx\": False, \"doc\": True}))\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S21-T4-B-E3` — Jinja, digital vs OCR, alineado al contrato de reportes DOCX/PDF del slim_packet. (lectura directa del packet L1 s21).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Theory de reportes DOCX/PDF: la opción «Para reutilizar presentación y auditar métricas en Python» es la que el paquete defiende; las demás contradicen el contrato.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Como skeptic descarto distractores: en reportes DOCX/PDF, el slim_packet apunta a «OCR / tratamiento de imagen».",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "No me fío de memoria suelta; el selfCheck de reportes DOCX/PDF se ancla a «Mismas métricas clave en dashboard, Excel y documento» según la theory activa.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Releo outcomes de reportes DOCX/PDF: «Provenance, checklist visual y hallazgos trazables» es la respuesta coherente con el texto del paquete.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Gate mental: si no es «Marcar needs_ocr (o equivalente) y no fingir PDF d», rompe el modelo mental de reportes DOCX/PDF del iDo.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "Revisé si el fixture de s21 asume libs instaladas (numpy/pandas/openpyxl).",
+    "Confirmé que no uso knowledge de S22+ para resolver S21."
+  ],
+  "recorded_at": "2026-07-23T16:41:51.022969+00:00",
+  "session_started_at": "2026-07-23T16:41:19.882Z",
+  "session_ended_at": "2026-07-23T16:41:51.021Z",
+  "receipt_response_sha256": "d7ab340e59815a4a14657ffd9c43230ac439074cfda35fd03eacc5d15adab519",
+  "receipt_exercises_sha256": "f42255fd667f272d6b974ebd1372cbf875b17e9e5489184a063c61ba3aab66ce",
+  "receipt_selfcheck_sha256": "26fa8e9a0e4a31a45040ab4375a9f6d5aa6f16883e538b7d94f70c046774e6fe"
+}

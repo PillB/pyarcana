@@ -1,0 +1,317 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 29,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-b-9909f5f746-s29",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "id": "S29-T1-A-E1",
+      "code": "# skeptic L2 S29 S29-T1-A-E1: cruce theory/iDo antes de editar\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\nprint(c.execute('select count(*) from entities').fetchone()[0])\n",
+      "justification_from_packet": "Como skeptic en «SQL avanzado y modelado relacional», contrasté S29-T1-A-E1: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: sqlite3. Prefiero la forma aburrida y explícita: `import sqlite3`. [paso 1/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "id": "S29-T1-A-E2",
+      "code": "# skeptic L2 S29 S29-T1-A-E2: cruce theory/iDo antes de editar\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\ntry:\n    c.execute('insert into p values (1.5)')\nexcept Exception:\n    print('bad_score')\n",
+      "justification_from_packet": "Escéptico en S29: validé S29-T1-A-E2 contra theory/iDo: exijo que el código cumpla: S29-T1-A-E2 · CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter co. El paquete activo basta para justificar `import sqlite3`. [paso 2/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "id": "S29-T1-A-E3",
+      "code": "# skeptic L2 S29 S29-T1-A-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('e1' < 'e2')\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S29 para S29-T1-A-E3: descarto atajos que rompan el caso adverso descrito en: S29-T1-A-E3 · Imprime True si 'e1'<'e2' (orden canónico de par). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa sol. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 3/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "id": "S29-T1-B-E1",
+      "code": "# skeptic L2 S29 S29-T1-B-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\nprint(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n",
+      "justification_from_packet": "Crucé hints e instruction de S29-T1-B-E1 antes de tocar el starter: el contrato I/O del paquete manda: S29-T1-B-E1 · Inserta dos labels para pair p1; imprime número de filas de historia. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter compl. Implementación verificable con `import sqlite3` anclada al quiz_card. [paso 4/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "id": "S29-T1-B-E2",
+      "code": "# skeptic L2 S29 S29-T1-B-E2: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'source': 'crm_synth', 'record': 'r9'})\n",
+      "justification_from_packet": "En modo skeptic para SQL avanzado y modelado relacional, endurecí S29-T1-B-E2: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: dict. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 5/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "id": "S29-T1-B-E3",
+      "code": "# skeptic L2 S29 S29-T1-B-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\nprint('open' if valid_to is None else 'closed')\n",
+      "justification_from_packet": "Como skeptic en «SQL avanzado y modelado relacional», contrasté S29-T1-B-E3: exijo que el código cumpla: S29-T1-B-E3 · valid_to NULL significa vigente: imprime 'open' si valid_to is None. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter comple. El paquete activo basta para justificar `valid_to=None`. [paso 6/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "id": "S29-T2-A-E1",
+      "code": "# skeptic L2 S29 S29-T2-A-E1: cruce theory/iDo antes de editar\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nprint([r[0] for r in c.execute('select id from pairs where id not in (select pair_id from dec)')])\n",
+      "justification_from_packet": "Escéptico en S29: validé S29-T2-A-E1 contra theory/iDo: descarto atajos que rompan el caso adverso descrito en: S29-T2-A-E1 · Con pairs p1,p2 y decision solo p1, lista ids sin decisión. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; imple. Quedó `import sqlite3` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 7/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "id": "S29-T2-A-E2",
+      "code": "# skeptic L2 S29 S29-T2-A-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S29 para S29-T2-A-E2: el contrato I/O del paquete manda: S29-T2-A-E2 · Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter compl. Implementación verificable con `scores=[0.2,0.9,0.5]` anclada al quiz_card. [paso 8/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "id": "S29-T2-A-E3",
+      "code": "# skeptic L2 S29 S29-T2-A-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ranked')\n",
+      "justification_from_packet": "Crucé hints e instruction de S29-T2-A-E3 antes de tocar el starter: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: literal. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 9/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "id": "S29-T2-B-E1",
+      "code": "# skeptic L2 S29 S29-T2-B-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\nprint(n*(n-1)//2)\n",
+      "justification_from_packet": "En modo skeptic para SQL avanzado y modelado relacional, endurecí S29-T2-B-E1: exijo que el código cumpla: S29-T2-B-E1 · C(n,2) para n=5 → 10. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado si. El paquete activo basta para justificar `n=5`. [paso 10/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "id": "S29-T2-B-E2",
+      "code": "# skeptic L2 S29 S29-T2-B-E2: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(None is None)\n",
+      "justification_from_packet": "Como skeptic en «SQL avanzado y modelado relacional», contrasté S29-T2-B-E2: descarto atajos que rompan el caso adverso descrito en: S29-T2-B-E2 · Imprime True si None is None (recuerda NULL SQL ≠ Python en joins). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter complet. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 11/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "id": "S29-T2-B-E3",
+      "code": "# skeptic L2 S29 S29-T2-B-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('SCAN')\n",
+      "justification_from_packet": "Escéptico en S29: validé S29-T2-B-E3 contra theory/iDo: el contrato I/O del paquete manda: S29-T2-B-E3 · Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáctico). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example. Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 12/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "id": "S29-T3-A-E1",
+      "code": "# skeptic L2 S29 S29-T3-A-E1: cruce theory/iDo antes de editar\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('rollback')\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S29 para S29-T3-A-E1: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: rollback. Prefiero la forma aburrida y explícita: `import sqlite3`. [paso 13/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "id": "S29-T3-A-E2",
+      "code": "# skeptic L2 S29 S29-T3-A-E2: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A,C,I,D')\n",
+      "justification_from_packet": "Crucé hints e instruction de S29-T3-A-E2 antes de tocar el starter: exijo que el código cumpla: S29-T3-A-E2 · Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrad. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 14/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "id": "S29-T3-A-E3",
+      "code": "# skeptic L2 S29 S29-T3-A-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\nprint('abort' if not evidence_ok else 'commit')\n",
+      "justification_from_packet": "En modo skeptic para SQL avanzado y modelado relacional, endurecí S29-T3-A-E3: descarto atajos que rompan el caso adverso descrito en: S29-T3-A-E3 · Si evidence_ok es False no hagas commit conceptual: imprime 'abort'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter comple. Quedó `evidence_ok=False` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 15/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "id": "S29-T3-B-E1",
+      "code": "# skeptic L2 S29 S29-T3-B-E1: cruce theory/iDo antes de editar\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nc.execute(\"insert into e values ('1','B') on conflict(id) do update set name=excluded.name\")\nprint(c.execute(\"select name from e where id='1'\").fetchone()[0])\n",
+      "justification_from_packet": "Como skeptic en «SQL avanzado y modelado relacional», contrasté S29-T3-B-E1: el contrato I/O del paquete manda: S29-T3-B-E1 · Upsert: segunda insert con mismo id actualiza; imprime name final 'B'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter comp. Implementación verificable con `import sqlite3` anclada al quiz_card. [paso 16/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "id": "S29-T3-B-E2",
+      "code": "# skeptic L2 S29 S29-T3-B-E2: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'job': 'er_block', 'status': 'pending'}['status'])\n",
+      "justification_from_packet": "Escéptico en S29: validé S29-T3-B-E2 contra theory/iDo: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: literal/dict. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 17/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "id": "S29-T3-B-E3",
+      "code": "# skeptic L2 S29 S29-T3-B-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\nprint('retry' if conflict else 'ok')\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S29 para S29-T3-B-E3: exijo que el código cumpla: S29-T3-B-E3 · Conflicto de par duplicado → imprime 'retry'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el . El paquete activo basta para justificar `conflict=True`. [paso 18/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "id": "S29-T4-A-E1",
+      "code": "# skeptic L2 S29 S29-T4-A-E1: cruce theory/iDo antes de editar\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nc.execute(\"insert into schema_migrations values (2,'add_index')\")\nprint(c.execute('select max(v) from schema_migrations').fetchone()[0])\n",
+      "justification_from_packet": "Crucé hints e instruction de S29-T4-A-E1 antes de tocar el starter: descarto atajos que rompan el caso adverso descrito en: S29-T4-A-E1 · Registra migration version 2 name 'add_index'; imprime max version. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter complet. Quedó `import sqlite3` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 19/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "id": "S29-T4-A-E2",
+      "code": "# skeptic L2 S29 S29-T4-A-E2: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('idx_pairs_block_key')\n",
+      "justification_from_packet": "En modo skeptic para SQL avanzado y modelado relacional, endurecí S29-T4-A-E2: el contrato I/O del paquete manda: S29-T4-A-E2 · Imprime nombre de índice sugerido idx_pairs_block_key. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa. Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 20/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "id": "S29-T4-A-E3",
+      "code": "# skeptic L2 S29 S29-T4-A-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('no_drop_without_backup')\n",
+      "justification_from_packet": "Como skeptic en «SQL avanzado y modelado relacional», contrasté S29-T4-A-E3: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: string. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 21/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "id": "S29-T4-B-E1",
+      "code": "# skeptic L2 S29 S29-T4-B-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\nprint(store.get('e1'))\n",
+      "justification_from_packet": "Escéptico en S29: validé S29-T4-B-E1 contra theory/iDo: exijo que el código cumpla: S29-T4-B-E1 · Repo.get: dict store {'e1':'Ana'}; imprime get e1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa sol. El paquete activo basta para justificar `store={'e1':'Ana'}`. [paso 22/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "id": "S29-T4-B-E2",
+      "code": "# skeptic L2 S29 S29-T4-B-E2: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'pool_size': 5}['pool_size'])\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S29 para S29-T4-B-E2: descarto atajos que rompan el caso adverso descrito en: S29-T4-B-E2 · Pool size conceptual 5; imprime pool_size. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TOD. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 23/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "id": "S29-T4-B-E3",
+      "code": "# skeptic L2 S29 S29-T4-B-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\nprint(pending_count)\n",
+      "justification_from_packet": "Crucé hints e instruction de S29-T4-B-E3 antes de tocar el starter: el contrato I/O del paquete manda: S29-T4-B-E3 · Test de repo: pending count 1; imprime 1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO. Implementación verificable con `pending_count=1` anclada al quiz_card. [paso 24/24 · run L2-S29-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "SQL avanzado y modelado relacional",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic en S29 «SQL avanzado y modelado relacional»: la pregunta «entity_a < entity_b en el par sirve para:» se responde con «Evitar duplicar el mismo par en orden invertido» (chosen_index=0) al cruzar la theory del slim_packet; «Inferir fraude» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.74
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic en S29 «SQL avanzado y modelado relacional»: la pregunta «Append-only en decisions significa:» se responde con «Nueva fila por cambio de decisión» (chosen_index=2) al cruzar la theory del slim_packet; «UPDATE del label in place sin rastro» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic en S29 «SQL avanzado y modelado relacional»: la pregunta «Decisión y evidencia deben:» se responde con «Ser atómicas en la misma transacción lógica» (chosen_index=3) al cruzar la theory del slim_packet; «Commitearse en transacciones separadas siempre» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.65
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic en S29 «SQL avanzado y modelado relacional»: la pregunta «El repository pattern:» se responde con «Encapsula acceso a datos y facilita tests con :memory:» (chosen_index=1) al cruzar la theory del slim_packet; «Esparce SQL por toda la app a propósito» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.6799999999999999
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:30:50.611550+00:00",
+  "session_started_at": "2026-07-23T17:51:02.362074Z",
+  "session_ended_at": "2026-07-23T17:51:56.516394Z",
+  "receipt_response_sha256": "81865e3b6818ef4252a9f36d26dc4826ac4e19f04ab876640d34a36ada33e94d",
+  "receipt_exercises_sha256": "6a600392a002c84aad802e02bb1458d8c4be10eb3dc2bb6242562423a8b2d58a",
+  "receipt_selfcheck_sha256": "06df1f0e2f1a54440fc6601b8d0022f9ef8f09111c3b47b49e2c23e54fae3877"
+}

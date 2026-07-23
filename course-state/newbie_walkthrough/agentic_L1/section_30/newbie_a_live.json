@@ -1,0 +1,165 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s30-df3fc0e249",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\nprint(1.0 if a == b else 0.0)\n",
+      "justification_from_packet": "Para S30-T1-A-E1 me basé en Exact/Levenshtein del material activo: Exact: imprime 1.0 si 'a'=='a' else 0.0.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\nprint(len(ta&tb)/len(ta|tb))\n",
+      "justification_from_packet": "Para S30-T1-A-E2 me basé en igualdad/overlap del material activo: Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\nprint(1.0 if d == d else 0.0)\n",
+      "justification_from_packet": "Para S30-T1-A-E3 me basé en normalización/score del material activo: date_sim: mismo día → 1.0; imprime para dos date(2026,1,1).. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\nprint('missing' if (not a or not b) else 'cmp')\n",
+      "justification_from_packet": "Para S30-T1-B-E1 me basé en Levenshtein/responde del material activo: Si a=='' o b=='' imprime 'missing'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\nprint(1 / freq)\n",
+      "justification_from_packet": "Para S30-T1-B-E2 me basé en simplificado/Levenshtein del material activo: Peso 1/freq para freq=10 → 0.1.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('informative_missing')\n",
+      "justification_from_packet": "Para S30-T1-B-E3 me basé en typos/overlap del material activo: Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\nprint(f'{last}|{city}')\n",
+      "justification_from_packet": "Para S30-T2-A-E1 me basé en Token/score del material activo: block_key = last + '|' + city para last='lopez' city='lima'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\nprint(found / gold_n)\n",
+      "justification_from_packet": "Para S30-T2-A-E2 me basé en Jaccard/responde del material activo: Candidate recall: gold 2, found 1 → 0.5.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n*(n-1)//2)\n",
+      "justification_from_packet": "Para S30-T2-A-E3 me basé en overlap/Levenshtein del material activo: Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))\n",
+      "justification_from_packet": "Para S30-T2-B-E1 me basé en palabras/overlap del material activo: Costo total bloques [3,5] → 3+10=13.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\nprint(ta != tb)\n",
+      "justification_from_packet": "Para S30-T2-B-E2 me basé en Fecha/score del material activo: Impossible si types difieren; imprime True para person vs org.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('filter_before_score')\n",
+      "justification_from_packet": "Para S30-T2-B-E3 me basé en distancia/responde del material activo: Política: imprime 'filter_before_score'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n",
+      "justification_from_packet": "Para S30-T3-A-E1 me basé en tolerancia/Levenshtein del material activo: Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n",
+      "justification_from_packet": "Para S30-T3-A-E2 me basé en score/overlap del material activo: score=0.7 con t_high=0.9 t_low=0.5 → 'review'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'name': 0.9, 'email': 1.0})\n",
+      "justification_from_packet": "Para S30-T3-A-E3 me basé en matching/score del material activo: Imprime explicación dict {'name':0.9,'email':1.0}.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "code": "p={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\nprint(find(1)==find(3))\n",
+      "justification_from_packet": "Para S30-T3-B-E1 me basé en prioriza/responde del material activo: Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['match', 'non_match', 'uncertain'])\n",
+      "justification_from_packet": "Para S30-T3-B-E2 me basé en revisión/Levenshtein del material activo: Review queue item: imprime action options match/non_match/uncertain.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ER_only_same_entity')\n",
+      "justification_from_packet": "Para S30-T3-B-E3 me basé en humana/overlap del material activo: Imprime regla de privacidad: 'ER_only_same_entity'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')\n",
+      "justification_from_packet": "Para S30-T4-A-E1 me basé en responde/score del material activo: Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\nprint(matches / n)\n",
+      "justification_from_packet": "Para S30-T4-A-E2 me basé en entidad/responde del material activo: Prevalencia matches: 1 match de 5 pares → 0.2.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('entity_split')\n",
+      "justification_from_packet": "Para S30-T4-A-E3 me basé en Exact/Levenshtein del material activo: Imprime 'entity_split' como política anti-leakage.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))\n",
+      "justification_from_packet": "Para S30-T4-B-E1 me basé en igualdad/overlap del material activo: tp=2 fp=1 → precision 2/3 approx print round 2 decimals.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\nprint(tp/(tp+fn))\n",
+      "justification_from_packet": "Para S30-T4-B-E2 me basé en normalización/score del material activo: tp=2 fn=2 → recall 0.5.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['missing_phone'])\n",
+      "justification_from_packet": "Para S30-T4-B-E3 me basé en Levenshtein/responde del material activo: Slice error: imprime ['missing_phone'] como slice con más errores sintéticos.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "El motor ER de CP-N3-A decide si dos registros son la misma entidad; no etiqueta fraude automático; la teoría del paquete habla de normalización."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Candidate recall del blocking es la fracción de verdaderos matches que sobreviven al filtro de candidatos; la teoría del paquete habla de typos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Scores entre t_low y t_high van a clerical review, no a auto_match ni non_match ciego; la teoría del paquete habla de overlap."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "El split por entidad evita leakage de identidad entre train y test en evaluación del scorer; la teoría del paquete habla de distancia."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:45:40.338795+00:00",
+  "session_started_at": "2026-07-23T16:45:06.333103+00:00",
+  "session_ended_at": "2026-07-23T16:45:40.335971+00:00",
+  "receipt_response_sha256": "2832c83e6bcac2086bf28cd20709645b3ab11dc7edbefe6f41b2151c7b6d8499",
+  "receipt_exercises_sha256": "e13021d9764fdbed084d7555d8d009eee57de366c707fa578f90e12f50b7f834",
+  "receipt_selfcheck_sha256": "ac2282c61ee1025aa33723952ca5b434e33dc49c2714a535a2badf8eb88e1a1e"
+}

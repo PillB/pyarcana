@@ -1,0 +1,446 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 49,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s49-7fd1d6c8c7",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S49-T1-A-E1",
+      "code": "# Explorer · S49-T1-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nmeets_contract = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_DETERMINISTIC_WORKFLOW\"\nprint(\"S49-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «workflow vs agente» («Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable.»), el contrato de S49-T1-A-E1 exige demostrar workflow preferido cuando pasos conocidos y baseline gana. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `KEEP_DETERMINISTIC_WORKFLOW`.",
+      "concepts_used": [
+        "workflow",
+        "preferido",
+        "cuando",
+        "pasos",
+        "conocidos",
+        "baseline",
+        "gana"
+      ],
+      "confidence": 0.791
+    },
+    {
+      "exercise_id": "S49-T1-A-E2",
+      "code": "# Explorer · S49-T1-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'known_steps', 'branch_count', 'tool_choice_uncertain', 'baseline_success', 'agent_success'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])) else \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\ninvalid = {\"case_id\": 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nincomplete = {\"case_id\": 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «workflow vs agente» el paquete pide tres rutas; la teoría subraya: «Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable.». Para S49-T1-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple workflow preferido cuando pasos conocidos y baseline gana, y `KEEP_DETERMINISTIC_WORKFLOW` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "workflow",
+        "preferido",
+        "cuando",
+        "pasos",
+        "conocidos",
+        "baseline",
+        "gana"
+      ],
+      "confidence": 0.885
+    },
+    {
+      "exercise_id": "S49-T1-A-E3",
+      "code": "# Explorer · S49-T1-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'known_steps', 'branch_count', 'tool_choice_uncertain', 'baseline_success', 'agent_success'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RUN_AGENT_BASELINE\"\n    return \"CONTINUE\" if (not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])) else \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\ninvalid = {\"case_id\": 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nincomplete = {\"case_id\": 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «workflow vs agente» («Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable.») separa incertidumbre de breach. En S49-T1-A-E3 la ausencia enruta a `RUN_AGENT_BASELINE`, CONTINUE solo con workflow preferido cuando pasos conocidos y baseline gana, y el adverso a `KEEP_DETERMINISTIC_WORKFLOW`, sin rellenar evidencia en Agentes, herramientas y context engineering.",
+      "concepts_used": [
+        "workflow",
+        "preferido",
+        "cuando",
+        "pasos",
+        "conocidos",
+        "baseline",
+        "gana"
+      ],
+      "confidence": 0.763
+    },
+    {
+      "exercise_id": "S49-T1-B-E1",
+      "code": "# Explorer · S49-T1-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nmeets_contract = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\nstatus = \"PASS\" if meets_contract else \"STOP_AGENT_LOOP\"\nprint(\"S49-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «routing, planner/worker y evaluator–optimizer» («Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto entre roles.»), el contrato de S49-T1-B-E1 exige demostrar ruta válida, plan acotado, outputs completos y evaluación. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `STOP_AGENT_LOOP`.",
+      "concepts_used": [
+        "ruta",
+        "válida",
+        "plan",
+        "acotado",
+        "outputs",
+        "completos",
+        "evaluación"
+      ],
+      "confidence": 0.811
+    },
+    {
+      "exercise_id": "S49-T1-B-E2",
+      "code": "# Explorer · S49-T1-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'route', 'plan_steps', 'max_steps', 'worker_outputs', 'evaluator_pass'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])) else \"STOP_AGENT_LOOP\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\ninvalid = {\"case_id\": 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': False}\nincomplete = {\"case_id\": 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «routing, planner/worker y evaluator–optimizer» el paquete pide tres rutas; la teoría subraya: «Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto entre roles.». Para S49-T1-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple ruta válida, plan acotado, outputs completos y evaluación, y `STOP_AGENT_LOOP` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "ruta",
+        "válida",
+        "plan",
+        "acotado",
+        "outputs",
+        "completos",
+        "evaluación"
+      ],
+      "confidence": 0.755
+    },
+    {
+      "exercise_id": "S49-T1-B-E3",
+      "code": "# Explorer · S49-T1-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'route', 'plan_steps', 'max_steps', 'worker_outputs', 'evaluator_pass'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REPLAN_WITH_BOUNDS\"\n    return \"CONTINUE\" if (not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])) else \"STOP_AGENT_LOOP\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\ninvalid = {\"case_id\": 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': False}\nincomplete = {\"case_id\": 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «routing, planner/worker y evaluator–optimizer» («Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto entre roles.») separa incertidumbre de breach. En S49-T1-B-E3 la ausencia enruta a `REPLAN_WITH_BOUNDS`, CONTINUE solo con ruta válida, plan acotado, outputs completos y evaluación, y el adverso a `STOP_AGENT_LOOP`, sin rellenar evidencia en Agentes, herramientas y context engineering.",
+      "concepts_used": [
+        "ruta",
+        "válida",
+        "plan",
+        "acotado",
+        "outputs",
+        "completos",
+        "evaluación"
+      ],
+      "confidence": 0.729
+    },
+    {
+      "exercise_id": "S49-T2-A-E1",
+      "code": "# Explorer · S49-T2-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nmeets_contract = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_OVERBROAD_TOOL\"\nprint(\"S49-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «funciones de responsabilidad única» («Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede autoridad.»), el contrato de S49-T2-A-E1 exige demostrar una responsabilidad, schema estrecho y error tipado. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `DISABLE_OVERBROAD_TOOL`.",
+      "concepts_used": [
+        "una",
+        "responsabilidad",
+        "schema",
+        "estrecho",
+        "error",
+        "tipado"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S49-T2-A-E2",
+      "code": "# Explorer · S49-T2-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'tool', 'responsibilities', 'schema_fields', 'side_effect', 'typed_errors'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])) else \"DISABLE_OVERBROAD_TOOL\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\ninvalid = {\"case_id\": 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': True, 'typed_errors': True}\nincomplete = {\"case_id\": 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «funciones de responsabilidad única» el paquete pide tres rutas; la teoría subraya: «Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede autoridad.». Para S49-T2-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple una responsabilidad, schema estrecho y error tipado, y `DISABLE_OVERBROAD_TOOL` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "una",
+        "responsabilidad",
+        "schema",
+        "estrecho",
+        "error",
+        "tipado"
+      ],
+      "confidence": 0.822
+    },
+    {
+      "exercise_id": "S49-T2-A-E3",
+      "code": "# Explorer · S49-T2-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'tool', 'responsibilities', 'schema_fields', 'side_effect', 'typed_errors'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SPLIT_TOOL_CONTRACT\"\n    return \"CONTINUE\" if (not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])) else \"DISABLE_OVERBROAD_TOOL\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\ninvalid = {\"case_id\": 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': True, 'typed_errors': True}\nincomplete = {\"case_id\": 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «funciones de responsabilidad única» («Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede autoridad.») separa incertidumbre de breach. En S49-T2-A-E3 la ausencia enruta a `SPLIT_TOOL_CONTRACT`, CONTINUE solo con una responsabilidad, schema estrecho y error tipado, y el adverso a `DISABLE_OVERBROAD_TOOL`, sin rellenar evidencia en Agentes, herramientas y context engineering.",
+      "concepts_used": [
+        "una",
+        "responsabilidad",
+        "schema",
+        "estrecho",
+        "error",
+        "tipado"
+      ],
+      "confidence": 0.732
+    },
+    {
+      "exercise_id": "S49-T2-B-E1",
+      "code": "# Explorer · S49-T2-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\nmeets_contract = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\nstatus = \"PASS\" if meets_contract else \"DENY_TOOL_CALL\"\nprint(\"S49-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «schema, permisos, idempotencia y errores» («Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin filtrar secretos.»), el contrato de S49-T2-B-E1 exige demostrar schema/scope válidos y retry con un solo efecto. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `DENY_TOOL_CALL`.",
+      "concepts_used": [
+        "schema",
+        "scope",
+        "válidos",
+        "retry",
+        "con",
+        "solo",
+        "efecto"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S49-T2-B-E2",
+      "code": "# Explorer · S49-T2-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'schema_valid', 'scope', 'granted', 'idempotency_key', 'attempts', 'effects', 'error_kind'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)) else \"DENY_TOOL_CALL\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\ninvalid = {\"case_id\": 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 120, 'error_kind': 'retryable'}\nincomplete = {\"case_id\": 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «schema, permisos, idempotencia y errores» el paquete pide tres rutas; la teoría subraya: «Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin filtrar secretos.». Para S49-T2-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple schema/scope válidos y retry con un solo efecto, y `DENY_TOOL_CALL` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "schema",
+        "scope",
+        "válidos",
+        "retry",
+        "con",
+        "solo",
+        "efecto"
+      ],
+      "confidence": 0.873
+    },
+    {
+      "exercise_id": "S49-T2-B-E3",
+      "code": "# Explorer · S49-T2-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'schema_valid', 'scope', 'granted', 'idempotency_key', 'attempts', 'effects', 'error_kind'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CLASSIFY_TOOL_ERROR\"\n    return \"CONTINUE\" if (not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)) else \"DENY_TOOL_CALL\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\ninvalid = {\"case_id\": 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 120, 'error_kind': 'retryable'}\nincomplete = {\"case_id\": 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «schema, permisos, idempotencia y errores» («Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin filtrar secretos.») separa incertidumbre de breach. En S49-T2-B-E3 la ausencia enruta a `CLASSIFY_TOOL_ERROR`, CONTINUE solo con schema/scope válidos y retry con un solo efecto, y el adverso a `DENY_TOOL_CALL`, sin rellenar evidencia en Agentes, herramientas y context engineering.",
+      "concepts_used": [
+        "schema",
+        "scope",
+        "válidos",
+        "retry",
+        "con",
+        "solo",
+        "efecto"
+      ],
+      "confidence": 0.786
+    },
+    {
+      "exercise_id": "S49-T3-A-E1",
+      "code": "# Explorer · S49-T3-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\nmeets_contract = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\nstatus = \"PASS\" if meets_contract else \"COMPACT_AND_CHECKPOINT\"\nprint(\"S49-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «contexto mínimo, retrieval JIT y checkpoints» («Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras efectos durables.»), el contrato de S49-T3-A-E1 exige demostrar contexto bajo presupuesto, JIT, provenance y checkpoint. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `COMPACT_AND_CHECKPOINT`.",
+      "concepts_used": [
+        "contexto",
+        "bajo",
+        "presupuesto",
+        "JIT",
+        "provenance",
+        "checkpoint"
+      ],
+      "confidence": 0.724
+    },
+    {
+      "exercise_id": "S49-T3-A-E2",
+      "code": "# Explorer · S49-T3-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'context_tokens', 'max_context_tokens', 'retrieved_just_in_time', 'checkpoint_after_effect', 'provenance'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])) else \"COMPACT_AND_CHECKPOINT\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\ninvalid = {\"case_id\": 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': False, 'provenance': True}\nincomplete = {\"case_id\": 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «contexto mínimo, retrieval JIT y checkpoints» el paquete pide tres rutas; la teoría subraya: «Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras efectos durables.». Para S49-T3-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple contexto bajo presupuesto, JIT, provenance y checkpoint, y `COMPACT_AND_CHECKPOINT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "contexto",
+        "bajo",
+        "presupuesto",
+        "JIT",
+        "provenance",
+        "checkpoint"
+      ],
+      "confidence": 0.843
+    },
+    {
+      "exercise_id": "S49-T3-A-E3",
+      "code": "# Explorer · S49-T3-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'context_tokens', 'max_context_tokens', 'retrieved_just_in_time', 'checkpoint_after_effect', 'provenance'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RETRIEVE_MINIMUM_CONTEXT\"\n    return \"CONTINUE\" if (not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])) else \"COMPACT_AND_CHECKPOINT\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\ninvalid = {\"case_id\": 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': False, 'provenance': True}\nincomplete = {\"case_id\": 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «contexto mínimo, retrieval JIT y checkpoints» («Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras efectos durables.») separa incertidumbre de breach. En S49-T3-A-E3 la ausencia enruta a `RETRIEVE_MINIMUM_CONTEXT`, CONTINUE solo con contexto bajo presupuesto, JIT, provenance y checkpoint, y el adverso a `COMPACT_AND_CHECKPOINT`, sin rellenar evidencia en Agentes, herramientas y context engineering.",
+      "concepts_used": [
+        "contexto",
+        "bajo",
+        "presupuesto",
+        "JIT",
+        "provenance",
+        "checkpoint"
+      ],
+      "confidence": 0.813
+    },
+    {
+      "exercise_id": "S49-T3-B-E1",
+      "code": "# Explorer · S49-T3-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\nmeets_contract = (not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"RESTORE_LAST_KNOWN_GOOD\"\nprint(\"S49-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «memoria, compaction y last-known-good» («Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good permite volver a estado seguro.»), el contrato de S49-T3-B-E1 exige demostrar compaction conserva restricciones, retención y LKG. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `RESTORE_LAST_KNOWN_GOOD`.",
+      "concepts_used": [
+        "compaction",
+        "conserva",
+        "restricciones",
+        "retención",
+        "LKG"
+      ],
+      "confidence": 0.785
+    },
+    {
+      "exercise_id": "S49-T3-B-E2",
+      "code": "# Explorer · S49-T3-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'facts_before', 'facts_after', 'memory_retention_days', 'last_known_good'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])) and not record.get(\"__adv\")) else \"RESTORE_LAST_KNOWN_GOOD\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\ninvalid = {\"case_id\": 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7', '__adv': True}\nincomplete = {\"case_id\": 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «memoria, compaction y last-known-good» el paquete pide tres rutas; la teoría subraya: «Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good permite volver a estado seguro.». Para S49-T3-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple compaction conserva restricciones, retención y LKG, y `RESTORE_LAST_KNOWN_GOOD` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "compaction",
+        "conserva",
+        "restricciones",
+        "retención",
+        "LKG"
+      ],
+      "confidence": 0.821
+    },
+    {
+      "exercise_id": "S49-T3-B-E3",
+      "code": "# Explorer · S49-T3-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'facts_before', 'facts_after', 'memory_retention_days', 'last_known_good'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_COMPACTION_LOSS\"\n    return \"CONTINUE\" if ((not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])) and not record.get(\"__adv\")) else \"RESTORE_LAST_KNOWN_GOOD\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\ninvalid = {\"case_id\": 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7', '__adv': True}\nincomplete = {\"case_id\": 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «memoria, compaction y last-known-good» («Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good permite volver a estado seguro.») separa incertidumbre de breach. En S49-T3-B-E3 la ausencia enruta a `REVIEW_COMPACTION_LOSS`, CONTINUE solo con compaction conserva restricciones, retención y LKG, y el adverso a `RESTORE_LAST_KNOWN_GOOD`, sin rellenar evidencia en Agentes, herramientas y context engineering.",
+      "concepts_used": [
+        "compaction",
+        "conserva",
+        "restricciones",
+        "retención",
+        "LKG"
+      ],
+      "confidence": 0.727
+    },
+    {
+      "exercise_id": "S49-T4-A-E1",
+      "code": "# Explorer · S49-T4-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\nmeets_contract = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\nstatus = \"PASS\" if meets_contract else \"STOP_BUDGET_EXHAUSTED\"\nprint(\"S49-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «stopping conditions y budgets» («Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explícito, no continuación infinita.»), el contrato de S49-T4-A-E1 exige demostrar meta lograda dentro de pasos, tokens y costo. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `STOP_BUDGET_EXHAUSTED`.",
+      "concepts_used": [
+        "meta",
+        "lograda",
+        "dentro",
+        "pasos",
+        "tokens",
+        "costo"
+      ],
+      "confidence": 0.829
+    },
+    {
+      "exercise_id": "S49-T4-A-E2",
+      "code": "# Explorer · S49-T4-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'goal_met', 'steps', 'max_steps', 'tokens', 'max_tokens', 'cost_pen', 'max_cost_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])) else \"STOP_BUDGET_EXHAUSTED\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\ninvalid = {\"case_id\": 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 1.8, 'max_cost_pen': 0.06}\nincomplete = {\"case_id\": 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «stopping conditions y budgets» el paquete pide tres rutas; la teoría subraya: «Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explícito, no continuación infinita.». Para S49-T4-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple meta lograda dentro de pasos, tokens y costo, y `STOP_BUDGET_EXHAUSTED` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "meta",
+        "lograda",
+        "dentro",
+        "pasos",
+        "tokens",
+        "costo"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S49-T4-A-E3",
+      "code": "# Explorer · S49-T4-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'goal_met', 'steps', 'max_steps', 'tokens', 'max_tokens', 'cost_pen', 'max_cost_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ASK_FOR_SCOPE_REDUCTION\"\n    return \"CONTINUE\" if (not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])) else \"STOP_BUDGET_EXHAUSTED\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\ninvalid = {\"case_id\": 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 1.8, 'max_cost_pen': 0.06}\nincomplete = {\"case_id\": 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «stopping conditions y budgets» («Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explícito, no continuación infinita.») separa incertidumbre de breach. En S49-T4-A-E3 la ausencia enruta a `ASK_FOR_SCOPE_REDUCTION`, CONTINUE solo con meta lograda dentro de pasos, tokens y costo, y el adverso a `STOP_BUDGET_EXHAUSTED`, sin rellenar evidencia en Agentes, herramientas y context engineering.",
+      "concepts_used": [
+        "meta",
+        "lograda",
+        "dentro",
+        "pasos",
+        "tokens",
+        "costo"
+      ],
+      "confidence": 0.799
+    },
+    {
+      "exercise_id": "S49-T4-B-E1",
+      "code": "# Explorer · S49-T4-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nmeets_contract = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\nstatus = \"PASS\" if meets_contract else \"SANDBOX_AND_STOP\"\nprint(\"S49-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «sandbox, human approval y recuperación» («Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con efecto.»), el contrato de S49-T4-B-E1 exige demostrar sandbox mínimo, aprobación y reanudación sin repetir efectos. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `SANDBOX_AND_STOP`.",
+      "concepts_used": [
+        "sandbox",
+        "mínimo",
+        "aprobación",
+        "reanudación",
+        "sin",
+        "repetir",
+        "efectos"
+      ],
+      "confidence": 0.775
+    },
+    {
+      "exercise_id": "S49-T4-B-E2",
+      "code": "# Explorer · S49-T4-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'network', 'filesystem', 'sensitive_action', 'approval_required', 'approval_present', 'checkpoint', 'replayed_effects'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)) else \"SANDBOX_AND_STOP\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\ninvalid = {\"case_id\": 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': False, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nincomplete = {\"case_id\": 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «sandbox, human approval y recuperación» el paquete pide tres rutas; la teoría subraya: «Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con efecto.». Para S49-T4-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple sandbox mínimo, aprobación y reanudación sin repetir efectos, y `SANDBOX_AND_STOP` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "sandbox",
+        "mínimo",
+        "aprobación",
+        "reanudación",
+        "sin",
+        "repetir",
+        "efectos"
+      ],
+      "confidence": 0.893
+    },
+    {
+      "exercise_id": "S49-T4-B-E3",
+      "code": "# Explorer · S49-T4-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'network', 'filesystem', 'sensitive_action', 'approval_required', 'approval_present', 'checkpoint', 'replayed_effects'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_HUMAN_APPROVAL\"\n    return \"CONTINUE\" if (not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)) else \"SANDBOX_AND_STOP\"\n\nvalid = {\"case_id\": 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\ninvalid = {\"case_id\": 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': False, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nincomplete = {\"case_id\": 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «sandbox, human approval y recuperación» («Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con efecto.») separa incertidumbre de breach. En S49-T4-B-E3 la ausencia enruta a `REQUEST_HUMAN_APPROVAL`, CONTINUE solo con sandbox mínimo, aprobación y reanudación sin repetir efectos, y el adverso a `SANDBOX_AND_STOP`, sin rellenar evidencia en Agentes, herramientas y context engineering.",
+      "concepts_used": [
+        "sandbox",
+        "mínimo",
+        "aprobación",
+        "reanudación",
+        "sin",
+        "repetir",
+        "efectos"
+      ],
+      "confidence": 0.776
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Q0: elijo «ADR workflow/agente con baseline» anclado en «workflow vs agente» («Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con benefic»), frente a «¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.875,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Q1: elijo «emitir STOP_AGENT y conservar evidencia» anclado en «routing, planner/worker y evaluator–optimizer» («Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo a»), frente a «Si ocurre la condición de error de S49, ¿qué respuesta preserva seguridad y auditabilidad?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.897,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Q2: elijo «cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible» anclado en «funciones de responsabilidad única» («Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no »), frente a «¿Cuál resultado demuestra el gate `CP-N4-C · agente acotado con aprobación humana`?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.811,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Q3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» anclado en «schema, permisos, idempotencia y errores» («Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/term»), frente a «¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.842,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:45:45.564664+00:00",
+  "session_started_at": "2026-07-23T16:52:48.944866+00:00",
+  "session_ended_at": "2026-07-23T16:53:22.546744+00:00",
+  "receipt_response_sha256": "a0ef91c1e260e8fee18af553cca62eb8c3bfab2c57622e90dc4dbdf3cb138871",
+  "receipt_exercises_sha256": "f4c79b6a57a9127e66585cbc8fcdbeac71e0f7b4a8cf6ce17ca5e9bf61632b86",
+  "receipt_selfcheck_sha256": "907aca971967e636199c328d66ba5175f2e753efc1678bf6bc273186f9339ed8"
+}

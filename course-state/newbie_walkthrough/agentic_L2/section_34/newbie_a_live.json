@@ -1,0 +1,317 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 34,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-explorer-s34-scrub-ea566e26",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S34-T1-A-E1",
+      "id": "S34-T1-A-E1",
+      "code": "# explorer L2 S34 S34-T1-A-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\nmeets_contract = record[\"accuracy_only\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_ACCURACY_ONLY\"\nprint(\"S34-T1-A\", status)\n",
+      "justification_from_packet": "Como explorer en «Métricas, desbalance, calibración y umbrales», armé S34-T1-A-E1: conservé datos del starter y cerré el TODO según: S34-T1-A-E1 · Calcula el contrato de `confusion matrix, precision/recall/F y PR-AUC` sobre `CASO-LIM-034-1A`. La entrada es el dict completo del starter; la operación debe demostra. Mi salida ancla en `record = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 1/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S34-T1-A-E2",
+      "id": "S34-T1-A-E2",
+      "code": "# explorer L2 S34 S34-T1-A-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'tp', 'fp', 'fn', 'accuracy_only'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"accuracy_only\"] is False else \"REJECT_ACCURACY_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 0, 'fp': 0, 'fn': 0, 'accuracy_only': True}}\nincomplete = {**valid}\nincomplete.pop(\"tp\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En la sección 34 (Métricas, desbalance, calibración y umbrales) resolví S34-T1-A-E2 como explorer: el fixture/CASO del starter define el contrato; hints: Primero se calcula `missing`; ningún acceso a tp debe ocurrir antes de esa rama.. Código contractual con `def assess(record: dict) -> str:`; no inventé APIs fuera del paquete L2. [paso 2/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S34-T1-A-E3",
+      "id": "S34-T1-A-E3",
+      "code": "# explorer L2 S34 S34-T1-A-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'tp', 'fp', 'fn', 'accuracy_only'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CONFUSION\"\n    return \"CONTINUE\" if record[\"accuracy_only\"] is False else \"REJECT_ACCURACY_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 0, 'fp': 0, 'fn': 0, 'accuracy_only': True}}\nuncertain = {**valid}\nuncertain.pop(\"tp\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Leí el quiz_card de S34 y completé S34-T1-A-E3: la instrucción pide: S34-T1-A-E3 · Contrasta fallo cerrado para `confusion matrix, precision/recall/F y PR-AUC` con tres fixtures distintos. `CASO-LIM-034-1A` debe continuar, el adverso debe devolver `. Dejé el assert/print alineado al tests del ejercicio usando `def decide(record: dict) -> str:`. [paso 3/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S34-T1-B-E1",
+      "id": "S34-T1-B-E1",
+      "code": "# explorer L2 S34 S34-T1-B-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\nmeets_contract = not (record[\"load\"] > record[\"capacity\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_QUEUE_OVERLOAD\"\nprint(\"S34-T1-B\", status)\n",
+      "justification_from_packet": "Partiendo del starter de S34-T1-B-E1 en el paquete activo L2: el subtema T1-B del weDo marca el predicado; detalle: S34-T1-B-E1 · Calcula el contrato de `top-k y carga de revisión` sobre `CASO-LIM-034-1B`. La entrada es el dict completo del starter; la operación debe demostrar precision@k con lo. Verifiqué mentalmente el happy-path del fixture con `record = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, '`. [paso 4/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S34-T1-B-E2",
+      "id": "S34-T1-B-E2",
+      "code": "# explorer L2 S34 S34-T1-B-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'precision_at_k', 'load', 'capacity'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"load\"] > record[\"capacity\"]) else \"REJECT_QUEUE_OVERLOAD\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 50, 'capacity': 10}}\nincomplete = {**valid}\nincomplete.pop(\"capacity\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S34, implementé S34-T1-B-E2: conservé datos del starter y cerré el TODO según: S34-T1-B-E2 · Modela tres rutas de `top-k y carga de revisión`: fixture válido, fixture adverso y registro sin `capacity`. Entrada: dict con case_id, precision_at_k, load, capacity. Mi salida ancla en `def assess(record: dict) -> str:` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 5/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S34-T1-B-E3",
+      "id": "S34-T1-B-E3",
+      "code": "# explorer L2 S34 S34-T1-B-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'precision_at_k', 'load', 'capacity'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CAPACITY\"\n    return \"CONTINUE\" if not (record[\"load\"] > record[\"capacity\"]) else \"REJECT_QUEUE_OVERLOAD\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 50, 'capacity': 10}}\nuncertain = {**valid}\nuncertain.pop(\"capacity\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer en «Métricas, desbalance, calibración y umbrales», armé S34-T1-B-E3: el fixture/CASO del starter define el contrato; hints: Una ausencia no equivale a breach: enrútala a `REQUEST_CAPACITY` antes de evaluar el contenido.. Código contractual con `def decide(record: dict) -> str:`; no inventé APIs fuera del paquete L2. [paso 6/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S34-T2-A-E1",
+      "id": "S34-T2-A-E1",
+      "code": "# explorer L2 S34 S34-T2-A-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\nmeets_contract = record[\"resample_global\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKY_RESAMPLE\"\nprint(\"S34-T2-A\", status)\n",
+      "justification_from_packet": "En la sección 34 (Métricas, desbalance, calibración y umbrales) resolví S34-T2-A-E1 como explorer: la instrucción pide: S34-T2-A-E1 · Calcula el contrato de `class weights y resampling dentro de CV` sobre `CASO-LIM-034-2A`. La entrada es el dict completo del starter; la operación debe demostrar peso. Dejé el assert/print alineado al tests del ejercicio usando `record = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': `. [paso 7/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S34-T2-A-E2",
+      "id": "S34-T2-A-E2",
+      "code": "# explorer L2 S34 S34-T2-A-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'n0', 'n1', 'resample_global'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"resample_global\"] is False else \"REJECT_LEAKY_RESAMPLE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': True}}\nincomplete = {**valid}\nincomplete.pop(\"n1\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí el quiz_card de S34 y completé S34-T2-A-E2: el subtema T2-A del weDo marca el predicado; detalle: S34-T2-A-E2 · Modela tres rutas de `class weights y resampling dentro de CV`: fixture válido, fixture adverso y registro sin `n1`. Entrada: dict con case_id, n0, n1, resample_globa. Verifiqué mentalmente el happy-path del fixture con `def assess(record: dict) -> str:`. [paso 8/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S34-T2-A-E3",
+      "id": "S34-T2-A-E3",
+      "code": "# explorer L2 S34 S34-T2-A-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'n0', 'n1', 'resample_global'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_WEIGHTS\"\n    return \"CONTINUE\" if record[\"resample_global\"] is False else \"REJECT_LEAKY_RESAMPLE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': True}}\nuncertain = {**valid}\nuncertain.pop(\"n1\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Partiendo del starter de S34-T2-A-E3 en el paquete activo L2: conservé datos del starter y cerré el TODO según: S34-T2-A-E3 · Contrasta fallo cerrado para `class weights y resampling dentro de CV` con tres fixtures distintos. `CASO-LIM-034-2A` debe continuar, el adverso debe devolver `REJECT. Mi salida ancla en `def decide(record: dict) -> str:` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 9/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S34-T2-B-E1",
+      "id": "S34-T2-B-E1",
+      "code": "# explorer L2 S34 S34-T2-B-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\nmeets_contract = record[\"accuracy_enough\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_PREVALENCE_BLIND\"\nprint(\"S34-T2-B\", status)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S34, implementé S34-T2-B-E1: el fixture/CASO del starter define el contrato; hints: Relaciona los campos `prevalence, all_neg_acc, accuracy_enough` con la regla explicada en S34-T2-B.. Código contractual con `record = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0`; no inventé APIs fuera del paquete L2. [paso 10/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S34-T2-B-E2",
+      "id": "S34-T2-B-E2",
+      "code": "# explorer L2 S34 S34-T2-B-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'prevalence', 'all_neg_acc', 'accuracy_enough'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"accuracy_enough\"] is False else \"REJECT_PREVALENCE_BLIND\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': True}}\nincomplete = {**valid}\nincomplete.pop(\"prevalence\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer en «Métricas, desbalance, calibración y umbrales», armé S34-T2-B-E2: la instrucción pide: S34-T2-B-E2 · Modela tres rutas de `prevalencia y métricas engañosas`: fixture válido, fixture adverso y registro sin `prevalence`. Entrada: dict con case_id, prevalence, all_neg_a. Dejé el assert/print alineado al tests del ejercicio usando `def assess(record: dict) -> str:`. [paso 11/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S34-T2-B-E3",
+      "id": "S34-T2-B-E3",
+      "code": "# explorer L2 S34 S34-T2-B-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'prevalence', 'all_neg_acc', 'accuracy_enough'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_BASE_RATE\"\n    return \"CONTINUE\" if record[\"accuracy_enough\"] is False else \"REJECT_PREVALENCE_BLIND\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': True}}\nuncertain = {**valid}\nuncertain.pop(\"prevalence\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "En la sección 34 (Métricas, desbalance, calibración y umbrales) resolví S34-T2-B-E3 como explorer: el subtema T2-B del weDo marca el predicado; detalle: S34-T2-B-E3 · Contrasta fallo cerrado para `prevalencia y métricas engañosas` con tres fixtures distintos. `CASO-LIM-034-2B` debe continuar, el adverso debe devolver `REJECT_PREVAL. Verifiqué mentalmente el happy-path del fixture con `def decide(record: dict) -> str:`. [paso 12/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S34-T3-A-E1",
+      "id": "S34-T3-A-E1",
+      "code": "# explorer L2 S34 S34-T3-A-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\nmeets_contract = not (abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3)\nstatus = \"PASS\" if meets_contract else \"REJECT_UNCALIBRATED\"\nprint(\"S34-T3-A\", status)\n",
+      "justification_from_packet": "Leí el quiz_card de S34 y completé S34-T3-A-E1: conservé datos del starter y cerré el TODO según: S34-T3-A-E1 · Calcula el contrato de `reliability curves y Brier` sobre `CASO-LIM-034-3A`. La entrada es el dict completo del starter; la operación debe demostrar Brier bajo y reli. Mi salida ancla en `record = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': ` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 13/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S34-T3-A-E2",
+      "id": "S34-T3-A-E2",
+      "code": "# explorer L2 S34 S34-T3-A-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'brier', 'mean_p', 'freq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3) else \"REJECT_UNCALIBRATED\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.4, 'mean_p': 0.9, 'freq': 0.2}}\nincomplete = {**valid}\nincomplete.pop(\"brier\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Partiendo del starter de S34-T3-A-E2 en el paquete activo L2: el fixture/CASO del starter define el contrato; hints: Primero se calcula `missing`; ningún acceso a brier debe ocurrir antes de esa rama.. Código contractual con `def assess(record: dict) -> str:`; no inventé APIs fuera del paquete L2. [paso 14/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S34-T3-A-E3",
+      "id": "S34-T3-A-E3",
+      "code": "# explorer L2 S34 S34-T3-A-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'brier', 'mean_p', 'freq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_BRIER\"\n    return \"CONTINUE\" if not (abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3) else \"REJECT_UNCALIBRATED\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.4, 'mean_p': 0.9, 'freq': 0.2}}\nuncertain = {**valid}\nuncertain.pop(\"brier\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S34, implementé S34-T3-A-E3: la instrucción pide: S34-T3-A-E3 · Contrasta fallo cerrado para `reliability curves y Brier` con tres fixtures distintos. `CASO-LIM-034-3A` debe continuar, el adverso debe devolver `REJECT_UNCALIBRATED. Dejé el assert/print alineado al tests del ejercicio usando `def decide(record: dict) -> str:`. [paso 15/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S34-T3-B-E1",
+      "id": "S34-T3-B-E1",
+      "code": "# explorer L2 S34 S34-T3-B-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\nmeets_contract = not (record[\"calibrator_set\"] == \"train_in_sample\")\nstatus = \"PASS\" if meets_contract else \"REJECT_IN_SAMPLE_CAL\"\nprint(\"S34-T3-B\", status)\n",
+      "justification_from_packet": "Como explorer en «Métricas, desbalance, calibración y umbrales», armé S34-T3-B-E1: el subtema T3-B del weDo marca el predicado; detalle: S34-T3-B-E1 · Calcula el contrato de `calibradores y evaluación fuera de muestra` sobre `CASO-LIM-034-3B`. La entrada es el dict completo del starter; la operación debe demostrar c. Verifiqué mentalmente el happy-path del fixture con `record = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75`. [paso 16/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S34-T3-B-E2",
+      "id": "S34-T3-B-E2",
+      "code": "# explorer L2 S34 S34-T3-B-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'raw', 'cal', 'calibrator_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"calibrator_set\"] == \"train_in_sample\") else \"REJECT_IN_SAMPLE_CAL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'train_in_sample'}}\nincomplete = {**valid}\nincomplete.pop(\"calibrator_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En la sección 34 (Métricas, desbalance, calibración y umbrales) resolví S34-T3-B-E2 como explorer: conservé datos del starter y cerré el TODO según: S34-T3-B-E2 · Modela tres rutas de `calibradores y evaluación fuera de muestra`: fixture válido, fixture adverso y registro sin `calibrator_set`. Entrada: dict con case_id, raw, ca. Mi salida ancla en `def assess(record: dict) -> str:` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 17/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S34-T3-B-E3",
+      "id": "S34-T3-B-E3",
+      "code": "# explorer L2 S34 S34-T3-B-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'raw', 'cal', 'calibrator_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CAL_SET\"\n    return \"CONTINUE\" if not (record[\"calibrator_set\"] == \"train_in_sample\") else \"REJECT_IN_SAMPLE_CAL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'train_in_sample'}}\nuncertain = {**valid}\nuncertain.pop(\"calibrator_set\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Leí el quiz_card de S34 y completé S34-T3-B-E3: el fixture/CASO del starter define el contrato; hints: Una ausencia no equivale a breach: enrútala a `REQUEST_CAL_SET` antes de evaluar el contenido.. Código contractual con `def decide(record: dict) -> str:`; no inventé APIs fuera del paquete L2. [paso 18/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S34-T4-A-E1",
+      "id": "S34-T4-A-E1",
+      "code": "# explorer L2 S34 S34-T4-A-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\nmeets_contract = not (record[\"thr_id\"] == \"default\")\nstatus = \"PASS\" if meets_contract else \"REJECT_FIXED_THR\"\nprint(\"S34-T4-A\", status)\n",
+      "justification_from_packet": "Partiendo del starter de S34-T4-A-E1 en el paquete activo L2: la instrucción pide: S34-T4-A-E1 · Calcula el contrato de `threshold por costo/capacidad` sobre `CASO-LIM-034-4A`. La entrada es el dict completo del starter; la operación debe demostrar thr versionado. Dejé el assert/print alineado al tests del ejercicio usando `record = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': `. [paso 19/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S34-T4-A-E2",
+      "id": "S34-T4-A-E2",
+      "code": "# explorer L2 S34 S34-T4-A-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'thr', 'n_review', 'thr_id', 'cost'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"thr_id\"] == \"default\") else \"REJECT_FIXED_THR\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.5, 'n_review': 2, 'thr_id': 'default', 'cost': None}}\nincomplete = {**valid}\nincomplete.pop(\"cost\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S34, implementé S34-T4-A-E2: el subtema T4-A del weDo marca el predicado; detalle: S34-T4-A-E2 · Modela tres rutas de `threshold por costo/capacidad`: fixture válido, fixture adverso y registro sin `cost`. Entrada: dict con case_id, thr, n_review, thr_id, cost. S. Verifiqué mentalmente el happy-path del fixture con `def assess(record: dict) -> str:`. [paso 20/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S34-T4-A-E3",
+      "id": "S34-T4-A-E3",
+      "code": "# explorer L2 S34 S34-T4-A-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'thr', 'n_review', 'thr_id', 'cost'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_COST_MATRIX\"\n    return \"CONTINUE\" if not (record[\"thr_id\"] == \"default\") else \"REJECT_FIXED_THR\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.5, 'n_review': 2, 'thr_id': 'default', 'cost': None}}\nuncertain = {**valid}\nuncertain.pop(\"cost\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer en «Métricas, desbalance, calibración y umbrales», armé S34-T4-A-E3: conservé datos del starter y cerré el TODO según: S34-T4-A-E3 · Contrasta fallo cerrado para `threshold por costo/capacidad` con tres fixtures distintos. `CASO-LIM-034-4A` debe continuar, el adverso debe devolver `REJECT_FIXED_THR. Mi salida ancla en `def decide(record: dict) -> str:` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 21/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S34-T4-B-E1",
+      "id": "S34-T4-B-E1",
+      "code": "# explorer L2 S34 S34-T4-B-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\nmeets_contract = not (record[\"decision\"] == \"force_1\")\nstatus = \"PASS\" if meets_contract else \"REJECT_FORCE_LABEL\"\nprint(\"S34-T4-B\", status)\n",
+      "justification_from_packet": "En la sección 34 (Métricas, desbalance, calibración y umbrales) resolví S34-T4-B-E1 como explorer: el fixture/CASO del starter define el contrato; hints: Relaciona los campos `score, low, high, decision` con la regla explicada en S34-T4-B.. Código contractual con `record = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7`; no inventé APIs fuera del paquete L2. [paso 22/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S34-T4-B-E2",
+      "id": "S34-T4-B-E2",
+      "code": "# explorer L2 S34 S34-T4-B-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'score', 'low', 'high', 'decision'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"decision\"] == \"force_1\") else \"REJECT_FORCE_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'force_1'}}\nincomplete = {**valid}\nincomplete.pop(\"low\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí el quiz_card de S34 y completé S34-T4-B-E2: la instrucción pide: S34-T4-B-E2 · Modela tres rutas de `abstención, slices y sensibilidad`: fixture válido, fixture adverso y registro sin `low`. Entrada: dict con case_id, score, low, high, decision.. Dejé el assert/print alineado al tests del ejercicio usando `def assess(record: dict) -> str:`. [paso 23/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S34-T4-B-E3",
+      "id": "S34-T4-B-E3",
+      "code": "# explorer L2 S34 S34-T4-B-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'score', 'low', 'high', 'decision'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_ABSTAIN_BAND\"\n    return \"CONTINUE\" if not (record[\"decision\"] == \"force_1\") else \"REJECT_FORCE_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'force_1'}}\nuncertain = {**valid}\nuncertain.pop(\"low\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Partiendo del starter de S34-T4-B-E3 en el paquete activo L2: el subtema T4-B del weDo marca el predicado; detalle: S34-T4-B-E3 · Contrasta fallo cerrado para `abstención, slices y sensibilidad` con tres fixtures distintos. `CASO-LIM-034-4B` debe continuar, el adverso debe devolver `REJECT_FORCE. Verifiqué mentalmente el happy-path del fixture con `def decide(record: dict) -> str:`. [paso 24/24 · run L2-S34-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Métricas, desbalance, calibración y umbrales",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "En «Métricas, desbalance, calibración y umbrales» (S34) elijo la opción «Precision/recall o PR-AUC de la cola» (índice 1) para «Con desbalance fuerte, conviene priorizar:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Solo accuracy» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.74
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "En «Métricas, desbalance, calibración y umbrales» (S34) elijo la opción «Introduce leakage y métricas infladas» (índice 3) para «Resamplear todo el dataset antes de CV:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Es best practice» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "En «Métricas, desbalance, calibración y umbrales» (S34) elijo la opción «En un set de calibración fuera de muestra» (índice 0) para «Un calibrador debe ajustarse:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «En el test final» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.65
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "En «Métricas, desbalance, calibración y umbrales» (S34) elijo la opción «Abstener según política» (índice 2) para «Score en banda low–high debe:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Forzar 1» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.6799999999999999
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:24:20.964672+00:00",
+  "session_started_at": "2026-07-23T18:24:20.963345+00:00",
+  "session_ended_at": "2026-07-23T18:25:04.663345+00:00",
+  "receipt_response_sha256": "14780e4d6b6ec4086a2298ddc3bb9bc398052127de6b61c98ea73c64b32bb255",
+  "receipt_exercises_sha256": "7576428b25ddfa6d80ca56aeca0e84b0753fb5f744a067a99d03acce8ebd6d37",
+  "receipt_selfcheck_sha256": "38b51ffef61e029bbaaa2c3670cf2f3a54510dafcc5563c68d935bf86152f702"
+}

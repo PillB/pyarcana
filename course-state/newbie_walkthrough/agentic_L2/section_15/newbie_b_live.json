@@ -1,0 +1,261 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-b-3a55d0c91e-s15",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "id": "S15-T1-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({'cliente_id':['C001','C002'],'score':[0.5,0.8]})\ndf=df.set_index('cliente_id')\nprint(df.index.tolist())\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T1-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Crea un. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "id": "S15-T1-A-E2",
+      "code": "import pandas as pd\ns=pd.Series([0.1,0.9], index=['C001','C002'], name='score')\nprint(s['C002'])\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T1-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "id": "S15-T1-A-E3",
+      "code": "import pandas as pd\ns1=pd.Series([1.0,2.0], index=['C001','C002'])\ns2=pd.Series([0.5], index=['C002'])\nprint(s1.add(s2, fill_value=0).sort_index().to_dict())\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T1-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "id": "S15-T1-B-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf=pd.read_csv(StringIO('a,b\\n1,NA\\n2,3\\n'), na_values=['NA'])\nprint(int(df['b'].isna().sum()))\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T1-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Lee un . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "id": "S15-T1-B-E2",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf=pd.read_csv(StringIO('fecha,v\\n2024-01-01,1\\n'), parse_dates=['fecha'])\nprint(str(df['fecha'].dtype))\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T1-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "id": "S15-T1-B-E3",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf=pd.read_csv(StringIO('cliente_id,monto,extra\\nC001,1,x\\n'), usecols=['cliente_id','monto'])\nprint(df.columns.tolist())\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T1-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "id": "S15-T2-A-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'cliente_id':['C001','C002'],'score':[0.4,0.9]})\nprint(df.loc[df['score']>=0.5,'cliente_id'].tolist())\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T2-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Con df . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "id": "S15-T2-A-E2",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'score':[1.0,2.0]})\nprint(df.assign(doble=df['score']*2)['doble'].tolist())\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T2-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "id": "S15-T2-A-E3",
+      "code": "import pandas as pd\ndf=pd.DataFrame([[1,2],[3,4]])\nprint(df.iloc[1,0])\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T2-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "id": "S15-T2-B-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'score':[0.2,0.9]})\ndf['flag']=''\ndf.loc[df['score']<0.5,'flag']='x'\nprint(df['flag'].tolist())\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T2-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Asigna . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "id": "S15-T2-B-E2",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'score':[0.2,0.9,0.7]})\nsub=df.loc[df['score']>0.5].copy()\nsub['ok']=True\nprint(sub['ok'].tolist())\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T2-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "id": "S15-T2-B-E3",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'score':[1.0,2.0]})\ncp=df.copy()\ncp.loc[0,'score']=99.0\nprint(df['score'].tolist())\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T2-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "id": "S15-T3-A-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'region':['lima','Lima']})\ndf['region']=df['region'].str.title().astype('category')\nprint(df['region'].dtype.name)\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T3-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Convier. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "id": "S15-T3-A-E2",
+      "code": "import pandas as pd\ns=pd.to_numeric(pd.Series(['1','a','3']), errors='coerce')\nprint([float(x) if pd.notna(x) else float('nan') for x in s])\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T3-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "id": "S15-T3-A-E3",
+      "code": "import pandas as pd\ns=pd.to_datetime(pd.Series(['2024-01-01','no-fecha']), errors='coerce')\nprint(int(s.isna().sum()))\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T3-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "id": "S15-T3-B-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'monto':['1','x']})\nbefore=df['monto'].isna().sum()\nnum=pd.to_numeric(df['monto'], errors='coerce')\nprint(int(num.isna().sum()-before))\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T3-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Aplica . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "id": "S15-T3-B-E2",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'cliente_id':['C001']})\nschema={'monto':'float64'}\ntry:\n    for col in schema:\n        if col not in df.columns:\n            raise KeyError(col)\nexcept KeyError:\n    print('missing')\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T3-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "id": "S15-T3-B-E3",
+      "code": "import pandas as pd\ns=pd.Series(['C001']).astype('string')\nprint(str(s.dtype))\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T3-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "id": "S15-T4-A-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf=pd.DataFrame({'a':[1],'b':[2]})\nbuf=StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\nprint(pd.read_csv(buf).columns.tolist())\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T4-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Exporta. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "id": "S15-T4-A-E2",
+      "code": "import pandas as pd\nfrom io import BytesIO\ndf=pd.DataFrame({'a':[1]})\nbio=BytesIO()\ndf.to_excel(bio, index=False, engine='openpyxl')\nprint(len(bio.getvalue())>0)\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T4-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "id": "S15-T4-A-E3",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'cliente_id':['C001'],'monto':[1.0]})\nprint({c: str(df[c].dtype) for c in sorted(df.columns)})\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T4-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "id": "S15-T4-B-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'a':['Lima','Cusco']})\nprint(int(df.memory_usage(deep=True).sum())>0)\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T4-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Calcula. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "id": "S15-T4-B-E2",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'a':[1,2,3]})\nmanifest={'rows':len(df),'columns':df.columns.tolist()}\nprint(manifest['rows'], manifest['columns'])\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T4-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "id": "S15-T4-B-E3",
+      "code": "import pandas as pd, hashlib\ndf=pd.DataFrame({'a':[1]})\nh=hashlib.sha1(df.to_csv(index=False).encode()).hexdigest()[:8]\nprint(h)\n",
+      "justification_from_packet": "Como skeptic en Pandas: ingesta, selección y tipos, crucé S15-T4-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd, hashlib… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Autochequeo skeptic S15 «¿Qué método de selección usa etiquetas de index/columnas?»: la respuesta «loc» es la única coherente con el vocabulario de Pandas: ingesta, selección y tipos en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Autochequeo skeptic S15 «SettingWithCopyWarning se relaciona con:»: la respuesta «Asignación sobre slices que pueden ser view/copy (chained assignment)» es la única coherente con el vocabulario de Pandas: ingesta, selección y tipos en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Autochequeo skeptic S15 «errors='coerce' en to_numeric:»: la respuesta «Convierte inválidos a NaN» es la única coherente con el vocabulario de Pandas: ingesta, selección y tipos en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Autochequeo skeptic S15 «Un manifest de export debería incluir al menos:»: la respuesta «Filas, columnas y provenance/hash del artefacto» es la única coherente con el vocabulario de Pandas: ingesta, selección y tipos en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:22:14.715428+00:00",
+  "session_started_at": "2026-07-23T17:24:14.705256Z",
+  "session_ended_at": "2026-07-23T17:24:50.980487Z",
+  "receipt_response_sha256": "d1047305acf5251ee0e58d4668bfd31e1d49424a9653e18450d04cbeafc68282",
+  "receipt_exercises_sha256": "08ded2f269be5dbc69257bd379acc627ee26b4aad24e010600363952255c8ab9",
+  "receipt_selfcheck_sha256": "e0c8484311bf256525d9e9774bbec3cc6ff7694ac9677b698aa1a40d7a1f675e"
+}

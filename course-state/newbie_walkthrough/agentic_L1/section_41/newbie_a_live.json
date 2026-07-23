@@ -1,0 +1,419 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 41,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s41-3a4d663455",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S41-T1-A-E1",
+      "code": "# Explorer · S41-T1-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-ARE-041-1A', 'method': 'POST', 'resource': '/v1/jobs', 'created': True, 'status': 201}\nmeets_contract = (not (record[\"status\"] == 200 and record[\"method\"] == \"GET\")) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"RETURN_CORRECT_HTTP_STATUS\"\nprint(\"S41-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «recursos, métodos y status» («Modela recursos con sustantivos, usa métodos HTTP por semántica y devuelve status que separan creación, validación, ausencia, conflicto y fallo interno.»), el contrato de S41-T1-A-E1 exige demostrar método, recurso y 201 coherentes. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `RETURN_CORRECT_HTTP_STATUS`.",
+      "concepts_used": [
+        "método",
+        "recurso",
+        "201",
+        "coherentes"
+      ],
+      "confidence": 0.875
+    },
+    {
+      "exercise_id": "S41-T1-A-E2",
+      "code": "# Explorer · S41-T1-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'method', 'resource', 'created', 'status'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (record[\"status\"] == 200 and record[\"method\"] == \"GET\")) and not record.get(\"__adv\")) else \"RETURN_CORRECT_HTTP_STATUS\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-1A', 'method': 'POST', 'resource': '/v1/jobs', 'created': True, 'status': 201}\ninvalid = {\"case_id\": 'CASO-ARE-041-1A', 'method': 'POST', 'resource': '/v1/jobs', 'created': True, 'status': 201, '__adv': True}\nincomplete = {\"case_id\": 'CASO-ARE-041-1A', 'method': 'POST', 'resource': '/v1/jobs', 'created': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «recursos, métodos y status» el paquete pide tres rutas; la teoría subraya: «Modela recursos con sustantivos, usa métodos HTTP por semántica y devuelve status que separan creación, validación, ausencia, conflicto y fallo interno.». Para S41-T1-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple método, recurso y 201 coherentes, y `RETURN_CORRECT_HTTP_STATUS` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "método",
+        "recurso",
+        "201",
+        "coherentes"
+      ],
+      "confidence": 0.796
+    },
+    {
+      "exercise_id": "S41-T1-A-E3",
+      "code": "# Explorer · S41-T1-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'method', 'resource', 'created', 'status'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_RESOURCE_SEMANTICS\"\n    return \"CONTINUE\" if ((not (record[\"status\"] == 200 and record[\"method\"] == \"GET\")) and not record.get(\"__adv\")) else \"RETURN_CORRECT_HTTP_STATUS\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-1A', 'method': 'POST', 'resource': '/v1/jobs', 'created': True, 'status': 201}\ninvalid = {\"case_id\": 'CASO-ARE-041-1A', 'method': 'POST', 'resource': '/v1/jobs', 'created': True, 'status': 201, '__adv': True}\nincomplete = {\"case_id\": 'CASO-ARE-041-1A', 'method': 'POST', 'resource': '/v1/jobs', 'created': True}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «recursos, métodos y status» («Modela recursos con sustantivos, usa métodos HTTP por semántica y devuelve status que separan creación, validación, ausencia, conflicto y fallo interno.») separa incertidumbre de breach. En S41-T1-A-E3 la ausencia enruta a `REVIEW_RESOURCE_SEMANTICS`, CONTINUE solo con método, recurso y 201 coherentes, y el adverso a `RETURN_CORRECT_HTTP_STATUS`, sin rellenar evidencia en APIs con FastAPI y contratos HTTP.",
+      "concepts_used": [
+        "método",
+        "recurso",
+        "201",
+        "coherentes"
+      ],
+      "confidence": 0.754
+    },
+    {
+      "exercise_id": "S41-T1-B-E1",
+      "code": "# Explorer · S41-T1-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-ARE-041-1B', 'key': 'idem-are-1', 'request_hash': 'abc', 'stored_hash': 'abc', 'effects': 1, 'cursor': 'job-020', 'version': 'v1'}\nmeets_contract = not (record[\"effects\"] > 1 or record[\"request_hash\"] != record[\"stored_hash\"])\nstatus = \"PASS\" if meets_contract else \"RETURN_IDEMPOTENCY_CONFLICT\"\nprint(\"S41-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «idempotencia, paginación y versionado» («La idempotencia liga una clave al hash de la solicitud y al resultado; cursor estable y versión explícita evitan duplicados y paginación cambiante.»), el contrato de S41-T1-B-E1 exige demostrar hash estable, un efecto, cursor y versión explícita. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `RETURN_IDEMPOTENCY_CONFLICT`.",
+      "concepts_used": [
+        "hash",
+        "estable",
+        "efecto",
+        "cursor",
+        "versión",
+        "explícita"
+      ],
+      "confidence": 0.822
+    },
+    {
+      "exercise_id": "S41-T1-B-E2",
+      "code": "# Explorer · S41-T1-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'key', 'request_hash', 'stored_hash', 'effects', 'cursor', 'version'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"effects\"] > 1 or record[\"request_hash\"] != record[\"stored_hash\"])) else \"RETURN_IDEMPOTENCY_CONFLICT\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-1B', 'key': 'idem-are-1', 'request_hash': 'abc', 'stored_hash': 'abc', 'effects': 1, 'cursor': 'job-020', 'version': 'v1'}\ninvalid = {\"case_id\": 'CASO-ARE-041-1B', 'key': 'idem-are-1', 'request_hash': 'abc', 'stored_hash': 'abc', 'effects': 120, 'cursor': 'job-020', 'version': 'v1'}\nincomplete = {\"case_id\": 'CASO-ARE-041-1B', 'key': 'idem-are-1', 'request_hash': 'abc', 'stored_hash': 'abc', 'effects': 1, 'cursor': 'job-020'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «idempotencia, paginación y versionado» el paquete pide tres rutas; la teoría subraya: «La idempotencia liga una clave al hash de la solicitud y al resultado; cursor estable y versión explícita evitan duplicados y paginación cambiante.». Para S41-T1-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple hash estable, un efecto, cursor y versión explícita, y `RETURN_IDEMPOTENCY_CONFLICT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "hash",
+        "estable",
+        "efecto",
+        "cursor",
+        "versión",
+        "explícita"
+      ],
+      "confidence": 0.764
+    },
+    {
+      "exercise_id": "S41-T1-B-E3",
+      "code": "# Explorer · S41-T1-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'key', 'request_hash', 'stored_hash', 'effects', 'cursor', 'version'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REPLAY_STORED_RESPONSE\"\n    return \"CONTINUE\" if (not (record[\"effects\"] > 1 or record[\"request_hash\"] != record[\"stored_hash\"])) else \"RETURN_IDEMPOTENCY_CONFLICT\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-1B', 'key': 'idem-are-1', 'request_hash': 'abc', 'stored_hash': 'abc', 'effects': 1, 'cursor': 'job-020', 'version': 'v1'}\ninvalid = {\"case_id\": 'CASO-ARE-041-1B', 'key': 'idem-are-1', 'request_hash': 'abc', 'stored_hash': 'abc', 'effects': 120, 'cursor': 'job-020', 'version': 'v1'}\nincomplete = {\"case_id\": 'CASO-ARE-041-1B', 'key': 'idem-are-1', 'request_hash': 'abc', 'stored_hash': 'abc', 'effects': 1, 'cursor': 'job-020'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «idempotencia, paginación y versionado» («La idempotencia liga una clave al hash de la solicitud y al resultado; cursor estable y versión explícita evitan duplicados y paginación cambiante.») separa incertidumbre de breach. En S41-T1-B-E3 la ausencia enruta a `REPLAY_STORED_RESPONSE`, CONTINUE solo con hash estable, un efecto, cursor y versión explícita, y el adverso a `RETURN_IDEMPOTENCY_CONFLICT`, sin rellenar evidencia en APIs con FastAPI y contratos HTTP.",
+      "concepts_used": [
+        "hash",
+        "estable",
+        "efecto",
+        "cursor",
+        "versión",
+        "explícita"
+      ],
+      "confidence": 0.826
+    },
+    {
+      "exercise_id": "S41-T2-A-E1",
+      "code": "# Explorer · S41-T2-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-ARE-041-2A', 'handler_lines': 4, 'dependency_injectable': True, 'domain_imports_http': False, 'domain_called': True}\nmeets_contract = (not (record[\"handler_lines\"] > 20 and record[\"domain_imports_http\"])) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"THIN_THE_HANDLER\"\nprint(\"S41-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «routing, dependencies y modelos» («FastAPI separa routing, dependencias y modelos: el handler coordina, la dependencia provee capacidades y el dominio conserva reglas.»), el contrato de S41-T2-A-E1 exige demostrar handler delgado y dependencia sustituible. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `THIN_THE_HANDLER`.",
+      "concepts_used": [
+        "handler",
+        "delgado",
+        "dependencia",
+        "sustituible"
+      ],
+      "confidence": 0.828
+    },
+    {
+      "exercise_id": "S41-T2-A-E2",
+      "code": "# Explorer · S41-T2-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'handler_lines', 'dependency_injectable', 'domain_imports_http', 'domain_called'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (record[\"handler_lines\"] > 20 and record[\"domain_imports_http\"])) and not record.get(\"__adv\")) else \"THIN_THE_HANDLER\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-2A', 'handler_lines': 4, 'dependency_injectable': True, 'domain_imports_http': False, 'domain_called': True}\ninvalid = {\"case_id\": 'CASO-ARE-041-2A', 'handler_lines': 4, 'dependency_injectable': True, 'domain_imports_http': False, 'domain_called': True, '__adv': True}\nincomplete = {\"case_id\": 'CASO-ARE-041-2A', 'handler_lines': 4, 'dependency_injectable': True, 'domain_imports_http': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «routing, dependencies y modelos» el paquete pide tres rutas; la teoría subraya: «FastAPI separa routing, dependencias y modelos: el handler coordina, la dependencia provee capacidades y el dominio conserva reglas.». Para S41-T2-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple handler delgado y dependencia sustituible, y `THIN_THE_HANDLER` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "handler",
+        "delgado",
+        "dependencia",
+        "sustituible"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S41-T2-A-E3",
+      "code": "# Explorer · S41-T2-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'handler_lines', 'dependency_injectable', 'domain_imports_http', 'domain_called'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_DEPENDENCY_BOUNDARY\"\n    return \"CONTINUE\" if ((not (record[\"handler_lines\"] > 20 and record[\"domain_imports_http\"])) and not record.get(\"__adv\")) else \"THIN_THE_HANDLER\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-2A', 'handler_lines': 4, 'dependency_injectable': True, 'domain_imports_http': False, 'domain_called': True}\ninvalid = {\"case_id\": 'CASO-ARE-041-2A', 'handler_lines': 4, 'dependency_injectable': True, 'domain_imports_http': False, 'domain_called': True, '__adv': True}\nincomplete = {\"case_id\": 'CASO-ARE-041-2A', 'handler_lines': 4, 'dependency_injectable': True, 'domain_imports_http': False}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «routing, dependencies y modelos» («FastAPI separa routing, dependencias y modelos: el handler coordina, la dependencia provee capacidades y el dominio conserva reglas.») separa incertidumbre de breach. En S41-T2-A-E3 la ausencia enruta a `REVIEW_DEPENDENCY_BOUNDARY`, CONTINUE solo con handler delgado y dependencia sustituible, y el adverso a `THIN_THE_HANDLER`, sin rellenar evidencia en APIs con FastAPI y contratos HTTP.",
+      "concepts_used": [
+        "handler",
+        "delgado",
+        "dependencia",
+        "sustituible"
+      ],
+      "confidence": 0.738
+    },
+    {
+      "exercise_id": "S41-T2-B-E1",
+      "code": "# Explorer · S41-T2-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-ARE-041-2B', 'input_valid': False, 'status': 422, 'response_fields': {'job_id', 'status'}, 'internal_fields': {'db_pk', 'secret'}, 'openapi_matches': True}\nmeets_contract = (not (record[\"status\"] == 200 and bool(record[\"response_fields\"] & record[\"internal_fields\"]))) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"REJECT_AND_REDACT\"\nprint(\"S41-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «validación, serialización y documentación» («Pydantic valida entrada antes del dominio, serializa una vista permitida y alimenta OpenAPI; la documentación debe coincidir con el comportamiento observado.»), el contrato de S41-T2-B-E1 exige demostrar 422 tipado, vista pública y OpenAPI fiel. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REJECT_AND_REDACT`.",
+      "concepts_used": [
+        "422",
+        "tipado",
+        "vista",
+        "pública",
+        "OpenAPI",
+        "fiel"
+      ],
+      "confidence": 0.889
+    },
+    {
+      "exercise_id": "S41-T2-B-E2",
+      "code": "# Explorer · S41-T2-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'input_valid', 'status', 'response_fields', 'internal_fields', 'openapi_matches'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (record[\"status\"] == 200 and bool(record[\"response_fields\"] & record[\"internal_fields\"]))) and not record.get(\"__adv\")) else \"REJECT_AND_REDACT\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-2B', 'input_valid': False, 'status': 422, 'response_fields': {'job_id', 'status'}, 'internal_fields': {'db_pk', 'secret'}, 'openapi_matches': True}\ninvalid = {\"case_id\": 'CASO-ARE-041-2B', 'input_valid': False, 'status': 422, 'response_fields': {'job_id', 'status'}, 'internal_fields': {'db_pk', 'secret'}, 'openapi_matches': True, '__adv': True}\nincomplete = {\"case_id\": 'CASO-ARE-041-2B', 'input_valid': False, 'status': 422, 'response_fields': {'job_id', 'status'}, 'internal_fields': {'db_pk', 'secret'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «validación, serialización y documentación» el paquete pide tres rutas; la teoría subraya: «Pydantic valida entrada antes del dominio, serializa una vista permitida y alimenta OpenAPI; la documentación debe coincidir con el comportamiento observado.». Para S41-T2-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple 422 tipado, vista pública y OpenAPI fiel, y `REJECT_AND_REDACT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "422",
+        "tipado",
+        "vista",
+        "pública",
+        "OpenAPI",
+        "fiel"
+      ],
+      "confidence": 0.792
+    },
+    {
+      "exercise_id": "S41-T2-B-E3",
+      "code": "# Explorer · S41-T2-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'input_valid', 'status', 'response_fields', 'internal_fields', 'openapi_matches'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REGENERATE_OPENAPI\"\n    return \"CONTINUE\" if ((not (record[\"status\"] == 200 and bool(record[\"response_fields\"] & record[\"internal_fields\"]))) and not record.get(\"__adv\")) else \"REJECT_AND_REDACT\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-2B', 'input_valid': False, 'status': 422, 'response_fields': {'job_id', 'status'}, 'internal_fields': {'db_pk', 'secret'}, 'openapi_matches': True}\ninvalid = {\"case_id\": 'CASO-ARE-041-2B', 'input_valid': False, 'status': 422, 'response_fields': {'job_id', 'status'}, 'internal_fields': {'db_pk', 'secret'}, 'openapi_matches': True, '__adv': True}\nincomplete = {\"case_id\": 'CASO-ARE-041-2B', 'input_valid': False, 'status': 422, 'response_fields': {'job_id', 'status'}, 'internal_fields': {'db_pk', 'secret'}}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «validación, serialización y documentación» («Pydantic valida entrada antes del dominio, serializa una vista permitida y alimenta OpenAPI; la documentación debe coincidir con el comportamiento observado.») separa incertidumbre de breach. En S41-T2-B-E3 la ausencia enruta a `REGENERATE_OPENAPI`, CONTINUE solo con 422 tipado, vista pública y OpenAPI fiel, y el adverso a `REJECT_AND_REDACT`, sin rellenar evidencia en APIs con FastAPI y contratos HTTP.",
+      "concepts_used": [
+        "422",
+        "tipado",
+        "vista",
+        "pública",
+        "OpenAPI",
+        "fiel"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S41-T3-A-E1",
+      "code": "# Explorer · S41-T3-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-ARE-041-3A', 'work_kind': 'io', 'uses_await': True, 'cpu_offloaded': True, 'durable_job': True}\nmeets_contract = (not (record[\"work_kind\"] == \"cpu\" and record[\"uses_await\"] and not record[\"cpu_offloaded\"])) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"MOVE_WORK_OFF_EVENT_LOOP\"\nprint(\"S41-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «sync/async y background boundaries» («Async beneficia espera de I/O; trabajo CPU-bound o durable no debe esconderse en una coroutine ni en una tarea en memoria sin garantía.»), el contrato de S41-T3-A-E1 exige demostrar I/O awaited y CPU/durable fuera del event loop. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `MOVE_WORK_OFF_EVENT_LOOP`.",
+      "concepts_used": [
+        "awaited",
+        "CPU",
+        "durable",
+        "fuera",
+        "del",
+        "event",
+        "loop"
+      ],
+      "confidence": 0.744
+    },
+    {
+      "exercise_id": "S41-T3-A-E2",
+      "code": "# Explorer · S41-T3-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'work_kind', 'uses_await', 'cpu_offloaded', 'durable_job'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (record[\"work_kind\"] == \"cpu\" and record[\"uses_await\"] and not record[\"cpu_offloaded\"])) and not record.get(\"__adv\")) else \"MOVE_WORK_OFF_EVENT_LOOP\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-3A', 'work_kind': 'io', 'uses_await': True, 'cpu_offloaded': True, 'durable_job': True}\ninvalid = {\"case_id\": 'CASO-ARE-041-3A', 'work_kind': 'io', 'uses_await': True, 'cpu_offloaded': True, 'durable_job': True, '__adv': True}\nincomplete = {\"case_id\": 'CASO-ARE-041-3A', 'work_kind': 'io', 'uses_await': True, 'cpu_offloaded': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «sync/async y background boundaries» el paquete pide tres rutas; la teoría subraya: «Async beneficia espera de I/O; trabajo CPU-bound o durable no debe esconderse en una coroutine ni en una tarea en memoria sin garantía.». Para S41-T3-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple I/O awaited y CPU/durable fuera del event loop, y `MOVE_WORK_OFF_EVENT_LOOP` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "awaited",
+        "CPU",
+        "durable",
+        "fuera",
+        "del",
+        "event",
+        "loop"
+      ],
+      "confidence": 0.726
+    },
+    {
+      "exercise_id": "S41-T3-A-E3",
+      "code": "# Explorer · S41-T3-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'work_kind', 'uses_await', 'cpu_offloaded', 'durable_job'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CHOOSE_BACKGROUND_BOUNDARY\"\n    return \"CONTINUE\" if ((not (record[\"work_kind\"] == \"cpu\" and record[\"uses_await\"] and not record[\"cpu_offloaded\"])) and not record.get(\"__adv\")) else \"MOVE_WORK_OFF_EVENT_LOOP\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-3A', 'work_kind': 'io', 'uses_await': True, 'cpu_offloaded': True, 'durable_job': True}\ninvalid = {\"case_id\": 'CASO-ARE-041-3A', 'work_kind': 'io', 'uses_await': True, 'cpu_offloaded': True, 'durable_job': True, '__adv': True}\nincomplete = {\"case_id\": 'CASO-ARE-041-3A', 'work_kind': 'io', 'uses_await': True, 'cpu_offloaded': True}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «sync/async y background boundaries» («Async beneficia espera de I/O; trabajo CPU-bound o durable no debe esconderse en una coroutine ni en una tarea en memoria sin garantía.») separa incertidumbre de breach. En S41-T3-A-E3 la ausencia enruta a `CHOOSE_BACKGROUND_BOUNDARY`, CONTINUE solo con I/O awaited y CPU/durable fuera del event loop, y el adverso a `MOVE_WORK_OFF_EVENT_LOOP`, sin rellenar evidencia en APIs con FastAPI y contratos HTTP.",
+      "concepts_used": [
+        "awaited",
+        "CPU",
+        "durable",
+        "fuera",
+        "del",
+        "event",
+        "loop"
+      ],
+      "confidence": 0.844
+    },
+    {
+      "exercise_id": "S41-T3-B-E1",
+      "code": "# Explorer · S41-T3-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-ARE-041-3B', 'client_timeout_ms': 900, 'service_budget_ms': 700, 'db_budget_ms': 450, 'error_code': 'UPSTREAM_TIMEOUT', 'resource_closed': True}\nmeets_contract = not (record[\"db_budget_ms\"] > record[\"client_timeout_ms\"] or not record[\"resource_closed\"])\nstatus = \"PASS\" if meets_contract else \"CANCEL_AND_CLOSE\"\nprint(\"S41-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «errores, timeouts y lifecycle» («Errores estables llevan código, mensaje seguro y trace id; timeouts se presupuestan de extremo a extremo y el lifecycle abre/cierra recursos una vez.»), el contrato de S41-T3-B-E1 exige demostrar timeouts decrecientes, error estable y cierre de recurso. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `CANCEL_AND_CLOSE`.",
+      "concepts_used": [
+        "timeouts",
+        "decrecientes",
+        "error",
+        "estable",
+        "cierre",
+        "recurso"
+      ],
+      "confidence": 0.837
+    },
+    {
+      "exercise_id": "S41-T3-B-E2",
+      "code": "# Explorer · S41-T3-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'client_timeout_ms', 'service_budget_ms', 'db_budget_ms', 'error_code', 'resource_closed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"db_budget_ms\"] > record[\"client_timeout_ms\"] or not record[\"resource_closed\"])) else \"CANCEL_AND_CLOSE\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-3B', 'client_timeout_ms': 900, 'service_budget_ms': 700, 'db_budget_ms': 450, 'error_code': 'UPSTREAM_TIMEOUT', 'resource_closed': True}\ninvalid = {\"case_id\": 'CASO-ARE-041-3B', 'client_timeout_ms': 900, 'service_budget_ms': 700, 'db_budget_ms': 450, 'error_code': 'UPSTREAM_TIMEOUT', 'resource_closed': False}\nincomplete = {\"case_id\": 'CASO-ARE-041-3B', 'client_timeout_ms': 900, 'service_budget_ms': 700, 'db_budget_ms': 450, 'error_code': 'UPSTREAM_TIMEOUT'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «errores, timeouts y lifecycle» el paquete pide tres rutas; la teoría subraya: «Errores estables llevan código, mensaje seguro y trace id; timeouts se presupuestan de extremo a extremo y el lifecycle abre/cierra recursos una vez.». Para S41-T3-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple timeouts decrecientes, error estable y cierre de recurso, y `CANCEL_AND_CLOSE` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "timeouts",
+        "decrecientes",
+        "error",
+        "estable",
+        "cierre",
+        "recurso"
+      ],
+      "confidence": 0.819
+    },
+    {
+      "exercise_id": "S41-T3-B-E3",
+      "code": "# Explorer · S41-T3-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'client_timeout_ms', 'service_budget_ms', 'db_budget_ms', 'error_code', 'resource_closed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RECALCULATE_TIMEOUT_BUDGET\"\n    return \"CONTINUE\" if (not (record[\"db_budget_ms\"] > record[\"client_timeout_ms\"] or not record[\"resource_closed\"])) else \"CANCEL_AND_CLOSE\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-3B', 'client_timeout_ms': 900, 'service_budget_ms': 700, 'db_budget_ms': 450, 'error_code': 'UPSTREAM_TIMEOUT', 'resource_closed': True}\ninvalid = {\"case_id\": 'CASO-ARE-041-3B', 'client_timeout_ms': 900, 'service_budget_ms': 700, 'db_budget_ms': 450, 'error_code': 'UPSTREAM_TIMEOUT', 'resource_closed': False}\nincomplete = {\"case_id\": 'CASO-ARE-041-3B', 'client_timeout_ms': 900, 'service_budget_ms': 700, 'db_budget_ms': 450, 'error_code': 'UPSTREAM_TIMEOUT'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «errores, timeouts y lifecycle» («Errores estables llevan código, mensaje seguro y trace id; timeouts se presupuestan de extremo a extremo y el lifecycle abre/cierra recursos una vez.») separa incertidumbre de breach. En S41-T3-B-E3 la ausencia enruta a `RECALCULATE_TIMEOUT_BUDGET`, CONTINUE solo con timeouts decrecientes, error estable y cierre de recurso, y el adverso a `CANCEL_AND_CLOSE`, sin rellenar evidencia en APIs con FastAPI y contratos HTTP.",
+      "concepts_used": [
+        "timeouts",
+        "decrecientes",
+        "error",
+        "estable",
+        "cierre",
+        "recurso"
+      ],
+      "confidence": 0.864
+    },
+    {
+      "exercise_id": "S41-T4-A-E1",
+      "code": "# Explorer · S41-T4-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-ARE-041-4A', 'layers': {'contract', 'integration', 'unit'}, 'rule_unit': True, 'http_contract': True, 'adapter_integration': True, 'seeded_failure_detected': True}\nmeets_contract = (not (len(record[\"layers\"]) == 1 and not record[\"seeded_failure_detected\"])) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNTESTED_CONTRACT\"\nprint(\"S41-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «unit/contract/integration» («Unit prueba reglas, contract prueba el acuerdo HTTP e integration prueba adapters reales controlados; cada nivel responde una pregunta distinta.»), el contrato de S41-T4-A-E1 exige demostrar tres niveles y fallo sembrado detectado. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `BLOCK_UNTESTED_CONTRACT`.",
+      "concepts_used": [
+        "tres",
+        "niveles",
+        "fallo",
+        "sembrado",
+        "detectado"
+      ],
+      "confidence": 0.876
+    },
+    {
+      "exercise_id": "S41-T4-A-E2",
+      "code": "# Explorer · S41-T4-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'layers', 'rule_unit', 'http_contract', 'adapter_integration', 'seeded_failure_detected'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (len(record[\"layers\"]) == 1 and not record[\"seeded_failure_detected\"])) and not record.get(\"__adv\")) else \"BLOCK_UNTESTED_CONTRACT\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-4A', 'layers': {'contract', 'integration', 'unit'}, 'rule_unit': True, 'http_contract': True, 'adapter_integration': True, 'seeded_failure_detected': True}\ninvalid = {\"case_id\": 'CASO-ARE-041-4A', 'layers': {'contract', 'integration', 'unit'}, 'rule_unit': True, 'http_contract': True, 'adapter_integration': True, 'seeded_failure_detected': True, '__adv': True}\nincomplete = {\"case_id\": 'CASO-ARE-041-4A', 'layers': {'contract', 'integration', 'unit'}, 'rule_unit': True, 'http_contract': True, 'adapter_integration': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «unit/contract/integration» el paquete pide tres rutas; la teoría subraya: «Unit prueba reglas, contract prueba el acuerdo HTTP e integration prueba adapters reales controlados; cada nivel responde una pregunta distinta.». Para S41-T4-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple tres niveles y fallo sembrado detectado, y `BLOCK_UNTESTED_CONTRACT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "tres",
+        "niveles",
+        "fallo",
+        "sembrado",
+        "detectado"
+      ],
+      "confidence": 0.806
+    },
+    {
+      "exercise_id": "S41-T4-A-E3",
+      "code": "# Explorer · S41-T4-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'layers', 'rule_unit', 'http_contract', 'adapter_integration', 'seeded_failure_detected'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ADD_MISSING_TEST_LEVEL\"\n    return \"CONTINUE\" if ((not (len(record[\"layers\"]) == 1 and not record[\"seeded_failure_detected\"])) and not record.get(\"__adv\")) else \"BLOCK_UNTESTED_CONTRACT\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-4A', 'layers': {'contract', 'integration', 'unit'}, 'rule_unit': True, 'http_contract': True, 'adapter_integration': True, 'seeded_failure_detected': True}\ninvalid = {\"case_id\": 'CASO-ARE-041-4A', 'layers': {'contract', 'integration', 'unit'}, 'rule_unit': True, 'http_contract': True, 'adapter_integration': True, 'seeded_failure_detected': True, '__adv': True}\nincomplete = {\"case_id\": 'CASO-ARE-041-4A', 'layers': {'contract', 'integration', 'unit'}, 'rule_unit': True, 'http_contract': True, 'adapter_integration': True}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «unit/contract/integration» («Unit prueba reglas, contract prueba el acuerdo HTTP e integration prueba adapters reales controlados; cada nivel responde una pregunta distinta.») separa incertidumbre de breach. En S41-T4-A-E3 la ausencia enruta a `ADD_MISSING_TEST_LEVEL`, CONTINUE solo con tres niveles y fallo sembrado detectado, y el adverso a `BLOCK_UNTESTED_CONTRACT`, sin rellenar evidencia en APIs con FastAPI y contratos HTTP.",
+      "concepts_used": [
+        "tres",
+        "niveles",
+        "fallo",
+        "sembrado",
+        "detectado"
+      ],
+      "confidence": 0.831
+    },
+    {
+      "exercise_id": "S41-T4-B-E1",
+      "code": "# Explorer · S41-T4-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-ARE-041-4B', 'old_consumer_passes': True, 'limit': 100, 'used': 73, 'trace_id': 'tr-are-041', 'pii_in_log': False}\nmeets_contract = not (record[\"used\"] > record[\"limit\"] or record[\"pii_in_log\"])\nstatus = \"PASS\" if meets_contract else \"THROTTLE_AND_REDACT\"\nprint(\"S41-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «compatibility, rate limit y observabilidad» («Compatibilidad se prueba contra consumidores, rate limiting responde con señal recuperable y observabilidad correlaciona request, job y resultado sin PII.»), el contrato de S41-T4-B-E1 exige demostrar consumer v1, cuota y trace redactado. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `THROTTLE_AND_REDACT`.",
+      "concepts_used": [
+        "consumer",
+        "cuota",
+        "trace",
+        "redactado"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S41-T4-B-E2",
+      "code": "# Explorer · S41-T4-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'old_consumer_passes', 'limit', 'used', 'trace_id', 'pii_in_log'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"used\"] > record[\"limit\"] or record[\"pii_in_log\"])) else \"THROTTLE_AND_REDACT\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-4B', 'old_consumer_passes': True, 'limit': 100, 'used': 73, 'trace_id': 'tr-are-041', 'pii_in_log': False}\ninvalid = {\"case_id\": 'CASO-ARE-041-4B', 'old_consumer_passes': True, 'limit': 100, 'used': 73, 'trace_id': 'tr-are-041', 'pii_in_log': True}\nincomplete = {\"case_id\": 'CASO-ARE-041-4B', 'old_consumer_passes': True, 'limit': 100, 'used': 73, 'trace_id': 'tr-are-041'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «compatibility, rate limit y observabilidad» el paquete pide tres rutas; la teoría subraya: «Compatibilidad se prueba contra consumidores, rate limiting responde con señal recuperable y observabilidad correlaciona request, job y resultado sin PII.». Para S41-T4-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple consumer v1, cuota y trace redactado, y `THROTTLE_AND_REDACT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "consumer",
+        "cuota",
+        "trace",
+        "redactado"
+      ],
+      "confidence": 0.853
+    },
+    {
+      "exercise_id": "S41-T4-B-E3",
+      "code": "# Explorer · S41-T4-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'old_consumer_passes', 'limit', 'used', 'trace_id', 'pii_in_log'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INSPECT_COMPATIBILITY\"\n    return \"CONTINUE\" if (not (record[\"used\"] > record[\"limit\"] or record[\"pii_in_log\"])) else \"THROTTLE_AND_REDACT\"\n\nvalid = {\"case_id\": 'CASO-ARE-041-4B', 'old_consumer_passes': True, 'limit': 100, 'used': 73, 'trace_id': 'tr-are-041', 'pii_in_log': False}\ninvalid = {\"case_id\": 'CASO-ARE-041-4B', 'old_consumer_passes': True, 'limit': 100, 'used': 73, 'trace_id': 'tr-are-041', 'pii_in_log': True}\nincomplete = {\"case_id\": 'CASO-ARE-041-4B', 'old_consumer_passes': True, 'limit': 100, 'used': 73, 'trace_id': 'tr-are-041'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «compatibility, rate limit y observabilidad» («Compatibilidad se prueba contra consumidores, rate limiting responde con señal recuperable y observabilidad correlaciona request, job y resultado sin PII.») separa incertidumbre de breach. En S41-T4-B-E3 la ausencia enruta a `INSPECT_COMPATIBILITY`, CONTINUE solo con consumer v1, cuota y trace redactado, y el adverso a `THROTTLE_AND_REDACT`, sin rellenar evidencia en APIs con FastAPI y contratos HTTP.",
+      "concepts_used": [
+        "consumer",
+        "cuota",
+        "trace",
+        "redactado"
+      ],
+      "confidence": 0.803
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Q0: elijo «matriz método/recurso/status probada» anclado en «recursos, métodos y status» («Modela recursos con sustantivos, usa métodos HTTP por semántica y devuelve status que separan creaci»), frente a «¿Qué evidencia permite aprobar `recursos, métodos y status` en CASO-ARE-041?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.851,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Q1: elijo «emitir REJECT_REQUEST y conservar evidencia» anclado en «idempotencia, paginación y versionado» («La idempotencia liga una clave al hash de la solicitud y al resultado; cursor estable y versión expl»), frente a «Si ocurre la condición de error de S41, ¿qué respuesta preserva seguridad y auditabilidad?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.832,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Q2: elijo «crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilid» anclado en «routing, dependencies y modelos» («FastAPI separa routing, dependencias y modelos: el handler coordina, la dependencia provee capacidad»), frente a «¿Cuál resultado demuestra el gate `CP-N4-A · API HTTP gobernada`?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.898,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Q3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» anclado en «validación, serialización y documentación» («Pydantic valida entrada antes del dominio, serializa una vista permitida y alimenta OpenAPI; la docu»), frente a «¿Qué tratamiento de `CASO-ARE-041` respeta el alcance del curso?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.815,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:45:45.070990+00:00",
+  "session_started_at": "2026-07-23T16:46:47.020496+00:00",
+  "session_ended_at": "2026-07-23T16:47:18.738964+00:00",
+  "receipt_response_sha256": "46b7179c94a8b789332ec308b6b4c92d72ac4a9d8ba3edc0daec50c2c2664dfa",
+  "receipt_exercises_sha256": "cc937b9537205a8cce38b6f0c4a0a238842edb3128f320a62f20e91da59dd8f5",
+  "receipt_selfcheck_sha256": "1b4999378c9ce02c718b35a973fd95c4e5e8654d0b78ab3032a5ddd362d56e20"
+}

@@ -1,0 +1,165 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 29,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s29-0caa70249b",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\nprint(c.execute('select count(*) from entities').fetchone()[0])\n",
+      "justification_from_packet": "Para S29-T1-A-E1 me basé en anclan/entidades del material activo: Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\ntry:\n    c.execute('insert into p values (1.5)')\nexcept Exception:\n    print('bad_score')\n",
+      "justification_from_packet": "Para S29-T1-A-E2 me basé en integridad/source del material activo: CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('e1' < 'e2')\n",
+      "justification_from_packet": "Para S29-T1-A-E3 me basé en referencia/fuentes del material activo: Imprime True si 'e1'<'e2' (orden canónico de par).. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\nprint(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n",
+      "justification_from_packet": "Para S29-T1-B-E1 me basé en entidades/Documenta del material activo: Inserta dos labels para pair p1; imprime número de filas de historia.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'source': 'crm_synth', 'record': 'r9'})\n",
+      "justification_from_packet": "Para S29-T1-B-E2 me basé en Constraints/entidades del material activo: Imprime provenance dict source='crm_synth' record='r9'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\nprint('open' if valid_to is None else 'closed')\n",
+      "justification_from_packet": "Para S29-T1-B-E3 me basé en CHECK/source del material activo: valid_to NULL significa vigente: imprime 'open' si valid_to is None.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nrows = c.execute('select id from pairs where id not in (select pair_id from dec)').fetchall()\nprint([r[0] for r in rows])\n",
+      "justification_from_packet": "Para S29-T2-A-E1 me basé en score/fuentes del material activo: Con pairs p1,p2 y decision solo p1, lista ids sin decisión.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])\n",
+      "justification_from_packet": "Para S29-T2-A-E2 me basé en UNIQUE/Documenta del material activo: Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ranked')\n",
+      "justification_from_packet": "Para S29-T2-A-E3 me basé en source/entidades del material activo: Imprime el nombre de la CTE de ejemplo: ranked.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\nprint(n*(n-1)//2)\n",
+      "justification_from_packet": "Para S29-T2-B-E1 me basé en external/source del material activo: C(n,2) para n=5 → 10.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(None is None)\n",
+      "justification_from_packet": "Para S29-T2-B-E2 me basé en modelo/fuentes del material activo: Imprime True si None is None (recuerda NULL SQL ≠ Python en joins).. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('SCAN')\n",
+      "justification_from_packet": "Para S29-T2-B-E3 me basé en relacional/Documenta del material activo: Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáct. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('rollback')\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+      "justification_from_packet": "Para S29-T3-A-E1 me basé en contrato/entidades del material activo: Tras BEGIN insert y ROLLBACK, count debe ser 0.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A,C,I,D')\n",
+      "justification_from_packet": "Para S29-T3-A-E2 me basé en fuentes/source del material activo: Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\nprint('abort' if not evidence_ok else 'commit')\n",
+      "justification_from_packet": "Para S29-T3-A-E3 me basé en candidatos/fuentes del material activo: Si evidence_ok es False no hagas commit conceptual: imprime 'abort'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nc.execute(\"insert into e values ('1','B') on conflict(id) do update set name=excluded.name\")\nprint(c.execute(\"select name from e where id='1'\").fetchone()[0])\n",
+      "justification_from_packet": "Para S29-T3-B-E1 me basé en decisiones/Documenta del material activo: Upsert: segunda insert con mismo id actualiza; imprime name final 'B'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'job': 'er_block', 'status': 'pending'}['status'])\n",
+      "justification_from_packet": "Para S29-T3-B-E2 me basé en historia/entidades del material activo: Recuperación: job status 'pending' tras crash; imprime status.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\nprint('retry' if conflict else 'ok')\n",
+      "justification_from_packet": "Para S29-T3-B-E3 me basé en auditoría/source del material activo: Conflicto de par duplicado → imprime 'retry'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nc.execute(\"insert into schema_migrations values (2,'add_index')\")\nprint(c.execute('select max(v) from schema_migrations').fetchone()[0])\n",
+      "justification_from_packet": "Para S29-T4-A-E1 me basé en Documenta/fuentes del material activo: Registra migration version 2 name 'add_index'; imprime max version.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('idx_pairs_block_key')\n",
+      "justification_from_packet": "Para S29-T4-A-E2 me basé en evidencia/Documenta del material activo: Imprime nombre de índice sugerido idx_pairs_block_key.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('no_drop_without_backup')\n",
+      "justification_from_packet": "Para S29-T4-A-E3 me basé en anclan/entidades del material activo: Política: imprime 'no_drop_without_backup'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\nprint(store.get('e1'))\n",
+      "justification_from_packet": "Para S29-T4-B-E1 me basé en integridad/source del material activo: Repo.get: dict store {'e1':'Ana'}; imprime get e1.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'pool_size': 5}['pool_size'])\n",
+      "justification_from_packet": "Para S29-T4-B-E2 me basé en referencia/fuentes del material activo: Pool size conceptual 5; imprime pool_size.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\nprint(pending_count)\n",
+      "justification_from_packet": "Para S29-T4-B-E3 me basé en entidades/Documenta del material activo: Test de repo: pending count 1; imprime 1.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Ordenar entity_a < entity_b evita duplicar el mismo par en orden invertido en el modelo relacional; la teoría del paquete habla de referencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Append-only en decisions significa nueva fila por cambio de decisión, no UPDATE in place sin rastro; la teoría del paquete habla de CHECK."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Decisión y evidencia deben ser atómicas en la misma transacción lógica para no dejar huérfanos; la teoría del paquete habla de source."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "El repository encapsula el SQL y facilita tests con sqlite :memory: sin esparcir acceso a datos; la teoría del paquete habla de relacional."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:45:06.328481+00:00",
+  "session_started_at": "2026-07-23T16:44:26.324032+00:00",
+  "session_ended_at": "2026-07-23T16:45:06.324630+00:00",
+  "receipt_response_sha256": "0c63359fb8285fd5e34c8c97e844d626c3b142705b97bcb1a111e2f8ec998743",
+  "receipt_exercises_sha256": "85ca4f8a437fe6044a05a966bb0c2d8ba8d1e71fbbd5f5feae5173fa5acc974e",
+  "receipt_selfcheck_sha256": "b73991ca6a0882278fb0a4d6cce2124acd95588ac8bf780971c08e6486e61db7"
+}

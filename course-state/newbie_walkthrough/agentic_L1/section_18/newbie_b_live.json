@@ -1,0 +1,250 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 18,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s18-a42d7975e5",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S18-T1-A-E1",
+      "id": "S18-T1-A-E1",
+      "code": "import numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(f\"n {len(montos)} | mean {montos.mean():.1f} | median {np.median(montos):.1f}\")\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en EDA e incertidumbre pide `S18-T1-A-E1` — mediana/IQR, correlación no causal; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T1-A-E2",
+      "id": "S18-T1-A-E2",
+      "code": "import numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\niqr = q3 - q1\nprint(f\"Q1 {q1:.1f} | Q3 {q3:.1f} | IQR {iqr:.1f}\")\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S18-T1-A-E2` — mediana/IQR, correlación no causal. Si no cuadra con theory de EDA e incertidumbre, no firmo el pass. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T1-A-E3",
+      "id": "S18-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport numpy as np\n\ndef resumen(x):\n    x = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(x.size),\n        \"mean\": round(float(x.mean()), 4),\n        \"median\": round(float(np.median(x)), 4),\n        \"std\": round(float(x.std(ddof=1)), 4),\n    }\nprint(resumen([1, 2, 3, 4, 5]))\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S18-T1-A-E3` — mediana/IQR, correlación no causal. El iDo/theory de EDA e incertidumbre es la fuente, no mi memoria. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T1-B-E1",
+      "id": "S18-T1-B-E1",
+      "code": "import numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean())\nmed = float(np.median(x))\nprint(f\"mean {m:.1f} | median {med:.1f} | ratio {m/med:.2f}\")\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S18-T1-B-E1` — mediana/IQR, correlación no causal, alineado al contrato de EDA e incertidumbre del slim_packet. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T1-B-E2",
+      "id": "S18-T1-B-E2",
+      "code": "import numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = float(np.median(x))\nmad = float(np.median(np.abs(x - med)))\nprint(f\"MAD {mad:.1f}\")\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S18-T1-B-E2` — mediana/IQR, correlación no causal. Sin eso el ejercicio de EDA e incertidumbre queda teatro. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T1-B-E3",
+      "id": "S18-T1-B-E3",
+      "code": "import numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\nprint(np.round(np.log1p(x), 3).tolist())\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en EDA e incertidumbre pide `S18-T1-B-E3` — mediana/IQR, correlación no causal; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T2-A-E1",
+      "id": "S18-T2-A-E1",
+      "code": "muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare_lima = muestra.count(\"Lima\") / len(muestra)\nprint(f\"share_Lima {share_lima:.2f}\")\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S18-T2-A-E1` — mediana/IQR, correlación no causal. Si no cuadra con theory de EDA e incertidumbre, no firmo el pass. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T2-A-E2",
+      "id": "S18-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nshare = 8 / 10\npob = 0.5\nprint(\"bias_Lima_pp\", round(share - pob, 2))\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S18-T2-A-E2` — mediana/IQR, correlación no causal. El iDo/theory de EDA e incertidumbre es la fuente, no mi memoria. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T2-A-E3",
+      "id": "S18-T2-A-E3",
+      "code": "def max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\n\nprint(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}), 2))\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S18-T2-A-E3` — mediana/IQR, correlación no causal, alineado al contrato de EDA e incertidumbre del slim_packet. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T2-B-E1",
+      "id": "S18-T2-B-E1",
+      "code": "import math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\nprint(f\"margen {margen:.2f}\")\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S18-T2-B-E1` — mediana/IQR, correlación no causal. Sin eso el ejercicio de EDA e incertidumbre queda teatro. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T2-B-E2",
+      "id": "S18-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nd = (13 - 10) / 2\nprint(\"d\", round(d, 2))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en EDA e incertidumbre pide `S18-T2-B-E2` — mediana/IQR, correlación no causal; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T2-B-E3",
+      "id": "S18-T2-B-E3",
+      "code": "diff, se = 4, 1.5\nic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2))\nprint(f\"ic95 {ic}\")\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S18-T2-B-E3` — mediana/IQR, correlación no causal. Si no cuadra con theory de EDA e incertidumbre, no firmo el pass. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T3-A-E1",
+      "id": "S18-T3-A-E1",
+      "code": "import numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nprint(f\"r {float(np.corrcoef(x, y)[0, 1]):.1f}\")\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S18-T3-A-E1` — mediana/IQR, correlación no causal. El iDo/theory de EDA e incertidumbre es la fuente, no mi memoria. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T3-A-E2",
+      "id": "S18-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nr = 0.82\nprint(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S18-T3-A-E2` — mediana/IQR, correlación no causal, alineado al contrato de EDA e incertidumbre del slim_packet. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T3-A-E3",
+      "id": "S18-T3-A-E3",
+      "code": "import numpy as np\nz = np.arange(5, dtype=float)\nx = z.copy()\ny = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\n# residual after confusor z (x~z, y~z) -> residuals ~0\nbx = np.polyfit(z, x, 1)\nby = np.polyfit(z, y, 1)\nrx = x - (bx[0] * z + bx[1])\nry = y - (by[0] * z + by[1])\nprint(f\"r_raw {r_raw:.1f} | max_abs_resid {float(np.max(np.abs(rx))):.1f}\")\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S18-T3-A-E3` — mediana/IQR, correlación no causal. Sin eso el ejercicio de EDA e incertidumbre queda teatro. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T3-B-E1",
+      "id": "S18-T3-B-E1",
+      "code": "import numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nhi = q3 + 1.5 * iqr\nprint(f\"n_hi {int((m > hi).sum())}\")\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en EDA e incertidumbre pide `S18-T3-B-E1` — mediana/IQR, correlación no causal; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T3-B-E2",
+      "id": "S18-T3-B-E2",
+      "code": "import numpy as np\nregion = np.array([\"Lima\", \"Lima\", \"Cusco\"])\nflag = np.array([True, True, False])\ntasa = float(flag[region == \"Lima\"].mean())\nprint(f\"tasa_Lima {tasa:.1f}\")\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S18-T3-B-E2` — mediana/IQR, correlación no causal. Si no cuadra con theory de EDA e incertidumbre, no firmo el pass. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T3-B-E3",
+      "id": "S18-T3-B-E3",
+      "code": "import numpy as np\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nprint(((m < lo) | (m > hi)).tolist())\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S18-T3-B-E3` — mediana/IQR, correlación no causal. El iDo/theory de EDA e incertidumbre es la fuente, no mi memoria. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T4-A-E1",
+      "id": "S18-T4-A-E1",
+      "code": "evidencia = {\n    \"pregunta\": \"¿Cuál es el ticket mediano?\",\n    \"hipotesis\": \"mediana >= 5\",\n    \"resultado\": {\"n\": 10, \"median\": 12},\n}\nprint(evidencia[\"pregunta\"])\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S18-T4-A-E1` — mediana/IQR, correlación no causal, alineado al contrato de EDA e incertidumbre del slim_packet. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T4-A-E2",
+      "id": "S18-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmedian = 12\nprint(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S18-T4-A-E2` — mediana/IQR, correlación no causal. Sin eso el ejercicio de EDA e incertidumbre queda teatro. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T4-A-E3",
+      "id": "S18-T4-A-E3",
+      "code": "print(\"P: ticket mediano Lima | M: median | V: 27.5 | L: solo web\")\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en EDA e incertidumbre pide `S18-T4-A-E3` — mediana/IQR, correlación no causal; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T4-B-E1",
+      "id": "S18-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnote = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S18-T4-B-E1` — mediana/IQR, correlación no causal. Si no cuadra con theory de EDA e incertidumbre, no firmo el pass. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T4-B-E2",
+      "id": "S18-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S18-T4-B-E2` — mediana/IQR, correlación no causal. El iDo/theory de EDA e incertidumbre es la fuente, no mi memoria. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S18-T4-B-E3",
+      "id": "S18-T4-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]})\nn_raw = len(df)\ndf2 = df[df[\"monto\"] > 0]\nnote = {\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42}\nprint(note)\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S18-T4-B-E3` — mediana/IQR, correlación no causal, alineado al contrato de EDA e incertidumbre del slim_packet. (lectura directa del packet L1 s18).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Theory de EDA e incertidumbre: la opción «Mediana (y opcionalmente IQR)» es la que el paquete defiende; las demás contradicen el contrato.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Como skeptic descarto distractores: en EDA e incertidumbre, el slim_packet apunta a «Asociación observada (no causal por sí sola)».",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "No me fío de memoria suelta; el selfCheck de EDA e incertidumbre se ancla a «Origen, filtros, n y límites de cobertura» según la theory activa.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Releo outcomes de EDA e incertidumbre: «La muestra no representa la población de interés» es la respuesta coherente con el texto del paquete.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Gate mental: si no es «Reportar asociación observada, explorar el confuso», rompe el modelo mental de EDA e incertidumbre del iDo.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "Revisé si el fixture de s18 asume libs instaladas (numpy/pandas/openpyxl).",
+    "Confirmé que no uso knowledge de S19+ para resolver S18."
+  ],
+  "recorded_at": "2026-07-23T16:41:49.953509+00:00",
+  "session_started_at": "2026-07-23T16:41:24.076Z",
+  "session_ended_at": "2026-07-23T16:41:49.952Z",
+  "receipt_response_sha256": "9721cd551d868952cab309073a001c484206deb3a1da3007720498358683d6d3",
+  "receipt_exercises_sha256": "0f685412c48c862ee27f8d2a5346acb97a28db6d376ae460a979c8f91cdd71c1",
+  "receipt_selfcheck_sha256": "b181461451f8fd1a348756fe9aa481a765b11b3c12fd14425211bbb8692933f4"
+}

@@ -1,0 +1,221 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 45,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-exp-s45-ce5beefe5995",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S45-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"object\",\"transactions\":\"relational\",\"cache_authoritative\":False,\"cache_ttl_s\":300}}\nmeets_contract = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\nstatus = \"PASS\" if meets_contract else \"REDESIGN_PERSISTENCE\"\nprint(\"S45-T1-A\", status)\n",
+      "justification_from_packet": "Leí instruction/hints de S45-T1-A-E1: la operación debe demostrar object/relational por semántica y cache descartable. Con el caso sintético CASO-IQU-045-1A reconstruí meets_contract alineado a «object store, relacional y cache» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S45-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'blob_store', 'cache_authoritative', 'cache_ttl_s', 'case_id', 'transactions'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\n    return \"PASS\" if ok else \"REDESIGN_PERSISTENCE\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-1A', **{'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}}\ninvalid = {\"case_id\": 'CASO-IQU-045-1A', **{'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}}\nincomplete = {k: v for k, v in valid.items() if k != 'cache_ttl_s'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En el paquete activo de S45-T1-A-E2, el fixture CASO-IQU-045-1A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «object store, relacional y cache» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S45-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'blob_store', 'cache_authoritative', 'cache_ttl_s', 'case_id', 'transactions'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"WRITE_STORE_ADR\"\n    ok = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\n    return \"CONTINUE\" if ok else \"REDESIGN_PERSISTENCE\"\n\nfixtures = [\n    {\"case_id\": 'CASO-IQU-045-1A', **{'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}},\n    {\"case_id\": 'CASO-IQU-045-1A', **{'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}},\n    {k: v for k, v in {\"case_id\": 'CASO-IQU-045-1A', **{'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}}.items() if k != 'cache_ttl_s'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S45-T1-A-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-IQU-045-1A reconstruí meets_contract alineado a «object store, relacional y cache» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S45-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"read-after-write\",\"backup_age_h\":4,\"rpo_h\":6,\"restore_minutes\":25,\"rto_minutes\":30}}\nmeets_contract = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_LOSS_RISK\"\nprint(\"S45-T1-B\", status)\n",
+      "justification_from_packet": "Leí instruction/hints de S45-T1-B-E1: la operación debe demostrar consistencia explícita y restore dentro de RPO/RTO. Con el caso sintético CASO-IQU-045-1B reconstruí meets_contract alineado a «consistencia, lifecycle y backups» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S45-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'backup_age_h', 'case_id', 'consistency', 'operation', 'restore_minutes', 'rpo_h', 'rto_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if ok else \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-1B', **{'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}}\ninvalid = {\"case_id\": 'CASO-IQU-045-1B', **{'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 8, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}}\nincomplete = {k: v for k, v in valid.items() if k != 'rto_minutes'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S45-T1-B-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-IQU-045-1B reconstruí meets_contract alineado a «consistencia, lifecycle y backups» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S45-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'backup_age_h', 'case_id', 'consistency', 'operation', 'restore_minutes', 'rpo_h', 'rto_minutes'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"RUN_RESTORE_DRILL\"\n    ok = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\n    return \"CONTINUE\" if ok else \"DECLARE_DATA_LOSS_RISK\"\n\nfixtures = [\n    {\"case_id\": 'CASO-IQU-045-1B', **{'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}},\n    {\"case_id\": 'CASO-IQU-045-1B', **{'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 8, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}},\n    {k: v for k, v in {\"case_id\": 'CASO-IQU-045-1B', **{'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}}.items() if k != 'rto_minutes'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S45-T1-B-E3, el fixture CASO-IQU-045-1B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «consistencia, lifecycle y backups» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S45-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_after_effect\":True,\"idempotency_key\":\"job-iqu-1\",\"backoff\":True}}\nmeets_contract = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\nstatus = \"PASS\" if meets_contract else \"NACK_AND_RETRY\"\nprint(\"S45-T2-A\", status)\n",
+      "justification_from_packet": "En el paquete activo de S45-T2-A-E1, el fixture CASO-IQU-045-2A deja ver que ack posterior al efecto, key idempotente y backoff. Corregí el predicado defectuoso del starter para que el escenario de «queue/event y delivery semantics» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S45-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'acked_after_effect', 'backoff', 'case_id', 'delivery', 'effect_durable', 'idempotency_key'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\n    return \"PASS\" if ok else \"NACK_AND_RETRY\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-2A', **{'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}}\ninvalid = {\"case_id\": 'CASO-IQU-045-2A', **{'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'backoff'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S45-T2-A-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-IQU-045-2A reconstruí meets_contract alineado a «queue/event y delivery semantics» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S45-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'acked_after_effect', 'backoff', 'case_id', 'delivery', 'effect_durable', 'idempotency_key'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"VERIFY_DELIVERY_SEMANTICS\"\n    ok = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\n    return \"CONTINUE\" if ok else \"NACK_AND_RETRY\"\n\nfixtures = [\n    {\"case_id\": 'CASO-IQU-045-2A', **{'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}},\n    {\"case_id\": 'CASO-IQU-045-2A', **{'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-IQU-045-2A', **{'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}}.items() if k != 'backoff'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S45-T2-A-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-IQU-045-2A reconstruí meets_contract alineado a «queue/event y delivery semantics» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S45-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"},\"ordered_partition\":True,\"terminal_in_dlq\":True}}\nmeets_contract = not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])\nstatus = \"PASS\" if meets_contract else \"DEDUP_OR_DLQ\"\nprint(\"S45-T2-B\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de dedup, ordering y dead-letter en S45-T2-B-E1. El paquete indica deduplicación, ordering acotado y terminal en DLQ; por eso el código valida CASO-IQU-045-2B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S45-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'message_ids', 'ordered_partition', 'processed_ids', 'terminal_in_dlq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])\n    return \"PASS\" if ok else \"DEDUP_OR_DLQ\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-2B', **{'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}}\ninvalid = {\"case_id\": 'CASO-IQU-045-2B', **{'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'__bad__', 'm1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'terminal_in_dlq'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En el paquete activo de S45-T2-B-E2, el fixture CASO-IQU-045-2B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «dedup, ordering y dead-letter» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S45-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'message_ids', 'ordered_partition', 'processed_ids', 'terminal_in_dlq'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"INSPECT_MESSAGE_ORDER\"\n    ok = not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])\n    return \"CONTINUE\" if ok else \"DEDUP_OR_DLQ\"\n\nfixtures = [\n    {\"case_id\": 'CASO-IQU-045-2B', **{'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}},\n    {\"case_id\": 'CASO-IQU-045-2B', **{'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'__bad__', 'm1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-IQU-045-2B', **{'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}}.items() if k != 'terminal_in_dlq'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de dedup, ordering y dead-letter en S45-T2-B-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-IQU-045-2B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S45-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":80,\"workers\":4,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":True,\"backpressure\":True}}\nmeets_contract = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\nstatus = \"PASS\" if meets_contract else \"APPLY_BACKPRESSURE\"\nprint(\"S45-T3-A\", status)\n",
+      "justification_from_packet": "En el paquete activo de S45-T3-A-E1, el fixture CASO-IQU-045-3A deja ver que workers dentro de cuota y backlog por worker bajo objetivo. Corregí el predicado defectuoso del starter para que el escenario de «compute, autoscaling y networking» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S45-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'backlog', 'backpressure', 'case_id', 'private_network', 'quota_workers', 'target_per_worker', 'workers'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\n    return \"PASS\" if ok else \"APPLY_BACKPRESSURE\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-3A', **{'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}}\ninvalid = {\"case_id\": 'CASO-IQU-045-3A', **{'backlog': 80, 'workers': 8, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'backpressure'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En el paquete activo de S45-T3-A-E2, el fixture CASO-IQU-045-3A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «compute, autoscaling y networking» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S45-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'backlog', 'backpressure', 'case_id', 'private_network', 'quota_workers', 'target_per_worker', 'workers'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"REQUEST_CAPACITY\"\n    ok = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\n    return \"CONTINUE\" if ok else \"APPLY_BACKPRESSURE\"\n\nfixtures = [\n    {\"case_id\": 'CASO-IQU-045-3A', **{'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}},\n    {\"case_id\": 'CASO-IQU-045-3A', **{'backlog': 80, 'workers': 8, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-IQU-045-3A', **{'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}}.items() if k != 'backpressure'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S45-T3-A-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-IQU-045-3A reconstruí meets_contract alineado a «compute, autoscaling y networking» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S45-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\",\"queue:ack\"},\"requested_action\":\"object:get\",\"private_path\":True,\"egress_host\":\"api.internal\",\"egress_allow\":{\"api.internal\"}}}\nmeets_contract = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\nstatus = \"PASS\" if meets_contract else \"DENY_IAM_OR_EGRESS\"\nprint(\"S45-T3-B\", status)\n",
+      "justification_from_packet": "En el paquete activo de S45-T3-B-E1, el fixture CASO-IQU-045-3B deja ver que acción IAM mínima, path privado y egress allowlisted. Corregí el predicado defectuoso del starter para que el escenario de «IAM, private paths y egress» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S45-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'allowed_actions', 'case_id', 'egress_allow', 'egress_host', 'private_path', 'requested_action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\n    return \"PASS\" if ok else \"DENY_IAM_OR_EGRESS\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-3B', **{'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}}\ninvalid = {\"case_id\": 'CASO-IQU-045-3B', **{'allowed_actions': set(), 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}}\nincomplete = {k: v for k, v in valid.items() if k != 'egress_allow'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S45-T3-B-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-IQU-045-3B reconstruí meets_contract alineado a «IAM, private paths y egress» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S45-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'allowed_actions', 'case_id', 'egress_allow', 'egress_host', 'private_path', 'requested_action'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"REQUEST_SCOPED_POLICY\"\n    ok = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\n    return \"CONTINUE\" if ok else \"DENY_IAM_OR_EGRESS\"\n\nfixtures = [\n    {\"case_id\": 'CASO-IQU-045-3B', **{'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}},\n    {\"case_id\": 'CASO-IQU-045-3B', **{'allowed_actions': set(), 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}},\n    {k: v for k, v in {\"case_id\": 'CASO-IQU-045-3B', **{'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}}.items() if k != 'egress_allow'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S45-T3-B-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-IQU-045-3B reconstruí meets_contract alineado a «IAM, private paths y egress» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S45-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"queue\",\"bucket\"},\"environment\":\"staging\",\"secret_values_in_plan\":False,\"destructive_changes\":0}}\nmeets_contract = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REJECT_IAC_PLAN\"\nprint(\"S45-T4-A\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de configuración declarativa y environments en S45-T4-A-E1. El paquete indica plan coincide, entorno válido, sin secretos ni destrucción; por eso el código valida CASO-IQU-045-4A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S45-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'declared_resources', 'destructive_changes', 'environment', 'planned_resources', 'secret_values_in_plan'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\n    return \"PASS\" if ok else \"REJECT_IAC_PLAN\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-4A', **{'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}}\ninvalid = {\"case_id\": 'CASO-IQU-045-4A', **{'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': True, 'destructive_changes': 0}}\nincomplete = {k: v for k, v in valid.items() if k != 'destructive_changes'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de configuración declarativa y environments en S45-T4-A-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-IQU-045-4A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S45-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'declared_resources', 'destructive_changes', 'environment', 'planned_resources', 'secret_values_in_plan'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"REVIEW_DRIFT\"\n    ok = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\n    return \"CONTINUE\" if ok else \"REJECT_IAC_PLAN\"\n\nfixtures = [\n    {\"case_id\": 'CASO-IQU-045-4A', **{'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}},\n    {\"case_id\": 'CASO-IQU-045-4A', **{'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': True, 'destructive_changes': 0}},\n    {k: v for k, v in {\"case_id\": 'CASO-IQU-045-4A', **{'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}}.items() if k != 'destructive_changes'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S45-T4-A-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-IQU-045-4A reconstruí meets_contract alineado a «configuración declarativa y environments» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S45-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":820,\"budget_pen\":1000,\"quota_used\":72,\"quota_limit\":100,\"restore_tested\":True,\"portable_export\":True}}\nmeets_contract = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\nstatus = \"PASS\" if meets_contract else \"FREEZE_SCALE_OUT\"\nprint(\"S45-T4-B\", status)\n",
+      "justification_from_packet": "Leí instruction/hints de S45-T4-B-E1: la operación debe demostrar costo/cuota bajo límite y recovery/portability ensayados. Con el caso sintético CASO-IQU-045-4B reconstruí meets_contract alineado a «costos, quotas, recovery y portability» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S45-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'budget_pen', 'case_id', 'forecast_pen', 'portable_export', 'quota_limit', 'quota_used', 'restore_tested'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\n    return \"PASS\" if ok else \"FREEZE_SCALE_OUT\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-4B', **{'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}}\ninvalid = {\"case_id\": 'CASO-IQU-045-4B', **{'forecast_pen': 1640, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'portable_export'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de costos, quotas, recovery y portability en S45-T4-B-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-IQU-045-4B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S45-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'budget_pen', 'case_id', 'forecast_pen', 'portable_export', 'quota_limit', 'quota_used', 'restore_tested'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"COST_OWNER_REVIEW\"\n    ok = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\n    return \"CONTINUE\" if ok else \"FREEZE_SCALE_OUT\"\n\nfixtures = [\n    {\"case_id\": 'CASO-IQU-045-4B', **{'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}},\n    {\"case_id\": 'CASO-IQU-045-4B', **{'forecast_pen': 1640, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-IQU-045-4B', **{'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}}.items() if k != 'portable_export'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S45-T4-B-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-IQU-045-4B reconstruí meets_contract alineado a «costos, quotas, recovery y portability» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.73
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Para la pregunta «¿Qué evidencia permite aprobar `object store, relacional y cache` en CASO-IQU-04…» el packet de S45 sostiene «ADR de persistencia con fuente de verdad». Coincide con el contrato observable y el caso sintético del curso.",
+      "status": "answered",
+      "confidence": 0.75
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "En self-check Q1 de S45 elegí «emitir SEND_TO_DLQ y conservar evidencia» porque el theory/outcomes del paquete describen esa evidencia (Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache com). Las otras opciones rompen trazabilidad o piden datos reales.",
+      "status": "answered",
+      "confidence": 0.82
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "En self-check Q2 de S45 elegí «reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos» porque el theory/outcomes del paquete describen esa evidencia (Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache com). Las otras opciones rompen trazabilidad o piden datos reales.",
+      "status": "answered",
+      "confidence": 0.79
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "En self-check Q3 de S45 elegí «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el theory/outcomes del paquete describen esa evidencia (Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache com). Las otras opciones rompen trazabilidad o piden datos reales.",
+      "status": "answered",
+      "confidence": 0.75
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:48:47.245755+00:00",
+  "session_started_at": "2026-07-23T17:47:41.725735+00:00",
+  "session_ended_at": "2026-07-23T17:48:47.242255+00:00",
+  "receipt_response_sha256": "cd171018349a1ef559efdc1d1b00ce8227ae3d34d660be934c602c192da303b0",
+  "receipt_exercises_sha256": "39392536748ce682c46d00ecf9d7f518bc75548e34947468338fd9f360198ad2",
+  "receipt_selfcheck_sha256": "632d83f422093503dee2af64c58e56de04fe1ea283c5cce6337a85e498be3ad0"
+}

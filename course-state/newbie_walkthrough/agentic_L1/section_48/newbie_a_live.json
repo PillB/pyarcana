@@ -1,0 +1,443 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 48,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s48-9ddcf3e051",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S48-T1-A-E1",
+      "code": "# Explorer · S48-T1-A-E1: ranking por similitud (dot) al top esperado\nrecord = {\"case_id\": \"CASO-PUN-048-1A\", \"query\": [1.0, 0.0], \"docs\": {\"d1\": [0.8, 0.2], \"d2\": [0.1, 0.9]}, \"metric\": \"dot\", \"version\": \"emb-v2\", \"expected_top\": \"d1\"}\n\ndef _score(k):\n    return sum(a * b for a, b in zip(record[\"query\"], record[\"docs\"][k]))\n\nmeets_contract = max(record[\"docs\"], key=_score) == record[\"expected_top\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_EMBEDDING_RANK\"\nprint(\"S48-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «embeddings y similarity» («Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y métrica forman parte del índice.»), el contrato de S48-T1-A-E1 exige demostrar top por dot product y versión embedding explícita. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REJECT_EMBEDDING_RANK`.",
+      "concepts_used": [
+        "top",
+        "por",
+        "dot",
+        "product",
+        "versión",
+        "embedding",
+        "explícita"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S48-T1-A-E2",
+      "code": "# Explorer · S48-T1-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'query', 'docs', 'metric', 'version', 'expected_top'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (max(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"], record[\"docs\"][k]))) == record[\"expected_top\"]) else \"REJECT_EMBEDDING_RANK\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}\ninvalid = {\"case_id\": 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd2'}\nincomplete = {\"case_id\": 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «embeddings y similarity» el paquete pide tres rutas; la teoría subraya: «Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y métrica forman parte del índice.». Para S48-T1-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple top por dot product y versión embedding explícita, y `REJECT_EMBEDDING_RANK` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "top",
+        "por",
+        "dot",
+        "product",
+        "versión",
+        "embedding",
+        "explícita"
+      ],
+      "confidence": 0.809
+    },
+    {
+      "exercise_id": "S48-T1-A-E3",
+      "code": "# Explorer · S48-T1-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'query', 'docs', 'metric', 'version', 'expected_top'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_METRIC_VERSION\"\n    return \"CONTINUE\" if (max(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"], record[\"docs\"][k]))) == record[\"expected_top\"]) else \"REJECT_EMBEDDING_RANK\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}\ninvalid = {\"case_id\": 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd2'}\nincomplete = {\"case_id\": 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «embeddings y similarity» («Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y métrica forman parte del índice.») separa incertidumbre de breach. En S48-T1-A-E3 la ausencia enruta a `REVIEW_METRIC_VERSION`, CONTINUE solo con top por dot product y versión embedding explícita, y el adverso a `REJECT_EMBEDDING_RANK`, sin rellenar evidencia en LLM applications y RAG con evidencia.",
+      "concepts_used": [
+        "top",
+        "por",
+        "dot",
+        "product",
+        "versión",
+        "embedding",
+        "explícita"
+      ],
+      "confidence": 0.822
+    },
+    {
+      "exercise_id": "S48-T1-B-E1",
+      "code": "# Explorer · S48-T1-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\nmeets_contract = not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_EMBEDDING_BASELINE\"\nprint(\"S48-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «límites, versiones y evaluación» («Evalúa recall/precision en tareas reales y slicea errores; cambiar embedding exige baseline, costo y reindexación, no intuición.»), el contrato de S48-T1-B-E1 exige demostrar recall holdout mejora y costo de reindexación acotado. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `KEEP_EMBEDDING_BASELINE`.",
+      "concepts_used": [
+        "recall",
+        "holdout",
+        "mejora",
+        "costo",
+        "reindexación",
+        "acotado"
+      ],
+      "confidence": 0.843
+    },
+    {
+      "exercise_id": "S48-T1-B-E2",
+      "code": "# Explorer · S48-T1-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'baseline_recall', 'candidate_recall', 'min_recall', 'holdout', 'reindex_cost_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])) else \"KEEP_EMBEDDING_BASELINE\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\ninvalid = {\"case_id\": 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.01, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\nincomplete = {\"case_id\": 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «límites, versiones y evaluación» el paquete pide tres rutas; la teoría subraya: «Evalúa recall/precision en tareas reales y slicea errores; cambiar embedding exige baseline, costo y reindexación, no intuición.». Para S48-T1-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple recall holdout mejora y costo de reindexación acotado, y `KEEP_EMBEDDING_BASELINE` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "recall",
+        "holdout",
+        "mejora",
+        "costo",
+        "reindexación",
+        "acotado"
+      ],
+      "confidence": 0.851
+    },
+    {
+      "exercise_id": "S48-T1-B-E3",
+      "code": "# Explorer · S48-T1-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'baseline_recall', 'candidate_recall', 'min_recall', 'holdout', 'reindex_cost_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"EVALUATE_ERROR_SLICES\"\n    return \"CONTINUE\" if (not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])) else \"KEEP_EMBEDDING_BASELINE\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\ninvalid = {\"case_id\": 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.01, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\nincomplete = {\"case_id\": 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «límites, versiones y evaluación» («Evalúa recall/precision en tareas reales y slicea errores; cambiar embedding exige baseline, costo y reindexación, no intuición.») separa incertidumbre de breach. En S48-T1-B-E3 la ausencia enruta a `EVALUATE_ERROR_SLICES`, CONTINUE solo con recall holdout mejora y costo de reindexación acotado, y el adverso a `KEEP_EMBEDDING_BASELINE`, sin rellenar evidencia en LLM applications y RAG con evidencia.",
+      "concepts_used": [
+        "recall",
+        "holdout",
+        "mejora",
+        "costo",
+        "reindexación",
+        "acotado"
+      ],
+      "confidence": 0.782
+    },
+    {
+      "exercise_id": "S48-T2-A-E1",
+      "code": "# Explorer · S48-T2-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PUN-048-2A', 'chunks': [{'hash': 'a', 'id': 'd1#1', 'section': 'policy'}, {'hash': 'b', 'id': 'd1#2', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3'}\nmeets_contract = (not (len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]))) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"DEDUP_AND_RECHUNK\"\nprint(\"S48-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «chunking, metadata y dedup» («Chunking sigue unidades semánticas y conserva metadata; dedup por hash/identidad evita evidencia repetida y fuga entre versiones.»), el contrato de S48-T2-A-E1 exige demostrar hashes únicos, metadata y source version. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `DEDUP_AND_RECHUNK`.",
+      "concepts_used": [
+        "hashes",
+        "únicos",
+        "metadata",
+        "source",
+        "version"
+      ],
+      "confidence": 0.888
+    },
+    {
+      "exercise_id": "S48-T2-A-E2",
+      "code": "# Explorer · S48-T2-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'chunks', 'unique_hashes', 'source_version'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]))) and not record.get(\"__adv\")) else \"DEDUP_AND_RECHUNK\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-2A', 'chunks': [{'hash': 'a', 'id': 'd1#1', 'section': 'policy'}, {'hash': 'b', 'id': 'd1#2', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3'}\ninvalid = {\"case_id\": 'CASO-PUN-048-2A', 'chunks': [{'hash': 'a', 'id': 'd1#1', 'section': 'policy'}, {'hash': 'b', 'id': 'd1#2', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3', '__adv': True}\nincomplete = {\"case_id\": 'CASO-PUN-048-2A', 'chunks': [{'hash': 'a', 'id': 'd1#1', 'section': 'policy'}, {'hash': 'b', 'id': 'd1#2', 'section': 'limits'}], 'unique_hashes': 2}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «chunking, metadata y dedup» el paquete pide tres rutas; la teoría subraya: «Chunking sigue unidades semánticas y conserva metadata; dedup por hash/identidad evita evidencia repetida y fuga entre versiones.». Para S48-T2-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple hashes únicos, metadata y source version, y `DEDUP_AND_RECHUNK` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "hashes",
+        "únicos",
+        "metadata",
+        "source",
+        "version"
+      ],
+      "confidence": 0.895
+    },
+    {
+      "exercise_id": "S48-T2-A-E3",
+      "code": "# Explorer · S48-T2-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'chunks', 'unique_hashes', 'source_version'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RESTORE_CHUNK_METADATA\"\n    return \"CONTINUE\" if ((not (len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]))) and not record.get(\"__adv\")) else \"DEDUP_AND_RECHUNK\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-2A', 'chunks': [{'hash': 'a', 'id': 'd1#1', 'section': 'policy'}, {'hash': 'b', 'id': 'd1#2', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3'}\ninvalid = {\"case_id\": 'CASO-PUN-048-2A', 'chunks': [{'hash': 'a', 'id': 'd1#1', 'section': 'policy'}, {'hash': 'b', 'id': 'd1#2', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3', '__adv': True}\nincomplete = {\"case_id\": 'CASO-PUN-048-2A', 'chunks': [{'hash': 'a', 'id': 'd1#1', 'section': 'policy'}, {'hash': 'b', 'id': 'd1#2', 'section': 'limits'}], 'unique_hashes': 2}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «chunking, metadata y dedup» («Chunking sigue unidades semánticas y conserva metadata; dedup por hash/identidad evita evidencia repetida y fuga entre versiones.») separa incertidumbre de breach. En S48-T2-A-E3 la ausencia enruta a `RESTORE_CHUNK_METADATA`, CONTINUE solo con hashes únicos, metadata y source version, y el adverso a `DEDUP_AND_RECHUNK`, sin rellenar evidencia en LLM applications y RAG con evidencia.",
+      "concepts_used": [
+        "hashes",
+        "únicos",
+        "metadata",
+        "source",
+        "version"
+      ],
+      "confidence": 0.807
+    },
+    {
+      "exercise_id": "S48-T2-B-E1",
+      "code": "# Explorer · S48-T2-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}\nmeets_contract = not (not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"])\nstatus = \"PASS\" if meets_contract else \"FILTER_OR_DELETE_CHUNK\"\nprint(\"S48-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «ACL, deletion y provenance» («ACL se filtra antes de retrieval/rerank; deletion invalida índice/cache y provenance enlaza cada chunk a documento y versión.»), el contrato de S48-T2-B-E1 exige demostrar ACL intersecta, documento activo y cache coherente. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `FILTER_OR_DELETE_CHUNK`.",
+      "concepts_used": [
+        "ACL",
+        "intersecta",
+        "documento",
+        "activo",
+        "cache",
+        "coherente"
+      ],
+      "confidence": 0.759
+    },
+    {
+      "exercise_id": "S48-T2-B-E2",
+      "code": "# Explorer · S48-T2-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'user_acl', 'chunk_acl', 'deleted', 'provenance', 'cache_invalidated'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"])) else \"FILTER_OR_DELETE_CHUNK\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}\ninvalid = {\"case_id\": 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': True, 'provenance': 'doc-7-v2', 'cache_invalidated': True}\nincomplete = {\"case_id\": 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «ACL, deletion y provenance» el paquete pide tres rutas; la teoría subraya: «ACL se filtra antes de retrieval/rerank; deletion invalida índice/cache y provenance enlaza cada chunk a documento y versión.». Para S48-T2-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple ACL intersecta, documento activo y cache coherente, y `FILTER_OR_DELETE_CHUNK` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "ACL",
+        "intersecta",
+        "documento",
+        "activo",
+        "cache",
+        "coherente"
+      ],
+      "confidence": 0.892
+    },
+    {
+      "exercise_id": "S48-T2-B-E3",
+      "code": "# Explorer · S48-T2-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'user_acl', 'chunk_acl', 'deleted', 'provenance', 'cache_invalidated'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"VERIFY_ACL_PROVENANCE\"\n    return \"CONTINUE\" if (not (not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"])) else \"FILTER_OR_DELETE_CHUNK\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}\ninvalid = {\"case_id\": 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': True, 'provenance': 'doc-7-v2', 'cache_invalidated': True}\nincomplete = {\"case_id\": 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «ACL, deletion y provenance» («ACL se filtra antes de retrieval/rerank; deletion invalida índice/cache y provenance enlaza cada chunk a documento y versión.») separa incertidumbre de breach. En S48-T2-B-E3 la ausencia enruta a `VERIFY_ACL_PROVENANCE`, CONTINUE solo con ACL intersecta, documento activo y cache coherente, y el adverso a `FILTER_OR_DELETE_CHUNK`, sin rellenar evidencia en LLM applications y RAG con evidencia.",
+      "concepts_used": [
+        "ACL",
+        "intersecta",
+        "documento",
+        "activo",
+        "cache",
+        "coherente"
+      ],
+      "confidence": 0.852
+    },
+    {
+      "exercise_id": "S48-T3-A-E1",
+      "code": "# Explorer · S48-T3-A-E1: híbrido lexical/vector con pesos del paquete\nrecord = {\"case_id\": \"CASO-PUN-048-3A\", \"lexical\": {\"d1\": 0.9, \"d2\": 0.2}, \"vector\": {\"d1\": 0.6, \"d2\": 0.8}, \"weights\": {\"lexical\": 0.6, \"vector\": 0.4}, \"expected_top\": \"d1\"}\n\ndef _hybrid(k):\n    return record[\"weights\"][\"lexical\"] * record[\"lexical\"][k] + record[\"weights\"][\"vector\"] * record[\"vector\"][k]\n\nmeets_contract = max(record[\"lexical\"], key=_hybrid) == record[\"expected_top\"]\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_HYBRID_RANK\"\nprint(\"S48-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «lexical/vector/hybrid y reranking» («Lexical captura términos exactos, vector semántica y hybrid combina scores calibrados; rerank opera solo sobre candidatos permitidos.»), el contrato de S48-T3-A-E1 exige demostrar weighted hybrid score produce top esperado. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `RECALIBRATE_HYBRID_RANK`.",
+      "concepts_used": [
+        "weighted",
+        "hybrid",
+        "score",
+        "produce",
+        "top",
+        "esperado"
+      ],
+      "confidence": 0.865
+    },
+    {
+      "exercise_id": "S48-T3-A-E2",
+      "code": "# Explorer · S48-T3-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'lexical', 'vector', 'weights', 'expected_top'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (max(record[\"lexical\"], key=lambda k: record[\"weights\"][\"lexical\"]*record[\"lexical\"][k] + record[\"weights\"][\"vector\"]*record[\"vector\"][k]) == record[\"expected_top\"]) else \"RECALIBRATE_HYBRID_RANK\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}\ninvalid = {\"case_id\": 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd2'}\nincomplete = {\"case_id\": 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «lexical/vector/hybrid y reranking» el paquete pide tres rutas; la teoría subraya: «Lexical captura términos exactos, vector semántica y hybrid combina scores calibrados; rerank opera solo sobre candidatos permitidos.». Para S48-T3-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple weighted hybrid score produce top esperado, y `RECALIBRATE_HYBRID_RANK` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "weighted",
+        "hybrid",
+        "score",
+        "produce",
+        "top",
+        "esperado"
+      ],
+      "confidence": 0.756
+    },
+    {
+      "exercise_id": "S48-T3-A-E3",
+      "code": "# Explorer · S48-T3-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'lexical', 'vector', 'weights', 'expected_top'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_RERANK_CANDIDATES\"\n    return \"CONTINUE\" if (max(record[\"lexical\"], key=lambda k: record[\"weights\"][\"lexical\"]*record[\"lexical\"][k] + record[\"weights\"][\"vector\"]*record[\"vector\"][k]) == record[\"expected_top\"]) else \"RECALIBRATE_HYBRID_RANK\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}\ninvalid = {\"case_id\": 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd2'}\nincomplete = {\"case_id\": 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «lexical/vector/hybrid y reranking» («Lexical captura términos exactos, vector semántica y hybrid combina scores calibrados; rerank opera solo sobre candidatos permitidos.») separa incertidumbre de breach. En S48-T3-A-E3 la ausencia enruta a `REVIEW_RERANK_CANDIDATES`, CONTINUE solo con weighted hybrid score produce top esperado, y el adverso a `RECALIBRATE_HYBRID_RANK`, sin rellenar evidencia en LLM applications y RAG con evidencia.",
+      "concepts_used": [
+        "weighted",
+        "hybrid",
+        "score",
+        "produce",
+        "top",
+        "esperado"
+      ],
+      "confidence": 0.837
+    },
+    {
+      "exercise_id": "S48-T3-B-E1",
+      "code": "# Explorer · S48-T3-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}\nmeets_contract = not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_UNCITED\"\nprint(\"S48-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «contexto, citas y permisos» («Contexto incluye fragmentos mínimos, citas y límites; una cita debe resolver a texto/ver­sión accesible por el solicitante.»), el contrato de S48-T3-B-E1 exige demostrar todas las claims citadas, ACL y contexto bajo límite. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `ABSTAIN_UNCITED`.",
+      "concepts_used": [
+        "todas",
+        "las",
+        "claims",
+        "citadas",
+        "ACL",
+        "contexto",
+        "bajo",
+        "límite"
+      ],
+      "confidence": 0.817
+    },
+    {
+      "exercise_id": "S48-T3-B-E2",
+      "code": "# Explorer · S48-T3-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'claims', 'cited_claims', 'citation_acl', 'context_tokens', 'max_context_tokens'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])) else \"ABSTAIN_UNCITED\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}\ninvalid = {\"case_id\": 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': False, 'context_tokens': 800, 'max_context_tokens': 1000}\nincomplete = {\"case_id\": 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «contexto, citas y permisos» el paquete pide tres rutas; la teoría subraya: «Contexto incluye fragmentos mínimos, citas y límites; una cita debe resolver a texto/ver­sión accesible por el solicitante.». Para S48-T3-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple todas las claims citadas, ACL y contexto bajo límite, y `ABSTAIN_UNCITED` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "todas",
+        "las",
+        "claims",
+        "citadas",
+        "ACL",
+        "contexto",
+        "bajo",
+        "límite"
+      ],
+      "confidence": 0.857
+    },
+    {
+      "exercise_id": "S48-T3-B-E3",
+      "code": "# Explorer · S48-T3-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'claims', 'cited_claims', 'citation_acl', 'context_tokens', 'max_context_tokens'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_AUTHORIZED_CONTEXT\"\n    return \"CONTINUE\" if (not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])) else \"ABSTAIN_UNCITED\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}\ninvalid = {\"case_id\": 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': False, 'context_tokens': 800, 'max_context_tokens': 1000}\nincomplete = {\"case_id\": 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «contexto, citas y permisos» («Contexto incluye fragmentos mínimos, citas y límites; una cita debe resolver a texto/ver­sión accesible por el solicitante.») separa incertidumbre de breach. En S48-T3-B-E3 la ausencia enruta a `REQUEST_AUTHORIZED_CONTEXT`, CONTINUE solo con todas las claims citadas, ACL y contexto bajo límite, y el adverso a `ABSTAIN_UNCITED`, sin rellenar evidencia en LLM applications y RAG con evidencia.",
+      "concepts_used": [
+        "todas",
+        "las",
+        "claims",
+        "citadas",
+        "ACL",
+        "contexto",
+        "bajo",
+        "límite"
+      ],
+      "confidence": 0.811
+    },
+    {
+      "exercise_id": "S48-T4-A-E1",
+      "code": "# Explorer · S48-T4-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True}\nmeets_contract = not (not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGROUNDED_OUTPUT\"\nprint(\"S48-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «structured output y grounding» («Structured output se valida contra schema; grounding limita afirmaciones a evidencia y separa instrucciones del usuario del contenido recuperado.»), el contrato de S48-T4-A-E1 exige demostrar schema exacto, evidence IDs permitidos e injection ignorada. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REJECT_UNGROUNDED_OUTPUT`.",
+      "concepts_used": [
+        "schema",
+        "exacto",
+        "evidence",
+        "IDs",
+        "permitidos",
+        "injection",
+        "ignorada"
+      ],
+      "confidence": 0.884
+    },
+    {
+      "exercise_id": "S48-T4-A-E2",
+      "code": "# Explorer · S48-T4-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'output', 'schema_keys', 'allowed_evidence', 'injected_instruction_ignored'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"])) else \"REJECT_UNGROUNDED_OUTPUT\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True}\ninvalid = {\"case_id\": 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': False}\nincomplete = {\"case_id\": 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «structured output y grounding» el paquete pide tres rutas; la teoría subraya: «Structured output se valida contra schema; grounding limita afirmaciones a evidencia y separa instrucciones del usuario del contenido recuperado.». Para S48-T4-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple schema exacto, evidence IDs permitidos e injection ignorada, y `REJECT_UNGROUNDED_OUTPUT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "schema",
+        "exacto",
+        "evidence",
+        "IDs",
+        "permitidos",
+        "injection",
+        "ignorada"
+      ],
+      "confidence": 0.779
+    },
+    {
+      "exercise_id": "S48-T4-A-E3",
+      "code": "# Explorer · S48-T4-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'output', 'schema_keys', 'allowed_evidence', 'injected_instruction_ignored'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"VALIDATE_OUTPUT_SCHEMA\"\n    return \"CONTINUE\" if (not (not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"])) else \"REJECT_UNGROUNDED_OUTPUT\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True}\ninvalid = {\"case_id\": 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': False}\nincomplete = {\"case_id\": 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «structured output y grounding» («Structured output se valida contra schema; grounding limita afirmaciones a evidencia y separa instrucciones del usuario del contenido recuperado.») separa incertidumbre de breach. En S48-T4-A-E3 la ausencia enruta a `VALIDATE_OUTPUT_SCHEMA`, CONTINUE solo con schema exacto, evidence IDs permitidos e injection ignorada, y el adverso a `REJECT_UNGROUNDED_OUTPUT`, sin rellenar evidencia en LLM applications y RAG con evidencia.",
+      "concepts_used": [
+        "schema",
+        "exacto",
+        "evidence",
+        "IDs",
+        "permitidos",
+        "injection",
+        "ignorada"
+      ],
+      "confidence": 0.795
+    },
+    {
+      "exercise_id": "S48-T4-B-E1",
+      "code": "# Explorer · S48-T4-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}\nmeets_contract = not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_WITH_REASON\"\nprint(\"S48-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «retrieval/answer eval, costo y abstención» («Retrieval eval y answer eval son gates separados; costo/latencia tienen presupuesto y la abstención es éxito cuando falta soporte.»), el contrato de S48-T4-B-E1 exige demostrar retrieval/answer gates, costo y soporte. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `ABSTAIN_WITH_REASON`.",
+      "concepts_used": [
+        "retrieval",
+        "answer",
+        "gates",
+        "costo",
+        "soporte"
+      ],
+      "confidence": 0.872
+    },
+    {
+      "exercise_id": "S48-T4-B-E2",
+      "code": "# Explorer · S48-T4-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'retrieval_recall', 'min_recall', 'faithfulness', 'min_faithfulness', 'cost_pen', 'cost_cap_pen', 'support'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])) else \"ABSTAIN_WITH_REASON\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}\ninvalid = {\"case_id\": 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': False}\nincomplete = {\"case_id\": 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «retrieval/answer eval, costo y abstención» el paquete pide tres rutas; la teoría subraya: «Retrieval eval y answer eval son gates separados; costo/latencia tienen presupuesto y la abstención es éxito cuando falta soporte.». Para S48-T4-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple retrieval/answer gates, costo y soporte, y `ABSTAIN_WITH_REASON` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "retrieval",
+        "answer",
+        "gates",
+        "costo",
+        "soporte"
+      ],
+      "confidence": 0.721
+    },
+    {
+      "exercise_id": "S48-T4-B-E3",
+      "code": "# Explorer · S48-T4-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'retrieval_recall', 'min_recall', 'faithfulness', 'min_faithfulness', 'cost_pen', 'cost_cap_pen', 'support'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TUNE_RETRIEVAL_OR_BUDGET\"\n    return \"CONTINUE\" if (not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])) else \"ABSTAIN_WITH_REASON\"\n\nvalid = {\"case_id\": 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}\ninvalid = {\"case_id\": 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': False}\nincomplete = {\"case_id\": 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «retrieval/answer eval, costo y abstención» («Retrieval eval y answer eval son gates separados; costo/latencia tienen presupuesto y la abstención es éxito cuando falta soporte.») separa incertidumbre de breach. En S48-T4-B-E3 la ausencia enruta a `TUNE_RETRIEVAL_OR_BUDGET`, CONTINUE solo con retrieval/answer gates, costo y soporte, y el adverso a `ABSTAIN_WITH_REASON`, sin rellenar evidencia en LLM applications y RAG con evidencia.",
+      "concepts_used": [
+        "retrieval",
+        "answer",
+        "gates",
+        "costo",
+        "soporte"
+      ],
+      "confidence": 0.727
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Q0: elijo «ranking reproducible con versión de embedding» anclado en «embeddings y similarity» («Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normal»), frente a «¿Qué evidencia permite aprobar `embeddings y similarity` en CASO-PUN-048?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.808,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Q1: elijo «emitir ABSTAIN y conservar evidencia» anclado en «límites, versiones y evaluación» («Evalúa recall/precision en tareas reales y slicea errores; cambiar embedding exige baseline, costo y»), frente a «Si ocurre la condición de error de S48, ¿qué respuesta preserva seguridad y auditabilidad?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.853,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Q2: elijo «retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fra» anclado en «chunking, metadata y dedup» («Chunking sigue unidades semánticas y conserva metadata; dedup por hash/identidad evita evidencia rep»), frente a «¿Cuál resultado demuestra el gate `CP-N4-C · RAG con evidencia y abstención`?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.762,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Q3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» anclado en «ACL, deletion y provenance» («ACL se filtra antes de retrieval/rerank; deletion invalida índice/cache y provenance enlaza cada chu»), frente a «¿Qué tratamiento de `CASO-PUN-048` respeta el alcance del curso?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.742,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:45:45.501811+00:00",
+  "session_started_at": "2026-07-23T16:52:10.846377+00:00",
+  "session_ended_at": "2026-07-23T16:52:46.417815+00:00",
+  "receipt_response_sha256": "40b8a1f0ab10ae838b295d0a234559ec15479ba9302549243c081ad3ed45fe1f",
+  "receipt_exercises_sha256": "34833923f96c3770acd6da01b20bbd3b88f5f01e947e8fd8b095c65a0e907092",
+  "receipt_selfcheck_sha256": "19f3c99169701576896a170d9b95c88606128e58a256b6bcec2ca233348a89cc"
+}

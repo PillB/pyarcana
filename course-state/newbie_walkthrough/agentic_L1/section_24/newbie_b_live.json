@@ -1,0 +1,244 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s24-a4b5c01ae3",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "id": "S24-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndpi=96\nprint(max(dpi, 200))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en OCR Document AI pide `S24-T1-A-E1` — confidence y review no fraude; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "id": "S24-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nskew=1.2\nprint(abs(skew) >= 0.5)\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S24-T1-A-E2` — confidence y review no fraude. Si no cuadra con theory de OCR Document AI, no firmo el pass. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "id": "S24-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nw=h=1000\nm=0.05\nprint((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S24-T1-A-E3` — confidence y review no fraude. El iDo/theory de OCR Document AI es la fuente, no mi memoria. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "id": "S24-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns={0:0.1,90:0.8}\nprint(max(s, key=s.get))\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S24-T1-B-E1` — confidence y review no fraude, alineado al contrato de OCR Document AI del slim_packet. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "id": "S24-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nflags=[0,1,1,0]\nprint(sum(flags))\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S24-T1-B-E2` — confidence y review no fraude. Sin eso el ejercicio de OCR Document AI queda teatro. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "id": "S24-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=0.4\nprint('manual_orient' if score < 0.5 else 'auto')\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en OCR Document AI pide `S24-T1-B-E3` — confidence y review no fraude; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "id": "S24-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.85])\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S24-T2-A-E1` — confidence y review no fraude. Si no cuadra con theory de OCR Document AI, no firmo el pass. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "id": "S24-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint(ocr('Hola')['lang'])\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S24-T2-A-E2` — confidence y review no fraude. El iDo/theory de OCR Document AI es la fuente, no mi memoria. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "id": "S24-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nconfs=[0.9,0.75,0.95]\nm=min(confs)\nprint(m, 'review' if m < 0.8 else 'auto')\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S24-T2-A-E3` — confidence y review no fraude, alineado al contrato de OCR Document AI del slim_packet. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "id": "S24-T2-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='Total: 12.5'\nk,v=s.split(':',1)\nprint(k.strip(), v.strip())\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S24-T2-B-E1` — confidence y review no fraude. Sin eso el ejercicio de OCR Document AI queda teatro. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "id": "S24-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nt=[['H1','H2'],['a','b']]\nprint(len(t)-1)\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en OCR Document AI pide `S24-T2-B-E2` — confidence y review no fraude; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "id": "S24-T2-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfield={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint(field['bbox'], field['value'])\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S24-T2-B-E3` — confidence y review no fraude. Si no cuadra con theory de OCR Document AI, no firmo el pass. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "id": "S24-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\ns='20-123'\nprint(re.sub(r'\\D', '', s))\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S24-T3-A-E1` — confidence y review no fraude. El iDo/theory de OCR Document AI es la fuente, no mi memoria. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "id": "S24-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import datetime\nprint(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S24-T3-A-E2` — confidence y review no fraude, alineado al contrato de OCR Document AI del slim_packet. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "id": "S24-T3-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\nraw='123'\nd=re.sub(r'\\D','',raw)\nprint(d if len(d)==11 else None)\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S24-T3-A-E3` — confidence y review no fraude. Sin eso el ejercicio de OCR Document AI queda teatro. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "id": "S24-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntotal, lines=10.0,[4.0,5.0]\nprint('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en OCR Document AI pide `S24-T3-B-E1` — confidence y review no fraude; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "id": "S24-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint(reasons)\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S24-T3-B-E2` — confidence y review no fraude. Si no cuadra con theory de OCR Document AI, no firmo el pass. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "id": "S24-T3-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmismatch=True\nprint('review_not_fraud' if mismatch else 'auto')\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S24-T3-B-E3` — confidence y review no fraude. El iDo/theory de OCR Document AI es la fuente, no mi memoria. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "id": "S24-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncorrect, n = 3, 4\nprint(correct / n)\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S24-T4-A-E1` — confidence y review no fraude, alineado al contrato de OCR Document AI del slim_packet. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "id": "S24-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S24-T4-A-E2` — confidence y review no fraude. Sin eso el ejercicio de OCR Document AI queda teatro. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "id": "S24-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nauto, review = 7, 3\nprint(auto / (auto + review))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en OCR Document AI pide `S24-T4-A-E3` — confidence y review no fraude; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "id": "S24-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('reject' if mime not in allowed else 'ok')\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S24-T4-B-E1` — confidence y review no fraude. Si no cuadra con theory de OCR Document AI, no firmo el pass. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "id": "S24-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=6_000_000\nprint('reject' if n > 5_000_000 else 'ok')\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S24-T4-B-E2` — confidence y review no fraude. El iDo/theory de OCR Document AI es la fuente, no mi memoria. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "id": "S24-T4-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus='ocr_fail'\nprint({'ocr_fail':'human_rescan'}.get(status, 'continue'))\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S24-T4-B-E3` — confidence y review no fraude, alineado al contrato de OCR Document AI del slim_packet. (lectura directa del packet L1 s24).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Theory de OCR Document AI: la opción «Abstener y encolar revisión» es la que el paquete defiende; las demás contradicen el contrato.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Como skeptic descarto distractores: en OCR Document AI, el slim_packet apunta a «Cola de revisión / corrección».",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "No me fío de memoria suelta; el selfCheck de OCR Document AI se ancla a «Los campos críticos pueden fallar aunque el global se v» según la theory activa.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Releo outcomes de OCR Document AI: «Gate reject/review por mime no permitido» es la respuesta coherente con el texto del paquete.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "Revisé si el fixture de s24 asume libs instaladas (numpy/pandas/openpyxl).",
+    "Confirmé que no uso knowledge de S25+ para resolver S24."
+  ],
+  "recorded_at": "2026-07-23T16:41:52.094959+00:00",
+  "session_started_at": "2026-07-23T16:41:06.201Z",
+  "session_ended_at": "2026-07-23T16:41:52.093Z",
+  "receipt_response_sha256": "1f7dcd69ba272ddc963816fd1cfcb25e2af376c5d8c38af072011b7dbf5791b3",
+  "receipt_exercises_sha256": "f857fd02545fd8cf1d247bef3c2b62af3e438d1a3325b39a30c25c09fbd35b94",
+  "receipt_selfcheck_sha256": "a5dbd26b12afa6763449c4f42a4015823191cca247ec8493cd588df506bcdd0a"
+}

@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 3,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s03-f9f37802d0",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S03-T1-A-E1",
+      "code": "edad = 25\nregion = \"Cusco\"\nprint(edad >= 18)\nprint(edad < 65)\nprint(18 <= edad <= 65)\nprint(region == \"Lima\")\nprint(region != \"Piura\")\n",
+      "justification_from_packet": "Un booleano de negocio nace de comparaciones ==, !=, <, >; Python permite encadenar 18 <= edad <= 65 de forma segura como enseña la teoría."
+    },
+    {
+      "exercise_id": "S03-T1-A-E2",
+      "code": "TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t in TIPOS_DOC)\n",
+      "justification_from_packet": "x in coleccion con un set de literales es la allowlist ideal; atención a mayúsculas: \"dni\" in {\"DNI\"} es False, hay que normalizar o documentar."
+    },
+    {
+      "exercise_id": "S03-T1-A-E3",
+      "code": "valor = None\nprint(\"valor is None →\", valor is None)\nprint(\"True == 1 →\", True == 1)\nprint(\"True is 1 →\", True is 1)\nprint(\"Nota:\", \"en validadores usa is None para ausencia; == para valores de negocio, nunca is con enteros\")\n",
+      "justification_from_packet": "is pregunta mismo objeto y == pregunta mismo valor; se usa is None para ausencia y no is para números o strings de negocio."
+    },
+    {
+      "exercise_id": "S03-T1-B-E1",
+      "code": "vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", bool(v))\n",
+      "justification_from_packet": "Son falsy None, False, 0, 0.0, \"\", (), [], {}, set() y range(0); casi todo lo demás es truthy, incluso [0] o \"False\"."
+    },
+    {
+      "exercise_id": "S03-T1-B-E2",
+      "code": "print(\"'' or 'default' →\", \"\" or \"default\")\nprint(\"'Lima' or 'default' →\", \"Lima\" or \"default\")\nprint(\"0 and 99 →\", 0 and 99)\nprint(\"5 and 99 →\", 5 and 99)\nprint(\"None or 0 →\", None or 0)\n",
+      "justification_from_packet": "and/or hacen short-circuit y devuelven un operando: \"\" or \"default\" da \"default\" y 0 and 99 da 0, no siempre True/False."
+    },
+    {
+      "exercise_id": "S03-T1-B-E3",
+      "code": "def validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))\n",
+      "justification_from_packet": "if monto: trata 0 como ausente, pero cero puede ser válido; se separa presencia con is None y el rango con comparaciones numéricas."
+    },
+    {
+      "exercise_id": "S03-T2-A-E1",
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))\n",
+      "justification_from_packet": "if/elif/else evalúa en orden y la primera condición verdadera gana; fronteras como score >= 80 quedan documentadas en accept/review/reject."
+    },
+    {
+      "exercise_id": "S03-T2-A-E2",
+      "code": "def bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))\n",
+      "justification_from_packet": "ifs independientes no son excluyentes: ambos pueden dispararse y sobrescribir el status; elif garantiza una sola etiqueta por registro."
+    },
+    {
+      "exercise_id": "S03-T2-A-E3",
+      "code": "def band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in [150, 75, 10, 0, -3]:\n    print(n, \"→\", band(n))\n",
+      "justification_from_packet": "Se evalúan en orden empezando por el umbral más alto; el else catch-all cubre 0 y negativos como nulo, una sola rama dominante."
+    },
+    {
+      "exercise_id": "S03-T2-B-E1",
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))\n",
+      "justification_from_packet": "Orden de guards: ausencia is None, luego tipo, luego rango/allowlist y accept al final; comparar None con < provoca TypeError."
+    },
+    {
+      "exercise_id": "S03-T2-B-E2",
+      "code": "def validate_monto_nested(m):\n    if m is not None:\n        if isinstance(m, int):\n            if m >= 0:\n                if m <= 10000:\n                    return \"accept\"\n                else:\n                    return \"review\"\n            else:\n                return \"reject\"\n        else:\n            return \"reject\"\n    else:\n        return \"review\"\n\ndef validate_monto_guards(m):\n    if m is None:\n        return \"review\"\n    if not isinstance(m, int):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m <= 10000:\n        return \"accept\"\n    return \"review\"\n\nfor v in [None, \"x\", -1, 0, 500, 20000]:\n    a, b = validate_monto_nested(v), validate_monto_guards(v)\n    print(v, a, b, \"ok=\", a == b)\n",
+      "justification_from_packet": "Una guard clause retorna de inmediato y deja el camino feliz al final sin pirámide de if anidados, misma semántica y más legible."
+    },
+    {
+      "exercise_id": "S03-T2-B-E3",
+      "code": "def etiqueta_bug(x):\n    if x != 0:\n        if x > 0:\n            return \"positivo\"\n        return \"negativo\"\n    elif x == 0:  # nunca se alcanza: x==0 ya salió del if x!=0 hacia aquí, pero el elif está mal anidado conceptualmente\n        return \"cero\"\n    return \"???\"\n\nprint(\"bug 0 →\", etiqueta_bug(0))\nprint(\"Nota: el elif x==0 es confuso; reordenamos con tres ramas vivas\")\n\ndef etiqueta_ok(x):\n    if x > 0:\n        return \"positivo\"\n    elif x < 0:\n        return \"negativo\"\n    else:\n        return \"cero\"\n\nprint(\"ok 0 →\", etiqueta_ok(0))\nprint(\"ok 3 →\", etiqueta_ok(3))\nprint(\"ok -2 →\", etiqueta_ok(-2))\n",
+      "justification_from_packet": "Una rama muerta es código que nunca se ejecuta porque una condición anterior ya la cubre; hay que leer el orden como en un code review."
+    },
+    {
+      "exercise_id": "S03-T3-A-E1",
+      "code": "ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    if r is None:\n        return \"review\"\n    if r not in ALLOWED:\n        return \"review\"\n    return \"accept\"\n\nfor r in [\"Lima\", \"Tacna\", None]:\n    print(r, \"→\", check_region(r))\n",
+      "justification_from_packet": "Una allowlist es el set de valores admitidos; si el valor no está suele ir a review (desconocido), no siempre a reject, en esta política."
+    },
+    {
+      "exercise_id": "S03-T3-A-E2",
+      "code": "def monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))\n",
+      "justification_from_packet": "Tri-estado: accept si cumple, reject si viola hard, review si ausente u outlier; el cero en montos suele ser accept si el invariante lo permite."
+    },
+    {
+      "exercise_id": "S03-T3-A-E3",
+      "code": "ALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}\nDOC_LEN = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef tipo_doc_len(tipo, numero):\n    if tipo is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if tipo not in ALLOWED_DOC:\n        return {\"status\": \"review\", \"code\": \"NOT_IN_ALLOWLIST\"}\n    if len(str(numero)) != DOC_LEN[tipo]:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]:\n    print(t, n, \"→\", tipo_doc_len(t, n))\n",
+      "justification_from_packet": "Se combinan allowlist y rango con códigos distintos NOT_IN_ALLOWLIST vs OUT_OF_RANGE; primero ausencia, luego allowlist, luego longitud."
+    },
+    {
+      "exercise_id": "S03-T3-B-E1",
+      "code": "TABLE = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"review\",\n    \"OUT_OF_RANGE\": \"reject\",\n}\n\ndef apply(code):\n    return TABLE.get(code, \"review\")\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\"]:\n    print(c, \"→\", apply(c))\n",
+      "justification_from_packet": "Una decision table mapea condiciones a acción; primero se escribe la tabla y después se implementa; el default cubre códigos desconocidos."
+    },
+    {
+      "exercise_id": "S03-T3-B-E2",
+      "code": "def status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NOT_IN_ALLOWLIST\" | \"BAD_TYPE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\", \"NEEDS_REVIEW\"]:\n    print(c, \"→\", status_match(c))\n",
+      "justification_from_packet": "match/case brilla con literales o estados finitos; soporta OR patterns case A|B y el comodín case _ para defaults."
+    },
+    {
+      "exercise_id": "S03-T3-B-E3",
+      "code": "def map_code(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\":\n            return \"review\"\n        case \"OUT_OF_RANGE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\ndef map_edad(edad):\n    if edad is None:\n        return \"review\"\n    if 18 <= edad <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(map_code(\"OK\"), map_code(\"MISSING\"))\nprint(map_edad(None), map_edad(30), map_edad(10))\nprint(\"Justificación:\", \"match es claro con códigos finitos; el rango 18-65 se lee mejor con if y comparaciones\")\n",
+      "justification_from_packet": "Preferir if para rangos numéricos y combinaciones de campos; match no depreca if — se elige por claridad del sujeto."
+    },
+    {
+      "exercise_id": "S03-T4-A-E1",
+      "code": "def validate_edad(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"accept\"\n\nexamples = [\n    {\"value\": 30, \"expected\": \"accept\"},\n    {\"value\": -1, \"expected\": \"reject\"},\n    {\"value\": None, \"expected\": \"review\"},\n    {\"value\": \"x\", \"expected\": \"reject\"},\n]\nfor ex in examples:\n    got = validate_edad(ex[\"value\"])\n    print(ex[\"value\"], got, got == ex[\"expected\"])\n",
+      "justification_from_packet": "Un invariante se valida con ejemplos canónicos accept/reject/review; hace falta al menos un ejemplo por estado de decisión que la regla produce."
+    },
+    {
+      "exercise_id": "S03-T4-A-E2",
+      "code": "def validate_apellidos(ap, am):\n    ap_ok = isinstance(ap, str) and bool(ap.strip())\n    am_ok = isinstance(am, str) and bool(am.strip())\n    if ap_ok and am_ok:\n        return \"accept\"\n    if not ap_ok and not am_ok:\n        return \"reject\"\n    return \"review\"\n\ninvariant_text = \"apellido_paterno y apellido_materno no vacíos tras strip; uno faltante→review; ambos vacíos→reject\"\nexamples = [\n    {\"ap\": \"Quispe\", \"am\": \"Ñahui\", \"expected\": \"accept\"},\n    {\"ap\": \"Quispe\", \"am\": \"\", \"expected\": \"review\"},\n    {\"ap\": \"\", \"am\": None, \"expected\": \"reject\"},\n]\nprint(invariant_text)\nfor ex in examples:\n    got = validate_apellidos(ex[\"ap\"], ex[\"am\"])\n    print(ex, \"→\", got, got == ex[\"expected\"])\n",
+      "justification_from_packet": "El invariante es una promesa en español antes del código; los ejemplos canónicos son la forma barata de validar que la especificación es usable."
+    },
+    {
+      "exercise_id": "S03-T4-A-E3",
+      "code": "def validate_edad_strict(e):\n    if isinstance(e, int) and 18 <= e <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(\"strict 15 →\", validate_edad_strict(15))\nprint(\"strict None →\", validate_edad_strict(None))\n\ndef validate_edad_fixed(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    if e < 18:\n        return \"review\"\n    if e <= 65:\n        return \"accept\"\n    return \"review\"\n\nprint(\"fixed 15 →\", validate_edad_fixed(15))\nprint(\"fixed None →\", validate_edad_fixed(None))\nprint(\"fixed 30 →\", validate_edad_fixed(30))\nprint(\"Invariante:\", \"edad None→review; <0 o >120 reject; menor de 18 review; 18-65 accept\")\n",
+      "justification_from_packet": "El contraejemplo 15 rompe el invariante estricto: menores van a review, no reject; None también es review, no reject duro."
+    },
+    {
+      "exercise_id": "S03-T4-B-E1",
+      "code": "accionables = [\n    \"Campo 'edad' ausente: envía un entero 0–120 o marca como desconocido.\",\n    \"Campo 'edad'=-5 fuera de rango; usa 0–120.\",\n    \"Campo 'edad' recibió un valor no numérico; se espera int entre 0 y 120.\",\n]\nfor a in accionables:\n    print(a)\n",
+      "justification_from_packet": "Un mensaje accionable nombra el campo, el problema y la acción esperada; evita vaguedades como Error o inválido."
+    },
+    {
+      "exercise_id": "S03-T4-B-E2",
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\ncases = [(90, \"accept\"), (80, \"accept\"), (55, \"review\"), (50, \"review\"), (10, \"reject\")]\nfor val, expected in cases:\n    got = classify_score(val)\n    assert got == expected, (val, got, expected)\n    print(\"PASS\", val, got)\n",
+      "justification_from_packet": "Un test por rama del validador: si hay tres caminos accept/review/reject, hacen falta al menos tres casos, y el else también cuenta."
+    },
+    {
+      "exercise_id": "S03-T4-B-E3",
+      "code": "def rango_edad(e):\n    if e is None:\n        return \"review\"\n    if e >= 18 and e <= 65:  # fix: >= 18 inclusivo\n        return \"accept\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"review\"\n\ncases = [(18, \"accept\"), (17, \"review\"), (None, \"review\"), (30, \"accept\")]\nfor val, expected in cases:\n    got = rango_edad(val)\n    print(val, got, \"ok=\", got == expected)\n    assert got == expected\n",
+      "justification_from_packet": "El ciclo test rojo → arreglar regla → verde depura off-by-one en fronteras: >= 18 vs > 18 deja al 18 en accept."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "La teoría pide is None / is not None para ausencia; if not campo confunde 0 y \"\" con ausente en validadores de intake."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "En if/elif/else se evalúan en orden: la primera condición verdadera gana y el resto no se ejecuta, una sola rama dominante."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "and/or devuelven un operando: \"\" or \"default\" produce \"default\" por short-circuit en el primer truthy."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Para allowlists de códigos fijos un set de literales con el operador in es ideal: lectura clara y chequeo eficiente."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "match/case aporta claridad cuando el sujeto es un literal o estado finito con case _; no depreca if ni sirve mejor para rangos."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:28:06.388507+00:00",
+  "session_started_at": "2026-07-23T16:27:18.393807+00:00",
+  "session_ended_at": "2026-07-23T16:28:06.386655+00:00",
+  "receipt_response_sha256": "748740568f669da64118b55dbd8d276c5cbe1bce30398b3db0b79e7682ca720c",
+  "receipt_exercises_sha256": "536fa1d463c5e517870048baefd518bf9794bd63e8da48637a09ef67874e8293",
+  "receipt_selfcheck_sha256": "d1b5a53ab09cbf64bf158c170cb10fd99d3963f77f6fd4d6ef84c08c697aa18a"
+}

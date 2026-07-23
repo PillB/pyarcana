@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s06-72ce96dc4b",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "code": "txs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nprint(ventana)\nprint(\"len\", len(ventana))\nprint(\"empty\", [][-2:], \"len\", 0)\n",
+      "justification_from_packet": "El slicing produce una ventana sin mutar el original; txs[-2:] son las últimas dos transacciones y el stop es exclusivo."
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "code": "headers = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\nprint('KEYS', KEYS)\nprint('more', more)\n",
+      "justification_from_packet": "Una tuple es inmutable: ideal para claves estables o contratos de columnas que no deben mutarse por accidente."
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "code": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print('AttributeError', e)\n    mut = list(ids)\n    mut.append('C003')\n    print('lista', mut)\n",
+      "justification_from_packet": "Las tuplas no mutan: intentar append lanza AttributeError; list(ids) crea una copia mutable del contrato de ids."
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "code": "fila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n",
+      "justification_from_packet": "Unpacking a, b, c = fila desempaqueta sin índices ruidosos y falla si el largo no calza, detectando shape roto."
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "code": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint('tras alias', xs, copia)\ncopia.append(4)\nprint('tras copia', xs, copia)\n",
+      "justification_from_packet": "Aliasing b=a no copia: ambas apuntan al mismo objeto; list.copy() es copia superficial e independiza la lista de ints."
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\nshallow[0]['tags'].append('shallow')\nprint('orig tras shallow', rows)\ndeep = copy.deepcopy(rows)\ndeep[0]['tags'].append('d')\nprint('orig', rows)\nprint('deep', deep)\n",
+      "justification_from_packet": "list.copy es superficial: mutar tags anidados contamina el original; deepcopy aísla estructuras anidadas de clientes."
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "code": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])\n",
+      "justification_from_packet": "Un dict modela registros e índices id→valor; se construye desde pares o comprensión para lookups posteriores."
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "code": "idx = {'C001': 'Ana'}\nprint(idx.get('C001', 'N/A'))\nprint(idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)\n",
+      "justification_from_packet": "d.get(k, default) evita KeyError en campos opcionales; el acceso duro idx[k] sí lanza si la clave falta."
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "code": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nprint('defaults intacto', defaults)\n",
+      "justification_from_packet": "update fusiona y el segundo pisa claves; {**base, **override} documenta precedencia sin mutar defaults originales."
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "code": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nprint(sorted(set(emails)))\n",
+      "justification_from_packet": "Un set guarda elementos únicos; al exportar se ordena con sorted para no depender del orden de inserción del set."
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "code": "a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(a & b))\nprint('symdiff', sorted(a ^ b))\n",
+      "justification_from_packet": "Sets permiten unión/intersección/diferencia de cohortes; sorted hace determinista el reporte de intersección."
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "code": "def dedup_report(rows, key='id'):\n    seen, unique, conflicts = {}, [], []\n    for r in rows:\n        rid = r[key]\n        if rid not in seen:\n            seen[rid] = r\n            unique.append(r)\n        elif seen[rid] != r:\n            conflicts.append({'id': rid, 'a': seen[rid], 'b': r})\n    return {'unique': unique, 'conflicts': conflicts}\nrows = [{'id': 'C001', 'v': 1}, {'id': 'C002', 'v': 2}, {'id': 'C001', 'v': 9}]\nprint(dedup_report(rows))\n",
+      "justification_from_packet": "Deduplicar no es borrar a ciegas: mismo id con datos distintos se reporta en conflicts (patrón unique + conflicts)."
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "code": "clients = [{'id': 'C001', 'contacts': [1, 2]}, {'id': 'C002', 'contacts': []}]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))\n",
+      "justification_from_packet": "Contar contactos por cliente valida integridad del grafo en memoria: for c in clients y len(c['contacts'])."
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "code": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = [{'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']} for c in clients for t in c['txs']]\nprint(flat)\n",
+      "justification_from_packet": "Aplanar txs con client_id denormalizado prepara el shape de export; doble for o comprehension anidada del paquete."
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "code": "clients = [{'id': 'C001', 'txs': []}, {'id': 'C002'}, {'id': 'C003', 'txs': 'oops'}]\nfor c in clients:\n    ok = isinstance(c.get('txs'), list)\n    print(c['id'], 'ok' if ok else 'review')\n",
+      "justification_from_packet": "Shape inconsistente (falta txs o no es list) se detecta con isinstance y se manda a review, sin asumir dict bien formado."
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "code": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n",
+      "justification_from_packet": "Helpers dig/get_nested centralizan el acceso seguro anidado y se testean una vez; evitan KeyError en opcionales."
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "code": "clients = [{'id': 'C001', 'email': 'a@ex.com'}, {'id': 'C002', 'email': None}, {'id': 'C003'}]\nfor c in clients:\n    flag = 'missing' if ('email' not in c or c['email'] is None) else 'present'\n    print(f\"{c['id']}: {flag}\")\n",
+      "justification_from_packet": "Distingue missing (None o clave ausente) de vacío falsy; el reporte de calidad etiqueta present vs missing."
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "code": "vals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n",
+      "justification_from_packet": "None es missing de negocio; '', 0 y [] son falsy pero pueden ser datos válidos según la política del paquete."
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "code": "rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])\n",
+      "justification_from_packet": "sorted(seq, key=fn) devuelve una lista nueva sin mutar el original; key extrae el monto numérico para el orden."
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "code": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(rows, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])\n",
+      "justification_from_packet": "key multi-campo con tupla (region, nombre) ordena de forma estable por región y luego nombre, como en la teoría."
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "code": "rows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\ncopy_sorted = sorted(base)\nprint('ret', ret)\nprint('rows', rows)\nprint('base', base, 'copy', copy_sorted)\n",
+      "justification_from_packet": "list.sort muta in-place y retorna None — bug clásico si haces x = rows.sort(); sorted deja base intacta."
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "code": "print('cola de llegada de filas → list')\nprint('lookup frecuente por id → dict')\nprint('emails únicos de un lote → set')\n",
+      "justification_from_packet": "Elige estructura por operación dominante: appends→list, lookups por id→dict, membership de cohortes→set."
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "code": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\nprint(json.dumps(payload, sort_keys=True, ensure_ascii=False))\n",
+      "justification_from_packet": "json.dumps con sort_keys=True y sorted de ids produce el mismo string en cada corrida: determinismo del gate."
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "code": "ids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\nprint('list membership: O(n) por chequeo')\nprint('set membership: O(1) promedio')\nprint('C003 in set?', 'C003' in s)\n",
+      "justification_from_packet": "Membership en list es O(n); en set/dict O(1) promedio; no hagas x in big_list dentro de un loop si puedes preindexar."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "xs[-2:] es la ventana de los últimos dos elementos; con [1,2,3,4] produce [3,4] por slicing del paquete."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Según la teoría de aliasing, b = a no copia: ambas apuntan al mismo objeto y append en b también cambia a."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Mismo id con payload distinto se lista en conflicts sin silenciar ni borrar filas del reporte de calidad."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "rows.sort(key=...) muta in-place y retorna None; en cambio sorted devuelve la lista ordenada nueva del paquete."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "json.dumps(..., sort_keys=True) ayuda a salidas deterministas y reproducibles en cada corrida del gate."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:36:35.509422+00:00",
+  "session_started_at": "2026-07-23T16:35:48.503233+00:00",
+  "session_ended_at": "2026-07-23T16:36:35.507832+00:00",
+  "receipt_response_sha256": "60411df61ca9f8ed9e40eee4d3ac62f1bcfdfa10ecb421f205a9ada29e1cf761",
+  "receipt_exercises_sha256": "a3a465510d61c0cf591f8f990be4029492e472d8491c12a6f0d1344ab530ffbc",
+  "receipt_selfcheck_sha256": "6828b168d6048fd8ac7ad6a4d793be642af1ad1dcc7cf3b7dc1644b886dc6b65"
+}

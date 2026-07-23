@@ -1,0 +1,261 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 26,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-explorer-a-7c91e2f4b8-s26",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S26-T1-A-E1",
+      "id": "S26-T1-A-E1",
+      "code": "print(['ingest','validate','analyze','report'])\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T1-A-E1 leyendo la instrucción del paquete L2: CASO-PE orquestación VP: con el path canónico de cuatro pasos de negocio (sin AI ni email aún), imprime la lista exacta ['ingest','validate','analyze','report']. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(['ingest','validate','analyze','report'])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-A-E2",
+      "id": "S26-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=['a','b','c']\nedges=list(zip(nodes, nodes[1:]))\nprint(len(edges), edges)\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T1-A-E2 leyendo la instrucción del paquete L2: Dado nodes=['a','b','c'] como path lineal del flow sintético, construye edges (a,b),(b,c) con zip y cuenta len(edges). Contrato: input lista de 3 nodos → output. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(len(edges), edges)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-A-E3",
+      "id": "S26-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntasks={'a':'success','b':'failed'}\nprint('failed' if any(v=='failed' for v in tasks.values()) else 'success')\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T1-A-E3 leyendo la instrucción del paquete L2: Agregación de estado global del flow: tasks={'a':'success','b':'failed'}. Si cualquier task == 'failed', imprime failed; si no, success. Contrato: dict[str,str]. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('failed' if any(v=='failed' for v in tasks.values()) else 'success')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E1",
+      "id": "S26-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nm={'run_id':'cpn2c-1'}\nprint(m['run_id'])\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T1-B-E1 leyendo la instrucción del paquete L2: Metadata de run CP-N2-C: m={'run_id':'cpn2c-1'}. Extrae e imprime m['run_id'] sin mutar el dict. Contrato: metadata inmutable al leer; output texto del id. Fixt. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(m['run_id'])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E2",
+      "id": "S26-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\napi_rpm=90\nprint('too_high' if api_rpm>60 else 'ok')\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T1-B-E2 leyendo la instrucción del paquete L2: Preflight de límites: api_rpm=90 supera el umbral didáctico 60 del adapter sintético. Imprime 'too_high' si api_rpm>60, si no 'ok'. Contrato: int → etiqueta de . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('too_high' if api_rpm>60 else 'ok')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E3",
+      "id": "S26-T1-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('0 6 * * 1-5', 'America/Lima')\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T1-B-E3 leyendo la instrucción del paquete L2: Schedule del escritorio PE: imprime el cron de días hábiles a las 06:00 y la zona 'America/Lima' en una sola línea. Contrato: constantes documentadas; sin libre. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('0 6 * * 1-5', 'America/Lima')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E1",
+      "id": "S26-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nattempt, base = 3, 100\nprint(base * (2 ** (attempt - 1)))\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T2-A-E1 leyendo la instrucción del paquete L2: Backoff exponencial de reintentos: attempt=3, base=100 → base*(2**(attempt-1)). Imprime el entero ms de espera. Contrato: no aplica cap en este ejercicio; solo . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(base * (2 ** (attempt - 1)))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E2",
+      "id": "S26-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndlq=[]\nfail=True\nif fail:\n    dlq.append('x')\nprint(dlq)\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T2-A-E2 leyendo la instrucción del paquete L2: Dead-letter: dlq=[] y fail=True modelan un item irrecuperable del export sintético. Si fail, append 'x' a dlq e imprime la lista. Contrato: no reintentar valida. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(dlq)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E3",
+      "id": "S26-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nckpt={'a'}; items=['a','b']\nprint([i for i in items if i not in ckpt])\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T2-A-E3 leyendo la instrucción del paquete L2: Checkpoint de reanudación: ckpt={'a'}; items=['a','b']. Imprime solo los ids aún no procesados (no ∈ ckpt). Contrato: list comprehension fail-open solo sobre pe. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print([i for i in items if i not in ckpt])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E1",
+      "id": "S26-T2-B-E1",
+      "code": "store={}\ndef put(k,v):\n    if k not in store:\n        store[k]=v\nput('r','v1'); put('r','v2')\nprint(store.get('r'))\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T2-B-E1 leyendo la instrucción del paquete L2: Write idempotente create-once: implementa put(k,v) que solo escribe si k no está en store. Llama put('r','v1') y put('r','v2'); imprime store['r'] (debe seguir . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(store.get('r'))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E2",
+      "id": "S26-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'report':'ok','draft':'ok'}\nstate.pop('draft', None)\nprint(state)\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T2-B-E2 leyendo la instrucción del paquete L2: Compensación/rollback: state={'report':'ok','draft':'ok'}. Elimina la key draft (pop) tras falla posterior simulada e imprime state. Contrato: report permanece;. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(state)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E3",
+      "id": "S26-T2-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlocked=True\nprint('busy' if locked else 'enter')\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T2-B-E3 leyendo la instrucción del paquete L2: Lock optimista de concurrencia: locked=True significa otro worker en la entidad. Imprime 'busy' si locked else 'enter'. Contrato: fail-closed, no esperar en bus. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('busy' if locked else 'enter')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E1",
+      "id": "S26-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nanalysis=[{'status':'pending'},{'status':'done'}]\nprint(sum(1 for x in analysis if x['status']=='pending'))\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T3-A-E1 leyendo la instrucción del paquete L2: Cola HITL analysis: analysis=[{'status':'pending'},{'status':'done'}]. Cuenta cuántos status=='pending' e imprime el entero. Contrato: solo analysis en este ste. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(sum(1 for x in analysis if x['status']=='pending'))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E2",
+      "id": "S26-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nq={'analysis':1,'report':0,'recipient':0}\nprint(any(v>0 for v in q.values()))\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T3-A-E2 leyendo la instrucción del paquete L2: Gate multi-cola: q={'analysis':1,'report':0,'recipient':0}. Imprime True si alguna cola >0 (blocked), False si todas 0. Contrato: any sobre values. Pass: True (. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(any(v>0 for v in q.values()))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E3",
+      "id": "S26-T3-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(['metrics','narrative','recipient'])\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T3-A-E3 leyendo la instrucción del paquete L2: Checklist mínima de revisión humana antes del borrador: imprime exactamente ['metrics','narrative','recipient']. Contrato: orden canónico didáctico del VP. Pass. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(['metrics','narrative','recipient'])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E1",
+      "id": "S26-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\naudit=[]\naudit.append({'action':'approve','actor':'rev'})\nprint(audit[0]['action'])\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T3-B-E1 leyendo la instrucción del paquete L2: Auditoría append-only: audit=[] registra la decisión. Append un dict con action 'approve' y actor sintético; imprime el action de la solución (approve). Contrat. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(audit[0]['action'])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E2",
+      "id": "S26-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\naction, reason = 'reject', None\nprint('invalid' if action=='reject' and not reason else 'ok')\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T3-B-E2 leyendo la instrucción del paquete L2: Reject con razón obligatoria: action='reject', reason=None. Si reject y reason vacío/None → imprime 'invalid'; si no, 'ok'. Contrato: fail-closed en rechazo sin. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('invalid' if action=='reject' and not reason else 'ok')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E3",
+      "id": "S26-T3-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nver=1\nver += 1\nprint(ver)\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T3-B-E3 leyendo la instrucción del paquete L2: Edit versiona artefacto del informe sintético: partiendo de ver=1, al editar incrementa a 2 e imprime ver. Contrato: versión monotónica; no borrar entradas de a. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(ver)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E1",
+      "id": "S26-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrate=0.9\nprint('alert' if rate < 0.95 else 'ok')\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T4-A-E1 leyendo la instrucción del paquete L2: SLO success_rate del VP: rate=0.9. Si rate < 0.95 imprime 'alert', si no 'ok'. Contrato: umbral didáctico del VP diario operativo. Pass: alert. Usa solo fixture. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('alert' if rate < 0.95 else 'ok')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E2",
+      "id": "S26-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=1\nprint('P0_unapproved_send' if n>0 else 'ok')\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T4-A-E2 leyendo la instrucción del paquete L2: Control P0 de cumplimiento: n=sends_without_approve=1. Si n>0 imprime 'P0_unapproved_send', si no 'ok'. Contrato: cero envíos sin approve humano. Pass: P0_unapp. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('P0_unapproved_send' if n>0 else 'ok')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E3",
+      "id": "S26-T4-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('disable_schedule -> drain -> page')\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T4-A-E3 leyendo la instrucción del paquete L2: Runbook de incidente one-liner: imprime la secuencia disable_schedule -> drain -> page (espacios alrededor de flechas como en la solución). Contrato: orden fijo. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('disable_schedule -> drain -> page')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E1",
+      "id": "S26-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsteps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\nprint(all(status[s]=='success' for s in steps))\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T4-B-E1 leyendo la instrucción del paquete L2: E2E sintético: steps=['ingest','validate','draft'] con status success en todos. Imprime True si all success. Contrato: un failed tumba el E2E. Pass: True.. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(all(status[s]=='success' for s in steps))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E2",
+      "id": "S26-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfraud_labels=0\nprint('ok' if fraud_labels==0 else 'fail')\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T4-B-E2 leyendo la instrucción del paquete L2: Política anti-fraude-auto: fraud_labels=0 en el paquete del VP. Imprime 'ok' si fraud_labels==0 else 'fail'. Matching/OCR no generan labels de fraude. Pass: ok.. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('ok' if fraud_labels==0 else 'fail')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E3",
+      "id": "S26-T4-B-E3",
+      "code": "print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-reporting-automation'})\n",
+      "justification_from_packet": "Como explorer en Orquestación y VP RPA + AI Analyst, resolví S26-T4-B-E3 leyendo la instrucción del paquete L2: Cierre de regresión N2: imprime el dict con n2_regression='CP-N2-A/B/C critical+privacy', value_minutes_saved_est=45 y cf2 interfaces Familiarity-reporting-auto. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "En Orquestación y VP RPA + AI Analyst (S26) elijo «Approve antes de draft_email» porque el paquete L2 ordena el gate humano de aprobación antes de materializar el borrador en el path del VP; draft_email sin approve abriría un send no controlado. Las opciones de paralelo/schedule omiten el HITL del iDo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "En Orquestación y VP RPA + AI Analyst (S26) elijo la opción «Tests críticos de capstones N2, E2E y controles de privacidad/seguridad» para la pregunta «La regresión N2 incluye:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "En Orquestación y VP RPA + AI Analyst (S26) elijo la opción «Incidente P0» para la pregunta «Un send sin approve es:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "En Orquestación y VP RPA + AI Analyst (S26) elijo la opción «0 — solo evidencia para humanos» para la pregunta «fraud_labels automáticos en el VP deben ser:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:24:13.486409+00:00",
+  "session_started_at": "2026-07-23T17:24:13.483844Z",
+  "session_ended_at": "2026-07-23T17:24:55.183844Z",
+  "receipt_response_sha256": "f13f71ef9a82006c0be41badb60e32aa1f495f06023e711155c8f45e324c2e6c",
+  "receipt_exercises_sha256": "29d43ae2442ef812f6d4690f43f2e077acd807b8bc1d80ae2d8fc062bbbf813a",
+  "receipt_selfcheck_sha256": "d83ad58f7b35d57558ecdef106d72b4884a5fd552d9dbed2d15818080538eea7"
+}

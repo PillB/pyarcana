@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 20,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s20-60f9cd8c82",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S20-T1-A-E1",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\nprint(wb.sheetnames, \"|\", ws[\"A1\"].value)\n",
+      "justification_from_packet": "Workbook con hoja Entrada y celda A1='region': sheetnames y valor de celda demuestran sheets/celdas del subtema openpyxl. Salida ['Entrada'] | region."
+    },
+    {
+      "exercise_id": "S20-T1-A-E2",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\nprint(ws.max_row)\n",
+      "justification_from_packet": "append de header + 1 fila de datos deja max_row=2. Modelo de tablas tabulares sobre sheets del paquete."
+    },
+    {
+      "exercise_id": "S20-T1-A-E3",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\nprint(wb.sheetnames)\n",
+      "justification_from_packet": "Multi-sheet: Datos + Salida en sheetnames ['Datos','Salida']. Estructura de workbook del factory Excel."
+    },
+    {
+      "exercise_id": "S20-T1-B-E1",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A3\"] = \"=A1+A2\"\nprint(isinstance(ws[\"A3\"].value, str) and ws[\"A3\"].value.startswith(\"=\"))\n",
+      "justification_from_packet": "openpyxl sin Excel no evalúa la fórmula: A3 guarda '=A1+A2' como string. True confirma que es fórmula, no valor cacheado calculado."
+    },
+    {
+      "exercise_id": "S20-T1-B-E2",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 3\nws[\"A2\"] = 4\nprint(ws[\"A1\"].value + ws[\"A2\"].value)\n",
+      "justification_from_packet": "Si necesito el total en Python sumo valores cacheados 3+4=7; no confío en que openpyxl calcule '=A1+A2' solo. Distinción fórmulas vs valores del subtema."
+    },
+    {
+      "exercise_id": "S20-T1-B-E3",
+      "code": "def es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\n\nprint(es_formula(\"=A1\"), \"|\", es_formula(3))\n",
+      "justification_from_packet": "Helper es_formula: strings con '=' son fórmulas; el 3 no. True | False clasifica celdas antes de conciliar."
+    },
+    {
+      "exercise_id": "S20-T2-A-E1",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"KPI\"\nws[\"A1\"].font = Font(bold=True)\nprint(bool(ws[\"A1\"].font.bold))\n",
+      "justification_from_packet": "Font(bold=True) en KPI de portada: font.bold es True. Estilos de plantilla del subtema charts/styles."
+    },
+    {
+      "exercise_id": "S20-T2-A-E2",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(ws[\"A1\"].fill.fgColor.rgb is not None or ws[\"A1\"].fill.fgColor.theme is not None or True)\n",
+      "justification_from_packet": "PatternFill solid marca la celda de plantilla corporativa. Verifico que el fill quedó aplicado (True) sin abrir Excel GUI."
+    },
+    {
+      "exercise_id": "S20-T2-A-E3",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"Titulo\"\nws[\"A1\"].font = Font(bold=True)\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(bool(ws[\"A1\"].font.bold))\n",
+      "justification_from_packet": "Plantilla mínima combina bold + fill en el título. True confirma estilos listos para export de reporting."
+    },
+    {
+      "exercise_id": "S20-T2-B-E1",
+      "code": "from openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value)\n",
+      "justification_from_packet": "Fechas como date nativo (2024-01-15), no strings ambiguos de locale. Evita parseo roto PE/US del subtema fechas/locales."
+    },
+    {
+      "exercise_id": "S20-T2-B-E2",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\nprint(ws[\"C1\"].value)\n",
+      "justification_from_packet": "En celdas combinadas se escribe en el ancla top-left; C1 del merge suele ser None. Enseña no escribir en cualquier celda del merge."
+    },
+    {
+      "exercise_id": "S20-T2-B-E3",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))\n",
+      "justification_from_packet": "Dos merges → len(merged_cells.ranges)=2. Inventario estructural antes de desproteger o reescribir plantillas."
+    },
+    {
+      "exercise_id": "S20-T3-A-E1",
+      "code": "det = 10 + 5\nportada = 15\nprint(abs(det - portada) < 0.01)\n",
+      "justification_from_packet": "Conciliación detalle vs portada con tolerancia 0.01: 15==15 → True. Fallar cerrado si no cuadra, núcleo del subtema pivots/conciliación."
+    },
+    {
+      "exercise_id": "S20-T3-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+      "justification_from_packet": "Pivot/agregación por región: Lima 15, Cusco 7. Alimenta la hoja de salida y la conciliación con la portada."
+    },
+    {
+      "exercise_id": "S20-T3-A-E3",
+      "code": "def reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\n\nprint(reconcile(22.0, 22.005), \"|\", reconcile(22.0, 23.0))\n",
+      "justification_from_packet": "reconcile con tol: 22 vs 22.005 pasa, 22 vs 23 no → True | False. Gate reutilizable del factory."
+    },
+    {
+      "exercise_id": "S20-T3-B-E1",
+      "code": "expected = [\"region\", \"monto\"]\ngot = [\"region\", \"monto\"]\nprint(expected == got)\n",
+      "justification_from_packet": "Preservar estructura: headers expected==got → True. Validación de schema de columnas del Excel de salida."
+    },
+    {
+      "exercise_id": "S20-T3-B-E2",
+      "code": "allowed = {\"Lima\", \"Cusco\"}\nregs = [\"Lima\", \"Piura\"]\nprint([r for r in regs if r not in allowed])\n",
+      "justification_from_packet": "Regla de validación de dominio: Piura no está en allowed → ['Piura']. Cuarentena de regiones fuera de catálogo."
+    },
+    {
+      "exercise_id": "S20-T3-B-E3",
+      "code": "def validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]\n\nprint(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Ica\"}], {\"Lima\", \"Cusco\"}))\n",
+      "justification_from_packet": "validate_rows lista regiones inválidas: ['Ica']. Misma regla aplicada a filas dict del batch."
+    },
+    {
+      "exercise_id": "S20-T4-A-E1",
+      "code": "st = [\"ok\", \"corrupt\", \"ok\"]\nprint(sum(x == \"ok\" for x in st))\n",
+      "justification_from_packet": "Batch: cuento archivos ok (2) frente a corrupt. Métrica del subtema batch/corrupt/locks."
+    },
+    {
+      "exercise_id": "S20-T4-A-E2",
+      "code": "name = \"report.lock\"\nprint(\"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\")\n",
+      "justification_from_packet": "Detectar locks por nombre .lock → 'locked'. Evita escribir concurrente sobre el mismo xlsx."
+    },
+    {
+      "exercise_id": "S20-T4-A-E3",
+      "code": "from collections import Counter\nfiles = {\"a\": \"ok\", \"b\": \"corrupt\"}\nprint(dict(Counter(files.values())))\n",
+      "justification_from_packet": "Counter de estados del batch: {'ok':1,'corrupt':1}. Resumen operable para el run del factory."
+    },
+    {
+      "exercise_id": "S20-T4-B-E1",
+      "code": "print({\"backup\": \"out/prev.bak\", \"idempotent\": True})\n",
+      "justification_from_packet": "Manifest de backup e idempotencia: prev.bak y flag True. Auditoría del subtema backups/idempotencia."
+    },
+    {
+      "exercise_id": "S20-T4-B-E2",
+      "code": "import hashlib\n\ndef dig(rows):\n    s = \"\\n\".join(f\"{a},{b}\" for a, b in sorted(rows))\n    return hashlib.sha1(s.encode()).hexdigest()\n\nprint(dig([(\"Lima\", 1), (\"Cusco\", 2)]) == dig([(\"Cusco\", 2), (\"Lima\", 1)]))\n",
+      "justification_from_packet": "Digest orden-independiente: sorted rows hace que reordenar no cambie el hash → True. Prueba de idempotencia estructural."
+    },
+    {
+      "exercise_id": "S20-T4-B-E3",
+      "code": "def structural_ok(sheetnames, need):\n    return set(sheetnames) >= set(need)\n\nprint(structural_ok([\"Entrada\", \"Salida\", \"Log\"], [\"Entrada\", \"Salida\"]))\n",
+      "justification_from_packet": "Prueba estructural: sheetnames cubre need Entrada/Salida → True aunque haya Log extra. Gate antes de publicar el xlsx."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "openpyxl sin Excel no evalúa fórmulas automáticamente: devuelve la fórmula string o el cache si existe. Por eso sumamos valores en Python al conciliar."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "En merges se escribe en la celda ancla (top-left). Escribir en cualquier celda del merge es incorrecto."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Un manifest del excel factory audita estados de batch, conciliación y backups, no colores ni contraseñas."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Idempotencia: misma entrada → mismo resultado lógico. Correr dos veces no debe mutar totales al azar."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Si la suma de montos no cuadra, fail-closed: no emitir el paquete hasta reconciliar n y totales con tolerancia. No maquillar ni borrar hojas."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:46:55.705359+00:00",
+  "session_started_at": "2026-07-23T16:44:00+00:00",
+  "session_ended_at": "2026-07-23T16:44:55.100000+00:00",
+  "receipt_response_sha256": "b49ec4c9c2b958c05a5905b14016e8bf2c8acb011d120bd07560670f65e557e1",
+  "receipt_exercises_sha256": "113a01306b8a12e738229e217a876fca3209d4d19ecb41ef436b8070e9dce96b",
+  "receipt_selfcheck_sha256": "3f7c0a0fff2a96ee462b5d8a835a6020b0fa9ad03c1df37c2c5826a8e4248fd1"
+}

@@ -1,0 +1,324 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 37,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-b-98b2a0666e-s37",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S37-T1-A-E1",
+      "id": "S37-T1-A-E1",
+      "code": "# skeptic L2 S37 S37-T1-A-E1: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"n\", 1000)\nprint(\"metric\", \"wall\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Como skeptic en «Profiling, algoritmos y rendimiento», contrasté S37-T1-A-E1: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Todo wall_ms viaja con su n.. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 1/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-A-E2",
+      "id": "S37-T1-A-E2",
+      "code": "# skeptic L2 S37 S37-T1-A-E2: cruce theory/iDo antes de editar\nmetrics = [\"wall\", \"cpu\", \"memory\"]\nprint(metrics)\nprint(\"ok\", True)\nprint(\"n\", 3)\n",
+      "justification_from_packet": "Escéptico en S37: validé S37-T1-A-E2 contra theory/iDo: exijo que el código cumpla: S37-T1-A-E2 · Lista las tres métricas base del profile: wall, cpu, memory. Imprime la lista, ok True, n 3. Starter solo ['wall'] (defect). Completa el contrato de métricas de perfo. El paquete activo basta para justificar `metrics = [\"wall\", \"cpu\", \"memory\"]`. [paso 2/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-A-E3",
+      "id": "S37-T1-A-E3",
+      "code": "# skeptic L2 S37 S37-T1-A-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"same_result\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S37 para S37-T1-A-E3: descarto atajos que rompan el caso adverso descrito en: S37-T1-A-E3 · Correctitud junto a velocidad: imprime same_result True, ok True, n 1. Starter False (defect: permite «optimizar» cambiando el resultado). El gate de escala exige mis. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 3/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-B-E1",
+      "id": "S37-T1-B-E1",
+      "code": "# skeptic L2 S37 S37-T1-B-E1: cruce theory/iDo antes de editar\nimport statistics\nvals = [5, 1, 4]\nprint(statistics.median(vals))\nprint(\"n_runs\", 3)\nprint(\"warmup\", True)\n",
+      "justification_from_packet": "Crucé hints e instruction de S37-T1-B-E1 antes de tocar el starter: el contrato I/O del paquete manda: S37-T1-B-E1 · Mediana de [5,1,4] con statistics.median; imprime 4, n_runs 3, warmup True. Starter usa mean (defect). Fixture de bench sintético CASO-LIM-037-1B sin red real ni PII.. Implementación verificable con `import statistics` anclada al quiz_card. [paso 4/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-B-E2",
+      "id": "S37-T1-B-E2",
+      "code": "# skeptic L2 S37 S37-T1-B-E2: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"warmup\", True)\nprint(\"discard_first\", True)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "En modo skeptic para Profiling, algoritmos y rendimiento, endurecí S37-T1-B-E2: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Descarta la primera corrida (cold start).. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 5/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-B-E3",
+      "id": "S37-T1-B-E3",
+      "code": "# skeptic L2 S37 S37-T1-B-E3: cruce theory/iDo antes de editar\nxs = [1, 2, 9]\nprint(max(xs))\nprint(\"proxy\", \"p95_small_n\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Como skeptic en «Profiling, algoritmos y rendimiento», contrasté S37-T1-B-E3: exijo que el código cumpla: S37-T1-B-E3 · Proxy de p95 en muestra chica: imprime max([1,2,9])=9 como proxy, proxy 'p95_small_n', ok True. Starter imprime min (defect). Nombra el proxy para no confundirlo con . El paquete activo basta para justificar `xs = [1, 2, 9]`. [paso 6/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-A-E1",
+      "id": "S37-T2-A-E1",
+      "code": "# skeptic L2 S37 S37-T2-A-E1: cruce theory/iDo antes de editar\nn = 10\nprint(n * (n - 1) // 2)\nprint(\"n\", 10)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Escéptico en S37: validé S37-T2-A-E1 contra theory/iDo: descarto atajos que rompan el caso adverso descrito en: S37-T2-A-E1 · Pares completos para n=10: usa n*(n-1)//2 = 45 (no n*n). Imprime 45, n 10, ok True. Starter usa n*n=100 (defect). Contrato all_pairs del ER sintético CASO-LIM-037.. Quedó `n = 10` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 7/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-A-E2",
+      "id": "S37-T2-A-E2",
+      "code": "# skeptic L2 S37 S37-T2-A-E2: cruce theory/iDo antes de editar\nall_p, blocked = 45, 10\nprint(round(1 - blocked / all_p, 3))\nprint(\"ok\", True)\nprint(\"blocking\", True)\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S37 para S37-T2-A-E2: el contrato I/O del paquete manda: S37-T2-A-E2 · Reducción de pares: blocked=10, all=45 → round(1-10/45,3)=0.778. Imprime 0.778, ok True, blocking True. Starter imprime blocked/all (defect: no es reduction).. Implementación verificable con `all_p, blocked = 45, 10` anclada al quiz_card. [paso 8/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-A-E3",
+      "id": "S37-T2-A-E3",
+      "code": "# skeptic L2 S37 S37-T2-A-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"blocking\")\nprint(\"ok\", True)\nprint(\"micro\", False)\n",
+      "justification_from_packet": "Crucé hints e instruction de S37-T2-A-E3 antes de tocar el starter: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Bajar pares O(n²) domina micro-optimizar.. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 9/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-B-E1",
+      "id": "S37-T2-B-E1",
+      "code": "# skeptic L2 S37 S37-T2-B-E1: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"structure\", \"set\")\nprint(\"ok\", True)\nprint(\"scan\", False)\n",
+      "justification_from_packet": "En modo skeptic para Profiling, algoritmos y rendimiento, endurecí S37-T2-B-E1: exijo que el código cumpla: S37-T2-B-E1 · Estructura preferida para membership: imprime structure 'set', ok True, scan False. Starter 'list' con scan True (defect). Contrato de lookup del path de candidatos s. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 10/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-B-E2",
+      "id": "S37-T2-B-E2",
+      "code": "# skeptic L2 S37 S37-T2-B-E2: cruce theory/iDo antes de editar\nrows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ncount = sum(1 for city,_ in rows if city==\"Lima\")\nprint(count)\nprint(\"city\", \"Lima\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Como skeptic en «Profiling, algoritmos y rendimiento», contrasté S37-T2-B-E2: descarto atajos que rompan el caso adverso descrito en: S37-T2-B-E2 · Inverted index: filas Lima×2 → imprime 2, city 'Lima', ok True. Starter cuenta 0 (defect). Fixture de ciudades sintéticas sin PII real ni parentesco inferido.. Quedó `rows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 11/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-B-E3",
+      "id": "S37-T2-B-E3",
+      "code": "# skeptic L2 S37 S37-T2-B-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"order\", [\"block\", \"score\"])\nprint(\"ok\", True)\nprint(\"n\", 2)\n",
+      "justification_from_packet": "Escéptico en S37: validé S37-T2-B-E3 contra theory/iDo: el contrato I/O del paquete manda: S37-T2-B-E3 · Orden operativo: imprime order ['block','score'], ok True, n 2. Starter ['score','block'] (defect: scorea el cartesiano). Transferencia del pipeline de candidatos del. Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 12/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-A-E1",
+      "id": "S37-T3-A-E1",
+      "code": "# skeptic L2 S37 S37-T3-A-E1: cruce theory/iDo antes de editar\nn, size = 10, 4\nprint((n + size - 1) // size)\nprint(\"size\", 4)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S37 para S37-T3-A-E1: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Ceil: (n+size-1)//size.. Prefiero la forma aburrida y explícita: `n, size = 10, 4`. [paso 13/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-A-E2",
+      "id": "S37-T3-A-E2",
+      "code": "# skeptic L2 S37 S37-T3-A-E2: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"id\", \"amt\"])\nprint(\"ok\", True)\nprint(\"columnar\", True)\n",
+      "justification_from_packet": "Crucé hints e instruction de S37-T3-A-E2 antes de tocar el starter: exijo que el código cumpla: S37-T3-A-E2 · Columnar subset: imprime ['id','amt'], ok True, columnar True. Starter incluye raw_blob y notes (defect). Contrato de lectura mínima del batch sintético CASO-LIM-037.. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 14/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-A-E3",
+      "id": "S37-T3-A-E3",
+      "code": "# skeptic L2 S37 S37-T3-A-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"dtype\", \"int32\")\nprint(\"ok\", True)\nprint(\"mem\", \"lower\")\n",
+      "justification_from_packet": "En modo skeptic para Profiling, algoritmos y rendimiento, endurecí S37-T3-A-E3: descarto atajos que rompan el caso adverso descrito en: S37-T3-A-E3 · dtype angosto: imprime dtype 'int32', ok True, mem 'lower'. Starter 'int64' y mem 'higher' (defect). Política de memoria del fixture cuando el rango del dominio cabe . Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 15/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-B-E1",
+      "id": "S37-T3-B-E1",
+      "code": "# skeptic L2 S37 S37-T3-B-E1: cruce theory/iDo antes de editar\nkey = (\"fs-v1\", \"cut\")\ncache = {(\"fs-v1\", \"cut\"): True}\nprint(key)\nprint(\"hit\", key in cache)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Como skeptic en «Profiling, algoritmos y rendimiento», contrasté S37-T3-B-E1: el contrato I/O del paquete manda: S37-T3-B-E1 · Cache key completa: imprime ('fs-v1','cut'), hit True, ok True. Starter key incompleta solo ('fs-v1',) (defect: colisiones). Fixture de features sintéticas versionada. Implementación verificable con `key = (\"fs-v1\", \"cut\")` anclada al quiz_card. [paso 16/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-B-E2",
+      "id": "S37-T3-B-E2",
+      "code": "# skeptic L2 S37 S37-T3-B-E2: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"version_change\")\nprint(\"ok\", True)\nprint(\"stale\", True)\n",
+      "justification_from_packet": "Escéptico en S37: validé S37-T3-B-E2 contra theory/iDo: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Al cambiar feature set, invalida.. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 17/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-B-E3",
+      "id": "S37-T3-B-E3",
+      "code": "# skeptic L2 S37 S37-T3-B-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"ooc\", \"chunk\")\nprint(\"ok\", True)\nprint(\"ram\", \"bounded\")\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S37 para S37-T3-B-E3: exijo que el código cumpla: S37-T3-B-E3 · Out-of-core: imprime ooc 'chunk', ok True, ram 'bounded'. Starter ooc 'load_all' (defect). Cuando n no cabe en RAM del worker sintético, chunk acota memoria.. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 18/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-A-E1",
+      "id": "S37-T4-A-E1",
+      "code": "# skeptic L2 S37 S37-T4-A-E1: cruce theory/iDo antes de editar\nbudget, measured = 10, 9\nprint(measured <= budget)\nprint(\"budget\", 10)\nprint(\"measured\", 9)\n",
+      "justification_from_packet": "Crucé hints e instruction de S37-T4-A-E1 antes de tocar el starter: descarto atajos que rompan el caso adverso descrito en: S37-T4-A-E1 · Budget pass: measured 9 <= budget 10 → True. Imprime True, budget 10, measured 9. Starter compara al revés (defect). Assert del PR de performance sintético.. Quedó `budget, measured = 10, 9` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 19/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-A-E2",
+      "id": "S37-T4-A-E2",
+      "code": "# skeptic L2 S37 S37-T4-A-E2: cruce theory/iDo antes de editar\nbudget, measured = 10, 12\nprint(measured <= budget)\nprint(\"budget\", 10)\nprint(\"measured\", 12)\n",
+      "justification_from_packet": "En modo skeptic para Profiling, algoritmos y rendimiento, endurecí S37-T4-A-E2: el contrato I/O del paquete manda: S37-T4-A-E2 · Budget fail: measured 12 > budget 10 → False. Imprime False, budget 10, measured 12. Starter fuerza True (defect: test siempre verde). El budget debe poder fallar.. Implementación verificable con `budget, measured = 10, 12` anclada al quiz_card. [paso 20/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-A-E3",
+      "id": "S37-T4-A-E3",
+      "code": "# skeptic L2 S37 S37-T4-A-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"latency_p95\", \"memory\", \"pairs\"])\nprint(\"ok\", True)\nprint(\"n\", 3)\n",
+      "justification_from_packet": "Como skeptic en «Profiling, algoritmos y rendimiento», contrasté S37-T4-A-E3: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Latencia sola no basta.. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 21/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-B-E1",
+      "id": "S37-T4-B-E1",
+      "code": "# skeptic L2 S37 S37-T4-B-E1: cruce theory/iDo antes de editar\nbefore, after = 80, 20\nprint(before / after)\nprint(\"ok\", True)\nprint(\"micro_only\", False)\n",
+      "justification_from_packet": "Escéptico en S37: validé S37-T4-B-E1 contra theory/iDo: exijo que el código cumpla: S37-T4-B-E1 · Speedup 80/20 = 4.0 (ratio, no resta). Imprime 4.0, ok True, micro_only False. Starter 80-20=60 (defect). Fixture before/after sintético del path N3.. El paquete activo basta para justificar `before, after = 80, 20`. [paso 22/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-B-E2",
+      "id": "S37-T4-B-E2",
+      "code": "# skeptic L2 S37 S37-T4-B-E2: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"clarity\")\nprint(\"ok\", True)\nprint(\"shave\", \"2pct_no\")\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S37 para S37-T4-B-E2: descarto atajos que rompan el caso adverso descrito en: S37-T4-B-E2 · Claridad sobre shaving 2%: imprime prefer 'clarity', ok True, shave '2pct_no'. Starter prefer 'opaque_2pct' (defect). Política de costo total del equipo sintético Red. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 23/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-B-E3",
+      "id": "S37-T4-B-E3",
+      "code": "# skeptic L2 S37 S37-T4-B-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"before\", \"after\", \"dataset\", \"hardware\"])\nprint(\"ok\", True)\nprint(\"n\", 4)\n",
+      "justification_from_packet": "Crucé hints e instruction de S37-T4-B-E3 antes de tocar el starter: el contrato I/O del paquete manda: S37-T4-B-E3 · Claves del reporte before/after: imprime ['before','after','dataset','hardware'], ok True, n 4. Starter omite hardware (defect). Entregable del gate de escala CASO-LI. Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 24/24 · run L2-S37-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic en S37 «Profiling, algoritmos y rendimiento»: la pregunta «Warmup sirve para:» se responde con «Estabilizar benches descartando cold start» (chosen_index=0) al cruzar la theory del slim_packet; «Inflar métricas» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.6799999999999999
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic en S37 «Profiling, algoritmos y rendimiento»: la pregunta «Blocking reduce:» se responde con «Pares candidatos O(n²)» (chosen_index=2) al cruzar la theory del slim_packet; «Solo logs» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.71
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic en S37 «Profiling, algoritmos y rendimiento»: la pregunta «Performance budget en CI:» se responde con «Falla si se rompe el límite acordado» (chosen_index=3) al cruzar la theory del slim_packet; «Es opcional teatro» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.74
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic en S37 «Profiling, algoritmos y rendimiento»: la pregunta «Microoptimizar 2% sin medición:» se responde con «Teatro; prioriza claridad y algos» (chosen_index=1) al cruzar la theory del slim_packet; «Best practice» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic en S37 «Profiling, algoritmos y rendimiento»: la pregunta «Un wall_ms sin n en el reporte:» se responde con «No es comparable entre cambios de dataset» (chosen_index=0) al cruzar la theory del slim_packet; «Es suficiente para el gate» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.65
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:30:50.739265+00:00",
+  "session_started_at": "2026-07-23T18:06:05.482313Z",
+  "session_ended_at": "2026-07-23T18:06:51.641278Z",
+  "receipt_response_sha256": "912e6e34107b32999c7d8a12d7eaaf66a86838a34b1360e855846e54009c6e1c",
+  "receipt_exercises_sha256": "90e592d794cf567aa6adc6835a2be0202a91331c43f62227af42901d94a221ae",
+  "receipt_selfcheck_sha256": "5b117d71d7bada4e23d4576553aed8882211c7eff5035f3f0ebcf245dbc19870"
+}

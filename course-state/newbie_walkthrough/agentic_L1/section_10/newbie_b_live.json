@@ -1,0 +1,207 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 10,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-newbie-b-s10-6a1842febd",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "code": "def _ws(s: str) -> str:\n    return ' '.join(s.split())\n\ndef clean(s: str) -> str:\n    return _ws(s).casefold()\n\n__all__ = ['clean']\nprint(__all__, '|', clean('  X  '))\n",
+      "justification_from_packet": "Como skeptic en S10-T1-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético de… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 1fb925ee.",
+      "confidence": 0.62
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "code": "def util_norm(s: str) -> str:\n    return s.strip().casefold()\n\ndef module_a(s):\n    return 'hola:' + util_norm(s)\n\ndef module_b(s):\n    return 'hola:' + util_norm(s)\n\nprint(module_a('A'), '|', module_b('B'), '| ok')\n",
+      "justification_from_packet": "Como skeptic en S10-T1-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 89501f86.",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "code": "recs = {\n    \"normalize.py importa compare en el mismo paquete\": \"relativo o absoluto del paquete (from . import compare)\",\n    \"plugin externo usa familiarity_core\": \"absoluto (import familiarity_core)\",\n    \"ejecutar el CLI como script suelto\": \"absoluto + python -m paquete.cli (evitar relativos rotos)\",\n}\nfor k, v in recs.items():\n    print(f'{k} -> {v}')\n",
+      "justification_from_packet": "Como skeptic en S10-T1-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 314fd898.",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "code": "def _internal_token(s: str) -> str:\n    return s.strip()\n\ndef public_normalize(s: str) -> str:\n    return _internal_token(s).casefold()\n\npublic_api = [n for n in ['public_normalize', '_internal_token'] if not n.startswith('_')]\nprint(public_api)\nprint(public_normalize(' Ana '))\n",
+      "justification_from_packet": "Como skeptic en S10-T1-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético de… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza cd03072c.",
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "code": "def normalize(s: str) -> str:\n    return ' '.join(s.split()).casefold()\n\ndef compare(a: str, b: str) -> bool:\n    return normalize(a) == normalize(b)\n\ndef ingest_row(row: dict) -> dict:\n    return {**row, 'name': normalize(row.get('name', ''))}\n\ndef report(n: int) -> str:\n    return f'rows={n}'\n\nexports = ['normalize', 'compare', 'ingest_row', 'report']\nprint('exports', exports)\nprint(compare('Ana', 'ana'))\nprint(1)\n",
+      "justification_from_packet": "Como skeptic en S10-T1-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 71e15613.",
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "code": "print('breaking: renombrar normalize(s) -> normalize_name(s) rompe importadores publicos')\nprint('mitigacion: deprecar alias normalize = normalize_name por un ciclo minor')\nprint('semver: cambio de firma publica sin alias => major')\n",
+      "justification_from_packet": "Como skeptic en S10-T1-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 5e0c15b0.",
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "code": "pyproject = {\n    'project': {\n        'name': 'familiarity-core',\n        'version': '0.1.0',\n        'requires-python': '>=3.10',\n    }\n}\nprint(pyproject['project']['name'], pyproject['project']['version'])\n",
+      "justification_from_packet": "Como skeptic en S10-T2-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético de… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 02403b03.",
+      "confidence": 0.6
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "code": "layout = [\n    'src/familiarity_core/__init__.py',\n    'src/familiarity_core/normalize.py',\n    'src/familiarity_core/cli.py',\n    'pyproject.toml',\n]\nfor p in layout:\n    print(p)\n",
+      "justification_from_packet": "Como skeptic en S10-T2-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 4d2a7dda.",
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "code": "print('ModuleNotFoundError: paquete no esta en sys.path / no instalado editable')\nprint('fix: pip install -e . o PYTHONPATH=src y python -m familiarity_core.cli')\nprint('evitar: copiar .py sueltos fuera del layout src')\n",
+      "justification_from_packet": "Como skeptic en S10-T2-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 408671af.",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "code": "cambios = {\n    'romper firma de normalize()': 'major',\n    'añadir subcomando report compatible': 'minor',\n    'fix typo en docstring': 'patch',\n    'eliminar flag --json sin deprecacion': 'major',\n}\nfor c, v in cambios.items():\n    print(f'{c} -> {v}')\n",
+      "justification_from_packet": "Como skeptic en S10-T2-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético de… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 08f1b218.",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "code": "deps = {\n    'runtime': [],\n    'dev': ['pytest'],\n}\nprint('runtime_min', deps['runtime'] or 'stdlib-only')\nprint('dev', deps['dev'])\n",
+      "justification_from_packet": "Como skeptic en S10-T2-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza cc9b48c5.",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "code": "print('compat: mantener CLI flags al menos un minor tras deprecar')\nprint('compat: no cambiar exit codes semanticos en patch')\nprint('compat: documentar breaking en CHANGELOG y bump major')\n",
+      "justification_from_packet": "Como skeptic en S10-T2-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 4c6c2265.",
+      "confidence": 0.68
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "code": "import argparse\nparser = argparse.ArgumentParser(prog='fam')\nsub = parser.add_subparsers(dest='cmd', required=True)\np_rep = sub.add_parser('report')\np_rep.add_argument('--format', default='json')\np_norm = sub.add_parser('normalize')\np_norm.add_argument('path')\nprint('subcommands', ['report', 'normalize'])\n",
+      "justification_from_packet": "Como skeptic en S10-T3-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético de… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 4ae80324.",
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "code": "import argparse\nparser = argparse.ArgumentParser()\nparser.add_argument('--format', choices=['json', 'text'], default='json')\nargs = parser.parse_args(['--format', 'json'])\nprint('report format=' + args.format)\nprint('code', 0)\n",
+      "justification_from_packet": "Como skeptic en S10-T3-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 78b3dd77.",
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "code": "import sys\ndef main(argv):\n    if not argv:\n        print('usage: tool <cmd>', file=sys.stderr)\n        return 2\n    if argv[0] not in {'report', 'normalize'}:\n        print('error: unknown command', file=sys.stderr)\n        return 2\n    print('run', argv[0])\n    return 0\n\nprint('code', main(['normalize']))\nprint('code', main([]))\n",
+      "justification_from_packet": "Como skeptic en S10-T3-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 9ad2c9c0.",
+      "confidence": 0.58
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "code": "import json, sys\ndata = {\"name\": \"ana\"}\nprint(json.dumps(data, ensure_ascii=False))\nprint('--- stderr ---', file=sys.stderr)\nprint('stage=normalize event=start', file=sys.stderr)\nprint('stage=normalize event=done', file=sys.stderr)\n",
+      "justification_from_packet": "Como skeptic en S10-T3-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético de… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 26f4813f.",
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "code": "import sys\ndef progress(msg):\n    print(msg, file=sys.stderr)\n\ndef emit_result(obj):\n    print(obj)\n\nprogress('stage=job event=start')\nemit_result('{\"ok\": true}')\nprogress('stage=job event=done')\n",
+      "justification_from_packet": "Como skeptic en S10-T3-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza ca0371ac.",
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "code": "print('stdout: solo datos (JSON/CSV del resultado)')\nprint('stderr: logs de progreso, warnings y diagnostico')\nprint('nunca mezclar secretos ni tracebacks crudos con PII en stdout')\n",
+      "justification_from_packet": "Como skeptic en S10-T3-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, traceback de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza b8ba0934.",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "code": "def resolve_log_level(flag, env, default='INFO'):\n    if flag:\n        return flag\n    if env:\n        return env\n    return default\n\nprint('solo env', resolve_log_level(None, 'DEBUG'))\nprint('flag gana', resolve_log_level('ERROR', 'DEBUG'))\nprint('default', resolve_log_level(None, None))\n",
+      "justification_from_packet": "Como skeptic en S10-T4-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético de… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 3431fd19.",
+      "confidence": 0.63
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "code": "print('flags > env > file > defaults')\ncfg = {'format': 'text'}\nfile_cfg = {'format': 'yaml-json'}\nenv = {'format': 'json'}\nflags = {'format': 'csv'}\nmerged = {}\nmerged.update(cfg)\nmerged.update(file_cfg)\nmerged.update(env)\nmerged.update(flags)\nprint('final', merged['format'])\n",
+      "justification_from_packet": "Como skeptic en S10-T4-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza e9b5d7e1.",
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "code": "print('secretos: API_TOKEN solo en env/secret store, nunca en argv logueado')\nprint('file config puede tener paths; tokens no')\nprint('flags no deben aceptar --token en cleartext en shells compartidas')\n",
+      "justification_from_packet": "Como skeptic en S10-T4-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 1e082934.",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "code": "def validate_config(cfg):\n    if not cfg.get('input_path') and cfg.get('cmd') == 'ingest':\n        raise SystemExit('abort config: falta input_path para ingest')\n    return True\n\nprint('normalize', 'ok' if validate_config({'cmd': 'normalize'}) else 'no')\ntry:\n    validate_config({'cmd': 'ingest'})\nexcept SystemExit as e:\n    print(e)\nprint('ingest', 'ok' if validate_config({'cmd': 'ingest', 'input_path': 'x.csv'}) else 'no')\n",
+      "justification_from_packet": "Como skeptic en S10-T4-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético de… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 8c071f76.",
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "code": "def load_config(defaults, file_cfg, env, flags):\n    out = dict(defaults)\n    out.update(file_cfg or {})\n    out.update({k: v for k, v in (env or {}).items() if v is not None})\n    out.update({k: v for k, v in (flags or {}).items() if v is not None})\n    return out\n\nprint(load_config({'lvl': 'INFO'}, {'lvl': 'WARN'}, {'lvl': 'DEBUG'}, {'lvl': 'ERROR'}))\n",
+      "justification_from_packet": "Como skeptic en S10-T4-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza c2b523cf.",
+      "confidence": 0.59
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "code": "print('exit 0: exito con artefactos publicados')\nprint('exit 1: error de runtime/datos no recuperable')\nprint('exit 2: error de uso/parseo de argumentos (argparse)')\n",
+      "justification_from_packet": "Como skeptic en S10-T4-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sinté… Anclé la solución a casefold, fail-closed, manifest, stderr de la theory/iDo del activo S10. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 545f11d2.",
+      "confidence": 0.79
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "if __name__ == '__main__' ejecuta CLI/demo solo al correr el módulo, no al importar.",
+      "confidence": 0.62
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Precedencia de config correcta: flags > env > file > defaults.",
+      "confidence": 0.69
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Exit code 2 en argparse suele ser error de uso/parseo de argumentos.",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Logs de progreso van a stderr para no contaminar el JSON de stdout.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Añadir un subcomando nuevo compatible es tipicamente minor en semver.",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "justification_from_packet": ".env con API_TOKEN no debe ir al git del paquete.",
+      "confidence": 0.67
+    }
+  ],
+  "confusion_points": [
+    "S10: contrasté contratos de pass con theory antes de afirmar labels de dominio."
+  ],
+  "recorded_at": "2026-07-23T16:31:42.343970+00:00",
+  "session_started_at": "2026-07-23T16:01:42.259602+00:00",
+  "session_ended_at": "2026-07-23T16:02:27.459602+00:00",
+  "receipt_response_sha256": "4ef93c1a7e8ddbee124dbc7f6b3d273b3f73f3feafaf28b1ea0fd595c72bc2d2",
+  "receipt_exercises_sha256": "398d4ca088e594197975da31cbee333852c630f4c18b8fa54f41b5cc42344131",
+  "receipt_selfcheck_sha256": "aa75260d5569d21984b058fcc8e9213bcfb11b126cfc0c1253ad1a75307ee318"
+}

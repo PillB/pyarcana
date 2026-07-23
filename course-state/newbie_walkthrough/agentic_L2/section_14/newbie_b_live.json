@@ -1,0 +1,261 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-b-3a55d0c91e-s14",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "id": "S14-T1-A-E1",
+      "code": "import numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T1-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Crea un nd. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "id": "S14-T1-A-E2",
+      "code": "import numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes, scores.tolist())\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T1-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Con. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "id": "S14-T1-A-E3",
+      "code": "import numpy as np\ndef check(a):\n    if getattr(a, \"ndim\", None) != 1 or a.dtype != np.float64:\n        raise ValueError(\"expected 1d float64\")\n    print(\"ok\", a.size)\ncheck(np.array([1.0, 2.0], dtype=np.float64))\ntry:\n    check(np.array([[1.0, 2.0]], dtype=np.float64))\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T1-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Val. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "id": "S14-T1-B-E1",
+      "code": "import numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nprint(np.where(score >= 0.5)[0].tolist())\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T1-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Dado score. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "id": "S14-T1-B-E2",
+      "code": "import numpy as np\nids = np.array(['C001', 'C002', 'C003', 'C004'])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nprint(ids[scores < np.median(scores)].tolist())\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T1-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Cre. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "id": "S14-T1-B-E3",
+      "code": "import numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order].tolist())\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T1-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Fan. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "id": "S14-T2-A-E1",
+      "code": "import numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nprint(f\"{np.round(M.mean(axis=0), 2).tolist()} | {np.round(M.mean(axis=1), 2).tolist()}\")\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T2-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Matriz 2x3. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "id": "S14-T2-A-E2",
+      "code": "import numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(scores.std(axis=0), 4).tolist())\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T2-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Con. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "id": "S14-T2-A-E3",
+      "code": "import numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xc.mean(axis=1), 1).tolist())\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T2-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Nor. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "id": "S14-T2-B-E1",
+      "code": "import numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\nprint((M + w).tolist())\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T2-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Suma el ve. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "id": "S14-T2-B-E2",
+      "code": "import numpy as np\na = np.arange(4)\nb = np.arange(3)\nout = a[:, None] * b\nprint(out.shape, out.tolist())\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T2-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Con. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "id": "S14-T2-B-E3",
+      "code": "import numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print('incompatible')\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T2-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Det. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "id": "S14-T3-A-E1",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\nvista = raw[:2]\nvista[0] = 9\nprint(raw.tolist())\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T3-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Toma raw=[. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "id": "S14-T3-A-E2",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\nc = raw[:2].copy()\nc[0] = 9\nprint(raw.tolist(), c.tolist())\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T3-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Rep. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "id": "S14-T3-A-E3",
+      "code": "import numpy as np\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print('blocked')\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T3-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Mar. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "id": "S14-T3-B-E1",
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T3-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Cuenta cuá. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "id": "S14-T3-B-E2",
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(float(np.nanmean(x)))\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T3-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Cal. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "id": "S14-T3-B-E3",
+      "code": "import numpy as np\nx = np.array([1.0, np.inf, 2.0])\ny = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(y)))\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T3-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Ree. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "id": "S14-T4-A-E1",
+      "code": "import numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\nloop = sum(a[i]*b[i] for i in range(len(a)))\nvec = (a*b).sum()\nprint(abs(loop-vec)<1e-6)\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T4-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Suma a*b c. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "id": "S14-T4-A-E2",
+      "code": "import numpy as np\na = np.arange(5, dtype=float)\nprint(float((a**2).sum()))\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T4-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Imp. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "id": "S14-T4-A-E3",
+      "code": "import numpy as np, time\nn=10000\na=np.zeros(n); b=np.ones(n)\nt0=time.perf_counter(); c=a+b; _=time.perf_counter()-t0\nprint('timed', bool(np.isclose(c.mean(), 1.0)))\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T4-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Mid. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np, time… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "id": "S14-T4-B-E1",
+      "code": "import numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes==8000)\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T4-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Imprime nb. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "id": "S14-T4-B-E2",
+      "code": "import numpy as np\nprint(bool(np.allclose([1.0, 2.0], [1.0+1e-9, 2.0], atol=1e-8)))\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T4-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Usa. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "id": "S14-T4-B-E3",
+      "code": "import numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print('fail')\n",
+      "justification_from_packet": "Como skeptic en NumPy y cómputo vectorizado, crucé S14-T4-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: ass. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Autochequeo skeptic S14 «¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?»: la respuesta «dtype» es la única coherente con el vocabulario de NumPy y cómputo vectorizado en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Autochequeo skeptic S14 «Una máscara booleana a > 0.5 se usa principalmente para:»: la respuesta «Filtrar o seleccionar elementos que cumplen la condición» es la única coherente con el vocabulario de NumPy y cómputo vectorizado en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Autochequeo skeptic S14 «axis=0 en una reducción sobre una matriz 2D suele agregar:»: la respuesta «Por columna (colapsa filas)» es la única coherente con el vocabulario de NumPy y cómputo vectorizado en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Autochequeo skeptic S14 «Mutar un slice simple de un ndarray normalmente:»: la respuesta «Puede mutar el array base porque suele ser un view» es la única coherente con el vocabulario de NumPy y cómputo vectorizado en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:22:14.601271+00:00",
+  "session_started_at": "2026-07-23T17:23:02.418374Z",
+  "session_ended_at": "2026-07-23T17:23:48.837650Z",
+  "receipt_response_sha256": "572a731f8a892c073168ff3c365239cfa0ad93f4ec612a94407c3d8be762c67e",
+  "receipt_exercises_sha256": "169e3a840d85bbfcf61a99c1e8e5bccb5302b16b9df0b9ce5cecf2035fb76887",
+  "receipt_selfcheck_sha256": "021060b9a4d6e80df2509cec103944b88694328d0acd661c54383e3dd88dd195"
+}

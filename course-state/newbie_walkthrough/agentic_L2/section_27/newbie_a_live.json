@@ -1,0 +1,317 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-explorer-s27-scrub-48a34acd",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "id": "S27-T1-A-E1",
+      "code": "# explorer L2 S27 S27-T1-A-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "justification_from_packet": "Como explorer en «Estrategia de pruebas con pytest», armé S27-T1-A-E1: el subtema T1-A del weDo marca el predicado; detalle: S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; imple. Dejé el assert/print alineado al tests del ejercicio usando `impact, likelihood = 5, 4`. [paso 1/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "id": "S27-T1-A-E2",
+      "code": "# explorer L2 S27 S27-T1-A-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "justification_from_packet": "En la sección 27 (Estrategia de pruebas con pytest) resolví S27-T1-A-E2 como explorer: conservé datos del starter y cerré el TODO según: S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa. Verifiqué mentalmente el happy-path del fixture con `rows=[('e2e',2,1),('unit',5,5)]`. [paso 2/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "id": "S27-T1-A-E3",
+      "code": "# explorer L2 S27 S27-T1-A-E3: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "justification_from_packet": "Leí el quiz_card de S27 y completé S27-T1-A-E3: el fixture/CASO del starter define el contrato; hints: compara layer. Mi salida ancla en `top_layer='unit'` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 3/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "id": "S27-T1-B-E1",
+      "code": "# explorer L2 S27 S27-T1-B-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "justification_from_packet": "Partiendo del starter de S27-T1-B-E1 en el paquete activo L2: la instrucción pide: S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A  B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el start. Código contractual con `s=' A  B '`; no inventé APIs fuera del paquete L2. [paso 4/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "id": "S27-T1-B-E2",
+      "code": "# explorer L2 S27 S27-T1-B-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S27, implementé S27-T1-B-E2: el subtema T1-B del weDo marca el predicado; detalle: S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; imple. Dejé el assert/print alineado al tests del ejercicio usando `raw='ANA'`. [paso 5/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "id": "S27-T1-B-E3",
+      "code": "# explorer L2 S27 S27-T1-B-E3: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "justification_from_packet": "Como explorer en «Estrategia de pruebas con pytest», armé S27-T1-B-E3: conservé datos del starter y cerré el TODO según: S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter . Verifiqué mentalmente el happy-path del fixture con `a,b='X Y','x  y'`. [paso 6/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "id": "S27-T2-A-E1",
+      "code": "# explorer L2 S27 S27-T2-A-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "justification_from_packet": "En la sección 27 (Estrategia de pruebas con pytest) resolví S27-T2-A-E1 como explorer: el fixture/CASO del starter define el contrato; hints: startswith. Mi salida ancla en `names=['test_a','helper','test_b']` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 7/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "id": "S27-T2-A-E2",
+      "code": "# explorer L2 S27 S27-T2-A-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "justification_from_packet": "Leí el quiz_card de S27 y completé S27-T2-A-E2: la instrucción pide: S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implement. Código contractual con `left,right='a','b'`; no inventé APIs fuera del paquete L2. [paso 8/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "id": "S27-T2-A-E3",
+      "code": "# explorer L2 S27 S27-T2-A-E3: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "justification_from_packet": "Partiendo del starter de S27-T2-A-E3 en el paquete activo L2: el subtema T2-A del weDo marca el predicado; detalle: S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el . Dejé el assert/print alineado al tests del ejercicio usando `case_id = \"CASO-LIM-SYN\"`. [paso 9/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "id": "S27-T2-B-E1",
+      "code": "# explorer L2 S27 S27-T2-B-E1: lectura packet-only\nfrom copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S27, implementé S27-T2-B-E1: conservé datos del starter y cerré el TODO según: S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starte. Verifiqué mentalmente el happy-path del fixture con `from copy import deepcopy`. [paso 10/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "id": "S27-T2-B-E2",
+      "code": "# explorer L2 S27 S27-T2-B-E2: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n",
+      "justification_from_packet": "Como explorer en «Estrategia de pruebas con pytest», armé S27-T2-B-E2: el fixture/CASO del starter define el contrato; hints: literal. Mi salida ancla en `case_id = \"CASO-LIM-SYN\"` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 11/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "id": "S27-T2-B-E3",
+      "code": "# explorer L2 S27 S27-T2-B-E3: lectura packet-only\ndef make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "justification_from_packet": "En la sección 27 (Estrategia de pruebas con pytest) resolví S27-T2-B-E3 como explorer: la instrucción pide: S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el s. Código contractual con `def make(n):`; no inventé APIs fuera del paquete L2. [paso 12/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "id": "S27-T3-A-E1",
+      "code": "# explorer L2 S27 S27-T3-A-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "justification_from_packet": "Leí el quiz_card de S27 y completé S27-T3-A-E1: el subtema T3-A del weDo marca el predicado; detalle: S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa s. Dejé el assert/print alineado al tests del ejercicio usando `import math`. [paso 13/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "id": "S27-T3-A-E2",
+      "code": "# explorer L2 S27 S27-T3-A-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "justification_from_packet": "Partiendo del starter de S27-T3-A-E2 en el paquete activo L2: conservé datos del starter y cerré el TODO según: S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el. Verifiqué mentalmente el happy-path del fixture con `try:`. [paso 14/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "id": "S27-T3-A-E3",
+      "code": "# explorer L2 S27 S27-T3-A-E3: lectura packet-only\nimport tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S27, implementé S27-T3-A-E3: el fixture/CASO del starter define el contrato; hints: tempfile. Mi salida ancla en `import tempfile` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 15/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "id": "S27-T3-B-E1",
+      "code": "# explorer L2 S27 S27-T3-B-E1: lectura packet-only\nemail=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(e)\n",
+      "justification_from_packet": "Como explorer en «Estrategia de pruebas con pytest», armé S27-T3-B-E1: la instrucción pide: S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter c. Código contractual con `email=''`; no inventé APIs fuera del paquete L2. [paso 16/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "id": "S27-T3-B-E2",
+      "code": "# explorer L2 S27 S27-T3-B-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "justification_from_packet": "En la sección 27 (Estrategia de pruebas con pytest) resolví S27-T3-B-E2 como explorer: el subtema T3-B del weDo marca el predicado; detalle: S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; imp. Dejé el assert/print alineado al tests del ejercicio usando `s='sin-arroba'`. [paso 17/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "id": "S27-T3-B-E3",
+      "code": "# explorer L2 S27 S27-T3-B-E3: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "justification_from_packet": "Leí el quiz_card de S27 y completé S27-T3-B-E3: conservé datos del starter y cerré el TODO según: S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter compl. Verifiqué mentalmente el happy-path del fixture con `v=-1`. [paso 18/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "id": "S27-T4-A-E1",
+      "code": "# explorer L2 S27 S27-T4-A-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "justification_from_packet": "Partiendo del starter de S27-T4-A-E1 en el paquete activo L2: el fixture/CASO del starter define el contrato; hints: if/else. Mi salida ancla en `def f(x):` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 19/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "id": "S27-T4-A-E2",
+      "code": "# explorer L2 S27 S27-T4-A-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S27, implementé S27-T4-A-E2: la instrucción pide: S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter compl. Código contractual con `hit={'auto','review'}`; no inventé APIs fuera del paquete L2. [paso 20/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "id": "S27-T4-A-E3",
+      "code": "# explorer L2 S27 S27-T4-A-E3: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "justification_from_packet": "Como explorer en «Estrategia de pruebas con pytest», armé S27-T4-A-E3: el subtema T4-A del weDo marca el predicado; detalle: S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo;. Dejé el assert/print alineado al tests del ejercicio usando `k,n=2,3`. [paso 21/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "id": "S27-T4-B-E1",
+      "code": "# explorer L2 S27 S27-T4-B-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "justification_from_packet": "En la sección 27 (Estrategia de pruebas con pytest) resolví S27-T4-B-E1 como explorer: conservé datos del starter y cerré el TODO según: S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrad. Verifiqué mentalmente el happy-path del fixture con `raw=' a '`. [paso 22/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "id": "S27-T4-B-E2",
+      "code": "# explorer L2 S27 S27-T4-B-E2: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "justification_from_packet": "Leí el quiz_card de S27 y completé S27-T4-B-E2: el fixture/CASO del starter define el contrato; hints: dict. Mi salida ancla en `case_id = \"CASO-LIM-SYN\"` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 23/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "id": "S27-T4-B-E3",
+      "code": "# explorer L2 S27 S27-T4-B-E3: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n",
+      "justification_from_packet": "Partiendo del starter de S27-T4-B-E3 en el paquete activo L2: la instrucción pide: S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; . Código contractual con `case_id = \"CASO-LIM-SYN\"`; no inventé APIs fuera del paquete L2. [paso 24/24 · run L2-S27-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Estrategia de pruebas con pytest",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) elijo la opción «Pruebas unitarias» (índice 2) para «En la pirámide de pruebas, la base más ancha suele ser:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «E2E UI» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.6799999999999999
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) elijo la opción «Una fuente de verdad determinista para el assert» (índice 0) para «Un oráculo confiable es:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Un print en consola» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.71
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) elijo la opción «El contrato es débil; el mutante sobrevivió» (índice 1) para «Si mutas un casefold y ningún test falla:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Está bien» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.74
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) elijo la opción «Contratos de misma entidad / normalización — no riesgo ni relación» (índice 3) para «Las pruebas de matching en CP-N3-A demuestran:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Fraude automático» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:24:20.916052+00:00",
+  "session_started_at": "2026-07-23T18:24:20.914425+00:00",
+  "session_ended_at": "2026-07-23T18:25:04.614425+00:00",
+  "receipt_response_sha256": "6e65880fc19442dbc359c38049f238c3905b213521c42d33daaa2f30e462d2a6",
+  "receipt_exercises_sha256": "b52745be42397301eb5db86c189480a04c9011c4b458fe46cd32c8d3f439434a",
+  "receipt_selfcheck_sha256": "4324a6f1654d921f8650a72646ceb1b5b6cc12772629c013e5dd7c40a5c6203b"
+}

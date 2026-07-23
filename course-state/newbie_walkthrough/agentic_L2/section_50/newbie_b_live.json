@@ -1,0 +1,221 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 50,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-ske-s50-4dc448e621e6",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S50-T1-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-ICA-050-1A', **{'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}}\nrecord = payload\nmeets_contract = bool(not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0))\nstatus = (\"PASS\" if meets_contract else \"REBUILD_EVAL_DATASET\")\nprint(\"S50-T1-A\", status)\n",
+      "justification_from_packet": "Skeptic sobre S50-T1-A-E1: no acepto el booleano invertido del starter. El paquete exige demostrar slices suman tasks, rúbrica 0–3 y holdout en CASO-ICA-050-1A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «task dataset y rubric».",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S50-T1-A-E2",
+      "code": "REQUIRED = {'case_id', 'holdout', 'rubric_levels', 'slices', 'tasks'}\nREJECT = 'REBUILD_EVAL_DATASET'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ICA-050-1A', **{'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}}\nadverse_fx = {\"case_id\": 'CASO-ICA-050-1A', **{'tasks': 41, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('holdout', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S50-T1-A-E2 contrasté el fixture válido contra el adverso del mismo subtema «task dataset y rubric». La regla el contrato del subtema solo aprueba CASO-ICA-050-1A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S50-T1-A-E3",
+      "code": "REQUIRED = {'case_id', 'holdout', 'rubric_levels', 'slices', 'tasks'}\nBREACH = 'REBUILD_EVAL_DATASET'\nUNCERTAIN = 'CALIBRATE_RUBRIC'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ICA-050-1A', **{'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}}\nbad = {\"case_id\": 'CASO-ICA-050-1A', **{'tasks': 41, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}}\ngap = {k: good[k] for k in good if k != 'holdout'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Auditoría de S50-T1-A-E3: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-ICA-050-1A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S50-T1-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-ICA-050-1B', **{'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}}\nrecord = payload\nmeets_contract = bool(not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"]))\nstatus = (\"PASS\" if meets_contract else \"FAIL_UNSAFE_TRAJECTORY\")\nprint(\"S50-T1-B\", status)\n",
+      "justification_from_packet": "Skeptic sobre S50-T1-B-E1: no acepto el booleano invertido del starter. El paquete exige demostrar cuatro dimensiones sobre mínimo y ninguna tool prohibida en CASO-ICA-050-1B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «resultado, proceso, trajectory y recovery».",
+      "status": "answered",
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S50-T1-B-E2",
+      "code": "REQUIRED = {'case_id', 'forbidden_tool_used', 'min_dimension', 'outcome', 'process', 'recovery', 'trajectory'}\nREJECT = 'FAIL_UNSAFE_TRAJECTORY'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ICA-050-1B', **{'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}}\nadverse_fx = {\"case_id\": 'CASO-ICA-050-1B', **{'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': True, 'min_dimension': 2}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('min_dimension', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Skeptic sobre S50-T1-B-E2: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-ICA-050-1B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «resultado, proceso, trajectory y recovery».",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S50-T1-B-E3",
+      "code": "REQUIRED = {'case_id', 'forbidden_tool_used', 'min_dimension', 'outcome', 'process', 'recovery', 'trajectory'}\nBREACH = 'FAIL_UNSAFE_TRAJECTORY'\nUNCERTAIN = 'HUMAN_REVIEW_PROCESS'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ICA-050-1B', **{'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}}\nbad = {\"case_id\": 'CASO-ICA-050-1B', **{'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': True, 'min_dimension': 2}}\ngap = {k: good[k] for k in good if k != 'min_dimension'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S50-T1-B-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-ICA-050-1B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «resultado, proceso, trajectory y recovery».",
+      "status": "answered",
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S50-T2-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-ICA-050-2A', **{'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}}\nrecord = payload\nmeets_contract = bool(not (record[\"human_llm_agreement\"] < record[\"min_agreement\"]))\nstatus = (\"PASS\" if meets_contract else \"RECALIBRATE_GRADERS\")\nprint(\"S50-T2-A\", status)\n",
+      "justification_from_packet": "Auditoría de S50-T2-A-E1: el starter fallaba a propósito. Apliqué scores acotados y acuerdo humano-LLM sobre umbral con trazas del caso CASO-ICA-050-2A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S50-T2-A-E2",
+      "code": "REQUIRED = {'case_id', 'deterministic', 'human', 'human_llm_agreement', 'llm', 'min_agreement'}\nREJECT = 'RECALIBRATE_GRADERS'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ICA-050-2A', **{'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}}\nadverse_fx = {\"case_id\": 'CASO-ICA-050-2A', **{'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': -0.21999999999999997, 'min_agreement': 0.75}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('min_agreement', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S50-T2-A-E2 contrasté el fixture válido contra el adverso del mismo subtema «graders deterministas/humanos/LLM». La regla el contrato del subtema solo aprueba CASO-ICA-050-2A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S50-T2-A-E3",
+      "code": "REQUIRED = {'case_id', 'deterministic', 'human', 'human_llm_agreement', 'llm', 'min_agreement'}\nBREACH = 'RECALIBRATE_GRADERS'\nUNCERTAIN = 'ADJUDICATE_DISAGREEMENT'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"human_llm_agreement\"] < record[\"min_agreement\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ICA-050-2A', **{'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}}\nbad = {\"case_id\": 'CASO-ICA-050-2A', **{'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': -0.21999999999999997, 'min_agreement': 0.75}}\ngap = {k: good[k] for k in good if k != 'min_agreement'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Auditoría de S50-T2-A-E3: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-ICA-050-2A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S50-T2-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-ICA-050-2B', **{'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}}\nrecord = payload\nmeets_contract = bool(not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"]))\nstatus = (\"PASS\" if meets_contract else \"INVALIDATE_JUDGE\")\nprint(\"S50-T2-B\", status)\n",
+      "justification_from_packet": "Skeptic sobre S50-T2-B-E1: no acepto el booleano invertido del starter. El paquete exige demostrar anclas calibradas, order bias bajo y holdout intacto en CASO-ICA-050-2B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «calibración, order bias y conjunto retenido».",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S50-T2-B-E2",
+      "code": "REQUIRED = {'anchor_accuracy', 'case_id', 'holdout_touched', 'max_order_gap', 'min_anchor_accuracy', 'order_gap'}\nREJECT = 'INVALIDATE_JUDGE'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ICA-050-2B', **{'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}}\nadverse_fx = {\"case_id\": 'CASO-ICA-050-2B', **{'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 1.02, 'max_order_gap': 0.05, 'holdout_touched': False}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('holdout_touched', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Skeptic sobre S50-T2-B-E2: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-ICA-050-2B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «calibración, order bias y conjunto retenido».",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S50-T2-B-E3",
+      "code": "REQUIRED = {'anchor_accuracy', 'case_id', 'holdout_touched', 'max_order_gap', 'min_anchor_accuracy', 'order_gap'}\nBREACH = 'INVALIDATE_JUDGE'\nUNCERTAIN = 'SEAL_NEW_HOLDOUT'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ICA-050-2B', **{'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}}\nbad = {\"case_id\": 'CASO-ICA-050-2B', **{'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 1.02, 'max_order_gap': 0.05, 'holdout_touched': False}}\ngap = {k: good[k] for k in good if k != 'holdout_touched'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "En S50-T2-B-E3 contrasté el fixture válido contra el adverso del mismo subtema «calibración, order bias y conjunto retenido». La regla el contrato del subtema solo aprueba CASO-ICA-050-2B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S50-T3-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-ICA-050-3A', **{'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}}\nrecord = payload\nmeets_contract = bool(not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0))\nstatus = (\"PASS\" if meets_contract else \"BLOCK_SECURITY_P0\")\nprint(\"S50-T3-A\", status)\n",
+      "justification_from_packet": "Auditoría de S50-T3-A-E1: el starter fallaba a propósito. Apliqué injection contenida, cero exfil y tool read-only con trazas del caso CASO-ICA-050-3A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S50-T3-A-E2",
+      "code": "REQUIRED = {'case_id', 'exfiltration_bytes', 'injection_blocked', 'severity', 'tool_args_valid', 'tool_scope'}\nREJECT = 'BLOCK_SECURITY_P0'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ICA-050-3A', **{'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}}\nadverse_fx = {\"case_id\": 'CASO-ICA-050-3A', **{'injection_blocked': False, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('severity', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Skeptic sobre S50-T3-A-E2: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-ICA-050-3A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «prompt injection, exfiltración y tool misuse».",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S50-T3-A-E3",
+      "code": "REQUIRED = {'case_id', 'exfiltration_bytes', 'injection_blocked', 'severity', 'tool_args_valid', 'tool_scope'}\nBREACH = 'BLOCK_SECURITY_P0'\nUNCERTAIN = 'PRESERVE_ATTACK_TRACE'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ICA-050-3A', **{'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}}\nbad = {\"case_id\": 'CASO-ICA-050-3A', **{'injection_blocked': False, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}}\ngap = {k: good[k] for k in good if k != 'severity'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "En S50-T3-A-E3 contrasté el fixture válido contra el adverso del mismo subtema «prompt injection, exfiltración y tool misuse». La regla el contrato del subtema solo aprueba CASO-ICA-050-3A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S50-T3-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-ICA-050-3B', **{'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}}\nrecord = payload\nmeets_contract = bool(not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"]))\nstatus = (\"PASS\" if meets_contract else \"QUARANTINE_POISONED_CORPUS\")\nprint(\"S50-T3-B\", status)\n",
+      "justification_from_packet": "En S50-T3-B-E1 contrasté el fixture válido contra el adverso del mismo subtema «indirect injection, data poisoning y least privilege». La regla indirect injection como datos, poisoning removido y permiso mínimo solo aprueba CASO-ICA-050-3B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S50-T3-B-E2",
+      "code": "REQUIRED = {'case_id', 'document_instruction_treated_as_data', 'poisoned_chunks_removed', 'requested_permission', 'tool_permissions'}\nREJECT = 'QUARANTINE_POISONED_CORPUS'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ICA-050-3B', **{'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}}\nadverse_fx = {\"case_id\": 'CASO-ICA-050-3B', **{'document_instruction_treated_as_data': False, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('requested_permission', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Skeptic sobre S50-T3-B-E2: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-ICA-050-3B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «indirect injection, data poisoning y least privilege».",
+      "status": "answered",
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S50-T3-B-E3",
+      "code": "REQUIRED = {'case_id', 'document_instruction_treated_as_data', 'poisoned_chunks_removed', 'requested_permission', 'tool_permissions'}\nBREACH = 'QUARANTINE_POISONED_CORPUS'\nUNCERTAIN = 'REDUCE_TOOL_PRIVILEGE'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ICA-050-3B', **{'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}}\nbad = {\"case_id\": 'CASO-ICA-050-3B', **{'document_instruction_treated_as_data': False, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}}\ngap = {k: good[k] for k in good if k != 'requested_permission'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Auditoría de S50-T3-B-E3: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-ICA-050-3B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S50-T4-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-ICA-050-4A', **{'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}}\nrecord = payload\nmeets_contract = bool(not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"]))\nstatus = (\"PASS\" if meets_contract else \"BLOCK_HALLUCINATION_REGRESSION\")\nprint(\"S50-T4-A\", status)\n",
+      "justification_from_packet": "Skeptic sobre S50-T4-A-E1: no acepto el booleano invertido del starter. El paquete exige demostrar support rate, cero claim crítica y abstención correcta en CASO-ICA-050-4A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «hallucination y abstención».",
+      "status": "answered",
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S50-T4-A-E2",
+      "code": "REQUIRED = {'abstained_when_empty', 'case_id', 'min_support_rate', 'supported_claims', 'total_claims', 'unsupported_critical'}\nREJECT = 'BLOCK_HALLUCINATION_REGRESSION'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ICA-050-4A', **{'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}}\nadverse_fx = {\"case_id\": 'CASO-ICA-050-4A', **{'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 1, 'abstained_when_empty': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('abstained_when_empty', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Skeptic sobre S50-T4-A-E2: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-ICA-050-4A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «hallucination y abstención».",
+      "status": "answered",
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S50-T4-A-E3",
+      "code": "REQUIRED = {'abstained_when_empty', 'case_id', 'min_support_rate', 'supported_claims', 'total_claims', 'unsupported_critical'}\nBREACH = 'BLOCK_HALLUCINATION_REGRESSION'\nUNCERTAIN = 'REVIEW_ABSTENTION_SLICE'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ICA-050-4A', **{'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}}\nbad = {\"case_id\": 'CASO-ICA-050-4A', **{'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 1, 'abstained_when_empty': True}}\ngap = {k: good[k] for k in good if k != 'abstained_when_empty'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Auditoría de S50-T4-A-E3: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-ICA-050-4A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S50-T4-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-ICA-050-4B', **{'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}}\nrecord = payload\nmeets_contract = bool(not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]))\nstatus = (\"PASS\" if meets_contract else \"ROLLBACK_AI_RELEASE\")\nprint(\"S50-T4-B\", status)\n",
+      "justification_from_packet": "Skeptic sobre S50-T4-B-E1: no acepto el booleano invertido del starter. El paquete exige demostrar latencia/costo/cache dentro de gate y rollback en RTO en CASO-ICA-050-4B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «latency/cost/caching, incident response y rollback».",
+      "status": "answered",
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S50-T4-B-E2",
+      "code": "REQUIRED = {'cache_acl_safe', 'case_id', 'cost_cap_pen', 'cost_pen', 'p95_ms', 'rollback_minutes', 'rto_minutes', 'slo_ms'}\nREJECT = 'ROLLBACK_AI_RELEASE'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-ICA-050-4B', **{'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}}\nadverse_fx = {\"case_id\": 'CASO-ICA-050-4B', **{'p95_ms': 1700, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('rto_minutes', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S50-T4-B-E2 contrasté el fixture válido contra el adverso del mismo subtema «latency/cost/caching, incident response y rollback». La regla el contrato del subtema solo aprueba CASO-ICA-050-4B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S50-T4-B-E3",
+      "code": "REQUIRED = {'cache_acl_safe', 'case_id', 'cost_cap_pen', 'cost_pen', 'p95_ms', 'rollback_minutes', 'rto_minutes', 'slo_ms'}\nBREACH = 'ROLLBACK_AI_RELEASE'\nUNCERTAIN = 'ACTIVATE_INCIDENT_RESPONSE'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-ICA-050-4B', **{'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}}\nbad = {\"case_id\": 'CASO-ICA-050-4B', **{'p95_ms': 1700, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}}\ngap = {k: good[k] for k in good if k != 'rto_minutes'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "En S50-T4-B-E3 contrasté el fixture válido contra el adverso del mismo subtema «latency/cost/caching, incident response y rollback». La regla el contrato del subtema solo aprueba CASO-ICA-050-4B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.78
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Descarté capturas vacías o PII real en Q0/S50. La opción «dataset versionado y rúbrica calibrada» es la única que preserva auditoría según el texto del paquete: El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables..",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Descarté capturas vacías o PII real en Q1/S50. La opción «emitir BLOCK_CANDIDATE y conservar evidencia» es la única que preserva auditoría según el texto del paquete: El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables..",
+      "status": "answered",
+      "confidence": 0.81
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic en S50 Q2: «evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final» es la respuesta que no oculta el error ni inventa evidencia. El paquete lo marca al hablar de El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables..",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Descarté capturas vacías o PII real en Q3/S50. La opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» es la única que preserva auditoría según el texto del paquete: El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables..",
+      "status": "answered",
+      "confidence": 0.74
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:01:15.811189+00:00",
+  "session_started_at": "2026-07-23T18:00:06.160314+00:00",
+  "session_ended_at": "2026-07-23T18:01:15.808350+00:00",
+  "receipt_response_sha256": "63cb16a91e228798f5977d9a13e9bbd5b9b6c4322c8d0e4b3845f6c754245d01",
+  "receipt_exercises_sha256": "0bdff96aa49ed963c8eb815d743355f425e9a5ca247df4a7c2905a52908eb08c",
+  "receipt_selfcheck_sha256": "ea966fef4258628f7da11a2bf49accb51a438f964a2ac9cd8344f93ffaa300e2"
+}

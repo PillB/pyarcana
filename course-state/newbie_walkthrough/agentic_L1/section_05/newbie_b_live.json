@@ -1,0 +1,250 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 5,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s05-funciones-contratos",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "id": "S05-T1-A-E1",
+      "code": "def doble(n):\n    return n * 2\nprint(doble(21))\n",
+      "justification_from_packet": "Función mínima con return: `doble` multiplica y devuelve; print del return es 42. Sin return la llamada sería None.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "id": "S05-T1-A-E2",
+      "code": "def normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\nprint(normalize_nombre('  Juan   Pérez '))\n",
+      "justification_from_packet": "`strip` + `split` + join colapsa espacios internos. \"  Juan   Pérez \" → \"Juan Pérez\"; no confío en replace suelto.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "id": "S05-T1-A-E3",
+      "code": "def saluda(nombre):\n    return f'Hola {nombre}'\nprint(saluda('Ana'))\n",
+      "justification_from_packet": "saluda retorna el string; main imprime el return. Si olvido return, print muestra None — el paquete lo advierte claro.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "id": "S05-T1-B-E1",
+      "code": "def present(nombre, titulo='Cliente'):\n    return f'{titulo}: {nombre}'\nprint(present('Quispe'))\nprint(present('Quispe', titulo='VIP'))\n",
+      "justification_from_packet": "Default `titulo='Cliente'` y override keyword `titulo='VIP'`. Posicional para nombre; no mezclo el orden a ciegas.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "id": "S05-T1-B-E2",
+      "code": "def good_add(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\nprint(good_add(1))\nprint(good_add(2))\n",
+      "justification_from_packet": "Default mutable es trampa: uso `bucket=None` y creo lista fresca. Dos llamadas good(1)/good(2) quedan independientes.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "id": "S05-T1-B-E3",
+      "code": "def normalize_telefono(raw, *, digits_only=True):\n    t = raw.strip()\n    if digits_only:\n        return \"\".join(c for c in t if c.isdigit())\n    return t\nprint(normalize_telefono(' 999-000 '))\nprint(normalize_telefono(' 999-000 ', digits_only=False))\n",
+      "justification_from_packet": "Keyword-only tras `*`: digits_only True deja solo dígitos; False solo strip. Obligo la intención en la llamada.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "id": "S05-T2-A-E1",
+      "code": "def area(w, h):\n    \"\"\"Retorna el área de un rectángulo w×h.\"\"\"\n    return w * h\nprint(area.__doc__)\nprint(area(3, 4))\n",
+      "justification_from_packet": "Docstring de una línea en `area` y leo `area.__doc__`. El contrato textual no sustituye tests, pero documenta el return.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "id": "S05-T2-A-E2",
+      "code": "def normalize_email(raw: str) -> str:\n    \"\"\"Pre: str con posible basura. Post: lower+strip; ValueError si falta @.\"\"\"\n    s = raw.strip().lower()\n    if \"@\" not in s:\n        raise ValueError(\"email sin @\")\n    return s\nprint(normalize_email('  A@B.COM '))\ntry:\n    normalize_email('x')\nexcept ValueError as e:\n    print('err', e)\n",
+      "justification_from_packet": "normalize_email: strip+lower y ValueError sin @. Pre/post en docstring; pruebo OK y error capturado del theory.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "id": "S05-T2-A-E3",
+      "code": "def normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios.\"\"\"\n    return \" \".join(raw.strip().split())\nr = normalize_nombre('  Ana  María  ')\nprint(r)\nassert r == r.strip() and '  ' not in r\nprint('post OK')\n",
+      "justification_from_packet": "Postcondición: sin extremos ni dobles espacios; assert en ejemplo. Si falla el assert, la normalización miente.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "id": "S05-T2-B-E1",
+      "code": "def len_safe(s: str) -> int:\n    return len(s)\nprint(len_safe('abc'))\nprint(\"Nota: el hint de tipo no valida en runtime; es contrato para humanos/herramientas\")\n",
+      "justification_from_packet": "Anotación `s: str -> int` es hint: no valida en runtime. Imprimo 3 y dejo nota escéptica del contrato estático.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "id": "S05-T2-B-E2",
+      "code": "from typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    t = raw.strip()\n    try:\n        n = int(t)\n    except ValueError:\n        return (False, None, \"no int\")\n    if n < 0:\n        return (False, None, \"negativo\")\n    return (True, n, None)\n\nfor v in ['0', '10', '-1', 'x']:\n    print(v, parse_monto(v))\n",
+      "justification_from_packet": "parse_monto a tupla (ok,value,err): enteros >=0; negativo y no-int fallan dominio. Cuatro casos sin excepciones libres.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "id": "S05-T2-B-E3",
+      "code": "def normalize_email(raw: str) -> str:\n    s = raw.strip().lower()\n    if \"@\" not in s:\n        raise ValueError(\"email inválido\")\n    return s\nprint(\"Elijo raise: el caller del lote decide SKIP; la tupla mezclaría control con datos\")\nfor e in ['ok@ex.com', 'malo']:\n    try:\n        print('OK', normalize_email(e))\n    except ValueError:\n        print('SKIP', e)\n",
+      "justification_from_packet": "Elijo raise ValueError y SKIP en el caller del lote. Mezclar control en la tupla ensucia el dominio del normalizador.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "id": "S05-T3-A-E1",
+      "code": "def strip_collapse(s):\n    return \" \".join(s.strip().split())\ndef normalize_nombre(raw):\n    return strip_collapse(raw).title()\nprint(normalize_nombre('  ana  maría '))\n",
+      "justification_from_packet": "Extraigo strip_collapse y lo reuso en normalize_nombre + title. Descomposición del monstruo en helpers del theory.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "id": "S05-T3-A-E2",
+      "code": "def norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef normalize_contact(nombre, email):\n    return {\"nombre\": norm_n(nombre), \"email\": norm_e(email)}\nprint(normalize_contact('  luis ', '  L@E.COM '))\n",
+      "justification_from_packet": "Orquestador normalize_contact usa norm_n y norm_e. Un solo dict de salida; no duplico lógica de strip/lower.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "id": "S05-T3-A-E3",
+      "code": "def norm_nombre(n):\n    return \" \".join(n.strip().split()).title()\ndef norm_email(e):\n    return e.strip().lower()\ndef norm_tel(t):\n    return \"\".join(c for c in t if c.isdigit())\ndef normalize_all(n, e, t):\n    return {\"nombre\": norm_nombre(n), \"email\": norm_email(e), \"tel\": norm_tel(t)}\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))\n",
+      "justification_from_packet": "Tres helpers + orquestador para nombre/email/tel. Misma salida que el monstruo, más testeable por pieza aislada.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "id": "S05-T3-B-E1",
+      "code": "def normalize_tel(raw):\n    return \"\".join(c for c in raw if c.isdigit())\nx = '999-000'\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)\n",
+      "justification_from_packet": "Puro: solo dígitos. Idempotencia: f(f(x))==f(x). Si la segunda pasada cambia, no es normalizador estable del curso.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "id": "S05-T3-B-E2",
+      "code": "def normalize_email(raw):\n    return raw.strip().lower()\ndef print_report(raw):\n    print(f\"email= {normalize_email(raw)}\")\nprint_report('  Z@W.COM ')\n",
+      "justification_from_packet": "Separo puro (normalize_email) de efecto (print_report). El normalizador no imprime; el reporte sí aplica el side-effect.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "id": "S05-T3-B-E3",
+      "code": "def normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    return norm(line)\nprint(process(' 999-a '))\nprint(process(' 999-a ', norm=lambda s: s.strip().upper()))\n",
+      "justification_from_packet": "Inyección: process(line, norm=...). Default dígitos; lambda upper strip como alternativa. No hardcodeo una sola política.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "id": "S05-T4-A-E1",
+      "code": "x = 1\ndef f():\n    x = 2\n    print('in', x)\nf()\nprint('out', x)\n",
+      "justification_from_packet": "LEGB: local x=2 dentro de f; global sigue 1 fuera. Print in/out confirma que no hay nonlocal mágico en este ejemplo.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "id": "S05-T4-A-E2",
+      "code": "def make_multiplier(k):\n    def inner(n):\n        return n * k\n    return inner\nm3 = make_multiplier(3)\nm10 = make_multiplier(10)\nprint(m3(4), m10(4))\n",
+      "justification_from_packet": "Closure make_multiplier(k) captura k. m3(4)=12 y m10(4)=40; cada factory cierra su propio k sin compartirlo.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "id": "S05-T4-A-E3",
+      "code": "def make_normalizer(mode):\n    if mode == 'digits':\n        return lambda s: ''.join(c for c in s if c.isdigit())\n    if mode == 'lower':\n        return lambda s: s.strip().lower()\n    raise ValueError(mode)\nd = make_normalizer('digits')\nlo = make_normalizer('lower')\nprint(d('A-1-B-2'), lo('  Hola '))\n",
+      "justification_from_packet": "Factory por mode digits/lower devuelve la fn. Un mal mode lanza; no devuelvo no-op silencioso que esconda errores.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "id": "S05-T4-B-E1",
+      "code": "def normalize_email(s):\n    return s.strip().lower()\nassert normalize_email('  A@B.COM ') == 'a@b.com'\nassert normalize_email(normalize_email('A@B.COM')) == 'a@b.com'\nprint('OK')\n",
+      "justification_from_packet": "Dos asserts: caso base e idempotencia del email normalizado. Print OK solo si ambos pasan sin atajos.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "id": "S05-T4-B-E2",
+      "code": "def normalize_dir(raw):\n    collapsed = ' '.join(raw.strip().split())\n    return collapsed.upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nassert normalize_dir(normalize_dir('x')) == normalize_dir('x')\nprint(normalize_dir('  av 1 '))\nprint(normalize_dir(' jr  2 '))\n",
+      "justification_from_packet": "Refactor a strip_collapse + upper en dos pasos. Asserts de AV 1 e idempotencia se mantienen verdes tras el cambio.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "id": "S05-T4-B-E3",
+      "code": "def normalize_nombre(raw):\n    return ' '.join(raw.strip().split())\ncases = [('  a  b ', 'a b'), ('X', 'X')]\nfor inp, expected in cases:\n    got = normalize_nombre(inp)\n    assert got == expected, (inp, got, expected)\n    print('PASS', inp, got)\nprint('all PASS')\n",
+      "justification_from_packet": "Suite (input, expected) con loop assert. Mantengo collapse sin title; cambiar política exigiría actualizar expected.",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Sin return explícito, la llamada devuelve None. Confundir print interno con valor de retorno rompe al orquestador.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Default mutable `[]` se comparte entre llamadas: el segundo append ve basura del primero. Por eso bucket=None.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Función pura: mismo input → mismo output, sin efectos colaterales. Print o I/O la sacan de esa categoría del course.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "LEGB: Local, Enclosing, Global, Builtin. El orden de resolución de nombres del theory, no un acrónimo decorativo.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Idempotencia del normalizador: f(f(x))==f(x) en el dominio. Si la segunda pasada cambia, el contrato miente.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "Confirmé LEGB con print in/out antes de confiar en la predicción mental.",
+    "Dudé entre raise vs tupla en email: elijo raise para separar control del dominio."
+  ],
+  "recorded_at": "2026-07-23T16:32:45.002004+00:00",
+  "session_started_at": "2026-07-23T16:32:04.000Z",
+  "session_ended_at": "2026-07-23T16:32:45.000Z",
+  "receipt_response_sha256": "2dfb0b65b48903e203dab87826e39bd881f1d2439e3ee7a8e471ad6ceb20b706",
+  "receipt_exercises_sha256": "ba7d5e28c24d223903250ff26d8836bcda7e2bf7d92432f73ce3cea195f7dbee",
+  "receipt_selfcheck_sha256": "2fcf079d22e94a2def0e70fa0a262eaa2c91f81a3d2aaf5c8b4018aa382f18f0"
+}

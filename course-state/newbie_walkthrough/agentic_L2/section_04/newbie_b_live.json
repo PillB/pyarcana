@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 4,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-newbie_b-s04-cd635e1e0b65",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S04-T1-A-E1",
+      "code": "regiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor r in regiones:\n    print(r)\nprint(\"total\", len(regiones))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Un **contador** suma 1 por evento (`n_reject += 1`). Un **acumulador**». En S04-T1-A-E1 verifiqué el checklist/tests sin asumir atajos: Dada `regiones = [\"Lima\", \"Cusco\", \"Piura\"]`, imprime cada región en su propia l. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T1-A-E2",
+      "code": "edades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\nprint(\"mayores_o_igual_18\", n)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «for, range y secuencias». En S04-T1-A-E2 verifiqué el checklist/tests sin asumir atajos: `edades = [30, 17, 45, 22]`. Cuenta cuántas son `>= 18` con un for (no uses comp. Cita de apoyo: «**`enumerate(seq, start=0)`** te da `(índice,…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T1-A-E3",
+      "code": "lote = [\n    {\"id\": \"T1\", \"monto\": 10},\n    {\"id\": \"T2\", \"monto\": 0},\n    {\"id\": \"T3\", \"monto\": 25},\n]\nfor row in lote:\n    if row[\"monto\"] > 0:\n        print(row[\"id\"])\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Comprehensions legibles». En S04-T1-A-E3 verifiqué el checklist/tests sin asumir atajos: Simula un mini-lote: lista de dicts con `id` y `monto`. Imprime solo los `id` cu. Cita de apoyo: «**Trazar estado** es escribir (o imaginar) una…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T1-B-E1",
+      "code": "for i in range(3):\n    print(i)\nprint(list(range(1, 4)))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «**`enumerate(seq, start=0)`** te da `(índice, valor)` sin armar el índ». En S04-T1-B-E1 verifiqué el checklist/tests sin asumir atajos: Con `ids = [\"A\", \"B\", \"C\"]`, usa `enumerate(..., start=1)` e imprime `fila k: id. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T1-B-E2",
+      "code": "regiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor i, r in enumerate(regiones, start=1):\n    print(i, r)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «enumerate y zip sin desalinear». En S04-T1-B-E2 verifiqué el checklist/tests sin asumir atajos: `nombres` y `edades` de igual longitud. Emparéjalos con `zip` e imprime `nombre=. Cita de apoyo: «**`while condicion:`** repite mientras…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T1-B-E3",
+      "code": "ids = [\"C001\", \"C002\", \"C003\"]\nmontos = [10, 20]\nfor i, (cid, monto) in enumerate(zip(ids, montos)):\n    print(i, cid, monto)\nprint(\"nota: zip se detiene en la secuencia más corta; C003 se pierde sin strict\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Trazado de estado». En S04-T1-B-E3 verifiqué el checklist/tests sin asumir atajos: Implementa `zip_strict(a,b)` que lance ValueError si `len(a)!=len(b)` (equivalen. Cita de apoyo: «Un solo `for` sobre n filas es **O(n)** (lineal).…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T2-A-E1",
+      "code": "lineas = [\"  Ana  \", \"\", \"  \", \"Luis\"]\nfor ln in lineas:\n    if not ln.strip():\n        continue\n    print(ln.strip())\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Aplicar break/continue y guardrails contra loops infinitos». En S04-T2-A-E1 verifiqué el checklist/tests sin asumir atajos: Buffer `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. Con while e índice, acumula hasta el st. Cita de apoyo: «Trazar el…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T2-A-E2",
+      "code": "def first_positive(nums):\n    for n in nums:\n        if n > 0:\n            return n\n    return None\n\nprint(first_positive([-1, 0, 4, 9]))\nprint(first_positive([-2, -3]))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Distinguir costo lineal vs cuadrático y corregir off-by-one en índices». En S04-T2-A-E2 verifiqué el checklist/tests sin asumir atajos: Simula reintentos: `intentos = 0`, `MAX = 3`, `while intentos < MAX`, incrementa. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T2-A-E3",
+      "code": "def scan(rows):\n    for r in rows:\n        if r.get(\"status\") == \"fatal\":\n            break\n        if not r.get(\"id\"):\n            continue\n        print(r[\"id\"])\n\nscan([\n    {\"id\": \"\", \"status\": \"ok\"},\n    {\"id\": \"C001\", \"status\": \"ok\"},\n    {\"id\": \"C002\", \"status\": \"fatal\"},\n    {\"id\": \"C003\", \"status\": \"ok\"},\n])\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Distinguir costo lineal vs cuadrático y corregir off-by-one en índices». En S04-T2-A-E3 verifiqué el checklist/tests sin asumir atajos: Cola simulada: `cola = [\"job1\", \"job2\", \"job3\"]`. Mientras la cola no esté vacía. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T2-B-E1",
+      "code": "# for para conteo de lote; while solo si la condición de parada no es \"agotar lista\"\nrows = [1, 2, 3]\ntotal = 0\nfor x in rows:\n    total += x\nprint(\"for_total\", total)\nn, s = 0, 0\nwhile n < 3:\n    s += n\n    n += 1\nprint(\"while_sum\", s)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Contadores, acumuladores y búsqueda». En S04-T2-B-E1 verifiqué el checklist/tests sin asumir atajos: `raw = [\" \", \"Lima\", \"\", \"Cusco\"]`. Con for, usa continue si `not x.strip()`; i. Cita de apoyo: «Una **list comprehension** `[expr…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T2-B-E2",
+      "code": "def read_until_blank(lines):\n    out = []\n    i = 0\n    while i < len(lines) and lines[i].strip() != \"\":\n        out.append(lines[i])\n        i += 1\n    return out\n\nprint(read_until_blank([\"a\", \"b\", \"\", \"c\"]))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «for, range y secuencias». En S04-T2-B-E2 verifiqué el checklist/tests sin asumir atajos: `codes = [200, 200, 500, 200]`. Recorre; si code >= 500 imprime `STOP` y break; . Cita de apoyo: «**`enumerate(seq, start=0)`** te da `(índice,…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T2-B-E3",
+      "code": "# while True + break para menú sintético\nopciones = [\"1\", \"2\", \"q\"]\nidx = 0\nwhile True:\n    cmd = opciones[idx]\n    idx += 1\n    print(\"cmd\", cmd)\n    if cmd == \"q\":\n        break\nprint(\"salí limpio\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «**Trazar estado** es escribir (o imaginar) una tabla: iteración | vari». En S04-T2-B-E3 verifiqué el checklist/tests sin asumir atajos: Escribe un `while True` que lea de `buf = [\"a\", \"b\", \"END\"]` con índice, break e. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T3-A-E1",
+      "code": "decisiones = [\"accept\", \"reject\", \"accept\", \"review\", \"reject\"]\nn_total = len(decisiones)\nn_reject = 0\nfor d in decisiones:\n    if d == \"reject\":\n        n_reject += 1\ntasa = n_reject / n_total if n_total else None\nprint(n_total, n_reject, tasa)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Escribir while con centinelas y condición de terminación explícita». En S04-T3-A-E1 verifiqué el checklist/tests sin asumir atajos: `sts = [\"accept\", \"reject\", \"accept\"]`. Inicializa contadores y en un for increm. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T3-A-E2",
+      "code": "def tasa_reject(decisiones):\n    n_total = len(decisiones)\n    if n_total == 0:\n        return None\n    n_reject = sum(1 for d in decisiones if d == \"reject\")\n    return n_reject / n_total\n\nprint(tasa_reject([\"accept\", \"reject\"]))\nprint(tasa_reject([]))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Aplicar break/continue y guardrails contra loops infinitos». En S04-T3-A-E2 verifiqué el checklist/tests sin asumir atajos: Calcula `tasa_reject = n_reject / n_total` para sts del E1. Luego calcula tasa p. Cita de apoyo: «Trazar el…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T3-A-E3",
+      "code": "montos = [10, 20, 5, 15]\nacum = 0\nfor m in montos:\n    acum += m\nprint(\"suma\", acum, \"promedio\", acum / len(montos))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Trazado de estado». En S04-T3-A-E3 verifiqué el checklist/tests sin asumir atajos: Busca el índice del primer `status==\"review\"` en una lista de dicts. Si no hay, . Cita de apoyo: «Un solo `for` sobre n filas es **O(n)** (lineal).…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T3-B-E1",
+      "code": "from collections import Counter\nregs = [\"Lima\", \"Cusco\", \"Lima\", \"Piura\", \"Lima\"]\nprint(dict(Counter(regs)))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «for, range y secuencias». En S04-T3-B-E1 verifiqué el checklist/tests sin asumir atajos: `nums = [1,2,3,4,5]`. Crea con comprehension la lista de cuadrados y la de pares. Cita de apoyo: «**`enumerate(seq, start=0)`** te da `(índice,…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T3-B-E2",
+      "code": "rows = [\n    {\"region\": \"Lima\", \"monto\": 10},\n    {\"region\": \"Lima\", \"monto\": 5},\n    {\"region\": \"Cusco\", \"monto\": 7},\n]\nagg = {}\nfor r in rows:\n    agg[r[\"region\"]] = agg.get(r[\"region\"], 0) + r[\"monto\"]\nprint(agg)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Implementar contadores, acumuladores y búsquedas en un pase O(n)». En S04-T3-B-E2 verifiqué el checklist/tests sin asumir atajos: De `rows` con status, obtén set de statuses distintos ordenados alfabéticamente . Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T3-B-E3",
+      "code": "# un solo pase O(n) en lugar de re-escanear por cada métrica\ndecisiones = [\"accept\", \"reject\", \"review\", \"reject\"]\nn_total = n_accept = n_reject = n_review = 0\nfor d in decisiones:\n    n_total += 1\n    if d == \"accept\":\n        n_accept += 1\n    elif d == \"reject\":\n        n_reject += 1\n    elif d == \"review\":\n        n_review += 1\nprint({\"n_total\": n_total, \"n_accept\": n_accept, \"n_reject\": n_reject, \"n_review\": n_review})\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Escribir while con centinelas y condición de terminación explícita». En S04-T3-B-E3 verifiqué el checklist/tests sin asumir atajos: Construye dict `id -> status` por comprehension y calcula tasa de reject como le. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T4-A-E1",
+      "code": "pares = list(zip([1, 2, 3], [\"a\", \"b\", \"c\"]))\nprint(pares)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Una **list comprehension** `[expr for x in xs if cond]` construye una ». En S04-T4-A-E1 verifiqué el checklist/tests sin asumir atajos: Traza: `vals = [2, -1, 3]`, acumulador `s=0`. En cada paso imprime `i, val, s` d. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T4-A-E2",
+      "code": "a, b = [1, 2, 3], [10, 20]\nprint(list(zip(a, b)))\ntry:\n    list(zip(a, b, strict=True))\nexcept ValueError as e:\n    print(\"strict ValueError\", type(e).__name__)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Aplicar break/continue y guardrails contra loops infinitos». En S04-T4-A-E2 verifiqué el checklist/tests sin asumir atajos: Hay un bug: el contador `n` se incrementa dos veces por fila. Traza e identifica. Cita de apoyo: «Trazar el…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T4-A-E3",
+      "code": "ids = [\"C001\", \"C002\"]\nmontos = [10, 20, 30]\nif len(ids) != len(montos):\n    print(\"review: longitudes distintas\", len(ids), len(montos))\nelse:\n    print(list(zip(ids, montos)))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «El bucle **`for x in secuencia:`** recorre cada elemento **una vez**, ». En S04-T4-A-E3 verifiqué el checklist/tests sin asumir atajos: Simula tres registros y un dict de contadores. Imprime una línea TRACE por regis. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T4-B-E1",
+      "code": "xs = [1, 2, 3, 4]\nprint([x * 2 for x in xs if x % 2 == 0])\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Recorrer secuencias con for y range sin off-by-one en el stop exclusiv». En S04-T4-B-E1 verifiqué el checklist/tests sin asumir atajos: Para n=5, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T4-B-E2",
+      "code": "rows = [{\"id\": \"a\", \"v\": 1}, {\"id\": \"b\", \"v\": 2}]\nprint({r[\"id\"]: r[\"v\"] for r in rows})\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Aplicar break/continue y guardrails contra loops infinitos». En S04-T4-B-E2 verifiqué el checklist/tests sin asumir atajos: `data = [\"r0\", \"r1\", \"r2\"]`. El código usa `for i in range(1, len(data)+1)` y ha. Cita de apoyo: «Trazar el…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T4-B-E3",
+      "code": "# reescritura O(n) vs O(n²) ingenuo\nids = [\"a\", \"b\", \"a\", \"c\"]\n# ingenuo: for i for j comparar todos los pares\n# O(n): un set de vistos\nseen = set()\ndups = set()\nfor i in ids:\n    if i in seen:\n        dups.add(i)\n    else:\n        seen.add(i)\nprint(\"dups\", sorted(dups))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Costo lineal/cuadrático y off-by-one». En S04-T4-B-E3 verifiqué el checklist/tests sin asumir atajos: Reescribe un conteo de pares reject-reject O(n²) ingenuo a un conteo O(n) de rej. Cita de apoyo: «Usar enumerate y zip (incl.…",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Descarté distractores y me quedo con «[0,1,2]». La teoría («El bucle **`for x in secuencia:`** recorre cada elemento **una vez**, ») y el enunciado «¿Qué produce list(range(3))?» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Descarté distractores y me quedo con «Empareja solo (1,10) y (2,20); el 3 se pierde en silencio». La teoría («**`enumerate(seq, start=0)`** te da `(índice, valor)` sin armar el índ») y el enunciado «zip([1,2,3],[10,20]) sin strict…» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Descarté distractores y me quedo con «n_total de registros procesados (intentados)». La teoría («**`while condicion:`** repite mientras la condición sea verdadera. Úsa») y el enunciado «Para la tasa de reject del gate, el denominador debe ser…» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Descarté distractores y me quedo con «Salta al siguiente ciclo del bucle». La teoría («**`break`** sale del bucle actual de inmediato. **`continue`** salta a») y el enunciado «¿Qué hace continue en un for de líneas de intake?» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Descarté distractores y me quedo con «O(n²)». La teoría («Un **contador** suma 1 por evento (`n_reject += 1`). Un **acumulador**») y el enunciado «Un doble for anidado sobre n elementos es aproximadamente…» coinciden.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:24:50.792959+00:00",
+  "session_started_at": "2026-07-23T17:27:11.733454Z",
+  "session_ended_at": "2026-07-23T17:27:49.794608Z",
+  "receipt_response_sha256": "737ca2c10e266a39aa947fa3bd9933cf79dbcafbcafa1dcf7a975476bf155c47",
+  "receipt_exercises_sha256": "aff2ade9f0cb474fb3c87c6663edb9c4878ddd40d9c19752444e7bfd2678fb17",
+  "receipt_selfcheck_sha256": "facf5e5e48b7b5725c56fae11b2c86ab15127ea1e7394d6cb3f517afd77b961a"
+}

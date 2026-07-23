@@ -1,0 +1,165 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 35,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s35-78a538a3e9",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S35-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\nmeets_contract = record[\"means_fraud\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-A\", status)\n",
+      "justification_from_packet": "Para S35-T1-A-E1 me basé en coeficientes/importancia del material activo: Calcula el contrato de `coeficientes e importancia por permutación` sobre `CASO-LIM-035-1A`. La entr. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'drops', 'metric', 'means_fraud'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"means_fraud\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1}, 'metric': 'precision_at_k', 'means_fraud': True}}\nincomplete = {**valid}\nincomplete.pop(\"drops\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S35-T1-A-E2 me basé en modelo/métrica del material activo: Modela tres rutas de `coeficientes e importancia por permutación`: fixture válido, fixture adverso y. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"drops\", \"metric\", \"means_fraud\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_METRIC_DROP\"\n    return \"CONTINUE\" if record[\"means_fraud\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{\"drops\": {\"shared_phone\": 0.1, \"amount_7d\": 0.03}, \"metric\": \"precision_at_k\", \"means_fraud\": False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{\"drops\": {\"shared_phone\": 0.1}, \"metric\": \"precision_at_k\", \"means_fraud\": True}}\nuncertain = {k: v for k, v in valid.items() if k != \"drops\"}\nprint(*[decide(x) for x in (valid, invalid, uncertain)])\n",
+      "justification_from_packet": "Para S35-T1-A-E3 me basé en lineal/globales del material activo: Contrasta fallo cerrado para `coeficientes e importancia por permutación` con tres fixtures distinto. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\nmeets_contract = record[\"causal\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-B\", status)\n",
+      "justification_from_packet": "Para S35-T1-B-E1 me basé en importancia/Entrada del material activo: Calcula el contrato de `explicación local, correlación y límites` sobre `CASO-LIM-035-1B`. La entrad. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'contrib', 'layers', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"causal\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9}, 'layers': ['evidence', 'model'], 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"layers\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S35-T1-B-E2 me basé en permutación/importancia del material activo: Modela tres rutas de `explicación local, correlación y límites`: fixture válido, fixture adverso y r. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"contrib\", \"layers\", \"causal\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_LAYER_FIELDS\"\n    return \"CONTINUE\" if record[\"causal\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{\"contrib\": {\"f1\": 0.2}, \"layers\": [\"score\", \"evidence\", \"uncertainty\", \"human\"], \"causal\": False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{\"contrib\": {\"f1\": 0.2}, \"layers\": [\"score\"], \"causal\": True}}\nuncertain = {k: v for k, v in valid.items() if k != \"layers\"}\nprint(*[decide(x) for x in (valid, invalid, uncertain)])\n",
+      "justification_from_packet": "Para S35-T1-B-E3 me basé en miden/métrica del material activo: Contrasta fallo cerrado para `explicación local, correlación y límites` con tres fixtures distintos.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\nmeets_contract = not (record[\"slice_n\"] < record[\"min_n\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_LOW_N_CLAIM\"\nprint(\"S35-T2-A\", status)\n",
+      "justification_from_packet": "Para S35-T2-A-E1 me basé en sensibilidad/globales del material activo: Calcula el contrato de `cohortes y métricas por slice` sobre `CASO-LIM-035-2A`. La entrada es el dic. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'slice_n', 'precision', 'min_n'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"REJECT_LOW_N_CLAIM\" if record[\"slice_n\"] < record[\"min_n\"] else \"PASS\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nincomplete = {**valid}\nincomplete.pop(\"slice_n\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S35-T2-A-E2 me basé en cuánto/Entrada del material activo: Modela tres rutas de `cohortes y métricas por slice`: fixture válido, fixture adverso y registro sin. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'slice_n', 'precision', 'min_n'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SLICE_N\"\n    return \"REJECT_LOW_N_CLAIM\" if record[\"slice_n\"] < record[\"min_n\"] else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nuncertain = {**valid}\nuncertain.pop(\"slice_n\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Para S35-T2-A-E3 me basé en métrica/importancia del material activo: Contrasta fallo cerrado para `cohortes y métricas por slice` con tres fixtures distintos. `CASO-LIM-. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\nmeets_contract = not (record[\"action\"] == \"auto_label\")\nstatus = \"PASS\" if meets_contract else \"REJECT_PROXY_FEATURE\"\nprint(\"S35-T2-B\", status)\n",
+      "justification_from_packet": "Para S35-T2-B-E1 me basé en negocio/métrica del material activo: Calcula el contrato de `proxies, sample size y daño diferencial` sobre `CASO-LIM-035-2B`. La entrada. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'feature', 'risk', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"REJECT_PROXY_FEATURE\" if record[\"action\"] == \"auto_label\" else \"PASS\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S35-T2-B-E2 me basé en barajar/globales del material activo: Modela tres rutas de `proxies, sample size y daño diferencial`: fixture válido, fixture adverso y re. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'feature', 'risk', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_PROXY_AUDIT\"\n    return \"REJECT_PROXY_FEATURE\" if record[\"action\"] == \"auto_label\" else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Para S35-T2-B-E3 me basé en feature/Entrada del material activo: Contrasta fallo cerrado para `proxies, sample size y daño diferencial` con tres fixtures distintos. . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\nmeets_contract = not (record[\"q\"] == 0)\nstatus = \"PASS\" if meets_contract else \"REJECT_POINT_ONLY\"\nprint(\"S35-T3-A\", status)\n",
+      "justification_from_packet": "Para S35-T3-A-E1 me basé en mapas/importancia del material activo: Calcula el contrato de `calibración, intervalos/conformal conceptualmente` sobre `CASO-LIM-035-3A`. . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'q', 'level'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"REJECT_POINT_ONLY\" if record[\"q\"] == 0 else \"PASS\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nincomplete = {**valid}\nincomplete.pop(\"q\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S35-T3-A-E2 me basé en globales/métrica del material activo: Modela tres rutas de `calibración, intervalos/conformal conceptualmente`: fixture válido, fixture ad. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'p', 'q', 'level'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_INTERVAL\"\n    return \"REJECT_POINT_ONLY\" if record[\"q\"] == 0 else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nuncertain = {**valid}\nuncertain.pop(\"q\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Para S35-T3-A-E3 me basé en veredictos/globales del material activo: Contrasta fallo cerrado para `calibración, intervalos/conformal conceptualmente` con tres fixtures d. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\nmeets_contract = not (record[\"action\"] == \"auto_fraud\")\nstatus = \"PASS\" if meets_contract else \"REJECT_AUTO_LABEL\"\nprint(\"S35-T3-B\", status)\n",
+      "justification_from_packet": "Para S35-T3-B-E1 me basé en persona/Entrada del material activo: Calcula el contrato de `out-of-distribution y abstención` sobre `CASO-LIM-035-3B`. La entrada es el . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'zs', 'threshold', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"REJECT_AUTO_LABEL\" if record[\"action\"] == \"auto_fraud\" else \"PASS\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S35-T3-B-E2 me basé en Contrato/importancia del material activo: Modela tres rutas de `out-of-distribution y abstención`: fixture válido, fixture adverso y registro . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'zs', 'threshold', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_OOD_POLICY\"\n    return \"REJECT_AUTO_LABEL\" if record[\"action\"] == \"auto_fraud\" else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Para S35-T3-B-E3 me basé en operativo/métrica del material activo: Contrasta fallo cerrado para `out-of-distribution y abstención` con tres fixtures distintos. `CASO-L. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-4A\", **{\"use\": \"queue_rank\", \"out_of_scope\": [\"fraud_label\"], \"contestability\": True}}\nmeets_contract = record[\"use\"] != \"fraud_label\" and bool(record.get(\"out_of_scope\")) and record.get(\"contestability\") is True\nstatus = \"PASS\" if meets_contract else \"REJECT_SCOPE_BREACH\"\nprint(\"S35-T4-A\", status)\n",
+      "justification_from_packet": "Para S35-T4-A-E1 me basé en Entrada/globales del material activo: Calcula el contrato de `model card y contestabilidad` sobre `CASO-LIM-035-4A`. La entrada es el dict. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"use\", \"out_of_scope\", \"contestability\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"use\"] != \"fraud_label\" and record.get(\"contestability\") else \"REJECT_SCOPE_BREACH\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4A\", **{\"use\": \"queue_rank\", \"out_of_scope\": [\"fraud_label\"], \"contestability\": True}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4A\", **{\"use\": \"fraud_label\", \"out_of_scope\": [], \"contestability\": True}}\nincomplete = {k: v for k, v in valid.items() if k != \"out_of_scope\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S35-T4-A-E2 me basé en drops/Entrada del material activo: Modela tres rutas de `model card y contestabilidad`: fixture válido, fixture adverso y registro sin . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"use\", \"out_of_scope\", \"contestability\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CARD_KEYS\"\n    return \"CONTINUE\" if record[\"use\"] != \"fraud_label\" and record.get(\"contestability\") else \"REJECT_SCOPE_BREACH\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4A\", **{\"use\": \"queue_rank\", \"out_of_scope\": [\"fraud_label\"], \"contestability\": True}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4A\", **{\"use\": \"fraud_label\", \"out_of_scope\": [], \"contestability\": True}}\nuncertain = {k: v for k, v in valid.items() if k != \"out_of_scope\"}\nprint(*[decide(x) for x in (valid, invalid, uncertain)])\n",
+      "justification_from_packet": "Para S35-T4-A-E3 me basé en coeficientes/importancia del material activo: Contrasta fallo cerrado para `model card y contestabilidad` con tres fixtures distintos. `CASO-LIM-0. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\nmeets_contract =not ( not record[\"by\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_OVERRIDE\"\nprint(\"S35-T4-B\", status)\n",
+      "justification_from_packet": "Para S35-T4-B-E1 me basé en modelo/métrica del material activo: Calcula el contrato de `aprobación, override, apelación y retiro` sobre `CASO-LIM-035-4B`. La entrad. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'case', 'human', 'by'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"REJECT_SILENT_OVERRIDE\" if not record[\"by\"] else \"PASS\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nincomplete = {**valid}\nincomplete.pop(\"by\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S35-T4-B-E2 me basé en lineal/globales del material activo: Modela tres rutas de `aprobación, override, apelación y retiro`: fixture válido, fixture adverso y r. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S35-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'case', 'human', 'by'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_AUDIT_FIELDS\"\n    return \"REJECT_SILENT_OVERRIDE\" if not record[\"by\"] else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nuncertain = {**valid}\nuncertain.pop(\"by\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Para S35-T4-B-E3 me basé en importancia/Entrada del material activo: Contrasta fallo cerrado para `aprobación, override, apelación y retiro` con tres fixtures distintos.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "La ficha de caso separa evidencia, modelo, incertidumbre y decisión humana, no solo el score; la teoría del paquete habla de lineal."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Perm importance mide sensibilidad del modelo a barajar features, no causalidad legal ni fraude; la teoría del paquete habla de miden."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Ante OOD conviene abstener y escalar, no forzar predicción 1; la teoría del paquete habla de métrica."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Model card out_of_scope lista usos prohibidos (p.ej. etiqueta de fraude), no solo accuracy; la teoría del paquete habla de feature."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:49:42.387323+00:00",
+  "session_started_at": "2026-07-23T16:48:59.378179+00:00",
+  "session_ended_at": "2026-07-23T16:49:42.383299+00:00",
+  "receipt_response_sha256": "2213459d1c51991503f25a6c2b55d5b1eddfab5ff17a4f18d4fa07d64d9b5b1b",
+  "receipt_exercises_sha256": "5ddef64bf4b5fa70b49e420b82ec376e7b0264418e260e2da8596a2f31899fa4",
+  "receipt_selfcheck_sha256": "fa935ddd29d4b7392244085a7b63598ca8caed2f28e8c5cdafeac01339744d0f"
+}

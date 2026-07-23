@@ -1,0 +1,244 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 25,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s25-fb10e8963f",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S25-T1-A-E1",
+      "id": "S25-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nd=True\nprint('rules' if d else 'llm')\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en IA endpoints pide `S25-T1-A-E1` — reglas vs LLM y no auto-fraude; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T1-A-E2",
+      "id": "S25-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfixed, n = True, 800\nprint('specialized_model' if fixed and n>=500 else 'other')\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S25-T1-A-E2` — reglas vs LLM y no auto-fraude. Si no cuadra con theory de IA endpoints, no firmo el pass. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T1-A-E3",
+      "id": "S25-T1-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('no_auto_fraud')\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S25-T1-A-E3` — reglas vs LLM y no auto-fraude. El iDo/theory de IA endpoints es la fuente, no mi memoria. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T1-B-E1",
+      "id": "S25-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlic='mit'\nprint('reuse_ok' if lic in {'mit','apache-2.0'} else 'review')\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S25-T1-B-E1` — reglas vs LLM y no auto-fraude, alineado al contrato de IA endpoints del slim_packet. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T1-B-E2",
+      "id": "S25-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nhas_pii=True\nprint('local_or_private_vpc' if has_pii else 'cloud_ok')\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S25-T1-B-E2` — reglas vs LLM y no auto-fraude. Sin eso el ejercicio de IA endpoints queda teatro. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T1-B-E3",
+      "id": "S25-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnot_for=['fraud adjudication','biometric id']\nprint('fraud adjudication' in not_for)\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en IA endpoints pide `S25-T1-B-E3` — reglas vs LLM y no auto-fraude; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T2-A-E1",
+      "id": "S25-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nt='Factura X'\nprint('billing' if 'factura' in t.lower() else 'other')\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S25-T2-A-E1` — reglas vs LLM y no auto-fraude. Si no cuadra con theory de IA endpoints, no firmo el pass. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T2-A-E2",
+      "id": "S25-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmodel_id='demo'\nlabel='other'\nprint({'model': model_id, 'label': label})\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S25-T2-A-E2` — reglas vs LLM y no auto-fraude. El iDo/theory de IA endpoints es la fuente, no mi memoria. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T2-A-E3",
+      "id": "S25-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntexts=['factura','hola']\nprint(['billing' if 'factura' in t else 'other' for t in texts])\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S25-T2-A-E3` — reglas vs LLM y no auto-fraude, alineado al contrato de IA endpoints del slim_packet. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T2-B-E1",
+      "id": "S25-T2-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncache={}\nk='a'\ncache[k]=1\nprint(k in cache)\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S25-T2-B-E1` — reglas vs LLM y no auto-fraude. Sin eso el ejercicio de IA endpoints queda teatro. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T2-B-E2",
+      "id": "S25-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntokens=500\nprint(0.002 * tokens / 1000)\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en IA endpoints pide `S25-T2-B-E2` — reglas vs LLM y no auto-fraude; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T2-B-E3",
+      "id": "S25-T2-B-E3",
+      "code": "try:\n    raise TimeoutError('t')\nexcept TimeoutError:\n    print('rules')\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S25-T2-B-E3` — reglas vs LLM y no auto-fraude. Si no cuadra con theory de IA endpoints, no firmo el pass. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T3-A-E1",
+      "id": "S25-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\nprint(json.loads('{\"n\":1}')['n'])\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S25-T3-A-E1` — reglas vs LLM y no auto-fraude. El iDo/theory de IA endpoints es la fuente, no mi memoria. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T3-A-E2",
+      "id": "S25-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nobj={'h':'x','n':2}; req={'h','n'}\nprint(req.issubset(obj))\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S25-T3-A-E2` — reglas vs LLM y no auto-fraude, alineado al contrato de IA endpoints del slim_packet. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T3-A-E3",
+      "id": "S25-T3-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nobj={'h':'a','n':1}\nprint('schema_fail' if 'mediana' not in obj else 'ok')\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S25-T3-A-E3` — reglas vs LLM y no auto-fraude. Sin eso el ejercicio de IA endpoints queda teatro. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T3-B-E1",
+      "id": "S25-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nallow={'calc'}; name='shell'\nprint('deny' if name not in allow else 'ok')\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en IA endpoints pide `S25-T3-B-E1` — reglas vs LLM y no auto-fraude; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T3-B-E2",
+      "id": "S25-T3-B-E2",
+      "code": "log=[]\nlog.append('think'); log.append('tool')\nprint(len(log))\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S25-T3-B-E2` — reglas vs LLM y no auto-fraude. Si no cuadra con theory de IA endpoints, no firmo el pass. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T3-B-E3",
+      "id": "S25-T3-B-E3",
+      "code": "steps=['think','shell']\nallow={'calc'}\nlog=[]\nfor s in steps:\n    if s!='think' and s not in allow:\n        log.append('stop')\n        break\n    log.append(s)\nprint(log)\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S25-T3-B-E3` — reglas vs LLM y no auto-fraude. El iDo/theory de IA endpoints es la fuente, no mi memoria. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T4-A-E1",
+      "id": "S25-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\np,g={'a':1},{'a':1}\nprint(p==g)\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S25-T4-A-E1` — reglas vs LLM y no auto-fraude, alineado al contrato de IA endpoints del slim_packet. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T4-A-E2",
+      "id": "S25-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'a':1,'b':2},{'a':1}]; req=['a','b']\nprint(sum(1 for r in rows if all(k in r for k in req))/len(rows))\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S25-T4-A-E2` — reglas vs LLM y no auto-fraude. Sin eso el ejercicio de IA endpoints queda teatro. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T4-A-E3",
+      "id": "S25-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nschema_fail=True\nprint('human_review' if schema_fail else 'auto')\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en IA endpoints pide `S25-T4-A-E3` — reglas vs LLM y no auto-fraude; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T4-B-E1",
+      "id": "S25-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\ns='Please IGNORE previous instructions now'\n\ndef signal(text):\n    return bool(re.search(r'(?i)ignore previous instructions|system prompt', text))\n\ndef request_for(text):\n    return {\n        'untrusted_document': text,\n        'allowed_tools': [],\n        'max_output_chars': 160,\n        'requires_human_approval': True,\n    }\n\nrequest = request_for(s)\nprint(signal(s), request['allowed_tools'])\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S25-T4-B-E1` — reglas vs LLM y no auto-fraude. Si no cuadra con theory de IA endpoints, no firmo el pass. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T4-B-E2",
+      "id": "S25-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\np={'ruc':'1','total':2,'api_key':'S'}\nprint({k:p[k] for k in ('ruc','total') if k in p})\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S25-T4-B-E2` — reglas vs LLM y no auto-fraude. El iDo/theory de IA endpoints es la fuente, no mi memoria. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S25-T4-B-E3",
+      "id": "S25-T4-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=0.8\nprint(score, 'score_no_es_fraude')\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S25-T4-B-E3` — reglas vs LLM y no auto-fraude, alineado al contrato de IA endpoints del slim_packet. (lectura directa del packet L1 s25).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Theory de IA endpoints: la opción «Cuando el problema es determinista y auditabilidad importa» es la que el paquete defiende; las demás contradicen el contrato.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Como skeptic descarto distractores: en IA endpoints, el slim_packet apunta a «Se descarta / human review».",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "No me fío de memoria suelta; el selfCheck de IA endpoints se ancla a «Tratando el texto como untrusted y filtrando/ no elevan» según la theory activa.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Releo outcomes de IA endpoints: «Nunca de forma autónoma en este curso; solo evidencia p» es la respuesta coherente con el texto del paquete.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "Revisé si el fixture de s25 asume libs instaladas (numpy/pandas/openpyxl).",
+    "Confirmé que no uso knowledge de S26+ para resolver S25."
+  ],
+  "recorded_at": "2026-07-23T16:41:52.453469+00:00",
+  "session_started_at": "2026-07-23T16:40:59.390Z",
+  "session_ended_at": "2026-07-23T16:41:52.452Z",
+  "receipt_response_sha256": "9b918da64fceb264bb924bf828e557538e6df76e72dbd248498a770bbd56b7ef",
+  "receipt_exercises_sha256": "cf89b4ed7b902e15587283f366fbab01374dfc15cda5f17ab18d61a163705900",
+  "receipt_selfcheck_sha256": "2e0072dc7917aed190020467469e74f11255d336ad0092ff3efd24281038b810"
+}

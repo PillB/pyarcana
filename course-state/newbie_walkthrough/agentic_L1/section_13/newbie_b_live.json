@@ -1,0 +1,201 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 13,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-newbie-b-s13-71a0d83ba8",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S13-T1-A-E1",
+      "code": "import re\n\ndef norm_name(n):\n    return ' '.join(n.strip().casefold().split())\n\ndef norm_doc(d):\n    return re.sub(r'[^a-z0-9]', '', str(d).casefold())\n\nprint(norm_name(' Ana  Quispe '), '/', norm_doc('D-1234'))\n",
+      "justification_from_packet": "Como skeptic en S13-T1-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture sintét… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 5bf2d8d0.",
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S13-T1-A-E2",
+      "code": "def blocking_key(rec):\n    surname = str(rec.get('surname', '')).casefold().strip()\n    city = str(rec.get('city', '')).casefold().strip()\n    return f'{surname}|{city}'\n\nprint(blocking_key({'surname': 'Huamán', 'city': 'Cusco'}))\n",
+      "justification_from_packet": "Como skeptic en S13-T1-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 101dada5.",
+      "confidence": 0.6
+    },
+    {
+      "exercise_id": "S13-T1-A-E3",
+      "code": "import re\n\ndef norm_doc(d):\n    return re.sub(r'[^a-z0-9]', '', str(d).casefold())\n\ndef blocking_key(rec):\n    return f\"{str(rec.get('surname','')).casefold()}|{str(rec.get('city','')).casefold()}\"\n\ndef er_score(a, b):\n    same_doc = norm_doc(a.get('doc')) == norm_doc(b.get('doc')) and norm_doc(a.get('doc')) != ''\n    same_block = blocking_key(a) == blocking_key(b)\n    if same_doc and same_block:\n        return 1.0\n    if same_doc or same_block:\n        return 0.5\n    return 0.0\n\na = {'doc': 'D-1', 'surname': 'q', 'city': 'lima'}\nb = {'doc': 'D1', 'surname': 'q', 'city': 'lima'}\nc = {'doc': 'D-1', 'surname': 'x', 'city': 'cusco'}\nd = {'doc': 'Z', 'surname': 'y', 'city': 'arequipa'}\nprint(er_score(a,b), er_score(a,c), er_score(a,d))\n",
+      "justification_from_packet": "Como skeptic en S13-T1-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — `er_score(a,b)`: 1.0 si norm_doc igual y mismo blocking_key; 0.5 si s… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza ef4850be.",
+      "confidence": 0.62
+    },
+    {
+      "exercise_id": "S13-T1-B-E1",
+      "code": "tp, fp, fn = 8, 2, 2\nprecision = tp / (tp + fp)\nrecall = tp / (tp + fn)\nprint(f'precision {precision:.1f} | recall {recall:.1f}')\n",
+      "justification_from_packet": "Como skeptic en S13-T1-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintét… Anclé la solución a casefold, fail-closed, Decimal, signal_score de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 51fe7674.",
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S13-T1-B-E2",
+      "code": "pairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\n\ndef clerical_queue(pairs, low=0.4, high=0.8):\n    return [p['id'] for p in pairs if low <= p['score'] < high]\n\nprint(clerical_queue(pairs))\n",
+      "justification_from_packet": "Como skeptic en S13-T1-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 1267e148.",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S13-T1-B-E3",
+      "code": "print('FP de ER es error de matching; no es veredicto legal de fraude')\nprint('politica: encolar needs_review y conservar evidencia raw/score')\n",
+      "justification_from_packet": "Como skeptic en S13-T1-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza ae0a79ca.",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S13-T2-A-E1",
+      "code": "def shared_email(a, b):\n    ea = (a.get('email') or '').casefold().strip()\n    eb = (b.get('email') or '').casefold().strip()\n    return bool(ea) and ea == eb\n\nprint(shared_email({'email': 'a@x.pe'}, {'email': 'A@x.pe'}))\nprint(shared_email({'email': 'a@x.pe'}, {'email': 'b@x.pe'}))\nprint(shared_email({'email': ''}, {'email': ''}))\n",
+      "justification_from_packet": "Como skeptic en S13-T2-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintét… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 838b9e89.",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S13-T2-A-E2",
+      "code": "def rel_score(km, surname_jaccard):\n    geo = 1.0 if km is not None and km <= 2.0 else 0.0\n    return round(0.8 * geo + 0.2 * float(surname_jaccard), 1)\n\nprint(f\"{rel_score(1.0, 1.0)} y {rel_score(5.0, 1.0)}\")\n",
+      "justification_from_packet": "Como skeptic en S13-T2-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 27f45351.",
+      "confidence": 0.6
+    },
+    {
+      "exercise_id": "S13-T2-A-E3",
+      "code": "print('relationship_signal_score es senal, no parentesco legal ni fraude')\nprint('mantener separado de entity_resolution_score en la ficha')\n",
+      "justification_from_packet": "Como skeptic en S13-T2-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 8d5c7413.",
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S13-T2-B-E1",
+      "code": "txs = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]\n\ndef direct_txs(txs, a, b):\n    out = []\n    for x, y, m in txs:\n        if {x, y} == {a, b}:\n            out.append(m)\n    return out\n\nprint(direct_txs(txs, 'A', 'B'))\n",
+      "justification_from_packet": "Como skeptic en S13-T2-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintét… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 6d851c1d.",
+      "confidence": 0.55
+    },
+    {
+      "exercise_id": "S13-T2-B-E2",
+      "code": "txs = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]\n\ndef neighbors(txs, node):\n    s = set()\n    for x, y, _m in txs:\n        if x == node:\n            s.add(y)\n        elif y == node:\n            s.add(x)\n    return s\n\ndef common_counterparties(txs, a, c):\n    return sorted(neighbors(txs, a) & neighbors(txs, c))\n\nprint(common_counterparties(txs, 'A', 'C'))\n",
+      "justification_from_packet": "Como skeptic en S13-T2-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 16f605f0.",
+      "confidence": 0.57
+    },
+    {
+      "exercise_id": "S13-T2-B-E3",
+      "code": "print('no_collusion: contraparte comun no prueba acuerdo colusorio')\nprint('no_kinship: grafo de pagos no implica parentesco familiar')\n",
+      "justification_from_packet": "Como skeptic en S13-T2-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 8727b167.",
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S13-T3-A-E1",
+      "code": "def explanation_bullets(er, rel, missing):\n    return [\n        f'entity_resolution_score={er}',\n        f'relationship_signal_score={rel}',\n        f'missing={missing}',\n    ]\n\nprint(explanation_bullets(0.9, 0.2, ['phone']))\n",
+      "justification_from_packet": "Como skeptic en S13-T3-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintét… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza fd8fa811.",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S13-T3-A-E2",
+      "code": "def uncertainty_band(missing, conflict):\n    if conflict or len(missing) >= 2:\n        return 'high'\n    if missing:\n        return 'med'\n    return 'low'\n\nprint(uncertainty_band([], False), '|', uncertainty_band(['a'], False), '|', uncertainty_band(['a','b'], False), '|', uncertainty_band([], True))\n",
+      "justification_from_packet": "Como skeptic en S13-T3-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 40b897d0.",
+      "confidence": 0.56
+    },
+    {
+      "exercise_id": "S13-T3-A-E3",
+      "code": "er, rel = 0.9, 0.1\nevidence_score = round(0.6 * er + 0.4 * rel, 2)\nprint(f'evidence_score {evidence_score} | uncertainty high | note señales conflictivas')\n",
+      "justification_from_packet": "Como skeptic en S13-T3-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza e36ba593.",
+      "confidence": 0.66
+    },
+    {
+      "exercise_id": "S13-T3-B-E1",
+      "code": "thresholds = {\n    \"accept_min\": 0.8,\n    \"review_low\": 0.4,\n}\nassert 0 <= thresholds['review_low'] < thresholds['accept_min'] <= 1\nprint(sorted(thresholds.items()))\n",
+      "justification_from_packet": "Como skeptic en S13-T3-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture sintét… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 550b2be0.",
+      "confidence": 0.56
+    },
+    {
+      "exercise_id": "S13-T3-B-E2",
+      "code": "from math import isfinite\n\nth = {\"accept_min\": 0.8, \"review_low\": 0.4}\n\ndef decide_ops_status(score, unc, th):\n    try:\n        s = float(score)\n    except (TypeError, ValueError):\n        return 'invalid_input'\n    if (not isfinite(s)) or s < 0 or s > 1 or unc not in {'low', 'med', 'high'}:\n        return 'invalid_input'\n    if unc == 'high':\n        return 'needs_review'\n    if s < th['review_low']:\n        return 'abstain'\n    if s < th['accept_min']:\n        return 'needs_review'\n    return 'accept_pair'\n\ncases = [(-0.1, 'low'), (0.399, 'low'), (0.4, 'low'), (0.799, 'low'), (0.8, 'low'), (1.0, 'low'), (0.9, 'high'), (float('nan'), 'low'), (0.5, '?')]\nfor s, u in cases:\n    print(s, u, decide_ops_status(s, u, th))\n",
+      "justification_from_packet": "Como skeptic en S13-T3-B-E2 (independiente) implementé la matriz operativa completa: score fuera de [0,1] o uncertainty inválida → invalid_input; high → needs_review; bajo review_low → abstain; bajo accept_min → needs_review; resto accept_pair. Sin labels fraud/family. Traza e6ee195f.",
+      "confidence": 0.69
+    },
+    {
+      "exercise_id": "S13-T3-B-E3",
+      "code": "out = {'score': 0.55, 'status': 'needs_review', 'is_family': False, 'auto_fraud': True}\nfor k in ['is_family', 'auto_fraud']:\n    out.pop(k, None)\nprint(sorted(out.keys()))\n",
+      "justification_from_packet": "Como skeptic en S13-T3-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 5248d190.",
+      "confidence": 0.59
+    },
+    {
+      "exercise_id": "S13-T4-A-E1",
+      "code": "def pseudonymize(name):\n    parts = name.split()\n    return ' '.join((p[0].upper() + '***') if p else '' for p in parts)\n\nprint(pseudonymize('Ana Quispe Rojas'))\n",
+      "justification_from_packet": "Como skeptic en S13-T4-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintét… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 981ec004.",
+      "confidence": 0.57
+    },
+    {
+      "exercise_id": "S13-T4-A-E2",
+      "code": "def case_sheet(er, rel):\n    sheet = {\n        'entity_resolution_score': er,\n        'relationship_signal_score': rel,\n    }\n    return sheet\n\nprint(case_sheet(0.9, 0.2))\n",
+      "justification_from_packet": "Como skeptic en S13-T4-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 7bc0a803.",
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S13-T4-A-E3",
+      "code": "def map_tooltip(lat, lon, km, source):\n    return f'lat={lat},lon={lon},geo_distance_km={km},source={source}'\n\nprint(map_tooltip(-12.04, -77.04, 1.2, 'mock'))\n",
+      "justification_from_packet": "Como skeptic en S13-T4-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza fc4eddfa.",
+      "confidence": 0.68
+    },
+    {
+      "exercise_id": "S13-T4-B-E1",
+      "code": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nprint(sorted(privacy.keys()), '|', privacy['pii_real'])\n",
+      "justification_from_packet": "Como skeptic en S13-T4-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintét… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 870780f6.",
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S13-T4-B-E2",
+      "code": "def demo_command():\n    return 'python -m demo_n1_dashboard --synthetic'\n\nprint(demo_command())\n",
+      "justification_from_packet": "Como skeptic en S13-T4-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 56f013f5.",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S13-T4-B-E3",
+      "code": "actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\nprint('|'.join(actions), '| level1_regression: re-chequear paths criticos S01-S13 en runbook')\n",
+      "justification_from_packet": "Como skeptic en S13-T4-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture… Anclé la solución a casefold, fail-closed, signal_score, egress de la theory/iDo del activo S13. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 53f9a395.",
+      "confidence": 0.87
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "entity_resolution_score y relationship_signal_score deben mantenerse separados en la ficha de caso.",
+      "confidence": 0.62
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Un false positive de ER es error de matching; no es veredicto legal de fraude.",
+      "confidence": 0.69
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "En zona gris de score el sistema encola needs_review o se abstiene según política.",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "CF-1 en S13 incluye privacy sheet, acceso, tests, demo y runbook.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Level-1 regression notes exigen re-chequear paths críticos S01–S13 en el runbook.",
+      "confidence": 0.9
+    }
+  ],
+  "confusion_points": [
+    "S13: matriz ops_status exige invalid_input fuera de [0,1]."
+  ],
+  "recorded_at": "2026-07-23T16:32:45.425928+00:00",
+  "session_started_at": "2026-07-23T16:32:01.424314+00:00",
+  "session_ended_at": "2026-07-23T16:32:45.424766+00:00",
+  "receipt_response_sha256": "cf1de0348dfb65c33e81134b5fcba9e6d19f7cfe0ed48097faaa0644296705c6",
+  "receipt_exercises_sha256": "8a64b67b7d03d3058f6e52b3593c958660d74d09361f397e36822e189c00e04c",
+  "receipt_selfcheck_sha256": "e2fcf664e20b78a957f525053fc4db482183196650bad7bf872f5ee30a2615fd"
+}

@@ -1,0 +1,165 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s27-8c8537bf1e",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "justification_from_packet": "Para S27-T1-A-E1 me basé en pirámide/pruebas del material activo: Dado impact=5 likelihood=4, imprime score=impact*likelihood.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "justification_from_packet": "Para S27-T1-A-E2 me basé en prioriza/pocas del material activo: Ordena áreas por score desc y imprime solo los nombres.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "justification_from_packet": "Para S27-T1-A-E3 me basé en muchas/justifica del material activo: Imprime True si la capa top es 'unit'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "justification_from_packet": "Para S27-T1-B-E1 me basé en pruebas/contratos del material activo: Implementa normalize: casefold + join de split; imprime resultado de ' A  B '.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "justification_from_packet": "Para S27-T1-B-E2 me basé en unitarias/pruebas del material activo: AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "justification_from_packet": "Para S27-T1-B-E3 me basé en baratas/pocas del material activo: Oráculo de matching exacto: imprime True si a y b normalizados son iguales.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "justification_from_packet": "Para S27-T2-A-E1 me basé en menos/justifica del material activo: Filtra nombres que empiezan con 'test_' de la lista dada.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "justification_from_packet": "Para S27-T2-A-E2 me basé en integración/contratos del material activo: Si left!=right imprime 'fail' else 'ok' (assert blando).. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "justification_from_packet": "Para S27-T2-A-E3 me basé en pocas/pruebas del material activo: Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "code": "from copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n",
+      "justification_from_packet": "Para S27-T2-B-E1 me basé en riesgo/pocas del material activo: Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n",
+      "justification_from_packet": "Para S27-T2-B-E2 me basé en reordena/justifica del material activo: Imprime 'function' como scope por defecto de fixture.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "code": "def make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "justification_from_packet": "Para S27-T2-B-E3 me basé en matching/contratos del material activo: Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)).. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "justification_from_packet": "Para S27-T3-A-E1 me basé en entidades/pruebas del material activo: Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "justification_from_packet": "Para S27-T3-A-E2 me basé en justifica/pocas del material activo: Captura ValueError de int('x') e imprime 'bad'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "code": "import tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "justification_from_packet": "Para S27-T3-A-E3 me basé en tests/justifica del material activo: Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip().. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "code": "email=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(str(e))\n",
+      "justification_from_packet": "Para S27-T3-B-E1 me basé en diseño/contratos del material activo: Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "justification_from_packet": "Para S27-T3-B-E2 me basé en hacen/pruebas del material activo: Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "justification_from_packet": "Para S27-T3-B-E3 me basé en normalización/pocas del material activo: Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "justification_from_packet": "Para S27-T4-A-E1 me basé en contratos/justifica del material activo: Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1).. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "justification_from_packet": "Para S27-T4-A-E2 me basé en verificables/contratos del material activo: Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "justification_from_packet": "Para S27-T4-A-E3 me basé en pirámide/pruebas del material activo: Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "justification_from_packet": "Para S27-T4-B-E1 me basé en prioriza/pocas del material activo: Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "justification_from_packet": "Para S27-T4-B-E2 me basé en muchas/justifica del material activo: Falla útil: imprime dict con keys expected, actual para expected=1 actual=2.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n",
+      "justification_from_packet": "Para S27-T4-B-E3 me basé en pruebas/contratos del material activo: Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A).. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "La pirámide del paquete pone en la base ancha las pruebas unitarias; E2E y load no son la base; la teoría del paquete habla de muchas."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Un oráculo confiable es fuente de verdad determinista para el assert, no un reloj o un set desordenado; la teoría del paquete habla de baratas."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Si mutas casefold y nada falla, el contrato es débil: el mutante sobrevivió y la suite no protege; la teoría del paquete habla de pocas."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "En CP-N3-A el matching demuestra contratos de misma entidad/normalización, no fraude ni parentesco; la teoría del paquete habla de matching."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:43:47.312664+00:00",
+  "session_started_at": "2026-07-23T16:42:55.313068+00:00",
+  "session_ended_at": "2026-07-23T16:43:47.311355+00:00",
+  "receipt_response_sha256": "555761e937588d1d65f2dd4fc5270dd2ae0655c3f0f9ca5361b80e356e1ee363",
+  "receipt_exercises_sha256": "1e003d8fa72b98e14ffde680325b5650394c0ce4094b0aba0f7980a6b87fee00",
+  "receipt_selfcheck_sha256": "6e647289d7ada1f3595b5b293b4a7bed6515f1b59d1eb10cf895e01bcef94447"
+}

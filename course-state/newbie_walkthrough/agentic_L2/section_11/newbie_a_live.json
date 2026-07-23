@@ -1,0 +1,229 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 11,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-newbie_a-s11-9a2131b24fc8",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    tags: list[str] = field(default_factory=list)\n\nc = ClientRecord(\"C001\", \"Ana Quispe\")\nc.tags.append(\"vip\")\nprint(c)\n",
+      "justification_from_packet": "Como explorer aplico «Probar dominio puro y evitar APIs de fraude/parentesco». En S11-T1-A-E1 resolví: Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Invariantes y estados válidos» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "code": "from dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: Decimal\n\nt = Transaction(\"T1\", \"C001\", Decimal(\"10.50\"))\nprint(t)\n",
+      "justification_from_packet": "Como explorer aplico «La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `d». En S11-T1-A-E2 resolví: Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Protocolos y polimorfismo con propósito» del paquete…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n\n    @classmethod\n    def from_dict(cls, d):\n        return cls(client_id=d[\"client_id\"], full_name=d[\"full_name\"])\n\nprint(ClientRecord.from_dict({\"client_id\": \"C001\", \"full_name\": \"Ana\"}))\n",
+      "justification_from_packet": "Como explorer aplico «Invariantes y estados válidos». En S11-T1-A-E3 resolví: Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «`@property` expone campos calculados (`display_name`, `maske» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "code": "from dataclasses import dataclass\nfrom decimal import Decimal, ROUND_HALF_UP\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: Decimal\n\n    def __post_init__(self):\n        if not isinstance(self.amount, Decimal):\n            self.amount = Decimal(str(self.amount))\n        if self.amount <= 0:\n            raise ValueError(\"amount must be > 0\")\n        self.amount = self.amount.quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_UP)\n\nprint(Transaction(\"T1\", \"C001\", Decimal(\"1.2\")))\ntry:\n    Transaction(\"T2\", \"C001\", Decimal(\"-1\"))\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "justification_from_packet": "Como explorer aplico «Preferir composición a herencia frágil». En S11-T1-B-E1 resolví: Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Probar dominio puro y evitar APIs de fraude/parentesco» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    tags: list = field(default_factory=list)\n\na = ClientRecord(\"C001\")\nb = ClientRecord(\"C002\")\na.tags.append(\"x\")\nprint(a.tags, b.tags)\n",
+      "justification_from_packet": "Como explorer aplico «`__post_init__` en dataclasses valida justo después de construir. Si e». En S11-T1-B-E2 resolví: Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Igualdad, hash y mutabilidad consciente» del paquete…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "code": "print(\"field(default_factory=list) evita el default mutable compartido entre instancias\")\n",
+      "justification_from_packet": "Como explorer aplico «Tests del dominio son **puros**: sin red, sin DB real. Fakes del Proto». En S11-T1-B-E3 resolví: Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Encapsular con properties y métodos de consulta…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass RelationshipEvidence:\n    a: str\n    b: str\n    signal_score: float\n\n    def __post_init__(self):\n        if not (0.0 <= self.signal_score <= 1.0):\n            raise ValueError(\"signal_score in [0,1]\")\n\ne = RelationshipEvidence(\"C001\", \"C002\", 0.4)\nprint(e)\nprint(\"signal_score es dato, no veredicto de fraude/familia\")\n",
+      "justification_from_packet": "Como explorer aplico «**Repository** light: get/save. **Service** light: orquesta dominio si». En S11-T2-A-E1 resolví: Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Modelar entidades con class/dataclass e instancias…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass EntityId:\n    value: str\n\nprint(EntityId(\"C001\"))\n",
+      "justification_from_packet": "Como explorer aplico «Probar dominio puro y evitar APIs de fraude/parentesco». En S11-T2-A-E2 resolví: Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Invariantes y estados válidos» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "code": "print(\"RelationshipEvidence.signal_score representa una señal/dato numérico, no un veredicto legal de parentesco\")\n",
+      "justification_from_packet": "Como explorer aplico «Clases, instancias y dataclass». En S11-T2-A-E3 resolví: Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «`__post_init__` en dataclasses valida justo después de const» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError(\"document_id vacío\")\n\ntry:\n    ClientRecord(\"C001\", \"  \")\nexcept ValueError as e:\n    print(type(e).__name__, e)\n",
+      "justification_from_packet": "Como explorer aplico «Encapsular con properties y métodos de consulta seguros». En S11-T2-B-E1 resolví: Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Usar Protocol/duck typing para puertos del dominio» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "code": "print(\"objeto inválido: fallar en la construcción (__post_init__/validate)\")\n",
+      "justification_from_packet": "Como explorer aplico «Una **clase** define el molde; una **instancia** es un objeto concreto». En S11-T2-B-E2 resolví: Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Propiedades y métodos» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "code": "print(\"dominio de familiaridad NO debe tener is_fraud() automático\")\n",
+      "justification_from_packet": "Como explorer aplico «Preferir composición a herencia frágil». En S11-T2-B-E3 resolví: Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Probar dominio puro y evitar APIs de fraude/parentesco» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "code": "# composición en lugar de herencia forzada\nperson_info = {\"name\": \"Ana\"}\nclient = {\"client_id\": \"C001\", \"person_info\": person_info}\nprint(f\"{client['client_id']} {client['person_info']['name']} | design=composition\")\n",
+      "justification_from_packet": "Como explorer aplico «`typing.Protocol` describe un **puerto** (EntityStore con get/save) si». En S11-T3-A-E1 resolví: Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Dependencias y pruebas del dominio» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "code": "class CaseFile:\n    def __init__(self, case_id):\n        self.case_id = case_id\n        self.evidence = []\n    def add_evidence(self, e):\n        self.evidence.append(e)\n    def count(self):\n        return len(self.evidence)\n\ncf = CaseFile(\"F1\")\ncf.add_evidence(\"e1\"); cf.add_evidence(\"e2\")\nprint(\"n=\", cf.count())\n",
+      "justification_from_packet": "Como explorer aplico «Preferir composición a herencia frágil». En S11-T3-A-E2 resolví: Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Probar dominio puro y evitar APIs de fraude/parentesco» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "code": "print(\"JUST: Client tiene PersonInfo (has-a); herencia is-a frágil si no hay subtipo real de comportamiento\")\nprint(\"JUST: composición facilita tests y evita jerarquías rígidas\")\n",
+      "justification_from_packet": "Como explorer aplico «**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene li». En S11-T3-A-E3 resolví: Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Repositorios, servicios y serialización» del paquete…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "code": "from typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, pair: tuple[str, str]) -> float: ...\n\nclass FakeScorer:\n    def score(self, pair: tuple[str, str]) -> float:\n        return 0.5\n\ndef run(s: Scorer):\n    return s.score((\"a\", \"b\"))\n\nprint(run(FakeScorer()))\n",
+      "justification_from_packet": "Como explorer aplico «Composición antes que herencia». En S11-T3-B-E1 resolví: Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «`typing.Protocol` describe un **puerto** (EntityStore con ge» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "code": "def apply(norm, s):\n    return norm(s)\n\ndef strip_norm(s):\n    return s.strip()\n\ndef casefold_norm(s):\n    return s.casefold()\n\nprint(apply(strip_norm, \" Ana \"), \"|\", apply(casefold_norm, \"Ana\"))\n",
+      "justification_from_packet": "Como explorer aplico «Protocolos y polimorfismo con propósito». En S11-T3-B-E2 resolví: Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «**Repository** light: get/save. **Service** light: orquesta » del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "code": "print(\"WHEN_NOT: solo hay una implementación y no hay tests de puertos; Protocol añade indirection sin beneficio\")\n",
+      "justification_from_packet": "Como explorer aplico «Igualdad, hash y mutabilidad consciente». En S11-T3-B-E3 resolví: Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «**has-a** (composición) suele modelar mejor casos: `CaseFile» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "code": "from dataclasses import dataclass, asdict\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n\n    def to_dict(self):\n        d = asdict(self)\n        d.pop(\"password\", None)\n        d.pop(\"secret\", None)\n        return d\n\nprint(ClientRecord(\"C001\", \"a@ejemplo.pe\").to_dict())\n",
+      "justification_from_packet": "Como explorer aplico «Modelar entidades con class/dataclass e instancias válidas». En S11-T4-A-E1 resolví: Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Definir igualdad/hash y mutabilidad (frozen) consciente» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "code": "class Repo:\n    def __init__(self):\n        self._store = {}\n    def save(self, obj):\n        self._store[obj[\"client_id\"]] = obj\n    def get(self, client_id):\n        return self._store.get(client_id)\n\nr = Repo()\nr.save({\"client_id\": \"C001\", \"email\": \"a@ejemplo.pe\"})\nprint(r.get(\"C001\"))\n",
+      "justification_from_packet": "Como explorer aplico «**Repository** light: get/save. **Service** light: orquesta dominio si». En S11-T4-A-E2 resolví: Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Modelar entidades con class/dataclass e instancias…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "code": "print(\"LAYER: cli — argparse, stdin/stdout, exit codes | domain — entidades/invariantes | adapters — repo/API\")\n",
+      "justification_from_packet": "Como explorer aplico «Separar dominio de I/O con repo/service y to_dict». En S11-T4-A-E3 resolví: argparse, stdin/stdout, exit codes | …` según solution. Conserva el contrato del. Me guié también por «Una **clase** define el molde; una **instancia** es un objet» del paquete…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError(\"document_id vacío\")\n\ntry:\n    ClientRecord(\"C001\", \"\")\nexcept ValueError:\n    print(\"pass\")\n",
+      "justification_from_packet": "Como explorer aplico «Protocolos y polimorfismo con propósito». En S11-T4-B-E1 resolví: Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «**Repository** light: get/save. **Service** light: orquesta » del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "code": "class FakeRepo:\n    def __init__(self):\n        self.d = {}\n    def register(self, c):\n        self.d[c[\"id\"]] = c\n    def get(self, i):\n        return self.d.get(i)\n\nr = FakeRepo()\nr.register({\"id\": \"C001\"})\nprint(\"register\", r.get(\"C001\") is not None)\nprint(\"get\", r.get(\"C001\"))\nprint(\"missing\", r.get(\"C999\"))\n",
+      "justification_from_packet": "Como explorer aplico «Probar dominio puro y evitar APIs de fraude/parentesco». En S11-T4-B-E2 resolví: Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Invariantes y estados válidos» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "code": "print(\"ANTES: Client.decide_fraud(score)->bool en dominio\")\nprint(\"DESPUÉS: PolicyService aparte; Client solo datos/invariantes; sin auto_fraud\")\n",
+      "justification_from_packet": "Como explorer aplico «**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene li». En S11-T4-B-E3 resolví: Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Me guié también por «Repositorios, servicios y serialización» del paquete…",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «Evita el default mutable compartido entre instancias» porque el paquete en «Clases, instancias y dataclass» lo sostiene. Pregunta: ¿Por qué `field(default_factory=list)` y no `= []`?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «Una señal/dato numérico, no un veredicto de fraude o familia» porque el paquete en «Invariantes y estados válidos» lo sostiene. Pregunta: RelationshipEvidence.signal_score representa….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Elijo «Definir un puerto get/save implementable por fakes y adapters» porque el paquete en «Propiedades y métodos» lo sostiene. Pregunta: Un Protocol EntityStore sirve para….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Elijo «En la construcción (__post_init__/validate)» porque el paquete en «Igualdad, hash y mutabilidad consciente» lo sostiene. Pregunta: Objeto inválido: ¿cuándo fallar?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «A menudo es frágil; composición (Client tiene PersonInfo) suele bastar» porque el paquete en «Composición antes que herencia» lo sostiene. Pregunta: Client hereda de Person….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «is_fraud() automático» porque el paquete en «Protocolos y polimorfismo con propósito» lo sostiene. Pregunta: ¿Qué no debe tener el dominio de familiaridad?.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:25:06.544923+00:00",
+  "session_started_at": "2026-07-23T17:40:06.016590Z",
+  "session_ended_at": "2026-07-23T17:40:48.615535Z",
+  "receipt_response_sha256": "c5836196d2c1454a94f5bcb10c6e38ff802aaa1660040849b5ec3065d52b9eaf",
+  "receipt_exercises_sha256": "e2470694f8c7686049454cd73b18aa58c96945f5738ff4b31b015103d43d51c8",
+  "receipt_selfcheck_sha256": "2076eb06785789cbc4a69aa12a44e9d37eaf188461f6c01c5d0b21fd0d1dea4f"
+}

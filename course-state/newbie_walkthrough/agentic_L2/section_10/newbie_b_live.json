@@ -1,0 +1,229 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 10,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-newbie_b-s10-ab7c87344f61",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "code": "def _ws(s: str) -> str:\n    return \" \".join(s.split())\n\ndef clean(s: str) -> str:\n    return _ws(s).casefold()\n\n__all__ = [\"clean\"]\nprint(clean(\"  Ana  \"))\nprint(__all__)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Archivo/env/flags y precedencia». En S10-T1-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo: «Secretos **fuera del repo**: `.env` en…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "code": "# import circular simulado: extraer util compartida\ndef util_norm(s: str) -> str:\n    return s.strip().casefold()\n\n# module_a y module_b importan util_norm en lugar de importarse mutuamente\nprint(util_norm(\"  X \"))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Precedencia canónica: **flags CLI > variables de entorno > archivo de ». En S10-T1-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "code": "recs = {\n    \"normalize.py importa compare en el mismo paquete\": \"relativo o absoluto del paquete (from . import compare)\",\n    \"plugin externo usa familiarity_core\": \"absoluto (import familiarity_core)\",\n    \"ejecutar el CLI del paquete\": \"python -m familiarity_core\",\n}\nfor c, r in recs.items():\n    print(c, \"->\", r)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Definir API pública estable y helpers privados». En S10-T1-A-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo: «Implementar subcomandos…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "code": "def _tokenize(s):\n    return s.split()\n\ndef public_tokens(s):\n    return _tokenize(s)\n\nprint(public_tokens(\"a b\"))\nprint(\"privado\", _tokenize.__name__.startswith(\"_\"))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Implementar precedencia flags > env > archivo > defaults». En S10-T1-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo: «`import…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "code": "def main(argv=None):\n    print(\"cli\", argv or [])\n\nif __name__ == \"__main__\":\n    main([\"--help\"])\nelse:\n    print(\"importado: sin side effects de CLI\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Crear paquete instalable con layout src y pyproject.toml». En S10-T1-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo: «Separar…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "code": "print(\"if __name__ == '__main__' ejecuta CLI/demo solo al correr el módulo, no al importar\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Imports, namespaces y __main__». En S10-T1-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo: «Prefijo `_` marca helpers **privados**…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "code": "def merge_config(defaults, file_cfg, env, flags):\n    cfg = dict(defaults)\n    cfg.update(file_cfg)\n    cfg.update(env)\n    cfg.update(flags)\n    return cfg\n\nprint(merge_config({\"a\": 1}, {\"a\": 2}, {\"a\": 3}, {\"a\": 4}))\nprint(\"precedencia: flags > env > file > defaults\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Precedencia canónica: **flags CLI > variables de entorno > archivo de ». En S10-T2-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "code": "import os\nenv = {\"LOG_LEVEL\": \"INFO\"}\nprint(env.get(\"LOG_LEVEL\", \"WARNING\"))\nprint(env.get(\"MISSING\", \"WARNING\"))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Dependencias cíclicas y API pública». En S10-T2-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo: «Layout **src/**:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "code": "print(\"flags > env > file > defaults\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «**stdout** = datos (JSON, CSV). **stderr** = logs y progreso. Así `cmd». En S10-T2-A-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "code": "import argparse\np = argparse.ArgumentParser(prog=\"demo\")\np.add_argument(\"--input\", required=True)\nns = p.parse_args([\"--input\", \"data.csv\"])\nprint(ns.input)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «**SemVer** simple: MAJOR.MINOR.PATCH. Breaking → major; feature compat». En S10-T2-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "code": "import sys\nprint(\"usage error -> exit 2\")\n# sys.exit(2)\nprint(\"runtime error -> exit 1\")\nprint(\"ok -> exit 0\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «`argparse.ArgumentParser` + **subparsers** modelan `ingest|normalize|c». En S10-T2-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "code": "import sys\nprint('{\"ok\": true}')  # stdout datos\nprint(\"progreso\", file=sys.stderr)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Organizar imports, evitar ciclos y usar if __name__ == '__main__'». En S10-T2-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "code": "# layout src\nlayout = [\n    \"pyproject.toml\",\n    \"src/familiarity_core/__init__.py\",\n    \"src/familiarity_core/cli.py\",\n]\nfor x in layout:\n    print(x)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Crear paquete instalable con layout src y pyproject.toml». En S10-T3-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo: «Separar…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "code": "print(\"python -m pip install -e .  # editable install del paquete\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Prefijo `_` marca helpers **privados** (convención). La fachada (`__in». En S10-T3-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "code": "print(\"añadir subcomando compatible suele ser minor en semver\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Aplicar semver simple y requires-python / deps con criterio». En S10-T3-A-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "code": "readme = (\n\"# familiarity_core\n\"\n\"## Install\n\"\n\"python -m venv .venv\n\"\n\"source .venv/bin/activate\n\"\n\"python -m pip install -e .\n\"\n\"## Run\n\"\n\"python -m familiarity_core --help\n\"\n)\nprint(readme)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Dependencias cíclicas y API pública». En S10-T3-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo: «Layout **src/**:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "code": "print(\"NO commitear: .env con API_TOKEN; sí: README, pyproject.toml, src/.../__init__.py\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Layout **src/**: `src/familiarity_core/...` evita importar el paquete ». En S10-T3-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "code": "print(\"changelog: documentar breaking changes y nuevos flags del CLI\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Organizar imports, evitar ciclos y usar if __name__ == '__main__'». En S10-T3-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "code": "def build_parser():\n    import argparse\n    p = argparse.ArgumentParser()\n    p.add_argument(\"command\", choices=[\"run\", \"version\"])\n    return p\n\nprint(build_parser().parse_args([\"version\"]))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «stdin/stdout/stderr y ayuda». En S10-T4-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo: «Precedencia canónica: **flags CLI >…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "code": "def cli_main(argv):\n    if not argv:\n        return 2\n    if argv[0] == \"version\":\n        print(\"0.1.0\")\n        return 0\n    return 1\n\nprint(cli_main([\"version\"]))\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Separar stdout (datos) de stderr (diagnóstico)». En S10-T4-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo: «Imports, namespaces y…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "code": "print(\"logs de progreso a stderr; JSON/datos a stdout\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Implementar precedencia flags > env > archivo > defaults». En S10-T4-A-E3 verifiqué el checklist/tests sin asumir atajos: imprime el resultado esperado y por qué. Salida/pass: primeros tokens de `result. Cita de apoyo: «`import…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "code": "entry = {\n    \"console_scripts\": \"familiarity-core = familiarity_core.cli:main\",\n}\nprint(entry)\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Precedencia canónica: **flags CLI > variables de entorno > archivo de ». En S10-T4-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo:…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "code": "print(\"test smoke: python -m familiarity_core version -> 0.1.0 exit 0\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Definir API pública estable y helpers privados». En S10-T4-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo: «Implementar subcomandos…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "code": "print(\"secretos fuera del git; usar .env.example sin valores reales\")\n",
+      "justification_from_packet": "Como skeptic contrasté la instruction con «Imports, namespaces y __main__». En S10-T4-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del st. Cita de apoyo: «Prefijo `_` marca helpers **privados**…",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Descarté distractores y me quedo con «Ejecutar el CLI/demo solo al correr el módulo, no al importar». La teoría («`import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez») y el enunciado «¿Para qué sirve `if __name__ == '__main__'`?» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Descarté distractores y me quedo con «flags > env > file > defaults». La teoría («Prefijo `_` marca helpers **privados** (convención). La fachada (`__in») y el enunciado «Precedencia correcta de config…» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Descarté distractores y me quedo con «Error de uso/parseo de argumentos». La teoría («Layout **src/**: `src/familiarity_core/...` evita importar el paquete ») y el enunciado «Exit code 2 en CLI argparse suele significar…» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Descarté distractores y me quedo con «stderr». La teoría («**SemVer** simple: MAJOR.MINOR.PATCH. Breaking → major; feature compat») y el enunciado «¿Dónde van los logs de progreso?» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Descarté distractores y me quedo con «minor». La teoría («`argparse.ArgumentParser` + **subparsers** modelan `ingest|normalize|c») y el enunciado «Añadir un subcomando nuevo compatible es tipicamente…» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "justification_from_packet": "Descarté distractores y me quedo con «.env con API_TOKEN». La teoría («**stdout** = datos (JSON, CSV). **stderr** = logs y progreso. Así `cmd») y el enunciado «¿Qué no debe ir al git del paquete?» coinciden.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:25:05.331733+00:00",
+  "session_started_at": "2026-07-23T17:39:05.335005Z",
+  "session_ended_at": "2026-07-23T17:39:44.145879Z",
+  "receipt_response_sha256": "fe31d39b76a3ca7c400d027e6cd00d23ac24f7108092025f1babb14eae56c1d6",
+  "receipt_exercises_sha256": "a590c765ae0e2862628d3a719935375924f26da0307d02b80104384e8ea2d2da",
+  "receipt_selfcheck_sha256": "a790c06251ba1128194039727da0e539fc74eddd59c22e83d5d56accdf6a18bc"
+}

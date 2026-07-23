@@ -1,0 +1,250 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 1,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s01-env-git-ruff",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "id": "S01-T1-A-E1",
+      "code": "# Transcript REPL (copiar línea a línea; no es un script .py)\n\n# >>> 2 + 2\n# 4\n\n# >>> type(\"hola\")\n# <class 'str'>\n\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n\n# >>> quit()   # salir del REPL sin cerrar la terminal\n",
+      "justification_from_packet": "Dudo del atajo de adivinar: la theory del REPL fija `2+2`, `type(\"hola\")` y `sys.version.split()[0]`; salgo con `quit()` sin cerrar la shell, tal como dice el paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "id": "S01-T1-A-E2",
+      "code": "import sys\n\ndef main() -> None:\n    nombre = \"AnaDemo\"  # nombre sintético\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\nif __name__ == \"__main__\":\n    main()\n",
+      "justification_from_packet": "No me fío de un script sin guardián: theory exige `sys.version.split()[0]`, `print` y `if __name__ == \"__main__\":` para que solo corra al lanzar el archivo, no al importar.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "id": "S01-T1-A-E3",
+      "code": "# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. En Windows: instalar desde https://www.python.org/downloads/ marcando \"Add python.exe to PATH\"; cerrar y reabrir la terminal.\n2. En macOS/Linux: usar `python3` de forma consistente (no asumir que `python` existe).\n3. Verificar con `python --version` o `python3 --version` y apuntar a 3.12+.\n4. Confirmar el binario real con `where python` / `which python3` y anotar la ruta.\n5. (opcional) Desactivar el alias de Microsoft Store si interfiere en Windows.\n6. (opcional) Solo entonces crear el venv con ese mismo intérprete: `python3 -m venv .venv`.\n\n## Verificación final\n- Comando: python3 --version\n- Resultado esperado: Python 3.12+ (o 3.x del curso)\n",
+      "justification_from_packet": "Sospecho del PATH roto: en Windows suele faltar el intérprete; en macOS conviene `python3`. Verifico con `--version` desde python.org antes de cualquier venv o pip.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "id": "S01-T1-B-E1",
+      "code": "# Transcript de códigos de salida (bash/zsh)\n\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n\n# 3) Shell usada\n# SHELL_USADA=zsh\n",
+      "justification_from_packet": "El contrato shell↔script es el exit code: theory marca 0=éxito y no-cero=fallo; documento `$?` en zsh tras `sys.exit(0)` y `sys.exit(1)` sin confiar solo en el print.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "id": "S01-T1-B-E2",
+      "code": "import sys\n\ndef main() -> None:\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()\n",
+      "justification_from_packet": "Reviso `sys.argv[1:]`: si `len(args)!=1` voy a stderr y `sys.exit(1)`; con un arg imprimo `OK:` y salgo 0. Sin eso el CI no distingue fallo real de mensaje cosmético.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "id": "S01-T1-B-E3",
+      "code": "# Diagnóstico: pip vs intérprete\n\n## Escenario A — \"pip no se reconoce\"\n- Clase: PATH / ejecutable ausente (similar a python no encontrado).\n1. Verificar `python3 --version` o `python --version`.\n2. Usar `python -m pip --version` (ata el pip al mismo intérprete).\n3. Si falla, reinstalar/ajustar PATH del Python oficial, no del SO completo.\n\n## Escenario B — pip corre pero `import pandas` falla\n- Clase: paquete instalado en otro intérprete / otro env.\n1. Comparar `python -c \"import sys; print(sys.executable)\"` con la salida de `pip --version`.\n2. Instalar con `python -m pip install pandas` usando el mismo ejecutable.\n3. Activar el `.venv` correcto y repetir el import.\n\n## Regla de oro\nSiempre `python -m pip` con el `sys.executable` del proceso que va a importar.\n",
+      "justification_from_packet": "No asumo que `pip` = mismo Python: theory insiste en `python -m pip` y comparar `sys.executable`. ModuleNotFoundError casi siempre es intérprete equivocado, no magia del SO.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "id": "S01-T2-A-E1",
+      "code": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\n\n# 1) Crear\npython3 -m venv .venv\n\n# 2) Activar (Unix)\nsource .venv/bin/activate\n# Windows: .venv\\Scripts\\Activate.ps1\n\n# 3) Verificar\npython -c \"import sys; print(sys.prefix)\"\n\n# 4) Salir\ndeactivate\n",
+      "justification_from_packet": "Un proyecto = un entorno: `python -m venv .venv`, `source .venv/bin/activate` y `sys.prefix` debe contener `.venv`. Si no, sigo en el global y desconfío de cualquier pip posterior.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "id": "S01-T2-A-E2",
+      "code": "# Recrear entorno roto sin tocar el código fuente\n\n# 0) Asegúrate de no estar usando el venv viejo\ndeactivate 2>/dev/null || true\n\n# 1) Eliminar entorno roto\nrm -rf .venv\n\n# 2) Recrear\npython3 -m venv .venv\n\n# 3) Activar y verificar\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py u otros .py NO se borran\n",
+      "justification_from_packet": "Si el venv se rompe, no parcho site-packages: theory dice borrar `.venv` y recrear. `deactivate` primero evita colgarse del prefijo viejo; el código fuente no se toca.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T2-A-E3",
+      "id": "S01-T2-A-E3",
+      "code": "# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\nEl proyecto A necesita pandas 1.5 y el B pandas 2.x. Si ambos instalan en el Python global, el último `pip install` pisa al primero y un notebook deja de reproducir. Ese choque de versiones no es teórico: es el caos típico a los tres meses.\n\n## Flujo recomendado (este curso)\n1. Crear `python -m venv .venv` por proyecto.\n2. Activar el entorno (source / Activate.ps1).\n3. Instalar solo ahí con `python -m pip install ...` y freeze a requirements.txt.\n\n## Nota sobre la herramienta\n- venv es stdlib\n- Nombre canónico de carpeta: .venv\n",
+      "justification_from_packet": "Instalar pandas en el global es deuda: dos clientes con versiones distintas se pisan. El flujo canónico del paquete es `.venv` (stdlib `venv`) + pip por proyecto.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T2-B-E1",
+      "id": "S01-T2-B-E1",
+      "code": "source .venv/bin/activate   # o Activate.ps1 en Windows\n\npython -m pip install requests==2.32.3\npython -m pip freeze > requirements.txt\n\n# Verifica:\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n",
+      "justification_from_packet": "Con venv activo, `python -m pip install requests==2.32.3` y `pip freeze > requirements.txt` fijan el snapshot. Exijo ver `requests==` en el archivo antes de confiar.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T2-B-E2",
+      "id": "S01-T2-B-E2",
+      "code": "# Replica limpia desde requirements.txt\npython3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r requirements.txt\npython -m pip list | head\npython -c \"import requests; print('ok', requests.__version__)\"\n",
+      "justification_from_packet": "Replica limpia: otro `.venv_replica` + `install -r requirements.txt`. Si el import falla ahí, el freeze no era reproducible; no culpo a la red de entrada.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T2-B-E3",
+      "id": "S01-T2-B-E3",
+      "code": "# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\nEl paquete de terceros no está en site-packages de este intérprete.\n\n## Hipótesis B — instalado en otro intérprete\n`pip` apuntó a un Python distinto del que ejecuta el script.\n\n## Protocolo (5 pasos)\n1. `python -c \"import sys; print(sys.executable)\"` — anotar el binario real.\n2. `python -m pip show requests` (o el paquete) con ese mismo python.\n3. Si falta: `python -m pip install requests` (no bare `pip`).\n4. Reintentar `python -c \"import requests\"`.\n5. Si persiste, revisar si hay venv activado y si el PATH del shell engaña.\n\n## ¿stdlib o terceros?\n- requests: terceros (va en requirements.txt)\n- datetime: stdlib (no se pip-instala)\n",
+      "justification_from_packet": "Protocolo forense: `sys.executable`, luego `python -m pip`. `requests` es terceros; `datetime` es stdlib. Sin esa distinción pierdo horas reinstalando lo que no va en requirements.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T3-A-E1",
+      "id": "S01-T3-A-E1",
+      "code": "mkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README de practica\"\ngit log -1 --oneline\n",
+      "justification_from_packet": "Historial útil empieza local: `git init`, `git add`, commit `docs: ...` al estilo Conventional Commits. Rechazo mensajes vacíos o `wip` porque en seis meses no se auditan.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T3-A-E2",
+      "id": "S01-T3-A-E2",
+      "code": "# Lectura de diff\n\n## Comandos usados\ngit add README.md\ngit commit -m \"docs: documentar setup con venv\"\ngit show HEAD\ngit log -1 --oneline\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\nLas líneas nuevas del README (p. ej. la frase de setup con venv); el prefijo + marca adiciones.\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\nModificado: git show muestra un diff parcial (+/−) sobre un archivo ya trackeado, no un alta completa de archivo nuevo.\n\n## 3) Resumen en una frase\nEl commit documenta el setup con venv en el README sin reescribir el historial.\n",
+      "justification_from_packet": "`git show HEAD` enseña `+`/`-`: las líneas nuevas del README aparecen con `+`. Un archivo ya trackeado se ve como diff parcial, no como alta completa.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T3-A-E3",
+      "id": "S01-T3-A-E3",
+      "code": "# Mejor mensaje de commit\n\nCandidatos:\n- A: `wip`\n- B: `feat: agregar smoke hello_env`\n- C: `Actualicé cosas del setup`\n\n## Elección\nB\n\n## Justificación\nConventional Commits pide prefijo + imperativo legible. `feat: agregar smoke hello_env` dice qué y por qué en el historial; `wip` y \"Actualicé cosas\" no sobreviven un code review en seis meses.\n\n## Reescritura de A (si fuera un commit temporal local que luego se limpia)\nchore: checkpoint local antes de limpiar historial\n\n## Reescritura de C\ndocs: aclarar pasos de instalación del entorno\n",
+      "justification_from_packet": "Elijo `feat: agregar smoke hello_env`: prefijo + imperativo legible. `wip` y “Actualicé cosas” fallan la convención que el paquete pide para review bancario.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T3-B-E1",
+      "id": "S01-T3-B-E1",
+      "code": "git switch main\ngit switch -c feat/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"feat: agregar nota de practica\"\ngit branch\n",
+      "justification_from_packet": "Trabajar solo en main es riesgo: creo `feat/practica-s01` con `git switch -c`, commit `feat:` y listo. Sin force-push; el paquete lo prohíbe de forma explícita.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T3-B-E2",
+      "id": "S01-T3-B-E2",
+      "code": "# Título del PR\nfeat: smoke hello_env y README de instalación\n\n## Resumen\n- Agrega scripts/hello_env.py como smoke del intérprete\n- Documenta activación de .venv e install -r en el README\n- Deja el flujo listo para review sin tocar secretos\n\n## Plan de prueba\n1. python -m venv .venv && source .venv/bin/activate\n2. python -m pip install -r requirements.txt (si aplica)\n3. python scripts/hello_env.py → exit 0 y versión visible\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] .gitignore cubre .venv/ y .env\n",
+      "justification_from_packet": "El PR no es adorno: título, bullets, plan de prueba y checklist de `.env`. Theory lo trata como el lugar del diff review antes de integrar a main.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T3-B-E3",
+      "id": "S01-T3-B-E3",
+      "code": "# Recuperación no destructiva\n\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. Revisar con `git status` y `git diff README.md`.\n2. Descartar con `git restore README.md` (vuelve a la versión commiteada).\n\n## ¿Cuándo stash en su lugar?\nSi el cambio podría servir después: `git stash`, cambiar de rama, y `git stash pop` más tarde.\n\n## Por qué NO force-push a main\nReescribe historial compartido y rompe el contrato del equipo; en onboarding está prohibido.\n\n## Por qué no reset --hard como default\nBorra trabajo no commiteado con facilidad de lamentar; restore/stash son el primer reflejo seguro.\n",
+      "justification_from_packet": "Ante un README mal editado sin commit, `git restore` (o `stash` si quiero guardar). Rechazo `push --force` a main y `reset --hard` como primer reflejo.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T4-A-E1",
+      "id": "S01-T4-A-E1",
+      "code": "[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n",
+      "justification_from_packet": "Calidad mínima en `pyproject.toml`: `line-length = 88` y `select = [\"E\", \"F\", \"I\"]`. No compro `ALL` el día 1; el paquete advierte del ruido.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T4-A-E2",
+      "id": "S01-T4-A-E2",
+      "code": "from datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n",
+      "justification_from_packet": "Ruff marca F401 en `sys` y `os` sin uso; los quito y dejo `datetime`, que sí se usa. El linter no sustituye pensar, pero atrapa basura barata.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T4-A-E3",
+      "id": "S01-T4-A-E3",
+      "code": "# Select mínimo para repo de datos (S01)\n\n## Propuesta\n`select = [\"E\", \"F\", \"I\"]`\n\n## Por qué no ALL el día 1\nHabilitar ALL genera cientos de hallazgos en notebooks y scripts de exploración; el ruido hace que el equipo ignore el linter.\n\n## Qué cubren E, F, I\nE (pycodestyle errores), F (pyflakes, p. ej. F401 import sin usar) e I (isort de imports) atrapan fallos baratos antes del review.\n\n## Cuándo ampliar\nCuando el repo tenga CI estable y ownership claro, se añaden reglas de bugbear/complejidad de a poco, no de golpe.\n",
+      "justification_from_packet": "Contra `select=ALL` en analytics: propongo solo E/F/I. Gano imports rotos y estilo básico; evito cientos de hallazgos en notebooks que nadie arreglará.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T4-B-E1",
+      "id": "S01-T4-B-E1",
+      "code": "# Entornos\n.venv/\nvenv/\n\n# Bytecode\n__pycache__/\n*.pyc\n\n# Secretos\n.env\n\n# Jupyter\n.ipynb_checkpoints/\n",
+      "justification_from_packet": "`.gitignore` mínimo: `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env`, checkpoints. Incluyo ambos nombres de entorno porque el ecosistema usa los dos.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T4-B-E2",
+      "id": "S01-T4-B-E2",
+      "code": "# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=https://example.com\nDB_HOST=localhost\nLOG_LEVEL=INFO\n",
+      "justification_from_packet": "`.env.example` con `API_URL`, `DB_HOST`, `LOG_LEVEL` vacíos/ficticios. El `.env` real no se commitea: theory lo trata como secretos, no como peso de archivo.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S01-T4-B-E3",
+      "id": "S01-T4-B-E3",
+      "code": "# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. Clonar el repo y `cd` a la raíz del proyecto\n- [ ] 2. `python3 -m venv .venv` y activar (source / Activate.ps1)\n- [ ] 3. `python -m pip install -r requirements.txt`\n- [ ] 4. Smoke: `python scripts/hello_env.py` exit 0\n- [ ] 5. `git check-ignore -v .env` confirma que .env no se trackea\n\n## Datos\n- [ ] data/clients_synthetic.csv es sintético\n- [ ] data/data_dictionary.md describe columnas\n",
+      "justification_from_packet": "Checklist de máquina limpia: clonar → venv → `install -r` → smoke hello_env → `check-ignore .env`, más CSV sintético y data_dictionary. Sin eso no audito el esqueleto CP-N1-A.",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Theory de venv: carpeta aislada con su intérprete y paquetes; un proyecto = un entorno. No acelera el CPU ni compila a máquina.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "El paquete manda ignorar `.venv/` (y `venv/`): pesa mucho y se regenera. `requirements.txt` y el código SÍ van al repo.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Conventional Commits: prefijo `feat:` + imperativo. `cambios`/`wip`/`arreglé...` no documentan el porqué en el historial.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Para clonar el entorno de un colega: `pip install -r requirements.txt` sobre un venv limpio, no un `pip install` suelto de dos paquetes.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "`.env` guarda API keys y tokens; subirlo a GitHub filtra secretos. El tamaño no es el problema principal que plantea la theory.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "Confirmé si `python` vs `python3` cambia el venv en macOS antes de confiar en el prompt.",
+    "Dudé si freeze incluye transitivas: la theory dice que sí (snapshot, no lock moderno)."
+  ],
+  "recorded_at": "2026-07-23T16:25:13.548989+00:00",
+  "session_started_at": "2026-07-23T16:24:26.547Z",
+  "session_ended_at": "2026-07-23T16:25:13.547Z",
+  "receipt_response_sha256": "e1ae104585fbf45320bb7b9ee3ca4f8ee1851fda2a7d66c04b0b5a9c8ca8f41b",
+  "receipt_exercises_sha256": "a68c50250237f9e3182ff58bc65f494bbee7f1648f278000541176d1e9e495ff",
+  "receipt_selfcheck_sha256": "60b60f5268a30cc59d1b5a6ddd3c0d55b8518e384b862b96b816691b24555b19"
+}

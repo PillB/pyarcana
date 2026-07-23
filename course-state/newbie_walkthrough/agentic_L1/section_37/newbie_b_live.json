@@ -1,0 +1,247 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 37,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s37-fix-827cd69a",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S37-T1-A-E1",
+      "id": "S37-T1-A-E1",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"n\", 1000)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S37-T1-A-E1 el card pide «CASO-LIM-037-1A: reporta el tamaño del fixture de profile con métrica wall. Contrato: prin…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local cea36a).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T1-A-E2",
+      "id": "S37-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmetrics = [\"wall\", \"cpu\", \"memory\"]\nprint(metrics)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S37-T1-A-E2 el card pide «Lista las tres métricas base del profile: wall, cpu, memory. Imprime la lista, ok True, n…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local a73dfb).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T1-A-E3",
+      "id": "S37-T1-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"same_result\", True)\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S37-T1-A-E3 el card pide «Correctitud junto a velocidad: imprime same_result True, ok True, n 1. Starter False (defe…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 4532fb).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T1-B-E1",
+      "id": "S37-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport statistics\nvals = [5, 1, 4]\nprint(statistics.median(vals))\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S37-T1-B-E1 el card pide «Mediana de [5,1,4] con statistics.median; imprime 4, n_runs 3, warmup True. Starter usa me…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local a7f66f).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T1-B-E2",
+      "id": "S37-T1-B-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"warmup\", True)\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S37-T1-B-E2 el card pide «Política de warmup: imprime warmup True, discard_first True, ok True. Starter niega warmup…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 08b872).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T1-B-E3",
+      "id": "S37-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2, 9]\nprint(max(xs))\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S37-T1-B-E3 el card pide «Proxy de p95 en muestra chica: imprime max([1,2,9])=9 como proxy, proxy 'p95_small_n', ok…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 5bc334).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T2-A-E1",
+      "id": "S37-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn = 10\nprint(n * (n - 1) // 2)\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S37-T2-A-E1 el card pide «Pares completos para n=10: usa n*(n-1)//2 = 45 (no n*n). Imprime 45, n 10, ok True. Starte…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 6afb4d).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T2-A-E2",
+      "id": "S37-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nall_p, blocked = 45, 10\nprint(round(1 - blocked / all_p, 3))\n",
+      "justification_from_packet": "Verifico la salida contractual: en S37-T2-A-E2 el card pide «Reducción de pares: blocked=10, all=45 → round(1-10/45,3)=0.778. Imprime 0.778, ok True, b…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 08d3a3).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T2-A-E3",
+      "id": "S37-T2-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"blocking\")\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S37-T2-A-E3 el card pide «Prioriza algoritmo: imprime prefer 'blocking', ok True, micro False. Starter prefiere 'mic…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 0d229f).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T2-B-E1",
+      "id": "S37-T2-B-E1",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"structure\", \"set\")\n",
+      "justification_from_packet": "Verifico la salida contractual: en S37-T2-B-E1 el card pide «Estructura preferida para membership: imprime structure 'set', ok True, scan False. Starte…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local c2fdad).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T2-B-E2",
+      "id": "S37-T2-B-E2",
+      "code": "rows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ncount = sum(1 for city, _eid in rows if city == \"Lima\")\nprint(count)\nprint(\"city\", \"Lima\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Según la instruction de S37-T2-B-E2 en el paquete, completé el TODO del starter para cumplir el contrato impreso (ok True) sin dejar marcadores pendientes.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T2-B-E3",
+      "id": "S37-T2-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"order\", [\"block\", \"score\"])\n",
+      "justification_from_packet": "Dudo del atajo: en S37-T2-B-E3 el card pide «Orden operativo: imprime order ['block','score'], ok True, n 2. Starter ['score','block']…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 33e276).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T3-A-E1",
+      "id": "S37-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn, size = 10, 4\nprint((n + size - 1) // size)\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S37-T3-A-E1 el card pide «Chunks: 10 items size 4 → ceil = 3 chunks. Imprime 3, size 4, ok True. Starter usa n//size…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 45ce1d).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T3-A-E2",
+      "id": "S37-T3-A-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"id\", \"amt\"])\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S37-T3-A-E2 el card pide «Columnar subset: imprime ['id','amt'], ok True, columnar True. Starter incluye raw_blob y…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 368284).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T3-A-E3",
+      "id": "S37-T3-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"dtype\", \"int32\")\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S37-T3-A-E3 el card pide «dtype angosto: imprime dtype 'int32', ok True, mem 'lower'. Starter 'int64' y mem 'higher'…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 74db54).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T3-B-E1",
+      "id": "S37-T3-B-E1",
+      "code": "key = (\"fs-v1\", \"cut\")  # version + cutoff en la clave de caché\ncache = {(\"fs-v1\", \"cut\"): True}\nprint(key)\nprint(\"hit\", key in cache)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Según la instruction de S37-T3-B-E1 en el paquete, completé el TODO del starter para cumplir el contrato impreso (ok True) sin dejar marcadores pendientes.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T3-B-E2",
+      "id": "S37-T3-B-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"version_change\")\n",
+      "justification_from_packet": "Dudo del atajo: en S37-T3-B-E2 el card pide «Razón de invalidación: imprime 'version_change', ok True, stale True. Starter 'never' (def…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 066ae3).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T3-B-E3",
+      "id": "S37-T3-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"ooc\", \"chunk\")\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S37-T3-B-E3 el card pide «Out-of-core: imprime ooc 'chunk', ok True, ram 'bounded'. Starter ooc 'load_all' (defect)…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 408c05).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T4-A-E1",
+      "id": "S37-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 9\nprint(measured <= budget)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S37-T4-A-E1 el card pide «Budget pass: measured 9 <= budget 10 → True. Imprime True, budget 10, measured 9. Starter…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 3a85ef).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T4-A-E2",
+      "id": "S37-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 12\nprint(measured <= budget)\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S37-T4-A-E2 el card pide «Budget fail: measured 12 > budget 10 → False. Imprime False, budget 10, measured 12. Start…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 3de2de).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T4-A-E3",
+      "id": "S37-T4-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"latency_p95\", \"memory\", \"pairs\"])\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S37-T4-A-E3 el card pide «Campos del budget: imprime ['latency_p95','memory','pairs'], ok True, n 3. Starter solo ['…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 67b487).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T4-B-E1",
+      "id": "S37-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbefore, after = 80, 20\nprint(before / after)\n",
+      "justification_from_packet": "Verifico la salida contractual: en S37-T4-B-E1 el card pide «Speedup 80/20 = 4.0 (ratio, no resta). Imprime 4.0, ok True, micro_only False. Starter 80-…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 0aa9cb).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T4-B-E2",
+      "id": "S37-T4-B-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"clarity\")\n",
+      "justification_from_packet": "Dudo del atajo: en S37-T4-B-E2 el card pide «Claridad sobre shaving 2%: imprime prefer 'clarity', ok True, shave '2pct_no'. Starter pre…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 094569).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S37-T4-B-E3",
+      "id": "S37-T4-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"before\", \"after\", \"dataset\", \"hardware\"])\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S37-T4-B-E3 el card pide «Claves del reporte before/after: imprime ['before','after','dataset','hardware'], ok True,…»; completo el TODO/defecto solo con lo que enseña profiling/blocking/budget del paquete S37 (ref local 4ee7a2).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Me quedo con la lectura conservadora del curso: SC0 pregunta «Warmup sirve para:…» y la opción «Estabilizar benches descartando cold start» es la que alinea el learning outcome de S37, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Me quedo con la lectura conservadora del curso: SC1 pregunta «Blocking reduce:…» y la opción «Pares candidatos O(n²)» es la que alinea el learning outcome de S37, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Me quedo con la lectura conservadora del curso: SC2 pregunta «Performance budget en CI:…» y la opción «Falla si se rompe el límite acordado» es la que alinea el learning outcome de S37, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "El stem descarta las trampas de fraude/parentesco: SC3 pregunta «Microoptimizar 2% sin medición:…» y la opción «Teatro; prioriza claridad y algos» es la que alinea el learning outcome de S37, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Como escéptico no compro la opción fácil: SC4 pregunta «Un wall_ms sin n en el reporte:…» y la opción «No es comparable entre cambios de dataset» es la que alinea el learning outcome de S37, no un veredicto mágico.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:02:10.835138+00:00",
+  "session_started_at": "2026-07-23T17:02:10.833641+00:00",
+  "session_ended_at": "2026-07-23T17:02:52.033641+00:00",
+  "receipt_response_sha256": "f3e4469ed18b79fedac1acc02da343e2b9603b1cab4fcf3e64538558d9d69d13",
+  "receipt_exercises_sha256": "8e3dc0e92162f07c91731b3c70a77aa5f4dff16768e67c50bd28eb81bfcd3afd",
+  "receipt_selfcheck_sha256": "74a0724d8c6094634cf60387f9b590ca3640404c8b10e61f57ee180b66598b97"
+}

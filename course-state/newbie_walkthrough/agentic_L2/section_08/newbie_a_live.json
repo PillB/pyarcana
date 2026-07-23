@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 8,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-newbie_a-s08-f116daeb65c1",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S08-T1-A-E1",
+      "code": "from pathlib import Path\nimport tempfile\nwith tempfile.TemporaryDirectory() as td:\n    p = Path(td) / 'demo.txt'\n    p.write_text('hola\\n', encoding='utf-8')\n    print(p.read_text(encoding='utf-8').strip())\n    print(p.exists())\n",
+      "justification_from_packet": "Como explorer aplico «`csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldna». En S08-T1-A-E1 resolví: Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Objetos/arrays y serialización JSON» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T1-A-E2",
+      "code": "from pathlib import Path\nimport tempfile\nwith tempfile.TemporaryDirectory() as td:\n    p = Path(td) / 'lines.txt'\n    with p.open('w', encoding='utf-8') as f:\n        f.write('a\\n')\n        f.write('b\\n')\n        f.write('c\\n')\n    with p.open(encoding='utf-8') as f:\n        print([ln.strip() for ln in f])\n",
+      "justification_from_packet": "Como explorer aplico «Calcular hashes, backup y provenance de inputs». En S08-T1-A-E2 resolví: Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «`pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T1-A-E3",
+      "code": "from pathlib import Path\nimport tempfile\nwith tempfile.TemporaryDirectory() as td:\n    p = Path(td) / 'latin.bin'\n    p.write_bytes('año'.encode('latin-1'))\n    try:\n        p.read_text(encoding='utf-8')\n    except UnicodeDecodeError as e:\n        print(type(e).__name__, 'ok')\n",
+      "justification_from_packet": "Como explorer aplico «Filas con **más/menos columnas** que el header son irregulares. No las». En S08-T1-A-E3 resolví: Simula UnicodeDecodeError leyendo bytes latinos como utf-8 strict si es latin-1 . Me guié también por «Schema, nulls y evolución compatible» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T1-B-E1",
+      "code": "sample = b'linea1\\r\\nlinea2\\n'\nprint('CRLF' if b'\\r\\n' in sample else 'LF-or-other')\nprint('has_lf', b'\\n' in sample)\n",
+      "justification_from_packet": "Como explorer aplico «`pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `wr». En S08-T1-B-E1 resolví: Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Dialectos, headers y tipos» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T1-B-E2",
+      "code": "from pathlib import Path\nimport tempfile, os\nwith tempfile.TemporaryDirectory() as td:\n    dest = Path(td) / 'out.txt'\n    tmp = Path(td) / 'out.txt.tmp'\n    tmp.write_text('payload', encoding='utf-8')\n    os.replace(tmp, dest)\n    print(dest.read_text(encoding='utf-8'))\n",
+      "justification_from_packet": "Como explorer aplico «Objetos/arrays y serialización JSON». En S08-T1-B-E2 resolví: Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Valida **required keys** antes de normalizar. `null` JSON → » del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T1-B-E3",
+      "code": "print('encoding utf-8 explícito evita depender del locale del SO (p. ej. Windows)')\n",
+      "justification_from_packet": "Como explorer aplico «Newlines y escritura atómica». En S08-T1-B-E3 resolví: Simula fallo mid-write: escribe dest parcial 'PARCIAL' y muestra que un atomic r. Me guié también por «`csv.DictReader` / `DictWriter` trabajan con headers. Declar» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T2-A-E1",
+      "code": "import csv, io\ntext = 'id,monto\\nC001,10\\nC002,20\\n'\nrows = list(csv.DictReader(io.StringIO(text)))\nprint(rows)\n",
+      "justification_from_packet": "Como explorer aplico «Backups, hashes y provenance». En S08-T2-A-E1 resolví: Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Manifest JSON de la corrida: timestamps, versión y una entra» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T2-A-E2",
+      "code": "import csv, io\nbuf = io.StringIO()\nw = csv.DictWriter(buf, fieldnames=['id', 'monto'])\nw.writeheader()\nw.writerow({'id': 'C001', 'monto': 10})\nprint(buf.getvalue().strip())\n",
+      "justification_from_packet": "Como explorer aplico «`csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldna». En S08-T2-A-E2 resolví: Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Objetos/arrays y serialización JSON» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T2-A-E3",
+      "code": "import csv, io\n# fila irregular -> cuarentena\nraw = 'id,monto\\nC001,10,extra\\n'\nreader = csv.reader(io.StringIO(raw))\nheader = next(reader)\nclean, quarantine = [], []\nfor row in reader:\n    if len(row) != len(header):\n        quarantine.append({'row': row, 'reason': 'column_count'})\n    else:\n        clean.append(dict(zip(header, row)))\nprint('clean', clean)\nprint('quarantine', quarantine)\n",
+      "justification_from_packet": "Como explorer aplico «Objetos/arrays y serialización JSON». En S08-T2-A-E3 resolví: Cast de monto: `Decimal` desde texto + quantize a céntimos; si lanza `InvalidOpe. Me guié también por «Valida **required keys** antes de normalizar. `null` JSON → » del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T2-B-E1",
+      "code": "import json\nobj = {'id': 'C001', 'region': 'Lima'}\ns = json.dumps(obj, ensure_ascii=False, sort_keys=True)\nprint(s)\nprint(json.loads(s))\n",
+      "justification_from_packet": "Como explorer aplico «`csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldna». En S08-T2-B-E1 resolví: Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Objetos/arrays y serialización JSON» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T2-B-E2",
+      "code": "import json\ntry:\n    json.loads('{bad')\nexcept json.JSONDecodeError as e:\n    print(type(e).__name__)\n",
+      "justification_from_packet": "Como explorer aplico «CSV en Python: abre con `newline=''` para que el módulo csv controle t». En S08-T2-B-E2 resolví: Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Filas irregulares y cuarentena» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T2-B-E3",
+      "code": "# manifest reconcile\nn_in, n_clean, n_quarantine = 10, 7, 3\nok = n_in == n_clean + n_quarantine\nprint('reconcile', ok)\nif not ok:\n    raise SystemExit(1)\n",
+      "justification_from_packet": "Como explorer aplico «`pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `wr». En S08-T2-B-E3 resolví: Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Dialectos, headers y tipos» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T3-A-E1",
+      "code": "from pathlib import Path\np = Path('data') / 'raw' / 'clientes.csv'\nprint(p.as_posix())\nprint(p.suffix)\n",
+      "justification_from_packet": "Como explorer aplico «`csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldna». En S08-T3-A-E1 resolví: Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Objetos/arrays y serialización JSON» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T3-A-E2",
+      "code": "from pathlib import Path\nimport tempfile\nwith tempfile.TemporaryDirectory() as td:\n    root = Path(td)\n    (root / 'a.txt').write_text('x', encoding='utf-8')\n    print(sorted(x.name for x in root.iterdir()))\n",
+      "justification_from_packet": "Como explorer aplico «Valida **required keys** antes de normalizar. `null` JSON → `None` en ». En S08-T3-A-E2 resolví: Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Reconciliación y manifest de corrida» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T3-A-E3",
+      "code": "from pathlib import Path\nprint(Path('a/b/c.txt').name)\nprint(Path('a/b/c.txt').stem)\nprint(Path('a/b/c.txt').parent.as_posix())\n",
+      "justification_from_packet": "Como explorer aplico «Filas con **más/menos columnas** que el header son irregulares. No las». En S08-T3-A-E3 resolví: Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Schema, nulls y evolución compatible» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T3-B-E1",
+      "code": "schema = {'id': str, 'monto': float}\nrow = {'id': 'C001', 'monto': '10'}\nerrors = []\nif 'id' not in row:\n    errors.append('missing id')\ntry:\n    float(row['monto'])\nexcept (TypeError, ValueError):\n    errors.append('monto')\nprint(errors or 'ok')\n",
+      "justification_from_packet": "Como explorer aplico «Dialectos, headers y tipos». En S08-T3-B-E1 resolví: Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Filas con **más/menos columnas** que el header son irregular» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T3-B-E2",
+      "code": "def validate_row(row, required):\n    missing = [k for k in required if k not in row or row[k] in (None, '')]\n    return missing\n\nprint(validate_row({'id': 'C1', 'region': ''}, ['id', 'region']))\nprint(validate_row({'id': 'C1', 'region': 'Lima'}, ['id', 'region']))\n",
+      "justification_from_packet": "Como explorer aplico «Objetos/arrays y serialización JSON». En S08-T3-B-E2 resolví: Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Valida **required keys** antes de normalizar. `null` JSON → » del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T3-B-E3",
+      "code": "n_in, n_clean, n_quarantine = 5, 5, 0\nif n_in != n_clean + n_quarantine:\n    print('FAIL_CLOSED')\n    raise SystemExit(2)\nprint('gate_ok')\n",
+      "justification_from_packet": "Como explorer aplico «Valida **required keys** antes de normalizar. `null` JSON → `None` en ». En S08-T3-B-E3 resolví: Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Reconciliación y manifest de corrida» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T4-A-E1",
+      "code": "import hashlib\npayload = b'fila-sintetica'\nprint(hashlib.sha256(payload).hexdigest()[:16])\n",
+      "justification_from_packet": "Como explorer aplico «CSV en Python: abre con `newline=''` para que el módulo csv controle t». En S08-T4-A-E1 resolví: Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Filas irregulares y cuarentena» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T4-A-E2",
+      "code": "# provenance mínima\nprov = {\n    'source_path': 'data/raw/clientes.csv',\n    'encoding': 'utf-8',\n    'n_in': 100,\n    'n_clean': 97,\n    'n_quarantine': 3,\n}\nprint(prov)\nassert prov['n_in'] == prov['n_clean'] + prov['n_quarantine']\n",
+      "justification_from_packet": "Como explorer aplico «Emitir manifest con conteos reconciliados in=clean+quarantine». En S08-T4-A-E2 resolví: Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Newlines y escritura atómica» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T4-A-E3",
+      "code": "print('si reconcile falla: fail closed (exit non-zero); no publicar clean')\n",
+      "justification_from_packet": "Como explorer aplico «Schema, nulls y evolución compatible». En S08-T4-A-E3 resolví: Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «`hashlib.sha256` del contenido del input fija un fingerprint» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T4-B-E1",
+      "code": "quarantine = [{'row_num': 4, 'reason': 'extra_columns'}]\nfor q in quarantine:\n    print(q['row_num'], q['reason'])\n",
+      "justification_from_packet": "Como explorer aplico «`csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldna». En S08-T4-B-E1 resolví: Construye un manifest con `run_id` y `sources`: cada fuente incluye name, sha256. Me guié también por «Objetos/arrays y serialización JSON» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T4-B-E2",
+      "code": "def route(row_len, header_len):\n    if row_len != header_len:\n        return 'quarantine'\n    return 'clean'\n\nprint(route(3, 2), route(2, 2))\n",
+      "justification_from_packet": "Como explorer aplico «Filas con **más/menos columnas** que el header son irregulares. No las». En S08-T4-B-E2 resolví: Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Schema, nulls y evolución compatible» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S08-T4-B-E3",
+      "code": "print('escritura atómica: temp + os.replace; encoding utf-8; quarantine con reason; reconcile n_in==n_clean+n_quarantine')\n",
+      "justification_from_packet": "Como explorer aplico «Objetos/arrays y serialización JSON». En S08-T4-B-E3 resolví: Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Me guié también por «Valida **required keys** antes de normalizar. `null` JSON → » del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Elijo «Evita depender del locale del SO (p. ej. Windows)» porque el paquete en «pathlib, with, modos y encodings» lo sostiene. Pregunta: ¿Por qué declarar encoding='utf-8' al abrir texto?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Elijo «escribir temp y os.replace al destino» porque el paquete en «Newlines y escritura atómica» lo sostiene. Pregunta: Escritura atómica típica es….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «Ir a cuarentena con motivo» porque el paquete en «Dialectos, headers y tipos» lo sostiene. Pregunta: Una fila CSV con columnas de más debe….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «n_in == n_clean + n_quarantine» porque el paquete en «Filas irregulares y cuarentena» lo sostiene. Pregunta: Reconciliación del manifest exige….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Elijo «Fallar (exit non-zero) / fail closed» porque el paquete en «Objetos/arrays y serialización JSON» lo sostiene. Pregunta: Si reconcile falla, el pipeline debe….",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:24:59.274541+00:00",
+  "session_started_at": "2026-07-23T17:35:01.312277Z",
+  "session_ended_at": "2026-07-23T17:35:23.636760Z",
+  "receipt_response_sha256": "81a8c6194609cecc6a0e513e5fa347313731e58f1a2991fb7d82fcc5dce5770e",
+  "receipt_exercises_sha256": "4b9098c8e3a9d874b1b05314829c39b9ac17eb5c8484644139f639a073c94521",
+  "receipt_selfcheck_sha256": "24b1bdfce7fc6e38924f347c9148647d36c0d4e2a0baabe3a2095c150f03308c"
+}

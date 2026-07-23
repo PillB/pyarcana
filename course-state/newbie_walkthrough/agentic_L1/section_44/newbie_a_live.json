@@ -1,0 +1,446 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 44,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s44-c3994b1775",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S44-T1-A-E1",
+      "code": "# Explorer · S44-T1-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PIU-044-1A', 'lint': True, 'types': True, 'tests': True, 'matrix': {'3.11', '3.12'}, 'supported': {'3.11', '3.12'}}\nmeets_contract = (True) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"FAIL_CI_GATE\"\nprint(\"S44-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «lint/types/tests y matrices» («CI ejecuta checks rápidos antes de costosos, usa matrices solo para combinaciones soportadas y conserva evidencia suficiente para reproducir un fallo.»), el contrato de S44-T1-A-E1 exige demostrar tres gates y matriz exactamente soportada. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `FAIL_CI_GATE`.",
+      "concepts_used": [
+        "tres",
+        "gates",
+        "matriz",
+        "exactamente",
+        "soportada"
+      ],
+      "confidence": 0.801
+    },
+    {
+      "exercise_id": "S44-T1-A-E2",
+      "code": "# Explorer · S44-T1-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'lint', 'types', 'tests', 'matrix', 'supported'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((True) and not record.get(\"__adv\")) else \"FAIL_CI_GATE\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-1A', 'lint': True, 'types': True, 'tests': True, 'matrix': {'3.11', '3.12'}, 'supported': {'3.11', '3.12'}}\ninvalid = {\"case_id\": 'CASO-PIU-044-1A', 'lint': True, 'types': True, 'tests': True, 'matrix': {'3.11', '3.12'}, 'supported': {'3.11', '3.12'}, '__adv': True}\nincomplete = {\"case_id\": 'CASO-PIU-044-1A', 'lint': True, 'types': True, 'tests': True, 'matrix': {'3.11', '3.12'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «lint/types/tests y matrices» el paquete pide tres rutas; la teoría subraya: «CI ejecuta checks rápidos antes de costosos, usa matrices solo para combinaciones soportadas y conserva evidencia suficiente para reproducir un fallo.». Para S44-T1-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple tres gates y matriz exactamente soportada, y `FAIL_CI_GATE` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "tres",
+        "gates",
+        "matriz",
+        "exactamente",
+        "soportada"
+      ],
+      "confidence": 0.837
+    },
+    {
+      "exercise_id": "S44-T1-A-E3",
+      "code": "# Explorer · S44-T1-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'lint', 'types', 'tests', 'matrix', 'supported'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_MATRIX\"\n    return \"CONTINUE\" if ((True) and not record.get(\"__adv\")) else \"FAIL_CI_GATE\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-1A', 'lint': True, 'types': True, 'tests': True, 'matrix': {'3.11', '3.12'}, 'supported': {'3.11', '3.12'}}\ninvalid = {\"case_id\": 'CASO-PIU-044-1A', 'lint': True, 'types': True, 'tests': True, 'matrix': {'3.11', '3.12'}, 'supported': {'3.11', '3.12'}, '__adv': True}\nincomplete = {\"case_id\": 'CASO-PIU-044-1A', 'lint': True, 'types': True, 'tests': True, 'matrix': {'3.11', '3.12'}}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «lint/types/tests y matrices» («CI ejecuta checks rápidos antes de costosos, usa matrices solo para combinaciones soportadas y conserva evidencia suficiente para reproducir un fallo.») separa incertidumbre de breach. En S44-T1-A-E3 la ausencia enruta a `REVIEW_MATRIX`, CONTINUE solo con tres gates y matriz exactamente soportada, y el adverso a `FAIL_CI_GATE`, sin rellenar evidencia en CI/CD y seguridad de la cadena de suministro.",
+      "concepts_used": [
+        "tres",
+        "gates",
+        "matriz",
+        "exactamente",
+        "soportada"
+      ],
+      "confidence": 0.734
+    },
+    {
+      "exercise_id": "S44-T1-B-E1",
+      "code": "# Explorer · S44-T1-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': True, 'artifact_digest': 'sha256:def', 'retention_days': 14, 'conditions_cover_tags': True}\nmeets_contract = not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])\nstatus = \"PASS\" if meets_contract else \"DISCARD_PIPELINE_RESULT\"\nprint(\"S44-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «caches, artifacts y condiciones» («Caches son optimización no fuente de verdad; artifacts llevan digest/retención y condiciones de workflow no omiten gates en forks o tags.»), el contrato de S44-T1-B-E1 exige demostrar cache opcional, artifact con digest y condiciones completas. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `DISCARD_PIPELINE_RESULT`.",
+      "concepts_used": [
+        "cache",
+        "opcional",
+        "artifact",
+        "con",
+        "digest",
+        "condiciones",
+        "completas"
+      ],
+      "confidence": 0.875
+    },
+    {
+      "exercise_id": "S44-T1-B-E2",
+      "code": "# Explorer · S44-T1-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'cache_key', 'cache_miss_passes', 'artifact_digest', 'retention_days', 'conditions_cover_tags'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])) else \"DISCARD_PIPELINE_RESULT\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': True, 'artifact_digest': 'sha256:def', 'retention_days': 14, 'conditions_cover_tags': True}\ninvalid = {\"case_id\": 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': False, 'artifact_digest': 'sha256:def', 'retention_days': 14, 'conditions_cover_tags': True}\nincomplete = {\"case_id\": 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': True, 'artifact_digest': 'sha256:def', 'retention_days': 14}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «caches, artifacts y condiciones» el paquete pide tres rutas; la teoría subraya: «Caches son optimización no fuente de verdad; artifacts llevan digest/retención y condiciones de workflow no omiten gates en forks o tags.». Para S44-T1-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple cache opcional, artifact con digest y condiciones completas, y `DISCARD_PIPELINE_RESULT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "cache",
+        "opcional",
+        "artifact",
+        "con",
+        "digest",
+        "condiciones",
+        "completas"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S44-T1-B-E3",
+      "code": "# Explorer · S44-T1-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'cache_key', 'cache_miss_passes', 'artifact_digest', 'retention_days', 'conditions_cover_tags'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INSPECT_WORKFLOW_CONDITION\"\n    return \"CONTINUE\" if (not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])) else \"DISCARD_PIPELINE_RESULT\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': True, 'artifact_digest': 'sha256:def', 'retention_days': 14, 'conditions_cover_tags': True}\ninvalid = {\"case_id\": 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': False, 'artifact_digest': 'sha256:def', 'retention_days': 14, 'conditions_cover_tags': True}\nincomplete = {\"case_id\": 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': True, 'artifact_digest': 'sha256:def', 'retention_days': 14}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «caches, artifacts y condiciones» («Caches son optimización no fuente de verdad; artifacts llevan digest/retención y condiciones de workflow no omiten gates en forks o tags.») separa incertidumbre de breach. En S44-T1-B-E3 la ausencia enruta a `INSPECT_WORKFLOW_CONDITION`, CONTINUE solo con cache opcional, artifact con digest y condiciones completas, y el adverso a `DISCARD_PIPELINE_RESULT`, sin rellenar evidencia en CI/CD y seguridad de la cadena de suministro.",
+      "concepts_used": [
+        "cache",
+        "opcional",
+        "artifact",
+        "con",
+        "digest",
+        "condiciones",
+        "completas"
+      ],
+      "confidence": 0.835
+    },
+    {
+      "exercise_id": "S44-T2-A-E1",
+      "code": "# Explorer · S44-T2-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 0, 'dependency_review': True}\nmeets_contract = not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REVOKE_AND_ROTATE\"\nprint(\"S44-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «permisos mínimos, pinning y secret scanning» («Tokens de CI empiezan read-only, acciones se fijan por commit y secret scanning bloquea exposición; una dependencia nueva requiere revisión.»), el contrato de S44-T2-A-E1 exige demostrar token mínimo, acciones pinned, cero secretos y dependency review. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REVOKE_AND_ROTATE`.",
+      "concepts_used": [
+        "token",
+        "mínimo",
+        "acciones",
+        "pinned",
+        "cero",
+        "secretos",
+        "dependency",
+        "review"
+      ],
+      "confidence": 0.848
+    },
+    {
+      "exercise_id": "S44-T2-A-E2",
+      "code": "# Explorer · S44-T2-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'token_permissions', 'actions_pinned', 'secret_hits', 'dependency_review'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)) else \"REVOKE_AND_ROTATE\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 0, 'dependency_review': True}\ninvalid = {\"case_id\": 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 50, 'dependency_review': True}\nincomplete = {\"case_id\": 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 0}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «permisos mínimos, pinning y secret scanning» el paquete pide tres rutas; la teoría subraya: «Tokens de CI empiezan read-only, acciones se fijan por commit y secret scanning bloquea exposición; una dependencia nueva requiere revisión.». Para S44-T2-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple token mínimo, acciones pinned, cero secretos y dependency review, y `REVOKE_AND_ROTATE` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "token",
+        "mínimo",
+        "acciones",
+        "pinned",
+        "cero",
+        "secretos",
+        "dependency",
+        "review"
+      ],
+      "confidence": 0.855
+    },
+    {
+      "exercise_id": "S44-T2-A-E3",
+      "code": "# Explorer · S44-T2-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'token_permissions', 'actions_pinned', 'secret_hits', 'dependency_review'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SECURITY_APPROVAL\"\n    return \"CONTINUE\" if (not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)) else \"REVOKE_AND_ROTATE\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 0, 'dependency_review': True}\ninvalid = {\"case_id\": 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 50, 'dependency_review': True}\nincomplete = {\"case_id\": 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 0}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «permisos mínimos, pinning y secret scanning» («Tokens de CI empiezan read-only, acciones se fijan por commit y secret scanning bloquea exposición; una dependencia nueva requiere revisión.») separa incertidumbre de breach. En S44-T2-A-E3 la ausencia enruta a `SECURITY_APPROVAL`, CONTINUE solo con token mínimo, acciones pinned, cero secretos y dependency review, y el adverso a `REVOKE_AND_ROTATE`, sin rellenar evidencia en CI/CD y seguridad de la cadena de suministro.",
+      "concepts_used": [
+        "token",
+        "mínimo",
+        "acciones",
+        "pinned",
+        "cero",
+        "secretos",
+        "dependency",
+        "review"
+      ],
+      "confidence": 0.794
+    },
+    {
+      "exercise_id": "S44-T2-B-E1",
+      "code": "# Explorer · S44-T2-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa', 'attestation_valid': True}\nmeets_contract = (not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"REJECT_ATTESTATION\"\nprint(\"S44-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «SBOM, provenance y attestations» («SBOM enumera componentes; provenance enlaza fuente/build/artefacto y una attestation firmada permite verificar, no garantiza calidad por sí sola.»), el contrato de S44-T2-B-E1 exige demostrar SBOM y provenance enlazados al mismo digest. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REJECT_ATTESTATION`.",
+      "concepts_used": [
+        "SBOM",
+        "provenance",
+        "enlazados",
+        "mismo",
+        "digest"
+      ],
+      "confidence": 0.844
+    },
+    {
+      "exercise_id": "S44-T2-B-E2",
+      "code": "# Explorer · S44-T2-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'artifact_digest', 'sbom_digest', 'provenance_subject', 'attestation_valid'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)) and not record.get(\"__adv\")) else \"REJECT_ATTESTATION\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa', 'attestation_valid': True}\ninvalid = {\"case_id\": 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa', 'attestation_valid': True, '__adv': True}\nincomplete = {\"case_id\": 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «SBOM, provenance y attestations» el paquete pide tres rutas; la teoría subraya: «SBOM enumera componentes; provenance enlaza fuente/build/artefacto y una attestation firmada permite verificar, no garantiza calidad por sí sola.». Para S44-T2-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple SBOM y provenance enlazados al mismo digest, y `REJECT_ATTESTATION` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "SBOM",
+        "provenance",
+        "enlazados",
+        "mismo",
+        "digest"
+      ],
+      "confidence": 0.765
+    },
+    {
+      "exercise_id": "S44-T2-B-E3",
+      "code": "# Explorer · S44-T2-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'artifact_digest', 'sbom_digest', 'provenance_subject', 'attestation_valid'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REBUILD_PROVENANCE\"\n    return \"CONTINUE\" if ((not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)) and not record.get(\"__adv\")) else \"REJECT_ATTESTATION\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa', 'attestation_valid': True}\ninvalid = {\"case_id\": 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa', 'attestation_valid': True, '__adv': True}\nincomplete = {\"case_id\": 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «SBOM, provenance y attestations» («SBOM enumera componentes; provenance enlaza fuente/build/artefacto y una attestation firmada permite verificar, no garantiza calidad por sí sola.») separa incertidumbre de breach. En S44-T2-B-E3 la ausencia enruta a `REBUILD_PROVENANCE`, CONTINUE solo con SBOM y provenance enlazados al mismo digest, y el adverso a `REJECT_ATTESTATION`, sin rellenar evidencia en CI/CD y seguridad de la cadena de suministro.",
+      "concepts_used": [
+        "SBOM",
+        "provenance",
+        "enlazados",
+        "mismo",
+        "digest"
+      ],
+      "confidence": 0.883
+    },
+    {
+      "exercise_id": "S44-T3-A-E1",
+      "code": "# Explorer · S44-T3-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc', 'promoted_digest': 'sha256:abc'}\nmeets_contract = (not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"DENY_PROMOTION\"\nprint(\"S44-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «environments y approvals» («Environments separan credenciales y políticas; producción exige aprobación independiente y evidencia del mismo artefacto probado.»), el contrato de S44-T3-A-E1 exige demostrar mismo digest probado y aprobación independiente. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `DENY_PROMOTION`.",
+      "concepts_used": [
+        "mismo",
+        "digest",
+        "probado",
+        "aprobación",
+        "independiente"
+      ],
+      "confidence": 0.724
+    },
+    {
+      "exercise_id": "S44-T3-A-E2",
+      "code": "# Explorer · S44-T3-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'source_env', 'target_env', 'approved_by', 'tested_digest', 'promoted_digest'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])) and not record.get(\"__adv\")) else \"DENY_PROMOTION\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc', 'promoted_digest': 'sha256:abc'}\ninvalid = {\"case_id\": 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc', 'promoted_digest': 'sha256:abc', '__adv': True}\nincomplete = {\"case_id\": 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «environments y approvals» el paquete pide tres rutas; la teoría subraya: «Environments separan credenciales y políticas; producción exige aprobación independiente y evidencia del mismo artefacto probado.». Para S44-T3-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple mismo digest probado y aprobación independiente, y `DENY_PROMOTION` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "mismo",
+        "digest",
+        "probado",
+        "aprobación",
+        "independiente"
+      ],
+      "confidence": 0.893
+    },
+    {
+      "exercise_id": "S44-T3-A-E3",
+      "code": "# Explorer · S44-T3-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'source_env', 'target_env', 'approved_by', 'tested_digest', 'promoted_digest'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_RELEASE_APPROVAL\"\n    return \"CONTINUE\" if ((not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])) and not record.get(\"__adv\")) else \"DENY_PROMOTION\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc', 'promoted_digest': 'sha256:abc'}\ninvalid = {\"case_id\": 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc', 'promoted_digest': 'sha256:abc', '__adv': True}\nincomplete = {\"case_id\": 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «environments y approvals» («Environments separan credenciales y políticas; producción exige aprobación independiente y evidencia del mismo artefacto probado.») separa incertidumbre de breach. En S44-T3-A-E3 la ausencia enruta a `REQUEST_RELEASE_APPROVAL`, CONTINUE solo con mismo digest probado y aprobación independiente, y el adverso a `DENY_PROMOTION`, sin rellenar evidencia en CI/CD y seguridad de la cadena de suministro.",
+      "concepts_used": [
+        "mismo",
+        "digest",
+        "probado",
+        "aprobación",
+        "independiente"
+      ],
+      "confidence": 0.786
+    },
+    {
+      "exercise_id": "S44-T3-B-E1",
+      "code": "# Explorer · S44-T3-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 0.004, 'max_error_rate': 0.01, 'rollback_tested': True, 'rollback_seconds': 75, 'rto_seconds': 120}\nmeets_contract = not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_RELEASE\"\nprint(\"S44-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «migrations, canary/blue-green y rollback» («Migraciones preceden tráfico solo si son compatibles; canary mide señal y rollback restaura código/config/datos con criterio temporal.»), el contrato de S44-T3-B-E1 exige demostrar migración compatible, canary bajo umbral y rollback dentro de RTO. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `ROLLBACK_RELEASE`.",
+      "concepts_used": [
+        "migración",
+        "compatible",
+        "canary",
+        "bajo",
+        "umbral",
+        "rollback",
+        "dentro",
+        "RTO"
+      ],
+      "confidence": 0.844
+    },
+    {
+      "exercise_id": "S44-T3-B-E2",
+      "code": "# Explorer · S44-T3-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'migration_compatible', 'canary_error_rate', 'max_error_rate', 'rollback_tested', 'rollback_seconds', 'rto_seconds'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])) else \"ROLLBACK_RELEASE\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 0.004, 'max_error_rate': 0.01, 'rollback_tested': True, 'rollback_seconds': 75, 'rto_seconds': 120}\ninvalid = {\"case_id\": 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 0.004, 'max_error_rate': 0.01, 'rollback_tested': False, 'rollback_seconds': 75, 'rto_seconds': 120}\nincomplete = {\"case_id\": 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 0.004, 'max_error_rate': 0.01, 'rollback_tested': True, 'rollback_seconds': 75}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «migrations, canary/blue-green y rollback» el paquete pide tres rutas; la teoría subraya: «Migraciones preceden tráfico solo si son compatibles; canary mide señal y rollback restaura código/config/datos con criterio temporal.». Para S44-T3-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple migración compatible, canary bajo umbral y rollback dentro de RTO, y `ROLLBACK_RELEASE` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "migración",
+        "compatible",
+        "canary",
+        "bajo",
+        "umbral",
+        "rollback",
+        "dentro",
+        "RTO"
+      ],
+      "confidence": 0.898
+    },
+    {
+      "exercise_id": "S44-T3-B-E3",
+      "code": "# Explorer · S44-T3-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'migration_compatible', 'canary_error_rate', 'max_error_rate', 'rollback_tested', 'rollback_seconds', 'rto_seconds'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"PAUSE_CANARY\"\n    return \"CONTINUE\" if (not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])) else \"ROLLBACK_RELEASE\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 0.004, 'max_error_rate': 0.01, 'rollback_tested': True, 'rollback_seconds': 75, 'rto_seconds': 120}\ninvalid = {\"case_id\": 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 0.004, 'max_error_rate': 0.01, 'rollback_tested': False, 'rollback_seconds': 75, 'rto_seconds': 120}\nincomplete = {\"case_id\": 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 0.004, 'max_error_rate': 0.01, 'rollback_tested': True, 'rollback_seconds': 75}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «migrations, canary/blue-green y rollback» («Migraciones preceden tráfico solo si son compatibles; canary mide señal y rollback restaura código/config/datos con criterio temporal.») separa incertidumbre de breach. En S44-T3-B-E3 la ausencia enruta a `PAUSE_CANARY`, CONTINUE solo con migración compatible, canary bajo umbral y rollback dentro de RTO, y el adverso a `ROLLBACK_RELEASE`, sin rellenar evidencia en CI/CD y seguridad de la cadena de suministro.",
+      "concepts_used": [
+        "migración",
+        "compatible",
+        "canary",
+        "bajo",
+        "umbral",
+        "rollback",
+        "dentro",
+        "RTO"
+      ],
+      "confidence": 0.738
+    },
+    {
+      "exercise_id": "S44-T4-A-E1",
+      "code": "# Explorer · S44-T4-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PIU-044-4A', 'protected_branch': True, 'required_reviews': 2, 'required_checks': True, 'release_notes': {'change', 'migration', 'risk', 'rollback'}}\nmeets_contract = not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNREVIEWED_RELEASE\"\nprint(\"S44-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «branch/review policy y release notes» («Branch protection exige checks/review y release notes explican cambio, riesgo, migración y reversión para operadores.»), el contrato de S44-T4-A-E1 exige demostrar branch protegida, review/checks y notas operables. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `BLOCK_UNREVIEWED_RELEASE`.",
+      "concepts_used": [
+        "branch",
+        "protegida",
+        "review",
+        "checks",
+        "notas",
+        "operables"
+      ],
+      "confidence": 0.771
+    },
+    {
+      "exercise_id": "S44-T4-A-E2",
+      "code": "# Explorer · S44-T4-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'protected_branch', 'required_reviews', 'required_checks', 'release_notes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)) else \"BLOCK_UNREVIEWED_RELEASE\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-4A', 'protected_branch': True, 'required_reviews': 2, 'required_checks': True, 'release_notes': {'change', 'migration', 'risk', 'rollback'}}\ninvalid = {\"case_id\": 'CASO-PIU-044-4A', 'protected_branch': False, 'required_reviews': 2, 'required_checks': True, 'release_notes': {'change', 'migration', 'risk', 'rollback'}}\nincomplete = {\"case_id\": 'CASO-PIU-044-4A', 'protected_branch': True, 'required_reviews': 2, 'required_checks': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «branch/review policy y release notes» el paquete pide tres rutas; la teoría subraya: «Branch protection exige checks/review y release notes explican cambio, riesgo, migración y reversión para operadores.». Para S44-T4-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple branch protegida, review/checks y notas operables, y `BLOCK_UNREVIEWED_RELEASE` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "branch",
+        "protegida",
+        "review",
+        "checks",
+        "notas",
+        "operables"
+      ],
+      "confidence": 0.728
+    },
+    {
+      "exercise_id": "S44-T4-A-E3",
+      "code": "# Explorer · S44-T4-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'protected_branch', 'required_reviews', 'required_checks', 'release_notes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"COMPLETE_RELEASE_NOTES\"\n    return \"CONTINUE\" if (not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)) else \"BLOCK_UNREVIEWED_RELEASE\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-4A', 'protected_branch': True, 'required_reviews': 2, 'required_checks': True, 'release_notes': {'change', 'migration', 'risk', 'rollback'}}\ninvalid = {\"case_id\": 'CASO-PIU-044-4A', 'protected_branch': False, 'required_reviews': 2, 'required_checks': True, 'release_notes': {'change', 'migration', 'risk', 'rollback'}}\nincomplete = {\"case_id\": 'CASO-PIU-044-4A', 'protected_branch': True, 'required_reviews': 2, 'required_checks': True}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «branch/review policy y release notes» («Branch protection exige checks/review y release notes explican cambio, riesgo, migración y reversión para operadores.») separa incertidumbre de breach. En S44-T4-A-E3 la ausencia enruta a `COMPLETE_RELEASE_NOTES`, CONTINUE solo con branch protegida, review/checks y notas operables, y el adverso a `BLOCK_UNREVIEWED_RELEASE`, sin rellenar evidencia en CI/CD y seguridad de la cadena de suministro.",
+      "concepts_used": [
+        "branch",
+        "protegida",
+        "review",
+        "checks",
+        "notas",
+        "operables"
+      ],
+      "confidence": 0.793
+    },
+    {
+      "exercise_id": "S44-T4-B-E1",
+      "code": "# Explorer · S44-T4-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-PIU-044-4B', 'critical_failure': True, 'pipeline_blocked': True, 'logs_redacted': True, 'owner': 'release', 'evidence_retained': True}\nmeets_contract = not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])\nstatus = \"PASS\" if meets_contract else \"STOP_SILENT_FAILURE\"\nprint(\"S44-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «failure handling y evidencia auditable» («Un fallo conserva logs redactados, clasificación, dueño y decisión; el pipeline no convierte `continue-on-error` en aprobación silenciosa.»), el contrato de S44-T4-B-E1 exige demostrar fallo crítico bloquea con logs redactados y dueño. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `STOP_SILENT_FAILURE`.",
+      "concepts_used": [
+        "fallo",
+        "crítico",
+        "bloquea",
+        "con",
+        "logs",
+        "redactados",
+        "dueño"
+      ],
+      "confidence": 0.827
+    },
+    {
+      "exercise_id": "S44-T4-B-E2",
+      "code": "# Explorer · S44-T4-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'critical_failure', 'pipeline_blocked', 'logs_redacted', 'owner', 'evidence_retained'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])) else \"STOP_SILENT_FAILURE\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-4B', 'critical_failure': True, 'pipeline_blocked': True, 'logs_redacted': True, 'owner': 'release', 'evidence_retained': True}\ninvalid = {\"case_id\": 'CASO-PIU-044-4B', 'critical_failure': True, 'pipeline_blocked': False, 'logs_redacted': True, 'owner': 'release', 'evidence_retained': True}\nincomplete = {\"case_id\": 'CASO-PIU-044-4B', 'critical_failure': True, 'pipeline_blocked': True, 'logs_redacted': True, 'owner': 'release'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «failure handling y evidencia auditable» el paquete pide tres rutas; la teoría subraya: «Un fallo conserva logs redactados, clasificación, dueño y decisión; el pipeline no convierte `continue-on-error` en aprobación silenciosa.». Para S44-T4-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple fallo crítico bloquea con logs redactados y dueño, y `STOP_SILENT_FAILURE` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "fallo",
+        "crítico",
+        "bloquea",
+        "con",
+        "logs",
+        "redactados",
+        "dueño"
+      ],
+      "confidence": 0.786
+    },
+    {
+      "exercise_id": "S44-T4-B-E3",
+      "code": "# Explorer · S44-T4-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'critical_failure', 'pipeline_blocked', 'logs_redacted', 'owner', 'evidence_retained'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ASSIGN_INCIDENT_OWNER\"\n    return \"CONTINUE\" if (not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])) else \"STOP_SILENT_FAILURE\"\n\nvalid = {\"case_id\": 'CASO-PIU-044-4B', 'critical_failure': True, 'pipeline_blocked': True, 'logs_redacted': True, 'owner': 'release', 'evidence_retained': True}\ninvalid = {\"case_id\": 'CASO-PIU-044-4B', 'critical_failure': True, 'pipeline_blocked': False, 'logs_redacted': True, 'owner': 'release', 'evidence_retained': True}\nincomplete = {\"case_id\": 'CASO-PIU-044-4B', 'critical_failure': True, 'pipeline_blocked': True, 'logs_redacted': True, 'owner': 'release'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «failure handling y evidencia auditable» («Un fallo conserva logs redactados, clasificación, dueño y decisión; el pipeline no convierte `continue-on-error` en aprobación silenciosa.») separa incertidumbre de breach. En S44-T4-B-E3 la ausencia enruta a `ASSIGN_INCIDENT_OWNER`, CONTINUE solo con fallo crítico bloquea con logs redactados y dueño, y el adverso a `STOP_SILENT_FAILURE`, sin rellenar evidencia en CI/CD y seguridad de la cadena de suministro.",
+      "concepts_used": [
+        "fallo",
+        "crítico",
+        "bloquea",
+        "con",
+        "logs",
+        "redactados",
+        "dueño"
+      ],
+      "confidence": 0.892
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Q0: elijo «lint/types/tests y matriz soportada en verde» anclado en «lint/types/tests y matrices» («CI ejecuta checks rápidos antes de costosos, usa matrices solo para combinaciones soportadas y conse»), frente a «¿Qué evidencia permite aprobar `lint/types/tests y matrices` en CASO-PIU-044?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.889,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Q1: elijo «emitir STOP_PIPELINE y conservar evidencia» anclado en «caches, artifacts y condiciones» («Caches son optimización no fuente de verdad; artifacts llevan digest/retención y condiciones de work»), frente a «Si ocurre la condición de error de S44, ¿qué respuesta preserva seguridad y auditabilidad?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.897,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Q2: elijo «el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging» anclado en «permisos mínimos, pinning y secret scanning» («Tokens de CI empiezan read-only, acciones se fijan por commit y secret scanning bloquea exposición; »), frente a «¿Cuál resultado demuestra el gate `CP-N4-B · cadena de suministro verificable`?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.778,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Q3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» anclado en «SBOM, provenance y attestations» («SBOM enumera componentes; provenance enlaza fuente/build/artefacto y una attestation firmada permite»), frente a «¿Qué tratamiento de `CASO-PIU-044` respeta el alcance del curso?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.782,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:45:45.254062+00:00",
+  "session_started_at": "2026-07-23T16:48:32.538705+00:00",
+  "session_ended_at": "2026-07-23T16:49:01.197826+00:00",
+  "receipt_response_sha256": "2968780c35feb6713cb943d6ca3b057b6c306bf99c01025c6112ba230dfd7fae",
+  "receipt_exercises_sha256": "c66f251de1fdb50c510812e81d2ff7558ded3da5a9ce0d3d2abca168386a1bc5",
+  "receipt_selfcheck_sha256": "da000f82e0a53fa97907c7b62636e66349a2cc9c799de56d6e5f187030249393"
+}

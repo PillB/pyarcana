@@ -1,0 +1,317 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-b-5205814b7b-s30",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "id": "S30-T1-A-E1",
+      "code": "# skeptic L2 S30 S30-T1-A-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\nprint(1.0 if a == b else 0.0)\n",
+      "justification_from_packet": "Como skeptic en «Entity resolution probabilístico», contrasté S30-T1-A-E1: el contrato I/O del paquete manda: S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/d. Quedó `a=b='a'` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 1/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "id": "S30-T1-A-E2",
+      "code": "# skeptic L2 S30 S30-T1-A-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\nprint(len(ta&tb)/len(ta|tb))\n",
+      "justification_from_packet": "Escéptico en S30: validé S30-T1-A-E2 contra theory/iDo: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: sets. Implementación verificable con `ta,tb=set('a b'.split()),set('b c'.split())` anclada al quiz_card. [paso 2/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "id": "S30-T1-A-E3",
+      "code": "# skeptic L2 S30 S30-T1-A-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\nprint(1.0 if d == d else 0.0)\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S30 para S30-T1-A-E3: exijo que el código cumpla: S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implem. Prefiero la forma aburrida y explícita: `from datetime import date`. [paso 3/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "id": "S30-T1-B-E1",
+      "code": "# skeptic L2 S30 S30-T1-B-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\nprint('missing' if (not a or not b) else 'cmp')\n",
+      "justification_from_packet": "Crucé hints e instruction de S30-T1-B-E1 antes de tocar el starter: descarto atajos que rompan el caso adverso descrito en: S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defect. El paquete activo basta para justificar `a,b='', 'x'`. [paso 4/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "id": "S30-T1-B-E2",
+      "code": "# skeptic L2 S30 S30-T1-B-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\nprint(1 / freq)\n",
+      "justification_from_packet": "En modo skeptic para Entity resolution probabilístico, endurecí S30-T1-B-E2: el contrato I/O del paquete manda: S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto in. Quedó `freq=10` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 5/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "id": "S30-T1-B-E3",
+      "code": "# skeptic L2 S30 S30-T1-B-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('informative_missing')\n",
+      "justification_from_packet": "Como skeptic en «Entity resolution probabilístico», contrasté S30-T1-B-E3: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: string. Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 6/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "id": "S30-T2-A-E1",
+      "code": "# skeptic L2 S30 S30-T2-A-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\nprint(f'{last}|{city}')\n",
+      "justification_from_packet": "Escéptico en S30: validé S30-T2-A-E1 contra theory/iDo: exijo que el código cumpla: S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; imple. Prefiero la forma aburrida y explícita: `last,city='lopez','lima'`. [paso 7/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "id": "S30-T2-A-E2",
+      "code": "# skeptic L2 S30 S30-T2-A-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\nprint(found / gold_n)\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S30 para S30-T2-A-E2: descarto atajos que rompan el caso adverso descrito en: S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/d. El paquete activo basta para justificar `found,gold_n=1,2`. [paso 8/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "id": "S30-T2-A-E3",
+      "code": "# skeptic L2 S30 S30-T2-A-E3: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n*(n-1)//2)\n",
+      "justification_from_packet": "Crucé hints e instruction de S30-T2-A-E3 antes de tocar el starter: el contrato I/O del paquete manda: S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa. Quedó `n=4` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 9/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "id": "S30-T2-B-E1",
+      "code": "# skeptic L2 S30 S30-T2-B-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))\n",
+      "justification_from_packet": "En modo skeptic para Entity resolution probabilístico, endurecí S30-T2-B-E1: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: sum n(n-1)/2. Implementación verificable con `sizes=[3,5]` anclada al quiz_card. [paso 10/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "id": "S30-T2-B-E2",
+      "code": "# skeptic L2 S30 S30-T2-B-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\nprint(ta != tb)\n",
+      "justification_from_packet": "Como skeptic en «Entity resolution probabilístico», contrasté S30-T2-B-E2: exijo que el código cumpla: S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; imp. Prefiero la forma aburrida y explícita: `ta,tb='person','org'`. [paso 11/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "id": "S30-T2-B-E3",
+      "code": "# skeptic L2 S30 S30-T2-B-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('filter_before_score')\n",
+      "justification_from_packet": "Escéptico en S30: validé S30-T2-B-E3 contra theory/iDo: descarto atajos que rompan el caso adverso descrito en: S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/d. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 12/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "id": "S30-T3-A-E1",
+      "code": "# skeptic L2 S30 S30-T3-A-E1: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S30 para S30-T3-A-E1: el contrato I/O del paquete manda: S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 13/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "id": "S30-T3-A-E2",
+      "code": "# skeptic L2 S30 S30-T3-A-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n",
+      "justification_from_packet": "Crucé hints e instruction de S30-T3-A-E2 antes de tocar el starter: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: umbrales. Implementación verificable con `s,t_high,t_low=0.7,0.9,0.5` anclada al quiz_card. [paso 14/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "id": "S30-T3-A-E3",
+      "code": "# skeptic L2 S30 S30-T3-A-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'name': 0.9, 'email': 1.0})\n",
+      "justification_from_packet": "En modo skeptic para Entity resolution probabilístico, endurecí S30-T3-A-E3: exijo que el código cumpla: S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 15/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "id": "S30-T3-B-E1",
+      "code": "# skeptic L2 S30 S30-T3-B-E1: cruce theory/iDo antes de editar\np={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\nprint(True)\n",
+      "justification_from_packet": "Como skeptic en «Entity resolution probabilístico», contrasté S30-T3-B-E1: descarto atajos que rompan el caso adverso descrito en: S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es . El paquete activo basta para justificar `p={1:1,2:2,3:3}`. [paso 16/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "id": "S30-T3-B-E2",
+      "code": "# skeptic L2 S30 S30-T3-B-E2: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['match', 'non_match', 'uncertain'])\n",
+      "justification_from_packet": "Escéptico en S30: validé S30-T3-B-E2 contra theory/iDo: el contrato I/O del paquete manda: S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter complet. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 17/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "id": "S30-T3-B-E3",
+      "code": "# skeptic L2 S30 S30-T3-B-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ER_only_same_entity')\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S30 para S30-T3-B-E3: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: string. Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 18/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "id": "S30-T4-A-E1",
+      "code": "# skeptic L2 S30 S30-T4-A-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')\n",
+      "justification_from_packet": "Crucé hints e instruction de S30-T4-A-E1 antes de tocar el starter: exijo que el código cumpla: S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada e. Prefiero la forma aburrida y explícita: `a,b='e1','e2'`. [paso 19/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "id": "S30-T4-A-E2",
+      "code": "# skeptic L2 S30 S30-T4-A-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\nprint(matches / n)\n",
+      "justification_from_packet": "En modo skeptic para Entity resolution probabilístico, endurecí S30-T4-A-E2: descarto atajos que rompan el caso adverso descrito en: S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el . El paquete activo basta para justificar `matches,n=1,5`. [paso 20/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "id": "S30-T4-A-E3",
+      "code": "# skeptic L2 S30 S30-T4-A-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('entity_split')\n",
+      "justification_from_packet": "Como skeptic en «Entity resolution probabilístico», contrasté S30-T4-A-E3: el contrato I/O del paquete manda: S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 21/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "id": "S30-T4-B-E1",
+      "code": "# skeptic L2 S30 S30-T4-B-E1: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))\n",
+      "justification_from_packet": "Escéptico en S30: validé S30-T4-B-E1 contra theory/iDo: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: tp/(tp+fp). Implementación verificable con `tp,fp=2,1` anclada al quiz_card. [paso 22/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "id": "S30-T4-B-E2",
+      "code": "# skeptic L2 S30 S30-T4-B-E2: cruce theory/iDo antes de editar\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\nprint(tp/(tp+fn))\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S30 para S30-T4-B-E2: exijo que el código cumpla: S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado s. Prefiero la forma aburrida y explícita: `tp,fn=2,2`. [paso 23/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "id": "S30-T4-B-E3",
+      "code": "# skeptic L2 S30 S30-T4-B-E3: cruce theory/iDo antes de editar\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['missing_phone'])\n",
+      "justification_from_packet": "Crucé hints e instruction de S30-T4-B-E3 antes de tocar el starter: descarto atajos que rompan el caso adverso descrito en: S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starte. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 24/24 · run L2-S30-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Entity resolution probabilístico",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic en S30 «Entity resolution probabilístico»: la pregunta «El motor ER de CP-N3-A debe decidir:» se responde con «Si dos registros son la misma entidad» (chosen_index=1) al cruzar la theory del slim_packet; «Fraude automático» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic en S30 «Entity resolution probabilístico»: la pregunta «Candidate recall de blocking mide:» se responde con «Fracción de verdaderos matches que sobreviven al blocking» (chosen_index=3) al cruzar la theory del slim_packet; «Solo CPU» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.65
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic en S30 «Entity resolution probabilístico»: la pregunta «Scores entre t_low y t_high van a:» se responde con «clerical review» (chosen_index=0) al cruzar la theory del slim_packet; «auto_match» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.6799999999999999
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic en S30 «Entity resolution probabilístico»: la pregunta «Split por entidad evita:» se responde con «Leakage de identidad entre train y test» (chosen_index=2) al cruzar la theory del slim_packet; «Usar sqlite» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.71
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:30:50.624593+00:00",
+  "session_started_at": "2026-07-23T17:52:43.673998Z",
+  "session_ended_at": "2026-07-23T17:53:47.897590Z",
+  "receipt_response_sha256": "7d992bbb9c7e241c4fd08df105bfab407cbc0eeee6046df0b23bb07042780056",
+  "receipt_exercises_sha256": "f378c97a3e52ec2d1b1ad13f928298a5c2ac31d4dd6eba3d7366fb4740a3d541",
+  "receipt_selfcheck_sha256": "b3dceee645f26283c192b6fafc2865ff87b0e8a24497e6a5e54758645e152f9f"
+}

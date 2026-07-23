@@ -1,0 +1,486 @@
+{
+  "S19-T2-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.use(\"Agg\"); def meta_bar(labels, values):. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `{'n_bars': 2, 'ylim0': np.float64(0.0)}`.",
+    "starter": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "len(values).",
+      "set_ylim(0, max*1.2)."
+    ]
+  },
+  "S19-T2-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.use(\"Agg\"); fig, axes = plt.subplots(1, 2). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['Vol', 'Med']`.",
+    "starter": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "ax.get_title().",
+      "close fig."
+    ]
+  },
+  "S19-T3-A-E1": {
+    "instruction": "E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]; print(next(r for r in rows if r[\"region\"] . Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `28`.",
+    "starter": "rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "list comp o next.",
+      "print valor."
+    ]
+  },
+  "S19-T3-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row):; return f\"{row['region']}: {row['median']} PEN (n={row['n']})\". Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `Cusco: 22.5 PEN (n=32)`.",
+    "starter": "def tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "Incluye unidad PEN.",
+      "Función pura."
+    ]
+  },
+  "S19-T3-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]; print(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `Lima=28 PEN; Cusco=22 PEN`.",
+    "starter": "table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "join.",
+      "Incluye PEN."
+    ]
+  },
+  "S19-T4-A-E2": {
+    "instruction": "E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintéticos: cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}; print(set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"}). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+    "starter": "cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "set de keys.",
+      "issuperset."
+    ]
+  },
+  "S19-T4-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(cap):; return \" | \".join(f\"{k}: {v}\" for k, v in cap.items()). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `unidad: PEN | n: 10`.",
+    "starter": "def pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "join items.",
+      "orden de inserción dict."
+    ]
+  },
+  "S19-T4-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: def classify_claim(text):; return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\". Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `PERMITIDO | RECHAZADO`.",
+    "starter": "def classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "Función binaria simple didáctica.",
+      "Dos prints."
+    ]
+  },
+  "S20-T1-A-E1": {
+    "instruction": "E1 (guiado) — Concepto: crear hoja y celda de encabezado. Fixture `S20-T1-A-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['Entrada'] | region`.",
+    "starter": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "ws.title y ws['A1'].",
+      "from openpyxl import Workbook."
+    ]
+  },
+  "S20-T1-A-E2": {
+    "instruction": "E2 (independiente) — Concepto: append de filas de datos. Fixture `S20-T1-A-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `2`.",
+    "starter": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "ws.append.",
+      "max_row incluye header."
+    ]
+  },
+  "S20-T1-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: múltiples sheetnames estables. Fixture `S20-T1-A-E3` / datos sintéticos: wb = Workbook(); wb.active.title = \"Datos\". Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['Datos', 'Salida']`.",
+    "starter": "from openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "create_sheet.",
+      "Renombra active primero."
+    ]
+  },
+  "S20-T1-B-E1": {
+    "instruction": "E1 (guiado) — Concepto: escribir fórmula en celda. Fixture `S20-T1-B-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+    "starter": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A3\"] = \"=A1+A2\"\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "cell value string.",
+      "True esperado."
+    ]
+  },
+  "S20-T1-B-E2": {
+    "instruction": "E2 (independiente) — Concepto: materializar valor vs fórmula. Fixture `S20-T1-B-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `7`.",
+    "starter": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 3\nws[\"A2\"] = 4\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "Suma .value numéricos.",
+      "No uses data_only aquí."
+    ]
+  },
+  "S20-T1-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: detectar celda con prefijo =. Fixture `S20-T1-B-E3` / datos sintéticos: def es_formula(v):; return isinstance(v, str) and v.startswith(\"=\"). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True | False`.",
+    "starter": "def es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\nprint(es_formula(\"=A1\"))\nprint(es_formula(3))\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "isinstance str.",
+      "Dos prints."
+    ]
+  },
+  "S20-T2-A-E1": {
+    "instruction": "E1 (guiado) — Concepto: aplicar estilo de fuente a header. Fixture `S20-T2-A-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+    "starter": "from openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"KPI\"\nws[\"A1\"].font = Font(bold=True)\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "Font(bold=True).",
+      "openpyxl.styles."
+    ]
+  },
+  "S20-T2-A-E2": {
+    "instruction": "E2 (independiente) — Concepto: freeze_panes o dimensión de print. Fixture `S20-T2-A-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+    "starter": "from openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "PatternFill.",
+      "print True."
+    ]
+  },
+  "S20-T2-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: plantilla con hoja fija de catálogo. Fixture `S20-T2-A-E3` / datos sintéticos: def header_style(ws, coord):; c = ws[coord]. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+    "starter": "from openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "Función mutadora.",
+      "Color corporativo."
+    ]
+  },
+  "S20-T2-B-E1": {
+    "instruction": "E1 (guiado) — Concepto: fecha ISO en celda de metadata. Fixture `S20-T2-B-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `2024-01-15`.",
+    "starter": "from openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "datetime.date.",
+      "value.isoformat()."
+    ]
+  },
+  "S20-T2-B-E2": {
+    "instruction": "E2 (independiente) — Concepto: evitar merge en rango de datos. Fixture `S20-T2-B-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `None`.",
+    "starter": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "merge_cells.",
+      "Leer no ancla."
+    ]
+  },
+  "S20-T2-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: protección / flag writable. Fixture `S20-T2-B-E3` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `2`.",
+    "starter": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "len(ws.merged_cells.ranges).",
+      "Dos merges."
+    ]
+  },
+  "S20-T3-A-E2": {
+    "instruction": "E2 (independiente) — Concepto: conteo n filas de datos. Fixture `S20-T3-A-E2` / datos sintéticos: df = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]}); print(df.groupby(\"region\")[\"monto\"]. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `{'Cusco': 7.0, 'Lima': 15.0}`.",
+    "starter": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "groupby sum.",
+      "to_dict."
+    ]
+  },
+  "S20-T3-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: pivot materializado región→suma. Fixture `S20-T3-A-E3` / datos sintéticos: def reconcile(det_sum, portada, tol=0.01):; return abs(det_sum - portada) < tol. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True | False`.",
+    "starter": "def reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\nprint(reconcile(22.0, 22.005))\nprint(reconcile(22.0, 23.0))\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "abs <= tol o <.",
+      "Dos prints."
+    ]
+  },
+  "S20-T3-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: preservar hoja de catálogo. Fixture `S20-T3-B-E3` / datos sintéticos: def validate_rows(rows, allowed):; return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['Ica']`.",
+    "starter": "def validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]\nprint(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Ica\"}], {\"Lima\", \"Cusco\"}))\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "Comprensión.",
+      "print resultado."
+    ]
+  },
+  "S20-T4-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: resumen JSON de corrida batch. Fixture `S20-T4-A-E3` / datos sintéticos: files = {\"a\": \"ok\", \"b\": \"corrupt\"}; print(dict(Counter(files.values()))). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `{'ok': 1, 'corrupt': 1}`.",
+    "starter": "from collections import Counter\nfiles = {\"a\": \"ok\", \"b\": \"corrupt\"}\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "Counter o dict.",
+      "print dict."
+    ]
+  },
+  "S20-T4-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: structural_ok need ⊆ sheets. Fixture `S20-T4-B-E3` / datos sintéticos: def structural_ok(sheetnames, need):; return set(sheetnames) >= set(need). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+    "starter": "def structural_ok(sheetnames, need):\n    return set(sheetnames) >= set(need)\nprint(structural_ok([\"Entrada\", \"Salida\", \"Log\"], [\"Entrada\", \"Salida\"]))\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "set issuperset.",
+      "print."
+    ]
+  },
+  "S21-T1-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: for de filas region:value. Fixture `S21-T1-B-E3` / datos sintéticos: tmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}\\\\n{% endfor %}\"); print(tmpl.render(rows=[{\"region\": \"Lima\". Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `Lima:1 | Cusco:2`.",
+    "starter": "from jinja2 import Template\ntmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}\\\\n{% endfor %}\")\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "Template for.",
+      "Dos regiones."
+    ]
+  },
+  "S21-T2-A-E1": {
+    "instruction": "E1 (guiado) — Concepto: DOCX con heading y n=. Fixture `S21-T2-A-E1` / datos sintéticos: path = Path(\"informe.docx\"); doc = Document(). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True True | True True`.",
+    "starter": "from pathlib import Path\nfrom docx import Document\n\npath = Path(\"informe.docx\")\ndoc = Document()\ndoc.add_heading(\"Informe sintético\", 0)\ndoc.add_heading(\"Resumen\", 1)\ndoc.add_paragraph(\"Muestra reconciliada: n=40\")\ndoc.save(path)\nopened = Document(path)\ntext = \" | \".join(p.text for p in opened.paragraphs if p.text)\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "La firma de un DOCX comienza con bytes PK porque es un paquete ZIP.",
+      "Extrae `p.text` de los párrafos no vacíos del documento reabierto."
+    ]
+  },
+  "S21-T2-A-E2": {
+    "instruction": "E2 (independiente) — Concepto: conteo de estilos Heading. Fixture `S21-T2-A-E2` / datos sintéticos: levels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]; doc = Document(). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `2 | ['Heading 1', 'Heading 2', 'Heading 1']`.",
+    "starter": "from docx import Document\n\nlevels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]\ndoc = Document()\nfor text, level in levels:\n    doc.add_heading(text, level)\ndoc.save(\"estructura.docx\")\nopened = Document(\"estructura.docx\")\nstyles = [p.style.name for p in opened.paragraphs if p.text]\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "Filtra exactamente `Heading 1` y conserva también la jerarquía completa.",
+      "La evidencia debe provenir del archivo guardado, no del input original."
+    ]
+  },
+  "S21-T2-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: extracción de texto al reabrir. Fixture `S21-T2-A-E3` / datos sintéticos: metrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\")]; doc = Document(). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['Ticket mediano', '28.0'] | ['Reclamos', '—'] True`.",
+    "starter": "from docx import Document\n\nmetrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\")]\ndoc = Document()\ndoc.add_heading(\"Auditoría\", 1)\ntable = doc.add_table(rows=1, cols=2)\ntable.rows[0].cells[0].text = \"Métrica\"\ntable.rows[0].cells[1].text = \"Valor\"\nfor name, value in metrics:\n    cells = table.add_row().cells\n    cells[0].text, cells[1].text = name, value\ndoc.save(\"auditoria.docx\")\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "La tabla debe contener columnas métrica y valor.",
+      "Representa el dato faltante como em dash, no como 0."
+    ]
+  },
+  "S21-T2-B-E1": {
+    "instruction": "E1 (guiado) — Concepto: PDF digital con texto extraíble. Fixture `S21-T2-B-E1` / datos sintéticos: path = Path(\"digital.pdf\"); c = canvas.Canvas(str(path)). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True | True`.",
+    "starter": "from pathlib import Path\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npath = Path(\"digital.pdf\")\nc = canvas.Canvas(str(path))\nc.drawString(72, 760, \"Resumen sintetico n=40\")\nc.save()\ntext = PdfReader(path).pages[0].extract_text() or \"\"\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "Comprueba primero los bytes `%PDF`.",
+      "No declares digital sin extraer texto del archivo."
+    ]
+  },
+  "S21-T2-B-E2": {
+    "instruction": "E2 (independiente) — Concepto: render página a PNG. Fixture `S21-T2-B-E2` / datos sintéticos: pdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\"); c = canvas.Canvas(str(pdf)). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True True`.",
+    "starter": "from pathlib import Path\nimport fitz\nfrom reportlab.pdfgen import canvas\n\npdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\")\nc = canvas.Canvas(str(pdf))\nc.drawString(72, 760, \"Hallazgo H1\")\nc.save()\ndocument = fitz.open(pdf)\ndocument[0].get_pixmap().save(png)\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "Cierra o conserva el documento mientras accedes a la página.",
+      "Verifica tamaño positivo, no solo el nombre del archivo."
+    ]
+  },
+  "S21-T2-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: PDF imagen-only → needs_ocr. Fixture `S21-T2-B-E3` / datos sintéticos: png, pdf = Path(\"scan.png\"), Path(\"scan.pdf\"); image = Image.new(\"RGB\", (500, 120), \"white\"). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True True | {'needs_ocr': True, 'n_chars': 0}`.",
+    "starter": "from pathlib import Path\nfrom PIL import Image, ImageDraw\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npng, pdf = Path(\"scan.png\"), Path(\"scan.pdf\")\nimage = Image.new(\"RGB\", (500, 120), \"white\")\nImageDraw.Draw(image).text((20, 40), \"Documento sintetico n=17\", fill=\"black\")\nimage.save(png)\nc = canvas.Canvas(str(pdf), pagesize=(500, 120))\nc.drawImage(str(png), 0, 0, width=500, height=120)\nc.save()\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "No agregues texto con drawString al PDF: eso crearía capa digital.",
+      "Normaliza `extract_text() or ''` antes de strip()."
+    ]
+  },
+  "S21-T3-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: pack_report tres claves. Fixture `S21-T3-A-E3` / datos sintéticos: def pack_report(resumen, metodo, hallazgos):; return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['hallazgos', 'metodo', 'resumen']`.",
+    "starter": "def pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\nprint(sorted(pack_report([\"a\"], {}, []).keys()))\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "dict function.",
+      "print."
+    ]
+  },
+  "S21-T3-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: checksum de métricas entre artefactos. Fixture `S21-T3-B-E3` / datos sintéticos: def check_parity(a, b, c):; return a == b == c. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True | False`.",
+    "starter": "def check_parity(a, b, c):\n    return a == b == c\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 1}))\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 2}))\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "a==b==c.",
+      "Dos prints."
+    ]
+  },
+  "S21-T4-A-E2": {
+    "instruction": "E2 (independiente) — Concepto: checklist a11y headings/alt. Fixture `S21-T4-A-E2` / datos sintéticos: def fmt_pen(x):; return f\"{round(float(x), 1)} PEN\". Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `28.0 PEN`.",
+    "starter": "def fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\nprint(fmt_pen(28.04))\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "f-string round 1.",
+      "print."
+    ]
+  },
+  "S21-T4-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: precisión decimal consistente. Fixture `S21-T4-A-E3` / datos sintéticos: def a11y_min(has_h1, alts):; return has_h1 and all(len(a) > 10 for a in alts). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True | False`.",
+    "starter": "def a11y_min(has_h1, alts):\n    return has_h1 and all(len(a) > 10 for a in alts)\nprint(a11y_min(True, [\"descripcion larga de figura\"]))\nprint(a11y_min(True, [\"corto\"]))\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "all().",
+      "print."
+    ]
+  },
+  "S21-T4-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: ready(checklist) de paquete. Fixture `S21-T4-B-E3` / datos sintéticos: def ready(checklist):; return all(checklist.values()). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True | False`.",
+    "starter": "def ready(checklist):\n    return all(checklist.values())\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))\nprint(ready({\"dashboard\": True, \"xlsx\": False, \"doc\": True}))\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "all(dict.values()).",
+      "print."
+    ]
+  },
+  "S22-T1-A-E1": {
+    "instruction": "E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola', 'plain', 'utf-8'); print(msg.get_content_type()). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `text/plain | utf-8`.",
+    "starter": "from email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "from email.mime.text import MIMEText",
+      "print(msg['Content-Type']) o as_string."
+    ]
+  },
+  "S22-T1-A-E2": {
+    "instruction": "E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg = MIMEMultipart('mixed'); msg['Subject'] = 'Test'. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+    "starter": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt['Content-Disposition'] = 'attachment; filename=\"a.txt\"'\nmsg.attach(att)\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "MIMEMultipart + attach",
+      "Content-Disposition filename"
+    ]
+  },
+  "S22-T1-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = MIMEMultipart('mixed'); alt = MIMEMultipart('alternative'). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `4`.",
+    "starter": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "alternative dentro de mixed",
+      "alt.attach dos MIMEText"
+    ]
+  },
+  "S22-T1-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = ['https://example.pe/a', 'https://evil.test']; for u in urls:. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `https://example.pe/a ok | https://evil.test blocked`.",
+    "starter": "urls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "if 'example.pe' in url",
+      "lista de prueba"
+    ]
+  },
+  "S22-T2-A-E1": {
+    "instruction": "E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail.draft', 'mail.full']; allowed = {'mail.draft', 'mail.readonly'}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['mail.draft']`.",
+    "starter": "requested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "list comprehension",
+      "set membership"
+    ]
+  },
+  "S22-T2-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = datetime.now(timezone.utc); for exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `refresh | valid`.",
+    "starter": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "datetime.fromisoformat",
+      "compara con now UTC"
+    ]
+  },
+  "S22-T2-B-E2": {
+    "instruction": "E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datetime.now(timezone.utc); expires_at = now - timedelta(seconds=1). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `False`.",
+    "starter": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "timedelta",
+      "now < expires"
+    ]
+  },
+  "S22-T3-A-E1": {
+    "instruction": "E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\\\.[^@]+$'; for e in ('ana@example.pe', 'bad'):. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `ana@example.pe True | bad False`.",
+    "starter": "import re\npat = r'^[^@]+@[^@]+\\\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "re.match",
+      "bool del match"
+    ]
+  },
+  "S22-T3-A-E2": {
+    "instruction": "E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY = {'C001': 'ana@example.pe'}; em = DIRECTORY.get('C001'). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `verified`.",
+    "starter": "DIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "dict.get",
+      "split @"
+    ]
+  },
+  "S22-T3-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'; n = 0. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `0.86 match_no_es_fraude`.",
+    "starter": "a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "os.path common o loop",
+      "no uses el score como prueba de fraude"
+    ]
+  },
+  "S22-T3-B-E2": {
+    "instruction": "E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{'email': 'p@other.test', 'role': 'cc'}]; for r in rows:. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `bcc`.",
+    "starter": "rows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "endswith",
+      "mutar role"
+    ]
+  },
+  "S22-T3-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a@example.pe','to'),('b@other.test','cc')]; vis = []. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `1 ['a@example.pe']`.",
+    "starter": "rows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "filtrar roles",
+      "after policy"
+    ]
+  },
+  "S22-T4-A-E1": {
+    "instruction": "E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft': {'submit': 'pending'}}; state = 'draft'. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `pending`.",
+    "starter": "T = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "dict de dicts",
+      "TRANSITIONS[state][action]"
+    ]
+  },
+  "S22-T4-A-E2": {
+    "instruction": "E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}; state, action = 'draft', 'approve'. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `invalid`.",
+    "starter": "T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "try/except o .get",
+      "None check"
+    ]
+  },
+  "S22-T4-A-E3": {
+    "instruction": "E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []; log.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'}). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `[{'from': 'pending', 'to': 'approved', 'actor': 'rev1'}]`.",
+    "starter": "log = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "append dict",
+      "actor obligatorio"
+    ]
+  },
+  "S22-T4-B-E3": {
+    "instruction": "E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = []; store = {}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['create', 'retry_hit']`.",
+    "starter": "audit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\n# TODO: completa el contrato del ejercicio (ver instruction)\n",
+    "hints": [
+      "lista de event names",
+      "mismo key"
+    ]
+  },
+  "S23-T2-B-E1": {
+    "instruction": "Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prueba e imprime auth True. Contrato: clase con estado. Pass: True. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+    "starter": "class LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        # TODO: sandbox → auth True\n        pass\n\np = LoginPage()\np.submit('demo', 'sandbox')\nprint(p.auth)\n",
+    "hints": [
+      "contrato I/O en instruction",
+      "compara output con solution",
+      "datos sintéticos only"
+    ]
+  },
+  "S23-T3-B-E1": {
+    "instruction": "Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha, 429 e imprime tres líneas kind bool. Contrato: captcha no retry. Pass multi-línea de solution.",
+    "starter": "def should_retry(k):\n    # TODO: True solo timeout y 429\n    pass\n\nfor k in ['timeout','captcha','429']:\n    print(k, should_retry(k))\n",
+    "hints": [
+      "contrato I/O en instruction",
+      "compara output con solution",
+      "datos sintéticos only"
+    ]
+  },
+  "S25-T2-B-E3": {
+    "instruction": "S25-T2-B-E3 · Tras TimeoutError imprime fallback 'rules'. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+    "starter": "try:\n    raise TimeoutError('t')\nexcept TimeoutError:\n# TODO: imprime la salida contractual (ver instruction / solution output)\n",
+    "hints": [
+      "try/except",
+      "fallback"
+    ]
+  },
+  "S25-T3-B-E2": {
+    "instruction": "S25-T3-B-E2 · Log checkpoint ['think','tool'] e imprime len. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+    "starter": "log=[]\nlog.append('think'); log.append('tool')\n# TODO: imprime la salida contractual (ver instruction / solution output)\n",
+    "hints": [
+      "lista",
+      "append"
+    ]
+  },
+  "S25-T3-B-E3": {
+    "instruction": "S25-T3-B-E3 · Detén el plan si tool denegado; imprime log final. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+    "starter": "steps=['think','shell']\nallow={'calc'}\nlog=[]\nfor s in steps:\n    if s!='think' and s not in allow:\n        log.append('stop')\n        break\n    log.append(s)\n# TODO: imprime la salida contractual (ver instruction / solution output)\n",
+    "hints": [
+      "break",
+      "loop"
+    ]
+  },
+  "S26-T1-A-E1": {
+    "instruction": "CASO-PE orquestación VP: con el path canónico de cuatro pasos de negocio (sin AI ni email aún), imprime la lista exacta ['ingest','validate','analyze','report']. Contrato: sin inputs externos; salida must-match el orden de dependencias del DAG didáctico. Pass string: ['ingest', 'validate', 'analyze', 'report'].",
+    "starter": "# Fixture: path canónico parcial del VP (sin AI/email)\n# TODO: imprime la lista ['ingest','validate','analyze','report']\n",
+    "hints": [
+      "contrato I/O en instruction",
+      "compara output con solution",
+      "datos sintéticos only"
+    ]
+  },
+  "S26-T2-B-E1": {
+    "instruction": "Write idempotente create-once: implementa put(k,v) que solo escribe si k no está en store. Llama put('r','v1') y put('r','v2'); imprime store['r'] (debe seguir v1). Contrato: segunda escritura no pisa. Pass: v1.",
+    "starter": "store={}  # create-once store\n\ndef put(k,v):\n    # TODO: escribe solo si k missing\n    pass\n\nput('r','v1'); put('r','v2')\nprint(store.get('r'))\n",
+    "hints": [
+      "contrato I/O en instruction",
+      "compara output con solution",
+      "datos sintéticos only"
+    ]
+  }
+}

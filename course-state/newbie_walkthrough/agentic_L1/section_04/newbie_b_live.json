@@ -1,0 +1,250 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 4,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s04-iteracion-resumenes",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S04-T1-A-E1",
+      "id": "S04-T1-A-E1",
+      "code": "regiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor r in regiones:\n    print(r)\nprint(list(range(3)))\n",
+      "justification_from_packet": "for sobre la lista de regiones línea a línea y `list(range(3))` → [0,1,2]. Theory fija que range empieza en 0 y excluye el tope.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T1-A-E2",
+      "id": "S04-T1-A-E2",
+      "code": "edades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\nprint(n)\n",
+      "justification_from_packet": "Contador manual con for (sin comprehension): incremento si `e>=18`. Tres de cuatro edades califican; no me fío de sum() todavía aquí.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T1-A-E3",
+      "id": "S04-T1-A-E3",
+      "code": "lote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": 5}]\nfor reg in lote:\n    if reg[\"monto\"] > 0:\n        print(reg[\"id\"])\nprint(\"len\", len(lote))\n",
+      "justification_from_packet": "Filtro por `monto>0` e imprimo solo C1/C4. No muto el lote; len sigue 4. El paquete pide lectura, no side-effects silenciosos.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T1-B-E1",
+      "id": "S04-T1-B-E1",
+      "code": "ids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n    print(f\"fila {i}: {x}\")\n",
+      "justification_from_packet": "`enumerate(..., start=1)` da filas humanas 1..3. Si empiezo en 0 por default, el reporte miente al auditor de intake.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T1-B-E2",
+      "id": "S04-T1-B-E2",
+      "code": "nombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor n, e in zip(nombres, edades):\n    print(f\"{n}={e}\")\nprint(\"zip corto:\", list(zip(nombres, edades[:1])))\n",
+      "justification_from_packet": "zip empareja por posición; si acorto edades, zip silencioso pierde el resto. Por eso desconfío de zip sin `strict` en producción.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T1-B-E3",
+      "id": "S04-T1-B-E3",
+      "code": "def zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"longitudes distintas\")\n    return list(zip(a, b))\n\ntry:\n    zip_strict([1, 2, 3], [10, 20])\nexcept ValueError:\n    print(\"DESALINEADO\")\ntry:\n    zip_strict([1, 2], [3, 4])\n    print(\"OK\")\nexcept ValueError:\n    print(\"DESALINEADO\")\n",
+      "justification_from_packet": "`zip_strict` lanza ValueError si longitudes difieren (pedagogía de strict=True). Desalineado → DESALINEADO; alineado → OK.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T2-A-E1",
+      "id": "S04-T2-A-E1",
+      "code": "lines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\nprint(out)\n",
+      "justification_from_packet": "while con índice hasta string vacío, sin incluirlo. Acumulo r1/r2; break al hallar \"\". Variable de control `i` siempre avanza.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T2-A-E2",
+      "id": "S04-T2-A-E2",
+      "code": "intentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n    print(f\"intento {intentos}\")\nprint(\"done\", intentos)\n",
+      "justification_from_packet": "Reintentos: while intentos < MAX, incremento dentro del cuerpo. Sin `+=1` sería loop infinito; al salir intentos==3.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T2-A-E3",
+      "id": "S04-T2-A-E3",
+      "code": "cola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    print(job)\n    if job == \"job2\":\n        print(\"PAUSE\")\n        break\nprint(\"rest\", cola)\n",
+      "justification_from_packet": "Cola con pop(0): proceso job1, en job2 PAUSE+break, queda [job3]. break no vacía el resto; lo verifico con print.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T2-B-E1",
+      "id": "S04-T2-B-E1",
+      "code": "raw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n    print(x)\n",
+      "justification_from_packet": "`continue` salta líneas en blanco tras strip. Solo Lima y Cusco salen; espacios no cuentan como región válida del lote.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T2-B-E2",
+      "id": "S04-T2-B-E2",
+      "code": "codes = [200, 200, 500, 200]\nn_ok = 0\nfor c in codes:\n    if c >= 500:\n        print(\"STOP\")\n        break\n    n_ok += 1\n    print(\"ok\")\nprint(\"n_ok\", n_ok)\n",
+      "justification_from_packet": "Al ver code>=500 imprimo STOP y break: el 200 final no se procesa. n_ok queda en 2; break no es continue del theory.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T2-B-E3",
+      "id": "S04-T2-B-E3",
+      "code": "buf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guard\")\n    item = buf[i]\n    i += 1\n    if item == \"END\":\n        break\n    out.append(item)\nprint(out)\n",
+      "justification_from_packet": "while True con break en END y guardrail i>10. No proceso END como dato; sin guardrail desconfío del loop abierto.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T3-A-E1",
+      "id": "S04-T3-A-E1",
+      "code": "sts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor s in sts:\n    n_total += 1\n    if s == \"accept\":\n        n_accept += 1\n    elif s == \"reject\":\n        n_reject += 1\nprint(n_accept, n_reject, n_total)\n",
+      "justification_from_packet": "Contadores n_accept/n_reject/n_total en un for. Denominador del gate es n_total de intentados, no solo los accept.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T3-A-E2",
+      "id": "S04-T3-A-E2",
+      "code": "def tasa_reject(sts):\n    n_total = len(sts)\n    if n_total == 0:\n        return None\n    n_reject = sum(1 for s in sts if s == \"reject\")\n    return n_reject / n_total\n\nprint(round(tasa_reject([\"accept\", \"reject\", \"accept\"]), 4))\nprint(tasa_reject([]))\n",
+      "justification_from_packet": "tasa = n_reject/n_total con guarda si n_total==0 → None. Evito ZeroDivisionError en lote vacío del intake.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T3-A-E3",
+      "id": "S04-T3-A-E3",
+      "code": "rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]\nidx = -1\nfound_id = None\nfor i, r in enumerate(rows):\n    if r[\"status\"] == \"review\":\n        idx = i\n        found_id = r[\"id\"]\n        break\nif idx == -1:\n    print(-1)\nelse:\n    print(idx, found_id)\n",
+      "justification_from_packet": "Primer status==review con enumerate+break: índice 1 e id C2. Si no hay, -1; no uso .index() para practicar la traza.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T3-B-E1",
+      "id": "S04-T3-B-E1",
+      "code": "nums = [1, 2, 3, 4, 5]\ncuadrados = [x * x for x in nums]\npares = [x for x in nums if x % 2 == 0]\nprint(cuadrados)\nprint(pares)\n",
+      "justification_from_packet": "Comprehensions: cuadrados y pares de 1..5. Sintaxis del paquete; no reescribo a for solo por costumbre personal.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T3-B-E2",
+      "id": "S04-T3-B-E2",
+      "code": "rows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\nprint(sorted({r[\"status\"] for r in rows}))\n",
+      "justification_from_packet": "Set comprehension de statuses + sorted para reporte determinista: accept, reject, review. Sin sort el orden miente.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T3-B-E3",
+      "id": "S04-T3-B-E3",
+      "code": "rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"accept\"}, {\"id\": \"C4\", \"status\": \"reject\"}]\nby = {r[\"id\"]: r[\"status\"] for r in rows}\nrejects = [i for i, st in by.items() if st == \"reject\"]\ntasa = len(rejects) / len(rows)\nprint(by[\"C2\"], rejects, tasa)\n",
+      "justification_from_packet": "Dict id→status y lista de rejects por comprehension; tasa 0.5 con 2/4. El dict no silencia ids rechazados del lote.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T4-A-E1",
+      "id": "S04-T4-A-E1",
+      "code": "vals = [2, -1, 3]\ns = 0\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n    print(i, val, s)\nprint(\"final\", s)\n",
+      "justification_from_packet": "Traza i/val/s sumando solo positivos: final 5. Imprimo cada paso; sin traza no creo ciegamente el acumulador.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T4-A-E2",
+      "id": "S04-T4-A-E2",
+      "code": "filas = [\"a\", \"b\", \"c\"]\nn = 0\nfor f in filas:\n    n += 1\nprint(n)\n",
+      "justification_from_packet": "Bug de doble incremento: dejo un solo `n+=1` por fila. Para 3 filas n=3; el duplicado inflaría el KPI del gate.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T4-A-E3",
+      "id": "S04-T4-A-E3",
+      "code": "regs = [\"accept\", \"reject\", \"accept\"]\ncounts = {\"accept\": 0, \"reject\": 0}\nfor i, st in enumerate(regs):\n    counts[st] = counts.get(st, 0) + 1\n    print(\"TRACE\", i, st, dict(counts))\nprint(\"FINAL\", counts)\n",
+      "justification_from_packet": "TRACE por registro con dict(counts) copiado conceptualmente. Debo ver el crecimiento paso a paso, no solo el FINAL.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T4-B-E1",
+      "id": "S04-T4-B-E1",
+      "code": "n = 5\nlin = quad = 0\nfor i in range(n):\n    lin += 1\nfor i in range(n):\n    for j in range(n):\n        quad += 1\nprint(lin, quad)\n",
+      "justification_from_packet": "n=5: linear 5 pasos, anidado 25. O(n) vs O(n²) del theory; los números del print son la evidencia, no un handwave.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T4-B-E2",
+      "id": "S04-T4-B-E2",
+      "code": "data = [\"r0\", \"r1\", \"r2\"]\nfor i in range(len(data)):\n    print(data[i])\n",
+      "justification_from_packet": "Off-by-one: `range(len(data))` da 0..n-1. `range(1,len+1)` IndexError en el último; lo corrijo sin adivinar índices.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S04-T4-B-E3",
+      "id": "S04-T4-B-E3",
+      "code": "sts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\nn_total = len(sts)\nn_reject = sum(1 for s in sts if s == \"reject\")\ntasa = n_reject / n_total\nprint(n_reject, tasa)\nprint(\"Nota: O(n) basta para la tasa; no necesito pares reject-reject O(n²)\")\n",
+      "justification_from_packet": "Tasa de reject en O(n): cuento rejects, no pares. 3/5=0.6; el doble for O(n²) es ruido innecesario para este KPI.",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "`list(range(3))` produce [0,1,2]: empieza en 0 y excluye el stop. No es [1,2,3] ni [0,1,2,3] en este curso.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "zip sin strict empareja hasta el más corto y descarta el resto en silencio. Por eso el 3 se pierde sin avisar.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Denominador de tasa de reject: n_total de registros procesados/intentados. Si solo cuento accept, la tasa miente.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "`continue` salta al siguiente ciclo del for; no rompe el bucle. break sería detenerse del todo en el lote.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Doble for anidado sobre n es ~O(n²). El paquete lo contrasta con el conteo lineal O(n) de la tasa de reject.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "Verifiqué zip silencioso vs strict antes de confiar en emparejar ids.",
+    "Dudé del off-by-one en range(1,len+1) hasta trazar el IndexError."
+  ],
+  "recorded_at": "2026-07-23T16:32:44.486728+00:00",
+  "session_started_at": "2026-07-23T16:32:16.485Z",
+  "session_ended_at": "2026-07-23T16:32:44.485Z",
+  "receipt_response_sha256": "01392e584da0013867c18b532599b0a73ad3016c198adce6ccf462d4095f6144",
+  "receipt_exercises_sha256": "5dda9b3faa3f7327595d4d89cda5e382972b8bd4323b369ef8a11c219d0698a9",
+  "receipt_selfcheck_sha256": "44a5e9a70741f0cb7772d09025fa5b7e1d7af6b92e0edf14721e3fb01517dff4"
+}

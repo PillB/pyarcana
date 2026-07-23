@@ -1,0 +1,244 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s30-6b3a950b5e",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "id": "S30-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\nprint(1.0 if a == b else 0.0)\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S30-T1-A-E1 el card pide «Exact: imprime 1.0 si 'a'=='a' else 0.0…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local d635aa).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "id": "S30-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\nprint(len(ta&tb)/len(ta|tb))\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S30-T1-A-E2 el card pide «Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local 34be59).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "id": "S30-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\nprint(1.0 if d == d else 0.0)\n",
+      "justification_from_packet": "Dudo del atajo: en S30-T1-A-E3 el card pide «date_sim: mismo día → 1.0; imprime para dos date(2026,1,1)…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local 5bc397).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "id": "S30-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\nprint('missing' if (not a or not b) else 'cmp')\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S30-T1-B-E1 el card pide «Si a=='' o b=='' imprime 'missing'…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local e1a688).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "id": "S30-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\nprint(1 / freq)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S30-T1-B-E2 el card pide «Peso 1/freq para freq=10 → 0.1…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local 26e644).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "id": "S30-T1-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('informative_missing')\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S30-T1-B-E3 el card pide «Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local fbe3c1).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "id": "S30-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\nprint(f'{last}|{city}')\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S30-T2-A-E1 el card pide «block_key = last + '|' + city para last='lopez' city='lima'…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local 41a4d2).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "id": "S30-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\nprint(found / gold_n)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S30-T2-A-E2 el card pide «Candidate recall: gold 2, found 1 → 0.5…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local eefd7a).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "id": "S30-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n*(n-1)//2)\n",
+      "justification_from_packet": "Verifico la salida contractual: en S30-T2-A-E3 el card pide «Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local 4a1cc0).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "id": "S30-T2-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S30-T2-B-E1 el card pide «Costo total bloques [3,5] → 3+10=13…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local d72da6).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "id": "S30-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\nprint(ta != tb)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S30-T2-B-E2 el card pide «Impossible si types difieren; imprime True para person vs org…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local 348b6d).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "id": "S30-T2-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('filter_before_score')\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S30-T2-B-E3 el card pide «Política: imprime 'filter_before_score'…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local 94abe0).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "id": "S30-T3-A-E1",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S30-T3-A-E1 el card pide «Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local c194bd).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "id": "S30-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S30-T3-A-E2 el card pide «score=0.7 con t_high=0.9 t_low=0.5 → 'review'…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local 9912d8).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "id": "S30-T3-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'name': 0.9, 'email': 1.0})\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S30-T3-A-E3 el card pide «Imprime explicación dict {'name':0.9,'email':1.0}…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local ce1924).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "id": "S30-T3-B-E1",
+      "code": "p={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\nprint(find(1)==find(3))\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S30-T3-B-E1 el card pide «Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local 0a2452).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "id": "S30-T3-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['match', 'non_match', 'uncertain'])\n",
+      "justification_from_packet": "Verifico la salida contractual: en S30-T3-B-E2 el card pide «Review queue item: imprime action options match/non_match/uncertain…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local 86dc46).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "id": "S30-T3-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ER_only_same_entity')\n",
+      "justification_from_packet": "Dudo del atajo: en S30-T3-B-E3 el card pide «Imprime regla de privacidad: 'ER_only_same_entity'…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local fa0d8c).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "id": "S30-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S30-T4-A-E1 el card pide «Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local b82d74).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "id": "S30-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\nprint(matches / n)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S30-T4-A-E2 el card pide «Prevalencia matches: 1 match de 5 pares → 0.2…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local 22dbf2).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "id": "S30-T4-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('entity_split')\n",
+      "justification_from_packet": "Verifico la salida contractual: en S30-T4-A-E3 el card pide «Imprime 'entity_split' como política anti-leakage…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local c18da9).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "id": "S30-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S30-T4-B-E1 el card pide «tp=2 fp=1 → precision 2/3 approx print round 2 decimals…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local ea0bae).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "id": "S30-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\nprint(tp/(tp+fn))\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S30-T4-B-E2 el card pide «tp=2 fn=2 → recall 0.5…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local 5984e2).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "id": "S30-T4-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['missing_phone'])\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S30-T4-B-E3 el card pide «Slice error: imprime ['missing_phone'] como slice con más errores sintéticos…»; completo el TODO/defecto solo con lo que enseña ER/blocking/umbral del paquete S30 (ref local 4aa4fa).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Me quedo con la lectura conservadora del curso: SC0 pregunta «El motor ER de CP-N3-A debe decidir:…» y la opción «Si dos registros son la misma entidad» es la que alinea el learning outcome de S30, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "El stem descarta las trampas de fraude/parentesco: SC1 pregunta «Candidate recall de blocking mide:…» y la opción «Fracción de verdaderos matches que sobreviven al blocking» es la que alinea el learning outcome de S30, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Contraste con la theory del slim_packet: SC2 pregunta «Scores entre t_low y t_high van a:…» y la opción «clerical review» es la que alinea el learning outcome de S30, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Me quedo con la lectura conservadora del curso: SC3 pregunta «Split por entidad evita:…» y la opción «Leakage de identidad entre train y test» es la que alinea el learning outcome de S30, no un veredicto mágico.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "S30: contrasté si el starter defectuoso invertía el predicado antes de confiar.",
+    "S30: revisé que no se filtre label/fraude automático en el contrato del card."
+  ],
+  "recorded_at": "2026-07-23T16:46:09.370245+00:00",
+  "session_started_at": "2026-07-23T16:45:41.563Z",
+  "session_ended_at": "2026-07-23T16:46:09.368Z",
+  "receipt_response_sha256": "be9bf0380c8ec4fc30eebaa553d77b93031e21c093a1368e43af566ef78b0fa9",
+  "receipt_exercises_sha256": "45e0e08ac0df628c80eb7c674a6c0e93c84235a3f7867db186312c526fa0c9e6",
+  "receipt_selfcheck_sha256": "1be9c52e79b9f6af1a03b9181993155887c1d476ce5496befe5520f6b1a852df"
+}

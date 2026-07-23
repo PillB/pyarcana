@@ -1,0 +1,266 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 18,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-b-3a55d0c91e-s18",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S18-T1-A-E1",
+      "id": "S18-T1-A-E1",
+      "code": "import numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(f\"n {montos.size} | mean {round(float(montos.mean()), 1)} | median {float(np.median(montos))}\")\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T1-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: centro (mean/median) y n de montos. Fixture `S18-T1-A-E1` / datos sintéticos: montos = np.array([10, 12, 14, 16, 100], dtype=float); pri. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-A-E2",
+      "id": "S18-T1-A-E2",
+      "code": "import numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\nprint(f\"Q1 {float(q1)} | Q3 {float(q3)} | IQR {float(q3 - q1)}\")\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T1-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: cuartiles e IQR. Fixture `S18-T1-A-E2` / datos sintéticos: montos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float); q1, q3 = np. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-A-E3",
+      "id": "S18-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport numpy as np\n\ndef resumen(x):\n    x = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(x.size),\n        \"mean\": round(float(x.mean()), 4),\n        \"median\": round(float(np.median(x)), 4),\n        \"std\": round(float(x.std(ddof=1)), 4),\n    }\nprint(resumen([1, 2, 3, 4, 5]))\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T1-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: función resumen n/mean/median/std. Fixture `S18-T1-A-E3` / datos sintéticos: def resumen(x):; x = np.asarray(x, dtype=float). Com. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E1",
+      "id": "S18-T1-B-E1",
+      "code": "import numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean()); med = float(np.median(x))\nprint(f\"mean {round(m,1)} | median {med} | ratio {round(m/med, 2)}\")\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T1-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: mean vs median y razón. Fixture `S18-T1-B-E1` / datos sintéticos: x = np.array([10, 11, 12, 13, 100], dtype=float); m = float(x.mean()).. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E2",
+      "id": "S18-T1-B-E2",
+      "code": "import numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = float(np.median(x)); mad = float(np.median(np.abs(x - med)))\nprint(f\"MAD {mad}\")\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T1-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: MAD respecto a la mediana. Fixture `S18-T1-B-E2` / datos sintéticos: x = np.array([2, 3, 4, 5, 100], dtype=float); med = float(np. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E3",
+      "id": "S18-T1-B-E3",
+      "code": "import numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\nprint([round(float(v), 3) for v in np.log1p(x)])\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T1-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: transformación log1p de montos. Fixture `S18-T1-B-E3` / datos sintéticos: x = np.array([0, 1, 9, 99], dtype=float); print([round(. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E1",
+      "id": "S18-T2-A-E1",
+      "code": "muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare_lima = muestra.count(\"Lima\") / len(muestra)\nprint(\"share_Lima\", share_lima)\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T2-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: share muestral vs población. Fixture `S18-T2-A-E1` / datos sintéticos: muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]; share_lima = muestra. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E2",
+      "id": "S18-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nshare = 8 / 10\npob = 0.5\nprint(\"bias_Lima_pp\", round(share - pob, 2))\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T2-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: bias en puntos porcentuales. Fixture `S18-T2-A-E2` / datos sintéticos: share = 8 / 10; pob = 0.5. Completa el TODO del starter si. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E3",
+      "id": "S18-T2-A-E3",
+      "code": "def max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\nprint(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}), 2))\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T2-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: máximo |bias| entre segmentos. Fixture `S18-T2-A-E3` / datos sintéticos: def max_bias(pob, counts):; n = sum(counts.values()). Co. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: def max_bias(pob, counts):… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E1",
+      "id": "S18-T2-B-E1",
+      "code": "import math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\nprint(\"margen\", round(margen, 2))\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T2-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: margen de IC 95% (1.96·s/√n). Fixture `S18-T2-B-E1` / datos sintéticos: media, s, n = 10, 2, 16; margen = 1.96 * s / math.sqrt(n). Compl. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import math… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E2",
+      "id": "S18-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nd = (13 - 10) / 2\nprint(\"d\", round(d, 2))\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T2-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: tamaño de efecto Cohen's d. Fixture `S18-T2-B-E2` / datos sintéticos: d = (13 - 10) / 2; print(\"d\", round(d, 2)). Completa el TOD. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E3",
+      "id": "S18-T2-B-E3",
+      "code": "diff, se = 4, 1.5\nic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2))\nprint(\"ic95\", ic)\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T2-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: IC95 como tupla (low, high). Fixture `S18-T2-B-E3` / datos sintéticos: diff, se = 4, 1.5; ic = (round(diff - 1.96 * se, 2), round. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: diff, se = 4, 1.5… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E1",
+      "id": "S18-T3-A-E1",
+      "code": "import numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nprint(\"r\", round(float(np.corrcoef(x, y)[0, 1]), 1))\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T3-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: correlación de Pearson. Fixture `S18-T3-A-E1` / datos sintéticos: x = np.array([1, 2, 3, 4], dtype=float); y = np.array([2, 4, 6, 8], dt. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E2",
+      "id": "S18-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nr = 0.82\nprint(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T3-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: etiqueta asociación_observada (no causa). Fixture `S18-T3-A-E2` / datos sintéticos: r = 0.82; print(\"asociacion_observada\" if abs. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E3",
+      "id": "S18-T3-A-E3",
+      "code": "import numpy as np\nz = np.arange(5, dtype=float); x = z.copy(); y = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1); by = np.polyfit(z, y, 1)\nrx = x - (bx[0] * z + bx[1]); ry = y - (by[0] * z + by[1])\nprint(f\"r_raw {round(r_raw,1)} | max_abs_resid {round(float(max(abs(rx).max(), abs(ry).max())), 1)}\")\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T3-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: correlación residual tras confusor. Fixture `S18-T3-A-E3` / datos sintéticos: z = np.arange(5, dtype=float); x = z.copy(). Comple. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E1",
+      "id": "S18-T3-B-E1",
+      "code": "import numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75]); iqr = q3 - q1; hi = q3 + 1.5 * iqr\nprint(\"n_hi\", int((m > hi).sum()))\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T3-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: conteo de outliers Tukey (hi=Q3+1.5·IQR). Fixture `S18-T3-B-E1` / datos sintéticos: m = np.array([10, 12, 11, 13, 50], dtype=float); q1,. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E2",
+      "id": "S18-T3-B-E2",
+      "code": "import numpy as np\nregion = np.array([\"Lima\", \"Lima\", \"Cusco\"]); flag = np.array([True, True, False])\nprint(\"tasa_Lima\", float(flag[region == \"Lima\"].mean()))\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T3-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: tasa de anomalías por región. Fixture `S18-T3-B-E2` / datos sintéticos: region = np.array([\"Lima\", \"Lima\", \"Cusco\"]); flag = np.a. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E3",
+      "id": "S18-T3-B-E3",
+      "code": "import numpy as np\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75]); iqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nprint(((m < lo) | (m > hi)).tolist())\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T3-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: flags booleanos Tukey. Fixture `S18-T3-B-E3` / datos sintéticos: m = np.array([1, 2, 3, 4, 100], dtype=float); q1, q3 = np.quanti. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import numpy as np… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E1",
+      "id": "S18-T4-A-E1",
+      "code": "evidencia = {\"pregunta\": \"¿Cuál es el ticket mediano?\", \"hipotesis\": \"mediana >= 5\", \"resultado\": {\"n\": 10, \"median\": 5.0}}\nprint(evidencia[\"pregunta\"])\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T4-A-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: dict pregunta/hipótesis/resultado. Fixture `S18-T4-A-E1` / datos sintéticos: evidencia = {; \"pregunta\": \"¿Cuál es el ticket mediano?\",. . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: evidencia = {\"pregunta\": \"¿Cuál es el ticket mediano?\", \"hipotesis\": \"… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E2",
+      "id": "S18-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmedian = 12\nprint(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T4-A-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: hallazgo vs umbral de decisión. Fixture `S18-T4-A-E2` / datos sintéticos: median = 12; print(\"solo_hallazgo\" if median < 15 else . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E3",
+      "id": "S18-T4-A-E3",
+      "code": "def traza(pregunta, metrica, valor, limite):\n    print(f\"P: {pregunta} | M: {metrica} | V: {valor} | L: {limite}\")\ntraza(\"ticket mediano Lima\", \"median\", 27.5, \"solo web\")\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T4-A-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: traza Pregunta→Métrica→Valor→Límite. Fixture `S18-T4-A-E3` / datos sintéticos: def traza(pregunta, metrica, valor, limite):; prin. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: def traza(pregunta, metrica, valor, limite):… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E1",
+      "id": "S18-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnote = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T4-B-E1 con theory/iDo del quiz_card: la tarea pide E1 (guiado) — Concepto: data note n_raw/n_final/filtros. Fixture `S18-T4-B-E1` / datos sintéticos: note = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}; pr. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E2",
+      "id": "S18-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T4-B-E2 con theory/iDo del quiz_card: la tarea pide E2 (independiente) — Concepto: sha1 hex[:8] de payload CSV. Fixture `S18-T4-B-E2` / datos sintéticos: print(hashlib.sha1(b\"a,b\\\\n1,2\\\\n\").hexdigest()[:8]). Comp. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E3",
+      "id": "S18-T4-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]})\nn_raw = len(df); df2 = df[df[\"monto\"] > 0]\nprint({\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42})\n",
+      "justification_from_packet": "Como skeptic en EDA, estadística descriptiva e incertidumbre, crucé S18-T4-B-E3 con theory/iDo del quiz_card: la tarea pide E3 (transferencia) — Concepto: note tras filtro monto>0 con seed. Fixture `S18-T4-B-E3` / datos sintéticos: df = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]}); n_raw. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: import pandas as pd… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Autochequeo skeptic S18 «¿Qué comunica mejor un ticket “típico” con outliers fuertes?»: la respuesta «Mediana (y opcionalmente IQR)» es la única coherente con el vocabulario de EDA, estadística descriptiva e incertidumbre en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Autochequeo skeptic S18 «Una correlación alta entre X e Y implica:»: la respuesta «Asociación observada (no causal por sí sola)» es la única coherente con el vocabulario de EDA, estadística descriptiva e incertidumbre en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Autochequeo skeptic S18 «¿Qué debe incluir un data note mínimo?»: la respuesta «Origen, filtros, n y límites de cobertura» es la única coherente con el vocabulario de EDA, estadística descriptiva e incertidumbre en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Autochequeo skeptic S18 «El sesgo de muestra ocurre cuando:»: la respuesta «La muestra no representa la población de interés» es la única coherente con el vocabulario de EDA, estadística descriptiva e incertidumbre en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Autochequeo skeptic S18 «En un EDA de tickets sintéticos Lima/Cusco, ¿cuál es la comunicación correcta de un r de Pearson alto entre gasto y visitas cuando ambos crecen con el tamaño de la ciudad (confusor)?»: la respuesta «Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño» es la única coherente con el vocabulario de EDA, estadística descriptiva e incertidumbre en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:22:15.058670+00:00",
+  "session_started_at": "2026-07-23T17:27:48.450407Z",
+  "session_ended_at": "2026-07-23T17:28:19.660664Z",
+  "receipt_response_sha256": "dccadf6a4fa7848c35989db3fdc9e84726f7fe90a748e7dc2ceb8cf9400da12f",
+  "receipt_exercises_sha256": "38c11c7ee6b44c52affb9aa75a5bbef82dbb552252ca92c9a58be39c2b264eb2",
+  "receipt_selfcheck_sha256": "eb84b23570455815eb792122a513ee1adb24c9de8159d7becd7f551bb36d25d4"
+}

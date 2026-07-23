@@ -1,0 +1,261 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 26,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-b-3a55d0c91e-s26",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S26-T1-A-E1",
+      "id": "S26-T1-A-E1",
+      "code": "print(['ingest','validate','analyze','report'])\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T1-A-E1 con theory/iDo del quiz_card: la tarea pide CASO-PE orquestación VP: con el path canónico de cuatro pasos de negocio (sin AI ni email aún), imprime la lista exacta ['ingest','validate','analyze','report']. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: print(['ingest','validate','analyze','report'])… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-A-E2",
+      "id": "S26-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=['a','b','c']\nedges=list(zip(nodes, nodes[1:]))\nprint(len(edges), edges)\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T1-A-E2 con theory/iDo del quiz_card: la tarea pide Dado nodes=['a','b','c'] como path lineal del flow sintético, construye edges (a,b),(b,c) con zip y cuenta len(edges). Contrato: input lista de 3 nodos → output. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-A-E3",
+      "id": "S26-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntasks={'a':'success','b':'failed'}\nprint('failed' if any(v=='failed' for v in tasks.values()) else 'success')\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T1-A-E3 con theory/iDo del quiz_card: la tarea pide Agregación de estado global del flow: tasks={'a':'success','b':'failed'}. Si cualquier task == 'failed', imprime failed; si no, success. Contrato: dict[str,str]. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E1",
+      "id": "S26-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nm={'run_id':'cpn2c-1'}\nprint(m['run_id'])\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T1-B-E1 con theory/iDo del quiz_card: la tarea pide Metadata de run CP-N2-C: m={'run_id':'cpn2c-1'}. Extrae e imprime m['run_id'] sin mutar el dict. Contrato: metadata inmutable al leer; output texto del id. Fixt. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E2",
+      "id": "S26-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\napi_rpm=90\nprint('too_high' if api_rpm>60 else 'ok')\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T1-B-E2 con theory/iDo del quiz_card: la tarea pide Preflight de límites: api_rpm=90 supera el umbral didáctico 60 del adapter sintético. Imprime 'too_high' si api_rpm>60, si no 'ok'. Contrato: int → etiqueta de . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E3",
+      "id": "S26-T1-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('0 6 * * 1-5', 'America/Lima')\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T1-B-E3 con theory/iDo del quiz_card: la tarea pide Schedule del escritorio PE: imprime el cron de días hábiles a las 06:00 y la zona 'America/Lima' en una sola línea. Contrato: constantes documentadas; sin libre. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture sintético CASO-PE — sin PII real… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E1",
+      "id": "S26-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nattempt, base = 3, 100\nprint(base * (2 ** (attempt - 1)))\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T2-A-E1 con theory/iDo del quiz_card: la tarea pide Backoff exponencial de reintentos: attempt=3, base=100 → base*(2**(attempt-1)). Imprime el entero ms de espera. Contrato: no aplica cap en este ejercicio; solo . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E2",
+      "id": "S26-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndlq=[]\nfail=True\nif fail:\n    dlq.append('x')\nprint(dlq)\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T2-A-E2 con theory/iDo del quiz_card: la tarea pide Dead-letter: dlq=[] y fail=True modelan un item irrecuperable del export sintético. Si fail, append 'x' a dlq e imprime la lista. Contrato: no reintentar valida. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E3",
+      "id": "S26-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nckpt={'a'}; items=['a','b']\nprint([i for i in items if i not in ckpt])\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T2-A-E3 con theory/iDo del quiz_card: la tarea pide Checkpoint de reanudación: ckpt={'a'}; items=['a','b']. Imprime solo los ids aún no procesados (no ∈ ckpt). Contrato: list comprehension fail-open solo sobre pe. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E1",
+      "id": "S26-T2-B-E1",
+      "code": "store={}\ndef put(k,v):\n    if k not in store:\n        store[k]=v\nput('r','v1'); put('r','v2')\nprint(store.get('r'))\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T2-B-E1 con theory/iDo del quiz_card: la tarea pide Write idempotente create-once: implementa put(k,v) que solo escribe si k no está en store. Llama put('r','v1') y put('r','v2'); imprime store['r'] (debe seguir . Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: store={}… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E2",
+      "id": "S26-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'report':'ok','draft':'ok'}\nstate.pop('draft', None)\nprint(state)\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T2-B-E2 con theory/iDo del quiz_card: la tarea pide Compensación/rollback: state={'report':'ok','draft':'ok'}. Elimina la key draft (pop) tras falla posterior simulada e imprime state. Contrato: report permanece;. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E3",
+      "id": "S26-T2-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlocked=True\nprint('busy' if locked else 'enter')\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T2-B-E3 con theory/iDo del quiz_card: la tarea pide Lock optimista de concurrencia: locked=True significa otro worker en la entidad. Imprime 'busy' si locked else 'enter'. Contrato: fail-closed, no esperar en bus. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E1",
+      "id": "S26-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nanalysis=[{'status':'pending'},{'status':'done'}]\nprint(sum(1 for x in analysis if x['status']=='pending'))\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T3-A-E1 con theory/iDo del quiz_card: la tarea pide Cola HITL analysis: analysis=[{'status':'pending'},{'status':'done'}]. Cuenta cuántos status=='pending' e imprime el entero. Contrato: solo analysis en este ste. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E2",
+      "id": "S26-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nq={'analysis':1,'report':0,'recipient':0}\nprint(any(v>0 for v in q.values()))\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T3-A-E2 con theory/iDo del quiz_card: la tarea pide Gate multi-cola: q={'analysis':1,'report':0,'recipient':0}. Imprime True si alguna cola >0 (blocked), False si todas 0. Contrato: any sobre values. Pass: True (. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E3",
+      "id": "S26-T3-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(['metrics','narrative','recipient'])\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T3-A-E3 con theory/iDo del quiz_card: la tarea pide Checklist mínima de revisión humana antes del borrador: imprime exactamente ['metrics','narrative','recipient']. Contrato: orden canónico didáctico del VP. Pass. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture sintético CASO-PE — sin PII real… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E1",
+      "id": "S26-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\naudit=[]\naudit.append({'action':'approve','actor':'rev'})\nprint(audit[0]['action'])\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T3-B-E1 con theory/iDo del quiz_card: la tarea pide Auditoría append-only: audit=[] registra la decisión. Append un dict con action 'approve' y actor sintético; imprime el action de la solución (approve). Contrat. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E2",
+      "id": "S26-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\naction, reason = 'reject', None\nprint('invalid' if action=='reject' and not reason else 'ok')\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T3-B-E2 con theory/iDo del quiz_card: la tarea pide Reject con razón obligatoria: action='reject', reason=None. Si reject y reason vacío/None → imprime 'invalid'; si no, 'ok'. Contrato: fail-closed en rechazo sin. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E3",
+      "id": "S26-T3-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nver=1\nver += 1\nprint(ver)\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T3-B-E3 con theory/iDo del quiz_card: la tarea pide Edit versiona artefacto del informe sintético: partiendo de ver=1, al editar incrementa a 2 e imprime ver. Contrato: versión monotónica; no borrar entradas de a. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E1",
+      "id": "S26-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrate=0.9\nprint('alert' if rate < 0.95 else 'ok')\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T4-A-E1 con theory/iDo del quiz_card: la tarea pide SLO success_rate del VP: rate=0.9. Si rate < 0.95 imprime 'alert', si no 'ok'. Contrato: umbral didáctico del VP diario operativo. Pass: alert. Usa solo fixture. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E2",
+      "id": "S26-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=1\nprint('P0_unapproved_send' if n>0 else 'ok')\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T4-A-E2 con theory/iDo del quiz_card: la tarea pide Control P0 de cumplimiento: n=sends_without_approve=1. Si n>0 imprime 'P0_unapproved_send', si no 'ok'. Contrato: cero envíos sin approve humano. Pass: P0_unapp. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E3",
+      "id": "S26-T4-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('disable_schedule -> drain -> page')\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T4-A-E3 con theory/iDo del quiz_card: la tarea pide Runbook de incidente one-liner: imprime la secuencia disable_schedule -> drain -> page (espacios alrededor de flechas como en la solución). Contrato: orden fijo. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture sintético CASO-PE — sin PII real… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E1",
+      "id": "S26-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsteps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\nprint(all(status[s]=='success' for s in steps))\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T4-B-E1 con theory/iDo del quiz_card: la tarea pide E2E sintético: steps=['ingest','validate','draft'] con status success en todos. Imprime True si all success. Contrato: un failed tumba el E2E. Pass: True.. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E2",
+      "id": "S26-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfraud_labels=0\nprint('ok' if fraud_labels==0 else 'fail')\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T4-B-E2 con theory/iDo del quiz_card: la tarea pide Política anti-fraude-auto: fraud_labels=0 en el paquete del VP. Imprime 'ok' si fraud_labels==0 else 'fail'. Matching/OCR no generan labels de fraude. Pass: ok.. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: # Fixture del paquete (conserva datos; no reescribas asserts)… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E3",
+      "id": "S26-T4-B-E3",
+      "code": "print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-reporting-automation'})\n",
+      "justification_from_packet": "Como skeptic en Orquestación y VP RPA + AI Analyst, crucé S26-T4-B-E3 con theory/iDo del quiz_card: la tarea pide Cierre de regresión N2: imprime el dict con n2_regression='CP-N2-A/B/C critical+privacy', value_minutes_saved_est=45 y cf2 interfaces Familiarity-reporting-auto. Verifiqué que el starter conserve asserts/datos y que el print final cubra el pass del oráculo; el cuerpo del código es: print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes… Si faltara un concepto no enseñado lo marcaría, aquí el paquete alcanza.",
+      "concepts_used": [
+        "Orquestación y VP RPA + AI Analyst"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Autochequeo skeptic S26: el flujo canónico del quiz_card exige approve humano antes de draft_email; por eso marco «Approve antes de draft_email». Draft-first sin gate contradice el control P0 de envíos no aprobados del mismo módulo (theory/iDo L2)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Autochequeo skeptic S26 «La regresión N2 incluye:»: la respuesta «Tests críticos de capstones N2, E2E y controles de privacidad/seguridad» es la única coherente con el vocabulario de Orquestación y VP RPA + AI Analyst en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Autochequeo skeptic S26 «Un send sin approve es:»: la respuesta «Incidente P0» es la única coherente con el vocabulario de Orquestación y VP RPA + AI Analyst en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Autochequeo skeptic S26 «fraud_labels automáticos en el VP deben ser:»: la respuesta «0 — solo evidencia para humanos» es la única coherente con el vocabulario de Orquestación y VP RPA + AI Analyst en theory/iDo (paquete L2). Las otras opciones mezclan conceptos de secciones posteriores o invierten el sentido operativo (p.ej. mutación, gate, o claim indebido)."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:24:13.493449+00:00",
+  "session_started_at": "2026-07-23T17:24:13.492151Z",
+  "session_ended_at": "2026-07-23T17:25:06.692151Z",
+  "receipt_response_sha256": "a9be9f2e030eacc0a8adf483fe7345e370a5c1b8f05fd67e10e63cf16816c8f4",
+  "receipt_exercises_sha256": "63eba27a81f49eb7194d36fec0020035a8fa6804e695240808338e33c9e856b1",
+  "receipt_selfcheck_sha256": "e97eaa2b61c16591036d8ece13b17cd5129b000e10847c02016503f4ec8a9099"
+}

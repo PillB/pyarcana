@@ -1,0 +1,494 @@
+{
+  "section_index": 47,
+  "title": "MLOps: experimentos, registro y serving",
+  "outcomes": [
+    "Trackea experimentos reproducibles",
+    "Compara runs con lineage completo",
+    "Registra con stages y approvals",
+    "Publica artefactos y compatibilidad",
+    "Sirve batch/online con features consistentes",
+    "Controla latency, batching y fallback",
+    "Despliega shadow/canary con monitoring",
+    "Revierte, retira y audita modelos"
+  ],
+  "theory": [
+    {
+      "subtopicId": "S47-T1-A",
+      "heading": "tracking y reproducibilidad",
+      "paragraphs": [
+        "Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida antigua.",
+        "Contrato operativo. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida de este subtema: rerun dentro de tolerancia declarada. Error: lineage incompleto, firma incompatible, regresión o fallback ausente impide promoción. Criterio de éxito: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia.",
+        "Aplicación de `tracking y reproducibilidad` al caso peruano sintético `CASO-TAC-047`: un modelo sintético de priorización de atención para una organización ficticia en Tacna. La evidencia esperada es rerun dentro de tolerancia declarada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S47-T1-B",
+      "heading": "data/code/env lineage y comparación",
+      "paragraphs": [
+        "Cada run enlaza versión de data, código y entorno; comparar exige misma partición/metric definition y reportar incertidumbre.",
+        "Contrato operativo. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida de este subtema: lineage completo y comparación homogénea. Error: lineage incompleto, firma incompatible, regresión o fallback ausente impide promoción. Criterio de éxito: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia.",
+        "Aplicación de `data/code/env lineage y comparación` al caso peruano sintético `CASO-TAC-047`: un modelo sintético de priorización de atención para una organización ficticia en Tacna. La evidencia esperada es lineage completo y comparación homogénea. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S47-T2-A",
+      "heading": "firmas, stages y approvals",
+      "paragraphs": [
+        "Una firma fija nombres/tipos/rangos de entrada y salida; stages son estados gobernados y approval requiere evidencia independiente.",
+        "Contrato operativo. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida de este subtema: firma compatible y aprobación trazada. Error: lineage incompleto, firma incompatible, regresión o fallback ausente impide promoción. Criterio de éxito: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia.",
+        "Aplicación de `firmas, stages y approvals` al caso peruano sintético `CASO-TAC-047`: un modelo sintético de priorización de atención para una organización ficticia en Tacna. La evidencia esperada es firma compatible y aprobación trazada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S47-T2-B",
+      "heading": "artefactos, model card y compatibilidad",
+      "paragraphs": [
+        "Artefactos llevan digest y dependencia; model card explica uso, límites, métricas y riesgos, incluida incompatibilidad de features.",
+        "Contrato operativo. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida de este subtema: digest/card/compatibilidad verificados. Error: lineage incompleto, firma incompatible, regresión o fallback ausente impide promoción. Criterio de éxito: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia.",
+        "Aplicación de `artefactos, model card y compatibilidad` al caso peruano sintético `CASO-TAC-047`: un modelo sintético de priorización de atención para una organización ficticia en Tacna. La evidencia esperada es digest/card/compatibilidad verificados. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S47-T3-A",
+      "heading": "batch/online y feature consistency",
+      "paragraphs": [
+        "Batch y online deben compartir transformación o contract tests para evitar training-serving skew y feature leakage.",
+        "Contrato operativo. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida de este subtema: paridad de features en fixtures. Error: lineage incompleto, firma incompatible, regresión o fallback ausente impide promoción. Criterio de éxito: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia.",
+        "Aplicación de `batch/online y feature consistency` al caso peruano sintético `CASO-TAC-047`: un modelo sintético de priorización de atención para una organización ficticia en Tacna. La evidencia esperada es paridad de features en fixtures. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S47-T3-B",
+      "heading": "latency, batching y fallback",
+      "paragraphs": [
+        "Presupuesta p95/p99, batching y capacidad; fallback debe ser seguro, medible y menos capaz, nunca una versión silenciosamente riesgosa.",
+        "Contrato operativo. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida de este subtema: SLO de latencia y fallback probado. Error: lineage incompleto, firma incompatible, regresión o fallback ausente impide promoción. Criterio de éxito: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia.",
+        "Aplicación de `latency, batching y fallback` al caso peruano sintético `CASO-TAC-047`: un modelo sintético de priorización de atención para una organización ficticia en Tacna. La evidencia esperada es SLO de latencia y fallback probado. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S47-T4-A",
+      "heading": "shadow/canary y monitoring hooks",
+      "paragraphs": [
+        "Shadow observa sin decidir; canary recibe tráfico limitado y monitoring hooks comparan calidad, drift, errores y negocio antes de promover.",
+        "Contrato operativo. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida de este subtema: canary con criterio promote/stop. Error: lineage incompleto, firma incompatible, regresión o fallback ausente impide promoción. Criterio de éxito: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia.",
+        "Aplicación de `shadow/canary y monitoring hooks` al caso peruano sintético `CASO-TAC-047`: un modelo sintético de priorización de atención para una organización ficticia en Tacna. La evidencia esperada es canary con criterio promote/stop. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S47-T4-B",
+      "heading": "rollback, retirement y audit",
+      "paragraphs": [
+        "Rollback conserva modelo/config/features compatibles; retiro bloquea uso nuevo, mantiene audit y define fecha de eliminación.",
+        "Contrato operativo. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida de este subtema: restauración y retirement auditados. Error: lineage incompleto, firma incompatible, regresión o fallback ausente impide promoción. Criterio de éxito: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia.",
+        "Aplicación de `rollback, retirement y audit` al caso peruano sintético `CASO-TAC-047`: un modelo sintético de priorización de atención para una organización ficticia en Tacna. La evidencia esperada es restauración y retirement auditados. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    }
+  ],
+  "iDo": {
+    "steps": [
+      {
+        "demoId": "S47-T1-A-DEMO",
+        "subtopicId": "S47-T1-A",
+        "environment": "local-python",
+        "description": "Demo: tracking y reproducibilidad",
+        "why": "Hace observable `tracking y reproducibilidad` con un caso local pequeño y deja como evidencia rerun dentro de tolerancia declarada; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S47-T1-B-DEMO",
+        "subtopicId": "S47-T1-B",
+        "environment": "local-python",
+        "description": "Demo: data/code/env lineage y comparación",
+        "why": "Hace observable `data/code/env lineage y comparación` con un caso local pequeño y deja como evidencia lineage completo y comparación homogénea; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S47-T2-A-DEMO",
+        "subtopicId": "S47-T2-A",
+        "environment": "local-python",
+        "description": "Demo: firmas, stages y approvals",
+        "why": "Hace observable `firmas, stages y approvals` con un caso local pequeño y deja como evidencia firma compatible y aprobación trazada; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S47-T2-B-DEMO",
+        "subtopicId": "S47-T2-B",
+        "environment": "local-python",
+        "description": "Demo: artefactos, model card y compatibilidad",
+        "why": "Hace observable `artefactos, model card y compatibilidad` con un caso local pequeño y deja como evidencia digest/card/compatibilidad verificados; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S47-T3-A-DEMO",
+        "subtopicId": "S47-T3-A",
+        "environment": "local-python",
+        "description": "Demo: batch/online y feature consistency",
+        "why": "Hace observable `batch/online y feature consistency` con un caso local pequeño y deja como evidencia paridad de features en fixtures; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S47-T3-B-DEMO",
+        "subtopicId": "S47-T3-B",
+        "environment": "local-python",
+        "description": "Demo: latency, batching y fallback",
+        "why": "Hace observable `latency, batching y fallback` con un caso local pequeño y deja como evidencia SLO de latencia y fallback probado; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S47-T4-A-DEMO",
+        "subtopicId": "S47-T4-A",
+        "environment": "local-python",
+        "description": "Demo: shadow/canary y monitoring hooks",
+        "why": "Hace observable `shadow/canary y monitoring hooks` con un caso local pequeño y deja como evidencia canary con criterio promote/stop; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S47-T4-B-DEMO",
+        "subtopicId": "S47-T4-B",
+        "environment": "local-python",
+        "description": "Demo: rollback, retirement y audit",
+        "why": "Hace observable `rollback, retirement y audit` con un caso local pequeño y deja como evidencia restauración y retirement auditados; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      }
+    ]
+  },
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué evidencia permite aprobar `tracking y reproducibilidad` en CASO-TAC-047?",
+      "options": [
+        "un print sin assert ni versión",
+        "una captura de pantalla sin fuente",
+        "rerun dentro de tolerancia declarada",
+        "datos personales reales para que parezca auténtico"
+      ]
+    },
+    {
+      "question": "Si ocurre la condición de error de S47, ¿qué respuesta preserva seguridad y auditabilidad?",
+      "options": [
+        "emitir ROLLBACK_MODEL y conservar evidencia",
+        "continuar y ocultar el warning",
+        "inventar evidencia faltante",
+        "borrar el trace para reducir ruido"
+      ]
+    },
+    {
+      "question": "¿Cuál resultado demuestra el gate `CP-N4-B + CF-4 · modelo promovible y reversible`?",
+      "options": [
+        "el archivo S47 existe, aunque no pruebe el gate",
+        "solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia",
+        "el README afirma que funciona",
+        "se usó la herramienta más nueva"
+      ]
+    },
+    {
+      "question": "¿Qué tratamiento de `CASO-TAC-047` respeta el alcance del curso?",
+      "options": [
+        "reemplazarlo por datos reales sin consentimiento",
+        "subir secretos para facilitar la demo",
+        "inferir fraude o parentesco desde ER",
+        "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S47-T1-A-E1",
+      "instruction": "S47-T1-A-E1 · Calcula el contrato de `tracking y reproducibilidad` sobre `CASO-TAC-047-1A`. La entrada es el dict completo del starter; la operación debe demostrar rerun dentro de tolerancia con seed/parámetros. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `MARK_RUN_NONREPRODUCIBLE` en E2.",
+      "hints": [
+        "Relaciona los campos `seed`, `params`, `metric`, `rerun_metric`, `tolerance` con la regla explicada en S47-T1-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva rerun dentro de tolerancia declarada; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-TAC-047-1A` satisface un predicado de dominio real; imprime `S47-T1-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\":42,\"params\":{\"depth\":4},\"metric\":0.81,\"rerun_metric\":0.805,\"tolerance\":0.01}}\nmeets_contract = abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"]\nstatus = \"PASS\" if meets_contract else \"MARK_RUN_NONREPRODUCIBLE\"\nprint(\"S47-T1-A\", status)\n"
+    },
+    {
+      "id": "S47-T1-A-E2",
+      "instruction": "S47-T1-A-E2 · Modela tres rutas de `tracking y reproducibilidad`: fixture válido, fixture adverso y registro sin `tolerance`. Entrada: dict con case_id, seed, params, metric, rerun_metric, tolerance. Salidas exactas: `PASS`, `MARK_RUN_NONREPRODUCIBLE`, `MISSING:tolerance`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a tolerance debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S47-T1-A: rerun dentro de tolerancia con seed/parámetros. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `tolerance` ausente y produce exactamente `PASS MARK_RUN_NONREPRODUCIBLE MISSING:tolerance`.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T1-A-E3",
+      "instruction": "S47-T1-A-E3 · Simula fallo cerrado para `tracking y reproducibilidad` con tres fixtures distintos. `CASO-TAC-047-1A` debe continuar, el adverso debe devolver `MARK_RUN_NONREPRODUCIBLE` y la ausencia de `tolerance` debe devolver `INVESTIGATE_RANDOMNESS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `INVESTIGATE_RANDOMNESS` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró rerun dentro de tolerancia con seed/parámetros; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-TAC-047-1A`, adverso y sin `tolerance` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T1-B-E1",
+      "instruction": "S47-T1-B-E1 · Compara el contrato de `data/code/env lineage y comparación` sobre `CASO-TAC-047-1B`. La entrada es el dict completo del starter; la operación debe demostrar data/code/env/split/métrica versionados y candidato mejor. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `INVALIDATE_COMPARISON` en E2.",
+      "hints": [
+        "Relaciona los campos `data`, `code`, `env`, `split`, `metric_definition`, `candidate`, `baseline` con la regla explicada en S47-T1-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva lineage completo y comparación homogénea; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-TAC-047-1B` satisface un predicado de dominio real; imprime `S47-T1-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\":\"ds-v3\",\"code\":\"git:abc\",\"env\":\"lock:def\",\"split\":\"holdout-v1\",\"metric_definition\":\"f1-v2\",\"candidate\":0.82,\"baseline\":0.78}}\nmeets_contract = not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"]\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_COMPARISON\"\nprint(\"S47-T1-B\", status)\n"
+    },
+    {
+      "id": "S47-T1-B-E2",
+      "instruction": "S47-T1-B-E2 · Verifica tres rutas de `data/code/env lineage y comparación`: fixture válido, fixture adverso y registro sin `baseline`. Entrada: dict con case_id, data, code, env, split, metric_definition, candidate, baseline. Salidas exactas: `PASS`, `INVALIDATE_COMPARISON`, `MISSING:baseline`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a baseline debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S47-T1-B: data/code/env/split/métrica versionados y candidato mejor. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `baseline` ausente y produce exactamente `PASS INVALIDATE_COMPARISON MISSING:baseline`.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T1-B-E3",
+      "instruction": "S47-T1-B-E3 · Extiende fallo cerrado para `data/code/env lineage y comparación` con tres fixtures distintos. `CASO-TAC-047-1B` debe continuar, el adverso debe devolver `INVALIDATE_COMPARISON` y la ausencia de `baseline` debe devolver `RESTORE_LINEAGE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `RESTORE_LINEAGE` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró data/code/env/split/métrica versionados y candidato mejor; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-TAC-047-1B`, adverso y sin `baseline` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T2-A-E1",
+      "instruction": "S47-T2-A-E1 · Filtra el contrato de `firmas, stages y approvals` sobre `CASO-TAC-047-2A`. La entrada es el dict completo del starter; la operación debe demostrar firma exacta, staging y aprobación. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `DENY_MODEL_PROMOTION` en E2.",
+      "hints": [
+        "Relaciona los campos `input_signature`, `output_signature`, `stage`, `approved` con la regla explicada en S47-T2-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva firma compatible y aprobación trazada; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-TAC-047-2A` satisface un predicado de dominio real; imprime `S47-T2-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\":{\"age\":\"int\",\"region\":\"str\"},\"output_signature\":{\"priority\":\"float\"},\"stage\":\"staging\",\"approved\":True}}\nmeets_contract = not record[\"approved\"] or record[\"stage\"] == \"production\"\nstatus = \"PASS\" if meets_contract else \"DENY_MODEL_PROMOTION\"\nprint(\"S47-T2-A\", status)\n"
+    },
+    {
+      "id": "S47-T2-A-E2",
+      "instruction": "S47-T2-A-E2 · Clasifica tres rutas de `firmas, stages y approvals`: fixture válido, fixture adverso y registro sin `approved`. Entrada: dict con case_id, input_signature, output_signature, stage, approved. Salidas exactas: `PASS`, `DENY_MODEL_PROMOTION`, `MISSING:approved`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a approved debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S47-T2-A: firma exacta, staging y aprobación. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `approved` ausente y produce exactamente `PASS DENY_MODEL_PROMOTION MISSING:approved`.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T2-A-E3",
+      "instruction": "S47-T2-A-E3 · Defiende fallo cerrado para `firmas, stages y approvals` con tres fixtures distintos. `CASO-TAC-047-2A` debe continuar, el adverso debe devolver `DENY_MODEL_PROMOTION` y la ausencia de `approved` debe devolver `REQUEST_MODEL_APPROVAL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_MODEL_APPROVAL` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró firma exacta, staging y aprobación; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-TAC-047-2A`, adverso y sin `approved` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T2-B-E1",
+      "instruction": "S47-T2-B-E1 · Modela el contrato de `artefactos, model card y compatibilidad` sobre `CASO-TAC-047-2B`. La entrada es el dict completo del starter; la operación debe demostrar digest, compatibilidad de features y card completa. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_MODEL_ARTIFACT` en E2.",
+      "hints": [
+        "Relaciona los campos `artifact_digest`, `feature_version`, `serving_feature_version`, `card_sections` con la regla explicada en S47-T2-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva digest/card/compatibilidad verificados; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-TAC-047-2B` satisface un predicado de dominio real; imprime `S47-T2-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"features-v3\",\"serving_feature_version\":\"features-v3\",\"card_sections\":{\"use\",\"limits\",\"metrics\",\"risks\"}}}\nmeets_contract = record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4\nstatus = \"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\"\nprint(\"S47-T2-B\", status)\n"
+    },
+    {
+      "id": "S47-T2-B-E2",
+      "instruction": "S47-T2-B-E2 · Audita tres rutas de `artefactos, model card y compatibilidad`: fixture válido, fixture adverso y registro sin `card_sections`. Entrada: dict con case_id, artifact_digest, feature_version, serving_feature_version, card_sections. Salidas exactas: `PASS`, `REJECT_MODEL_ARTIFACT`, `MISSING:card_sections`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a card_sections debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S47-T2-B: digest, compatibilidad de features y card completa. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `card_sections` ausente y produce exactamente `PASS REJECT_MODEL_ARTIFACT MISSING:card_sections`.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T2-B-E3",
+      "instruction": "S47-T2-B-E3 · Recupera fallo cerrado para `artefactos, model card y compatibilidad` con tres fixtures distintos. `CASO-TAC-047-2B` debe continuar, el adverso debe devolver `REJECT_MODEL_ARTIFACT` y la ausencia de `card_sections` debe devolver `COMPLETE_MODEL_CARD`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `COMPLETE_MODEL_CARD` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró digest, compatibilidad de features y card completa; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-TAC-047-2B`, adverso y sin `card_sections` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T3-A-E1",
+      "instruction": "S47-T3-A-E1 · Verifica el contrato de `batch/online y feature consistency` sobre `CASO-TAC-047-3A`. La entrada es el dict completo del starter; la operación debe demostrar paridad batch/online sin leakage y contract tests. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `DISABLE_INCONSISTENT_SERVING` en E2.",
+      "hints": [
+        "Relaciona los campos `batch_features`, `online_features`, `leakage`, `contract_tests` con la regla explicada en S47-T3-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva paridad de features en fixtures; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-TAC-047-3A` satisface un predicado de dominio real; imprime `S47-T3-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\":[0.1,0.4,0.8],\"online_features\":[0.1,0.4,0.8],\"leakage\":False,\"contract_tests\":3}}\nmeets_contract = record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"]\nstatus = \"PASS\" if meets_contract else \"DISABLE_INCONSISTENT_SERVING\"\nprint(\"S47-T3-A\", status)\n"
+    },
+    {
+      "id": "S47-T3-A-E2",
+      "instruction": "S47-T3-A-E2 · Decide tres rutas de `batch/online y feature consistency`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, batch_features, online_features, leakage, contract_tests. Salidas exactas: `PASS`, `DISABLE_INCONSISTENT_SERVING`, `MISSING:contract_tests`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S47-T3-A: paridad batch/online sin leakage y contract tests. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `contract_tests` ausente y produce exactamente `PASS DISABLE_INCONSISTENT_SERVING MISSING:contract_tests`.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T3-A-E3",
+      "instruction": "S47-T3-A-E3 · Contrasta fallo cerrado para `batch/online y feature consistency` con tres fixtures distintos. `CASO-TAC-047-3A` debe continuar, el adverso debe devolver `DISABLE_INCONSISTENT_SERVING` y la ausencia de `contract_tests` debe devolver `TRACE_FEATURE_PIPELINE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `TRACE_FEATURE_PIPELINE` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró paridad batch/online sin leakage y contract tests; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-TAC-047-3A`, adverso y sin `contract_tests` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T3-B-E1",
+      "instruction": "S47-T3-B-E1 · Clasifica el contrato de `latency, batching y fallback` sobre `CASO-TAC-047-3B`. La entrada es el dict completo del starter; la operación debe demostrar p95 bajo SLO, batch acotado y fallback probado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ACTIVATE_SAFE_FALLBACK` en E2.",
+      "hints": [
+        "Relaciona los campos `p95_ms`, `slo_ms`, `batch_size`, `fallback`, `fallback_tested` con la regla explicada en S47-T3-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva SLO de latencia y fallback probado; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-TAC-047-3B` satisface un predicado de dominio real; imprime `S47-T3-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\":120,\"slo_ms\":180,\"batch_size\":16,\"fallback\":\"rules-v2\",\"fallback_tested\":True}}\nmeets_contract = record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"]\nstatus = \"PASS\" if meets_contract else \"ACTIVATE_SAFE_FALLBACK\"\nprint(\"S47-T3-B\", status)\n"
+    },
+    {
+      "id": "S47-T3-B-E2",
+      "instruction": "S47-T3-B-E2 · Calcula tres rutas de `latency, batching y fallback`: fixture válido, fixture adverso y registro sin `fallback_tested`. Entrada: dict con case_id, p95_ms, slo_ms, batch_size, fallback, fallback_tested. Salidas exactas: `PASS`, `ACTIVATE_SAFE_FALLBACK`, `MISSING:fallback_tested`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a fallback_tested debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S47-T3-B: p95 bajo SLO, batch acotado y fallback probado. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `fallback_tested` ausente y produce exactamente `PASS ACTIVATE_SAFE_FALLBACK MISSING:fallback_tested`.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T3-B-E3",
+      "instruction": "S47-T3-B-E3 · Instrumenta fallo cerrado para `latency, batching y fallback` con tres fixtures distintos. `CASO-TAC-047-3B` debe continuar, el adverso debe devolver `ACTIVATE_SAFE_FALLBACK` y la ausencia de `fallback_tested` debe devolver `TUNE_BATCH_OR_CAPACITY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `TUNE_BATCH_OR_CAPACITY` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró p95 bajo SLO, batch acotado y fallback probado; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-TAC-047-3B`, adverso y sin `fallback_tested` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T4-A-E1",
+      "instruction": "S47-T4-A-E1 · Audita el contrato de `shadow/canary y monitoring hooks` sobre `CASO-TAC-047-4A`. La entrada es el dict completo del starter; la operación debe demostrar tráfico limitado, quality/error gates y hooks. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `STOP_CANARY` en E2.",
+      "hints": [
+        "Relaciona los campos `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_rate`, `max_error_rate`, `hooks` con la regla explicada en S47-T4-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva canary con criterio promote/stop; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-TAC-047-4A` satisface un predicado de dominio real; imprime `S47-T4-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"quality_delta\":0.01,\"max_quality_drop\":0.02,\"error_rate\":0.004,\"max_error_rate\":0.01,\"hooks\":True}}\nmeets_contract = record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"]\nstatus = \"PASS\" if meets_contract else \"STOP_CANARY\"\nprint(\"S47-T4-A\", status)\n"
+    },
+    {
+      "id": "S47-T4-A-E2",
+      "instruction": "S47-T4-A-E2 · Compara tres rutas de `shadow/canary y monitoring hooks`: fixture válido, fixture adverso y registro sin `hooks`. Entrada: dict con case_id, mode, traffic_pct, quality_delta, max_quality_drop, error_rate, max_error_rate, hooks. Salidas exactas: `PASS`, `STOP_CANARY`, `MISSING:hooks`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a hooks debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S47-T4-A: tráfico limitado, quality/error gates y hooks. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `hooks` ausente y produce exactamente `PASS STOP_CANARY MISSING:hooks`.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T4-A-E3",
+      "instruction": "S47-T4-A-E3 · Aísla fallo cerrado para `shadow/canary y monitoring hooks` con tres fixtures distintos. `CASO-TAC-047-4A` debe continuar, el adverso debe devolver `STOP_CANARY` y la ausencia de `hooks` debe devolver `COLLECT_MORE_SHADOW_EVIDENCE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `COLLECT_MORE_SHADOW_EVIDENCE` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró tráfico limitado, quality/error gates y hooks; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-TAC-047-4A`, adverso y sin `hooks` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T4-B-E1",
+      "instruction": "S47-T4-B-E1 · Decide el contrato de `rollback, retirement y audit` sobre `CASO-TAC-047-4B`. La entrada es el dict completo del starter; la operación debe demostrar last-known-good compatible, rollback y retiro auditado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `ROLLBACK_TO_LAST_GOOD` en E2.",
+      "hints": [
+        "Relaciona los campos `current`, `last_good`, `compatible_features`, `rollback_tested`, `retired`, `audit_entry` con la regla explicada en S47-T4-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva restauración y retirement auditados; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-TAC-047-4B` satisface un predicado de dominio real; imprime `S47-T4-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\":\"1.2.0\",\"last_good\":\"1.1.0\",\"compatible_features\":True,\"rollback_tested\":True,\"retired\":{\"1.0.0\"},\"audit_entry\":True}}\nmeets_contract = not record[\"compatible_features\"] or not record[\"rollback_tested\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_TO_LAST_GOOD\"\nprint(\"S47-T4-B\", status)\n"
+    },
+    {
+      "id": "S47-T4-B-E2",
+      "instruction": "S47-T4-B-E2 · Filtra tres rutas de `rollback, retirement y audit`: fixture válido, fixture adverso y registro sin `audit_entry`. Entrada: dict con case_id, current, last_good, compatible_features, rollback_tested, retired, audit_entry. Salidas exactas: `PASS`, `ROLLBACK_TO_LAST_GOOD`, `MISSING:audit_entry`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a audit_entry debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S47-T4-B: last-known-good compatible, rollback y retiro auditado. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `audit_entry` ausente y produce exactamente `PASS ROLLBACK_TO_LAST_GOOD MISSING:audit_entry`.",
+      "starterCode": null
+    },
+    {
+      "id": "S47-T4-B-E3",
+      "instruction": "S47-T4-B-E3 · Demuestra fallo cerrado para `rollback, retirement y audit` con tres fixtures distintos. `CASO-TAC-047-4B` debe continuar, el adverso debe devolver `ROLLBACK_TO_LAST_GOOD` y la ausencia de `audit_entry` debe devolver `REVIEW_RETIREMENT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REVIEW_RETIREMENT` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró last-known-good compatible, rollback y retiro auditado; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-TAC-047-4B`, adverso y sin `audit_entry` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    }
+  ],
+  "packet_sha": "6db69c7bb291df8e",
+  "attempt_id": "agentic_L1"
+}

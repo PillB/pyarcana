@@ -953,6 +953,151 @@ def attempt_level_gates(attempt_id: str) -> list[dict]:
                     })
 
 
+    # === PHRASE-BANK / SC_KEYS BULK THEATER (K1/K2 generator fingerprints) ===
+    # Permanent anti-theater: detect combinatorial phrase banks and hardcoded
+    # SC_CORRECT/SC_KEYS maps used by quarantined bulk writers.
+    PHRASE_BANK = [
+        "releer con desconfianza",
+        "sigo dudando de atajos",
+        "vocabulario del paquete",
+        "me resisto a copiar sin entender",
+        "prefiero lo aburrido y verificable",
+        "exijo evidencia en el paquete activo",
+        "desconfío de respuestas",
+        "cruzar con la demo ido",
+        "si dejo ____ o pass, el checklist me caza",
+        "si invento librerías fuera del paquete",
+        "escéptico en s0",
+        "decidí contrastar con el output de la demo",
+    ]
+    phrase_fixture = ROOT_FIX / "tests/fixtures/theater_phrase_bank.json"
+    if phrase_fixture.exists():
+        try:
+            pf = json.loads(phrase_fixture.read_text(encoding="utf-8"))
+            PHRASE_BANK = list(dict.fromkeys(PHRASE_BANK + list(pf.get("markers") or [])))
+        except Exception:
+            pass
+    just_n = 0
+    phrase_hits = 0
+    phrase_marker_counts: dict[str, int] = {}
+    for i in range(1, 53):
+        for lab in ("newbie_a_live.json", "newbie_b_live.json"):
+            lp = root / f"section_{i:02d}" / lab
+            if not lp.exists():
+                continue
+            try:
+                live = json.loads(lp.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            for e in (live.get("exercises") or []) + (live.get("selfcheck") or []):
+                j = (e.get("justification_from_packet") or "").lower()
+                if not j.strip():
+                    continue
+                just_n += 1
+                hit = False
+                for m in PHRASE_BANK:
+                    if m.lower() in j:
+                        phrase_marker_counts[m] = phrase_marker_counts.get(m, 0) + 1
+                        hit = True
+                if hit:
+                    phrase_hits += 1
+    if just_n >= 100:
+        frac = phrase_hits / just_n
+        # any single marker on ≥8% of justifications OR combined ≥12%
+        top_marker_frac = (
+            max(phrase_marker_counts.values()) / just_n if phrase_marker_counts else 0.0
+        )
+        if frac >= 0.12 or top_marker_frac >= 0.08:
+            issues.append({
+                "tag": "PHRASE_BANK_JUSTIFICATION",
+                "severity": "P0",
+                "detail": (
+                    f"phrase_bank_hits={phrase_hits}/{just_n} ({frac:.2%}) "
+                    f"top_marker_frac={top_marker_frac:.2%} "
+                    f"top={sorted(phrase_marker_counts.items(), key=lambda x: -x[1])[:4]}"
+                ),
+            })
+
+    # SC map identity vs quarantined SC_CORRECT / SC_KEYS fixtures
+    sc_map_dir = ROOT_FIX / "tests/fixtures/theater_sc_maps"
+    if sc_map_dir.exists() and sc_seq:
+        live_flat: list[int] = []
+        for k in sorted(sc_seq.keys(), key=lambda x: int(x)):
+            live_flat.extend(sc_seq[k])
+        sc_map_hits = []
+        for fp in sc_map_dir.glob("*.json"):
+            try:
+                base = json.loads(fp.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            # fixture: {"1": [0,2,3,...], "2": [...]} section -> indices
+            base_pairs = []
+            for sk, arr in base.items():
+                try:
+                    si = int(sk)
+                except Exception:
+                    continue
+                if not isinstance(arr, list):
+                    continue
+                base_pairs.append((si, [int(x) for x in arr]))
+            if not base_pairs:
+                continue
+            same = 0
+            total_cmp = 0
+            for si, arr in base_pairs:
+                live_arr = sc_seq.get(str(si)) or sc_seq.get(si) or []
+                if not live_arr:
+                    # sc_seq keys may be int
+                    live_arr = sc_seq.get(si) or []
+                n = min(len(arr), len(live_arr))
+                if n < 3:
+                    continue
+                total_cmp += n
+                same += sum(1 for a, b in zip(arr[:n], live_arr[:n]) if int(a) == int(b))
+            if total_cmp >= 20:
+                ident = same / total_cmp
+                if ident >= 0.90:
+                    sc_map_hits.append((fp.name, round(ident, 3), total_cmp))
+        # Correct curriculum answers alone match rebalanced keys — only flag with
+        # other bulk-theater co-signals (phrase bank, reseal admission, etc.).
+        if sc_map_hits:
+            co = {
+                "PHRASE_BANK_JUSTIFICATION",
+                "JUSTIFICATION_MASS",
+                "SC_JUSTIFICATION_MASS",
+                "SUSPICIOUS_UNIFORM_DURATION",
+                "DIVERSIFY_FORENSICS",
+                "MECHANICAL_IDENTITY_STAMP",
+                "ADMITTED_BULK_OR_RESEAL",
+            }
+            if any(i.get("tag") in co for i in issues) or meta.get("reseal_note"):
+                issues.append({
+                    "tag": "SC_KEYS_MAP_LINEAGE",
+                    "severity": "P0",
+                    "detail": (
+                        f"selfcheck matches quarantined SC_CORRECT/SC_KEYS maps "
+                        f"with bulk co-signal: {sc_map_hits[:5]}"
+                    ),
+                })
+
+    # meta reseal / bulk generator admission (standalone P0)
+    if meta.get("reseal_note") or any(
+        k in meta for k in ("forensic_reseal", "bulk_generator", "base_sols_path")
+    ):
+        issues.append({
+            "tag": "ADMITTED_BULK_OR_RESEAL",
+            "severity": "P0",
+            "detail": "meta.reseal_note or bulk_generator field admits non-agentic production",
+        })
+    else:
+        reseal_blob = json.dumps(meta, ensure_ascii=False).lower()
+        if "timestamp reassignment" in reseal_blob or "forensic reseal" in reseal_blob:
+            issues.append({
+                "tag": "ADMITTED_BULK_OR_RESEAL",
+                "severity": "P0",
+                "detail": "meta text admits timestamp reassignment / forensic reseal",
+            })
+
     # Independence vs prior_clean if declared
     prior = meta.get("prior_clean") or meta.get("independence_baseline")
     if prior and (root.parent / prior).exists():

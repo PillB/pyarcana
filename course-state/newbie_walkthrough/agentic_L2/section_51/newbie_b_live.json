@@ -1,0 +1,226 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 51,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-ske-s51-99a88029a7dd",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S51-T1-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-MOQ-051-1A', **{'trace_id': 'tr-moq-51', 'spans': {'answer', 'prompt', 'retrieval', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': False}}\nrecord = payload\nmeets_contract = bool(not (not record[\"trace_id\"] or record[\"pii_in_trace\"]))\nstatus = (\"PASS\" if meets_contract else \"REDACT_AND_QUARANTINE_TRACE\")\nprint(\"S51-T1-A\", status)\n",
+      "justification_from_packet": "Skeptic sobre S51-T1-A-E1: no acepto el booleano invertido del starter. El paquete exige demostrar trace completo, bundle versionado y cero PII en CASO-MOQ-051-1A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «traces de prompts/retrieval/tools».",
+      "status": "answered",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S51-T1-A-E2",
+      "code": "REQUIRED = {'case_id', 'pii_in_trace', 'spans', 'trace_id', 'versions'}\nREJECT = 'REDACT_AND_QUARANTINE_TRACE'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-MOQ-051-1A', **{'trace_id': 'tr-moq-51', 'spans': {'answer', 'prompt', 'retrieval', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': False}}\nadverse_fx = {\"case_id\": 'CASO-MOQ-051-1A', **{'trace_id': 'tr-moq-51', 'spans': {'answer', 'prompt', 'retrieval', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('pii_in_trace', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S51-T1-A-E2 contrasté el fixture válido contra el adverso del mismo subtema «traces de prompts/retrieval/tools». La regla el contrato del subtema solo aprueba CASO-MOQ-051-1A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S51-T1-A-E3",
+      "code": "REQUIRED = {'case_id', 'pii_in_trace', 'spans', 'trace_id', 'versions'}\nBREACH = 'REDACT_AND_QUARANTINE_TRACE'\nUNCERTAIN = 'RESTORE_TRACE_CONTEXT'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (not record[\"trace_id\"] or record[\"pii_in_trace\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-MOQ-051-1A', **{'trace_id': 'tr-moq-51', 'spans': {'answer', 'prompt', 'retrieval', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': False}}\nbad = {\"case_id\": 'CASO-MOQ-051-1A', **{'trace_id': 'tr-moq-51', 'spans': {'answer', 'prompt', 'retrieval', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': True}}\ngap = {k: good[k] for k in good if k != 'pii_in_trace'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "En S51-T1-A-E3 contrasté el fixture válido contra el adverso del mismo subtema «traces de prompts/retrieval/tools». La regla el contrato del subtema solo aprueba CASO-MOQ-051-1A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S51-T1-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-MOQ-051-1B', **{'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200, 'redacted_fields': 4}}\nrecord = payload\nmeets_contract = bool(not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"]))\nstatus = (\"PASS\" if meets_contract else \"ALERT_COST_LATENCY\")\nprint(\"S51-T1-B\", status)\n",
+      "justification_from_packet": "En S51-T1-B-E1 contrasté el fixture válido contra el adverso del mismo subtema «tokens, costo, latency y redacción». La regla tokens cuadran, p95 bajo SLO y campos redactados solo aprueba CASO-MOQ-051-1B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S51-T1-B-E2",
+      "code": "REQUIRED = {'answer_tokens', 'case_id', 'p95_ms', 'prompt_tokens', 'redacted_fields', 'retrieval_tokens', 'slo_ms', 'total_tokens'}\nREJECT = 'ALERT_COST_LATENCY'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-MOQ-051-1B', **{'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200, 'redacted_fields': 4}}\nadverse_fx = {\"case_id\": 'CASO-MOQ-051-1B', **{'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 0, 'p95_ms': 900, 'slo_ms': 1200, 'redacted_fields': 4}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('redacted_fields', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S51-T1-B-E2 contrasté el fixture válido contra el adverso del mismo subtema «tokens, costo, latency y redacción». La regla el contrato del subtema solo aprueba CASO-MOQ-051-1B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S51-T1-B-E3",
+      "code": "REQUIRED = {'answer_tokens', 'case_id', 'p95_ms', 'prompt_tokens', 'redacted_fields', 'retrieval_tokens', 'slo_ms', 'total_tokens'}\nBREACH = 'ALERT_COST_LATENCY'\nUNCERTAIN = 'FIX_REDACTION_PIPELINE'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-MOQ-051-1B', **{'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200, 'redacted_fields': 4}}\nbad = {\"case_id\": 'CASO-MOQ-051-1B', **{'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 0, 'p95_ms': 900, 'slo_ms': 1200, 'redacted_fields': 4}}\ngap = {k: good[k] for k in good if k != 'redacted_fields'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "En S51-T1-B-E3 contrasté el fixture válido contra el adverso del mismo subtema «tokens, costo, latency y redacción». La regla el contrato del subtema solo aprueba CASO-MOQ-051-1B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S51-T2-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-MOQ-051-2A', **{'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': True}}\nrecord = payload\nmeets_contract = bool(not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\"))))\nstatus = (\"PASS\" if meets_contract else \"FREEZE_RELEASE_BUNDLE\")\nprint(\"S51-T2-A\", status)\n",
+      "justification_from_packet": "Auditoría de S51-T2-A-E1: el starter fallaba a propósito. Apliqué seis versiones explícitas y bundle inmutable con trazas del caso CASO-MOQ-051-2A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S51-T2-A-E2",
+      "code": "REQUIRED = {'case_id', 'dataset', 'evaluator', 'immutable', 'index', 'model', 'prompt', 'release'}\nREJECT = 'FREEZE_RELEASE_BUNDLE'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-MOQ-051-2A', **{'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': True}}\nadverse_fx = {\"case_id\": 'CASO-MOQ-051-2A', **{'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': False}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('immutable', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Auditoría de S51-T2-A-E2: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-MOQ-051-2A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S51-T2-A-E3",
+      "code": "REQUIRED = {'case_id', 'dataset', 'evaluator', 'immutable', 'index', 'model', 'prompt', 'release'}\nBREACH = 'FREEZE_RELEASE_BUNDLE'\nUNCERTAIN = 'REGISTER_MISSING_VERSION'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\"))):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-MOQ-051-2A', **{'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': True}}\nbad = {\"case_id\": 'CASO-MOQ-051-2A', **{'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': False}}\ngap = {k: good[k] for k in good if k != 'immutable'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S51-T2-A-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-MOQ-051-2A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «registro de modelo/prompt/dataset».",
+      "status": "answered",
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S51-T2-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-MOQ-051-2B', **{'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': True}}\nrecord = payload\nmeets_contract = bool(not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\")))\nstatus = (\"PASS\" if meets_contract else \"REJECT_UNGOVERNED_CHANGE\")\nprint(\"S51-T2-B\", status)\n",
+      "justification_from_packet": "Skeptic sobre S51-T2-B-E1: no acepto el booleano invertido del starter. El paquete exige demostrar separación de funciones, scope read, retención y audit en CASO-MOQ-051-2B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «cambio, acceso, retención y auditoría».",
+      "status": "answered",
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S51-T2-B-E2",
+      "code": "REQUIRED = {'access_scope', 'approver', 'audit_append_only', 'author', 'case_id', 'retention_days', 'risk'}\nREJECT = 'REJECT_UNGOVERNED_CHANGE'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-MOQ-051-2B', **{'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': True}}\nadverse_fx = {\"case_id\": 'CASO-MOQ-051-2B', **{'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': False}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('audit_append_only', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S51-T2-B-E2 contrasté el fixture válido contra el adverso del mismo subtema «cambio, acceso, retención y auditoría». La regla el contrato del subtema solo aprueba CASO-MOQ-051-2B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S51-T2-B-E3",
+      "code": "REQUIRED = {'access_scope', 'approver', 'audit_append_only', 'author', 'case_id', 'retention_days', 'risk'}\nBREACH = 'REJECT_UNGOVERNED_CHANGE'\nUNCERTAIN = 'REQUEST_INDEPENDENT_APPROVAL'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\")):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-MOQ-051-2B', **{'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': True}}\nbad = {\"case_id\": 'CASO-MOQ-051-2B', **{'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': False}}\ngap = {k: good[k] for k in good if k != 'audit_append_only'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Auditoría de S51-T2-B-E3: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-MOQ-051-2B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S51-T3-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-MOQ-051-3A', **{'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}}\nrecord = payload\nmeets_contract = bool(not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"]))\nstatus = (\"PASS\" if meets_contract else \"OPEN_COPILOT_INCIDENT\")\nprint(\"S51-T3-A\", status)\n",
+      "justification_from_packet": "Auditoría de S51-T3-A-E1: el starter fallaba a propósito. Apliqué availability/faithfulness/drift bajo SLO con owner con trazas del caso CASO-MOQ-051-3A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S51-T3-A-E2",
+      "code": "REQUIRED = {'availability', 'availability_slo', 'case_id', 'drift', 'faithfulness', 'faithfulness_slo', 'max_drift', 'owner'}\nREJECT = 'OPEN_COPILOT_INCIDENT'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-MOQ-051-3A', **{'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}}\nadverse_fx = {\"case_id\": 'CASO-MOQ-051-3A', **{'availability': -0.0010000000000000009, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('owner', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Auditoría de S51-T3-A-E2: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-MOQ-051-3A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S51-T3-A-E3",
+      "code": "REQUIRED = {'availability', 'availability_slo', 'case_id', 'drift', 'faithfulness', 'faithfulness_slo', 'max_drift', 'owner'}\nBREACH = 'OPEN_COPILOT_INCIDENT'\nUNCERTAIN = 'TRIAGE_DRIFT_SLICE'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-MOQ-051-3A', **{'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}}\nbad = {\"case_id\": 'CASO-MOQ-051-3A', **{'availability': -0.0010000000000000009, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}}\ngap = {k: good[k] for k in good if k != 'owner'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Auditoría de S51-T3-A-E3: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-MOQ-051-3A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S51-T3-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-MOQ-051-3B', **{'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}}\nrecord = payload\nmeets_contract = bool(not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]))\nstatus = (\"PASS\" if meets_contract else \"ROLLBACK_AND_CONTAIN\")\nprint(\"S51-T3-B\", status)\n",
+      "justification_from_packet": "Skeptic sobre S51-T3-B-E1: no acepto el booleano invertido del starter. El paquete exige demostrar contención, last-good, RTO y acciones con dueño en CASO-MOQ-051-3B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «incidents, rollback y postmortem».",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S51-T3-B-E2",
+      "code": "REQUIRED = {'case_id', 'contained', 'owners_assigned', 'postmortem_actions', 'rollback_minutes', 'rolled_back_to', 'rto_minutes'}\nREJECT = 'ROLLBACK_AND_CONTAIN'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-MOQ-051-3B', **{'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}}\nadverse_fx = {\"case_id\": 'CASO-MOQ-051-3B', **{'contained': False, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('owners_assigned', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S51-T3-B-E2 contrasté el fixture válido contra el adverso del mismo subtema «incidents, rollback y postmortem». La regla el contrato del subtema solo aprueba CASO-MOQ-051-3B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S51-T3-B-E3",
+      "code": "REQUIRED = {'case_id', 'contained', 'owners_assigned', 'postmortem_actions', 'rollback_minutes', 'rolled_back_to', 'rto_minutes'}\nBREACH = 'ROLLBACK_AND_CONTAIN'\nUNCERTAIN = 'CONVENE_INCIDENT_REVIEW'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-MOQ-051-3B', **{'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}}\nbad = {\"case_id\": 'CASO-MOQ-051-3B', **{'contained': False, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}}\ngap = {k: good[k] for k in good if k != 'owners_assigned'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S51-T3-B-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-MOQ-051-3B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «incidents, rollback y postmortem».",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S51-T4-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-MOQ-051-4A', **{'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}}\nrecord = payload\nmeets_contract = bool(not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"]))\nstatus = (\"PASS\" if meets_contract else \"BLOCK_UNCONFIRMED_ACTION\")\nprint(\"S51-T4-A\", status)\n",
+      "justification_from_packet": "Skeptic sobre S51-T4-A-E1: no acepto el booleano invertido del starter. El paquete exige demostrar incertidumbre/citas visibles y efecto confirmado en CASO-MOQ-051-4A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «incertidumbre, citas y confirmaciones».",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S51-T4-A-E2",
+      "code": "REQUIRED = {'case_id', 'citations_resolve', 'confirmation_required', 'confirmed', 'effect_summary', 'uncertainty_shown'}\nREJECT = 'BLOCK_UNCONFIRMED_ACTION'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-MOQ-051-4A', **{'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}}\nadverse_fx = {\"case_id\": 'CASO-MOQ-051-4A', **{'uncertainty_shown': False, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('confirmed', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S51-T4-A-E2 contrasté el fixture válido contra el adverso del mismo subtema «incertidumbre, citas y confirmaciones». La regla el contrato del subtema solo aprueba CASO-MOQ-051-4A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S51-T4-A-E3",
+      "code": "REQUIRED = {'case_id', 'citations_resolve', 'confirmation_required', 'confirmed', 'effect_summary', 'uncertainty_shown'}\nBREACH = 'BLOCK_UNCONFIRMED_ACTION'\nUNCERTAIN = 'ASK_USER_TO_CONFIRM'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-MOQ-051-4A', **{'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}}\nbad = {\"case_id\": 'CASO-MOQ-051-4A', **{'uncertainty_shown': False, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}}\ngap = {k: good[k] for k in good if k != 'confirmed'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S51-T4-A-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-MOQ-051-4A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «incertidumbre, citas y confirmaciones».",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S51-T4-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-MOQ-051-4B', **{'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}}\nrecord = payload\nmeets_contract = bool(not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"]))\nstatus = (\"PASS\" if meets_contract else \"FAIL_ACCESSIBILITY_GATE\")\nprint(\"S51-T4-B\", status)\n",
+      "justification_from_packet": "Skeptic sobre S51-T4-B-E1: no acepto el booleano invertido del starter. El paquete exige demostrar teclado/lector/contraste y corrección/apelación en CASO-MOQ-051-4B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «accesibilidad, corrección y contestabilidad».",
+      "status": "answered",
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S51-T4-B-E2",
+      "code": "REQUIRED = {'appeal_to_human', 'case_id', 'contrast_ratio', 'correction_available', 'keyboard_complete', 'min_contrast', 'screen_reader_labels'}\nREJECT = 'FAIL_ACCESSIBILITY_GATE'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-MOQ-051-4B', **{'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}}\nadverse_fx = {\"case_id\": 'CASO-MOQ-051-4B', **{'keyboard_complete': False, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('appeal_to_human', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Skeptic sobre S51-T4-B-E2: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-MOQ-051-4B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «accesibilidad, corrección y contestabilidad».",
+      "status": "answered",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S51-T4-B-E3",
+      "code": "REQUIRED = {'appeal_to_human', 'case_id', 'contrast_ratio', 'correction_available', 'keyboard_complete', 'min_contrast', 'screen_reader_labels'}\nBREACH = 'FAIL_ACCESSIBILITY_GATE'\nUNCERTAIN = 'ROUTE_CONTESTATION'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-MOQ-051-4B', **{'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}}\nbad = {\"case_id\": 'CASO-MOQ-051-4B', **{'keyboard_complete': False, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}}\ngap = {k: good[k] for k in good if k != 'appeal_to_human'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S51-T4-B-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-MOQ-051-4B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «accesibilidad, corrección y contestabilidad».",
+      "status": "answered",
+      "confidence": 0.79
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic en S51 Q0: «trace reconstruible sin PII» es la respuesta que no oculta el error ni inventa evidencia. El paquete lo marca al hablar de Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de exportar observ.",
+      "status": "answered",
+      "confidence": 0.8
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic en S51 Q1: «emitir ROLLBACK_COPILOT y conservar evidencia» es la respuesta que no oculta el error ni inventa evidencia. El paquete lo marca al hablar de Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de exportar observ.",
+      "status": "answered",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Descarté capturas vacías o PII real en Q2/S51. La opción «se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir» es la única que preserva auditoría según el texto del paquete: Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de exportar observ.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic en S51 Q3: «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» es la respuesta que no oculta el error ni inventa evidencia. El paquete lo marca al hablar de Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de exportar observ.",
+      "status": "answered",
+      "confidence": 0.83
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "S51-uncertainty-routing",
+      "note": "Separar MISSING de breach costó una relectura de hints E3 del paquete."
+    }
+  ],
+  "recorded_at": "2026-07-23T18:03:28.536669+00:00",
+  "session_started_at": "2026-07-23T18:02:21.682188+00:00",
+  "session_ended_at": "2026-07-23T18:03:28.533919+00:00",
+  "receipt_response_sha256": "f4e9bd5dfc3604e9a7076cc7d1bb49cf16ea845d2b2c7714f891cad8b2844cd0",
+  "receipt_exercises_sha256": "c34d067068afabafeb25c834d0ae479fa77bfc2b1bf5acee324619847589c169",
+  "receipt_selfcheck_sha256": "445a0e53e886052745777be6b9d65fcc4eb4d044e12cee531e43ba6d861bc49c"
+}

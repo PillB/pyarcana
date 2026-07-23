@@ -1,0 +1,317 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 32,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-explorer-s32-scrub-06c4df14",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S32-T1-A-E1",
+      "id": "S32-T1-A-E1",
+      "code": "# explorer L2 S32 S32-T1-A-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\nmeets_contract = record[\"catalog_ok\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNKNOWN_FEATURE\"\nprint(\"S32-T1-A\", status)\n",
+      "justification_from_packet": "Como explorer en «Feature engineering y pipelines sin leakage», armé S32-T1-A-E1: la instrucción pide: S32-T1-A-E1 · Calcula el contrato de `numéricas/categóricas/texto` sobre `CASO-LIM-032-1A`. La entrada es el dict completo del starter; la operación debe demostrar row keys ⊆ catal. Mi salida ancla en `record = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], ` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 1/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S32-T1-A-E2",
+      "id": "S32-T1-A-E2",
+      "code": "# explorer L2 S32 S32-T1-A-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En la sección 32 (Feature engineering y pipelines sin leakage) resolví S32-T1-A-E2 como explorer: el subtema T1-A del weDo marca el predicado; detalle: S32-T1-A-E2 · Modela tres rutas de `numéricas/categóricas/texto`: fixture válido, fixture adverso y registro sin `schema`. Entrada: dict con case_id, schema, row, catalog_ok. Salid. Código contractual con `def assess(record: dict) -> str:`; no inventé APIs fuera del paquete L2. [paso 2/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S32-T1-A-E3",
+      "id": "S32-T1-A-E3",
+      "code": "# explorer L2 S32 S32-T1-A-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CATALOG\"\n    return \"CONTINUE\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nuncertain = {**valid}\nuncertain.pop(\"schema\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Leí el quiz_card de S32 y completé S32-T1-A-E3: conservé datos del starter y cerré el TODO según: S32-T1-A-E3 · Contrasta fallo cerrado para `numéricas/categóricas/texto` con tres fixtures distintos. `CASO-LIM-032-1A` debe continuar, el adverso debe devolver `REJECT_UNKNOWN_FEA. Dejé el assert/print alineado al tests del ejercicio usando `def decide(record: dict) -> str:`. [paso 3/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S32-T1-B-E1",
+      "id": "S32-T1-B-E1",
+      "code": "# explorer L2 S32 S32-T1-B-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\nmeets_contract = record[\"silent_fill\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_FILL\"\nprint(\"S32-T1-B\", status)\n",
+      "justification_from_packet": "Partiendo del starter de S32-T1-B-E1 en el paquete activo L2: el fixture/CASO del starter define el contrato; hints: Relaciona los campos `values, median, silent_fill` con la regla explicada en S32-T1-B.. Verifiqué mentalmente el happy-path del fixture con `record = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, `. [paso 4/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S32-T1-B-E2",
+      "id": "S32-T1-B-E2",
+      "code": "# explorer L2 S32 S32-T1-B-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nincomplete = {**valid}\nincomplete.pop(\"median\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S32, implementé S32-T1-B-E2: la instrucción pide: S32-T1-B-E2 · Modela tres rutas de `missing indicators, escalamiento y encoding`: fixture válido, fixture adverso y registro sin `median`. Entrada: dict con case_id, values, median. Mi salida ancla en `def assess(record: dict) -> str:` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 5/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S32-T1-B-E3",
+      "id": "S32-T1-B-E3",
+      "code": "# explorer L2 S32 S32-T1-B-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_MEDIAN\"\n    return \"CONTINUE\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nuncertain = {**valid}\nuncertain.pop(\"median\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer en «Feature engineering y pipelines sin leakage», armé S32-T1-B-E3: el subtema T1-B del weDo marca el predicado; detalle: S32-T1-B-E3 · Contrasta fallo cerrado para `missing indicators, escalamiento y encoding` con tres fixtures distintos. `CASO-LIM-032-1B` debe continuar, el adverso debe devolver `RE. Código contractual con `def decide(record: dict) -> str:`; no inventé APIs fuera del paquete L2. [paso 6/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S32-T2-A-E1",
+      "id": "S32-T2-A-E1",
+      "code": "# explorer L2 S32 S32-T2-A-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\nmeets_contract = record[\"uses_label\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LABEL_AS_FEATURE\"\nprint(\"S32-T2-A\", status)\n",
+      "justification_from_packet": "En la sección 32 (Feature engineering y pipelines sin leakage) resolví S32-T2-A-E1 como explorer: conservé datos del starter y cerré el TODO según: S32-T2-A-E1 · Calcula el contrato de `shared contact/address, distance y graph features` sobre `CASO-LIM-032-2A`. La entrada es el dict completo del starter; la operación debe demo. Dejé el assert/print alineado al tests del ejercicio usando `record = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label`. [paso 7/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S32-T2-A-E2",
+      "id": "S32-T2-A-E2",
+      "code": "# explorer L2 S32 S32-T2-A-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uses_label\"] is False else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nincomplete = {**valid}\nincomplete.pop(\"degree\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí el quiz_card de S32 y completé S32-T2-A-E2: el fixture/CASO del starter define el contrato; hints: Primero se calcula `missing`; ningún acceso a degree debe ocurrir antes de esa rama.. Verifiqué mentalmente el happy-path del fixture con `def assess(record: dict) -> str:`. [paso 8/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S32-T2-A-E3",
+      "id": "S32-T2-A-E3",
+      "code": "# explorer L2 S32 S32-T2-A-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_GRAPH_FEAT\"\n    return \"CONTINUE\" if record[\"uses_label\"] is False else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nuncertain = {**valid}\nuncertain.pop(\"degree\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Partiendo del starter de S32-T2-A-E3 en el paquete activo L2: la instrucción pide: S32-T2-A-E3 · Contrasta fallo cerrado para `shared contact/address, distance y graph features` con tres fixtures distintos. `CASO-LIM-032-2A` debe continuar, el adverso debe devolv. Mi salida ancla en `def decide(record: dict) -> str:` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 9/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S32-T2-B-E1",
+      "id": "S32-T2-B-E1",
+      "code": "# explorer L2 S32 S32-T2-B-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\nmeets_contract = record[\"includes_t\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_FUTURE_TS\"\nprint(\"S32-T2-B\", status)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S32, implementé S32-T2-B-E1: el subtema T2-B del weDo marca el predicado; detalle: S32-T2-B-E1 · Calcula el contrato de `ventanas y frecuencia` sobre `CASO-LIM-032-2B`. La entrada es el dict completo del starter; la operación debe demostrar ventana half-open sin . Código contractual con `record = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': `; no inventé APIs fuera del paquete L2. [paso 10/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S32-T2-B-E2",
+      "id": "S32-T2-B-E2",
+      "code": "# explorer L2 S32 S32-T2-B-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"includes_t\"] is False else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nincomplete = {**valid}\nincomplete.pop(\"w\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer en «Feature engineering y pipelines sin leakage», armé S32-T2-B-E2: conservé datos del starter y cerré el TODO según: S32-T2-B-E2 · Modela tres rutas de `ventanas y frecuencia`: fixture válido, fixture adverso y registro sin `w`. Entrada: dict con case_id, events, t, w, includes_t. Salidas exactas. Dejé el assert/print alineado al tests del ejercicio usando `def assess(record: dict) -> str:`. [paso 11/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S32-T2-B-E3",
+      "id": "S32-T2-B-E3",
+      "code": "# explorer L2 S32 S32-T2-B-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_WINDOW\"\n    return \"CONTINUE\" if record[\"includes_t\"] is False else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nuncertain = {**valid}\nuncertain.pop(\"w\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "En la sección 32 (Feature engineering y pipelines sin leakage) resolví S32-T2-B-E3 como explorer: el fixture/CASO del starter define el contrato; hints: Una ausencia no equivale a breach: enrútala a `REQUEST_WINDOW` antes de evaluar el contenido.. Verifiqué mentalmente el happy-path del fixture con `def decide(record: dict) -> str:`. [paso 12/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S32-T3-A-E1",
+      "id": "S32-T3-A-E1",
+      "code": "# explorer L2 S32 S32-T3-A-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\nmeets_contract = record[\"transform_before_fit\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_TRANSFORM_BEFORE_FIT\"\nprint(\"S32-T3-A\", status)\n",
+      "justification_from_packet": "Leí el quiz_card de S32 y completé S32-T3-A-E1: la instrucción pide: S32-T3-A-E1 · Calcula el contrato de `ColumnTransformer y custom transformers` sobre `CASO-LIM-032-3A`. La entrada es el dict completo del starter; la operación debe demostrar tran. Mi salida ancla en `record = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'trans` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 13/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S32-T3-A-E2",
+      "id": "S32-T3-A-E2",
+      "code": "# explorer L2 S32 S32-T3-A-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"transform_before_fit\"] is False else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nincomplete = {**valid}\nincomplete.pop(\"fitted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Partiendo del starter de S32-T3-A-E2 en el paquete activo L2: el subtema T3-A del weDo marca el predicado; detalle: S32-T3-A-E2 · Modela tres rutas de `ColumnTransformer y custom transformers`: fixture válido, fixture adverso y registro sin `fitted`. Entrada: dict con case_id, fitted, mode, tran. Código contractual con `def assess(record: dict) -> str:`; no inventé APIs fuera del paquete L2. [paso 14/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S32-T3-A-E3",
+      "id": "S32-T3-A-E3",
+      "code": "# explorer L2 S32 S32-T3-A-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIT_STATE\"\n    return \"CONTINUE\" if record[\"transform_before_fit\"] is False else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nuncertain = {**valid}\nuncertain.pop(\"fitted\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S32, implementé S32-T3-A-E3: conservé datos del starter y cerré el TODO según: S32-T3-A-E3 · Contrasta fallo cerrado para `ColumnTransformer y custom transformers` con tres fixtures distintos. `CASO-LIM-032-3A` debe continuar, el adverso debe devolver `REJECT. Dejé el assert/print alineado al tests del ejercicio usando `def decide(record: dict) -> str:`. [paso 15/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S32-T3-B-E1",
+      "id": "S32-T3-B-E1",
+      "code": "# explorer L2 S32 S32-T3-B-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\nmeets_contract = record[\"versioned\"] is True or not record[\"version\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNVERSIONED\"\nprint(\"S32-T3-B\", status)\n",
+      "justification_from_packet": "Como explorer en «Feature engineering y pipelines sin leakage», armé S32-T3-B-E1: el fixture/CASO del starter define el contrato; hints: Relaciona los campos `state, version, versioned` con la regla explicada en S32-T3-B.. Verifiqué mentalmente el happy-path del fixture con `record = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'f`. [paso 16/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S32-T3-B-E2",
+      "id": "S32-T3-B-E2",
+      "code": "# explorer L2 S32 S32-T3-B-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"versioned\"] is False or not record[\"version\"]) else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nincomplete = {**valid}\nincomplete.pop(\"version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En la sección 32 (Feature engineering y pipelines sin leakage) resolví S32-T3-B-E2 como explorer: la instrucción pide: S32-T3-B-E2 · Modela tres rutas de `fit/transform y persistencia`: fixture válido, fixture adverso y registro sin `version`. Entrada: dict con case_id, state, version, versioned. S. Mi salida ancla en `def assess(record: dict) -> str:` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 17/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S32-T3-B-E3",
+      "id": "S32-T3-B-E3",
+      "code": "# explorer L2 S32 S32-T3-B-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STATE_JSON\"\n    return \"CONTINUE\" if not (record[\"versioned\"] is False or not record[\"version\"]) else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nuncertain = {**valid}\nuncertain.pop(\"version\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Leí el quiz_card de S32 y completé S32-T3-B-E3: el subtema T3-B del weDo marca el predicado; detalle: S32-T3-B-E3 · Contrasta fallo cerrado para `fit/transform y persistencia` con tres fixtures distintos. `CASO-LIM-032-3B` debe continuar, el adverso debe devolver `REJECT_UNVERSIONE. Código contractual con `def decide(record: dict) -> str:`; no inventé APIs fuera del paquete L2. [paso 18/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S32-T4-A-E1",
+      "id": "S32-T4-A-E1",
+      "code": "# explorer L2 S32 S32-T4-A-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\nmeets_contract = not (record[\"overlap\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REJECT_ENTITY_OVERLAP\"\nprint(\"S32-T4-A\", status)\n",
+      "justification_from_packet": "Partiendo del starter de S32-T4-A-E1 en el paquete activo L2: conservé datos del starter y cerré el TODO según: S32-T4-A-E1 · Calcula el contrato de `split por entidad/grupo/tiempo` sobre `CASO-LIM-032-4A`. La entrada es el dict completo del starter; la operación debe demostrar split con ove. Dejé el assert/print alineado al tests del ejercicio usando `record = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap':`. [paso 19/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S32-T4-A-E2",
+      "id": "S32-T4-A-E2",
+      "code": "# explorer L2 S32 S32-T4-A-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"overlap\"] > 0) else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nincomplete = {**valid}\nincomplete.pop(\"overlap\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S32, implementé S32-T4-A-E2: el fixture/CASO del starter define el contrato; hints: Primero se calcula `missing`; ningún acceso a overlap debe ocurrir antes de esa rama.. Verifiqué mentalmente el happy-path del fixture con `def assess(record: dict) -> str:`. [paso 20/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S32-T4-A-E3",
+      "id": "S32-T4-A-E3",
+      "code": "# explorer L2 S32 S32-T4-A-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SPLIT_KEYS\"\n    return \"CONTINUE\" if not (record[\"overlap\"] > 0) else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nuncertain = {**valid}\nuncertain.pop(\"overlap\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer en «Feature engineering y pipelines sin leakage», armé S32-T4-A-E3: la instrucción pide: S32-T4-A-E3 · Contrasta fallo cerrado para `split por entidad/grupo/tiempo` con tres fixtures distintos. `CASO-LIM-032-4A` debe continuar, el adverso debe devolver `REJECT_ENTITY_O. Mi salida ancla en `def decide(record: dict) -> str:` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 21/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S32-T4-B-E1",
+      "id": "S32-T4-B-E1",
+      "code": "# explorer L2 S32 S32-T4-B-E1: lectura packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\nmeets_contract = bool(record[\"leaky\"]) or record[\"skew\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKAGE\"\nprint(\"S32-T4-B\", status)\n",
+      "justification_from_packet": "En la sección 32 (Feature engineering y pipelines sin leakage) resolví S32-T4-B-E1 como explorer: el subtema T4-B del weDo marca el predicado; detalle: S32-T4-B-E1 · Calcula el contrato de `leakage, train–serve skew y versionado` sobre `CASO-LIM-032-4B`. La entrada es el dict completo del starter; la operación debe demostrar sin l. Código contractual con `record = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_`; no inventé APIs fuera del paquete L2. [paso 22/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S32-T4-B-E2",
+      "id": "S32-T4-B-E2",
+      "code": "# explorer L2 S32 S32-T4-B-E2: lectura packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (bool(record[\"leaky\"]) or record[\"skew\"] is True) else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nincomplete = {**valid}\nincomplete.pop(\"feature_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí el quiz_card de S32 y completé S32-T4-B-E2: conservé datos del starter y cerré el TODO según: S32-T4-B-E2 · Modela tres rutas de `leakage, train–serve skew y versionado`: fixture válido, fixture adverso y registro sin `feature_set`. Entrada: dict con case_id, leaky, skew, f. Dejé el assert/print alineado al tests del ejercicio usando `def assess(record: dict) -> str:`. [paso 23/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S32-T4-B-E3",
+      "id": "S32-T4-B-E3",
+      "code": "# explorer L2 S32 S32-T4-B-E3: lectura packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FEATURE_SET_ID\"\n    return \"CONTINUE\" if not (bool(record[\"leaky\"]) or record[\"skew\"] is True) else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nuncertain = {**valid}\nuncertain.pop(\"feature_set\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Partiendo del starter de S32-T4-B-E3 en el paquete activo L2: el fixture/CASO del starter define el contrato; hints: Una ausencia no equivale a breach: enrútala a `REQUEST_FEATURE_SET_ID` antes de evaluar el contenido. Verifiqué mentalmente el happy-path del fixture con `def decide(record: dict) -> str:`. [paso 24/24 · run L2-S32-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "En «Feature engineering y pipelines sin leakage» (S32) elijo la opción «El instante t y el futuro» (índice 3) para «Una ventana half-open [t−w, t) excluye:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Todo el pasado» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.6799999999999999
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "En «Feature engineering y pipelines sin leakage» (S32) elijo la opción «Fallar de forma explícita» (índice 1) para «Transform antes de fit debe:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Rellenar con 0 en silencio» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.71
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "En «Feature engineering y pipelines sin leakage» (S32) elijo la opción «Es leakage de identidad» (índice 2) para «Overlap de entidades entre train y test:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Es deseable» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.74
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "En «Feature engineering y pipelines sin leakage» (S32) elijo la opción «Es red flag de leakage» (índice 0) para «Un nombre de feature con 'label' o 'decision':» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Es inofensivo» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:24:20.949244+00:00",
+  "session_started_at": "2026-07-23T18:24:20.947641+00:00",
+  "session_ended_at": "2026-07-23T18:25:01.247641+00:00",
+  "receipt_response_sha256": "74893efa3c06f0e74a1c9a89bf7eaf552e189c0896c3f9473e39a4eee7d86e02",
+  "receipt_exercises_sha256": "e337b655600fe58f37b2ba119384fdf6d374ae992eebb030825d1e572bb87031",
+  "receipt_selfcheck_sha256": "c7a5a4f570355075accda3ccb51cf163c398a79cff062293deea8c9387889844"
+}

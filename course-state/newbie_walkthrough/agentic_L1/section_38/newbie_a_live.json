@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 38,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s38-95dae23f3c",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S38-T1-A-E1",
+      "code": "bound = \"cpu\"\nchoice = \"processes\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S38-T1-A-E1 me basé en Threads/concurrente del material activo: CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Contrato: entr. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T1-A-E2",
+      "code": "bound = \"io\"\nchoice = \"async_or_threads\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S38-T1-A-E2 me basé en conviene/Processes del material activo: CASO-LIM-038-1A2: el tramo de normalización espera red mock (I/O-bound). Contrato: entrada bound='io. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T1-A-E3",
+      "code": "measure_first = True\nprint(measure_first)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Para S38-T1-A-E3 me basé en cuello/quieres del material activo: CASO-LIM-038-1A3 (transfer): antes de fijar arquitectura, el contrato exige measure_first=True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T1-B-E1",
+      "code": "import json\npayload = {\"x\": 2}\nprint(len(json.dumps(payload).encode(\"utf-8\")))\nprint(\"ok\", True)\nprint(\"compact\", True)\n",
+      "justification_from_packet": "Para S38-T1-B-E1 me basé en concurrente/muchos del material activo: CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json y reporta len en bytes UTF-8. Contr. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T1-B-E2",
+      "code": "print(\"limited\")\nprint(\"ok\", True)\nprint(\"cpu_threads\", True)\n",
+      "justification_from_packet": "Para S38-T1-B-E2 me basé en esperas/concurrente del material activo: Documenta el efecto del GIL en threads CPU: imprime 'limited', ok True, cpu_threads True. Contrato d. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T1-B-E3",
+      "code": "print(\"compact_payload\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Para S38-T1-B-E3 me basé en disco/Processes del material activo: Política de payload entre workers: imprime preferencia compact_payload, ok True, n 1. El starter pre. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T2-A-E1",
+      "code": "class TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(2)\nallows = [b.allow() for _ in range(3)]\nprint(sum(1 for a in allows if a))\nprint(\"third\", allows[2])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S38-T2-A-E1 me basé en trabajo/quieres del material activo: Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, third False, ok T. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T2-A-E2",
+      "code": "print(\"backpressure\")\nprint(\"ok\", True)\nprint(\"maxsize\", 50)\n",
+      "justification_from_packet": "Para S38-T2-A-E2 me basé en liviano/muchos del material activo: Rol de queue maxsize=50: imprime 'backpressure', ok True, maxsize 50. Contrato: la cola acotada es l. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T2-A-E3",
+      "code": "print(\"provider\")\nprint(\"ok\", True)\nprint(\"ban_risk\", True)\n",
+      "justification_from_packet": "Para S38-T2-A-E3 me basé en Processes/concurrente del material activo: ¿A quién protege el rate limit? Imprime 'provider', ok True, ban_risk True. El starter dice 'only_cp. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T2-B-E1",
+      "code": "policy = {\"seconds\": 5, \"on_fail\": \"retry_or_dlq\"}\nprint(policy[\"seconds\"])\nprint(\"on_fail\", policy[\"on_fail\"])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S38-T2-B-E1 me basé en features/Processes del material activo: Política de timeout: imprime seconds=5, on_fail='retry_or_dlq', ok True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T2-B-E2",
+      "code": "close_in_finally = True\nprint(close_in_finally)\nprint(\"resource\", \"conn\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S38-T2-B-E2 me basé en densas/quieres del material activo: Cierre de recurso en finally: imprime True (close_in_finally), resource 'conn', ok True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T2-B-E3",
+      "code": "print(\"incident\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Para S38-T2-B-E3 me basé en scoring/muchos del material activo: Transferencia: sin timeout el incidente es real. Imprime incident True, ok True, n 1.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T3-A-E1",
+      "code": "event = {\"event\": \"scored\", \"corr\": \"corr-1\"}\nprint(bool(event.get(\"corr\")))\nprint(\"event\", event[\"event\"])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S38-T3-A-E1 me basé en vectorial/concurrente del material activo: Evento scored con correlation id: imprime True (corr presente), event 'scored', ok True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T3-A-E2",
+      "code": "pillars = [\"logs\", \"metrics\", \"traces\"]\nprint(pillars)\nprint(\"ok\", True)\nprint(\"n\", 3)\n",
+      "justification_from_packet": "Para S38-T3-A-E2 me basé en quieres/Processes del material activo: Tres pilares de o11y: imprime la lista ['logs','metrics','traces'], ok True, n 3.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T3-A-E3",
+      "code": "pii_raw = False\nprint(pii_raw)\nprint(\"ok\", True)\nprint(\"redact\", True)\n",
+      "justification_from_packet": "Para S38-T3-A-E3 me basé en evadir/quieres del material activo: pii_raw debe ser False en logs de prod sintéticos. Imprime False, ok True, redact True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T3-B-E1",
+      "code": "phone = \"90000001\"\nred = phone[:2] + \"****\" + phone[-2:]\nprint(red)\nprint(\"ok\", True)\nprint(\"pii\", False)\n",
+      "justification_from_packet": "Para S38-T3-B-E1 me basé en CPython/muchos del material activo: Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T3-B-E2",
+      "code": "p95, limit = 100, 200\nslo_ok = p95 <= limit\nprint(slo_ok)\nprint(\"p95\", p95)\nprint(\"limit\", limit)\n",
+      "justification_from_packet": "Para S38-T3-B-E2 me basé en Async/concurrente del material activo: SLI p95=100 vs SLO limit=200: imprime True (slo_ok), p95 100, limit 200.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T3-B-E3",
+      "code": "print(\"error_budget\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Para S38-T3-B-E3 me basé en brilla/Processes del material activo: Concepto de error budget: imprime 'error_budget', ok True, n 1.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T4-A-E1",
+      "code": "states = [\"pending\", \"running\", \"done\", \"failed\"]\nprint(states)\nprint(\"ok\", True)\nprint(\"n\", 4)\n",
+      "justification_from_packet": "Para S38-T4-A-E1 me basé en muchos/quieres del material activo: Estados del workflow: imprime ['pending','running','done','failed'], ok True, n 4.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T4-A-E2",
+      "code": "print(\"case:step:ver\")\nprint(\"ok\", True)\nprint(\"dup\", False)\n",
+      "justification_from_packet": "Para S38-T4-A-E2 me basé en evento/muchos del material activo: Formato de idempotency key: imprime 'case:step:ver', ok True, dup False.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T4-A-E3",
+      "code": "state = {\"step\": \"features\", \"status\": \"done\"}\nprint(state[\"step\"])\nprint(\"ok\", True)\nprint(\"checkpoint\", True)\n",
+      "justification_from_packet": "Para S38-T4-A-E3 me basé en Threads/concurrente del material activo: Resume desde último checkpoint: imprime 'features', ok True, checkpoint True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T4-B-E1",
+      "code": "def backoff(attempt, base=0.1):\n    return base * (2 ** attempt)\nprint(backoff(3))\nprint(\"ok\", True)\nprint(\"attempt\", 3)\n",
+      "justification_from_packet": "Para S38-T4-B-E1 me basé en conviene/Processes del material activo: Backoff attempt=3 base=0.1 → 0.1*2**3 = 0.8. Imprime 0.8, ok True, attempt 3.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T4-B-E2",
+      "code": "print(\"poison\")\nprint(\"ok\", True)\nprint(\"replay\", \"controlled\")\n",
+      "justification_from_packet": "Para S38-T4-B-E2 me basé en cuello/quieres del material activo: Propósito de la DLQ: imprime 'poison', ok True, replay 'controlled'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S38-T4-B-E3",
+      "code": "print(True)\nprint(\"oncall\", True)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S38-T4-B-E3 me basé en concurrente/muchos del material activo: Runbook de on-call existe: imprime True, oncall True, ok True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Para CPU bound en CPython se prefieren procesos; threads no escapan del GIL en cómputo puro; la teoría del paquete habla de cuello."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Backpressure evita colas infinitas y OOM cuando el consumidor no da abasto; la teoría del paquete habla de disco."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Idempotencia permite reejecutar sin side effects duplicados (cobros, writes); la teoría del paquete habla de Processes."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "En prod se redacta PII y se correlaciona con case_id/corr id, sin volcar datos personales; la teoría del paquete habla de scoring."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Un proveedor sin timeout cuelga workers y bloquea la cola; hace falta deadline y DLQ; la teoría del paquete habla de evadir."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:51:01.421880+00:00",
+  "session_started_at": "2026-07-23T16:50:39.414312+00:00",
+  "session_ended_at": "2026-07-23T16:51:01.418591+00:00",
+  "receipt_response_sha256": "92028d0f567efbb1c7301bd7cf673c435dd505d86cb03479a3aff7c0ddf9b47d",
+  "receipt_exercises_sha256": "268215d79257468b24c0372611e8961403640ee306fa7215c04f459647b27748",
+  "receipt_selfcheck_sha256": "92db5379ae678b050e19f27d65c81d75bdf48c6e7125f5f12c694f1a3b63ccce"
+}

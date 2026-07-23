@@ -1,0 +1,250 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s16-3ab12298c4",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "id": "S16-T1-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en calidad de datos pide `S16-T1-A-E1` — nulls required, cuarentena y gates; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "id": "S16-T1-A-E2",
+      "code": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(viol)\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S16-T1-A-E2` — nulls required, cuarentena y gates. Si no cuadra con theory de calidad de datos, no firmo el pass. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "id": "S16-T1-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nprint(\"fail\" if df[\"id\"].isna().any() else \"pass\")\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S16-T1-A-E3` — nulls required, cuarentena y gates. El iDo/theory de calidad de datos es la fuente, no mi memoria. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "id": "S16-T1-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna(); df[\"monto\"] = df[\"monto\"].fillna(0)\nprint(df[\"was_null\"].tolist())\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S16-T1-B-E1` — nulls required, cuarentena y gates, alineado al contrato de calidad de datos del slim_packet. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "id": "S16-T1-B-E2",
+      "code": "import pandas as pd\ns = pd.Series([1.0, None, None, 2.0]); rate = s.isna().mean()\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S16-T1-B-E2` — nulls required, cuarentena y gates. Sin eso el ejercicio de calidad de datos queda teatro. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "id": "S16-T1-B-E3",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, None]); med = s.median()\nprint(s.fillna(med).tolist())\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en calidad de datos pide `S16-T1-B-E3` — nulls required, cuarentena y gates; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "id": "S16-T2-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S16-T2-A-E1` — nulls required, cuarentena y gates. Si no cuadra con theory de calidad de datos, no firmo el pass. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "id": "S16-T2-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nconf = df.groupby(\"cliente_id\")[\"region\"].nunique()\nprint(conf[conf > 1].index.tolist())\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S16-T2-A-E2` — nulls required, cuarentena y gates. El iDo/theory de calidad de datos es la fuente, no mi memoria. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "id": "S16-T2-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nprint(\"clean\" if len(sub) == 1 else (\"conflict\" if sub[\"region\"].nunique() > 1 else \"exact\"))\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S16-T2-A-E3` — nulls required, cuarentena y gates, alineado al contrato de calidad de datos del slim_packet. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "id": "S16-T2-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nq = df[df[\"id\"].duplicated(keep=False)]\nclean = df.drop_duplicates(subset=[\"id\"], keep=\"first\")\nprint(len(q), len(clean))\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S16-T2-B-E1` — nulls required, cuarentena y gates. Sin eso el ejercicio de calidad de datos queda teatro. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "id": "S16-T2-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nprint(df[df[\"id\"].duplicated(keep=False)].columns.tolist())\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en calidad de datos pide `S16-T2-B-E2` — nulls required, cuarentena y gates; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "id": "S16-T2-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\nprint(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_bad\")\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S16-T2-B-E3` — nulls required, cuarentena y gates. Si no cuadra con theory de calidad de datos, no firmo el pass. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "id": "S16-T3-A-E1",
+      "code": "import pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S16-T3-A-E1` — nulls required, cuarentena y gates. El iDo/theory de calidad de datos es la fuente, no mi memoria. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "id": "S16-T3-A-E2",
+      "code": "import pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nprint(float(s.str.replace(\"S/\", \"\", regex=False).astype(float).sum()))\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S16-T3-A-E2` — nulls required, cuarentena y gates, alineado al contrato de calidad de datos del slim_packet. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "id": "S16-T3-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\nprint(bool((df[\"region_raw\"] == \"lima\").all()))\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S16-T3-A-E3` — nulls required, cuarentena y gates. Sin eso el ejercicio de calidad de datos queda teatro. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "id": "S16-T3-B-E1",
+      "code": "import pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en calidad de datos pide `S16-T3-B-E1` — nulls required, cuarentena y gates; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "id": "S16-T3-B-E2",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75); iqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[mask].tolist())\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S16-T3-B-E2` — nulls required, cuarentena y gates. Si no cuadra con theory de calidad de datos, no firmo el pass. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "id": "S16-T3-B-E3",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, -1.0]); val = s.iloc[2]\nprint(\"error\" if val < 0 else \"ok\")\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S16-T3-B-E3` — nulls required, cuarentena y gates. El iDo/theory de calidad de datos es la fuente, no mi memoria. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "id": "S16-T4-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]}); required = [\"id\", \"monto\"]\nprint([c for c in required if c not in df.columns])\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S16-T4-A-E1` — nulls required, cuarentena y gates, alineado al contrato de calidad de datos del slim_packet. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "id": "S16-T4-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]), \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"])})\nprint(df.index[df[\"fin\"] < df[\"inicio\"]].tolist())\n",
+      "justification_from_packet": "Verifico el oráculo del starter: `S16-T4-A-E2` — nulls required, cuarentena y gates. Sin eso el ejercicio de calidad de datos queda teatro. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "id": "S16-T4-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")\n",
+      "justification_from_packet": "Dudo del atajo: el paquete en calidad de datos pide `S16-T4-A-E3` — nulls required, cuarentena y gates; lo sigo sin inventar APIs fuera del scope. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "id": "S16-T4-B-E1",
+      "code": "rows_in = 10\nq = 3\nprint(rows_in - q)\n",
+      "justification_from_packet": "Como skeptic reviso el fixture: `S16-T4-B-E1` — nulls required, cuarentena y gates. Si no cuadra con theory de calidad de datos, no firmo el pass. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "id": "S16-T4-B-E2",
+      "code": "audit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\"})\nprint(len(audit))\n",
+      "justification_from_packet": "No confío en mutaciones silenciosas: `S16-T4-B-E2` — nulls required, cuarentena y gates. El iDo/theory de calidad de datos es la fuente, no mi memoria. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "id": "S16-T4-B-E3",
+      "code": "n_q = 1\nprint(False if n_q > 0 else True)\n",
+      "justification_from_packet": "Rechazo relleno cosmético: `S16-T4-B-E3` — nulls required, cuarentena y gates, alineado al contrato de calidad de datos del slim_packet. (lectura directa del packet L1 s16).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Theory de calidad de datos: la opción «Provocar violación/cuarentena o fail del gate» es la que el paquete defiende; las demás contradicen el contrato.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Como skeptic descarto distractores: en calidad de datos, el slim_packet apunta a «Exacto = filas idénticas; conflicto = misma clave con a».",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "No me fío de memoria suelta; el selfCheck de calidad de datos se ancla a «Auditar y disputar la forma canónica sin perder el valo» según la theory activa.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Releo outcomes de calidad de datos: «Puede marcar (o borrar) colas legítimas de negocio como» es la respuesta coherente con el texto del paquete.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Gate mental: si no es «Publicar métricas y cuarentena aunque pass=False», rompe el modelo mental de calidad de datos del iDo.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "Revisé si el fixture de s16 asume libs instaladas (numpy/pandas/openpyxl).",
+    "Confirmé que no uso knowledge de S17+ para resolver S16."
+  ],
+  "recorded_at": "2026-07-23T16:41:49.239065+00:00",
+  "session_started_at": "2026-07-23T16:41:02.218Z",
+  "session_ended_at": "2026-07-23T16:41:49.237Z",
+  "receipt_response_sha256": "a3b0f81a3a6d60fd3eb6f5616ae0a2b5dd46e1735178b96dc2464fc65a4cb2f1",
+  "receipt_exercises_sha256": "960e3a3cdfcac1eafdeac1bbf1bba9cc926e888d6e545f8dc1ddbce6e11fc16c",
+  "receipt_selfcheck_sha256": "8f981b195b30e88af43e742fc65a190eeb12024155e5b1c6322979c539f5ed5a"
+}

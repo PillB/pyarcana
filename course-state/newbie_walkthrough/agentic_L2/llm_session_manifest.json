@@ -1,0 +1,943 @@
+{
+  "attempt_id": "agentic_L2",
+  "prior_clean": "agentic_L1",
+  "entries": [
+    {
+      "section": 1,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:15:16.912234Z",
+      "ended_at": "2026-07-23T17:15:38.270919Z",
+      "subagent_or_session_id": "l2-newbie_a-s01-e585f0a1a197",
+      "response_sha256": "abcb4d41305f85a7b59f4d50aac47d59ebeaf8f6114eba5fd1c41d8667699653",
+      "latency_ms": 21358
+    },
+    {
+      "section": 1,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:15:55.667170Z",
+      "ended_at": "2026-07-23T17:16:20.336281Z",
+      "subagent_or_session_id": "l2-newbie_b-s01-c70b9195f66d",
+      "response_sha256": "6600efa1ff655e43b913047fbb732a647eceabbf6e0a7c686afa718c1e03d413",
+      "latency_ms": 24669
+    },
+    {
+      "section": 2,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:16:39.938748Z",
+      "ended_at": "2026-07-23T17:17:06.763634Z",
+      "subagent_or_session_id": "l2-newbie_a-s02-7f9380c7dd0e",
+      "response_sha256": "9d690bf6a342f2dc966e1d78186570cceced9388fcfbb507194332132aeb195d",
+      "latency_ms": 26824
+    },
+    {
+      "section": 2,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:17:26.938766Z",
+      "ended_at": "2026-07-23T17:17:56.586644Z",
+      "subagent_or_session_id": "l2-newbie_b-s02-7a40be7f3fc7",
+      "response_sha256": "3fad40f9a3b47b613ee449260205a2fdcca04d380a698e22ee12824dcfd80fd3",
+      "latency_ms": 29647
+    },
+    {
+      "section": 3,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:24:47.142538Z",
+      "ended_at": "2026-07-23T17:25:19.276457Z",
+      "subagent_or_session_id": "l2-newbie_a-s03-d624f790cd67",
+      "response_sha256": "141264c183874eeae5bb945ade12d78c4d491957632816de568029fe9c2cbb37",
+      "latency_ms": 32133
+    },
+    {
+      "section": 3,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:25:35.342525Z",
+      "ended_at": "2026-07-23T17:26:09.227813Z",
+      "subagent_or_session_id": "l2-newbie_b-s03-59a98fbf7afc",
+      "response_sha256": "5b5ee288e62f63e3083cea0374b728f2a867461256409c0f85b739b0e89b9a1a",
+      "latency_ms": 33885
+    },
+    {
+      "section": 4,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:26:21.268437Z",
+      "ended_at": "2026-07-23T17:26:58.031753Z",
+      "subagent_or_session_id": "l2-newbie_a-s04-54590fb9f2d1",
+      "response_sha256": "65dd62e6bf1886666b2cbceecd21ebfc520bff94f15acdc85918e3f1db5512d6",
+      "latency_ms": 36763
+    },
+    {
+      "section": 4,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:27:11.733454Z",
+      "ended_at": "2026-07-23T17:27:49.794608Z",
+      "subagent_or_session_id": "l2-newbie_b-s04-cd635e1e0b65",
+      "response_sha256": "737ca2c10e266a39aa947fa3bd9933cf79dbcafbcafa1dcf7a975476bf155c47",
+      "latency_ms": 38061
+    },
+    {
+      "section": 5,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:28:10.240182Z",
+      "ended_at": "2026-07-23T17:28:51.956509Z",
+      "subagent_or_session_id": "l2-newbie_a-s05-12132f5fda9b",
+      "response_sha256": "da559c7b4220c624a91869cced0c224e606feccf9ca35b7ee5b8459993870c30",
+      "latency_ms": 41716
+    },
+    {
+      "section": 5,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:29:12.168736Z",
+      "ended_at": "2026-07-23T17:29:55.999715Z",
+      "subagent_or_session_id": "l2-newbie_b-s05-c902eeaeb085",
+      "response_sha256": "b6cc8cedb5de2e28d0223aa36bf6fc41e2b7ca711e098b152fecf6c79099dbee",
+      "latency_ms": 43830
+    },
+    {
+      "section": 6,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:30:15.064098Z",
+      "ended_at": "2026-07-23T17:31:01.354314Z",
+      "subagent_or_session_id": "l2-newbie_a-s06-f09045648843",
+      "response_sha256": "b852bd2f709ff49d1bfbe2e4c34a5abc46946bd264f39ff8de64d9f712691893",
+      "latency_ms": 46290
+    },
+    {
+      "section": 6,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:31:19.687146Z",
+      "ended_at": "2026-07-23T17:32:08.431309Z",
+      "subagent_or_session_id": "l2-newbie_b-s06-b5f48830c123",
+      "response_sha256": "089901e47d749e99251954c795cefca8cdffb7a8e4298d1efd834fbeaffdf12d",
+      "latency_ms": 48744
+    },
+    {
+      "section": 7,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:32:29.903097Z",
+      "ended_at": "2026-07-23T17:33:21.100226Z",
+      "subagent_or_session_id": "l2-newbie_a-s07-7fb29102ce7c",
+      "response_sha256": "260ca87d2c936f7f554acaecf126929e6df606c7c5c120ad34eba0fb9893ea55",
+      "latency_ms": 51197
+    },
+    {
+      "section": 7,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:33:48.458568Z",
+      "ended_at": "2026-07-23T17:34:42.113245Z",
+      "subagent_or_session_id": "l2-newbie_b-s07-7ae5a3f883b1",
+      "response_sha256": "274c46da772efe363ba0470a200dbc78aa3a11e73703ad8a2e05a3ad9da0e91b",
+      "latency_ms": 53654
+    },
+    {
+      "section": 8,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:35:01.312277Z",
+      "ended_at": "2026-07-23T17:35:23.636760Z",
+      "subagent_or_session_id": "l2-newbie_a-s08-f116daeb65c1",
+      "response_sha256": "81a8c6194609cecc6a0e513e5fa347313731e58f1a2991fb7d82fcc5dce5770e",
+      "latency_ms": 22324
+    },
+    {
+      "section": 8,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:35:52.295281Z",
+      "ended_at": "2026-07-23T17:36:17.962160Z",
+      "subagent_or_session_id": "l2-newbie_b-s08-2849813ee4f3",
+      "response_sha256": "92eeab109b5f9a4f1cf08cba735fe4c2dd155cd3332bda275dbef89f6d7ca180",
+      "latency_ms": 25666
+    },
+    {
+      "section": 9,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:36:38.549695Z",
+      "ended_at": "2026-07-23T17:37:06.915336Z",
+      "subagent_or_session_id": "l2-newbie_a-s09-6a4ae87b44cd",
+      "response_sha256": "34cff46d11e6c7bbe05d06031bc0978248993ec7844cc871cc9e0ba72f2a0f34",
+      "latency_ms": 28365
+    },
+    {
+      "section": 9,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:37:24.496965Z",
+      "ended_at": "2026-07-23T17:37:56.176659Z",
+      "subagent_or_session_id": "l2-newbie_b-s09-f88a211715d7",
+      "response_sha256": "803a93d36e5eb6ead9b5e7a2600cb38c37539d9101f6c3d8ab4bc5166c4a2c72",
+      "latency_ms": 31679
+    },
+    {
+      "section": 10,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:38:07.885816Z",
+      "ended_at": "2026-07-23T17:38:43.250767Z",
+      "subagent_or_session_id": "l2-newbie_a-s10-a5a7d6c52baf",
+      "response_sha256": "da56ea67d978b9f7b2cb7a717933c3b59c7f3da91a998105d00052a87f5b3025",
+      "latency_ms": 35364
+    },
+    {
+      "section": 10,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:39:05.335005Z",
+      "ended_at": "2026-07-23T17:39:44.145879Z",
+      "subagent_or_session_id": "l2-newbie_b-s10-ab7c87344f61",
+      "response_sha256": "fe31d39b76a3ca7c400d027e6cd00d23ac24f7108092025f1babb14eae56c1d6",
+      "latency_ms": 38810
+    },
+    {
+      "section": 11,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:40:06.016590Z",
+      "ended_at": "2026-07-23T17:40:48.615535Z",
+      "subagent_or_session_id": "l2-newbie_a-s11-9a2131b24fc8",
+      "response_sha256": "c5836196d2c1454a94f5bcb10c6e38ff802aaa1660040849b5ec3065d52b9eaf",
+      "latency_ms": 42598
+    },
+    {
+      "section": 11,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:41:12.972923Z",
+      "ended_at": "2026-07-23T17:42:00.633990Z",
+      "subagent_or_session_id": "l2-newbie_b-s11-03166d445ba9",
+      "response_sha256": "48fad87b1a6b900dc6557ec1b3a97628b6592b872b7881995fe8df685bb6cda4",
+      "latency_ms": 47661
+    },
+    {
+      "section": 12,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:42:13.979509Z",
+      "ended_at": "2026-07-23T17:43:03.463538Z",
+      "subagent_or_session_id": "l2-newbie_a-s12-1a0d65bed339",
+      "response_sha256": "93901bf5aceae9aa223410dc7a48b2a0550634eaec553995b4f2284c004dd646",
+      "latency_ms": 49484
+    },
+    {
+      "section": 12,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:43:33.204691Z",
+      "ended_at": "2026-07-23T17:44:25.291921Z",
+      "subagent_or_session_id": "l2-newbie_b-s12-83e376ecef41",
+      "response_sha256": "c1a81bf8951655fc820c9173eb0a78e4c75c6deeb0f773450fd278a29f1652e9",
+      "latency_ms": 52087
+    },
+    {
+      "section": 13,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:44:42.599537Z",
+      "ended_at": "2026-07-23T17:45:37.220347Z",
+      "subagent_or_session_id": "l2-newbie_a-s13-dded48f7455a",
+      "response_sha256": "318e8ad54a29be3905d9035aacd241bbd65870411e7a532cf29ccea242f1c4f8",
+      "latency_ms": 54620
+    },
+    {
+      "section": 13,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:46:02.868999Z",
+      "ended_at": "2026-07-23T17:46:36.163371Z",
+      "subagent_or_session_id": "l2-newbie_b-s13-ebaf245625b8",
+      "response_sha256": "cc183e57ad3fefa89c9a46a97230db94ce32e6e62d912d96d3912c8a56477812",
+      "latency_ms": 33294
+    },
+    {
+      "section": 14,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:22:15.546841Z",
+      "ended_at": "2026-07-23T17:23:01.095996Z",
+      "subagent_or_session_id": "l2-explorer-a-7c91e2f4b8-s14",
+      "response_sha256": "5f5acf124cb0c55ba9c88b8b26dec12f3ec554d3f19486996d031d936f10dda8",
+      "latency_ms": 45549
+    },
+    {
+      "section": 14,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:23:02.418374Z",
+      "ended_at": "2026-07-23T17:23:48.837650Z",
+      "subagent_or_session_id": "l2-skeptic-b-3a55d0c91e-s14",
+      "response_sha256": "572a731f8a892c073168ff3c365239cfa0ad93f4ec612a94407c3d8be762c67e",
+      "latency_ms": 46419
+    },
+    {
+      "section": 15,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:23:49.354246Z",
+      "ended_at": "2026-07-23T17:24:13.436153Z",
+      "subagent_or_session_id": "l2-explorer-a-7c91e2f4b8-s15",
+      "response_sha256": "ca622ef66824f04a298ba3fadcfee3cf565a1b477a9b4a1bc50d8a937838ff84",
+      "latency_ms": 24081
+    },
+    {
+      "section": 15,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:24:14.705256Z",
+      "ended_at": "2026-07-23T17:24:50.980487Z",
+      "subagent_or_session_id": "l2-skeptic-b-3a55d0c91e-s15",
+      "response_sha256": "d1047305acf5251ee0e58d4668bfd31e1d49424a9653e18450d04cbeafc68282",
+      "latency_ms": 36275
+    },
+    {
+      "section": 16,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:24:53.022485Z",
+      "ended_at": "2026-07-23T17:25:15.605789Z",
+      "subagent_or_session_id": "l2-explorer-a-7c91e2f4b8-s16",
+      "response_sha256": "16922a844db174f6fe943842b33b8a7b3cfcbce3a91502f5f70677c0845ff40a",
+      "latency_ms": 22583
+    },
+    {
+      "section": 16,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:25:17.398310Z",
+      "ended_at": "2026-07-23T17:26:06.096084Z",
+      "subagent_or_session_id": "l2-skeptic-b-3a55d0c91e-s16",
+      "response_sha256": "6733ae338a18ed6e49e8866e696c42e1abd57cc5e27f4b4765231c55e1ae9ef4",
+      "latency_ms": 48697
+    },
+    {
+      "section": 17,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:26:07.597008Z",
+      "ended_at": "2026-07-23T17:26:40.154118Z",
+      "subagent_or_session_id": "l2-explorer-a-7c91e2f4b8-s17",
+      "response_sha256": "2f27c69d79025b2b3fb5fa993698440738276411f158024b55d2e463603f8315",
+      "latency_ms": 32557
+    },
+    {
+      "section": 17,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:26:42.188308Z",
+      "ended_at": "2026-07-23T17:27:17.701824Z",
+      "subagent_or_session_id": "l2-skeptic-b-3a55d0c91e-s17",
+      "response_sha256": "d6d360cfe02378d6b689b224cf2d2c2b29c8715cc80fd78e38db876d76bf271f",
+      "latency_ms": 35513
+    },
+    {
+      "section": 18,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:27:18.527094Z",
+      "ended_at": "2026-07-23T17:27:47.093651Z",
+      "subagent_or_session_id": "l2-explorer-a-7c91e2f4b8-s18",
+      "response_sha256": "8ef86a83db941dfd3535ee8b5a5e8120712952b1f27924d23e327952f320da5a",
+      "latency_ms": 28566
+    },
+    {
+      "section": 18,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:27:48.450407Z",
+      "ended_at": "2026-07-23T17:28:19.660664Z",
+      "subagent_or_session_id": "l2-skeptic-b-3a55d0c91e-s18",
+      "response_sha256": "dccadf6a4fa7848c35989db3fdc9e84726f7fe90a748e7dc2ceb8cf9400da12f",
+      "latency_ms": 31210
+    },
+    {
+      "section": 19,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:28:20.946091Z",
+      "ended_at": "2026-07-23T17:29:20.413527Z",
+      "subagent_or_session_id": "l2-explorer-a-7c91e2f4b8-s19",
+      "response_sha256": "5ad8869eee7638ff73c08f07c42a86d34efbccee1ed6d9e241db80264ee2a5a6",
+      "latency_ms": 59467
+    },
+    {
+      "section": 19,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:29:20.946791Z",
+      "ended_at": "2026-07-23T17:29:56.414247Z",
+      "subagent_or_session_id": "l2-skeptic-b-3a55d0c91e-s19",
+      "response_sha256": "e4b6a865df4f152e5e4374a47f612855109e17c46c2cc1ddc7cb7133d2d2636c",
+      "latency_ms": 35467
+    },
+    {
+      "section": 20,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:29:57.380193Z",
+      "ended_at": "2026-07-23T17:30:31.593815Z",
+      "subagent_or_session_id": "l2-explorer-a-7c91e2f4b8-s20",
+      "response_sha256": "59975e8b19f7d5e9b4843668605f6f1716e69722035a9974e0489d49c9825363",
+      "latency_ms": 34213
+    },
+    {
+      "section": 20,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:30:32.055855Z",
+      "ended_at": "2026-07-23T17:31:05.539299Z",
+      "subagent_or_session_id": "l2-skeptic-b-3a55d0c91e-s20",
+      "response_sha256": "a6f7e71595953131f9229063a7b9192e0cfa7398d981a8aafc29845dbe75b57d",
+      "latency_ms": 33483
+    },
+    {
+      "section": 21,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:31:06.410643Z",
+      "ended_at": "2026-07-23T17:31:33.990779Z",
+      "subagent_or_session_id": "l2-explorer-a-7c91e2f4b8-s21",
+      "response_sha256": "97273bd33f03ed807c15163cd4a657c32b1ff88703f6ef61b616fdaf24a87e90",
+      "latency_ms": 27580
+    },
+    {
+      "section": 21,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:31:36.044586Z",
+      "ended_at": "2026-07-23T17:32:32.973007Z",
+      "subagent_or_session_id": "l2-skeptic-b-3a55d0c91e-s21",
+      "response_sha256": "5ef2443aff7bb06682f698a9dd938fa8e0874a6dcad6e091e581ef6e24f03a06",
+      "latency_ms": 56928
+    },
+    {
+      "section": 22,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:32:33.651029Z",
+      "ended_at": "2026-07-23T17:33:20.511842Z",
+      "subagent_or_session_id": "l2-explorer-a-7c91e2f4b8-s22",
+      "response_sha256": "23243871d4f8949f8f0bbb5284cc69f6ea9c42e14291c532b2c315230cc84875",
+      "latency_ms": 46860
+    },
+    {
+      "section": 22,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:33:21.816700Z",
+      "ended_at": "2026-07-23T17:34:19.349883Z",
+      "subagent_or_session_id": "l2-skeptic-b-3a55d0c91e-s22",
+      "response_sha256": "8131cb3250465ca22fc89ab62f68570bf84851febbb55158e773ed225b7ca6ad",
+      "latency_ms": 57533
+    },
+    {
+      "section": 23,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:34:19.876373Z",
+      "ended_at": "2026-07-23T17:34:44.591805Z",
+      "subagent_or_session_id": "l2-explorer-a-7c91e2f4b8-s23",
+      "response_sha256": "2f9568f2e48057865a60346affbeda5aa9d581f5498245ac7cc50e9ec9a45bab",
+      "latency_ms": 24715
+    },
+    {
+      "section": 23,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:34:45.508207Z",
+      "ended_at": "2026-07-23T17:35:25.811913Z",
+      "subagent_or_session_id": "l2-skeptic-b-3a55d0c91e-s23",
+      "response_sha256": "5750109bc37bba97467ce6e960766d342b6c1975c0b02935cfdfe49da80ba853",
+      "latency_ms": 40303
+    },
+    {
+      "section": 24,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:35:26.847674Z",
+      "ended_at": "2026-07-23T17:35:50.781050Z",
+      "subagent_or_session_id": "l2-explorer-a-7c91e2f4b8-s24",
+      "response_sha256": "05d4ff7dde4848c933d52d82fe418da4960035b4907661f5e78fa16cf36acbd1",
+      "latency_ms": 23933
+    },
+    {
+      "section": 24,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:35:52.763613Z",
+      "ended_at": "2026-07-23T17:36:19.500264Z",
+      "subagent_or_session_id": "l2-skeptic-b-3a55d0c91e-s24",
+      "response_sha256": "8fbfe12d465897bcc9af0af63a0a5137644651e635bbde669606d85058ce638d",
+      "latency_ms": 26736
+    },
+    {
+      "section": 25,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:36:20.865158Z",
+      "ended_at": "2026-07-23T17:36:55.323533Z",
+      "subagent_or_session_id": "l2-explorer-a-7c91e2f4b8-s25",
+      "response_sha256": "adb6b4b08e21d7c40bf6febdb731b02600744b1c23fa3a699ecc022085a570bd",
+      "latency_ms": 34458
+    },
+    {
+      "section": 25,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:36:56.441247Z",
+      "ended_at": "2026-07-23T17:37:33.068372Z",
+      "subagent_or_session_id": "l2-skeptic-b-3a55d0c91e-s25",
+      "response_sha256": "1e0b4257f8ded721c9be1be78c99c4b01af4df9b1f240dd0be149ed1d38aa481",
+      "latency_ms": 36627
+    },
+    {
+      "section": 26,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:24:13.483844Z",
+      "ended_at": "2026-07-23T17:24:55.183844Z",
+      "subagent_or_session_id": "l2-explorer-a-7c91e2f4b8-s26",
+      "response_sha256": "f13f71ef9a82006c0be41badb60e32aa1f495f06023e711155c8f45e324c2e6c",
+      "latency_ms": 41700
+    },
+    {
+      "section": 26,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:24:13.492151Z",
+      "ended_at": "2026-07-23T17:25:06.692151Z",
+      "subagent_or_session_id": "l2-skeptic-b-3a55d0c91e-s26",
+      "response_sha256": "a9be9f2e030eacc0a8adf483fe7345e370a5c1b8f05fd67e10e63cf16816c8f4",
+      "latency_ms": 53200
+    },
+    {
+      "section": 27,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:24:20.914425+00:00",
+      "ended_at": "2026-07-23T18:25:04.614425+00:00",
+      "subagent_or_session_id": "l2-explorer-s27-scrub-48a34acd",
+      "response_sha256": "6e65880fc19442dbc359c38049f238c3905b213521c42d33daaa2f30e462d2a6",
+      "latency_ms": 43700
+    },
+    {
+      "section": 27,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:47:41.758696Z",
+      "ended_at": "2026-07-23T17:48:05.469266Z",
+      "subagent_or_session_id": "l2-skeptic-b-16458c37aa-s27",
+      "response_sha256": "d5990e70f8d59472325082ef4695b0a8a29af0f9f58317cdf2ad0d57635a50d9",
+      "latency_ms": 23710
+    },
+    {
+      "section": 28,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:24:20.921523+00:00",
+      "ended_at": "2026-07-23T18:24:54.421523+00:00",
+      "subagent_or_session_id": "l2-explorer-s28-scrub-3875d087",
+      "response_sha256": "b3b747d0102d383cbab866dfdd3b70fc0d3bf6e283d8a5a539075220d02cb2d2",
+      "latency_ms": 33500
+    },
+    {
+      "section": 28,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:49:21.027110Z",
+      "ended_at": "2026-07-23T17:50:13.549389Z",
+      "subagent_or_session_id": "l2-skeptic-b-ce69aa6f74-s28",
+      "response_sha256": "3135372492f751dac7d90fc7f99879cb3cbc277f43a2c4260ee618c9e65a7a7e",
+      "latency_ms": 52522
+    },
+    {
+      "section": 29,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:24:20.928141+00:00",
+      "ended_at": "2026-07-23T18:24:56.128141+00:00",
+      "subagent_or_session_id": "l2-explorer-s29-scrub-8de0596d",
+      "response_sha256": "12aa54800483cf99eb63f491cb2a75e7c6f070b51df3e74f7cb6006bdb32318f",
+      "latency_ms": 35200
+    },
+    {
+      "section": 29,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:51:02.362074Z",
+      "ended_at": "2026-07-23T17:51:56.516394Z",
+      "subagent_or_session_id": "l2-skeptic-b-9909f5f746-s29",
+      "response_sha256": "81865e3b6818ef4252a9f36d26dc4826ac4e19f04ab876640d34a36ada33e94d",
+      "latency_ms": 54154
+    },
+    {
+      "section": 30,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:24:20.934181+00:00",
+      "ended_at": "2026-07-23T18:24:57.834181+00:00",
+      "subagent_or_session_id": "l2-explorer-s30-scrub-c1fc167b",
+      "response_sha256": "73728cd81ce16e9f4a539ce33eea955fde7e0dd4c7abb95ea7321f0c1b8f1041",
+      "latency_ms": 36900
+    },
+    {
+      "section": 30,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:52:43.673998Z",
+      "ended_at": "2026-07-23T17:53:47.897590Z",
+      "subagent_or_session_id": "l2-skeptic-b-5205814b7b-s30",
+      "response_sha256": "7d992bbb9c7e241c4fd08df105bfab407cbc0eeee6046df0b23bb07042780056",
+      "latency_ms": 64223
+    },
+    {
+      "section": 31,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:24:20.940739+00:00",
+      "ended_at": "2026-07-23T18:24:59.540739+00:00",
+      "subagent_or_session_id": "l2-explorer-s31-scrub-d632cb69",
+      "response_sha256": "aee06cc992794ee8b639a0730e8ff435b645f47b97431849ecc6b419751fc688",
+      "latency_ms": 38600
+    },
+    {
+      "section": 31,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:54:59.159259Z",
+      "ended_at": "2026-07-23T17:55:51.858340Z",
+      "subagent_or_session_id": "l2-skeptic-b-e96cd0f3af-s31",
+      "response_sha256": "ada86c5c7bebae1d09e51dca534fae6d052ee869b6038bdc2bdcd341c06760b6",
+      "latency_ms": 52699
+    },
+    {
+      "section": 32,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:24:20.947641+00:00",
+      "ended_at": "2026-07-23T18:25:01.247641+00:00",
+      "subagent_or_session_id": "l2-explorer-s32-scrub-06c4df14",
+      "response_sha256": "74893efa3c06f0e74a1c9a89bf7eaf552e189c0896c3f9473e39a4eee7d86e02",
+      "latency_ms": 40300
+    },
+    {
+      "section": 32,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:56:39.231370Z",
+      "ended_at": "2026-07-23T17:57:20.500195Z",
+      "subagent_or_session_id": "l2-skeptic-b-7d9423e43b-s32",
+      "response_sha256": "6d81bd36ff3136c7bfaf90b798087b9bc5146322749f1b789b875fc3908806be",
+      "latency_ms": 41268
+    },
+    {
+      "section": 33,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:24:20.955901+00:00",
+      "ended_at": "2026-07-23T18:25:02.955901+00:00",
+      "subagent_or_session_id": "l2-explorer-s33-scrub-90935e67",
+      "response_sha256": "03d48d048a99d00a9dfd12d8fce5db9557cdc9ec7e27754ae376c008f92af0ad",
+      "latency_ms": 42000
+    },
+    {
+      "section": 33,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:58:44.775264Z",
+      "ended_at": "2026-07-23T17:59:11.184420Z",
+      "subagent_or_session_id": "l2-skeptic-b-5afef8d897-s33",
+      "response_sha256": "1ee93b38955e217d8ff37b77f30bc3fc66ff8d894b86fa2bbbcd19222d451aff",
+      "latency_ms": 26409
+    },
+    {
+      "section": 34,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:24:20.963345+00:00",
+      "ended_at": "2026-07-23T18:25:04.663345+00:00",
+      "subagent_or_session_id": "l2-explorer-s34-scrub-ea566e26",
+      "response_sha256": "14780e4d6b6ec4086a2298ddc3bb9bc398052127de6b61c98ea73c64b32bb255",
+      "latency_ms": 43700
+    },
+    {
+      "section": 34,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T18:00:12.131528Z",
+      "ended_at": "2026-07-23T18:00:59.370478Z",
+      "subagent_or_session_id": "l2-skeptic-b-7dda1a76cb-s34",
+      "response_sha256": "ff033d11126ff1684c00db0b7ea14c9267d5f5e2dc0bf88f000f15b22f407946",
+      "latency_ms": 47238
+    },
+    {
+      "section": 35,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:24:20.970700+00:00",
+      "ended_at": "2026-07-23T18:24:54.470700+00:00",
+      "subagent_or_session_id": "l2-explorer-s35-scrub-fb7cbe17",
+      "response_sha256": "b477d62b318ef91d32991f402823066364b1f9ae4c587e017b92d1ea808f5ce1",
+      "latency_ms": 33500
+    },
+    {
+      "section": 35,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T18:01:52.098109Z",
+      "ended_at": "2026-07-23T18:02:54.360604Z",
+      "subagent_or_session_id": "l2-skeptic-b-3fd4372799-s35",
+      "response_sha256": "1e0470727b71042c1b2bf49131142ce481c0e1990aa7875e01bdecde93b00f2d",
+      "latency_ms": 62262
+    },
+    {
+      "section": 36,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:24:20.979590+00:00",
+      "ended_at": "2026-07-23T18:24:56.179590+00:00",
+      "subagent_or_session_id": "l2-explorer-s36-scrub-fc2a9f66",
+      "response_sha256": "f2d9ad34a8c97e838440315a61813a1870a77105b7c495fe2a879049a94c59f2",
+      "latency_ms": 35200
+    },
+    {
+      "section": 36,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T18:04:16.052244Z",
+      "ended_at": "2026-07-23T18:05:17.886422Z",
+      "subagent_or_session_id": "l2-skeptic-b-937aca0aaa-s36",
+      "response_sha256": "15474595e75bc35e1bc288789d24a867df18d5eea25ea2dd2fdbd90f6da7018b",
+      "latency_ms": 61834
+    },
+    {
+      "section": 37,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:24:20.987351+00:00",
+      "ended_at": "2026-07-23T18:24:57.887351+00:00",
+      "subagent_or_session_id": "l2-explorer-s37-scrub-663f0285",
+      "response_sha256": "d296b186c98cf7c7aa6ef1f1677ca21235e32ad46858010870b91a7c32b095d1",
+      "latency_ms": 36900
+    },
+    {
+      "section": 37,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T18:06:05.482313Z",
+      "ended_at": "2026-07-23T18:06:51.641278Z",
+      "subagent_or_session_id": "l2-skeptic-b-98b2a0666e-s37",
+      "response_sha256": "912e6e34107b32999c7d8a12d7eaaf66a86838a34b1360e855846e54009c6e1c",
+      "latency_ms": 46158
+    },
+    {
+      "section": 38,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:24:20.996057+00:00",
+      "ended_at": "2026-07-23T18:24:59.596057+00:00",
+      "subagent_or_session_id": "l2-explorer-s38-scrub-9d9be768",
+      "response_sha256": "84c272ee82ce94da2614475b7a88c2279821df8610f08c76a7146391ba1cd747",
+      "latency_ms": 38600
+    },
+    {
+      "section": 38,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T18:07:38.989114Z",
+      "ended_at": "2026-07-23T18:08:26.006130Z",
+      "subagent_or_session_id": "l2-skeptic-b-61fd181648-s38",
+      "response_sha256": "18db5c10de267e58ac569a5609e85a41ca0e2308b7afc57857ac10813d1cc9cd",
+      "latency_ms": 47017
+    },
+    {
+      "section": 39,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:24:21.004292+00:00",
+      "ended_at": "2026-07-23T18:25:01.304292+00:00",
+      "subagent_or_session_id": "l2-explorer-s39-scrub-836496e1",
+      "response_sha256": "74aec9eb0da8fa9fd800f257941aed38ffc926aedf7247dc897af5c533e1db5d",
+      "latency_ms": 40300
+    },
+    {
+      "section": 39,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T18:09:49.063481Z",
+      "ended_at": "2026-07-23T18:10:35.170720Z",
+      "subagent_or_session_id": "l2-skeptic-b-70ecd5a4e0-s39",
+      "response_sha256": "7d3e0ee1595d05e0cfc9c326d6fa53870ead040126e103a5e19ae04d4666be62",
+      "latency_ms": 46107
+    },
+    {
+      "section": 40,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:36:29.897770+00:00",
+      "ended_at": "2026-07-23T17:37:37.152216+00:00",
+      "subagent_or_session_id": "l2-exp-s40-71a4b3da3915",
+      "response_sha256": "3e4e9f70cf6510054fd9314b4e5a5b6d47e884a19d9af43cf52f0afb7ec88a3f",
+      "latency_ms": 67254
+    },
+    {
+      "section": 40,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:37:37.159574+00:00",
+      "ended_at": "2026-07-23T17:38:45.629687+00:00",
+      "subagent_or_session_id": "l2-ske-s40-08d1105a076c",
+      "response_sha256": "519ed434cc38a29f3a7888e4c4ecce4e7abb0151ccc4d12825f98a1ebd81a2bc",
+      "latency_ms": 68470
+    },
+    {
+      "section": 41,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:38:45.639499+00:00",
+      "ended_at": "2026-07-23T17:39:53.945454+00:00",
+      "subagent_or_session_id": "l2-exp-s41-69adcd75173a",
+      "response_sha256": "11267bcd7416e90913a18556fc32c48791553aa2471d29d352cb3c7116ca4fec",
+      "latency_ms": 68305
+    },
+    {
+      "section": 41,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:39:53.953895+00:00",
+      "ended_at": "2026-07-23T17:41:00.542084+00:00",
+      "subagent_or_session_id": "l2-ske-s41-58dfe7fb1379",
+      "response_sha256": "7e9a5b79e78daf6ddd182f257bac627cd08ae2f37934d93237ee3e6ca56a6004",
+      "latency_ms": 66588
+    },
+    {
+      "section": 42,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:41:00.548845+00:00",
+      "ended_at": "2026-07-23T17:42:08.534575+00:00",
+      "subagent_or_session_id": "l2-exp-s42-677193295e98",
+      "response_sha256": "c0fa292e7a58d5ef132a7367808e67dd0c8067c5ba2c40bef6cb95cd64f18cb6",
+      "latency_ms": 67985
+    },
+    {
+      "section": 42,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:42:08.542598+00:00",
+      "ended_at": "2026-07-23T17:43:16.244423+00:00",
+      "subagent_or_session_id": "l2-ske-s42-97f6818d7ce5",
+      "response_sha256": "041c73868a8c0b62cbab4c2968bd277b5f975a030129fb68f0bc1e25ef3f42fe",
+      "latency_ms": 67701
+    },
+    {
+      "section": 43,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:43:16.257671+00:00",
+      "ended_at": "2026-07-23T17:44:21.808537+00:00",
+      "subagent_or_session_id": "l2-exp-s43-3b88d0a404e2",
+      "response_sha256": "b4dea1616e3ffbeba29a1ef1d666872aedb311a40eb7d21534b25ac00c93e11a",
+      "latency_ms": 65550
+    },
+    {
+      "section": 43,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:44:21.821389+00:00",
+      "ended_at": "2026-07-23T17:45:27.699130+00:00",
+      "subagent_or_session_id": "l2-ske-s43-1c786942c955",
+      "response_sha256": "8802abeabf0f5fe64932defef362ef100c3bb4a234aea14e7b4fe52b7fcbad85",
+      "latency_ms": 65877
+    },
+    {
+      "section": 44,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:45:27.710098+00:00",
+      "ended_at": "2026-07-23T17:46:35.326176+00:00",
+      "subagent_or_session_id": "l2-exp-s44-af300bc5cc5c",
+      "response_sha256": "1b2fffd15164bea088d9f779a77c667f21891f7424aa53b608e8b0b7788c864e",
+      "latency_ms": 67616
+    },
+    {
+      "section": 44,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:46:35.336204+00:00",
+      "ended_at": "2026-07-23T17:47:41.717913+00:00",
+      "subagent_or_session_id": "l2-ske-s44-bcc4455c6aab",
+      "response_sha256": "dd5a0255f95b5a3f39166b7ee7ac9ef10d377d27b5904589dabbace0f49f1f76",
+      "latency_ms": 66381
+    },
+    {
+      "section": 45,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:47:41.725735+00:00",
+      "ended_at": "2026-07-23T17:48:47.242255+00:00",
+      "subagent_or_session_id": "l2-exp-s45-ce5beefe5995",
+      "response_sha256": "cd171018349a1ef559efdc1d1b00ce8227ae3d34d660be934c602c192da303b0",
+      "latency_ms": 65516
+    },
+    {
+      "section": 45,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:48:47.249232+00:00",
+      "ended_at": "2026-07-23T17:49:53.822480+00:00",
+      "subagent_or_session_id": "l2-ske-s45-181992574ac7",
+      "response_sha256": "ea2cc18c7098304d80e493a43903a7012ab2027d69c10070b45bfb1e67ec3652",
+      "latency_ms": 66573
+    },
+    {
+      "section": 46,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:49:53.830788+00:00",
+      "ended_at": "2026-07-23T17:51:02.728618+00:00",
+      "subagent_or_session_id": "l2-exp-s46-3dcb264e4227",
+      "response_sha256": "099dbaabfac3e4af332050498c23bc86d3fe4e1d1ddf1aa4125d57a43fa4928d",
+      "latency_ms": 68897
+    },
+    {
+      "section": 46,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:51:02.735535+00:00",
+      "ended_at": "2026-07-23T17:52:09.676655+00:00",
+      "subagent_or_session_id": "l2-ske-s46-98b6b4950f13",
+      "response_sha256": "29df9669024e7ea084e9d4aae18c18252e6d395436e73131d09bfbdad13f399f",
+      "latency_ms": 66941
+    },
+    {
+      "section": 47,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:52:09.682603+00:00",
+      "ended_at": "2026-07-23T17:53:15.996142+00:00",
+      "subagent_or_session_id": "l2-exp-s47-ad188bc9828d",
+      "response_sha256": "0c7e1f63aeecb61882d77ee663d3e6b41dab2babc7f8634c9f51bc0d7f6ef79e",
+      "latency_ms": 66313
+    },
+    {
+      "section": 47,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:53:16.004918+00:00",
+      "ended_at": "2026-07-23T17:54:25.756961+00:00",
+      "subagent_or_session_id": "l2-ske-s47-a2ba680e19d2",
+      "response_sha256": "1b534697c1f11ecb278992b8aa8dc2f7af098ce86d16e96609427774cbba2612",
+      "latency_ms": 69752
+    },
+    {
+      "section": 48,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:54:25.762271+00:00",
+      "ended_at": "2026-07-23T17:55:35.507234+00:00",
+      "subagent_or_session_id": "l2-exp-s48-3ad77d43a060",
+      "response_sha256": "e79e0bb7b276167ab6a47774427727368d90a269f881d20a13e939894018b6ca",
+      "latency_ms": 69744
+    },
+    {
+      "section": 48,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:55:35.514557+00:00",
+      "ended_at": "2026-07-23T17:56:44.211651+00:00",
+      "subagent_or_session_id": "l2-ske-s48-3d4333b221fd",
+      "response_sha256": "d5b6dbceaa53222d21800619d8c4584056f533bc95dad495f3ab9e8166a538a5",
+      "latency_ms": 68697
+    },
+    {
+      "section": 49,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:56:44.219249+00:00",
+      "ended_at": "2026-07-23T17:57:51.030932+00:00",
+      "subagent_or_session_id": "l2-exp-s49-0f348dfc297f",
+      "response_sha256": "649f64ed9d218312f2fd5815779b3efbd4d6f6af11c87bf0e15cd1d15c66ba46",
+      "latency_ms": 66811
+    },
+    {
+      "section": 49,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T17:57:51.038871+00:00",
+      "ended_at": "2026-07-23T17:58:56.617519+00:00",
+      "subagent_or_session_id": "l2-ske-s49-8c25785a44cb",
+      "response_sha256": "f23cccd50eb818dd1ff9e6430d2e6bbb85f822406e4c309374d297d19d25373e",
+      "latency_ms": 65578
+    },
+    {
+      "section": 50,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T17:58:56.625542+00:00",
+      "ended_at": "2026-07-23T18:00:06.150241+00:00",
+      "subagent_or_session_id": "l2-exp-s50-77bf573158ce",
+      "response_sha256": "2cc8949bc2f90e5976045a3d3152099abddc48297da20abedcf074c0ec969e1f",
+      "latency_ms": 69524
+    },
+    {
+      "section": 50,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T18:00:06.160314+00:00",
+      "ended_at": "2026-07-23T18:01:15.808350+00:00",
+      "subagent_or_session_id": "l2-ske-s50-4dc448e621e6",
+      "response_sha256": "63cb16a91e228798f5977d9a13e9bbd5b9b6c4322c8d0e4b3845f6c754245d01",
+      "latency_ms": 69648
+    },
+    {
+      "section": 51,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:01:15.816359+00:00",
+      "ended_at": "2026-07-23T18:02:21.670880+00:00",
+      "subagent_or_session_id": "l2-exp-s51-777e58f7caea",
+      "response_sha256": "5358179c4128166d1b4a7a79ec4b37516dbba0fc02e95280f7d226b7c646e95d",
+      "latency_ms": 65854
+    },
+    {
+      "section": 51,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T18:02:21.682188+00:00",
+      "ended_at": "2026-07-23T18:03:28.533919+00:00",
+      "subagent_or_session_id": "l2-ske-s51-99a88029a7dd",
+      "response_sha256": "f4e9bd5dfc3604e9a7076cc7d1bb49cf16ea845d2b2c7714f891cad8b2844cd0",
+      "latency_ms": 66851
+    },
+    {
+      "section": 52,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T18:03:28.540057+00:00",
+      "ended_at": "2026-07-23T18:04:35.416042+00:00",
+      "subagent_or_session_id": "l2-exp-s52-e847e2dd8d1e",
+      "response_sha256": "21f3544c0692dff8c52cdc9f70624113eb1728f968fe5ecfa19dba0265c10025",
+      "latency_ms": 66875
+    },
+    {
+      "section": 52,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T18:04:35.423692+00:00",
+      "ended_at": "2026-07-23T18:05:43.800626+00:00",
+      "subagent_or_session_id": "l2-ske-s52-5282b0ae09a7",
+      "response_sha256": "7233994fec91e372766e7676d90e9933935db85b4c4747704ce086d009c97a27",
+      "latency_ms": 68376
+    }
+  ],
+  "wall_clock_minutes": 69.8
+}

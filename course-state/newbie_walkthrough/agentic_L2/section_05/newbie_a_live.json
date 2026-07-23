@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 5,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-newbie_a-s05-12132f5fda9b",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "code": "def doble(n):\n    return n * 2\n\nprint(doble(21))\n",
+      "justification_from_packet": "Como explorer aplico «Definir funciones con def, llamarlas y retornar valores (no None accid». En S05-T1-A-E1 resolví: Escribe `def doble(n):` que retorne `n*2`. Imprime doble(21).. Me guié también por «Anotar type hints graduales y modelar errores de dominio» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "code": "import re\n\ndef normalize_nombre(raw):\n    if raw is None:\n        return None\n    return re.sub(r\"\\s+\", \" \", str(raw).strip())\n\nprint(repr(normalize_nombre(\"  Ana   María  \")))\nprint(normalize_nombre(normalize_nombre(\"  Ana   María  \")))\n",
+      "justification_from_packet": "Como explorer aplico «Documentar pre/postcondiciones con docstrings alineados al código». En S05-T1-A-E2 resolví: `normalize_nombre(raw)` colapsa espacios internos y strip. Prueba con `' Juan . Me guié también por «Distinguir pureza de efectos e inyectar I/O en el borde» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "code": "def saluda(nombre):\n    return f\"Hola, {nombre}\"\n\ndef main():\n    print(saluda(\"Ana\"))\n\nif __name__ == \"__main__\":\n    main()\n",
+      "justification_from_packet": "Como explorer aplico «Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ». En S05-T1-A-E3 resolví: Función `saluda(nombre)` que retorne el string; en main imprime el return. Demue. Me guié también por «Funciones pequeñas y composición» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "code": "def f():\n    print(\"hola\")\n\nprint(\"retorno\", f())\n",
+      "justification_from_packet": "Como explorer aplico «Una función debe hacer **una cosa** en el nivel de abstracción correct». En S05-T1-B-E1 resolví: `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'`. Llama . Me guié también por «LEGB y closures básicos» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "code": "def etiqueta(nombre, prefijo=\"CLI\"):\n    return f\"{prefijo}:{nombre}\"\n\nprint(etiqueta(\"Ana\"))\nprint(etiqueta(\"Ana\", prefijo=\"VIP\"))\n",
+      "justification_from_packet": "Como explorer aplico «Pureza, efectos e inyección de I/O». En S05-T1-B-E2 resolví: Reescribe un `bad_add` con default mutable a la versión segura con None. Muestra. Me guié también por «**LEGB**: orden de búsqueda de nombres — **L**ocal, **E**ncl» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "code": "def malo(xs=[]):\n    xs.append(1)\n    return xs\n\ndef bueno(xs=None):\n    if xs is None:\n        xs = []\n    xs.append(1)\n    return xs\n\nprint(\"malo\", malo(), malo())\nprint(\"bueno\", bueno(), bueno())\n",
+      "justification_from_packet": "Como explorer aplico «Antes de refactorizar, fija **ejemplos ejecutables**: `assert normaliz». En S05-T1-B-E3 resolví: `normalize_telefono(raw, *, digits_only=True)` keyword-only. Si digits_only, dej. Me guié también por «Documentar pre/postcondiciones con docstrings…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "code": "def area(w: float, h: float) -> float:\n    return w * h\n\nprint(area(3, 4))\n",
+      "justification_from_packet": "Como explorer aplico «Documentar pre/postcondiciones con docstrings alineados al código». En S05-T2-A-E1 resolví: Añade docstring de una línea a `def area(w, h): return w*h` e imprime `area.__do. Me guié también por «Distinguir pureza de efectos e inyectar I/O en el borde»…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "code": "def parse_edad(raw: str) -> int:\n    return int(raw.strip())\n\nprint(parse_edad(\" 21 \"))\n",
+      "justification_from_packet": "Como explorer aplico «LEGB y closures básicos». En S05-T2-A-E2 resolví: `normalize_email` con pre/post en docstring: strip+lower; ValueError si no hay @. Me guié también por «Antes de refactorizar, fija **ejemplos ejecutables**: `asser» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "code": "from typing import Optional\n\ndef maybe_int(raw: str) -> Optional[int]:\n    s = raw.strip()\n    if not s:\n        return None\n    return int(s)\n\nprint(maybe_int(\"10\"), maybe_int(\"  \"))\n",
+      "justification_from_packet": "Como explorer aplico «Una función debe hacer **una cosa** en el nivel de abstracción correct». En S05-T2-A-E3 resolví: Documenta y escribe `normalize_nombre` con postcondición: no empiezan/terminan e. Me guié también por «LEGB y closures básicos» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "code": "def normalize_nombre(raw: str) -> str:\n    return \" \".join(raw.split())\n\nassert normalize_nombre(\"  Ana  María \") == \"Ana María\"\nassert normalize_nombre(normalize_nombre(\"  Ana  María \")) == \"Ana María\"\nprint(\"idempotente ok\")\n",
+      "justification_from_packet": "Como explorer aplico «Pureza, efectos e inyección de I/O». En S05-T2-B-E1 resolví: Anota `def len_safe(s: str) -> int` y retorna len. Imprime el resultado y un com. Me guié también por «**LEGB**: orden de búsqueda de nombres — **L**ocal, **E**ncl» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "code": "def add_tag(tags, t):\n    # no mutar entrada si queremos pureza: devolver nueva lista\n    return list(tags) + [t]\n\nbase = [\"a\"]\nprint(add_tag(base, \"b\"), base)\n",
+      "justification_from_packet": "Como explorer aplico «Distinguir pureza de efectos e inyectar I/O en el borde». En S05-T2-B-E2 resolví: `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de . Me guié también por «Definición, llamada y retorno» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "code": "def pure_sum(xs):\n    return sum(xs)\n\ndef impure_log(xs):\n    print(\"len\", len(xs))  # side effect\n    return sum(xs)\n\nprint(pure_sum([1, 2, 3]))\nprint(impure_log([1, 2, 3]))\n",
+      "justification_from_packet": "Como explorer aplico «Definir funciones con def, llamarlas y retornar valores (no None accid». En S05-T2-B-E3 resolví: Elige raise ValueError **o** tupla para `normalize_email` y documenta por qué en. Me guié también por «Anotar type hints graduales y modelar errores de…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "code": "x = 10\n\ndef demo():\n    x = 1  # local\n    print(\"local\", x)\n\ndemo()\nprint(\"global\", x)\n",
+      "justification_from_packet": "Como explorer aplico «Descomponer lógica en funciones pequeñas y orquestadores delgados». En S05-T3-A-E1 resolví: Extrae `strip_collapse` y úsalo dentro de `normalize_nombre` que además hace .ti. Me guié también por «Fijar ejemplos/asserts y refactorizar sin cambiar conducta»…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "code": "contador = 0\n\ndef bump():\n    global contador\n    contador += 1\n\nbump(); bump()\nprint(contador)\n",
+      "justification_from_packet": "Como explorer aplico «Pureza, efectos e inyección de I/O». En S05-T3-A-E2 resolví: Orquestador `normalize_contact(nombre, email)` devuelve dict usando dos helpers.. Me guié también por «**LEGB**: orden de búsqueda de nombres — **L**ocal, **E**ncl» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "code": "def outer():\n    msg = \"hola\"\n    def inner():\n        return msg.upper()\n    return inner()\n\nprint(outer())\n",
+      "justification_from_packet": "Como explorer aplico «Pureza, efectos e inyección de I/O». En S05-T3-A-E3 resolví: Parte una función monstruo de 10 líneas (nombre+email+tel en un solo def con com. Me guié también por «**LEGB**: orden de búsqueda de nombres — **L**ocal, **E**ncl» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "code": "def f(a, b, *, flag=False):\n    return (a + b) if not flag else (a * b)\n\nprint(f(2, 3))\nprint(f(2, 3, flag=True))\n",
+      "justification_from_packet": "Como explorer aplico «Descomponer lógica en funciones pequeñas y orquestadores delgados». En S05-T3-B-E1 resolví: Escribe `normalize_tel` puro (solo dígitos). Demuestra idempotencia con dos llam. Me guié también por «Fijar ejemplos/asserts y refactorizar sin cambiar conducta»…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "code": "def g(x, y=0, *rest, **kw):\n    return x, y, rest, kw\n\nprint(g(1, 2, 3, 4, z=9))\n",
+      "justification_from_packet": "Como explorer aplico «Antes de refactorizar, fija **ejemplos ejecutables**: `assert normaliz». En S05-T3-B-E2 resolví: Separa: `normalize_email` puro + `print_report(email)` con efecto de print. No i. Me guié también por «Documentar pre/postcondiciones con docstrings…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "code": "def safe_div(a, b):\n    if b == 0:\n        raise ValueError(\"b no puede ser 0\")\n    return a / b\n\ntry:\n    print(safe_div(10, 2))\n    print(safe_div(1, 0))\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "justification_from_packet": "Como explorer aplico «Argumentos **posicionales** se atan por orden; **keyword** por nombre ». En S05-T3-B-E3 resolví: Inyecta un normalizador: `process(line, norm=normalize_tel)` usa la fn inyectada. Me guié también por «Type hints graduales y errores de dominio» del paquete…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "code": "def pipeline(raw: str) -> dict:\n    cleaned = \" \".join(raw.split())\n    return {\"raw\": raw, \"clean\": cleaned, \"n\": len(cleaned)}\n\nprint(pipeline(\"  Ana  \"))\n",
+      "justification_from_packet": "Como explorer aplico «Argumentos **posicionales** se atan por orden; **keyword** por nombre ». En S05-T4-A-E1 resolví: Predice LEGB: global x=1; dentro de f, x=2 local; print dentro y fuera.. Me guié también por «Type hints graduales y errores de dominio» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "code": "def step_strip(s):\n    return s.strip()\n\ndef step_upper(s):\n    return s.upper()\n\ndef run(s):\n    return step_upper(step_strip(s))\n\nprint(run(\"  hola \"))\n",
+      "justification_from_packet": "Como explorer aplico «Una función se define con **`def nombre(params):`** y devuelve con **`». En S05-T4-A-E2 resolví: `make_multiplier(k)` devuelve función que multiplica por k (closure). Crea *3 y . Me guié también por «Pre/postcondiciones y docstrings» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "code": "def validate_nonempty(s: str) -> str:\n    t = s.strip()\n    if not t:\n        raise ValueError(\"vacío\")\n    return t\n\nfor v in (\"  x \", \"   \"):\n    try:\n        print(validate_nonempty(v))\n    except ValueError as e:\n        print(\"err\", e)\n",
+      "justification_from_packet": "Como explorer aplico «Los **type hints** (`def f(x: str) -> str`) no convierten en runtime (». En S05-T4-A-E3 resolví: Factory `make_normalizer(mode)` donde mode 'digits' o 'lower' devuelve la fn ade. Me guié también por «Pureza, efectos e inyección de I/O» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "code": "def normalize_nombre(raw: str) -> str:\n    return \" \".join(raw.split())\n\n# contrato: str in -> str out, idempotente\nprint(normalize_nombre(\"Ana  Q\"))\n",
+      "justification_from_packet": "Como explorer aplico «Pruebas de ejemplo y refactor sin cambiar conducta». En S05-T4-B-E1 resolví: Escribe 2 asserts de ejemplo para `normalize_email = lambda s: s.strip().lower(). Me guié también por «Usar parámetros posicionales, keyword y defaults seguros (si» del paquete…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "code": "def score_band(s: float) -> str:\n    if s >= 0.8:\n        return \"high\"\n    if s >= 0.4:\n        return \"mid\"\n    return \"low\"\n\nprint(score_band(0.9), score_band(0.5), score_band(0.1))\n",
+      "justification_from_packet": "Como explorer aplico «Funciones pequeñas y composición». En S05-T4-B-E2 resolví: Refactoriza `normalize_dir` de una línea densa a dos pasos (strip_collapse + upp. Me guié también por «Una función **pura** devuelve el mismo resultado para los mi» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "code": "def normalize_nombre(raw: str) -> str:\n    return \" \".join(raw.split())\n\nsuite = [\n    (\"  Ana  \", \"Ana\"),\n    (\"Ana  María\", \"Ana María\"),\n    (\"\", \"\"),\n]\nfor inp, exp in suite:\n    got = normalize_nombre(inp)\n    assert got == exp, (inp, got, exp)\n    print(inp, \"->\", got)\nprint(\"suite pass\")\n",
+      "justification_from_packet": "Como explorer aplico «Type hints graduales y errores de dominio». En S05-T4-B-E3 resolví: aquí **mantén** collapsar sin title y deja expected estables.. Me guié también por «Una función debe hacer **una cosa** en el nivel de abstracci» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «None» porque el paquete en «Definición, llamada y retorno» lo sostiene. Pregunta: Si una función no tiene return, ¿qué devuelve la llamada?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «El default mutable se comparte entre llamadas» porque el paquete en «Posicionales, keyword y defaults seguros» lo sostiene. Pregunta: ¿Por qué `def f(xs=[])` es peligroso?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Elijo «Mismo input → mismo output, sin efectos colaterales» porque el paquete en «Pre/postcondiciones y docstrings» lo sostiene. Pregunta: Una función pura….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Elijo «Local, Enclosing, Global, Builtin» porque el paquete en «Type hints graduales y errores de dominio» lo sostiene. Pregunta: LEGB significa….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «f(f(x)) == f(x) para entradas del dominio» porque el paquete en «Funciones pequeñas y composición» lo sostiene. Pregunta: Idempotencia de un normalizador f significa….",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:24:52.006716+00:00",
+  "session_started_at": "2026-07-23T17:28:10.240182Z",
+  "session_ended_at": "2026-07-23T17:28:51.956509Z",
+  "receipt_response_sha256": "da559c7b4220c624a91869cced0c224e606feccf9ca35b7ee5b8459993870c30",
+  "receipt_exercises_sha256": "2a7b5a027fa5cac5712bef70d828f417eb70f3b8d5129c470cb3cb734913be17",
+  "receipt_selfcheck_sha256": "8137e5919f30dda376f0a280a25387ba5e19b2d6a446bc11786917f7b3b72dea"
+}

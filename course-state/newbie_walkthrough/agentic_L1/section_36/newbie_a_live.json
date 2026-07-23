@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 36,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s36-c667a00ee0",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nprint(sum(xs)/len(xs))\nprint(\"n\", 2)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T1-A-E1 me basé en means/scale del material activo: Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\nprint((x - mu) / sd)\nprint(\"ok\", True)\nprint(\"sd\", 2)\n",
+      "justification_from_packet": "Para S36-T1-A-E2 me basé en escala/based del material activo: Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"verdict\", False)\nprint(\"ok\", True)\nprint(\"task\", \"cluster\")\n",
+      "justification_from_packet": "Para S36-T1-A-E3 me basé en features/densas del material activo: Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "code": "scores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = max(scores, key=scores.get)\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T1-B-E1 me basé en scale/etiquetas del material activo: Elige k con score máximo: scores {2:0.2,3:0.9,4:0.5} → k=3 y score 0.9. Imprime 3, score 0.9, ok Tru. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"seeds\", [0, 1, 2])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T1-B-E2 me basé en magnitud/scale del material activo: Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"limit\", True)\nprint(\"n\", 1)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T1-B-E3 me basé en soles/based del material activo: Límite de métricas internas: imprime limit True, ok True, n 1.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(round(0.5*2 + 0.5*4, 1))\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T2-A-E1 me basé en conteos/densas del material activo: Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"decision_model\", False)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T2-A-E2 me basé en Density/etiquetas del material activo: PCA no es decision model: imprime decision_model False, ok True, use 'viz'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(2)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T2-A-E3 me basé en based/scale del material activo: Componentes para explorar en 2D: imprime 2, ok True, explore True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(False)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T2-B-E1 me basé en methods/based del material activo: Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"check_scale\", True)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T2-B-E2 me basé en conceptual/densas del material activo: Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"exploratory\")\nprint(\"n\", 1)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T2-B-E3 me basé en buscan/etiquetas del material activo: Documenta uso exploratorio: imprime 'exploratory', ok True, n 1.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\nprint(sum(flags))\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T3-A-E1 me basé en regiones/scale del material activo: Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"rule\", \"score\"])\nprint(\"n\", 2)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T3-A-E2 me basé en densas/based del material activo: Combina regla + score: imprime ['rule','score'], ok True, n 2.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"guilt\", False)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T3-A-E3 me basé en usamos/densas del material activo: Flag → review, no guilt: imprime guilt False, route 'review', ok True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"outlier\", \"novelty\"])\nprint(\"n\", 2)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T3-B-E1 me basé en centroides/etiquetas del material activo: Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\nprint(int(n * c))\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T3-B-E2 me basé en resúmenes/scale del material activo: expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"capacity_link\", True)\nprint(\"n\", 1)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T3-B-E3 me basé en geométricos/based del material activo: Tune a capacidad de review: imprime capacity_link True, ok True, n 1.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\nprint(sum(rates)/len(rates))\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T4-A-E1 me basé en etiquetas/densas del material activo: Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"leakage\", False)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T4-A-E2 me basé en morales/etiquetas del material activo: Sin leakage de futuro: imprime leakage False, ok True, split 'time'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(3)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T4-A-E3 me basé en means/scale del material activo: Tres ventanas en el lab: imprime 3, ok True, temporal True.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\nprint(sum(ranked[:k])/k)\n",
+      "justification_from_packet": "Para S36-T4-B-E1 me basé en escala/based del material activo: precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T4-B-E2 me basé en features/densas del material activo: Human review required: imprime True, ok True, labels 'scarce'.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"precision_at_k\")\nprint(\"n\", 1)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Para S36-T4-B-E3 me basé en scale/etiquetas del material activo: Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Una anomalía en triage es señal de rareza a revisar, no fraude probado ni parentesco; la teoría del paquete habla de features."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "contamination es hipótesis de fracción rara a flaggear, no la tasa real de fraude; la teoría del paquete habla de soles."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "PCA aquí es exploración/visualización prudente, no etiqueta de culpa; la teoría del paquete habla de based."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Con labels escasos prioriza precision@k y feedback humano sobre accuracy global; la teoría del paquete habla de buscan."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Incluir el mes evaluado en el fit de normalidad comete leakage temporal; la teoría del paquete habla de usamos."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:50:04.401406+00:00",
+  "session_started_at": "2026-07-23T16:49:42.395659+00:00",
+  "session_ended_at": "2026-07-23T16:50:04.400124+00:00",
+  "receipt_response_sha256": "474133b38db0eac0b857bc0d956c71445a7415cf12c62c0029d862ab99e6c0be",
+  "receipt_exercises_sha256": "d3a16b84cb7b39e9fc69c9091167072ddbe3c1445b7bf055dc16134c79b862f6",
+  "receipt_selfcheck_sha256": "8d8b25666820bb3a63a334f73cfcb40a4039ed812afc7d4b246fe84e96688ef4"
+}

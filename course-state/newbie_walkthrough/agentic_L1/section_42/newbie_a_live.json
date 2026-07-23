@@ -1,0 +1,422 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 42,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s42-8eec3a8f57",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S42-T1-A-E1",
+      "code": "# Explorer · S42-T1-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\nmeets_contract = (not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"REJECT_SCHEMA\"\nprint(\"S42-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «Pydantic y JSON Schema» («Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio.»), el contrato de S42-T1-A-E1 exige demostrar schema estricto más regla de negocio. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REJECT_SCHEMA`.",
+      "concepts_used": [
+        "schema",
+        "estricto",
+        "más",
+        "regla",
+        "negocio"
+      ],
+      "confidence": 0.799
+    },
+    {
+      "exercise_id": "S42-T1-A-E2",
+      "code": "# Explorer · S42-T1-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'extra_policy', 'json_schema', 'valid_fixture', 'business_rule'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])) and not record.get(\"__adv\")) else \"REJECT_SCHEMA\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\ninvalid = {\"case_id\": 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True, '__adv': True}\nincomplete = {\"case_id\": 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pydantic y JSON Schema» el paquete pide tres rutas; la teoría subraya: «Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio.». Para S42-T1-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple schema estricto más regla de negocio, y `REJECT_SCHEMA` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "schema",
+        "estricto",
+        "más",
+        "regla",
+        "negocio"
+      ],
+      "confidence": 0.748
+    },
+    {
+      "exercise_id": "S42-T1-A-E3",
+      "code": "# Explorer · S42-T1-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'extra_policy', 'json_schema', 'valid_fixture', 'business_rule'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_BUSINESS_INVARIANT\"\n    return \"CONTINUE\" if ((not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])) and not record.get(\"__adv\")) else \"REJECT_SCHEMA\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\ninvalid = {\"case_id\": 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True, '__adv': True}\nincomplete = {\"case_id\": 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «Pydantic y JSON Schema» («Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio.») separa incertidumbre de breach. En S42-T1-A-E3 la ausencia enruta a `REVIEW_BUSINESS_INVARIANT`, CONTINUE solo con schema estricto más regla de negocio, y el adverso a `REJECT_SCHEMA`, sin rellenar evidencia en Schemas, seguridad y privacidad de servicios.",
+      "concepts_used": [
+        "schema",
+        "estricto",
+        "más",
+        "regla",
+        "negocio"
+      ],
+      "confidence": 0.829
+    },
+    {
+      "exercise_id": "S42-T1-B-E1",
+      "code": "# Explorer · S42-T1-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'email', 'phone'}, 'handled_tags': {'email', 'phone'}}\nmeets_contract = (not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"VERSION_SCHEMA\"\nprint(\"S42-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «evolución, discriminated unions y validación de negocio» («La evolución segura prefiere campos opcionales aditivos y discriminated unions exhaustivas; renombrar o reinterpretar un campo exige versión/migración.»), el contrato de S42-T1-B-E1 exige demostrar cambio aditivo y union exhaustiva. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `VERSION_SCHEMA`.",
+      "concepts_used": [
+        "cambio",
+        "aditivo",
+        "union",
+        "exhaustiva"
+      ],
+      "confidence": 0.763
+    },
+    {
+      "exercise_id": "S42-T1-B-E2",
+      "code": "# Explorer · S42-T1-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'change', 'old_reader_passes', 'union_tags', 'handled_tags'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])) and not record.get(\"__adv\")) else \"VERSION_SCHEMA\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'email', 'phone'}, 'handled_tags': {'email', 'phone'}}\ninvalid = {\"case_id\": 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'email', 'phone'}, 'handled_tags': {'email', 'phone'}, '__adv': True}\nincomplete = {\"case_id\": 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'email', 'phone'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «evolución, discriminated unions y validación de negocio» el paquete pide tres rutas; la teoría subraya: «La evolución segura prefiere campos opcionales aditivos y discriminated unions exhaustivas; renombrar o reinterpretar un campo exige versión/migración.». Para S42-T1-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple cambio aditivo y union exhaustiva, y `VERSION_SCHEMA` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "cambio",
+        "aditivo",
+        "union",
+        "exhaustiva"
+      ],
+      "confidence": 0.758
+    },
+    {
+      "exercise_id": "S42-T1-B-E3",
+      "code": "# Explorer · S42-T1-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'change', 'old_reader_passes', 'union_tags', 'handled_tags'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MIGRATE_CONSUMERS\"\n    return \"CONTINUE\" if ((not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])) and not record.get(\"__adv\")) else \"VERSION_SCHEMA\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'email', 'phone'}, 'handled_tags': {'email', 'phone'}}\ninvalid = {\"case_id\": 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'email', 'phone'}, 'handled_tags': {'email', 'phone'}, '__adv': True}\nincomplete = {\"case_id\": 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'email', 'phone'}}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «evolución, discriminated unions y validación de negocio» («La evolución segura prefiere campos opcionales aditivos y discriminated unions exhaustivas; renombrar o reinterpretar un campo exige versión/migración.») separa incertidumbre de breach. En S42-T1-B-E3 la ausencia enruta a `MIGRATE_CONSUMERS`, CONTINUE solo con cambio aditivo y union exhaustiva, y el adverso a `VERSION_SCHEMA`, sin rellenar evidencia en Schemas, seguridad y privacidad de servicios.",
+      "concepts_used": [
+        "cambio",
+        "aditivo",
+        "union",
+        "exhaustiva"
+      ],
+      "confidence": 0.747
+    },
+    {
+      "exercise_id": "S42-T2-A-E1",
+      "code": "# Explorer · S42-T2-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a', 'roles': {'case:read'}}\nmeets_contract = (not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"DENY_CROSS_TENANT\"\nprint(\"S42-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «authn/authz y RBAC» («Authentication identifica; authorization decide una acción sobre un recurso. RBAC parte de roles mínimos y verifica pertenencia del recurso.»), el contrato de S42-T2-A-E1 exige demostrar identidad, permiso y pertenencia del recurso. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `DENY_CROSS_TENANT`.",
+      "concepts_used": [
+        "identidad",
+        "permiso",
+        "pertenencia",
+        "del",
+        "recurso"
+      ],
+      "confidence": 0.828
+    },
+    {
+      "exercise_id": "S42-T2-A-E2",
+      "code": "# Explorer · S42-T2-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'authenticated', 'actor', 'resource_owner', 'roles'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])) and not record.get(\"__adv\")) else \"DENY_CROSS_TENANT\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a', 'roles': {'case:read'}}\ninvalid = {\"case_id\": 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a', 'roles': {'case:read'}, '__adv': True}\nincomplete = {\"case_id\": 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «authn/authz y RBAC» el paquete pide tres rutas; la teoría subraya: «Authentication identifica; authorization decide una acción sobre un recurso. RBAC parte de roles mínimos y verifica pertenencia del recurso.». Para S42-T2-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple identidad, permiso y pertenencia del recurso, y `DENY_CROSS_TENANT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "identidad",
+        "permiso",
+        "pertenencia",
+        "del",
+        "recurso"
+      ],
+      "confidence": 0.837
+    },
+    {
+      "exercise_id": "S42-T2-A-E3",
+      "code": "# Explorer · S42-T2-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'authenticated', 'actor', 'resource_owner', 'roles'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"VERIFY_RESOURCE_OWNER\"\n    return \"CONTINUE\" if ((not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])) and not record.get(\"__adv\")) else \"DENY_CROSS_TENANT\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a', 'roles': {'case:read'}}\ninvalid = {\"case_id\": 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a', 'roles': {'case:read'}, '__adv': True}\nincomplete = {\"case_id\": 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «authn/authz y RBAC» («Authentication identifica; authorization decide una acción sobre un recurso. RBAC parte de roles mínimos y verifica pertenencia del recurso.») separa incertidumbre de breach. En S42-T2-A-E3 la ausencia enruta a `VERIFY_RESOURCE_OWNER`, CONTINUE solo con identidad, permiso y pertenencia del recurso, y el adverso a `DENY_CROSS_TENANT`, sin rellenar evidencia en Schemas, seguridad y privacidad de servicios.",
+      "concepts_used": [
+        "identidad",
+        "permiso",
+        "pertenencia",
+        "del",
+        "recurso"
+      ],
+      "confidence": 0.773
+    },
+    {
+      "exercise_id": "S42-T2-B-E1",
+      "code": "# Explorer · S42-T2-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': True}\nmeets_contract = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\nstatus = \"PASS\" if meets_contract else \"DENY_SCOPE\"\nprint(\"S42-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «scopes, service identities y deny-by-default» («Scopes expresan capacidades estrechas, cada servicio tiene identidad propia y deny-by-default cubre rutas o acciones no declaradas.»), el contrato de S42-T2-B-E1 exige demostrar scope estrecho, identidad propia y ruta declarada. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `DENY_SCOPE`.",
+      "concepts_used": [
+        "scope",
+        "estrecho",
+        "identidad",
+        "propia",
+        "ruta",
+        "declarada"
+      ],
+      "confidence": 0.773
+    },
+    {
+      "exercise_id": "S42-T2-B-E2",
+      "code": "# Explorer · S42-T2-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'requested_scope', 'granted_scopes', 'service_id', 'route_declared'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])) else \"DENY_SCOPE\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': True}\ninvalid = {\"case_id\": 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': False}\nincomplete = {\"case_id\": 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «scopes, service identities y deny-by-default» el paquete pide tres rutas; la teoría subraya: «Scopes expresan capacidades estrechas, cada servicio tiene identidad propia y deny-by-default cubre rutas o acciones no declaradas.». Para S42-T2-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple scope estrecho, identidad propia y ruta declarada, y `DENY_SCOPE` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "scope",
+        "estrecho",
+        "identidad",
+        "propia",
+        "ruta",
+        "declarada"
+      ],
+      "confidence": 0.802
+    },
+    {
+      "exercise_id": "S42-T2-B-E3",
+      "code": "# Explorer · S42-T2-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'requested_scope', 'granted_scopes', 'service_id', 'route_declared'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_NARROW_GRANT\"\n    return \"CONTINUE\" if (not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])) else \"DENY_SCOPE\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': True}\ninvalid = {\"case_id\": 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': False}\nincomplete = {\"case_id\": 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «scopes, service identities y deny-by-default» («Scopes expresan capacidades estrechas, cada servicio tiene identidad propia y deny-by-default cubre rutas o acciones no declaradas.») separa incertidumbre de breach. En S42-T2-B-E3 la ausencia enruta a `REQUEST_NARROW_GRANT`, CONTINUE solo con scope estrecho, identidad propia y ruta declarada, y el adverso a `DENY_SCOPE`, sin rellenar evidencia en Schemas, seguridad y privacidad de servicios.",
+      "concepts_used": [
+        "scope",
+        "estrecho",
+        "identidad",
+        "propia",
+        "ruta",
+        "declarada"
+      ],
+      "confidence": 0.741
+    },
+    {
+      "exercise_id": "S42-T3-A-E1",
+      "code": "# Explorer · S42-T3-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\nmeets_contract = not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))\nstatus = \"PASS\" if meets_contract else \"REJECT_UNTRUSTED_INPUT\"\nprint(\"S42-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «input limits, injection y SSRF/path traversal» («Límites de tamaño y allowlists se aplican antes de procesar; URLs, nombres de archivo y expresiones nunca se convierten directamente en red, ruta o consulta.»), el contrato de S42-T3-A-E1 exige demostrar límite, host allowlisted y ruta confinada. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REJECT_UNTRUSTED_INPUT`.",
+      "concepts_used": [
+        "límite",
+        "host",
+        "allowlisted",
+        "ruta",
+        "confinada"
+      ],
+      "confidence": 0.781
+    },
+    {
+      "exercise_id": "S42-T3-A-E2",
+      "code": "# Explorer · S42-T3-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'bytes', 'max_bytes', 'host', 'allowed_hosts', 'resolved_path', 'root'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))) else \"REJECT_UNTRUSTED_INPUT\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\ninvalid = {\"case_id\": 'CASO-CUS-042-3A', 'bytes': 41060, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\nincomplete = {\"case_id\": 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «input limits, injection y SSRF/path traversal» el paquete pide tres rutas; la teoría subraya: «Límites de tamaño y allowlists se aplican antes de procesar; URLs, nombres de archivo y expresiones nunca se convierten directamente en red, ruta o consulta.». Para S42-T3-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple límite, host allowlisted y ruta confinada, y `REJECT_UNTRUSTED_INPUT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "límite",
+        "host",
+        "allowlisted",
+        "ruta",
+        "confinada"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S42-T3-A-E3",
+      "code": "# Explorer · S42-T3-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'bytes', 'max_bytes', 'host', 'allowed_hosts', 'resolved_path', 'root'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SECURITY_REVIEW\"\n    return \"CONTINUE\" if (not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))) else \"REJECT_UNTRUSTED_INPUT\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\ninvalid = {\"case_id\": 'CASO-CUS-042-3A', 'bytes': 41060, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\nincomplete = {\"case_id\": 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «input limits, injection y SSRF/path traversal» («Límites de tamaño y allowlists se aplican antes de procesar; URLs, nombres de archivo y expresiones nunca se convierten directamente en red, ruta o consulta.») separa incertidumbre de breach. En S42-T3-A-E3 la ausencia enruta a `SECURITY_REVIEW`, CONTINUE solo con límite, host allowlisted y ruta confinada, y el adverso a `REJECT_UNTRUSTED_INPUT`, sin rellenar evidencia en Schemas, seguridad y privacidad de servicios.",
+      "concepts_used": [
+        "límite",
+        "host",
+        "allowlisted",
+        "ruta",
+        "confinada"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S42-T3-B-E1",
+      "code": "# Explorer · S42-T3-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-CUS-042-3B', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\nmeets_contract = not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])\nstatus = \"PASS\" if meets_contract else \"ROTATE_AND_BLOCK\"\nprint(\"S42-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «secretos, cifrado y dependency risk» («Secretos llegan por runtime, nunca por código/log; cifrado requiere gestión de claves y dependencias fijadas se revisan por riesgo y provenance.»), el contrato de S42-T3-B-E1 exige demostrar secretos fuera del artefacto y dependencias revisadas. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `ROTATE_AND_BLOCK`.",
+      "concepts_used": [
+        "secretos",
+        "fuera",
+        "del",
+        "artefacto",
+        "dependencias",
+        "revisadas"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S42-T3-B-E2",
+      "code": "# Explorer · S42-T3-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'secret_in_repo', 'secret_in_log', 'rotation_tested', 'dependency_pinned', 'critical_cves'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])) else \"ROTATE_AND_BLOCK\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-3B', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\ninvalid = {\"case_id\": 'CASO-CUS-042-3B', 'secret_in_repo': True, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\nincomplete = {\"case_id\": 'CASO-CUS-042-3B', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «secretos, cifrado y dependency risk» el paquete pide tres rutas; la teoría subraya: «Secretos llegan por runtime, nunca por código/log; cifrado requiere gestión de claves y dependencias fijadas se revisan por riesgo y provenance.». Para S42-T3-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple secretos fuera del artefacto y dependencias revisadas, y `ROTATE_AND_BLOCK` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "secretos",
+        "fuera",
+        "del",
+        "artefacto",
+        "dependencias",
+        "revisadas"
+      ],
+      "confidence": 0.817
+    },
+    {
+      "exercise_id": "S42-T3-B-E3",
+      "code": "# Explorer · S42-T3-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'secret_in_repo', 'secret_in_log', 'rotation_tested', 'dependency_pinned', 'critical_cves'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ASSESS_DEPENDENCY_RISK\"\n    return \"CONTINUE\" if (not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])) else \"ROTATE_AND_BLOCK\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-3B', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\ninvalid = {\"case_id\": 'CASO-CUS-042-3B', 'secret_in_repo': True, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\nincomplete = {\"case_id\": 'CASO-CUS-042-3B', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «secretos, cifrado y dependency risk» («Secretos llegan por runtime, nunca por código/log; cifrado requiere gestión de claves y dependencias fijadas se revisan por riesgo y provenance.») separa incertidumbre de breach. En S42-T3-B-E3 la ausencia enruta a `ASSESS_DEPENDENCY_RISK`, CONTINUE solo con secretos fuera del artefacto y dependencias revisadas, y el adverso a `ROTATE_AND_BLOCK`, sin rellenar evidencia en Schemas, seguridad y privacidad de servicios.",
+      "concepts_used": [
+        "secretos",
+        "fuera",
+        "del",
+        "artefacto",
+        "dependencias",
+        "revisadas"
+      ],
+      "confidence": 0.875
+    },
+    {
+      "exercise_id": "S42-T4-A-E1",
+      "code": "# Explorer · S42-T4-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\nmeets_contract = not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])\nstatus = \"PASS\" if meets_contract else \"MINIMIZE_AND_EXPIRE\"\nprint(\"S42-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «minimización, purpose y retención» («Privacidad exige dato mínimo para propósito declarado y retención finita; «podría servir» no es una finalidad válida.»), el contrato de S42-T4-A-E1 exige demostrar campos mínimos, propósito y retención finita. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `MINIMIZE_AND_EXPIRE`.",
+      "concepts_used": [
+        "campos",
+        "mínimos",
+        "propósito",
+        "retención",
+        "finita"
+      ],
+      "confidence": 0.743
+    },
+    {
+      "exercise_id": "S42-T4-A-E2",
+      "code": "# Explorer · S42-T4-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'collected', 'needed', 'purpose', 'retention_days', 'max_retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])) else \"MINIMIZE_AND_EXPIRE\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\ninvalid = {\"case_id\": 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 0}\nincomplete = {\"case_id\": 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «minimización, purpose y retención» el paquete pide tres rutas; la teoría subraya: «Privacidad exige dato mínimo para propósito declarado y retención finita; «podría servir» no es una finalidad válida.». Para S42-T4-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple campos mínimos, propósito y retención finita, y `MINIMIZE_AND_EXPIRE` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "campos",
+        "mínimos",
+        "propósito",
+        "retención",
+        "finita"
+      ],
+      "confidence": 0.743
+    },
+    {
+      "exercise_id": "S42-T4-A-E3",
+      "code": "# Explorer · S42-T4-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'collected', 'needed', 'purpose', 'retention_days', 'max_retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"PRIVACY_OWNER_REVIEW\"\n    return \"CONTINUE\" if (not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])) else \"MINIMIZE_AND_EXPIRE\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\ninvalid = {\"case_id\": 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 0}\nincomplete = {\"case_id\": 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «minimización, purpose y retención» («Privacidad exige dato mínimo para propósito declarado y retención finita; «podría servir» no es una finalidad válida.») separa incertidumbre de breach. En S42-T4-A-E3 la ausencia enruta a `PRIVACY_OWNER_REVIEW`, CONTINUE solo con campos mínimos, propósito y retención finita, y el adverso a `MINIMIZE_AND_EXPIRE`, sin rellenar evidencia en Schemas, seguridad y privacidad de servicios.",
+      "concepts_used": [
+        "campos",
+        "mínimos",
+        "propósito",
+        "retención",
+        "finita"
+      ],
+      "confidence": 0.762
+    },
+    {
+      "exercise_id": "S42-T4-B-E1",
+      "code": "# Explorer · S42-T4-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': True, 'key_separate': True}\nmeets_contract = not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])\nstatus = \"PASS\" if meets_contract else \"PURGE_DERIVATIVES\"\nprint(\"S42-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «audit, deletion, pseudonymization y acceso» («Audit registra quién/qué/cuándo sin copiar PII; borrado cubre derivados, pseudonimización separa la llave y acceso queda revisable.»), el contrato de S42-T4-B-E1 exige demostrar audit sin PII, borrado derivado y llave separada. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `PURGE_DERIVATIVES`.",
+      "concepts_used": [
+        "audit",
+        "sin",
+        "PII",
+        "borrado",
+        "derivado",
+        "llave",
+        "separada"
+      ],
+      "confidence": 0.742
+    },
+    {
+      "exercise_id": "S42-T4-B-E2",
+      "code": "# Explorer · S42-T4-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'audit_fields', 'pii_fields', 'deleted', 'derived_deleted', 'key_separate'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])) else \"PURGE_DERIVATIVES\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': True, 'key_separate': True}\ninvalid = {\"case_id\": 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': False, 'key_separate': True}\nincomplete = {\"case_id\": 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «audit, deletion, pseudonymization y acceso» el paquete pide tres rutas; la teoría subraya: «Audit registra quién/qué/cuándo sin copiar PII; borrado cubre derivados, pseudonimización separa la llave y acceso queda revisable.». Para S42-T4-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple audit sin PII, borrado derivado y llave separada, y `PURGE_DERIVATIVES` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "audit",
+        "sin",
+        "PII",
+        "borrado",
+        "derivado",
+        "llave",
+        "separada"
+      ],
+      "confidence": 0.802
+    },
+    {
+      "exercise_id": "S42-T4-B-E3",
+      "code": "# Explorer · S42-T4-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'audit_fields', 'pii_fields', 'deleted', 'derived_deleted', 'key_separate'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"VERIFY_DELETION_SCOPE\"\n    return \"CONTINUE\" if (not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])) else \"PURGE_DERIVATIVES\"\n\nvalid = {\"case_id\": 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': True, 'key_separate': True}\ninvalid = {\"case_id\": 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': False, 'key_separate': True}\nincomplete = {\"case_id\": 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': True}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «audit, deletion, pseudonymization y acceso» («Audit registra quién/qué/cuándo sin copiar PII; borrado cubre derivados, pseudonimización separa la llave y acceso queda revisable.») separa incertidumbre de breach. En S42-T4-B-E3 la ausencia enruta a `VERIFY_DELETION_SCOPE`, CONTINUE solo con audit sin PII, borrado derivado y llave separada, y el adverso a `PURGE_DERIVATIVES`, sin rellenar evidencia en Schemas, seguridad y privacidad de servicios.",
+      "concepts_used": [
+        "audit",
+        "sin",
+        "PII",
+        "borrado",
+        "derivado",
+        "llave",
+        "separada"
+      ],
+      "confidence": 0.837
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Q0: elijo «schema exportado y fixtures válidos/inválidos» anclado en «Pydantic y JSON Schema» («Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no s»), frente a «¿Qué evidencia permite aprobar `Pydantic y JSON Schema` en CASO-CUS-042?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.746,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Q1: elijo «emitir DENY y conservar evidencia» anclado en «evolución, discriminated unions y validación de negocio» («La evolución segura prefiere campos opcionales aditivos y discriminated unions exhaustivas; renombra»), frente a «Si ocurre la condición de error de S42, ¿qué respuesta preserva seguridad y auditabilidad?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.816,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Q2: elijo «un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backu» anclado en «authn/authz y RBAC» («Authentication identifica; authorization decide una acción sobre un recurso. RBAC parte de roles mín»), frente a «¿Cuál resultado demuestra el gate `CP-N4-A · control plane seguro y privado`?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.793,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Q3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» anclado en «scopes, service identities y deny-by-default» («Scopes expresan capacidades estrechas, cada servicio tiene identidad propia y deny-by-default cubre »), frente a «¿Qué tratamiento de `CASO-CUS-042` respeta el alcance del curso?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.788,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:45:45.131974+00:00",
+  "session_started_at": "2026-07-23T16:47:21.912039+00:00",
+  "session_ended_at": "2026-07-23T16:47:48.701997+00:00",
+  "receipt_response_sha256": "6493a32f114f6142e80af44d2607e0ebedf65b7b5b40ea051f3dcedc0efe1e51",
+  "receipt_exercises_sha256": "24467c09185b487c4f5d5a57b3dddfc7b82119f8c13f975d4d372e927157d041",
+  "receipt_selfcheck_sha256": "bbc79aaf8732d37ebcc7723d05253233e00817d7eeac75b591424d64f0e3a401"
+}

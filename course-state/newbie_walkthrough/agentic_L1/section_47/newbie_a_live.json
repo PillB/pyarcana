@@ -1,0 +1,443 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 47,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s47-71d70f43d6",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S47-T1-A-E1",
+      "code": "# Explorer · S47-T1-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\nmeets_contract = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\nstatus = \"PASS\" if meets_contract else \"MARK_RUN_NONREPRODUCIBLE\"\nprint(\"S47-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «tracking y reproducibilidad» («Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida antigua.»), el contrato de S47-T1-A-E1 exige demostrar rerun dentro de tolerancia con seed/parámetros. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `MARK_RUN_NONREPRODUCIBLE`.",
+      "concepts_used": [
+        "rerun",
+        "dentro",
+        "tolerancia",
+        "con",
+        "seed",
+        "parámetros"
+      ],
+      "confidence": 0.871
+    },
+    {
+      "exercise_id": "S47-T1-A-E2",
+      "code": "# Explorer · S47-T1-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'seed', 'params', 'metric', 'rerun_metric', 'tolerance'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])) else \"MARK_RUN_NONREPRODUCIBLE\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\ninvalid = {\"case_id\": 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0}\nincomplete = {\"case_id\": 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «tracking y reproducibilidad» el paquete pide tres rutas; la teoría subraya: «Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida antigua.». Para S47-T1-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple rerun dentro de tolerancia con seed/parámetros, y `MARK_RUN_NONREPRODUCIBLE` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "rerun",
+        "dentro",
+        "tolerancia",
+        "con",
+        "seed",
+        "parámetros"
+      ],
+      "confidence": 0.822
+    },
+    {
+      "exercise_id": "S47-T1-A-E3",
+      "code": "# Explorer · S47-T1-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'seed', 'params', 'metric', 'rerun_metric', 'tolerance'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INVESTIGATE_RANDOMNESS\"\n    return \"CONTINUE\" if (not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])) else \"MARK_RUN_NONREPRODUCIBLE\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\ninvalid = {\"case_id\": 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0}\nincomplete = {\"case_id\": 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «tracking y reproducibilidad» («Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida antigua.») separa incertidumbre de breach. En S47-T1-A-E3 la ausencia enruta a `INVESTIGATE_RANDOMNESS`, CONTINUE solo con rerun dentro de tolerancia con seed/parámetros, y el adverso a `MARK_RUN_NONREPRODUCIBLE`, sin rellenar evidencia en MLOps: experimentos, registro y serving.",
+      "concepts_used": [
+        "rerun",
+        "dentro",
+        "tolerancia",
+        "con",
+        "seed",
+        "parámetros"
+      ],
+      "confidence": 0.825
+    },
+    {
+      "exercise_id": "S47-T1-B-E1",
+      "code": "# Explorer · S47-T1-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\nmeets_contract = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_COMPARISON\"\nprint(\"S47-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «data/code/env lineage y comparación» («Cada run enlaza versión de data, código y entorno; comparar exige misma partición/metric definition y reportar incertidumbre.»), el contrato de S47-T1-B-E1 exige demostrar data/code/env/split/métrica versionados y candidato mejor. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `INVALIDATE_COMPARISON`.",
+      "concepts_used": [
+        "data",
+        "code",
+        "env",
+        "split",
+        "métrica",
+        "versionados",
+        "candidato",
+        "mejor"
+      ],
+      "confidence": 0.787
+    },
+    {
+      "exercise_id": "S47-T1-B-E2",
+      "code": "# Explorer · S47-T1-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'data', 'code', 'env', 'split', 'metric_definition', 'candidate', 'baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])) else \"INVALIDATE_COMPARISON\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\ninvalid = {\"case_id\": 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 78.0}\nincomplete = {\"case_id\": 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «data/code/env lineage y comparación» el paquete pide tres rutas; la teoría subraya: «Cada run enlaza versión de data, código y entorno; comparar exige misma partición/metric definition y reportar incertidumbre.». Para S47-T1-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple data/code/env/split/métrica versionados y candidato mejor, y `INVALIDATE_COMPARISON` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "data",
+        "code",
+        "env",
+        "split",
+        "métrica",
+        "versionados",
+        "candidato",
+        "mejor"
+      ],
+      "confidence": 0.825
+    },
+    {
+      "exercise_id": "S47-T1-B-E3",
+      "code": "# Explorer · S47-T1-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'data', 'code', 'env', 'split', 'metric_definition', 'candidate', 'baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RESTORE_LINEAGE\"\n    return \"CONTINUE\" if (not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])) else \"INVALIDATE_COMPARISON\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\ninvalid = {\"case_id\": 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 78.0}\nincomplete = {\"case_id\": 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «data/code/env lineage y comparación» («Cada run enlaza versión de data, código y entorno; comparar exige misma partición/metric definition y reportar incertidumbre.») separa incertidumbre de breach. En S47-T1-B-E3 la ausencia enruta a `RESTORE_LINEAGE`, CONTINUE solo con data/code/env/split/métrica versionados y candidato mejor, y el adverso a `INVALIDATE_COMPARISON`, sin rellenar evidencia en MLOps: experimentos, registro y serving.",
+      "concepts_used": [
+        "data",
+        "code",
+        "env",
+        "split",
+        "métrica",
+        "versionados",
+        "candidato",
+        "mejor"
+      ],
+      "confidence": 0.796
+    },
+    {
+      "exercise_id": "S47-T2-A-E1",
+      "code": "# Explorer · S47-T2-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\nmeets_contract = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\nstatus = \"PASS\" if meets_contract else \"DENY_MODEL_PROMOTION\"\nprint(\"S47-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «firmas, stages y approvals» («Una firma fija nombres/tipos/rangos de entrada y salida; stages son estados gobernados y approval requiere evidencia independiente.»), el contrato de S47-T2-A-E1 exige demostrar firma exacta, staging y aprobación. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `DENY_MODEL_PROMOTION`.",
+      "concepts_used": [
+        "firma",
+        "exacta",
+        "staging",
+        "aprobación"
+      ],
+      "confidence": 0.844
+    },
+    {
+      "exercise_id": "S47-T2-A-E2",
+      "code": "# Explorer · S47-T2-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'input_signature', 'output_signature', 'stage', 'approved'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"approved\"] or record[\"stage\"] == \"production\")) else \"DENY_MODEL_PROMOTION\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\ninvalid = {\"case_id\": 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}\nincomplete = {\"case_id\": 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «firmas, stages y approvals» el paquete pide tres rutas; la teoría subraya: «Una firma fija nombres/tipos/rangos de entrada y salida; stages son estados gobernados y approval requiere evidencia independiente.». Para S47-T2-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple firma exacta, staging y aprobación, y `DENY_MODEL_PROMOTION` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "firma",
+        "exacta",
+        "staging",
+        "aprobación"
+      ],
+      "confidence": 0.853
+    },
+    {
+      "exercise_id": "S47-T2-A-E3",
+      "code": "# Explorer · S47-T2-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'input_signature', 'output_signature', 'stage', 'approved'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_MODEL_APPROVAL\"\n    return \"CONTINUE\" if (not (not record[\"approved\"] or record[\"stage\"] == \"production\")) else \"DENY_MODEL_PROMOTION\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\ninvalid = {\"case_id\": 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}\nincomplete = {\"case_id\": 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «firmas, stages y approvals» («Una firma fija nombres/tipos/rangos de entrada y salida; stages son estados gobernados y approval requiere evidencia independiente.») separa incertidumbre de breach. En S47-T2-A-E3 la ausencia enruta a `REQUEST_MODEL_APPROVAL`, CONTINUE solo con firma exacta, staging y aprobación, y el adverso a `DENY_MODEL_PROMOTION`, sin rellenar evidencia en MLOps: experimentos, registro y serving.",
+      "concepts_used": [
+        "firma",
+        "exacta",
+        "staging",
+        "aprobación"
+      ],
+      "confidence": 0.875
+    },
+    {
+      "exercise_id": "S47-T2-B-E1",
+      "code": "# Explorer · S47-T2-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\nmeets_contract = (not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\"\nprint(\"S47-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «artefactos, model card y compatibilidad» («Artefactos llevan digest y dependencia; model card explica uso, límites, métricas y riesgos, incluida incompatibilidad de features.»), el contrato de S47-T2-B-E1 exige demostrar digest, compatibilidad de features y card completa. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REJECT_MODEL_ARTIFACT`.",
+      "concepts_used": [
+        "digest",
+        "compatibilidad",
+        "features",
+        "card",
+        "completa"
+      ],
+      "confidence": 0.729
+    },
+    {
+      "exercise_id": "S47-T2-B-E2",
+      "code": "# Explorer · S47-T2-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'artifact_digest', 'feature_version', 'serving_feature_version', 'card_sections'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)) and not record.get(\"__adv\")) else \"REJECT_MODEL_ARTIFACT\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\ninvalid = {\"case_id\": 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}, '__adv': True}\nincomplete = {\"case_id\": 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «artefactos, model card y compatibilidad» el paquete pide tres rutas; la teoría subraya: «Artefactos llevan digest y dependencia; model card explica uso, límites, métricas y riesgos, incluida incompatibilidad de features.». Para S47-T2-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple digest, compatibilidad de features y card completa, y `REJECT_MODEL_ARTIFACT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "digest",
+        "compatibilidad",
+        "features",
+        "card",
+        "completa"
+      ],
+      "confidence": 0.889
+    },
+    {
+      "exercise_id": "S47-T2-B-E3",
+      "code": "# Explorer · S47-T2-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'artifact_digest', 'feature_version', 'serving_feature_version', 'card_sections'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"COMPLETE_MODEL_CARD\"\n    return \"CONTINUE\" if ((not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)) and not record.get(\"__adv\")) else \"REJECT_MODEL_ARTIFACT\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\ninvalid = {\"case_id\": 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}, '__adv': True}\nincomplete = {\"case_id\": 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «artefactos, model card y compatibilidad» («Artefactos llevan digest y dependencia; model card explica uso, límites, métricas y riesgos, incluida incompatibilidad de features.») separa incertidumbre de breach. En S47-T2-B-E3 la ausencia enruta a `COMPLETE_MODEL_CARD`, CONTINUE solo con digest, compatibilidad de features y card completa, y el adverso a `REJECT_MODEL_ARTIFACT`, sin rellenar evidencia en MLOps: experimentos, registro y serving.",
+      "concepts_used": [
+        "digest",
+        "compatibilidad",
+        "features",
+        "card",
+        "completa"
+      ],
+      "confidence": 0.867
+    },
+    {
+      "exercise_id": "S47-T3-A-E1",
+      "code": "# Explorer · S47-T3-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\nmeets_contract = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_INCONSISTENT_SERVING\"\nprint(\"S47-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «batch/online y feature consistency» («Batch y online deben compartir transformación o contract tests para evitar training-serving skew y feature leakage.»), el contrato de S47-T3-A-E1 exige demostrar paridad batch/online sin leakage y contract tests. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `DISABLE_INCONSISTENT_SERVING`.",
+      "concepts_used": [
+        "paridad",
+        "batch",
+        "online",
+        "sin",
+        "leakage",
+        "contract",
+        "tests"
+      ],
+      "confidence": 0.838
+    },
+    {
+      "exercise_id": "S47-T3-A-E2",
+      "code": "# Explorer · S47-T3-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'batch_features', 'online_features', 'leakage', 'contract_tests'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])) else \"DISABLE_INCONSISTENT_SERVING\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\ninvalid = {\"case_id\": 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': True, 'contract_tests': 3}\nincomplete = {\"case_id\": 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «batch/online y feature consistency» el paquete pide tres rutas; la teoría subraya: «Batch y online deben compartir transformación o contract tests para evitar training-serving skew y feature leakage.». Para S47-T3-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple paridad batch/online sin leakage y contract tests, y `DISABLE_INCONSISTENT_SERVING` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "paridad",
+        "batch",
+        "online",
+        "sin",
+        "leakage",
+        "contract",
+        "tests"
+      ],
+      "confidence": 0.821
+    },
+    {
+      "exercise_id": "S47-T3-A-E3",
+      "code": "# Explorer · S47-T3-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'batch_features', 'online_features', 'leakage', 'contract_tests'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TRACE_FEATURE_PIPELINE\"\n    return \"CONTINUE\" if (not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])) else \"DISABLE_INCONSISTENT_SERVING\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\ninvalid = {\"case_id\": 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': True, 'contract_tests': 3}\nincomplete = {\"case_id\": 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «batch/online y feature consistency» («Batch y online deben compartir transformación o contract tests para evitar training-serving skew y feature leakage.») separa incertidumbre de breach. En S47-T3-A-E3 la ausencia enruta a `TRACE_FEATURE_PIPELINE`, CONTINUE solo con paridad batch/online sin leakage y contract tests, y el adverso a `DISABLE_INCONSISTENT_SERVING`, sin rellenar evidencia en MLOps: experimentos, registro y serving.",
+      "concepts_used": [
+        "paridad",
+        "batch",
+        "online",
+        "sin",
+        "leakage",
+        "contract",
+        "tests"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S47-T3-B-E1",
+      "code": "# Explorer · S47-T3-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\nmeets_contract = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ACTIVATE_SAFE_FALLBACK\"\nprint(\"S47-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «latency, batching y fallback» («Presupuesta p95/p99, batching y capacidad; fallback debe ser seguro, medible y menos capaz, nunca una versión silenciosamente riesgosa.»), el contrato de S47-T3-B-E1 exige demostrar p95 bajo SLO, batch acotado y fallback probado. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `ACTIVATE_SAFE_FALLBACK`.",
+      "concepts_used": [
+        "p95",
+        "bajo",
+        "SLO",
+        "batch",
+        "acotado",
+        "fallback",
+        "probado"
+      ],
+      "confidence": 0.864
+    },
+    {
+      "exercise_id": "S47-T3-B-E2",
+      "code": "# Explorer · S47-T3-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'p95_ms', 'slo_ms', 'batch_size', 'fallback', 'fallback_tested'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])) else \"ACTIVATE_SAFE_FALLBACK\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\ninvalid = {\"case_id\": 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': False}\nincomplete = {\"case_id\": 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «latency, batching y fallback» el paquete pide tres rutas; la teoría subraya: «Presupuesta p95/p99, batching y capacidad; fallback debe ser seguro, medible y menos capaz, nunca una versión silenciosamente riesgosa.». Para S47-T3-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple p95 bajo SLO, batch acotado y fallback probado, y `ACTIVATE_SAFE_FALLBACK` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "p95",
+        "bajo",
+        "SLO",
+        "batch",
+        "acotado",
+        "fallback",
+        "probado"
+      ],
+      "confidence": 0.722
+    },
+    {
+      "exercise_id": "S47-T3-B-E3",
+      "code": "# Explorer · S47-T3-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'p95_ms', 'slo_ms', 'batch_size', 'fallback', 'fallback_tested'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TUNE_BATCH_OR_CAPACITY\"\n    return \"CONTINUE\" if (not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])) else \"ACTIVATE_SAFE_FALLBACK\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\ninvalid = {\"case_id\": 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': False}\nincomplete = {\"case_id\": 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «latency, batching y fallback» («Presupuesta p95/p99, batching y capacidad; fallback debe ser seguro, medible y menos capaz, nunca una versión silenciosamente riesgosa.») separa incertidumbre de breach. En S47-T3-B-E3 la ausencia enruta a `TUNE_BATCH_OR_CAPACITY`, CONTINUE solo con p95 bajo SLO, batch acotado y fallback probado, y el adverso a `ACTIVATE_SAFE_FALLBACK`, sin rellenar evidencia en MLOps: experimentos, registro y serving.",
+      "concepts_used": [
+        "p95",
+        "bajo",
+        "SLO",
+        "batch",
+        "acotado",
+        "fallback",
+        "probado"
+      ],
+      "confidence": 0.798
+    },
+    {
+      "exercise_id": "S47-T4-A-E1",
+      "code": "# Explorer · S47-T4-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\nmeets_contract = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\nstatus = \"PASS\" if meets_contract else \"STOP_CANARY\"\nprint(\"S47-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «shadow/canary y monitoring hooks» («Shadow observa sin decidir; canary recibe tráfico limitado y monitoring hooks comparan calidad, drift, errores y negocio antes de promover.»), el contrato de S47-T4-A-E1 exige demostrar tráfico limitado, quality/error gates y hooks. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `STOP_CANARY`.",
+      "concepts_used": [
+        "tráfico",
+        "limitado",
+        "quality",
+        "error",
+        "gates",
+        "hooks"
+      ],
+      "confidence": 0.876
+    },
+    {
+      "exercise_id": "S47-T4-A-E2",
+      "code": "# Explorer · S47-T4-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'mode', 'traffic_pct', 'quality_delta', 'max_quality_drop', 'error_rate', 'max_error_rate', 'hooks'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])) else \"STOP_CANARY\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\ninvalid = {\"case_id\": 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.4, 'max_error_rate': 0.01, 'hooks': True}\nincomplete = {\"case_id\": 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «shadow/canary y monitoring hooks» el paquete pide tres rutas; la teoría subraya: «Shadow observa sin decidir; canary recibe tráfico limitado y monitoring hooks comparan calidad, drift, errores y negocio antes de promover.». Para S47-T4-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple tráfico limitado, quality/error gates y hooks, y `STOP_CANARY` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "tráfico",
+        "limitado",
+        "quality",
+        "error",
+        "gates",
+        "hooks"
+      ],
+      "confidence": 0.729
+    },
+    {
+      "exercise_id": "S47-T4-A-E3",
+      "code": "# Explorer · S47-T4-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'mode', 'traffic_pct', 'quality_delta', 'max_quality_drop', 'error_rate', 'max_error_rate', 'hooks'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"COLLECT_MORE_SHADOW_EVIDENCE\"\n    return \"CONTINUE\" if (not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])) else \"STOP_CANARY\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\ninvalid = {\"case_id\": 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.4, 'max_error_rate': 0.01, 'hooks': True}\nincomplete = {\"case_id\": 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «shadow/canary y monitoring hooks» («Shadow observa sin decidir; canary recibe tráfico limitado y monitoring hooks comparan calidad, drift, errores y negocio antes de promover.») separa incertidumbre de breach. En S47-T4-A-E3 la ausencia enruta a `COLLECT_MORE_SHADOW_EVIDENCE`, CONTINUE solo con tráfico limitado, quality/error gates y hooks, y el adverso a `STOP_CANARY`, sin rellenar evidencia en MLOps: experimentos, registro y serving.",
+      "concepts_used": [
+        "tráfico",
+        "limitado",
+        "quality",
+        "error",
+        "gates",
+        "hooks"
+      ],
+      "confidence": 0.733
+    },
+    {
+      "exercise_id": "S47-T4-B-E1",
+      "code": "# Explorer · S47-T4-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nmeets_contract = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_TO_LAST_GOOD\"\nprint(\"S47-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «rollback, retirement y audit» («Rollback conserva modelo/config/features compatibles; retiro bloquea uso nuevo, mantiene audit y define fecha de eliminación.»), el contrato de S47-T4-B-E1 exige demostrar last-known-good compatible, rollback y retiro auditado. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `ROLLBACK_TO_LAST_GOOD`.",
+      "concepts_used": [
+        "last",
+        "known",
+        "good",
+        "compatible",
+        "rollback",
+        "retiro",
+        "auditado"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S47-T4-B-E2",
+      "code": "# Explorer · S47-T4-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'current', 'last_good', 'compatible_features', 'rollback_tested', 'retired', 'audit_entry'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])) else \"ROLLBACK_TO_LAST_GOOD\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\ninvalid = {\"case_id\": 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nincomplete = {\"case_id\": 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «rollback, retirement y audit» el paquete pide tres rutas; la teoría subraya: «Rollback conserva modelo/config/features compatibles; retiro bloquea uso nuevo, mantiene audit y define fecha de eliminación.». Para S47-T4-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple last-known-good compatible, rollback y retiro auditado, y `ROLLBACK_TO_LAST_GOOD` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "last",
+        "known",
+        "good",
+        "compatible",
+        "rollback",
+        "retiro",
+        "auditado"
+      ],
+      "confidence": 0.868
+    },
+    {
+      "exercise_id": "S47-T4-B-E3",
+      "code": "# Explorer · S47-T4-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'current', 'last_good', 'compatible_features', 'rollback_tested', 'retired', 'audit_entry'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_RETIREMENT\"\n    return \"CONTINUE\" if (not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])) else \"ROLLBACK_TO_LAST_GOOD\"\n\nvalid = {\"case_id\": 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\ninvalid = {\"case_id\": 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nincomplete = {\"case_id\": 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «rollback, retirement y audit» («Rollback conserva modelo/config/features compatibles; retiro bloquea uso nuevo, mantiene audit y define fecha de eliminación.») separa incertidumbre de breach. En S47-T4-B-E3 la ausencia enruta a `REVIEW_RETIREMENT`, CONTINUE solo con last-known-good compatible, rollback y retiro auditado, y el adverso a `ROLLBACK_TO_LAST_GOOD`, sin rellenar evidencia en MLOps: experimentos, registro y serving.",
+      "concepts_used": [
+        "last",
+        "known",
+        "good",
+        "compatible",
+        "rollback",
+        "retiro",
+        "auditado"
+      ],
+      "confidence": 0.822
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Q0: elijo «rerun dentro de tolerancia declarada» anclado en «tracking y reproducibilidad» («Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el b»), frente a «¿Qué evidencia permite aprobar `tracking y reproducibilidad` en CASO-TAC-047?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.809,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Q1: elijo «emitir ROLLBACK_MODEL y conservar evidencia» anclado en «data/code/env lineage y comparación» («Cada run enlaza versión de data, código y entorno; comparar exige misma partición/metric definition »), frente a «Si ocurre la condición de error de S47, ¿qué respuesta preserva seguridad y auditabilidad?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.889,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Q2: elijo «solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia» anclado en «firmas, stages y approvals» («Una firma fija nombres/tipos/rangos de entrada y salida; stages son estados gobernados y approval re»), frente a «¿Cuál resultado demuestra el gate `CP-N4-B + CF-4 · modelo promovible y reversible`?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.791,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Q3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» anclado en «artefactos, model card y compatibilidad» («Artefactos llevan digest y dependencia; model card explica uso, límites, métricas y riesgos, incluid»), frente a «¿Qué tratamiento de `CASO-TAC-047` respeta el alcance del curso?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.845,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:45:45.439965+00:00",
+  "session_started_at": "2026-07-23T16:51:07.230293+00:00",
+  "session_ended_at": "2026-07-23T16:52:07.040638+00:00",
+  "receipt_response_sha256": "0a5071e64a7747da9ba48f4d61355c2854b4efd5e3c93e7cf9b01c349f1f68c8",
+  "receipt_exercises_sha256": "a8f493db9f988363451e52993461bb1ca2055c05b0451f80503ff1628f9dbee2",
+  "receipt_selfcheck_sha256": "c26ba2c0e7a69a75617427d43a4ce0f0573192e530f6cfa5305835514bae8ee7"
+}

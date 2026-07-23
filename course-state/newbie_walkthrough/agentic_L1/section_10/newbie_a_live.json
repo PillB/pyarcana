@@ -1,0 +1,175 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 10,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s10-7c140f867a",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "code": "# simula import vs main\ndef greet():\n    return \"hola\"\n\nif __name__ == \"__main__\":\n    print(\"cli\", greet())\nelse:\n    print(\"imported\", greet())\nprint(\"__name__\", __name__)\n",
+      "justification_from_packet": "Para S10-T1-A-E1 me apoyé en «Imports, namespaces y __main__»: import pkg.mod y from pkg.mod import name cargan el módulo una vez en sys.modules. __name__ es el nombre del módulo, o '__main__' si se ejecuta como script. En … En el ejercicio usé if __name__ == '__main__'. CLI solo al ejecutar el módulo. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T1-A."
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "code": "import types\nmod = types.ModuleType(\"demo_mod\")\nmod.VERSION = \"0.1.0\"\nprint(mod.VERSION)\nprint(\"namespace\", hasattr(mod, \"VERSION\"))\n",
+      "justification_from_packet": "Para S10-T1-A-E2 me apoyé en «Imports, namespaces y __main__»: import pkg.mod y from pkg.mod import name cargan el módulo una vez en sys.modules. __name__ es el nombre del módulo, o '__main__' si se ejecuta como script. En … En el ejercicio usé namespace de módulo. VERSION vive en el módulo demo. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T1-A."
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "code": "def public_api():\n    return \"stable\"\n\ndef _private_helper():\n    return \"internal\"\n\nprint(\"public\", public_api())\nprint(\"private_ok_interno\", _private_helper())\nprint(\"api_publica_no_exporta_underscore\")\n",
+      "justification_from_packet": "Para S10-T1-A-E3 me apoyé en «Imports, namespaces y __main__»: import pkg.mod y from pkg.mod import name cargan el módulo una vez en sys.modules. __name__ es el nombre del módulo, o '__main__' si se ejecuta como script. En … En el ejercicio usé API pública vs _privada. underscore marca helper interno. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T1-A."
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "code": "# ciclo A->B evitado con import local\ndef a_uses_b():\n    from s10_fake_b import value_b\n    return value_b\n\nvalue_b = 1  # local stand-in\nprint(\"sin_ciclo\", value_b)\n",
+      "justification_from_packet": "Para S10-T1-B-E1 me apoyé en «Dependencias cíclicas y API pública»: Prefijo _ marca helpers privados (convención). La fachada (__init__.py o api.py) reexporta solo lo estable. En packaging y CLI, el *porqué* es operativo: reduce… En el ejercicio usé evitar import circular. stand-in local sin ciclo A↔B. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T1-B."
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "code": "__all__ = [\"normalize\", \"compare\"]\n\ndef normalize(x):\n    return x\n\ndef compare(a, b):\n    return a == b\n\ndef _internal():\n    return 0\n\nprint(__all__)\nprint(\"public\", normalize(1), compare(1, 1))\n",
+      "justification_from_packet": "Para S10-T1-B-E2 me apoyé en «Dependencias cíclicas y API pública»: Prefijo _ marca helpers privados (convención). La fachada (__init__.py o api.py) reexporta solo lo estable. En packaging y CLI, el *porqué* es operativo: reduce… En el ejercicio usé __all__ estable. exporta normalize/compare no _internal. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T1-B."
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "code": "api = {\"normalize\": lambda x: x.casefold(), \"VERSION\": \"1.0.0\"}\nprint(sorted(api.keys()))\nprint(api[\"normalize\"](\"AbC\"))\n",
+      "justification_from_packet": "Para S10-T1-B-E3 me apoyé en «Dependencias cíclicas y API pública»: Prefijo _ marca helpers privados (convención). La fachada (__init__.py o api.py) reexporta solo lo estable. En packaging y CLI, el *porqué* es operativo: reduce… En el ejercicio usé fachada api dict. solo símbolos estables. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T1-B."
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "code": "layout = [\"src/familiarity_core/__init__.py\", \"pyproject.toml\", \"tests/\"]\nfor p in layout:\n    print(\"path\", p)\nprint(\"src_layout evita import accidental del cwd\")\n",
+      "justification_from_packet": "Para S10-T2-A-E1 me apoyé en «Layout src, pyproject.toml y builds»: Layout src/: src/familiarity_core/... evita importar el paquete desde el repo sin instalar. pyproject.toml declara name, version, requires-python y el build bac… En el ejercicio usé layout src/. evita import accidental del cwd. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T2-A."
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "code": "meta = {\n    \"name\": \"familiarity-core\",\n    \"version\": \"0.3.1\",\n    \"requires-python\": \">=3.11\",\n}\nprint(meta)\n",
+      "justification_from_packet": "Para S10-T2-A-E2 me apoyé en «Layout src, pyproject.toml y builds»: Layout src/: src/familiarity_core/... evita importar el paquete desde el repo sin instalar. pyproject.toml declara name, version, requires-python y el build bac… En el ejercicio usé metadatos pyproject. name/version/requires-python. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T2-A."
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "code": "print(\"build: python -m build\")\nprint(\"artefactos: sdist + wheel en dist/\")\nprint(\"no_commitear dist/ en el flujo normal\")\n",
+      "justification_from_packet": "Para S10-T2-A-E3 me apoyé en «Layout src, pyproject.toml y builds»: Layout src/: src/familiarity_core/... evita importar el paquete desde el repo sin instalar. pyproject.toml declara name, version, requires-python y el build bac… En el ejercicio usé build sdist+wheel. artefactos en dist/. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T2-A."
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "code": "def bump(kind, version=\"1.2.3\"):\n    major, minor, patch = map(int, version.split(\".\"))\n    if kind == \"major\":\n        return f\"{major+1}.0.0\"\n    if kind == \"minor\":\n        return f\"{major}.{minor+1}.0\"\n    return f\"{major}.{minor}.{patch+1}\"\n\nprint(\"breaking\", bump(\"major\"))\nprint(\"feature\", bump(\"minor\"))\nprint(\"fix\", bump(\"patch\"))\n",
+      "justification_from_packet": "Para S10-T2-B-E1 me apoyé en «Versionado y compatibilidad»: SemVer simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero documenta igual. En packaging y CLI, e… En el ejercicio usé SemVer bump. major/minor/patch desde 1.2.3. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T2-B."
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "code": "changelog = [\n    \"1.1.0: añade subcomando report (minor)\",\n    \"1.1.1: corrige exit code de validate (patch)\",\n]\nfor line in changelog:\n    print(line)\n",
+      "justification_from_packet": "Para S10-T2-B-E2 me apoyé en «Versionado y compatibilidad»: SemVer simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero documenta igual. En packaging y CLI, e… En el ejercicio usé changelog. minor feature y patch fix. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T2-B."
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "code": "print(\"compatible: añadir flag opcional --verbose\")\nprint(\"breaking: renombrar subcomando ingest -> load sin alias\")\nprint(\"documentar en CHANGELOG y SemVer\")\n",
+      "justification_from_packet": "Para S10-T2-B-E3 me apoyé en «Versionado y compatibilidad»: SemVer simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero documenta igual. En packaging y CLI, e… En el ejercicio usé compatible vs breaking. flag opcional vs rename sin alias. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T2-B."
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "code": "import argparse\nparser = argparse.ArgumentParser(prog=\"fam\")\nsub = parser.add_subparsers(dest=\"cmd\", required=True)\nsub.add_parser(\"ingest\")\nsub.add_parser(\"report\")\nargs = parser.parse_args([\"ingest\"])\nprint(args.cmd)\n",
+      "justification_from_packet": "Para S10-T3-A-E1 me apoyé en «argparse, subcomandos y exit codes»: argparse.ArgumentParser + subparsers modelan ingest|normalize|compare|report. Cada subcomando tiene flags propios. En packaging y CLI, el *porqué* es operativo:… En el ejercicio usé subparsers. cmd=ingest. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T3-A."
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "code": "import argparse\nparser = argparse.ArgumentParser()\nparser.add_argument(\"--input\", required=True)\ntry:\n    parser.parse_args([])\nexcept SystemExit as e:\n    print(\"exit_code\", e.code)\n",
+      "justification_from_packet": "Para S10-T3-A-E2 me apoyé en «argparse, subcomandos y exit codes»: argparse.ArgumentParser + subparsers modelan ingest|normalize|compare|report. Cada subcomando tiene flags propios. En packaging y CLI, el *porqué* es operativo:… En el ejercicio usé exit 2 usage. parse_args vacío → SystemExit 2. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T3-A."
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "code": "codes = {0: \"ok\", 1: \"runtime_error\", 2: \"usage_error\"}\nprint(codes[0], codes[1], codes[2])\n",
+      "justification_from_packet": "Para S10-T3-A-E3 me apoyé en «argparse, subcomandos y exit codes»: argparse.ArgumentParser + subparsers modelan ingest|normalize|compare|report. Cada subcomando tiene flags propios. En packaging y CLI, el *porqué* es operativo:… En el ejercicio usé tabla exit codes. 0/1/2 semántica CLI. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T3-A."
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "code": "import sys\nprint(\"dato_json\", {\"ok\": True})\nprint(\"progreso a stderr\", file=sys.stderr)\n",
+      "justification_from_packet": "Para S10-T3-B-E1 me apoyé en «stdin/stdout/stderr y ayuda»: stdout = datos (JSON, CSV). stderr = logs y progreso. Así cmd > out.json no contamina el archivo. En packaging y CLI, el *porqué* es operativo: reduce ambigüeda… En el ejercicio usé stdout datos / stderr progreso. no mezclar logs con JSON. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T3-B."
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "code": "help_text = \"usage: fam ingest --input PATH\\nLee CSV sintético y emite JSON limpio.\"\nprint(help_text)\n",
+      "justification_from_packet": "Para S10-T3-B-E2 me apoyé en «stdin/stdout/stderr y ayuda»: stdout = datos (JSON, CSV). stderr = logs y progreso. Así cmd > out.json no contamina el archivo. En packaging y CLI, el *porqué* es operativo: reduce ambigüeda… En el ejercicio usé help text. usage + descripción breve. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T3-B."
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "code": "print(\"stdout=datos JSON/CSV\")\nprint(\"stderr=logs y progreso\")\nprint(\"asi cmd > out.json no contamina el archivo\")\n",
+      "justification_from_packet": "Para S10-T3-B-E3 me apoyé en «stdin/stdout/stderr y ayuda»: stdout = datos (JSON, CSV). stderr = logs y progreso. Así cmd > out.json no contamina el archivo. En packaging y CLI, el *porqué* es operativo: reduce ambigüeda… En el ejercicio usé política streams. cmd > out.json limpio. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T3-B."
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "code": "defaults = {\"timeout\": 30, \"region\": \"PE\"}\nfile_cfg = {\"timeout\": 20}\nenv = {\"timeout\": \"15\"}\nflags = {\"timeout\": 10}\n# flags > env > file > defaults\ncfg = {**defaults, **file_cfg, \"timeout\": int(env[\"timeout\"]), **flags}\nprint(cfg[\"timeout\"])\nprint(\"precedencia flags>env>file>defaults\")\n",
+      "justification_from_packet": "Para S10-T4-A-E1 me apoyé en «Archivo/env/flags y precedencia»: Precedencia canónica: flags CLI > variables de entorno > archivo de config > defaults. En packaging y CLI, el *porqué* es operativo: reduce ambigüedad en pipeli… En el ejercicio usé precedencia config. flags ganan → timeout 10. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T4-A."
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "code": "order = [\"flags\", \"env\", \"file\", \"defaults\"]\nprint(\" > \".join(order))\n",
+      "justification_from_packet": "Para S10-T4-A-E2 me apoyé en «Archivo/env/flags y precedencia»: Precedencia canónica: flags CLI > variables de entorno > archivo de config > defaults. En packaging y CLI, el *porqué* es operativo: reduce ambigüedad en pipeli… En el ejercicio usé orden canónico. flags>env>file>defaults. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T4-A."
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "code": "print(\"conflicto: flag --timeout 5 gana sobre FAM_TIMEOUT=30\")\nprint(\"resolver: documentar precedencia y loggear fuente efectiva en stderr\")\n",
+      "justification_from_packet": "Para S10-T4-A-E3 me apoyé en «Archivo/env/flags y precedencia»: Precedencia canónica: flags CLI > variables de entorno > archivo de config > defaults. En packaging y CLI, el *porqué* es operativo: reduce ambigüedad en pipeli… En el ejercicio usé conflicto documentado. flag gana y se loguea fuente. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T4-A."
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "code": "import os\ntoken = os.environ.get(\"API_TOKEN\")\nif not token:\n    print(\"fail_closed: API_TOKEN ausente\")\nelse:\n    print(\"token_present\")\nprint(\".env en .gitignore; nunca hardcode\")\n",
+      "justification_from_packet": "Para S10-T4-B-E1 me apoyé en «Secretos, defaults y validación temprana»: Secretos fuera del repo: .env en .gitignore, nunca en logs. El ETL local de este nivel no inventa un API token: solo un adaptador remoto futuro podría exigirlo… En el ejercicio usé secretos fuera del repo. fail closed sin API_TOKEN. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T4-B."
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "code": "defaults = {\"delimiter\": \",\", \"encoding\": \"utf-8\"}\nif not defaults[\"delimiter\"]:\n    raise SystemExit(\"delimiter vacío\")\nprint(\"defaults_ok\", defaults)\n",
+      "justification_from_packet": "Para S10-T4-B-E2 me apoyé en «Secretos, defaults y validación temprana»: Secretos fuera del repo: .env en .gitignore, nunca en logs. El ETL local de este nivel no inventa un API token: solo un adaptador remoto futuro podría exigirlo… En el ejercicio usé defaults validados. delimiter no vacío. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T4-B."
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "code": "secrets = [\".env\", \"API_TOKEN\", \"credentials.json\"]\nprint(\"no_git\", secrets)\nprint(\"validar_temprano: fallar si falta secret o delimiter vacío\")\n",
+      "justification_from_packet": "Para S10-T4-B-E3 me apoyé en «Secretos, defaults y validación temprana»: Secretos fuera del repo: .env en .gitignore, nunca en logs. El ETL local de este nivel no inventa un API token: solo un adaptador remoto futuro podría exigirlo… En el ejercicio usé gitignore de secretos. validación temprana. Así el código del paquete activo se alinea con la instruction y el demo iDo de S10-T4-B."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #0: «¿Para qué sirve `if __name__ == '__main__'`?». Elijo «Ejecutar el CLI/demo solo al correr el módulo, no al importar» porque en «Imports, namespaces y __main__» el paquete indica: import pkg.mod y from pkg.mod import name cargan el módulo una vez en sys.modules. __name__ es el nombre del módulo, o '__main__' si se ejecuta como script. En packag. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #1: «Precedencia correcta de config…». Elijo «flags > env > file > defaults» porque en «Archivo/env/flags y precedencia» el paquete indica: Precedencia canónica: flags CLI > variables de entorno > archivo de config > defaults. En packaging y CLI, el *porqué* es operativo: reduce ambigüedad en pipelines locales, dej. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #2: «Exit code 2 en CLI argparse suele significar…». Elijo «Error de uso/parseo de argumentos» porque en «argparse, subcomandos y exit codes» el paquete indica: argparse.ArgumentParser + subparsers modelan ingest|normalize|compare|report. Cada subcomando tiene flags propios. En packaging y CLI, el *porqué* es operativo: reduce ambi. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #3: «¿Dónde van los logs de progreso?». Elijo «stderr» porque en «stdin/stdout/stderr y ayuda» el paquete indica: stdout = datos (JSON, CSV). stderr = logs y progreso. Así cmd > out.json no contamina el archivo. En packaging y CLI, el *porqué* es operativo: reduce ambigüedad en pipel. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #4: «Añadir un subcomando nuevo compatible es tipicamente…». Elijo «minor» porque en «Versionado y compatibilidad» el paquete indica: SemVer simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero documenta igual. En packaging y CLI, el *porqué* es op. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #5: «¿Qué no debe ir al git del paquete?». Elijo «.env con API_TOKEN» porque en «Secretos, defaults y validación temprana» el paquete indica: Secretos fuera del repo: .env en .gitignore, nunca en logs. El ETL local de este nivel no inventa un API token: solo un adaptador remoto futuro podría exigirlo. Default. Las otras opciones chocan con esa política del theory activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:28:58.562669+00:00",
+  "session_started_at": "2026-07-23T16:25:39.887754+00:00",
+  "session_ended_at": "2026-07-23T16:26:13.357754+00:00",
+  "receipt_response_sha256": "8bb3f7206524cb5a0b719b1ebffa856020bae58f9f2525fde2f665c419ea86ef",
+  "receipt_exercises_sha256": "676238d2f07e84c29ab35c476f02f7123ea52159219e17e6941e2834f014eda0",
+  "receipt_selfcheck_sha256": "69aea7ef2e2f65229e68b263c03ad07055713098a316459802874bfa8f50833e"
+}

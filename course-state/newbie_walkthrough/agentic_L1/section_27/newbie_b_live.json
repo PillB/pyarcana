@@ -1,0 +1,244 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s27-5e36178b02",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "id": "S27-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S27-T1-A-E1 el card pide «Dado impact=5 likelihood=4, imprime score=impact*likelihood…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 4ecdbb).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "id": "S27-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S27-T1-A-E2 el card pide «Ordena áreas por score desc y imprime solo los nombres…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 882c27).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "id": "S27-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S27-T1-A-E3 el card pide «Imprime True si la capa top es 'unit'…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 17cb3d).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "id": "S27-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "justification_from_packet": "Dudo del atajo: en S27-T1-B-E1 el card pide «Implementa normalize: casefold + join de split; imprime resultado de ' A  B '…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 655efd).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "id": "S27-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S27-T1-B-E2 el card pide «AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local b5886e).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "id": "S27-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S27-T1-B-E3 el card pide «Oráculo de matching exacto: imprime True si a y b normalizados son iguales…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 778dd5).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "id": "S27-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S27-T2-A-E1 el card pide «Filtra nombres que empiezan con 'test_' de la lista dada…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 64b8bf).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "id": "S27-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S27-T2-A-E2 el card pide «Si left!=right imprime 'fail' else 'ok' (assert blando)…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 0370b1).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "id": "S27-T2-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "justification_from_packet": "Dudo del atajo: en S27-T2-A-E3 el card pide «Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local ef3b56).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "id": "S27-T2-B-E1",
+      "code": "from copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S27-T2-B-E1 el card pide «Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local d6e251).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "id": "S27-T2-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S27-T2-B-E2 el card pide «Imprime 'function' como scope por defecto de fixture…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local ccfdb4).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "id": "S27-T2-B-E3",
+      "code": "def make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S27-T2-B-E3 el card pide «Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3))…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 5a99a4).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "id": "S27-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S27-T3-A-E1 el card pide «Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 8839b8).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "id": "S27-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "justification_from_packet": "Dudo del atajo: en S27-T3-A-E2 el card pide «Captura ValueError de int('x') e imprime 'bad'…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 7508e4).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "id": "S27-T3-A-E3",
+      "code": "import tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S27-T3-A-E3 el card pide «Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip()…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 99ca7f).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "id": "S27-T3-B-E1",
+      "code": "email=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(e)\n",
+      "justification_from_packet": "Verifico la salida contractual: en S27-T3-B-E1 el card pide «Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 465b63).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "id": "S27-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S27-T3-B-E2 el card pide «Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local f7dc46).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "id": "S27-T3-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S27-T3-B-E3 el card pide «Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 4a97c7).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "id": "S27-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "justification_from_packet": "Dudo del atajo: en S27-T4-A-E1 el card pide «Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1)…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 151dd9).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "id": "S27-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S27-T4-A-E2 el card pide «Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 093d2b).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "id": "S27-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S27-T4-A-E3 el card pide «Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local a71c9d).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "id": "S27-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S27-T4-B-E1 el card pide «Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 0ca572).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "id": "S27-T4-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S27-T4-B-E2 el card pide «Falla útil: imprime dict con keys expected, actual para expected=1 actual=2…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local a2eab8).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "id": "S27-T4-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S27-T4-B-E3 el card pide «Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A)…»; completo el TODO/defecto solo con lo que enseña pirámide/oráculo/mutante del paquete S27 (ref local 9ee309).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "El stem descarta las trampas de fraude/parentesco: SC0 pregunta «En la pirámide de pruebas, la base más ancha suele ser:…» y la opción «Pruebas unitarias» es la que alinea el learning outcome de S27, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Como escéptico no compro la opción fácil: SC1 pregunta «Un oráculo confiable es:…» y la opción «Una fuente de verdad determinista para el assert» es la que alinea el learning outcome de S27, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Me quedo con la lectura conservadora del curso: SC2 pregunta «Si mutas un casefold y ningún test falla:…» y la opción «El contrato es débil; el mutante sobrevivió» es la que alinea el learning outcome de S27, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Contraste con la theory del slim_packet: SC3 pregunta «Las pruebas de matching en CP-N3-A demuestran:…» y la opción «Contratos de misma entidad / normalización — no riesgo ni relación» es la que alinea el learning outcome de S27, no un veredicto mágico.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "S27: contrasté si el starter defectuoso invertía el predicado antes de confiar.",
+    "S27: revisé que no se filtre label/fraude automático en el contrato del card."
+  ],
+  "recorded_at": "2026-07-23T16:43:57.502077+00:00",
+  "session_started_at": "2026-07-23T16:43:16.309Z",
+  "session_ended_at": "2026-07-23T16:43:57.500Z",
+  "receipt_response_sha256": "1ebf6894adfd2d98985bd7897fb738b8585098942a150fe297df1f440f0380f1",
+  "receipt_exercises_sha256": "34b6fa816787e222728da75e2fc8ba9fe322c5295c58cbb990dacf44484a449b",
+  "receipt_selfcheck_sha256": "070829ffa9e64fdb90154baaa899f283fcef3ceb5640b4ad15799e8fc014068e"
+}

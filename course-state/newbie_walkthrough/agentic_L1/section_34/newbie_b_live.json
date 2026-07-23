@@ -1,0 +1,244 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 34,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s34-29380133a8",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S34-T1-A-E1",
+      "id": "S34-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\nmeets_contract = not (record[\"accuracy_only\"] is True)\nstatus = \"PASS\" if meets_contract else \"REJECT_ACCURACY_ONLY\"\nprint(\"S34-T1-A\", status)\n",
+      "justification_from_packet": "Dudo del atajo: en S34-T1-A-E1 el card pide «Calcula el contrato de `confusion matrix, precision/recall/F y PR-AUC` sobre `CASO-LIM-034…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 355971).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T1-A-E2",
+      "id": "S34-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'tp', 'fp', 'fn', 'accuracy_only'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"accuracy_only\"] is True) else \"REJECT_ACCURACY_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 0, 'fp': 0, 'fn': 0, 'accuracy_only': True}}\nincomplete = {**valid}\nincomplete.pop(\"tp\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S34-T1-A-E2 el card pide «Modela tres rutas de `confusion matrix, precision/recall/F y PR-AUC`: fixture válido, fixt…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 0d2cdc).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T1-A-E3",
+      "id": "S34-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'tp', 'fp', 'fn', 'accuracy_only'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CONFUSION\"\n    bad = (record[\"accuracy_only\"] is True)\n    if bad:\n        return \"REJECT_ACCURACY_ONLY\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\ninvalid = dict(valid)\ninvalid[\"accuracy_only\"] = True\nuncertain = {k: v for k, v in valid.items() if k != \"accuracy_only\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S34-T1-A-E3 el card pide «Contrasta fallo cerrado para `confusion matrix, precision/recall/F y PR-AUC` con tres fixt…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 4f800e).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T1-B-E1",
+      "id": "S34-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\nmeets_contract = not (record[\"load\"] > record[\"capacity\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_QUEUE_OVERLOAD\"\nprint(\"S34-T1-B\", status)\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S34-T1-B-E1 el card pide «Calcula el contrato de `top-k y carga de revisión` sobre `CASO-LIM-034-1B`. La entrada es…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local d72f5d).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T1-B-E2",
+      "id": "S34-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'precision_at_k', 'load', 'capacity'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"load\"] > record[\"capacity\"]) else \"REJECT_QUEUE_OVERLOAD\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 50, 'capacity': 10}}\nincomplete = {**valid}\nincomplete.pop(\"capacity\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S34-T1-B-E2 el card pide «Modela tres rutas de `top-k y carga de revisión`: fixture válido, fixture adverso y regist…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 552660).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T1-B-E3",
+      "id": "S34-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'precision_at_k', 'load', 'capacity'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CAPACITY\"\n    bad = (record[\"load\"] > record[\"capacity\"])\n    if bad:\n        return \"REJECT_QUEUE_OVERLOAD\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\ninvalid = dict(valid)\npass\nuncertain = {k: v for k, v in valid.items() if k != \"load\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S34-T1-B-E3 el card pide «Contrasta fallo cerrado para `top-k y carga de revisión` con tres fixtures distintos. `CAS…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local f92be6).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T2-A-E1",
+      "id": "S34-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\nmeets_contract = not (record[\"resample_global\"] is True)\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKY_RESAMPLE\"\nprint(\"S34-T2-A\", status)\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S34-T2-A-E1 el card pide «Calcula el contrato de `class weights y resampling dentro de CV` sobre `CASO-LIM-034-2A`…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 569f0b).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T2-A-E2",
+      "id": "S34-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'n0', 'n1', 'resample_global'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"resample_global\"] is True) else \"REJECT_LEAKY_RESAMPLE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': True}}\nincomplete = {**valid}\nincomplete.pop(\"n1\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S34-T2-A-E2 el card pide «Modela tres rutas de `class weights y resampling dentro de CV`: fixture válido, fixture ad…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 75db6d).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T2-A-E3",
+      "id": "S34-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'n0', 'n1', 'resample_global'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_WEIGHTS\"\n    bad = (record[\"resample_global\"] is True)\n    if bad:\n        return \"REJECT_LEAKY_RESAMPLE\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\ninvalid = dict(valid)\ninvalid[\"resample_global\"] = True\nuncertain = {k: v for k, v in valid.items() if k != \"resample_global\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S34-T2-A-E3 el card pide «Contrasta fallo cerrado para `class weights y resampling dentro de CV` con tres fixtures d…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local e0842e).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T2-B-E1",
+      "id": "S34-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\nmeets_contract = not (record[\"accuracy_enough\"] is True)\nstatus = \"PASS\" if meets_contract else \"REJECT_PREVALENCE_BLIND\"\nprint(\"S34-T2-B\", status)\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S34-T2-B-E1 el card pide «Calcula el contrato de `prevalencia y métricas engañosas` sobre `CASO-LIM-034-2B`. La entr…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local e5b9c7).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T2-B-E2",
+      "id": "S34-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'prevalence', 'all_neg_acc', 'accuracy_enough'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"accuracy_enough\"] is True) else \"REJECT_PREVALENCE_BLIND\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': True}}\nincomplete = {**valid}\nincomplete.pop(\"prevalence\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S34-T2-B-E2 el card pide «Modela tres rutas de `prevalencia y métricas engañosas`: fixture válido, fixture adverso y…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 7a0d87).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T2-B-E3",
+      "id": "S34-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'prevalence', 'all_neg_acc', 'accuracy_enough'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_BASE_RATE\"\n    bad = (record[\"accuracy_enough\"] is True)\n    if bad:\n        return \"REJECT_PREVALENCE_BLIND\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\ninvalid = dict(valid)\ninvalid[\"accuracy_enough\"] = True\nuncertain = {k: v for k, v in valid.items() if k != \"accuracy_enough\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "Dudo del atajo: en S34-T2-B-E3 el card pide «Contrasta fallo cerrado para `prevalencia y métricas engañosas` con tres fixtures distinto…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 8205ad).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T3-A-E1",
+      "id": "S34-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\nmeets_contract = not (abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3)\nstatus = \"PASS\" if meets_contract else \"REJECT_UNCALIBRATED\"\nprint(\"S34-T3-A\", status)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S34-T3-A-E1 el card pide «Calcula el contrato de `reliability curves y Brier` sobre `CASO-LIM-034-3A`. La entrada es…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local a17f8d).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T3-A-E2",
+      "id": "S34-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'brier', 'mean_p', 'freq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3) else \"REJECT_UNCALIBRATED\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.4, 'mean_p': 0.9, 'freq': 0.2}}\nincomplete = {**valid}\nincomplete.pop(\"brier\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S34-T3-A-E2 el card pide «Modela tres rutas de `reliability curves y Brier`: fixture válido, fixture adverso y regis…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local c7dd51).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T3-A-E3",
+      "id": "S34-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'brier', 'mean_p', 'freq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_BRIER\"\n    bad = (abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3)\n    if bad:\n        return \"REJECT_UNCALIBRATED\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\ninvalid = dict(valid)\ninvalid[\"mean_p\"] = valid[\"freq\"] + 0.3 + 0.05\nuncertain = {k: v for k, v in valid.items() if k != \"mean_p\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S34-T3-A-E3 el card pide «Contrasta fallo cerrado para `reliability curves y Brier` con tres fixtures distintos. `CA…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local fd33fb).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T3-B-E1",
+      "id": "S34-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\nmeets_contract = not (record[\"calibrator_set\"] == \"train_in_sample\")\nstatus = \"PASS\" if meets_contract else \"REJECT_IN_SAMPLE_CAL\"\nprint(\"S34-T3-B\", status)\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S34-T3-B-E1 el card pide «Calcula el contrato de `calibradores y evaluación fuera de muestra` sobre `CASO-LIM-034-3B…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 435e10).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T3-B-E2",
+      "id": "S34-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'raw', 'cal', 'calibrator_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"calibrator_set\"] == \"train_in_sample\") else \"REJECT_IN_SAMPLE_CAL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'train_in_sample'}}\nincomplete = {**valid}\nincomplete.pop(\"calibrator_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Verifico la salida contractual: en S34-T3-B-E2 el card pide «Modela tres rutas de `calibradores y evaluación fuera de muestra`: fixture válido, fixture…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 1839d5).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T3-B-E3",
+      "id": "S34-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'raw', 'cal', 'calibrator_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CAL_SET\"\n    bad = (record[\"calibrator_set\"] == \"train_in_sample\")\n    if bad:\n        return \"REJECT_IN_SAMPLE_CAL\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\ninvalid = dict(valid)\ninvalid[\"calibrator_set\"] = \"train_in_sample\"\nuncertain = {k: v for k, v in valid.items() if k != \"calibrator_set\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S34-T3-B-E3 el card pide «Contrasta fallo cerrado para `calibradores y evaluación fuera de muestra` con tres fixture…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 0629b0).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T4-A-E1",
+      "id": "S34-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\nmeets_contract = not (record[\"thr_id\"] == \"default\")\nstatus = \"PASS\" if meets_contract else \"REJECT_FIXED_THR\"\nprint(\"S34-T4-A\", status)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S34-T4-A-E1 el card pide «Calcula el contrato de `threshold por costo/capacidad` sobre `CASO-LIM-034-4A`. La entrada…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 7d3ace).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T4-A-E2",
+      "id": "S34-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'thr', 'n_review', 'thr_id', 'cost'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"thr_id\"] == \"default\") else \"REJECT_FIXED_THR\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.5, 'n_review': 2, 'thr_id': 'default', 'cost': None}}\nincomplete = {**valid}\nincomplete.pop(\"cost\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S34-T4-A-E2 el card pide «Modela tres rutas de `threshold por costo/capacidad`: fixture válido, fixture adverso y re…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 0d4d3f).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T4-A-E3",
+      "id": "S34-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'thr', 'n_review', 'thr_id', 'cost'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_COST_MATRIX\"\n    bad = (record[\"thr_id\"] == \"default\")\n    if bad:\n        return \"REJECT_FIXED_THR\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\ninvalid = dict(valid)\ninvalid[\"thr_id\"] = \"default\"\nuncertain = {k: v for k, v in valid.items() if k != \"thr_id\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "Verifico la salida contractual: en S34-T4-A-E3 el card pide «Contrasta fallo cerrado para `threshold por costo/capacidad` con tres fixtures distintos…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 74018e).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T4-B-E1",
+      "id": "S34-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\nmeets_contract = not (record[\"decision\"] == \"force_1\")\nstatus = \"PASS\" if meets_contract else \"REJECT_FORCE_LABEL\"\nprint(\"S34-T4-B\", status)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S34-T4-B-E1 el card pide «Calcula el contrato de `abstención, slices y sensibilidad` sobre `CASO-LIM-034-4B`. La ent…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local f23ca2).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T4-B-E2",
+      "id": "S34-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'score', 'low', 'high', 'decision'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"decision\"] == \"force_1\") else \"REJECT_FORCE_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'force_1'}}\nincomplete = {**valid}\nincomplete.pop(\"low\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S34-T4-B-E2 el card pide «Modela tres rutas de `abstención, slices y sensibilidad`: fixture válido, fixture adverso…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local ece728).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S34-T4-B-E3",
+      "id": "S34-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'score', 'low', 'high', 'decision'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_ABSTAIN_BAND\"\n    bad = (record[\"decision\"] == \"force_1\")\n    if bad:\n        return \"REJECT_FORCE_LABEL\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\ninvalid = dict(valid)\ninvalid[\"decision\"] = \"force_1\"\nuncertain = {k: v for k, v in valid.items() if k != \"decision\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "Dudo del atajo: en S34-T4-B-E3 el card pide «Contrasta fallo cerrado para `abstención, slices y sensibilidad` con tres fixtures distint…»; completo el TODO/defecto solo con lo que enseña métricas/calibración/abstención del paquete S34 (ref local 9e993d).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Como escéptico no compro la opción fácil: SC0 pregunta «Con desbalance fuerte, conviene priorizar:…» y la opción «Precision/recall o PR-AUC de la cola» es la que alinea el learning outcome de S34, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "El stem descarta las trampas de fraude/parentesco: SC1 pregunta «Resamplear todo el dataset antes de CV:…» y la opción «Introduce leakage y métricas infladas» es la que alinea el learning outcome de S34, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Me quedo con la lectura conservadora del curso: SC2 pregunta «Un calibrador debe ajustarse:…» y la opción «En un set de calibración fuera de muestra» es la que alinea el learning outcome de S34, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Sin evidencia del paquete no elijo atajos: SC3 pregunta «Score en banda low–high debe:…» y la opción «Abstener según política» es la que alinea el learning outcome de S34, no un veredicto mágico.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "S34: contrasté si el starter defectuoso invertía el predicado antes de confiar.",
+    "S34: revisé que no se filtre label/fraude automático en el contrato del card."
+  ],
+  "recorded_at": "2026-07-23T16:49:58.790478+00:00",
+  "session_started_at": "2026-07-23T16:49:14.582Z",
+  "session_ended_at": "2026-07-23T16:49:58.786Z",
+  "receipt_response_sha256": "9df210746a83afd470e8aa3174f1d95aef1327d0d1bb4958f8834650cafa4603",
+  "receipt_exercises_sha256": "52bf78d990d9f04b537d429e95ce499445161d6e1234ab3e17f1256f2c251ca7",
+  "receipt_selfcheck_sha256": "6aec7637dbfa4b68ce4b1ec297bfb39515152bb76d8e1ae9d09644743f57a360"
+}

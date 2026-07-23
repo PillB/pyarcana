@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 1,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-newbie_a-s01-e585f0a1a197",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "code": "# Transcript REPL (no .py ejecutable)\n# >>> 2 + 2\n# 4\n# >>> type(\"x\")\n# <class 'str'>\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.12.3'\n# >>> quit()\n",
+      "justification_from_packet": "Como explorer aplico «Entornos virtuales con venv». En S01-T1-A-E1 resolví: Completa el transcript de una sesión REPL: suma, type() e import de sys. No cree. Me guié también por «Con el `.venv` activado, instalas dependencias de **terceros» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "code": "import sys\n\ndef main() -> None:\n    nombre = \"Ana Demo\"\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n    return 0\n\nif __name__ == \"__main__\":\n    raise SystemExit(main() or 0)\n",
+      "justification_from_packet": "Como explorer aplico «Ramas, Pull Requests y recuperación segura». En S01-T1-A-E2 resolví: Crea `hello_sys.py` que imprima tu nombre sintético y la versión de Python con s. Me guié también por «El editor recomendado en este curso es **VS Code** con la ex» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "code": "# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. En Windows: desactivar alias de Microsoft Store (App execution aliases) y/o reinstalar desde https://www.python.org/downloads/ marcando \"Add python.exe to PATH\".\n2. Cerrar y reabrir la terminal; en PowerShell probar `py -3 --version` y `where.exe python`.\n3. En macOS/Linux: usar de forma consistente `python3 --version` y/o instalar 3.12+ desde python.org o el gestor del SO.\n4. Verificar el ejecutable real: `python3 -c \"import sys; print(sys.executable, sys.version)\"`.\n5. (opcional) Crear alias `python=python3` solo en el shell del proyecto, no global ciego.\n6. (opcional) Documentar en README el comando canónico del curso (`python3`).\n\n## Verificación final\n- Comando: `python3 --version` (o `py -3 --version` en Windows)\n- Resultado esperado: Python 3.12+ (o 3.x del curso)\n",
+      "justification_from_packet": "Como explorer aplico «**.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.ve». En S01-T1-A-E3 resolví: Diagnóstico: en una laptop Windows el usuario escribe `python --version` y obtie. Me guié también por «Instalar Python 3.12+ y verificarlo desde la terminal…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "code": "# Transcript de códigos de salida (zsh)\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\n# codigo_ok=0\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# codigo_fail=1\n# SHELL_USADA=zsh\n",
+      "justification_from_packet": "Como explorer aplico «Archivos de calidad: ignore, secretos y README». En S01-T1-B-E1 resolví: Completa el transcript de terminal: ejecuta un Python que sale con 0, otro con 1. Me guié también por «Interpretar códigos de salida (0 = éxito, no-cero = error) y» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "code": "import sys\n\ndef main() -> None:\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()\n",
+      "justification_from_packet": "Como explorer aplico «Git es un **sistema de control de versiones**: registra *quién cambió ». En S01-T1-B-E2 resolví: Escribe `check_arg.py`: si recibe exactamente un argumento de línea de comandos,. Me guié también por «VS Code y Ruff como calidad mínima» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "code": "# Diagnóstico pip vs intérprete\n\n## Escenario A — \"pip no se reconoce como comando\"\nClase: PATH / ejecutable ausente en la shell.\n1. `which pip` / `where pip` y `echo $PATH`.\n2. Preferir `python3 -m pip --version` (no depende de un shim `pip` suelto).\n3. Si falla, activar `.venv` o instalar ensurepip sobre el mismo Python verificado.\n\n## Escenario B — pip corre pero `import pandas` da ModuleNotFoundError\nClase: pip e intérprete no son la misma instalación / venv no activado.\n1. `python3 -c \"import sys; print(sys.executable)\"` y `python3 -m pip -V`.\n2. Comparar rutas: si difieren, reinstalar con `python3 -m pip install pandas` en el venv activo.\n3. Confirmar `python3 -c \"import pandas; print(pandas.__version__)\"` con el mismo executable.\n",
+      "justification_from_packet": "Como explorer aplico «Crear y activar un entorno virtual con venv (carpeta `.venv` por proye». En S01-T1-B-E3 resolví: Caso: un colega corre `pip install pandas` y ve error. En un escenario el mensaj. Me guié también por «Escribir un requirements.txt (lista de paquetes y…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "code": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\npython3 -m venv .venv\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\ndeactivate\n",
+      "justification_from_packet": "Como explorer aplico «**.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.ve». En S01-T2-A-E1 resolví: En una carpeta de práctica, crea un entorno `.venv` con `python -m venv`, actíva. Me guié también por «Instalar Python 3.12+ y verificarlo desde la terminal…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "code": "# 0) salir del venv viejo si aplica\ndeactivate 2>/dev/null || true\n# 1) Eliminar entorno roto (el código fuente fuera de .venv permanece)\nrm -rf .venv\n# 2) Recrear limpio\npython3 -m venv .venv\n# 3) Activar y verificar\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py u otros .py NO se borran\n",
+      "justification_from_packet": "Como explorer aplico «Cuando instalas Python, lo que realmente instalas es un **intérprete**». En S01-T2-A-E2 resolví: Simula un entorno “roto”: con `.venv` ya creado, borra la carpeta del entorno (o. Me guié también por «Entornos virtuales con venv» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T2-A-E3",
+      "code": "# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\nEl Proyecto A necesita pandas 1.x y el Proyecto B necesita 2.x. Un solo site-packages global no puede satisfacer ambos: al actualizar uno, se rompe el otro. Eso genera el clásico \"en mi máquina funciona\" y ModuleNotFoundError o APIs incompatibles.\n\n## Flujo recomendado (este curso)\n1. `python3 -m venv .venv` en la raíz de cada proyecto\n2. Activar el entorno (source .venv/bin/activate o Activate.ps1)\n3. `python -m pip install -r requirements.txt` y trabajar solo ahí\n\n## Nota sobre la herramienta\n- venv es stdlib (no requiere descarga extra)\n- Nombre canónico de carpeta: .venv\n",
+      "justification_from_packet": "Como explorer aplico «Trabajar siempre en `main` es el atajo del principiante y el riesgo de». En S01-T2-A-E3 resolví: Un colega propone instalar pandas con `pip install pandas` en el Python global “. Me guié también por «Archivos de calidad: ignore, secretos y README» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T2-B-E1",
+      "code": "source .venv/bin/activate\npython -m pip install requests==2.32.3\npython -m pip freeze > requirements.txt\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n",
+      "justification_from_packet": "Como explorer aplico «Interpretar códigos de salida (0 = éxito, no-cero = error) y distingui». En S01-T2-B-E1 resolví: Con `.venv` activado, instala un paquete de terceros pinneado (ej. `requests==2.. Me guié también por «Configurar VS Code con extensiones Python esenciales…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T2-B-E2",
+      "code": "python3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r requirements.txt\npython -m pip list | head\npython -c \"import requests; print('ok', requests.__version__)\"\n",
+      "justification_from_packet": "Como explorer aplico «Seleccionar el intérprete Python correcto (el programa que ejecuta tu ». En S01-T2-B-E2 resolví: Dado un `requirements.txt` de plantilla (puede ser el de E1), crea un **segundo*. Me guié también por «Crear y activar un entorno virtual con venv (carpeta…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T2-B-E3",
+      "code": "# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\nEl módulo de terceros no está en el site-packages del intérprete actual.\n\n## Hipótesis B — instalado en otro intérprete\n`pip` instaló en un Python distinto al que ejecuta `import`.\n\n## Protocolo (5 pasos)\n1. Identificar intérprete: `python -c \"import sys; print(sys.executable, sys.version)\"`.\n2. Clasificar: ¿stdlib (sys, datetime) o terceros (requests, pandas)?\n3. Listar con el mismo intérprete: `python -m pip show requests` / `python -m pip list`.\n4. Si falta: `python -m pip install requests` dentro del venv activo.\n5. Reprobar import y anotar `sys.path` si aún falla.\n\n## ¿stdlib o terceros?\n- requests: terceros\n- datetime: stdlib\n",
+      "justification_from_packet": "Como explorer aplico «El intérprete Python y el REPL · El intérprete en la terminal (comando». En S01-T2-B-E3 resolví: Forense ModuleNotFoundError: el usuario corre `python -c \"import requests\"` y fa. Me guié también por «La **terminal** (bash, zsh o PowerShell) es el lugar…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T3-A-E1",
+      "code": "mkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README de practica\"\ngit log -1 --oneline\n",
+      "justification_from_packet": "Como explorer aplico «Escribir un requirements.txt (lista de paquetes y versiones) reproduci». En S01-T3-A-E1 resolví: En una carpeta de práctica: `git init`, crea un archivo, haz un commit con mensa. Me guié también por «Terminal, rutas y códigos de salida · cwd, PATH y…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T3-A-E2",
+      "code": "# Lectura de diff\n\n## Comandos usados\necho \"Setup con venv.\" >> README.md\ngit add README.md\ngit commit -m \"docs: documentar setup con venv\"\nGIT_PAGER=cat git show HEAD\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\nLas líneas nuevas del README (p. ej. `+Setup con venv.`) y el encabezado del commit.\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\nModificado: el diff muestra solo el hunk tocado con +/−, no todo el archivo como creación.\n\n## 3) Resumen en una frase\nEl commit documenta el setup con venv en el README del lab.\n",
+      "justification_from_packet": "Como explorer aplico «VS Code y Ruff como calidad mínima». En S01-T3-A-E2 resolví: Modifica un README ya commiteado (agrega una línea), haz commit, y responde en u. Me guié también por «**.gitignore** le dice a Git qué no trackear. Mínimo Python/» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T3-A-E3",
+      "code": "# Mejor mensaje de commit\n\nCandidatos:\n- A: `wip`\n- B: `feat: agregar smoke hello_env`\n- C: `Actualicé cosas del setup`\n\n## Elección\nB\n\n## Justificación\nConventional Commits pide tipo + descripción imperativa legible en el historial y en el PR. `feat: agregar smoke hello_env` dice qué se agregó y por qué importa (smoke del entorno). `wip` no es aceptable en main; \"Actualicé cosas\" no nombra el archivo ni el valor.\n\n## Reescritura de A (si fuera un commit temporal local que luego se limpia)\nchore: wip local smoke hello_env (squash antes de PR)\n\n## Reescritura de C\ndocs: aclarar pasos de setup del entorno en README\n",
+      "justification_from_packet": "Como explorer aplico «Cuando instalas Python, lo que realmente instalas es un **intérprete**». En S01-T3-A-E3 resolví: Te entregan tres mensajes candidatos para el mismo cambio (añadir `scripts/hello. Me guié también por «Entornos virtuales con venv» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T3-B-E1",
+      "code": "git switch main\ngit switch -c feat/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"feat: agregar nota de practica\"\ngit branch\n",
+      "justification_from_packet": "Como explorer aplico «Cuando instalas Python, lo que realmente instalas es un **intérprete**». En S01-T3-B-E1 resolví: Desde un repo con al menos un commit en `main`, crea la rama `feat/practica-s01`. Me guié también por «Entornos virtuales con venv» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T3-B-E2",
+      "code": "# Título del PR\nfeat: agregar smoke hello_env y README de instalación\n\n## Resumen\n- Añade `scripts/hello_env.py` como smoke del intérprete/venv\n- Actualiza README con clon → venv → install -r → smoke\n- Sin secretos ni `.env` versionado\n\n## Plan de prueba\n1. `python3 -m venv .venv && source .venv/bin/activate`\n2. `python -m pip install -r requirements.txt`\n3. `python scripts/hello_env.py` (exit 0)\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] `git check-ignore -v .env` confirma ignore\n",
+      "justification_from_packet": "Como explorer aplico «Inicializar un repositorio Git (repo: carpeta con historial), hacer co». En S01-T3-B-E2 resolví: Redacta la descripción de un Pull Request (markdown) para una rama que agrega `s. Me guié también por «Cuando instalas Python, lo que realmente instalas es…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T3-B-E3",
+      "code": "# Recuperación no destructiva\n\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. Revisar el diff: `git diff README.md`\n2. Descartar el working tree: `git restore README.md`\n\n## ¿Cuándo stash en su lugar?\nSi el cambio podría servir luego: `git stash push -m \"wip readme\"` y recuperar con `stash pop` cuando convenga.\n\n## Por qué NO force-push a main\nReescribe historial compartido, rompe clones del equipo y está prohibido en este curso.\n\n## Por qué no reset --hard como default\nBorra trabajo no commiteado sin red de seguridad; restore/stash son más seguros para un archivo concreto.\n",
+      "justification_from_packet": "Como explorer aplico «El editor recomendado en este curso es **VS Code** con la extensión de». En S01-T3-B-E3 resolví: Escenario: editaste `README.md` sin commit y el cambio está mal. Un colega te di. Me guié también por «Seleccionar el intérprete Python correcto (el programa…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T4-A-E1",
+      "code": "[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n",
+      "justification_from_packet": "Como explorer aplico «Git es un **sistema de control de versiones**: registra *quién cambió ». En S01-T4-A-E1 resolví: Completa un `pyproject.toml` mínimo con `[tool.ruff]` (line-length 88, target-ve. Me guié también por «VS Code y Ruff como calidad mínima» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T4-A-E2",
+      "code": "from datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n",
+      "justification_from_packet": "Como explorer aplico «Terminal, rutas y códigos de salida · cwd, PATH y códigos de salida en». En S01-T4-A-E2 resolví: Dado un script con imports sin usar, instala `ruff` en el venv, corre `python -m. Me guié también por «Un **entorno virtual** es una carpeta autocontenida…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T4-A-E3",
+      "code": "# Select mínimo para repo de datos (S01)\n\n## Propuesta\n`select = [\"E\", \"F\", \"I\"]`\n\n## Por qué no ALL el día 1\nALL dispara cientos de hallazgos en notebooks y código exploratorio; el equipo deja de mirar el linter. Ruff debe dar señal accionable, no ruido.\n\n## Qué cubren E, F, I\nE: estilo/errores básicos pycodestyle; F: pyflakes (imports muertos, nombres indefinidos); I: orden de imports.\n\n## Cuándo ampliar\nCuando E/F/I estén limpios por hábito y el equipo acuerde reglas extra (bugbear, etc.) por PR de configuración.\n",
+      "justification_from_packet": "Como explorer aplico «La **terminal** (bash, zsh o PowerShell) es el lugar donde lanzas proc». En S01-T4-A-E3 resolví: Un lead propone `select = [\"ALL\"]` el día 1 en un repo de analytics con notebook. Me guié también por «pip, freeze y requirements.txt» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T4-B-E1",
+      "code": "# Entornos\n.venv/\nvenv/\n\n# Bytecode\n__pycache__/\n*.pyc\n\n# Secretos\n.env\n\n# Jupyter\n.ipynb_checkpoints/\n",
+      "justification_from_packet": "Como explorer aplico «Crear y activar un entorno virtual con venv (carpeta `.venv` por proye». En S01-T4-B-E1 resolví: Completa un `.gitignore` mínimo de Python/data que incluya `.venv/`, `venv/`, `_. Me guié también por «Escribir un requirements.txt (lista de paquetes y…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T4-B-E2",
+      "code": "# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=https://api.example.com\nDB_HOST=localhost\nLOG_LEVEL=INFO\n",
+      "justification_from_packet": "Como explorer aplico «pip, freeze y requirements.txt». En S01-T4-B-E2 resolví: Crea `.env.example` con al menos 3 claves de un proyecto de intake (ej. `API_URL. Me guié también por «Git es un **sistema de control de versiones**: registra *qui» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S01-T4-B-E3",
+      "code": "# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. `git clone <repo> && cd <repo>` completa sin errores\n- [ ] 2. `python3 -m venv .venv && source .venv/bin/activate`\n- [ ] 3. `python -m pip install -r requirements.txt` exit 0\n- [ ] 4. `python scripts/hello_env.py` exit 0 e imprime versión\n- [ ] 5. `git check-ignore -v .env` confirma que `.env` está ignorado\n\n## Datos\n- [ ] data/clients_synthetic.csv es sintético\n- [ ] data/data_dictionary.md describe columnas\n",
+      "justification_from_packet": "Como explorer aplico «Interpretar códigos de salida (0 = éxito, no-cero = error) y distingui». En S01-T4-B-E3 resolví: Checklist de “máquina limpia” para el esqueleto CP-N1-A: escribe 5 ítems verific. Me guié también por «Configurar VS Code con extensiones Python esenciales…",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones» porque el paquete en «El intérprete Python y el REPL · El intérprete en la terminal (comando» lo sostiene. Pregunta: ¿Para qué sirve un entorno virtual (venv) en Python?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «.venv/ (o venv/)» porque el paquete en «Terminal, rutas y códigos de salida · cwd, PATH y códigos de salida en» lo sostiene. Pregunta: ¿Cuál de los siguientes archivos SÍ debería estar en tu .gitignore?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Elijo «\"feat: agregar cálculo de churn por segmento\"» porque el paquete en «Entornos virtuales con venv» lo sostiene. Pregunta: ¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Elijo «pip install -r requirements.txt» porque el paquete en «pip, freeze y requirements.txt» lo sostiene. Pregunta: ¿Qué comando te permite replicar el entorno de otro desarrollador?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «Porque suele contener credenciales (API keys, passwords, tokens) que son secretos» porque el paquete en «Git: commits y lectura de diffs» lo sostiene. Pregunta: ¿Por qué NO debes subir el archivo .env a GitHub?.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:20:16.916481+00:00",
+  "session_started_at": "2026-07-23T17:15:16.912234Z",
+  "session_ended_at": "2026-07-23T17:15:38.270919Z",
+  "receipt_response_sha256": "abcb4d41305f85a7b59f4d50aac47d59ebeaf8f6114eba5fd1c41d8667699653",
+  "receipt_exercises_sha256": "882154765fe2b3b6c7cbff14147b63900bcbf4390cdc532e3d3eb33d9776ebe8",
+  "receipt_selfcheck_sha256": "84c80eb746765b80bf2a1c6b1de2fe518b44a0cb5358f693d817d67504946b6b"
+}

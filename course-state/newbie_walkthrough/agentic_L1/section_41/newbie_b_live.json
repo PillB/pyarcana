@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 41,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s41-2fb5d248a1",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S41-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-1A\", **{\"method\":\"POST\",\"resource\":\"/v1/jobs\",\"created\":True,\"status\":201}}\nmeets_contract = record[\"method\"] == \"POST\" and record[\"status\"] == 201 and record.get(\"created\") is True\nstatus = \"PASS\" if meets_contract else \"RETURN_CORRECT_HTTP_STATUS\"\nprint(\"S41-T1-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S41/S41-T1-A-E1, no acepto el predicado defectuoso del starter: para «recursos, métodos y status» el paquete exige demostrar método, recurso y 201 coherentes. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"method\", \"resource\", \"created\", \"status\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"method\"] == \"POST\" and record[\"status\"] == 201 and record.get(\"created\") is True else 'RETURN_CORRECT_HTTP_STATUS'\n\nvalid = {\"case_id\": \"CASO-ARE-041-1A\", **{\"method\":\"POST\",\"resource\":\"/v1/jobs\",\"created\":True,\"status\":201}}\ninvalid = {\"case_id\": \"CASO-ARE-041-1A\", **{\"method\":\"POST\",\"resource\":\"/v1/jobs\",\"created\":True,\"status\":200}}\nincomplete = {**valid}\nincomplete.pop(\"status\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S41-T1-A-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «recursos, métodos y status» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'created', 'method', 'resource', 'status'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_RESOURCE_SEMANTICS'\n    meets = record[\"method\"] == \"POST\" and record[\"status\"] == 201 and record.get(\"created\") is True\n    return \"CONTINUE\" if meets else 'RETURN_CORRECT_HTTP_STATUS'\n\nvalid = {\"case_id\": 'CASO-ARE-041-1A', **{'method':'POST', 'resource':'/v1/jobs', 'created':True, 'status':201}}\ninvalid = {\"case_id\": 'CASO-ARE-041-1A', **{'method':'broken_POST', 'resource':'/v1/jobs', 'created':True, 'status':201}}\nuncertain = {k: v for k, v in valid.items() if k != 'status'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S41-T1-A-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «status» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-1B\", **{\"key\":\"idem-are-1\",\"request_hash\":\"abc\",\"stored_hash\":\"abc\",\"effects\":1,\"cursor\":\"job-020\",\"version\":\"v1\"}}\nmeets_contract = record[\"effects\"] <= 1 or record[\"request_hash\"] != record[\"stored_hash\"]\nstatus = \"PASS\" if meets_contract else \"RETURN_IDEMPOTENCY_CONFLICT\"\nprint(\"S41-T1-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "S41 · S41-T1-B-E1: leí hints «Relaciona los campos `key`, `request_hash`, `stored_hash`, `effects`, `cursor`, `version` con la regla explicada en S41-T1-B.» y la teoría del subtema «idempotencia, paginación y versionado». El criterio medible es hash estable, un efecto, cursor y versión explícita; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'cursor', 'effects', 'key', 'request_hash', 'stored_hash', 'version'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"effects\"] <= 1 or record[\"request_hash\"] != record[\"stored_hash\"]\n    return \"PASS\" if meets else 'RETURN_IDEMPOTENCY_CONFLICT'\n\nvalid = {\"case_id\": 'CASO-ARE-041-1B', **{'key':'idem-are-1', 'request_hash':'abc', 'stored_hash':'abc', 'effects':1, 'cursor':'job-020', 'version':'v1'}}\ninvalid = {\"case_id\": 'CASO-ARE-041-1B', **{'key':'idem-are-1', 'request_hash':'abc', 'stored_hash':'abc', 'effects':1001, 'cursor':'job-020', 'version':'v1'}}\nincomplete = {k: v for k, v in valid.items() if k != 'version'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S41-T1-B-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «idempotencia, paginación y versionado» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'cursor', 'effects', 'key', 'request_hash', 'stored_hash', 'version'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REPLAY_STORED_RESPONSE'\n    meets = record[\"effects\"] <= 1 or record[\"request_hash\"] != record[\"stored_hash\"]\n    return \"CONTINUE\" if meets else 'RETURN_IDEMPOTENCY_CONFLICT'\n\nvalid = {\"case_id\": 'CASO-ARE-041-1B', **{'key':'idem-are-1', 'request_hash':'abc', 'stored_hash':'abc', 'effects':1, 'cursor':'job-020', 'version':'v1'}}\ninvalid = {\"case_id\": 'CASO-ARE-041-1B', **{'key':'idem-are-1', 'request_hash':'abc', 'stored_hash':'abc', 'effects':1001, 'cursor':'job-020', 'version':'v1'}}\nuncertain = {k: v for k, v in valid.items() if k != 'version'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S41-T1-B-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «version» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-2A\", **{\"handler_lines\":4,\"dependency_injectable\":True,\"domain_imports_http\":False,\"domain_called\":True}}\nmeets_contract = record['dependency_injectable'] is True and record['domain_imports_http'] is False and record['domain_called'] is True\nstatus = \"PASS\" if meets_contract else \"THIN_THE_HANDLER\"\nprint(\"S41-T2-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S41/S41-T2-A-E1, no acepto el predicado defectuoso del starter: para «routing, dependencies y modelos» el paquete exige demostrar handler delgado y dependencia sustituible. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'dependency_injectable', 'domain_called', 'domain_imports_http', 'handler_lines'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['dependency_injectable'] is True and record['domain_imports_http'] is False and record['domain_called'] is True\n    return \"PASS\" if meets else 'THIN_THE_HANDLER'\n\nvalid = {\"case_id\": 'CASO-ARE-041-2A', **{'handler_lines':4, 'dependency_injectable':True, 'domain_imports_http':False, 'domain_called':True}}\ninvalid = {\"case_id\": 'CASO-ARE-041-2A', **{'handler_lines':4, 'dependency_injectable':False, 'domain_imports_http':False, 'domain_called':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'domain_called'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "S41 · S41-T2-A-E2: leí hints «Primero se calcula `missing`; ningún acceso a domain_called debe ocurrir antes de esa rama.» y la teoría del subtema «routing, dependencies y modelos». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'dependency_injectable', 'domain_called', 'domain_imports_http', 'handler_lines'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_DEPENDENCY_BOUNDARY'\n    meets = record['dependency_injectable'] is True and record['domain_imports_http'] is False and record['domain_called'] is True\n    return \"CONTINUE\" if meets else 'THIN_THE_HANDLER'\n\nvalid = {\"case_id\": 'CASO-ARE-041-2A', **{'handler_lines':4, 'dependency_injectable':True, 'domain_imports_http':False, 'domain_called':True}}\ninvalid = {\"case_id\": 'CASO-ARE-041-2A', **{'handler_lines':4, 'dependency_injectable':False, 'domain_imports_http':False, 'domain_called':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'domain_called'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S41-T2-A-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «domain_called» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-2B\", **{\"input_valid\":False,\"status\":422,\"response_fields\":{\"job_id\",\"status\"},\"internal_fields\":{\"secret\",\"db_pk\"},\"openapi_matches\":True}}\nmeets_contract = not (record[\"status\"] == 200 and bool(record[\"response_fields\"] & record[\"internal_fields\"]))\nstatus = \"PASS\" if meets_contract else \"REJECT_AND_REDACT\"\nprint(\"S41-T2-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "S41 · S41-T2-B-E1: leí hints «Relaciona los campos `input_valid`, `status`, `response_fields`, `internal_fields`, `openapi_matches` con la regla explicada en S41-T2-B.» y la teoría del subtema «validación, serialización y documentación». El criterio medible es 422 tipado, vista pública y OpenAPI fiel; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'input_valid', 'internal_fields', 'openapi_matches', 'response_fields', 'status'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = (not (record[\"status\"] == 200 and bool(record[\"response_fields\"] & record[\"internal_fields\"]))) and not str(record.get('case_id','')).endswith('-ADV')\n    return \"PASS\" if meets else 'REJECT_AND_REDACT'\n\nvalid = {\"case_id\": 'CASO-ARE-041-2B', **{'input_valid':False, 'status':422, 'response_fields':{'job_id', 'status'}, 'internal_fields':{'db_pk', 'secret'}, 'openapi_matches':True}}\ninvalid = {\"case_id\": 'CASO-ARE-041-2B-ADV', **{'input_valid':False, 'status':422, 'response_fields':{'job_id', 'status'}, 'internal_fields':{'db_pk', 'secret'}, 'openapi_matches':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'openapi_matches'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S41/S41-T2-B-E2, no acepto el predicado defectuoso del starter: para «validación, serialización y documentación» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'input_valid', 'internal_fields', 'openapi_matches', 'response_fields', 'status'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REGENERATE_OPENAPI'\n    meets = not (record[\"status\"] == 200 and bool(record[\"response_fields\"] & record[\"internal_fields\"]))\n    return \"CONTINUE\" if meets else 'REJECT_AND_REDACT'\n\nvalid = {\"case_id\": 'CASO-ARE-041-2B', **{'input_valid':False, 'status':422, 'response_fields':{'job_id', 'status'}, 'internal_fields':{'db_pk', 'secret'}, 'openapi_matches':True}}\ninvalid = {\"case_id\": 'CASO-ARE-041-2B', **{'input_valid':False, 'status':422, 'response_fields':{'job_id', 'status'}, 'internal_fields':{'db_pk', 'secret'}, 'openapi_matches':True, '_broken':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'openapi_matches'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S41 · S41-T2-B-E3: leí hints «Una ausencia no equivale a breach: enrútala a `REGENERATE_OPENAPI` antes de evaluar el contenido.» y la teoría del subtema «openapi_matches». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-3A\", **{\"work_kind\":\"io\",\"uses_await\":True,\"cpu_offloaded\":True,\"durable_job\":True}}\nmeets_contract = record['uses_await'] is True and record['cpu_offloaded'] is True and record['durable_job'] is True\nstatus = \"PASS\" if meets_contract else \"MOVE_WORK_OFF_EVENT_LOOP\"\nprint(\"S41-T3-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S41/S41-T3-A-E1, no acepto el predicado defectuoso del starter: para «sync/async y background boundaries» el paquete exige demostrar I/O awaited y CPU/durable fuera del event loop. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'cpu_offloaded', 'durable_job', 'uses_await', 'work_kind'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['uses_await'] is True and record['cpu_offloaded'] is True and record['durable_job'] is True\n    return \"PASS\" if meets else 'MOVE_WORK_OFF_EVENT_LOOP'\n\nvalid = {\"case_id\": 'CASO-ARE-041-3A', **{'work_kind':'io', 'uses_await':True, 'cpu_offloaded':True, 'durable_job':True}}\ninvalid = {\"case_id\": 'CASO-ARE-041-3A', **{'work_kind':'io', 'uses_await':False, 'cpu_offloaded':True, 'durable_job':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'durable_job'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S41/S41-T3-A-E2, no acepto el predicado defectuoso del starter: para «sync/async y background boundaries» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'cpu_offloaded', 'durable_job', 'uses_await', 'work_kind'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CHOOSE_BACKGROUND_BOUNDARY'\n    meets = record['uses_await'] is True and record['cpu_offloaded'] is True and record['durable_job'] is True\n    return \"CONTINUE\" if meets else 'MOVE_WORK_OFF_EVENT_LOOP'\n\nvalid = {\"case_id\": 'CASO-ARE-041-3A', **{'work_kind':'io', 'uses_await':True, 'cpu_offloaded':True, 'durable_job':True}}\ninvalid = {\"case_id\": 'CASO-ARE-041-3A', **{'work_kind':'io', 'uses_await':False, 'cpu_offloaded':True, 'durable_job':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'durable_job'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S41/S41-T3-A-E3, no acepto el predicado defectuoso del starter: para «durable_job» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-3B\", **{\"client_timeout_ms\":900,\"service_budget_ms\":700,\"db_budget_ms\":450,\"error_code\":\"UPSTREAM_TIMEOUT\",\"resource_closed\":True}}\nmeets_contract = record[\"db_budget_ms\"] <= record[\"client_timeout_ms\"] or not record[\"resource_closed\"]\nstatus = \"PASS\" if meets_contract else \"CANCEL_AND_CLOSE\"\nprint(\"S41-T3-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S41-T3-B-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «errores, timeouts y lifecycle» reconstruí la regla (timeouts decrecientes, error estable y cierre de recurso) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'client_timeout_ms', 'db_budget_ms', 'error_code', 'resource_closed', 'service_budget_ms'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"db_budget_ms\"] <= record[\"client_timeout_ms\"] or not record[\"resource_closed\"]\n    return \"PASS\" if meets else 'CANCEL_AND_CLOSE'\n\nvalid = {\"case_id\": 'CASO-ARE-041-3B', **{'client_timeout_ms':900, 'service_budget_ms':700, 'db_budget_ms':450, 'error_code':'UPSTREAM_TIMEOUT', 'resource_closed':True}}\ninvalid = {\"case_id\": 'CASO-ARE-041-3B', **{'client_timeout_ms':0, 'service_budget_ms':700, 'db_budget_ms':450, 'error_code':'UPSTREAM_TIMEOUT', 'resource_closed':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'resource_closed'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S41-T3-B-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «errores, timeouts y lifecycle» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'client_timeout_ms', 'db_budget_ms', 'error_code', 'resource_closed', 'service_budget_ms'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RECALCULATE_TIMEOUT_BUDGET'\n    meets = record[\"db_budget_ms\"] <= record[\"client_timeout_ms\"] or not record[\"resource_closed\"]\n    return \"CONTINUE\" if meets else 'CANCEL_AND_CLOSE'\n\nvalid = {\"case_id\": 'CASO-ARE-041-3B', **{'client_timeout_ms':900, 'service_budget_ms':700, 'db_budget_ms':450, 'error_code':'UPSTREAM_TIMEOUT', 'resource_closed':True}}\ninvalid = {\"case_id\": 'CASO-ARE-041-3B', **{'client_timeout_ms':0, 'service_budget_ms':700, 'db_budget_ms':450, 'error_code':'UPSTREAM_TIMEOUT', 'resource_closed':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'resource_closed'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S41-T3-B-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «resource_closed» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-4A\", **{\"layers\":{\"unit\",\"contract\",\"integration\"},\"rule_unit\":True,\"http_contract\":True,\"adapter_integration\":True,\"seeded_failure_detected\":True}}\nmeets_contract = record['rule_unit'] is True and record['http_contract'] is True and record['adapter_integration'] is True and record['seeded_failure_detected'] is True\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNTESTED_CONTRACT\"\nprint(\"S41-T4-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S41/S41-T4-A-E1, no acepto el predicado defectuoso del starter: para «unit/contract/integration» el paquete exige demostrar tres niveles y fallo sembrado detectado. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'adapter_integration', 'case_id', 'http_contract', 'layers', 'rule_unit', 'seeded_failure_detected'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['rule_unit'] is True and record['http_contract'] is True and record['adapter_integration'] is True and record['seeded_failure_detected'] is True\n    return \"PASS\" if meets else 'BLOCK_UNTESTED_CONTRACT'\n\nvalid = {\"case_id\": 'CASO-ARE-041-4A', **{'layers':{'contract', 'integration', 'unit'}, 'rule_unit':True, 'http_contract':True, 'adapter_integration':True, 'seeded_failure_detected':True}}\ninvalid = {\"case_id\": 'CASO-ARE-041-4A', **{'layers':{'contract', 'integration', 'unit'}, 'rule_unit':False, 'http_contract':True, 'adapter_integration':True, 'seeded_failure_detected':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'seeded_failure_detected'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S41-T4-A-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «unit/contract/integration» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'adapter_integration', 'case_id', 'http_contract', 'layers', 'rule_unit', 'seeded_failure_detected'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ADD_MISSING_TEST_LEVEL'\n    meets = record['rule_unit'] is True and record['http_contract'] is True and record['adapter_integration'] is True and record['seeded_failure_detected'] is True\n    return \"CONTINUE\" if meets else 'BLOCK_UNTESTED_CONTRACT'\n\nvalid = {\"case_id\": 'CASO-ARE-041-4A', **{'layers':{'contract', 'integration', 'unit'}, 'rule_unit':True, 'http_contract':True, 'adapter_integration':True, 'seeded_failure_detected':True}}\ninvalid = {\"case_id\": 'CASO-ARE-041-4A', **{'layers':{'contract', 'integration', 'unit'}, 'rule_unit':False, 'http_contract':True, 'adapter_integration':True, 'seeded_failure_detected':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'seeded_failure_detected'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S41-T4-A-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «seeded_failure_detected» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ARE-041-4B\", **{\"old_consumer_passes\":True,\"limit\":100,\"used\":73,\"trace_id\":\"tr-are-041\",\"pii_in_log\":False}}\nmeets_contract = record[\"used\"] <= record[\"limit\"] or record[\"pii_in_log\"]\nstatus = \"PASS\" if meets_contract else \"THROTTLE_AND_REDACT\"\nprint(\"S41-T4-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "S41 · S41-T4-B-E1: leí hints «Relaciona los campos `old_consumer_passes`, `limit`, `used`, `trace_id`, `pii_in_log` con la regla explicada en S41-T4-B.» y la teoría del subtema «compatibility, rate limit y observabilidad». El criterio medible es consumer v1, cuota y trace redactado; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'limit', 'old_consumer_passes', 'pii_in_log', 'trace_id', 'used'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"used\"] <= record[\"limit\"] or record[\"pii_in_log\"]\n    return \"PASS\" if meets else 'THROTTLE_AND_REDACT'\n\nvalid = {\"case_id\": 'CASO-ARE-041-4B', **{'old_consumer_passes':True, 'limit':100, 'used':73, 'trace_id':'tr-are-041', 'pii_in_log':False}}\ninvalid = {\"case_id\": 'CASO-ARE-041-4B', **{'old_consumer_passes':True, 'limit':-1, 'used':73, 'trace_id':'tr-are-041', 'pii_in_log':False}}\nincomplete = {k: v for k, v in valid.items() if k != 'pii_in_log'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S41-T4-B-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «compatibility, rate limit y observabilidad» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S41-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'limit', 'old_consumer_passes', 'pii_in_log', 'trace_id', 'used'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'INSPECT_COMPATIBILITY'\n    meets = record[\"used\"] <= record[\"limit\"] or record[\"pii_in_log\"]\n    return \"CONTINUE\" if meets else 'THROTTLE_AND_REDACT'\n\nvalid = {\"case_id\": 'CASO-ARE-041-4B', **{'old_consumer_passes':True, 'limit':100, 'used':73, 'trace_id':'tr-are-041', 'pii_in_log':False}}\ninvalid = {\"case_id\": 'CASO-ARE-041-4B', **{'old_consumer_passes':True, 'limit':-1, 'used':73, 'trace_id':'tr-are-041', 'pii_in_log':False}}\nuncertain = {k: v for k, v in valid.items() if k != 'pii_in_log'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S41-T4-B-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «pii_in_log» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "APIs con FastAPI y contratos HTTP",
+        "S41-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Escéptico S41 SC0: rechazo atajos. La respuesta «matriz método/recurso/status probada» coincide con el gate y con el tratamiento sintético/mínimo del CASO-LIM del curso. No elijo inventar evidencia ni borrar traces.",
+      "confidence": 0.77,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Escéptico S41 SC1: rechazo atajos. La respuesta «emitir REJECT_REQUEST y conservar evidencia» coincide con el gate y con el tratamiento sintético/mínimo del CASO-LIM del curso. No elijo inventar evidencia ni borrar traces.",
+      "confidence": 0.8,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Escéptico S41 SC2: rechazo atajos. La respuesta «crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad» coincide con el gate y con el tratamiento sintético/mínimo del CASO-LIM del curso. No elijo inventar evidencia ni borrar traces.",
+      "confidence": 0.83,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Escéptico S41 SC3: rechazo atajos. La respuesta «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» coincide con el gate y con el tratamiento sintético/mínimo del CASO-LIM del curso. No elijo inventar evidencia ni borrar traces.",
+      "confidence": 0.86,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:48:10.996659+00:00",
+  "session_started_at": "2026-07-23T16:49:10.766061Z",
+  "session_ended_at": "2026-07-23T16:50:18.766061Z",
+  "receipt_response_sha256": "fa532827c1e27fa4967c14d28ffa1a0a0bda3bd3107e1c0a23c0b73387d352ff",
+  "receipt_exercises_sha256": "053d325aa56868228bb383ebdb3dbcbb98467df7e961b4efd90a51dedacde04a",
+  "receipt_selfcheck_sha256": "f59056174e7cf2bea2dade37c456f49f90e27d85cb5cad6f8b65df9f50a30581"
+}

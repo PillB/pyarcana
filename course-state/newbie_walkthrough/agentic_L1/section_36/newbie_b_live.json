@@ -1,0 +1,247 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 36,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s36-fix-a8113001",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "id": "S36-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nprint(sum(xs)/len(xs))\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S36-T1-A-E1 el card pide «Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin div…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local bc96c8).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "id": "S36-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\nprint((x - mu) / sd)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S36-T1-A-E2 el card pide «Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter ol…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 621aa6).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "id": "S36-T1-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"verdict\", False)\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S36-T1-A-E3 el card pide «Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict T…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 655623).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "id": "S36-T1-B-E1",
+      "code": "scores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = max(scores, key=scores.get)\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Según la instruction de S36-T1-B-E1 en el paquete, completé el TODO del starter para cumplir el contrato impreso (ok True) sin dejar marcadores pendientes.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "id": "S36-T1-B-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"seeds\", [0, 1, 2])\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S36-T1-B-E2 el card pide «Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0]…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local c7b800).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "id": "S36-T1-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"limit\", True)\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S36-T1-B-E3 el card pide «Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 50c042).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "id": "S36-T2-A-E1",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(round(0.5*2 + 0.5*4, 1))\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S36-T2-A-E1 el card pide «Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos ma…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 38027a).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "id": "S36-T2-A-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"decision_model\", False)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S36-T2-A-E2 el card pide «PCA no es decision model: imprime decision_model False, ok True, use 'viz'. Starter True (…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 4ae347).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "id": "S36-T2-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(2)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S36-T2-A-E3 el card pide «Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sob…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 73a340).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "id": "S36-T2-B-E1",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(False)\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S36-T2-B-E1 el card pide «Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (d…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 6ae03d).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "id": "S36-T2-B-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"check_scale\", True)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S36-T2-B-E2 el card pide «Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Star…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local d51b8c).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "id": "S36-T2-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"exploratory\")\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S36-T2-B-E3 el card pide «Documenta uso exploratorio: imprime 'exploratory', ok True, n 1. Starter 'production_judge…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 1abe16).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "id": "S36-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\nprint(sum(flags))\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S36-T3-A-E1 el card pide «Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter c…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local c2ac05).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "id": "S36-T3-A-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"rule\", \"score\"])\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S36-T3-A-E2 el card pide «Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (def…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 99b4be).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "id": "S36-T3-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"guilt\", False)\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S36-T3-A-E3 el card pide «Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 72a97f).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "id": "S36-T3-B-E1",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"outlier\", \"novelty\"])\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S36-T3-B-E1 el card pide «Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2. Starter solo ['outlie…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 27c3b0).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "id": "S36-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\nprint(int(n * c))\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S36-T3-B-E2 el card pide «expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter ma…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local da0387).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "id": "S36-T3-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"capacity_link\", True)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S36-T3-B-E3 el card pide «Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defec…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 020ec5).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "id": "S36-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\nprint(sum(rates)/len(rates))\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S36-T4-A-E1 el card pide «Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma s…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 1d5362).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "id": "S36-T4-A-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"leakage\", False)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S36-T4-A-E2 el card pide «Sin leakage de futuro: imprime leakage False, ok True, split 'time'. Starter leakage True…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local bac744).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "id": "S36-T4-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(3)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S36-T4-A-E3 el card pide «Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferen…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local eb92ed).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "id": "S36-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\nprint(sum(ranked[:k])/k)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S36-T4-B-E1 el card pide «precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local b2a3ad).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "id": "S36-T4-B-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S36-T4-B-E2 el card pide «Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apag…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 1fdfce).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "id": "S36-T4-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"precision_at_k\")\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S36-T4-B-E3 el card pide «Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1. Starter 'global_acc…»; completo el TODO/defecto solo con lo que enseña anomalía/contamination temporal del paquete S36 (ref local 01b3ae).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "El stem descarta las trampas de fraude/parentesco: SC0 pregunta «Una anomalía en el triage significa:…» y la opción «Señal de rareza a revisar» es la que alinea el learning outcome de S36, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Contraste con la theory del slim_packet: SC1 pregunta «contamination representa:…» y la opción «Hipótesis de fracción rara a flaggear» es la que alinea el learning outcome de S36, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Sin evidencia del paquete no elijo atajos: SC2 pregunta «PCA en este curso se usa para:…» y la opción «Exploración/visualización prudente» es la que alinea el learning outcome de S36, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Me quedo con la lectura conservadora del curso: SC3 pregunta «Con labels escasos prioriza:…» y la opción «precision@k y feedback humano» es la que alinea el learning outcome de S36, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Sin evidencia del paquete no elijo atajos: SC4 pregunta «Un fit de normalidad que incluye el mes evaluado comete:…» y la opción «Leakage temporal» es la que alinea el learning outcome de S36, no un veredicto mágico.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:02:10.820368+00:00",
+  "session_started_at": "2026-07-23T17:02:10.816707+00:00",
+  "session_ended_at": "2026-07-23T17:02:45.516707+00:00",
+  "receipt_response_sha256": "ff980c7dbd8164274d87c224655d007f9915a70fc3c22849872ca31f9755291a",
+  "receipt_exercises_sha256": "14689b01ed6ce0611576704445ae6836be44d0219b9dd50cf6b5ccc01d526387",
+  "receipt_selfcheck_sha256": "a6c033022f300d688490f79a6d6329b5e652cdf14b978613c44427c44fb48790"
+}

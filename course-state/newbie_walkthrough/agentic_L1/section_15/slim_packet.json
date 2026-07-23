@@ -1,0 +1,800 @@
+{
+  "attempt_id": "agentic_L1",
+  "section_index": 15,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "279d14d92881cd13"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    }
+  ],
+  "active": {
+    "id": "stdlib-deep",
+    "index": 15,
+    "title": "Pandas: ingesta, selección y tipos",
+    "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+    "jobRelevance": "La **ingesta tipada con Pandas** es el día a día de analistas en banca y retail en Perú: CSV/Excel de clientes y transacciones, dtypes controlados y export reproducible. Esta sección (id `stdlib-deep` conservado) retematiza a V3 e incrementa **CP-N2-A (dataset)** con fixtures sintéticos.",
+    "learningOutcomes": [
+      "Modelar Series/DataFrame con Index estable",
+      "Leer CSV/Excel con parser y dtypes controlados",
+      "Seleccionar con loc/iloc y assign de forma idiomática",
+      "Evitar chained assignment y controlar copias",
+      "Tipar strings, nullable, fechas y categorías",
+      "Aplicar coerción explícita con schema y reporte",
+      "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+      "Documentar índices, provenance y uso de memoria"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S15-T1-A",
+        "heading": "Series/DataFrame/index",
+        "paragraphs": [
+          "Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+          "Un Index **estable** (ids de negocio) facilita joins y auditoría. `reset_index` / `set_index` cambian el eje de etiqueta. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+          "MultiIndex se introduce como etiquetas jerárquicas (región, mes); se profundiza en S17. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «Series/DataFrame/index»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import pandas as pd\n\ns = pd.Series([0.9, 0.4], index=[\"C001\", \"C002\"], name=\"score\")\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C002\", \"C003\"],\n    \"region\": [\"Lima\", \"Arequipa\", \"Lima\"],\n    \"score\": [0.9, 0.4, 0.7],\n}).set_index(\"cliente_id\")\nprint(s.loc[\"C001\"])\nprint(df.index.tolist())\nprint(df.dtypes.to_dict())",
+        "code_output": "0.9\n['C001', 'C002', 'C003']\n{'region': dtype('O'), 'score': dtype('float64')}"
+      },
+      {
+        "subtopicId": "S15-T1-B",
+        "heading": "lectura CSV/Excel y opciones de parser",
+        "paragraphs": [
+          "`read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values`, `usecols`. Controlar el parser evita object-dtypes silenciosos. En Pandas ingesta, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+          "Separe decimal (`,` vs `.`) y encoding (`utf-8`) en datasets latinos. Excel requiere motor (`openpyxl`). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+          "Siempre reconcilia **filas leídas vs esperadas** y lista columnas. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «lectura CSV/Excel y opciones de parser»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import pandas as pd\nfrom io import StringIO\n\ncsv = \"cliente_id,monto,fecha\\nC001,10.5,2024-01-15\\nC002,NA,2024-02-01\\n\"\ndf = pd.read_csv(\n    StringIO(csv),\n    dtype={\"cliente_id\": \"string\"},\n    parse_dates=[\"fecha\"],\n    na_values=[\"NA\", \"\"],\n)\nprint(df.dtypes.astype(str).to_dict())\nprint(df[\"monto\"].isna().tolist())\nprint(len(df))",
+        "code_output": "{'cliente_id': 'string', 'monto': 'float64', 'fecha': 'datetime64[ns]'}\n[False, True]\n2"
+      },
+      {
+        "subtopicId": "S15-T2-A",
+        "heading": "loc/iloc, filtros y assign",
+        "paragraphs": [
+          "**loc** etiqueta; **iloc** posición. Filtros booleanos: `df.loc[df.score < 0.5, cols]`. En Pandas ingesta, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+          "`assign` devuelve un DF con columnas nuevas sin romper el pipeline funcional. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+          "`query` es legible para filtros simples; para producción muchos equipos prefieren máscaras explícitas. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «loc/iloc, filtros y assign»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C002\", \"C003\"],\n    \"score\": [0.9, 0.3, 0.6],\n    \"region\": [\"Lima\", \"Lima\", \"Cusco\"],\n})\nsub = df.loc[df[\"score\"] < 0.5, [\"cliente_id\", \"score\"]]\nout = df.assign(score_pct=lambda x: x[\"score\"] * 100)\nprint(sub.to_dict(orient=\"list\"))\nprint(out[\"score_pct\"].tolist())\nprint(df.iloc[0, 0])",
+        "code_output": "{'cliente_id': ['C002'], 'score': [0.3]}\n[90.0, 30.0, 60.0]\nC001"
+      },
+      {
+        "subtopicId": "S15-T2-B",
+        "heading": "chained assignment y copy semantics",
+        "paragraphs": [
+          "**SettingWithCopyWarning** aparece al asignar sobre un slice que puede ser view o copy. El resultado es impredecible. En Pandas ingesta, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+          "Patrón seguro: `df = df.copy()` tras filtrar, o asignar con `.loc[row_mask, col] = valor` sobre el DF padre. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+          "En pipelines, prefiere métodos que devuelven nuevo objeto (`assign`, `where`) y documenta copias. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «chained assignment y copy semantics»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import pandas as pd\n\ndf = pd.DataFrame({\"score\": [0.1, 0.9, 0.4]})\n# seguro: loc sobre el original\ndf.loc[df[\"score\"] < 0.5, \"flag\"] = \"bajo\"\n# seguro: copy explícita para trabajar un subset\nbajo = df.loc[df[\"score\"] < 0.5].copy()\nbajo[\"revisado\"] = True\nprint(df[[\"score\", \"flag\"]].to_dict(orient=\"list\"))\nprint(bajo[\"revisado\"].tolist())",
+        "code_output": "{'score': [0.1, 0.9, 0.4], 'flag': ['bajo', nan, 'bajo']}\n[True, True]"
+      },
+      {
+        "subtopicId": "S15-T3-A",
+        "heading": "strings, nullable, fechas y categorías",
+        "paragraphs": [
+          "dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y **category** reducen memoria y errores. En Pandas ingesta, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+          "Convierte con `astype('string')`, `pd.to_numeric(..., errors=)`, `pd.to_datetime`, `astype('category')`. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+          "Reporta cuántos valores no convirtieron (NaN introducidos). Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «strings, nullable, fechas y categorías»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"region\": [\"Lima\", \"arequipa\", \"Lima\"],\n    \"monto\": [\"10\", \"x\", \"3.5\"],\n    \"fecha\": [\"2024-01-01\", \"2024-02-01\", \"bad\"],\n})\ndf[\"region\"] = df[\"region\"].str.title().astype(\"category\")\ndf[\"monto_num\"] = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\ndf[\"fecha_dt\"] = pd.to_datetime(df[\"fecha\"], errors=\"coerce\")\nprint(df.dtypes.astype(str).to_dict())\nprint(\"monto_na\", int(df[\"monto_num\"].isna().sum()), \"fecha_na\", int(df[\"fecha_dt\"].isna().sum()))",
+        "code_output": "{'region': 'category', 'monto': 'object', 'fecha': 'object', 'monto_num': 'float64', 'fecha_dt': 'datetime64[ns]'}\nmonto_na 1 fecha_na 1"
+      },
+      {
+        "subtopicId": "S15-T3-B",
+        "heading": "coerción explícita y schema",
+        "paragraphs": [
+          "Un **schema dict** declara tipos objetivo por columna. `astype` / `to_numeric` aplican coerción; los fallos se listan. En Pandas ingesta, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+          "No “arregles” silenciosamente: emite un reporte `{columna: n_fallos}`. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+          "Este reporte alimenta el quality gate de S16. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «coerción explícita y schema»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import pandas as pd\n\nschema = {\"cliente_id\": \"string\", \"monto\": \"float64\"}\nraw = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"monto\": [\"10.5\", \"N/A\"]})\nreport = {}\ndf = raw.copy()\ndf[\"cliente_id\"] = df[\"cliente_id\"].astype(\"string\")\nbefore_na = df[\"monto\"].isna().sum()\ndf[\"monto\"] = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\nreport[\"monto\"] = int(df[\"monto\"].isna().sum() - before_na)\nprint(df.dtypes.astype(str).to_dict())\nprint(\"coercion_report\", report)",
+        "code_output": "{'cliente_id': 'string', 'monto': 'float64'}\ncoercion_report {'monto': 1}"
+      },
+      {
+        "subtopicId": "S15-T4-A",
+        "heading": "CSV / Excel y contrato Parquet",
+        "paragraphs": [
+          "`to_csv`, `to_excel` exportan tablas. Parquet (pyarrow/fastparquet) preserva tipos; si el motor no está, exporta CSV + **schema JSON** como contrato. En Pandas ingesta, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+          "Usa `index=False` salvo que el index sea clave de negocio documentada. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+          "Verifica columnas críticas post-export con round-trip. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «CSV / Excel y contrato Parquet»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import pandas as pd\nfrom io import StringIO, BytesIO\n\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [10.5], \"region\": [\"Lima\"]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\nback = pd.read_csv(buf)\nprint(back.columns.tolist())\n# Excel en memoria\nbio = BytesIO()\ndf.to_excel(bio, index=False, engine=\"openpyxl\")\nprint(\"excel_bytes\", len(bio.getvalue()) > 0)\n# Contrato parquet (schema) sin motor\nschema = {c: str(df[c].dtype) for c in df.columns}\nprint(\"parquet_contract\", schema)",
+        "code_output": "['cliente_id', 'monto', 'region']\nexcel_bytes True\nparquet_contract {'cliente_id': 'object', 'monto': 'float64', 'region': 'object'}"
+      },
+      {
+        "subtopicId": "S15-T4-B",
+        "heading": "índices, formatos, provenance y memoria",
+        "paragraphs": [
+          "Un **manifest** registra filas, columnas, dtypes, `memory_usage` y provenance (fuente, timestamp, hash simple). En Pandas ingesta, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+          "`index=False` en export evita columnas `Unnamed` al reingestar. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+          "Documenta el uso de memoria antes/después de castear a category/string. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «índices, formatos, provenance y memoria»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import pandas as pd\nimport hashlib, json\n\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"monto\": [1.0, 2.0]})\npayload = df.to_csv(index=False).encode()\nmanifest = {\n    \"rows\": len(df),\n    \"columns\": df.columns.tolist(),\n    \"dtypes\": {c: str(t) for c, t in df.dtypes.items()},\n    \"memory_bytes\": int(df.memory_usage(deep=True).sum()),\n    \"source\": \"synthetic_clientes_v1\",\n    \"content_sha1\": hashlib.sha1(payload).hexdigest()[:12],\n}\nprint(json.dumps(manifest, sort_keys=True))",
+        "code_output": "{\"columns\": [\"cliente_id\", \"monto\"], \"content_sha1\": \"28a4b0f9b48e\", \"dtypes\": {\"cliente_id\": \"object\", \"monto\": \"float64\"}, \"memory_bytes\": 266, \"rows\": 2, \"source\": \"synthetic_clientes_v1\"}"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S15-T1-A-DEMO",
+          "subtopicId": "S15-T1-A",
+          "environment": "local-python",
+          "description": "Construir DataFrame de clientes con Index estable y dtypes claros",
+          "why": "Index de negocio alinea tablas de clientes y transacciones.",
+          "code": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C002\", \"C003\"],\n    \"region\": [\"Lima\", \"Arequipa\", \"Cusco\"],\n    \"score\": [0.91, 0.42, 0.77],\n})\ndf = df.set_index(\"cliente_id\")\ndf[\"score\"] = df[\"score\"].astype(\"float64\")\nprint(df.index.name, df.index.tolist())\nprint(df.loc[\"C002\", \"region\"], float(df.loc[\"C002\", \"score\"]))",
+          "language": "python",
+          "output": "cliente_id ['C001', 'C002', 'C003']\nArequipa 0.42"
+        },
+        {
+          "demoId": "S15-T1-B-DEMO",
+          "subtopicId": "S15-T1-B",
+          "environment": "local-python",
+          "description": "Ingerir CSV sintético con dtype, parse_dates y na_values",
+          "why": "Parser explícito evita monedas/fechas como object opaco.",
+          "code": "import pandas as pd\nfrom io import StringIO\n\nraw = \"\"\"cliente_id;monto;fecha\nC001;15,50;2024-03-01\nC002;;2024-03-02\nC003;20.0;2024-03-03\n\"\"\"\n# normalizamos decimal latino a punto para el parser\ntext = raw.replace(\",\", \".\")\ndf = pd.read_csv(\n    StringIO(text),\n    sep=\";\",\n    dtype={\"cliente_id\": \"string\"},\n    parse_dates=[\"fecha\"],\n    na_values=[\"\", \"NA\"],\n)\nprint(len(df), df[\"monto\"].isna().sum())\nprint(str(df[\"fecha\"].dtype))\nprint(df[\"cliente_id\"].tolist())",
+          "language": "python",
+          "output": "3 1\ndatetime64[ns]\n['C001', 'C002', 'C003']"
+        },
+        {
+          "demoId": "S15-T2-A-DEMO",
+          "subtopicId": "S15-T2-A",
+          "environment": "local-python",
+          "description": "Seleccionar filas Lima y asignar columna de riesgo derivada",
+          "why": "loc + assign mantienen pipelines legibles y testeables.",
+          "code": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C002\", \"C003\", \"C004\"],\n    \"region\": [\"Lima\", \"Arequipa\", \"Lima\", \"Lima\"],\n    \"score\": [0.9, 0.4, 0.3, 0.8],\n})\nlima = df.loc[df[\"region\"] == \"Lima\"].copy()\nout = lima.assign(riesgo=lambda x: (x[\"score\"] < 0.5).map({True: \"alto\", False: \"bajo\"}))\nprint(out[[\"cliente_id\", \"score\", \"riesgo\"]].to_dict(orient=\"list\"))",
+          "language": "python",
+          "output": "{'cliente_id': ['C001', 'C003', 'C004'], 'score': [0.9, 0.3, 0.8], 'riesgo': ['bajo', 'alto', 'bajo']}"
+        },
+        {
+          "demoId": "S15-T2-B-DEMO",
+          "subtopicId": "S15-T2-B",
+          "environment": "local-python",
+          "description": "Evitar chained assignment: flag seguro con loc y subset con copy",
+          "why": "loc sobre el padre + copy en subsets elimina SettingWithCopy.",
+          "code": "import pandas as pd\n\ndf = pd.DataFrame({\"id\": [\"C001\", \"C002\", \"C003\"], \"score\": [0.2, 0.9, 0.4]})\ndf.loc[df[\"score\"] < 0.5, \"estado\"] = \"revisar\"\nsubset = df.loc[df[\"estado\"] == \"revisar\"].copy()\nsubset[\"owner\"] = \"dq_team\"\nprint(df.to_dict(orient=\"list\"))\nprint(subset[[\"id\", \"owner\"]].to_dict(orient=\"list\"))",
+          "language": "python",
+          "output": "{'id': ['C001', 'C002', 'C003'], 'score': [0.2, 0.9, 0.4], 'estado': ['revisar', nan, 'revisar']}\n{'id': ['C001', 'C003'], 'owner': ['dq_team', 'dq_team']}"
+        },
+        {
+          "demoId": "S15-T3-A-DEMO",
+          "subtopicId": "S15-T3-A",
+          "environment": "local-python",
+          "description": "Coaccionar string/category, numeric y fechas con conteo de NaN",
+          "why": "Tipos correctos + reporte de NaN son la base de la ingesta tipada.",
+          "code": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"region\": [\"lima\", \"AREQUIPA\", \"Lima\"],\n    \"monto\": [\"10.5\", \"?\", \"3\"],\n    \"alta\": [\"2024-01-10\", \"2024-13-01\", \"2024-02-01\"],\n})\ndf[\"region\"] = df[\"region\"].str.title().astype(\"category\")\ndf[\"monto\"] = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\ndf[\"alta\"] = pd.to_datetime(df[\"alta\"], errors=\"coerce\")\nprint(df[\"region\"].dtype)\nprint(\"na_monto\", int(df[\"monto\"].isna().sum()), \"na_alta\", int(df[\"alta\"].isna().sum()))\nprint(df[\"monto\"].tolist())",
+          "language": "python",
+          "output": "category\nna_monto 1 na_alta 1\n[10.5, nan, 3.0]"
+        },
+        {
+          "demoId": "S15-T3-B-DEMO",
+          "subtopicId": "S15-T3-B",
+          "environment": "local-python",
+          "description": "Aplicar schema y listar coerciones fallidas por columna",
+          "why": "Schema + reporte de fallos alimenta el quality gate (S16).",
+          "code": "import pandas as pd\n\ndef apply_schema(df, schema):\n    out = df.copy()\n    report = {}\n    for col, typ in schema.items():\n        if col not in out.columns:\n            raise KeyError(f\"missing column {col}\")\n        if typ == \"float64\":\n            before = out[col].isna().sum()\n            out[col] = pd.to_numeric(out[col], errors=\"coerce\")\n            report[col] = int(out[col].isna().sum() - before)\n        elif typ == \"string\":\n            out[col] = out[col].astype(\"string\")\n            report[col] = 0\n    return out, report\n\nraw = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"monto\": [\"1.5\", \"xx\"]})\ndf, rep = apply_schema(raw, {\"cliente_id\": \"string\", \"monto\": \"float64\"})\nprint(df.dtypes.astype(str).to_dict())\nprint(rep)",
+          "language": "python",
+          "output": "{'cliente_id': 'string', 'monto': 'float64'}\n{'cliente_id': 0, 'monto': 1}"
+        },
+        {
+          "demoId": "S15-T4-A-DEMO",
+          "subtopicId": "S15-T4-A",
+          "environment": "local-python",
+          "description": "Exportar a CSV y Excel sin perder columnas críticas; emitir contrato Parquet",
+          "why": "Round-trip de columnas críticas valida el export reproducible.",
+          "code": "import pandas as pd\nfrom io import StringIO, BytesIO\n\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C002\"],\n    \"monto\": [10.5, 3.0],\n    \"region\": [\"Lima\", \"Cusco\"],\n})\ncsv_buf = StringIO()\ndf.to_csv(csv_buf, index=False)\ncsv_buf.seek(0)\nrt = pd.read_csv(csv_buf)\nassert list(rt.columns) == [\"cliente_id\", \"monto\", \"region\"]\nxbuf = BytesIO()\ndf.to_excel(xbuf, index=False, engine=\"openpyxl\")\ncontract = {c: str(df[c].dtype) for c in df.columns}\nprint(\"rows\", len(rt), \"excel_ok\", len(xbuf.getvalue()) > 100)\nprint(\"contract\", contract)",
+          "language": "python",
+          "output": "rows 2 excel_ok True\ncontract {'cliente_id': 'object', 'monto': 'float64', 'region': 'object'}"
+        },
+        {
+          "demoId": "S15-T4-B-DEMO",
+          "subtopicId": "S15-T4-B",
+          "environment": "local-python",
+          "description": "Emitir manifest de filas/columnas, memoria y provenance",
+          "why": "El manifest reconcilia entrada vs salida en CP-N2-A.",
+          "code": "import pandas as pd, hashlib, json\n\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"], \"monto\": [1.0, 2.0, 3.0]})\nblob = df.to_csv(index=False).encode()\nmanifest = {\n    \"rows\": int(len(df)),\n    \"columns\": df.columns.tolist(),\n    \"memory_bytes\": int(df.memory_usage(deep=True).sum()),\n    \"source\": \"synthetic_tx_v1\",\n    \"sha1_12\": hashlib.sha1(blob).hexdigest()[:12],\n}\nprint(json.dumps(manifest, sort_keys=True))",
+          "language": "python",
+          "output": "{\"columns\": [\"cliente_id\", \"monto\"], \"memory_bytes\": 335, \"rows\": 3, \"sha1_12\": \"5f5459a9c1df\", \"source\": \"synthetic_tx_v1\"}"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S15-T1-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Crea un DataFrame con columnas cliente_id y score (2 filas) y pon cliente_id como index; imprime index.tolist(). Salida/pass: `['C001', 'C002']`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17 solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "set_index('cliente_id').",
+            "index.tolist()."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T1-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Crea una Series de scores con index C001,C002 name='score' e imprime s['C002']. Salida/pass: `0.9`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "pd.Series(..., index=..., name=...).",
+            "Acceso por etiqueta."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T1-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Alinea dos Series por index (unión) sumando scores; imprime el resultado ordenado por index. Salida/pass: `{'C001': 1.0, 'C002': 2.5}`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17 solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "s1.add(s2, fill_value=0).",
+            "sort_index."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T1-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Lee un CSV en StringIO con columnas a,b y na_values=['NA']; imprime cuántos NA hay en b. Salida/pass: `1`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "pd.read_csv(StringIO(...), na_values=...).",
+            "isna().sum()."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\nfrom io import StringIO\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T1-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Lee CSV con parse_dates=['fecha'] e imprime el dtype de fecha como string. Salida/pass: `datetime64[ns]`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "parse_dates=['fecha'].",
+            "str(df['fecha'].dtype)."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\nfrom io import StringIO\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T1-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Lee solo usecols cliente_id,monto desde CSV e imprime columns.tolist(). Salida/pass: `['cliente_id', 'monto']`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "usecols=[...].",
+            "Verifica que no entre 'z'."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\nfrom io import StringIO\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T2-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Con df de scores, usa loc para filas score>=0.5 e imprime cliente_id list. Salida/pass: `['C002']`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "df.loc[df.score>=0.5, 'cliente_id'].",
+            "tolist()."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T2-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Usa assign para crear col doble=score*2 e imprime la lista. Salida/pass: `[2.0, 4.0]`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "df.assign(doble=...).",
+            "No mutar in-place obligatorio."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T2-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Imprime el valor iloc[1, 0] de un DF 2x2 de enteros [[1,2],[3,4]]. Salida/pass: `3`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "iloc posición 1,0 → 3.",
+            "No uses loc."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T2-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Asigna con loc la columna flag='x' donde score<0.5; imprime flag list (con NaN como None en to_dict cuidado: usa fillna). Salida/pass: `['x', '']`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17 solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "df.loc[mask, 'flag'] = 'x'.",
+            "Imprime lista con fillna('')."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T2-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Filtra score>0.5, haz copy, añade col ok=True; imprime ok list del subset. Salida/pass: `[True, True]`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "subset = df.loc[...].copy().",
+            "subset['ok']=True."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T2-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Demuestra que modificar un copy no cambia el DF original: imprime score original tras mutar la copia. Salida/pass: `[1.0, 2.0]`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "c = df.copy(); c.iloc[0,0]=99.",
+            "print df original."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T3-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Convierte columna region a category tras str.title(); imprime dtype name. Salida/pass: `category`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "astype('category').",
+            "str.title primero."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T3-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: to_numeric con errors=coerce sobre ['1','a','3']; imprime lista de floats/NaN (usa where isna). Salida/pass: `[1.0, nan, 3.0]`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "pd.to_numeric(..., errors='coerce').",
+            "tolist() con nan."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T3-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: to_datetime errors=coerce; cuenta NaT en ['2024-01-01','no-fecha']. Salida/pass: `1`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "isna().sum().",
+            "NaT cuenta como na."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T3-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Aplica to_numeric a monto y reporta cuántos nuevos NaN se introdujeron (1 en el fixture). Salida/pass: `1`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "Compara isna antes/después.",
+            "errors=coerce."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T3-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Si falta columna 'monto' en schema, lanza KeyError e imprime 'missing'. Salida/pass: `missing`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "if col not in df.columns.",
+            "try/except KeyError."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T3-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Castea cliente_id a string dtype e imprime str(dtype). Salida/pass: `string`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "astype('string').",
+            "dtype string de pandas."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T4-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Exporta DF a CSV en StringIO sin index y relee; imprime columns. Salida/pass: `['a', 'b']`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "to_csv(buf, index=False).",
+            "read_csv."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T4-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: to_excel a BytesIO con openpyxl; imprime True si bytes > 0. Salida/pass: `True`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "engine='openpyxl'.",
+            "getvalue()."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\nfrom io import BytesIO\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T4-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Emite dict contrato {col: str(dtype)} para un DF de dos columnas e imprímelo ordenado por clave. Salida/pass: `{'cliente_id': 'object', 'monto': 'float64'}`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no.",
+          "hints": [
+            "dict comprehension.",
+            "sorted items o print dict estable."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T4-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Calcula memory_usage deep sum de un DF simple e imprime int > 0. Salida/pass: `True`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "memory_usage(deep=True).sum().",
+            "int(...)."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T4-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Construye manifest con keys rows y columns; imprime rows. Salida/pass: `3 ['a']`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "len(df) y columns.tolist().",
+            "dict."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S15-T4-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: sha1 de to_csv index=False; imprime primeros 8 hex. Salida/pass: `462f48ef`. Conserva el contrato del starter (no borres asserts ni datos); no quality-gate avanzado de S16, no joins S17; solo pandas Series/DataFrame + stdlib (S01–S15).",
+          "hints": [
+            "hashlib.sha1(blob).hexdigest()[:8].",
+            "encode utf-8."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Ingesta tipada clientes/transacciones con reconciliación",
+      "context": "Recibes CSV sintéticos de clientes y transacciones de un retailer peruano. Debes ingerir con schema, reportar coerciones, reconciliar filas/columnas y exportar dataset analítico + manifest. Sin PII real.",
+      "objectives": [
+        "Ingerir datasets sintéticos de clientes y transacciones",
+        "Aplicar schema tipado y reportar coerciones",
+        "Reconciliar filas/columnas entrada vs salida",
+        "Exportar dataset analítico + manifest"
+      ],
+      "requirements": [
+        "Fixtures sintéticos en memoria o CSV local",
+        "Demo reproducible (if __name__ == '__main__')",
+        "Documentación en español profesional",
+        "Alineación a CP-N2-A (dataset)"
+      ],
+      "portfolioNote": "Entrega el manifest JSON y el reporte de coerciones junto al CSV/Excel exportado.",
+      "starterCode": "import pandas as pd\nfrom io import StringIO\n\nCLIENTES = \"\"\"cliente_id,region,score\nC001,Lima,0.9\nC002,Arequipa,0.4\nC003,Lima,NA\n\"\"\"\n\ndef ingest_clientes(text: str) -> tuple[pd.DataFrame, dict]:\n    # TODO: read_csv + schema + report\n    raise NotImplementedError\n\nif __name__ == \"__main__\":\n    df, report = ingest_clientes(CLIENTES)\n    print(df.head(), report)\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "¿Qué método de selección usa etiquetas de index/columnas?",
+        "options": [
+          "iloc",
+          "iat solo posicional forzado",
+          "loc",
+          "values"
+        ]
+      },
+      {
+        "question": "SettingWithCopyWarning se relaciona con:",
+        "options": [
+          "Asignación sobre slices que pueden ser view/copy (chained assignment)",
+          "Parquet vs CSV",
+          "Falta de openpyxl",
+          "MultiIndex obligatorio"
+        ]
+      },
+      {
+        "question": "errors='coerce' en to_numeric:",
+        "options": [
+          "Borra la columna",
+          "Convierte inválidos a NaN",
+          "Eleva siempre excepción",
+          "Cambia a string"
+        ]
+      },
+      {
+        "question": "Un manifest de export debería incluir al menos:",
+        "options": [
+          "Solo el nombre del analista",
+          "Contraseñas de BD",
+          "PII real de clientes",
+          "Filas, columnas y provenance/hash del artefacto"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "54a2878fdff2958b"
+}

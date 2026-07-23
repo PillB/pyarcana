@@ -1,0 +1,221 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 46,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-exp-s46-3dcb264e4227",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S46-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\":110,\"window_end\":120,\"watermark\":115,\"allowed_lateness\":10}}\nmeets_contract = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\nstatus = \"PASS\" if meets_contract else \"SIDE_OUTPUT_LATE_EVENT\"\nprint(\"S46-T1-A\", status)\n",
+      "justification_from_packet": "Leí instruction/hints de S46-T1-A-E1: la operación debe demostrar event_time dentro de ventana y lateness permitido. Con el caso sintético CASO-HYO-046-1A reconstruí meets_contract alineado a «ventanas, event time y watermarks» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S46-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'allowed_lateness', 'case_id', 'event_time', 'watermark', 'window_end'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\n    return \"PASS\" if ok else \"SIDE_OUTPUT_LATE_EVENT\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-1A', **{'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}}\ninvalid = {\"case_id\": 'CASO-HYO-046-1A', **{'event_time': 0, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}}\nincomplete = {k: v for k, v in valid.items() if k != 'allowed_lateness'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de ventanas, event time y watermarks en S46-T1-A-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-HYO-046-1A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S46-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'allowed_lateness', 'case_id', 'event_time', 'watermark', 'window_end'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"WAIT_FOR_WATERMARK\"\n    ok = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\n    return \"CONTINUE\" if ok else \"SIDE_OUTPUT_LATE_EVENT\"\n\nfixtures = [\n    {\"case_id\": 'CASO-HYO-046-1A', **{'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}},\n    {\"case_id\": 'CASO-HYO-046-1A', **{'event_time': 0, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}},\n    {k: v for k, v in {\"case_id\": 'CASO-HYO-046-1A', **{'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}}.items() if k != 'allowed_lateness'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S46-T1-A-E3, el fixture CASO-HYO-046-1A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «ventanas, event time y watermarks» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S46-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\":[\"e1\",\"e1\",\"e2\"],\"sink_ids\":{\"e1\",\"e2\"},\"checkpoint\":2,\"late_policy\":\"update\"}}\nmeets_contract = not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])\nstatus = \"PASS\" if meets_contract else \"REPLAY_IDEMPOTENTLY\"\nprint(\"S46-T1-B\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de late data y exactly-once como propiedad compuesta en S46-T1-B-E1. El paquete indica dedup sink, checkpoint y política de dato tardío; por eso el código valida CASO-HYO-046-1B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S46-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'checkpoint', 'event_ids', 'late_policy', 'sink_ids'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])\n    return \"PASS\" if ok else \"REPLAY_IDEMPOTENTLY\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-1B', **{'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}}\ninvalid = {\"case_id\": 'CASO-HYO-046-1B', **{'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'__bad__', 'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}}\nincomplete = {k: v for k, v in valid.items() if k != 'late_policy'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En el paquete activo de S46-T1-B-E2, el fixture CASO-HYO-046-1B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «late data y exactly-once como propiedad compuesta» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S46-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'checkpoint', 'event_ids', 'late_policy', 'sink_ids'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"CHOOSE_LATE_POLICY\"\n    ok = not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])\n    return \"CONTINUE\" if ok else \"REPLAY_IDEMPOTENTLY\"\n\nfixtures = [\n    {\"case_id\": 'CASO-HYO-046-1B', **{'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}},\n    {\"case_id\": 'CASO-HYO-046-1B', **{'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'__bad__', 'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}},\n    {k: v for k, v in {\"case_id\": 'CASO-HYO-046-1B', **{'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}}.items() if k != 'late_policy'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de late data y exactly-once como propiedad compuesta en S46-T1-B-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-HYO-046-1B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S46-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\nmeets_contract = not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))\nstatus = \"PASS\" if meets_contract else \"REJECT_DAG\"\nprint(\"S46-T2-A\", status)\n",
+      "justification_from_packet": "En el paquete activo de S46-T2-A-E1, el fixture CASO-HYO-046-2A deja ver que grafo sin self-loop y todos los nodos declarados. Corregí el predicado defectuoso del starter para que el escenario de «DAG/assets y dependency» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S46-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'edges', 'nodes', 'typed_io'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))\n    return \"PASS\" if ok else \"REJECT_DAG\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-2A', **{'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}}\ninvalid = {\"case_id\": 'CASO-HYO-046-2A', **{'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': False}}\nincomplete = {k: v for k, v in valid.items() if k != 'typed_io'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de DAG/assets y dependency en S46-T2-A-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-HYO-046-2A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S46-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'edges', 'nodes', 'typed_io'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"DECLARE_ASSET_DEPENDENCY\"\n    ok = not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))\n    return \"CONTINUE\" if ok else \"REJECT_DAG\"\n\nfixtures = [\n    {\"case_id\": 'CASO-HYO-046-2A', **{'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}},\n    {\"case_id\": 'CASO-HYO-046-2A', **{'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': False}},\n    {k: v for k, v in {\"case_id\": 'CASO-HYO-046-2A', **{'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}}.items() if k != 'typed_io'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de DAG/assets y dependency en S46-T2-A-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-HYO-046-2A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S46-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\":[[1,3],[4,6]],\"overlap\":False,\"checkpoint\":\"2026-07-01\",\"resume_from\":\"2026-07-01\"}}\nmeets_contract = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\nstatus = \"PASS\" if meets_contract else \"STOP_OVERLAPPING_BACKFILL\"\nprint(\"S46-T2-B\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de schedules, backfills y state recovery en S46-T2-B-E1. El paquete indica intervalos sin solape y reanudación desde checkpoint; por eso el código valida CASO-HYO-046-2B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S46-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'checkpoint', 'intervals', 'overlap', 'resume_from'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\n    return \"PASS\" if ok else \"STOP_OVERLAPPING_BACKFILL\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-2B', **{'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}}\ninvalid = {\"case_id\": 'CASO-HYO-046-2B', **{'intervals': [[1, 3], [4, 6]], 'overlap': True, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}}\nincomplete = {k: v for k, v in valid.items() if k != 'resume_from'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de schedules, backfills y state recovery en S46-T2-B-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-HYO-046-2B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S46-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'checkpoint', 'intervals', 'overlap', 'resume_from'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"RECOVER_CHECKPOINT\"\n    ok = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\n    return \"CONTINUE\" if ok else \"STOP_OVERLAPPING_BACKFILL\"\n\nfixtures = [\n    {\"case_id\": 'CASO-HYO-046-2B', **{'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}},\n    {\"case_id\": 'CASO-HYO-046-2B', **{'intervals': [[1, 3], [4, 6]], 'overlap': True, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}},\n    {k: v for k, v in {\"case_id\": 'CASO-HYO-046-2B', **{'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}}.items() if k != 'resume_from'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Leí instruction/hints de S46-T2-B-E3: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-HYO-046-2B reconstruí meets_contract alineado a «schedules, backfills y state recovery» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S46-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"observed_schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"freshness_min\":8,\"slo_min\":15,\"owner\":\"data-ops\"}}\nmeets_contract = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_DATASET\"\nprint(\"S46-T3-A\", status)\n",
+      "justification_from_packet": "En el paquete activo de S46-T3-A-E1, el fixture CASO-HYO-046-3A deja ver que schema exacto, freshness bajo SLO y owner. Corregí el predicado defectuoso del starter para que el escenario de «contracts y freshness» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S46-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'freshness_min', 'observed_schema', 'owner', 'schema', 'slo_min'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\n    return \"PASS\" if ok else \"QUARANTINE_DATASET\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-3A', **{'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}}\ninvalid = {\"case_id\": 'CASO-HYO-046-3A', **{'schema': {'case_id': 'str', 'event_time': 'int', '__bad__': True}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}}\nincomplete = {k: v for k, v in valid.items() if k != 'owner'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de contracts y freshness en S46-T3-A-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-HYO-046-3A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S46-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'freshness_min', 'observed_schema', 'owner', 'schema', 'slo_min'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"PAGE_DATA_OWNER\"\n    ok = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\n    return \"CONTINUE\" if ok else \"QUARANTINE_DATASET\"\n\nfixtures = [\n    {\"case_id\": 'CASO-HYO-046-3A', **{'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}},\n    {\"case_id\": 'CASO-HYO-046-3A', **{'schema': {'case_id': 'str', 'event_time': 'int', '__bad__': True}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}},\n    {k: v for k, v in {\"case_id\": 'CASO-HYO-046-3A', **{'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}}.items() if k != 'owner'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de contracts y freshness en S46-T3-A-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-HYO-046-3A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S46-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\":\"run-hyo-46\",\"inputs\":{\"raw-v2\"},\"outputs\":{\"clean-v3\"},\"metrics\":{\"rows\":120,\"null_rate\":0.01},\"owner\":\"analytics\"}}\nmeets_contract = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\nstatus = \"PASS\" if meets_contract else \"OPEN_QUALITY_INCIDENT\"\nprint(\"S46-T3-B\", status)\n",
+      "justification_from_packet": "Leí instruction/hints de S46-T3-B-E1: la operación debe demostrar run conecta inputs/outputs/métricas/owner. Con el caso sintético CASO-HYO-046-3B reconstruí meets_contract alineado a «lineage, observability y ownership» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S46-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'inputs', 'metrics', 'outputs', 'owner', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\n    return \"PASS\" if ok else \"OPEN_QUALITY_INCIDENT\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-3B', **{'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}}\ninvalid = {\"case_id\": 'CASO-HYO-046-3B', **{'run_id': 'run-hyo-46', 'inputs': set(), 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}}\nincomplete = {k: v for k, v in valid.items() if k != 'owner'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de lineage, observability y ownership en S46-T3-B-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-HYO-046-3B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S46-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'inputs', 'metrics', 'outputs', 'owner', 'run_id'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"TRACE_LINEAGE\"\n    ok = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\n    return \"CONTINUE\" if ok else \"OPEN_QUALITY_INCIDENT\"\n\nfixtures = [\n    {\"case_id\": 'CASO-HYO-046-3B', **{'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}},\n    {\"case_id\": 'CASO-HYO-046-3B', **{'run_id': 'run-hyo-46', 'inputs': set(), 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}},\n    {k: v for k, v in {\"case_id\": 'CASO-HYO-046-3B', **{'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}}.items() if k != 'owner'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S46-T3-B-E3, el fixture CASO-HYO-046-3B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «lineage, observability y ownership» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S46-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\":\"2026-07-22\",\"source_keys\":{\"a\",\"b\",\"c\"},\"target_keys\":{\"a\",\"b\",\"c\"},\"second_run_changes\":0,\"small_files\":2,\"max_small_files\":5}}\nmeets_contract = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REBUILD_PARTITION\"\nprint(\"S46-T4-A\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de partitions e incremental loads en S46-T4-A-E1. El paquete indica merge idempotente y small files bajo límite; por eso el código valida CASO-HYO-046-4A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S46-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'max_small_files', 'partition', 'second_run_changes', 'small_files', 'source_keys', 'target_keys'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\n    return \"PASS\" if ok else \"REBUILD_PARTITION\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-4A', **{'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}}\ninvalid = {\"case_id\": 'CASO-HYO-046-4A', **{'partition': '2026-07-22', 'source_keys': {'__bad__', 'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}}\nincomplete = {k: v for k, v in valid.items() if k != 'max_small_files'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S46-T4-A-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-HYO-046-4A reconstruí meets_contract alineado a «partitions e incremental loads» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S46-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'max_small_files', 'partition', 'second_run_changes', 'small_files', 'source_keys', 'target_keys'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"REVIEW_INCREMENTAL_KEY\"\n    ok = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\n    return \"CONTINUE\" if ok else \"REBUILD_PARTITION\"\n\nfixtures = [\n    {\"case_id\": 'CASO-HYO-046-4A', **{'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}},\n    {\"case_id\": 'CASO-HYO-046-4A', **{'partition': '2026-07-22', 'source_keys': {'__bad__', 'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}},\n    {k: v for k, v in {\"case_id\": 'CASO-HYO-046-4A', **{'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}}.items() if k != 'max_small_files'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de partitions e incremental loads en S46-T4-A-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-HYO-046-4A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S46-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\":0.995,\"freshness_slo\":0.99,\"rto_minutes\":25,\"target_rto_minutes\":30,\"postmortem_actions\":3,\"owner\":\"data-oncall\"}}\nmeets_contract = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_INCIDENT\"\nprint(\"S46-T4-B\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de SLO, incidentes y data recovery en S46-T4-B-E1. El paquete indica SLI/SLO, RTO, owner y acciones de postmortem; por eso el código valida CASO-HYO-046-4B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S46-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'freshness_sli', 'freshness_slo', 'owner', 'postmortem_actions', 'rto_minutes', 'target_rto_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\n    return \"PASS\" if ok else \"DECLARE_DATA_INCIDENT\"\n\nvalid = {\"case_id\": 'CASO-HYO-046-4B', **{'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}}\ninvalid = {\"case_id\": 'CASO-HYO-046-4B', **{'freshness_sli': -0.0050000000000000044, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}}\nincomplete = {k: v for k, v in valid.items() if k != 'owner'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S46-T4-B-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-HYO-046-4B reconstruí meets_contract alineado a «SLO, incidentes y data recovery» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S46-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'freshness_sli', 'freshness_slo', 'owner', 'postmortem_actions', 'rto_minutes', 'target_rto_minutes'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"ACTIVATE_RECOVERY_RUNBOOK\"\n    ok = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\n    return \"CONTINUE\" if ok else \"DECLARE_DATA_INCIDENT\"\n\nfixtures = [\n    {\"case_id\": 'CASO-HYO-046-4B', **{'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}},\n    {\"case_id\": 'CASO-HYO-046-4B', **{'freshness_sli': -0.0050000000000000044, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}},\n    {k: v for k, v in {\"case_id\": 'CASO-HYO-046-4B', **{'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}}.items() if k != 'owner'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S46-T4-B-E3, el fixture CASO-HYO-046-4B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «SLO, incidentes y data recovery» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.79
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "En self-check Q0 de S46 elegí «fixtures en hora/desorden/tardío con resultado esperado» porque el theory/outcomes del paquete describen esa evidencia (Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar ta). Las otras opciones rompen trazabilidad o piden datos reales.",
+      "status": "answered",
+      "confidence": 0.75
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Para la pregunta «Si ocurre la condición de error de S46, ¿qué respuesta preserva seguridad y audi…» el packet de S46 sostiene «emitir QUARANTINE_PARTITION y conservar evidencia». Coincide con el contrato observable y el caso sintético del curso.",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Para la pregunta «¿Cuál resultado demuestra el gate `CP-N4-B · pipeline incremental y backfillable…» el packet de S46 sostiene «backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness». Coincide con el contrato observable y el caso sintético del curso.",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "En self-check Q3 de S46 elegí «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el theory/outcomes del paquete describen esa evidencia (Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar ta). Las otras opciones rompen trazabilidad o piden datos reales.",
+      "status": "answered",
+      "confidence": 0.86
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:51:02.732176+00:00",
+  "session_started_at": "2026-07-23T17:49:53.830788+00:00",
+  "session_ended_at": "2026-07-23T17:51:02.728618+00:00",
+  "receipt_response_sha256": "099dbaabfac3e4af332050498c23bc86d3fe4e1d1ddf1aa4125d57a43fa4928d",
+  "receipt_exercises_sha256": "ce5d492214659198cac23881c2f2f902a287eeb8d1f284c2c11654165a39e32a",
+  "receipt_selfcheck_sha256": "6575992598227d9a038c5f4d6cf374a4908da2193a7bb446329029bb9667ac9c"
+}

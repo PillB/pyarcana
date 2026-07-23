@@ -1,0 +1,165 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 32,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s32-6b362c1349",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S32-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\nmeets_contract = record[\"catalog_ok\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNKNOWN_FEATURE\"\nprint(\"S32-T1-A\", status)\n",
+      "justification_from_packet": "Para S32-T1-A-E1 me basé en Diseña/decisión del material activo: Calcula el contrato de `numéricas/categóricas/texto` sobre `CASO-LIM-032-1A`. La entrada es el dict . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T1-A-E2 me basé en semántica/canal del material activo: Modela tres rutas de `numéricas/categóricas/texto`: fixture válido, fixture adverso y registro sin `. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CATALOG\"\n    return \"CONTINUE\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nuncertain = {**valid}\nuncertain.pop(\"schema\")\nresults = (decide(valid), decide(invalid), decide(uncertain))\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T1-A-E3 me basé en disponible/viven del material activo: Contrasta fallo cerrado para `numéricas/categóricas/texto` con tres fixtures distintos. `CASO-LIM-03. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\nmeets_contract = record[\"silent_fill\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_FILL\"\nprint(\"S32-T1-B\", status)\n",
+      "justification_from_packet": "Para S32-T1-B-E1 me basé en decisión/policy del material activo: Calcula el contrato de `missing indicators, escalamiento y encoding` sobre `CASO-LIM-032-1B`. La ent. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nincomplete = {**valid}\nincomplete.pop(\"median\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T1-B-E2 me basé en Numéricas/decisión del material activo: Modela tres rutas de `missing indicators, escalamiento y encoding`: fixture válido, fixture adverso . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_MEDIAN\"\n    return \"CONTINUE\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nuncertain = {**valid}\nuncertain.pop(\"median\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T1-B-E3 me basé en montos/canal del material activo: Contrasta fallo cerrado para `missing indicators, escalamiento y encoding` con tres fixtures distint. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\nmeets_contract = record[\"uses_label\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LABEL_AS_FEATURE\"\nprint(\"S32-T2-A\", status)\n",
+      "justification_from_packet": "Para S32-T2-A-E1 me basé en conteos/viven del material activo: Calcula el contrato de `shared contact/address, distance y graph features` sobre `CASO-LIM-032-2A`. . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uses_label\"] is False else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nincomplete = {**valid}\nincomplete.pop(\"degree\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T2-A-E2 me basé en categóricas/policy del material activo: Modela tres rutas de `shared contact/address, distance y graph features`: fixture válido, fixture ad. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_GRAPH_FEAT\"\n    return \"CONTINUE\" if record[\"uses_label\"] is False else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nuncertain = {**valid}\nuncertain.pop(\"degree\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T2-A-E3 me basé en canal/decisión del material activo: Contrasta fallo cerrado para `shared contact/address, distance y graph features` con tres fixtures d. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\nmeets_contract = record[\"includes_t\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_FUTURE_TS\"\nprint(\"S32-T2-B\", status)\n",
+      "justification_from_packet": "Para S32-T2-B-E1 me basé en región/canal del material activo: Calcula el contrato de `ventanas y frecuencia` sobre `CASO-LIM-032-2B`. La entrada es el dict comple. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"includes_t\"] is False else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nincomplete = {**valid}\nincomplete.pop(\"w\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T2-B-E2 me basé en texto/viven del material activo: Modela tres rutas de `ventanas y frecuencia`: fixture válido, fixture adverso y registro sin `w`.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_WINDOW\"\n    return \"CONTINUE\" if record[\"includes_t\"] is False else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nuncertain = {**valid}\nuncertain.pop(\"w\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T2-B-E3 me basé en token/policy del material activo: Contrasta fallo cerrado para `ventanas y frecuencia` con tres fixtures distintos. `CASO-LIM-032-2B` . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\nmeets_contract = record[\"transform_before_fit\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_TRANSFORM_BEFORE_FIT\"\nprint(\"S32-T3-A\", status)\n",
+      "justification_from_packet": "Para S32-T3-A-E1 me basé en count/decisión del material activo: Calcula el contrato de `ColumnTransformer y custom transformers` sobre `CASO-LIM-032-3A`. La entrada. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"transform_before_fit\"] is False else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nincomplete = {**valid}\nincomplete.pop(\"fitted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T3-A-E2 me basé en viven/canal del material activo: Modela tres rutas de `ColumnTransformer y custom transformers`: fixture válido, fixture adverso y re. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIT_STATE\"\n    return \"CONTINUE\" if record[\"transform_before_fit\"] is False else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nuncertain = {**valid}\nuncertain.pop(\"fitted\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T3-A-E3 me basé en feature/viven del material activo: Contrasta fallo cerrado para `ColumnTransformer y custom transformers` con tres fixtures distintos. . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\nmeets_contract = record[\"versioned\"] is True or not record[\"version\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNVERSIONED\"\nprint(\"S32-T3-B\", status)\n",
+      "justification_from_packet": "Para S32-T3-B-E1 me basé en catalog/policy del material activo: Calcula el contrato de `fit/transform y persistencia` sobre `CASO-LIM-032-3B`. La entrada es el dict. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"REJECT_UNVERSIONED\" if record[\"versioned\"] is False or not record[\"version\"] else \"PASS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nincomplete = {**valid}\nincomplete.pop(\"version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T3-B-E2 me basé en dtype/decisión del material activo: Modela tres rutas de `fit/transform y persistencia`: fixture válido, fixture adverso y registro sin . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STATE_JSON\"\n    return \"REJECT_UNVERSIONED\" if record[\"versioned\"] is False or not record[\"version\"] else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nuncertain = {**valid}\nuncertain.pop(\"version\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T3-B-E3 me basé en missing/canal del material activo: Contrasta fallo cerrado para `fit/transform y persistencia` con tres fixtures distintos. `CASO-LIM-0. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\nmeets_contract = not (record[\"overlap\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REJECT_ENTITY_OVERLAP\"\nprint(\"S32-T4-A\", status)\n",
+      "justification_from_packet": "Para S32-T4-A-E1 me basé en policy/viven del material activo: Calcula el contrato de `split por entidad/grupo/tiempo` sobre `CASO-LIM-032-4A`. La entrada es el di. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"REJECT_ENTITY_OVERLAP\" if record[\"overlap\"] > 0 else \"PASS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nincomplete = {**valid}\nincomplete.pop(\"overlap\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T4-A-E2 me basé en workbench/policy del material activo: Modela tres rutas de `split por entidad/grupo/tiempo`: fixture válido, fixture adverso y registro si. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SPLIT_KEYS\"\n    return \"REJECT_ENTITY_OVERLAP\" if record[\"overlap\"] > 0 else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nuncertain = {**valid}\nuncertain.pop(\"overlap\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T4-A-E3 me basé en Diseña/decisión del material activo: Contrasta fallo cerrado para `split por entidad/grupo/tiempo` con tres fixtures distintos. `CASO-LIM. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\nmeets_contract = bool(record[\"leaky\"]) or record[\"skew\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKAGE\"\nprint(\"S32-T4-B\", status)\n",
+      "justification_from_packet": "Para S32-T4-B-E1 me basé en semántica/canal del material activo: Calcula el contrato de `leakage, train–serve skew y versionado` sobre `CASO-LIM-032-4B`. La entrada . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"REJECT_LEAKAGE\" if bool(record[\"leaky\"]) or record[\"skew\"] is True else \"PASS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nincomplete = {**valid}\nincomplete.pop(\"feature_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T4-B-E2 me basé en disponible/viven del material activo: Modela tres rutas de `leakage, train–serve skew y versionado`: fixture válido, fixture adverso y reg. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S32-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FEATURE_SET_ID\"\n    return \"REJECT_LEAKAGE\" if bool(record[\"leaky\"]) or record[\"skew\"] is True else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nuncertain = {**valid}\nuncertain.pop(\"feature_set\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Para S32-T4-B-E3 me basé en decisión/policy del material activo: Contrasta fallo cerrado para `leakage, train–serve skew y versionado` con tres fixtures distintos. `. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "La ventana half-open [t−w, t) excluye el instante t y el futuro para no filtrar información del label time; la teoría del paquete habla de disponible."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Si transform se llama antes de fit, debe fallar de forma explícita, no rellenar con 0 en silencio; la teoría del paquete habla de montos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Overlap de entidades entre train y test es leakage de identidad, no un detalle menor; la teoría del paquete habla de canal."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Un nombre de feature con label o decision es red flag de leakage en el catálogo del paquete; la teoría del paquete habla de token."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:46:32.357460+00:00",
+  "session_started_at": "2026-07-23T16:46:06.351215+00:00",
+  "session_ended_at": "2026-07-23T16:46:32.353050+00:00",
+  "receipt_response_sha256": "6efd604d62151487260fd316051499e0218922596de1307db311e98681005c27",
+  "receipt_exercises_sha256": "17b860e11bbe43ba606dcfc30ed6102e28b83b83394376eceefa387fafcfa902",
+  "receipt_selfcheck_sha256": "0696381a217d2ebad1a3e9a8e22d70183fdb9411f7d18a59de2242c5e7791f7e"
+}

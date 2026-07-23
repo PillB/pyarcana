@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 13,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-newbie_a-s13-dded48f7455a",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S13-T1-A-E1",
+      "code": "import re\n\ndef norm_name(n):\n    return re.sub(r\"\\s+\", \" \", n.casefold().strip())\n\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\n\nprint(norm_name(' Ana  QUISPE '), \"|\", norm_doc('D-12.34'))\n",
+      "justification_from_packet": "Como explorer aplico «Agrega ER + señales de relación con pesos y produce `evidence_score`, ». En S13-T1-A-E1 resolví: Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Dashboard/mapa pseudonimizado y ficha de caso» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T1-A-E2",
+      "code": "def blocking_key(rec):\n    parts = rec[\"name\"].split()\n    apellido = parts[1].casefold() if len(parts) > 1 else parts[0].casefold()\n    return f\"{apellido}|{rec['region'].casefold()}\"\n\nprint(blocking_key({\"name\": \"Luis Huamán Soto\", \"region\": \"Cusco\"}))\n",
+      "justification_from_packet": "Como explorer aplico «Aplicar normalización y blocking para ER determinista y entity_resolut». En S13-T1-A-E2 resolví: Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Derivar señales de txs directas y contrapartes comunes…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T1-A-E3",
+      "code": "import re\n\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\n\ndef blocking_key(rec):\n    parts = rec.get(\"name\", \"\").split()\n    ap = parts[1].casefold() if len(parts) > 1 else (parts[0].casefold() if parts else \"\")\n    return f\"{ap}|{rec.get('region','').casefold()}\"\n\ndef er_score(a, b):\n    if norm_doc(a.get(\"doc\", \"\")) == norm_doc(b.get(\"doc\", \"\")) and blocking_key(a) == blocking_key(b):\n        return 1.0\n    return 0.5  # reglas deterministas stdlib; sin ML\n\na = {\"name\": \"Luis Huamán\", \"region\": \"Cusco\", \"doc\": \"D-1\"}\nb = {\"name\": \"Luis Huamán\", \"region\": \"Cusco\", \"doc\": \"D1\"}\nprint(er_score(a, b))\nprint(\"memo: 1.0 solo con doc normalizado igual y mismo blocking_key; si no 0.5 determinista\")\n",
+      "justification_from_packet": "Como explorer aplico «Email/teléfono/dirección compartidos, distancia y apellidos». En S13-T1-A-E3 resolví: `er_score(a,b)`: 1.0 si norm_doc igual y mismo blocking_key; 0.5 si solo stdlib . Me guié también por «Txs directas A↔B y contrapartes comunes (A y C pagan a D) so» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T1-B-E1",
+      "code": "tp, fp, fn = 8, 2, 2\nprecision = tp / (tp + fp)\nrecall = tp / (tp + fn)\nprint(f\"precision {precision:.3g} | recall {recall:.3g}\")\n",
+      "justification_from_packet": "Como explorer aplico «Verdad etiquetada, precision/recall y revisión clerical». En S13-T1-B-E1 resolví: Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Señales: mismo email/teléfono/dirección normalizados, distan» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T1-B-E2",
+      "code": "def clerical_queue(pairs, low=0.4, high=0.7):\n    return [p[\"id\"] for p in pairs if low <= p[\"score\"] <= high]\n\npairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.4},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\nprint(clerical_queue(pairs))\n",
+      "justification_from_packet": "Como explorer aplico «Con pares etiquetados sintéticos calculas **TP/FP/FN** → precision/rec». En S13-T1-B-E2 resolví: Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Transacciones directas y contrapartes comunes» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T1-B-E3",
+      "code": "print(\"fp_not_fraud: False positive de ER es error de matching de identidad, no veredicto legal de fraude\")\nprint(\"accion: encolar needs_review / revisión clerical; no auto_fraud\")\n",
+      "justification_from_packet": "Como explorer aplico «Aplicar normalización y blocking para ER determinista y entity_resolut». En S13-T1-B-E3 resolví: Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Derivar señales de txs directas y contrapartes comunes…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T2-A-E1",
+      "code": "def shared_email(a, b):\n    ea, eb = (a or \"\").casefold().strip(), (b or \"\").casefold().strip()\n    if not ea or not eb:\n        return False\n    return ea == eb\n\nprint(shared_email(\"A@x.com\", \"a@x.com\"), \"|\", shared_email(\"\", \"a@x.com\"), \"|\", shared_email(\"a@x.com\", \"b@x.com\"))\n",
+      "justification_from_packet": "Como explorer aplico «Normalización, blocking y entity resolution». En S13-T2-A-E1 resolví: Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Con pares etiquetados sintéticos calculas **TP/FP/FN** → pre» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T2-A-E2",
+      "code": "def rel_score(km, surname_jaccard):\n    geo = 1.0 if km < 2 else 0.0\n    return round(0.6 * geo + 0.4 * surname_jaccard, 3)\n\nprint(rel_score(1.0, 0.5), \"|\", rel_score(5.0, 0.5))\n",
+      "justification_from_packet": "Como explorer aplico «Aplicar umbrales de revisión/abstención; prohibir inferencia automátic». En S13-T2-A-E2 resolví: Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Normalización, blocking y entity resolution» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T2-A-E3",
+      "code": "print(\"relationship_signal_score no implica parentesco ni colusión\")\n",
+      "justification_from_packet": "Como explorer aplico «Score de evidencia, incertidumbre y explicación». En S13-T2-A-E3 resolví: Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Matriz total y sin huecos: score inválido/no finito o uncert» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T2-B-E1",
+      "code": "def direct_txs(txs, a, b):\n    out = []\n    for t in txs:\n        if {t[\"from\"], t[\"to\"]} == {a, b}:\n            out.append(t[\"monto\"])\n    return out\n\ntxs = [\n    {\"from\": \"A\", \"to\": \"B\", \"monto\": 10},\n    {\"from\": \"B\", \"to\": \"A\", \"monto\": 5},\n    {\"from\": \"A\", \"to\": \"C\", \"monto\": 7},\n]\nprint(direct_txs(txs, \"A\", \"B\"))\n",
+      "justification_from_packet": "Como explorer aplico «Aplicar umbrales de revisión/abstención; prohibir inferencia automátic». En S13-T2-B-E1 resolví: Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Normalización, blocking y entity resolution» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T2-B-E2",
+      "code": "def common_counterparties(txs, a, c):\n    touch = {a: set(), c: set()}\n    for t in txs:\n        fr, to = t[\"from\"], t[\"to\"]\n        if fr in touch:\n            touch[fr].add(to)\n        if to in touch:\n            touch[to].add(fr)\n    return sorted(touch[a] & touch[c])\n\ntxs = [\n    {\"from\": \"A\", \"to\": \"X\", \"monto\": 1},\n    {\"from\": \"C\", \"to\": \"X\", \"monto\": 1},\n    {\"from\": \"A\", \"to\": \"Y\", \"monto\": 1},\n]\nprint(common_counterparties(txs, \"A\", \"C\"))\n",
+      "justification_from_packet": "Como explorer aplico «Computar relationship_signal_score (shared contact, distancia, apellid». En S13-T2-B-E2 resolví: Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Aplicar umbrales de revisión/abstención; prohibir…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T2-B-E3",
+      "code": "print(\"no_collusion: contraparte común no prueba colusión automática\")\nprint(\"no_kinship: contraparte común no implica parentesco\")\n",
+      "justification_from_packet": "Como explorer aplico «Umbral de revisión, abstención y no inferencia automática». En S13-T2-B-E3 resolví: Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Scaffold estático (HTML/template o dicts listos para UI): pu» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T3-A-E1",
+      "code": "def explanation_bullets(er, rel, missing):\n    return [\n        f\"entity_resolution_score={er}\",\n        f\"relationship_signal_score={rel}\",\n        f\"missing_fields={missing}\",\n    ]\n\nprint(explanation_bullets(0.9, 0.2, [\"phone\"]))\n",
+      "justification_from_packet": "Como explorer aplico «Producir score de evidencia con incertidumbre y explicación legible». En S13-T3-A-E1 resolví: Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Entregar ficha de privacidad, tests, demo reproducible y…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T3-A-E2",
+      "code": "def uncertainty_band(missing, conflict):\n    if conflict or len(missing) >= 2:\n        return \"high\"\n    if missing:\n        return \"med\"\n    return \"low\"\n\nprint(uncertainty_band([], False), \"|\", uncertainty_band([\"a\"], False), \"|\", uncertainty_band([\"a\", \"b\"], False), \"|\", uncertainty_band([], True))\n",
+      "justification_from_packet": "Como explorer aplico «Score de evidencia, incertidumbre y explicación». En S13-T3-A-E2 resolví: Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Matriz total y sin huecos: score inválido/no finito o uncert» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T3-A-E3",
+      "code": "er, rel = 0.9, 0.1\nevidence_score = round(0.6 * er + 0.4 * rel, 3)\nprint(f\"evidence_score={evidence_score} uncertainty=high bullet=señales conflictivas\")\n",
+      "justification_from_packet": "Como explorer aplico «Derivar señales de txs directas y contrapartes comunes sin afirmar col». En S13-T3-A-E3 resolví: Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Ensamblar scaffold de dashboard/mapa con fichas de…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T3-B-E1",
+      "code": "thresholds = {\"review_low\": 0.4, \"accept_min\": 0.8}\nprint(sorted(thresholds.items()))\n",
+      "justification_from_packet": "Como explorer aplico «Txs directas A↔B y contrapartes comunes (A y C pagan a D) son **eviden». En S13-T3-B-E1 resolví: Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Umbral de revisión, abstención y no inferencia…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T3-B-E2",
+      "code": "def decide(score, uncertainty, valid=True, review_low=0.4, accept_min=0.8):\n    if not valid:\n        return \"invalid_input\"\n    if uncertainty == \"high\":\n        return \"needs_review\"\n    if score < review_low:\n        return \"abstain\"\n    if score < accept_min:\n        return \"needs_review\"\n    return \"accept_candidate\"\n\nprint(decide(0.9, \"low\"))\nprint(decide(0.5, \"low\"))\nprint(decide(0.2, \"low\"))\nprint(decide(0.9, \"high\"))\nprint(decide(0.9, \"low\", valid=False))\n",
+      "justification_from_packet": "Como explorer aplico «Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical». En S13-T3-B-E2 resolví: Implementa la matriz total: input inválido→invalid_input; high→needs_review; sco. Me guié también por «Producir score de evidencia con incertidumbre y…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T3-B-E3",
+      "code": "out = {\"score\": 0.5, \"status\": \"needs_review\", \"is_family\": True, \"auto_fraud\": False}\nfor k in (\"is_family\", \"auto_fraud\"):\n    out.pop(k, None)\nprint(sorted(out.keys()))\n",
+      "justification_from_packet": "Como explorer aplico «Derivar señales de txs directas y contrapartes comunes sin afirmar col». En S13-T3-B-E3 resolví: Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Ensamblar scaffold de dashboard/mapa con fichas de…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T4-A-E1",
+      "code": "def pseudonymize(full: str) -> str:\n    parts = full.split()\n    return \" \".join((p[0] + \"***\") for p in parts if p)\n\nprint(pseudonymize(\"Ana Quispe Rojas\"))\n",
+      "justification_from_packet": "Como explorer aplico «Producir score de evidencia con incertidumbre y explicación legible». En S13-T4-A-E1 resolví: Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Entregar ficha de privacidad, tests, demo reproducible y…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T4-A-E2",
+      "code": "def case_sheet(er, rel):\n    sheet = {\n        \"entity_resolution_score\": er,\n        \"relationship_signal_score\": rel,\n    }\n    assert \"entity_resolution_score\" in sheet and \"relationship_signal_score\" in sheet\n    assert list(sheet)[0] != list(sheet)[1]\n    return sheet\n\nprint(case_sheet(0.9, 0.2))\n",
+      "justification_from_packet": "Como explorer aplico «Privacidad, acceso, pruebas, demo y runbook». En S13-T4-A-E2 resolví: Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Evaluar ER con etiquetas sintéticas, precision/recall y cola» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T4-A-E3",
+      "code": "def map_tooltip(lat, lon, km, source):\n    return f\"lat={lat},lon={lon},geo_distance_km={km},source={source}\"\n\nprint(map_tooltip(-12.04, -77.04, 1.2, \"mock\"))\n",
+      "justification_from_packet": "Como explorer aplico «Entregar ficha de privacidad, tests, demo reproducible y runbook de op». En S13-T4-A-E3 resolví: Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Verdad etiquetada, precision/recall y revisión…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T4-B-E1",
+      "code": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nprint(sorted(privacy.keys()))\n",
+      "justification_from_packet": "Como explorer aplico «Señales: mismo email/teléfono/dirección normalizados, distancia geo ba». En S13-T4-B-E1 resolví: Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Score de evidencia, incertidumbre y explicación» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T4-B-E2",
+      "code": "def demo_command():\n    return \"python -m demo_n1_dashboard --synthetic\"\n\nprint(demo_command())\n",
+      "justification_from_packet": "Como explorer aplico «Computar relationship_signal_score (shared contact, distancia, apellid». En S13-T4-B-E2 resolví: Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Aplicar umbrales de revisión/abstención; prohibir…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T4-B-E3",
+      "code": "actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\nprint(\"|\".join(actions))\n",
+      "justification_from_packet": "Como explorer aplico «Verdad etiquetada, precision/recall y revisión clerical». En S13-T4-B-E3 resolví: Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético . Me guié también por «Señales: mismo email/teléfono/dirección normalizados, distan» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «Mantenerse separados en la ficha de caso» porque el paquete en «Normalización, blocking y entity resolution» lo sostiene. Pregunta: entity_resolution_score y relationship_signal_score deben….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «Error de matching; no es veredicto legal de fraude» porque el paquete en «Verdad etiquetada, precision/recall y revisión clerical» lo sostiene. Pregunta: Un false positive de ER implica….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Elijo «Encolar needs_review / abstenerse según política» porque el paquete en «Email/teléfono/dirección compartidos, distancia y apellidos» lo sostiene. Pregunta: En zona gris de score el sistema debe….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Elijo «Privacy sheet, acceso, tests, demo y runbook» porque el paquete en «Transacciones directas y contrapartes comunes» lo sostiene. Pregunta: CF-1 en S13 incluye….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)» porque el paquete en «Score de evidencia, incertidumbre y explicación» lo sostiene. Pregunta: Level-1 regression notes en el You Do exigen….",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:25:11.395286+00:00",
+  "session_started_at": "2026-07-23T17:44:42.599537Z",
+  "session_ended_at": "2026-07-23T17:45:37.220347Z",
+  "receipt_response_sha256": "318e8ad54a29be3905d9035aacd241bbd65870411e7a532cf29ccea242f1c4f8",
+  "receipt_exercises_sha256": "ff1129136ddf7e6ad5652054fe5d5fb6bab872a7bbebff25020688bdf17f1ebc",
+  "receipt_selfcheck_sha256": "ca46b1c34609b13fde043dc853650ad49834cdd6f369032205ed0224d5930090"
+}

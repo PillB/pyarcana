@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 39,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s39-52d4f7921f",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S39-T1-A-E1",
+      "code": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\nmeets = record[\"stages\"] == CANON and record[\"label_space\"] == \"needs_review\" and record[\"auto_fraud\"] is False\nstatus = \"PASS\" if meets else \"REJECT_STAGE_ORDER\"\nprint(\"S39-T1-A\", status)\n",
+      "justification_from_packet": "Para S39-T1-A-E1 me basé en flujo/fronteras del material activo: Valida el contrato del pipeline canónico N3 sobre `CASO-LIM-039-T1A`.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T1-A-E2",
+      "code": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"stages\", \"label_space\", \"auto_fraud\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record[\"stages\"] != CANON or record.get(\"auto_fraud\") is True or record.get(\"label_space\") != \"needs_review\":\n        return \"REJECT_STAGE_ORDER\"\n    return \"PASS\"\n\nvalid = {\"case_id\": \"CASO-LIM-039-T1A\", \"stages\": list(CANON), \"label_space\": \"needs_review\", \"auto_fraud\": False}\ninvalid = {\"case_id\": \"CASO-LIM-039-T1A\", \"stages\": list(reversed(CANON)), \"label_space\": \"needs_review\", \"auto_fraud\": False}\nincomplete = {k: v for k, v in valid.items() if k != \"stages\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S39-T1-A-E2 me basé en canónico/sintéticos del material activo: Modela tres rutas del pipeline N3: fixture válido, stages en orden adverso y registro sin label_spac. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T1-A-E3",
+      "code": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef decide(record: dict) -> str:\n    if \"stages\" not in record:\n        return \"REQUEST_STAGE_LIST\"\n    if record.get(\"er_claims_parentesco\") is True:\n        return \"REJECT_ER_SCOPE\"\n    if record[\"stages\"] != CANON:\n        return \"REJECT_STAGE_ORDER\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-039-T1A\", \"stages\": list(CANON), \"label_space\": \"needs_review\", \"auto_fraud\": False}\ninvalid = {\"case_id\": \"CASO-LIM-039-T1A\", \"stages\": list(reversed(CANON)), \"label_space\": \"needs_review\", \"auto_fraud\": False}\nparentesco = {**valid, \"er_claims_parentesco\": True}\nuncertain = {k: v for k, v in valid.items() if k != \"stages\"}\n# instruction: válido CONTINUE, stages adversos REJECT_STAGE_ORDER, er parentesco REJECT_ER_SCOPE, falta stages REQUEST\nprint(decide(valid), decide(invalid), decide(parentesco), decide(uncertain))\n",
+      "justification_from_packet": "Para S39-T1-A-E3 me basé en cadena/grafo del material activo: Fail-closed del pipeline: válido → `CONTINUE`, stages adversos → `REJECT_STAGE_ORDER`, ER pretendien. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T1-B-E1",
+      "code": "record = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"graph_schema\",\n    \"ver\": \"3.0.0\",\n    \"owner\": \"investigations\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\nmeets = (not record[\"breaking\"] or record[\"bump\"] == \"major\") and bool(record[\"owner\"])\nstatus = \"PASS\" if meets else \"REJECT_BUMP_POLICY\"\nprint(\"S39-T1-B\", status)\n",
+      "justification_from_packet": "Para S39-T1-B-E1 me basé en fronteras/features del material activo: Valida el contrato de ownership y semver sobre `CASO-LIM-039-T1B`.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"name\", \"ver\", \"owner\", \"breaking\", \"bump\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record[\"breaking\"] and record[\"bump\"] != \"major\":\n        return \"REJECT_BUMP_POLICY\"\n    if not record.get(\"owner\"):\n        return \"MISSING:owner\"\n    return \"PASS\"\n\nvalid = {\"name\": \"graph_schema\", \"ver\": \"3.0.0\", \"owner\": \"investigations\", \"breaking\": True, \"bump\": \"major\"}\ninvalid = {\"name\": \"graph_schema\", \"ver\": \"3.0.0\", \"owner\": \"investigations\", \"breaking\": True, \"bump\": \"minor\"}\nincomplete = {k: v for k, v in valid.items() if k != \"owner\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S39-T1-B-E2 me basé en claras/fronteras del material activo: Tres rutas de registry: artefacto válido (breaking+major+owner), adverso (breaking+minor) y sin owne. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T1-B-E3",
+      "code": "registry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\", \"breaking\": False, \"bump\": \"patch\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\", \"breaking\": True, \"bump\": \"major\"},\n    \"feature_set\": {\"ver\": \"fs-v3\", \"owner\": \"ml-platform\", \"breaking\": False, \"bump\": \"minor\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\", \"breaking\": False, \"bump\": \"patch\"},\n}\n\ndef decide(reg: dict) -> str:\n    for name, art in reg.items():\n        if not art.get(\"owner\"):\n            return \"ESCALATE_NO_OWNER\"\n        if art.get(\"breaking\") and art.get(\"bump\") != \"major\":\n            return \"REJECT_BUMP_POLICY\"\n    return \"CONTINUE\"\n\nprint(decide(registry), len(registry) - 1)\n",
+      "justification_from_packet": "Para S39-T1-B-E3 me basé en intake/sintéticos del material activo: Evalúa un registry de cuatro artefactos sintéticos. Si algún artefacto carece de owner → `ESCALATE_N. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T2-A-E1",
+      "code": "packet = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\nmeets = bool(packet.get(\"score\") is not None and packet.get(\"evidence\") and packet.get(\"graph_path\"))\nstatus = \"PASS\" if meets else \"REJECT_PACKET_INCOMPLETE\"\nprint(\"S39-T2-A\", status)\n",
+      "justification_from_packet": "Para S39-T2-A-E1 me basé en normaliza/grafo del material activo: Valida el evidence packet mínimo de `CASO-LIM-039-T2A`.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"score\", \"evidence\", \"graph_path\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if not record.get(\"evidence\"):\n        return \"REJECT_PACKET_INCOMPLETE\"\n    return \"PASS\"\n\nvalid = {\"case_id\": \"CASO-LIM-039-T2A\", \"score\": 0.81, \"evidence\": [\"shared_phone_synth\"], \"graph_path\": [\"E1\", \"ph:900\", \"E2\"]}\ninvalid = {\"case_id\": \"CASO-LIM-039-T2A\", \"score\": 0.81, \"evidence\": [], \"graph_path\": [\"E1\", \"E2\"]}\nincomplete = {k: v for k, v in valid.items() if k != \"graph_path\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S39-T2-A-E2 me basé en registros/features del material activo: Tres packets: completo, adverso (evidence=[]), y sin graph_path.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T2-A-E3",
+      "code": "def decide(packet: dict):\n    if not packet.get(\"evidence\") or not packet.get(\"graph_path\"):\n        return \"REJECT_SCORE_ALONE\", 1\n    if \"uncertainty\" not in packet:\n        return \"REQUEST_UNCERTAINTY\", 1\n    return \"CONTINUE\", 4\n\nok = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n    \"uncertainty\": \"in_distribution\",\n}\nprint(*decide(ok))\n",
+      "justification_from_packet": "Para S39-T2-A-E3 me basé en sintéticos/fronteras del material activo: Workbench fail-closed: packet OK → `CONTINUE` y reporta layers=4; score-only → `REJECT_SCORE_ALONE`;. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T2-B-E1",
+      "code": "record = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"score\": 0.9,\n    \"threshold\": 0.7,\n    \"human_action\": \"skip\",\n}\nauto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\nif record.get(\"human_action\") is not None:\n    final = record[\"human_action\"]\n    override = True\nelse:\n    final = auto\n    override = False\nmeets = final == \"skip\" and override is True\nstatus = \"PASS\" if meets else \"REJECT_OVERRIDE\"\nprint(\"S39-T2-B\", status)\n",
+      "justification_from_packet": "Para S39-T2-B-E1 me basé en decide/sintéticos del material activo: Aplica override humano sobre `CASO-LIM-039-T2B`.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    if record.get(\"appeal\"):\n        if not record.get(\"second_reviewer\"):\n            return \"MISSING:second_reviewer\"\n        return \"reopen\"\n    auto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\n    if record.get(\"human_action\") is not None:\n        return record[\"human_action\"]\n    return auto\n\nbase = {\"case_id\": \"CASO-LIM-039-T2B\", \"score\": 0.9, \"threshold\": 0.7, \"human_action\": None, \"appeal\": False}\nauto_q = dict(base)\noverride = {**base, \"human_action\": \"skip\"}\nappeal = {**base, \"appeal\": True}\nprint(assess(auto_q), assess(override), assess(appeal))\n",
+      "justification_from_packet": "Para S39-T2-B-E2 me basé en entidad/grafo del material activo: Tres decisiones: auto queue sin humano (`PASS` con final queue), override a skip (`PASS` con overrid. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T2-B-E3",
+      "code": "def decide(event: dict):\n    if event.get(\"feedback\") and not event.get(\"leakage_care\"):\n        return \"REJECT_FEEDBACK\", False\n    if event.get(\"override\") and not event.get(\"audit_entry\"):\n        return \"REJECT_AUDIT\", False\n    return \"LOGGED\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"override\": True,\n    \"audit_entry\": True,\n    \"feedback\": True,\n    \"feedback_id\": \"fb-01\",\n    \"leakage_care\": True,\n}\nprint(*decide(happy))\n",
+      "justification_from_packet": "Para S39-T2-B-E3 me basé en familia/features del material activo: Audit log de feedback: si se registra feedback de revisor, debe incluir leakage_care=True y action l. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T3-A-E1",
+      "code": "checklist = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\nmeets = all([\n    checklist[\"pii_minimized\"],\n    checklist[\"rbac\"],\n    checklist[\"secrets_in_repo\"] is False,\n    checklist[\"slice_metrics\"],\n    checklist[\"input_limits\"],\n])\nstatus = \"PASS\" if meets else \"REJECT_RELEASE\"\nprint(\"S39-T3-A\", status)\n",
+      "justification_from_packet": "Para S39-T3-A-E1 me basé en culpa/fronteras del material activo: Evalúa el checklist de release de `CASO-LIM-039-T3A`.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"pii_minimized\", \"rbac\", \"secrets_in_repo\", \"slice_metrics\", \"input_limits\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get(\"secrets_in_repo\") is True:\n        return \"REJECT_SECRETS\"\n    if not all(record.get(k) for k in (\"pii_minimized\", \"rbac\", \"slice_metrics\", \"input_limits\")):\n        return \"REJECT_RELEASE\"\n    return \"PASS\"\n\nvalid = {\"pii_minimized\": True, \"rbac\": True, \"secrets_in_repo\": False, \"slice_metrics\": True, \"input_limits\": True}\ninvalid = {**valid, \"secrets_in_repo\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"rbac\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S39-T3-A-E2 me basé en grafo/sintéticos del material activo: Tres checklists: limpio → `PASS`, secrets_in_repo True → `REJECT_SECRETS`, sin rbac (clave ausente) . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T3-A-E3",
+      "code": "def decide(payload: dict):\n    if \"slices\" not in payload and \"slice_metrics\" not in payload:\n        return \"REQUEST_SLICE_METRICS\", \"fp_rate\"\n    thr = payload.get(\"fp_threshold\", 0.15)\n    for s in payload.get(\"slices\") or []:\n        if s.get(\"fp_rate\", 0) > thr:\n            return \"REJECT_SLICE_FP\", s.get(\"name\")\n    return \"CONTINUE\", \"fp_rate\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"slices\": [{\"name\": \"canal_app\", \"fp_rate\": 0.08}],\n    \"fp_threshold\": 0.15,\n}\nprint(*decide(happy))\n",
+      "justification_from_packet": "Para S39-T3-A-E3 me basé en relacional/grafo del material activo: Fairness de cola: si slice_metrics falta → `REQUEST_SLICE_METRICS`; si fp_rate de un slice sintético. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T3-B-E1",
+      "code": "def mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nrecord = {\"case_id\": \"CASO-LIM-039-T3B\", \"drift_high\": True, \"incident\": True}\nm = mode(record[\"drift_high\"], record[\"incident\"])\nmeets = m == \"human_only\"\nstatus = \"PASS\" if meets else \"REJECT_MODE\"\nprint(\"S39-T3-B\", status)\n",
+      "justification_from_packet": "Para S39-T3-B-E1 me basé en expone/features del material activo: Calcula el modo ops de `CASO-LIM-039-T3B`.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T3-B-E2",
+      "code": "def mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nprint(mode(False, False), mode(True, False), mode(False, True))\n",
+      "justification_from_packet": "Para S39-T3-B-E2 me basé en paths/fronteras del material activo: Tres escenarios ops: normal, solo drift → `abstain_more`, solo incident → `human_only`.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T3-B-E3",
+      "code": "def decide(ops: dict):\n    if ops.get(\"incident\"):\n        if not ops.get(\"prev_model_id\"):\n            return \"REQUEST_PREV_MODEL\", \"current_model\"\n        return \"ROLLBACK\", ops[\"prev_model_id\"]\n    return \"STAY\", \"current_model\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3B\",\n    \"incident\": True,\n    \"drift_high\": False,\n    \"prev_model_id\": \"previous_model\",\n    \"prev_thr\": \"previous\",\n}\nprint(*decide(happy))\n",
+      "justification_from_packet": "Para S39-T3-B-E3 me basé en ocurrencia/sintéticos del material activo: Rollback versionado: si incident, target=`previous_model` y thr=`previous`; si falta prev_model_id →. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T4-A-E1",
+      "code": "acceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\nmeets = \"no_auto_fraud_label\" in acceptance and \"e2e_synthetic_run\" in acceptance and \"audit_log\" in acceptance\nstatus = \"PASS\" if meets else \"REJECT_ACCEPTANCE\"\nprint(\"S39-T4-A\", status)\n",
+      "justification_from_packet": "Para S39-T4-A-E1 me basé en features/grafo del material activo: Verifica criterios de aceptación de `CASO-LIM-039-T4A`.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"regression_scope\", \"cf3_lane\", \"section_passed\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get(\"section_passed\") is True:\n        return \"REJECT_AUTO_PASS\"\n    if record.get(\"regression_scope\") != \"S27-S39\" or record.get(\"cf3_lane\") != \"separate_lane\":\n        return \"REJECT_SCOPE\"\n    return \"PASS\"\n\nvalid = {\"regression_scope\": \"S27-S39\", \"cf3_lane\": \"separate_lane\", \"section_passed\": False}\ninvalid = {**valid, \"section_passed\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"regression_scope\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S39-T4-A-E2 me basé en materializan/features del material activo: Documenta regresión y CF-3: scope debe ser `S27-S39`, cf3_lane=`separate_lane`, section_passed debe . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T4-A-E3",
+      "code": "def decide(paths: list):\n    needed = {\"happy\", \"override\", \"ood_abstain\"}\n    if set(paths) != needed:\n        return \"REJECT_DEMO_PATHS\", len(paths)\n    return \"CONTINUE\", len(paths)\n\nprint(*decide([\"happy\", \"override\", \"ood_abstain\"]))\n",
+      "justification_from_packet": "Para S39-T4-A-E3 me basé en flujo/fronteras del material activo: Demo paths: debe haber exactamente las tres rutas happy, override y ood_abstain (nombres canónicos).. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T4-B-E1",
+      "code": "cards = [\"model\", \"data\", \"system\"]\nmeets = set(cards) == {\"model\", \"data\", \"system\"}\nstatus = \"PASS\" if meets else \"REJECT_CARDS\"\nprint(\"S39-T4-B\", status)\n",
+      "justification_from_packet": "Para S39-T4-B-E1 me basé en canónico/sintéticos del material activo: Valida las tres cards de cierre sobre `CASO-LIM-039-T4B`.. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T4-B-E2",
+      "code": "def assess(payload: dict) -> str:\n    if \"value\" not in payload:\n        return \"MISSING:value\"\n    val = payload[\"value\"]\n    if \"override_rate\" not in val:\n        return \"REJECT_VALUE_METRICS\"\n    return \"PASS\"\n\nvalid = {\"value\": {\"precision_at_k\": 0.55, \"override_rate\": 0.12, \"median_review_s\": 90}}\ninvalid = {\"value\": {\"auc\": 0.91}}\nincomplete = {\"cards\": [\"model\"]}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S39-T4-B-E2 me basé en cadena/grafo del material activo: Métricas de valor: debe existir override_rate (y preferible precision_at_k, median_review_s). Válido. Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    },
+    {
+      "exercise_id": "S39-T4-B-E3",
+      "code": "def decide(pm: dict):\n    if pm.get(\"blameless\") is not True:\n        return \"REJECT_BLAME\", False\n    if not pm.get(\"root_cause\") or not pm.get(\"actions\"):\n        return \"REQUEST_ACTIONS\", False\n    return \"CONTINUE\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T4B\",\n    \"blameless\": True,\n    \"root_cause\": \"calib_drift\",\n    \"actions\": [\"rollback\", \"recalibrate\"],\n}\nprint(*decide(happy))\n",
+      "justification_from_packet": "Para S39-T4-B-E3 me basé en fronteras/features del material activo: Postmortem blameless: requiere blameless=True, root_cause no vacío y actions no vacía. Si blameless . Corregí solo el TODO o predicado defectuoso del starter y respeté fixtures sintéticos @example.pe."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "El label_space del triage N3 prefiere needs_review/prioridad de cola, no fraud_certainty; la teoría del paquete habla de cadena."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "CF-3 y la regresión S27–S39 se documentan aquí; el PASS lo califica otra lane, no esta autoría; la teoría del paquete habla de intake."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Evidence packet debe incluir evidencia y path además del score, no solo el número del modelo; la teoría del paquete habla de sintéticos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Ante incidente grave el modo seguro es human_only / rollback a artefacto previo versionado; la teoría del paquete habla de familia."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "Un breaking change en graph_schema exige bump major, owner contactable y revalidación de paths; la teoría del paquete habla de relacional."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:51:46.429920+00:00",
+  "session_started_at": "2026-07-23T16:51:01.429716+00:00",
+  "session_ended_at": "2026-07-23T16:51:46.427983+00:00",
+  "receipt_response_sha256": "073779b17abb8612d55038efc274940d1cc3285b6a2d2b4bcdbfca8d4d8eb705",
+  "receipt_exercises_sha256": "43f58df69509eaeb4c77793fc83d191c7398649cfe2141673e99ea2cbd00d0ea",
+  "receipt_selfcheck_sha256": "a24f4270b3b728b1d7f35acc97da37be337864e490da2614e24605a23ce92fd5"
+}

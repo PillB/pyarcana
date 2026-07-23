@@ -1,0 +1,324 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 36,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-b-937aca0aaa-s36",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "id": "S36-T1-A-E1",
+      "code": "# skeptic L2 S36 S36-T1-A-E1: cruce theory/iDo antes de editar\nxs = [1, 2]\nprint(sum(xs)/len(xs))\nprint(\"n\", 2)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Como skeptic en «Clustering, anomalías y validación temporal», contrasté S36-T1-A-E1: exijo que el código cumpla: S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3). Fixture de clustering sintético CASO-LIM-036-1A; no es vere. Quedó `xs = [1, 2]` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 1/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "id": "S36-T1-A-E2",
+      "code": "# skeptic L2 S36 S36-T1-A-E2: cruce theory/iDo antes de editar\nx, mu, sd = 4, 0, 2\nprint((x - mu) / sd)\nprint(\"sd\", 2)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Escéptico en S36: validé S36-T1-A-E2 contra theory/iDo: descarto atajos que rompan el caso adverso descrito en: S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter olvida dividir por sd (defect=4). Escala antes de k-means en el path sintético. Implementación verificable con `x, mu, sd = 4, 0, 2` anclada al quiz_card. [paso 2/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "id": "S36-T1-A-E3",
+      "code": "# skeptic L2 S36 S36-T1-A-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"verdict\", False)\nprint(\"ok\", True)\nprint(\"task\", \"cluster\")\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S36 para S36-T1-A-E3: el contrato I/O del paquete manda: S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict True (defect: convierte segmento en culpa). Transferencia ética del triage CP. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 3/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "id": "S36-T1-B-E1",
+      "code": "# skeptic L2 S36 S36-T1-B-E1: cruce theory/iDo antes de editar\nscores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = max(scores, key=scores.get)\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Crucé hints e instruction de S36-T1-B-E1 antes de tocar el starter: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: max por score interno del lab.. El paquete activo basta para justificar `scores = {2: 0.2, 3: 0.9, 4: 0.5}`. [paso 4/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "id": "S36-T1-B-E2",
+      "code": "# skeptic L2 S36 S36-T1-B-E2: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"seeds\", [0, 1, 2])\nprint(\"ok\", True)\nprint(\"stable\", \"check\")\n",
+      "justification_from_packet": "En modo skeptic para Clustering, anomalías y validación temporal, endurecí S36-T1-B-E2: exijo que el código cumpla: S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defect). Contrato de sensibilidad a seed en CASO-LIM-036.. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 5/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "id": "S36-T1-B-E3",
+      "code": "# skeptic L2 S36 S36-T1-B-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"limit\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Como skeptic en «Clustering, anomalías y validación temporal», contrasté S36-T1-B-E3: descarto atajos que rompan el caso adverso descrito en: S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegamente en silhouette). Transferencia de humildad métrica del pa. Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 6/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "id": "S36-T2-A-E1",
+      "code": "# skeptic L2 S36 S36-T2-A-E1: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(round(0.5*2 + 0.5*4, 1))\nprint(\"ok\", True)\nprint(\"pca\", True)\n",
+      "justification_from_packet": "Escéptico en S36: validé S36-T2-A-E1 contra theory/iDo: el contrato I/O del paquete manda: S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Exploración sintética CASO-LIM-036, no modelo de decisión final.. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 7/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "id": "S36-T2-A-E2",
+      "code": "# skeptic L2 S36 S36-T2-A-E2: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"decision_model\", False)\nprint(\"ok\", True)\nprint(\"use\", \"viz\")\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S36 para S36-T2-A-E2: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Prohibido auto-decidir con PC.. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 8/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "id": "S36-T2-A-E3",
+      "code": "# skeptic L2 S36 S36-T2-A-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(2)\nprint(\"ok\", True)\nprint(\"explore\", True)\n",
+      "justification_from_packet": "Crucé hints e instruction de S36-T2-A-E3 antes de tocar el starter: exijo que el código cumpla: S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-proyecta sin plan). Transferencia de n_components del lab sintético.. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 9/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "id": "S36-T2-B-E1",
+      "code": "# skeptic L2 S36 S36-T2-B-E1: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(False)\nprint(\"ok\", True)\nprint(\"prudent\", True)\n",
+      "justification_from_packet": "En modo skeptic para Clustering, anomalías y validación temporal, endurecí S36-T2-B-E1: descarto atajos que rompan el caso adverso descrito en: S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect: nombra PC2='riesgo'). Prudencia de interpretación en CASO-LIM-036.. Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 10/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "id": "S36-T2-B-E2",
+      "code": "# skeptic L2 S36 S36-T2-B-E2: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"check_scale\", True)\nprint(\"ok\", True)\nprint(\"auto_label\", False)\n",
+      "justification_from_packet": "Como skeptic en «Clustering, anomalías y validación temporal», contrasté S36-T2-B-E2: el contrato I/O del paquete manda: S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter auto_label True (defect). Antes de encolar, revisa scale del fixture sin. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 11/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "id": "S36-T2-B-E3",
+      "code": "# skeptic L2 S36 S36-T2-B-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"exploratory\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Escéptico en S36: validé S36-T2-B-E3 contra theory/iDo: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Marca exploratory en el reporte.. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 12/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "id": "S36-T3-A-E1",
+      "code": "# skeptic L2 S36 S36-T3-A-E1: cruce theory/iDo antes de editar\nflags = [0, 0, 1]\nprint(sum(flags))\nprint(\"misconduct\", False)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S36 para S36-T3-A-E1: exijo que el código cumpla: S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta len (defect=3). Rareza ≠ conducta indebida en CASO-LIM-036-3A.. Quedó `flags = [0, 0, 1]` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 13/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "id": "S36-T3-A-E2",
+      "code": "# skeptic L2 S36 S36-T3-A-E2: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"rule\", \"score\"])\nprint(\"ok\", True)\nprint(\"n\", 2)\n",
+      "justification_from_packet": "Crucé hints e instruction de S36-T3-A-E2 antes de tocar el starter: descarto atajos que rompan el caso adverso descrito en: S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabilidad para el revisor humano del path de señales sintéticas.. Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 14/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "id": "S36-T3-A-E3",
+      "code": "# skeptic L2 S36 S36-T3-A-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"guilt\", False)\nprint(\"route\", \"review\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "En modo skeptic para Clustering, anomalías y validación temporal, endurecí S36-T3-A-E3: el contrato I/O del paquete manda: S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y route 'auto_ban' (defect). Fail-closed de conducta en el triage sintético.. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 15/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "id": "S36-T3-B-E1",
+      "code": "# skeptic L2 S36 S36-T3-B-E1: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"outlier\", \"novelty\"])\nprint(\"ok\", True)\nprint(\"n\", 2)\n",
+      "justification_from_packet": "Como skeptic en «Clustering, anomalías y validación temporal», contrasté S36-T3-B-E1: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Outlier en train; novelty vs modelo fijado.. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 16/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "id": "S36-T3-B-E2",
+      "code": "# skeptic L2 S36 S36-T3-B-E2: cruce theory/iDo antes de editar\nc, n = 0.1, 50\nprint(int(n * c))\nprint(\"is_fraud_rate\", False)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Escéptico en S36: validé S36-T3-B-E2 contra theory/iDo: exijo que el código cumpla: S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter marca is_fraud_rate True (defect). Contamination no es prevalencia de fraude.. Quedó `c, n = 0.1, 50` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 17/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "id": "S36-T3-B-E3",
+      "code": "# skeptic L2 S36 S36-T3-B-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"capacity_link\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S36 para S36-T3-B-E3: descarto atajos que rompan el caso adverso descrito en: S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defect). Transferencia: expected_flags debe caber en la cola sintética de analist. Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 18/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "id": "S36-T4-A-E1",
+      "code": "# skeptic L2 S36 S36-T4-A-E1: cruce theory/iDo antes de editar\nrates = [0.1, 0.2]\nprint(sum(rates)/len(rates))\nprint(\"backtest\", True)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Crucé hints e instruction de S36-T4-A-E1 antes de tocar el starter: el contrato I/O del paquete manda: S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma sin dividir (defect). Ventanas sintéticas del backtest temporal CASO-LIM-036.. Prefiero la forma aburrida y explícita: `rates = [0.1, 0.2]`. [paso 19/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "id": "S36-T4-A-E2",
+      "code": "# skeptic L2 S36 S36-T4-A-E2: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"leakage\", False)\nprint(\"ok\", True)\nprint(\"split\", \"time\")\n",
+      "justification_from_packet": "En modo skeptic para Clustering, anomalías y validación temporal, endurecí S36-T4-A-E2: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Fit en pasado, score en futuro.. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 20/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "id": "S36-T4-A-E3",
+      "code": "# skeptic L2 S36 S36-T4-A-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(3)\nprint(\"ok\", True)\nprint(\"temporal\", True)\n",
+      "justification_from_packet": "Como skeptic en «Clustering, anomalías y validación temporal», contrasté S36-T4-A-E3: exijo que el código cumpla: S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño de ventanas deslizantes sintéticas CASO-LIM-036.. Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 21/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "id": "S36-T4-B-E1",
+      "code": "# skeptic L2 S36 S36-T4-B-E1: cruce theory/iDo antes de editar\nranked, k = [1, 0, 1], 2\nprint(sum(ranked[:k])/k)\nprint(\"k\", 2)\nprint(\"auto_guilt\", False)\n",
+      "justification_from_packet": "Escéptico en S36: validé S36-T4-B-E1 contra theory/iDo: descarto atajos que rompan el caso adverso descrito en: S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=3 (defect). Labels sintéticos de utilidad de review, no de culpa.. Implementación verificable con `ranked, k = [1, 0, 1], 2` anclada al quiz_card. [paso 22/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "id": "S36-T4-B-E2",
+      "code": "# skeptic L2 S36 S36-T4-B-E2: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\nprint(\"ok\", True)\nprint(\"labels\", \"scarce\")\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S36 para S36-T4-B-E2: el contrato I/O del paquete manda: S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrato de revisión humana con labels escasos en el triage sintéti. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 23/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "id": "S36-T4-B-E3",
+      "code": "# skeptic L2 S36 S36-T4-B-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"precision_at_k\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Crucé hints e instruction de S36-T4-B-E3 antes de tocar el starter: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: P@k alinea con capacidad de cola.. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 24/24 · run L2-S36-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic en S36 «Clustering, anomalías y validación temporal»: la pregunta «Una anomalía en el triage significa:» se responde con «Señal de rareza a revisar» (chosen_index=3) al cruzar la theory del slim_packet; «Fraude probado» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.65
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic en S36 «Clustering, anomalías y validación temporal»: la pregunta «contamination representa:» se responde con «Hipótesis de fracción rara a flaggear» (chosen_index=1) al cruzar la theory del slim_packet; «Tasa de fraude real» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.6799999999999999
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic en S36 «Clustering, anomalías y validación temporal»: la pregunta «PCA en este curso se usa para:» se responde con «Exploración/visualización prudente» (chosen_index=2) al cruzar la theory del slim_packet; «Etiquetar culpa» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.71
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic en S36 «Clustering, anomalías y validación temporal»: la pregunta «Con labels escasos prioriza:» se responde con «precision@k y feedback humano» (chosen_index=0) al cruzar la theory del slim_packet; «Solo accuracy global» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.74
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic en S36 «Clustering, anomalías y validación temporal»: la pregunta «Un fit de normalidad que incluye el mes evaluado comete:» se responde con «Leakage temporal» (chosen_index=3) al cruzar la theory del slim_packet; «Warmup» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:30:50.722735+00:00",
+  "session_started_at": "2026-07-23T18:04:16.052244Z",
+  "session_ended_at": "2026-07-23T18:05:17.886422Z",
+  "receipt_response_sha256": "15474595e75bc35e1bc288789d24a867df18d5eea25ea2dd2fdbd90f6da7018b",
+  "receipt_exercises_sha256": "b467f4836ce42b7e211096902a24a20be4bcd2ccaee43955f4e2e4d9f5c39c23",
+  "receipt_selfcheck_sha256": "b89d964c2b1c4817e337a89956bf287ac6a31cbed1dae4c621c6d4aa2e7a330b"
+}

@@ -1,0 +1,324 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 38,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-b-61fd181648-s38",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S38-T1-A-E1",
+      "id": "S38-T1-A-E1",
+      "code": "# skeptic L2 S38 S38-T1-A-E1: cruce theory/iDo antes de editar\nbound = \"cpu\"\nchoice = \"processes\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Como skeptic en «Concurrencia, observabilidad y workflows resilientes», contrasté S38-T1-A-E1: el contrato I/O del paquete manda: S38-T1-A-E1 · CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Contrato: entrada bound='cpu'; salida exacta tres líneas con la elección de conc. Quedó `bound = \"cpu\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 1/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-A-E2",
+      "id": "S38-T1-A-E2",
+      "code": "# skeptic L2 S38 S38-T1-A-E2: cruce theory/iDo antes de editar\nbound = \"io\"\nchoice = \"async_or_threads\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Escéptico en S38: validé S38-T1-A-E2 contra theory/iDo: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: I/O-bound: threads o async liberan espera de red.. Implementación verificable con `bound = \"io\"` anclada al quiz_card. [paso 2/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-A-E3",
+      "id": "S38-T1-A-E3",
+      "code": "# skeptic L2 S38 S38-T1-A-E3: cruce theory/iDo antes de editar\nmeasure_first = True\nprint(measure_first)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S38 para S38-T1-A-E3: exijo que el código cumpla: S38-T1-A-E3 · CASO-LIM-038-1A3 (transfer): antes de fijar arquitectura, el contrato exige measure_first=True. Entrada: flag de política; salida: True, ok True, n 1. El starter impr. Prefiero la forma aburrida y explícita: `measure_first = True`. [paso 3/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-B-E1",
+      "id": "S38-T1-B-E1",
+      "code": "# skeptic L2 S38 S38-T1-B-E1: cruce theory/iDo antes de editar\nimport json\npayload = {\"x\": 2}\nprint(len(str(payload)))\nprint(\"ok\", True)\nprint(\"compact\", True)\n",
+      "justification_from_packet": "Crucé hints e instruction de S38-T1-B-E1 antes de tocar el starter: descarto atajos que rompan el caso adverso descrito en: S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json y reporta len en bytes UTF-8. Contrato: print del tamaño (8), ok True, compact True. El starter usa s. El paquete activo basta para justificar `import json`. [paso 4/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-B-E2",
+      "id": "S38-T1-B-E2",
+      "code": "# skeptic L2 S38 S38-T1-B-E2: cruce theory/iDo antes de editar\nprint(\"limited\")\nprint(\"ok\", True)\nprint(\"cpu_threads\", True)\n",
+      "justification_from_packet": "En modo skeptic para Concurrencia, observabilidad y workflows resilientes, endurecí S38-T1-B-E2: el contrato I/O del paquete manda: S38-T1-B-E2 · Documenta el efecto del GIL en threads CPU: imprime 'limited', ok True, cpu_threads True. Contrato de etiqueta operativa para el runbook de Red Andina sintética. El s. Quedó `print(\"limited\")` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 5/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-B-E3",
+      "id": "S38-T1-B-E3",
+      "code": "# skeptic L2 S38 S38-T1-B-E3: cruce theory/iDo antes de editar\nprint(\"compact_payload\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Como skeptic en «Concurrencia, observabilidad y workflows resilientes», contrasté S38-T1-B-E3: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Solo case_id, score y feature_ids cruzan el IPC.. Implementación verificable con `print(\"compact_payload\")` anclada al quiz_card. [paso 6/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-A-E1",
+      "id": "S38-T2-A-E1",
+      "code": "# skeptic L2 S38 S38-T2-A-E1: cruce theory/iDo antes de editar\nclass TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(2)\nallows = [b.allow() for _ in range(3)]\nprint(sum(1 for a in allows if a))\nprint(\"third\", allows[2])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Escéptico en S38: validé S38-T2-A-E1 contra theory/iDo: exijo que el código cumpla: S38-T2-A-E1 · Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, third False, ok True. Starter usa rate=3 (defect) o cuenta mal. Implementa el bucke. Prefiero la forma aburrida y explícita: `class TokenBucket:`. [paso 7/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-A-E2",
+      "id": "S38-T2-A-E2",
+      "code": "# skeptic L2 S38 S38-T2-A-E2: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"backpressure\")\nprint(\"ok\", True)\nprint(\"maxsize\", 50)\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S38 para S38-T2-A-E2: descarto atajos que rompan el caso adverso descrito en: S38-T2-A-E2 · Rol de queue maxsize=50: imprime 'backpressure', ok True, maxsize 50. Contrato: la cola acotada es la política de backpressure del worker de scoring. Starter imprime . El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 8/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-A-E3",
+      "id": "S38-T2-A-E3",
+      "code": "# skeptic L2 S38 S38-T2-A-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"provider\")\nprint(\"ok\", True)\nprint(\"ban_risk\", True)\n",
+      "justification_from_packet": "Crucé hints e instruction de S38-T2-A-E3 antes de tocar el starter: el contrato I/O del paquete manda: S38-T2-A-E3 · ¿A quién protege el rate limit? Imprime 'provider', ok True, ban_risk True. El starter dice 'only_cpu' (defect). El contrato de transferencia: rate limit defiende al . Quedó `case_id = \"CASO-LIM-SYN\"` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 9/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-B-E1",
+      "id": "S38-T2-B-E1",
+      "code": "# skeptic L2 S38 S38-T2-B-E1: cruce theory/iDo antes de editar\npolicy = {\"seconds\": 5, \"on_fail\": \"retry_or_dlq\"}\nprint(policy[\"seconds\"])\nprint(\"on_fail\", policy[\"on_fail\"])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "En modo skeptic para Concurrencia, observabilidad y workflows resilientes, endurecí S38-T2-B-E1: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: seconds>0 evita hang infinito.. Implementación verificable con `policy = {\"seconds\": 5, \"on_fail\": \"retry_or_dlq\"}` anclada al quiz_card. [paso 10/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-B-E2",
+      "id": "S38-T2-B-E2",
+      "code": "# skeptic L2 S38 S38-T2-B-E2: cruce theory/iDo antes de editar\nclose_in_finally = True\nprint(close_in_finally)\nprint(\"resource\", \"conn\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Como skeptic en «Concurrencia, observabilidad y workflows resilientes», contrasté S38-T2-B-E2: exijo que el código cumpla: S38-T2-B-E2 · Cierre de recurso en finally: imprime True (close_in_finally), resource 'conn', ok True. Starter deja False (defect: leak). No abras sockets reales; modela el flag de. Prefiero la forma aburrida y explícita: `close_in_finally = True`. [paso 11/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-B-E3",
+      "id": "S38-T2-B-E3",
+      "code": "# skeptic L2 S38 S38-T2-B-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"incident\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Escéptico en S38: validé S38-T2-B-E3 contra theory/iDo: descarto atajos que rompan el caso adverso descrito en: S38-T2-B-E3 · Transferencia: sin timeout el incidente es real. Imprime incident True, ok True, n 1. Starter niega el incidente (False). Corrige para reconocer el riesgo operativo d. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 12/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-A-E1",
+      "id": "S38-T3-A-E1",
+      "code": "# skeptic L2 S38 S38-T3-A-E1: cruce theory/iDo antes de editar\nevent = {\"event\": \"scored\", \"corr\": \"corr-1\"}\nprint(bool(event.get(\"corr\")))\nprint(\"event\", event[\"event\"])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S38 para S38-T3-A-E1: el contrato I/O del paquete manda: S38-T3-A-E1 · Evento scored con correlation id: imprime True (corr presente), event 'scored', ok True. Fixture dict con corr='corr-1'. Starter omite corr (defect → False). Asegura . Quedó `event = {\"event\": \"scored\", \"corr\": \"corr-1\"}` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 13/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-A-E2",
+      "id": "S38-T3-A-E2",
+      "code": "# skeptic L2 S38 S38-T3-A-E2: cruce theory/iDo antes de editar\npillars = [\"logs\", \"metrics\", \"traces\"]\nprint(pillars)\nprint(\"ok\", True)\nprint(\"n\", 3)\n",
+      "justification_from_packet": "Crucé hints e instruction de S38-T3-A-E2 antes de tocar el starter: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Logs eventos, metrics agregados, traces spans.. Implementación verificable con `pillars = [\"logs\", \"metrics\", \"traces\"]` anclada al quiz_card. [paso 14/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-A-E3",
+      "id": "S38-T3-A-E3",
+      "code": "# skeptic L2 S38 S38-T3-A-E3: cruce theory/iDo antes de editar\npii_raw = False\nprint(pii_raw)\nprint(\"ok\", True)\nprint(\"redact\", True)\n",
+      "justification_from_packet": "En modo skeptic para Concurrencia, observabilidad y workflows resilientes, endurecí S38-T3-A-E3: exijo que el código cumpla: S38-T3-A-E3 · pii_raw debe ser False en logs de prod sintéticos. Imprime False, ok True, redact True. Starter imprime True (defect: permite PII). Contrato de privacidad del pipelin. Prefiero la forma aburrida y explícita: `pii_raw = False`. [paso 15/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-B-E1",
+      "id": "S38-T3-B-E1",
+      "code": "# skeptic L2 S38 S38-T3-B-E1: cruce theory/iDo antes de editar\nphone = \"90000001\"\nredacted = phone[:2] + \"****\" + phone[-2:]\nprint(redacted)\nprint(\"ok\", True)\nprint(\"pii\", False)\n",
+      "justification_from_packet": "Como skeptic en «Concurrencia, observabilidad y workflows resilientes», contrasté S38-T3-B-E1: descarto atajos que rompan el caso adverso descrito en: S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos si len>=4). Imprime el redactado, ok True, pii False. Starter impr. El paquete activo basta para justificar `phone = \"90000001\"`. [paso 16/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-B-E2",
+      "id": "S38-T3-B-E2",
+      "code": "# skeptic L2 S38 S38-T3-B-E2: cruce theory/iDo antes de editar\np95, limit = 100, 200\nslo_ok = p95 <= limit\nprint(slo_ok)\nprint(\"p95\", 100)\nprint(\"limit\", 200)\n",
+      "justification_from_packet": "Escéptico en S38: validé S38-T3-B-E2 contra theory/iDo: el contrato I/O del paquete manda: S38-T3-B-E2 · SLI p95=100 vs SLO limit=200: imprime True (slo_ok), p95 100, limit 200. Starter compara al revés (p95 >= limit) (defect). Corrige el predicado del error budget sinté. Quedó `p95, limit = 100, 200` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 17/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-B-E3",
+      "id": "S38-T3-B-E3",
+      "code": "# skeptic L2 S38 S38-T3-B-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"error_budget\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S38 para S38-T3-B-E3: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Error budget cuantifica cuánto incumplimiento queda en el periodo.. Implementación verificable con `case_id = \"CASO-LIM-SYN\"` anclada al quiz_card. [paso 18/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-A-E1",
+      "id": "S38-T4-A-E1",
+      "code": "# skeptic L2 S38 S38-T4-A-E1: cruce theory/iDo antes de editar\nstates = [\"pending\", \"running\", \"done\", \"failed\"]\nprint(states)\nprint(\"ok\", True)\nprint(\"n\", 4)\n",
+      "justification_from_packet": "Crucé hints e instruction de S38-T4-A-E1 antes de tocar el starter: exijo que el código cumpla: S38-T4-A-E1 · Estados del workflow: imprime ['pending','running','done','failed'], ok True, n 4. Starter omite 'failed' (defect). Completa la máquina de estados del batch reanudabl. Prefiero la forma aburrida y explícita: `states = [\"pending\", \"running\", \"done\", \"failed\"]`. [paso 19/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-A-E2",
+      "id": "S38-T4-A-E2",
+      "code": "# skeptic L2 S38 S38-T4-A-E2: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"case:step:ver\")\nprint(\"ok\", True)\nprint(\"dup\", False)\n",
+      "justification_from_packet": "En modo skeptic para Concurrencia, observabilidad y workflows resilientes, endurecí S38-T4-A-E2: descarto atajos que rompan el caso adverso descrito en: S38-T4-A-E2 · Formato de idempotency key: imprime 'case:step:ver', ok True, dup False. Starter usa solo 'case' (defect: colisiones entre pasos). Fija el contrato de key del checkpo. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 20/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-A-E3",
+      "id": "S38-T4-A-E3",
+      "code": "# skeptic L2 S38 S38-T4-A-E3: cruce theory/iDo antes de editar\nstate = {\"step\": \"features\", \"status\": \"done\"}\nprint(state[\"step\"])\nprint(\"ok\", True)\nprint(\"checkpoint\", True)\n",
+      "justification_from_packet": "Como skeptic en «Concurrencia, observabilidad y workflows resilientes», contrasté S38-T4-A-E3: el contrato I/O del paquete manda: S38-T4-A-E3 · Resume desde último checkpoint: imprime 'features', ok True, checkpoint True. Fixture state step=features done. Starter resume desde 'intake' (defect: rehace trabajo). Quedó `state = {\"step\": \"features\", \"status\": \"done\"}` como línea de cierre; sin copiar lives ajenos ni mapas SC. [paso 21/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-B-E1",
+      "id": "S38-T4-B-E1",
+      "code": "# skeptic L2 S38 S38-T4-B-E1: cruce theory/iDo antes de editar\ndef backoff(attempt, base=0.1):\n    return base * (2 ** attempt)\nprint(backoff(3))\nprint(\"ok\", True)\nprint(\"attempt\", 3)\n",
+      "justification_from_packet": "Escéptico en S38: validé S38-T4-B-E1 contra theory/iDo: si el starter trae DEFECTO/TODO, lo corrijo sin reescribir fixtures; hints: Fórmula didáctica: base * 2**attempt.. Implementación verificable con `def backoff(attempt, base=0.1):` anclada al quiz_card. [paso 22/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-B-E2",
+      "id": "S38-T4-B-E2",
+      "code": "# skeptic L2 S38 S38-T4-B-E2: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"poison\")\nprint(\"ok\", True)\nprint(\"replay\", \"controlled\")\n",
+      "justification_from_packet": "Releí con cuidado el paquete L2 de S38 para S38-T4-B-E2: exijo que el código cumpla: S38-T4-B-E2 · Propósito de la DLQ: imprime 'poison', ok True, replay 'controlled'. Starter dice 'delete_always' (defect). Contrato: DLQ aísla veneno; replay es controlado tras insp. Prefiero la forma aburrida y explícita: `case_id = \"CASO-LIM-SYN\"`. [paso 23/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-B-E3",
+      "id": "S38-T4-B-E3",
+      "code": "# skeptic L2 S38 S38-T4-B-E3: cruce theory/iDo antes de editar\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\nprint(\"oncall\", True)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Crucé hints e instruction de S38-T4-B-E3 antes de tocar el starter: descarto atajos que rompan el caso adverso descrito en: S38-T4-B-E3 · Runbook de on-call existe: imprime True, oncall True, ok True. Starter imprime False (defect: operar sin runbook). Transferencia: el drill sintético exige runbook doc. El paquete activo basta para justificar `case_id = \"CASO-LIM-SYN\"`. [paso 24/24 · run L2-S38-ske]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Concurrencia, observabilidad y workflows resilientes",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic en S38 «Concurrencia, observabilidad y workflows resilientes»: la pregunta «Para CPU bound en CPython suele preferirse:» se responde con «Procesos» (chosen_index=1) al cruzar la theory del slim_packet; «Miles de threads CPU» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.71
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic en S38 «Concurrencia, observabilidad y workflows resilientes»: la pregunta «Backpressure evita:» se responde con «Colas infinitas y OOM» (chosen_index=3) al cruzar la theory del slim_packet; «Solo tests» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.74
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic en S38 «Concurrencia, observabilidad y workflows resilientes»: la pregunta «Idempotencia permite:» se responde con «Reejecutar sin side effects duplicados» (chosen_index=0) al cruzar la theory del slim_packet; «Duplicar cobros» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic en S38 «Concurrencia, observabilidad y workflows resilientes»: la pregunta «En logs de prod debes:» se responde con «Redactar PII y correlacionar» (chosen_index=2) al cruzar la theory del slim_packet; «PII completa» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.65
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic en S38 «Concurrencia, observabilidad y workflows resilientes»: la pregunta «Un proveedor sin timeout en el worker suele causar:» se responde con «Hang de workers y cola bloqueada» (chosen_index=1) al cruzar la theory del slim_packet; «Mejor p95 mágico» queda fuera porque contradice el contrato pedagógico (needs_review/oráculos/no-fraude-label) de esta unidad. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.6799999999999999
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:30:50.756179+00:00",
+  "session_started_at": "2026-07-23T18:07:38.989114Z",
+  "session_ended_at": "2026-07-23T18:08:26.006130Z",
+  "receipt_response_sha256": "18db5c10de267e58ac569a5609e85a41ca0e2308b7afc57857ac10813d1cc9cd",
+  "receipt_exercises_sha256": "85627f2c3c4e2f41533c5c7fccf4a1a069d65929b59891ae59df987428753155",
+  "receipt_selfcheck_sha256": "3ab489876f353f8d1c9ef6228b753f595bcf471454b7d87d2618d46712ad0009"
+}

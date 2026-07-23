@@ -21,7 +21,7 @@
   "independence_baseline": "agentic_K1",
   "independence_rule": "Do not read agentic_K1 lives; prior_clean only for independence metric",
   "pacing": "staggered dual-LLM waves; varied natural latencies 12-70s; no generators",
-  "status": "clean_52",
+  "status": "REJECTED_THEATER",
   "frozen_at": "2026-07-23T15:59:11.223586+00:00",
   "validation": {
     "clean_52": true,
@@ -33,5 +33,6 @@
     "just_identity": 0.0,
     "code_identity": 0.0292,
     "sc_index_same": 1.0
-  }
+  },
+  "rejection_reason": "bulk generator / phrase-bank / SC_KEYS / reseal (skeptic 2026-07-23)"
 }

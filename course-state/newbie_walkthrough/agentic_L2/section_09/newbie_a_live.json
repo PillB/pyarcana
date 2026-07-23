@@ -1,0 +1,229 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 9,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-newbie_a-s09-6a4ae87b44cd",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S09-T1-A-E1",
+      "code": "fallos = [\n    (\"int('x')\", \"ValueError\"),\n    (\"sumar str + int\", \"TypeError\"),\n    (\"dict sin clave email\", \"KeyError\"),\n    (\"abrir archivo inexistente\", \"FileNotFoundError\"),\n    (\"regla de negocio: monto < 0\", \"ValueError\"),\n]\nfor fallo, tipo in fallos:\n    print(f\"{fallo} -> {tipo}\")\n",
+      "justification_from_packet": "Como explorer aplico «Un **correlation_id** (o request_id) viaja por capas (CLI → service → ». En S09-T1-A-E1 resolví: Mapea 5 fallos sintéticos al tipo de excepción más adecuado e imprime `fallo -> . Me guié también por «Idempotencia, retries y cuarentena» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T1-A-E2",
+      "code": "from decimal import Decimal, InvalidOperation, ROUND_HALF_UP\n\ndef parse_monto(raw):\n    s = str(raw).strip().replace(',', '.')\n    try:\n        val = Decimal(s)\n    except (InvalidOperation, TypeError) as e:\n        raise ValueError(f\"monto no parseable: {raw!r}\") from e\n    if not val.is_finite():\n        raise ValueError(f\"monto no finito: {raw!r}\")\n    if val < 0:\n        raise ValueError(f\"monto negativo: {val}\")\n    return val.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)\n\nfor v in [\"10.5\", \"3,25\", \"abc\", \"-1\"]:\n    try:\n        print(v, \"->\", parse_monto(v))\n    except ValueError as e:\n        print(v, \"ERR\", e)\n",
+      "justification_from_packet": "Como explorer aplico «Elegir tipos de excepción, raise con contexto y chaining con from». En S09-T1-A-E2 resolví: Implementa `parse_monto(raw)` con `Decimal`: normaliza coma decimal, cuantiza a . Me guié también por «Reducir fallos a minimal repro con hipótesis y tests de…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T1-A-E3",
+      "code": "class DataLoadError(Exception):\n    pass\n\ndef load_text(path_fn):\n    try:\n        return path_fn()\n    except OSError as e:\n        raise DataLoadError(f\"no se pudo cargar: {e}\") from e\n\ndef bad_reader():\n    raise OSError(\"no such file: data/clientes.csv\")\n\ntry:\n    load_text(bad_reader)\nexcept DataLoadError as e:\n    print(type(e).__name__, e)\n    print(type(e.__cause__).__name__, e.__cause__)\n",
+      "justification_from_packet": "Como explorer aplico «Fronteras de recuperación y cleanup». En S09-T1-A-E3 resolví: Define `DataLoadError` y `load_text(path_fn)` que captura OSError del lector y r. Me guié también por «Un **traceback** lista frames del más reciente al más profun» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T1-B-E1",
+      "code": "state = {\"closed\": False}\n\ndef work(fail: bool):\n    try:\n        if fail:\n            raise RuntimeError(\"boom\")\n        return \"ok\"\n    finally:\n        state[\"closed\"] = True\n\nprint(work(False), state)\ntry:\n    work(True)\nexcept RuntimeError:\n    print(\"err\", state)\n",
+      "justification_from_packet": "Como explorer aplico «Dibujar fronteras try/except/finally y separar recuperable vs fatal». En S09-T1-B-E1 resolví: Completa el `finally` para marcar el recurso como cerrado aunque haya excepción.. Me guié también por «Configurar logging con niveles y campos estructurados»…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T1-B-E2",
+      "code": "def parse_or_default(raw, default=0):\n    try:\n        return int(raw)\n    except (TypeError, ValueError):\n        return default\n\nprint(parse_or_default(\"10\"), parse_or_default(\"x\"))\n",
+      "justification_from_packet": "Como explorer aplico «Niveles y estructura de logging». En S09-T1-B-E2 resolví: Clasifica 6 errores en recover o fail-fast e imprime `nombre: política`.. Me guié también por «Un **correlation_id** (o request_id) viaja por capas (CLI → » del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T1-B-E3",
+      "code": "def run_job(cfg):\n    if not cfg.get(\"delimiter\"):\n        raise RuntimeError(\"fail-fast: delimiter vacío en config\")\n    return \"ok\"\n\ntry:\n    print(run_job({\"delimiter\": \",\"}))\n    print(run_job({\"delimiter\": \"\"}))\nexcept RuntimeError as e:\n    print(e)\n",
+      "justification_from_packet": "Como explorer aplico «Idempotencia, retries y cuarentena». En S09-T1-B-E3 resolví: Refactoriza el handler bare: captura ValueError (cuarentena) y deja propagar el . Me guié también por «Dibujar fronteras try/except/finally y separar recuperable v» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T2-A-E1",
+      "code": "import logging\nlogging.basicConfig(level=logging.INFO)\nlog = logging.getLogger(\"intake\")\nlog.info(\"filas_leidas=%s\", 3)\nprint(\"logged\")\n",
+      "justification_from_packet": "Como explorer aplico «Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError`». En S09-T2-A-E1 resolví: Dado un traceback sintético en string, anota 3 frames (nombre de función) de afu. Me guié también por «Traceback y debugger» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T2-A-E2",
+      "code": "def mask_email(e: str) -> str:\n    if '@' not in e:\n        return '***'\n    user, dom = e.split('@', 1)\n    if not user:\n        return f'***@{dom}'\n    return f'{user[0]}***@{dom}'\n\nprint(mask_email('ana@ejemplo.pe'))\n",
+      "justification_from_packet": "Como explorer aplico «Elegir tipos de excepción, raise con contexto y chaining con from». En S09-T2-A-E2 resolví: Simula un 'breakpoint': en normalize, si falta email, imprime locals seguros (so. Me guié también por «Reducir fallos a minimal repro con hipótesis y tests de…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T2-A-E3",
+      "code": "import sys\nprint(\"dato_json\", {\"ok\": True})  # stdout\nprint(\"progreso filas=10\", file=sys.stderr)\n",
+      "justification_from_packet": "Como explorer aplico «Elegir tipos de excepción, raise con contexto y chaining con from». En S09-T2-A-E3 resolví: Solo con el traceback, imprime la causa raíz en una frase (función + clave falta. Me guié también por «Reducir fallos a minimal repro con hipótesis y tests de…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T2-B-E1",
+      "code": "def classify_error(exc):\n    if isinstance(exc, TimeoutError):\n        return \"retry\"\n    if isinstance(exc, ValueError):\n        return \"no_retry\"\n    return \"no_retry\"\n\nprint(classify_error(TimeoutError()))\nprint(classify_error(ValueError('bad')))\n",
+      "justification_from_packet": "Como explorer aplico «Tipos específicos, raise y chaining». En S09-T2-B-E1 resolví: Recorta la fixture a la fila mínima que hace fallar `parse_dni` (debe ser 8 dígi. Me guié también por «`try/except/else/finally`: **else** corre solo si no hubo ex» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T2-B-E2",
+      "code": "import time\n\ndef with_backoff(attempts=3):\n    delay = 0.01\n    for i in range(attempts):\n        try:\n            if i < 2:\n                raise TimeoutError(\"net\")\n            return \"ok\"\n        except TimeoutError:\n            time.sleep(delay)\n            delay *= 2\n    raise TimeoutError(\"exhausted\")\n\nprint(with_backoff())\n",
+      "justification_from_packet": "Como explorer aplico «Reintentar solo errores transitorios con operaciones idempotentes». En S09-T2-B-E2 resolví: Un reporte afirma que `normalize_phone` perdió el código de país +51. Formula 2 . Me guié también por «Fronteras de recuperación y cleanup» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T2-B-E3",
+      "code": "print(\"TimeoutError: puede reintentarse con backoff; ValueError de datos: no reintentar a ciegas\")\n",
+      "justification_from_packet": "Como explorer aplico «Propagar correlation_id y redactar email/teléfono/dirección». En S09-T2-B-E3 resolví: Añade un test de regresión: falla en rojo con la función bugueada y pasa tras el. Me guié también por «Tipos específicos, raise y chaining» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T3-A-E1",
+      "code": "def buggy(xs):\n    return xs[0]\n\ntry:\n    buggy([])\nexcept IndexError as e:\n    print(type(e).__name__, e)\n",
+      "justification_from_packet": "Como explorer aplico «Decidir fail-fast vs cuarentena según data|config|provider». En S09-T3-A-E1 resolví: Asigna el nivel correcto (DEBUG/INFO/WARNING/ERROR) a 6 eventos e imprime `event. Me guié también por «Prefiere **tipos concretos**: `ValueError` (valor ilegal), `» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T3-A-E2",
+      "code": "# minimal repro: la entrada más pequeña que reproduce el bug\ndef parse(xs):\n    return int(xs[0])\n\nrepro = [\"\"]  # no el CSV completo de prod\ntry:\n    parse(repro)\nexcept ValueError as e:\n    print(\"minimal_repro\", repro, type(e).__name__)\n",
+      "justification_from_packet": "Como explorer aplico «Reproducción mínima, hipótesis y causa raíz». En S09-T3-A-E2 resolví: Configura un logger de módulo con StreamHandler a un StringIO y emite un INFO es. Me guié también por «Niveles: **DEBUG** (detalle dev), **INFO** (progreso), **WAR» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T3-A-E3",
+      "code": "assert 1 + 1 == 2\nprint(\"assert como red de seguridad en dev; no única validación de negocio en prod (-O)\")\n",
+      "justification_from_packet": "Como explorer aplico «Dibujar fronteras try/except/finally y separar recuperable vs fatal». En S09-T3-A-E3 resolví: Convierte prints de un CLI stub a logs estructurados; stdout final solo con el r. Me guié también por «Configurar logging con niveles y campos estructurados»…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T3-B-E1",
+      "code": "def f(n):\n    if n < 0:\n        raise ValueError(\"n>=0\")\n    return n * 2\n\nprint(f(3))\n",
+      "justification_from_packet": "Como explorer aplico «Elegir tipos de excepción, raise con contexto y chaining con from». En S09-T3-B-E1 resolví: Implementa `mask_email` y `mask_phone` y demuéstralos con datos sintéticos perua. Me guié también por «Reducir fallos a minimal repro con hipótesis y tests de…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T3-B-E2",
+      "code": "import traceback\n\ndef top():\n    mid()\n\ndef mid():\n    bot()\n\ndef bot():\n    raise RuntimeError(\"x\")\n\ntry:\n    top()\nexcept RuntimeError:\n    print(traceback.format_exc().splitlines()[-1])\n",
+      "justification_from_packet": "Como explorer aplico «Propagar correlation_id y redactar email/teléfono/dirección». En S09-T3-B-E2 resolví: Propaga `correlation_id` por 3 capas (cli → service → repo) e imprime el id en c. Me guié también por «Tipos específicos, raise y chaining» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T3-B-E3",
+      "code": "print(\"buen minimal repro: la entrada más pequeña que reproduce el bug; no todo el CSV de producción\")\n",
+      "justification_from_packet": "Como explorer aplico «Dibujar fronteras try/except/finally y separar recuperable vs fatal». En S09-T3-B-E3 resolví: Audita estáticamente el helper inseguro sin ejecutarlo ni imprimir PII raw; lueg. Me guié también por «Configurar logging con niveles y campos estructurados»…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T4-A-E1",
+      "code": "errors = []\nfor raw in [\"10\", \"x\", \"3\"]:\n    try:\n        errors.append((\"ok\", int(raw)))\n    except ValueError as e:\n        errors.append((\"err\", str(e)))\nprint(errors)\n",
+      "justification_from_packet": "Como explorer aplico «Fronteras de recuperación y cleanup». En S09-T4-A-E1 resolví: Clasifica 8 fallos en data|config|provider e imprime `fallo: clase`.. Me guié también por «Un **traceback** lista frames del más reciente al más profun» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T4-A-E2",
+      "code": "class PipelineError(Exception):\n    pass\n\ndef step(x):\n    if x < 0:\n        raise PipelineError(\"neg\")\n    return x\n\nprint(step(1))\ntry:\n    step(-1)\nexcept PipelineError as e:\n    print(type(e).__name__, e)\n",
+      "justification_from_packet": "Como explorer aplico «Fallar rápido vs continuar con cuarentena». En S09-T4-A-E2 resolví: Implementa `process_batch` que envía filas sin `id` a quarantine y retorna conte. Me guié también por «**Retry solo errores transitorios** (`TimeoutError`, 503). `» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T4-A-E3",
+      "code": "def guard_cfg(cfg):\n    if cfg.get(\"path\") in (None, \"\"):\n        raise RuntimeError(\"fail-fast config path\")\n    return True\n\nprint(guard_cfg({\"path\": \"data.csv\"}))\n",
+      "justification_from_packet": "Como explorer aplico «Elegir tipos de excepción, raise con contexto y chaining con from». En S09-T4-A-E3 resolví: Escribe una política en 3 líneas: cuándo abortar el job (imprime POLICY:...).. Me guié también por «Reducir fallos a minimal repro con hipótesis y tests de regr»…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T4-B-E1",
+      "code": "def mask_phone(p: str) -> str:\n    digits = ''.join(ch for ch in p if ch.isdigit())\n    if len(digits) < 4:\n        return '***'\n    return '*' * (len(digits) - 4) + digits[-4:]\n\nprint(mask_phone('999111222'))\n",
+      "justification_from_packet": "Como explorer aplico «Elegir tipos de excepción, raise con contexto y chaining con from». En S09-T4-B-E1 resolví: Tabla error → retry sí/no para 5 tipos e imprime `error: yes|no`.. Me guié también por «Reducir fallos a minimal repro con hipótesis y tests de regr» del paquete…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T4-B-E2",
+      "code": "import json, sys\nprint(json.dumps({\"n\": 1}, ensure_ascii=False))\nprint(\"heartbeat\", file=sys.stderr)\n",
+      "justification_from_packet": "Como explorer aplico «Fallar rápido vs continuar con cuarentena». En S09-T4-B-E2 resolví: Implementa `retry_call(fn, max_attempts=3)` que reintenta solo TimeoutError.. Me guié también por «**Retry solo errores transitorios** (`TimeoutError`, 503). `» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S09-T4-B-E3",
+      "code": "print(\"idempotency_key ejemplo: sha256(source_file + row_id + content_hash)[:16]\")\nkey = \"clientes.csv|C001|ab12\"\nprint(\"key\", key)\n",
+      "justification_from_packet": "Como explorer aplico «Niveles: **DEBUG** (detalle dev), **INFO** (progreso), **WARNING** (an». En S09-T4-B-E3 resolví: Diseña la clave de idempotencia para re-ingesta e imprímela para un ejemplo.. Me guié también por «Fallar rápido vs continuar con cuarentena» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «Encadenar la causa en __cause__ sin perder contexto» porque el paquete en «Tipos específicos, raise y chaining» lo sostiene. Pregunta: ¿Para qué sirve `raise NewError(...) from e`?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «Fail-fast (abortar el job)» porque el paquete en «Fronteras de recuperación y cleanup» lo sostiene. Pregunta: Un delimiter vacío en config del job debería….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Elijo «Solo datos; diagnóstico a stderr» porque el paquete en «Traceback y debugger» lo sostiene. Pregunta: ¿Qué va a stdout en una CLI bien diseñada?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Elijo «a***@ejemplo.pe» porque el paquete en «Reproducción mínima, hipótesis y causa raíz» lo sostiene. Pregunta: mask_email('ana@ejemplo.pe') de forma segura podría ser….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «Puede reintentarse con backoff; ValueError de datos no» porque el paquete en «Niveles y estructura de logging» lo sostiene. Pregunta: TimeoutError en un fetch remoto típico….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «La entrada más pequeña que reproduce el bug» porque el paquete en «Correlation IDs y redacción de PII» lo sostiene. Pregunta: ¿Cuál es un buen minimal repro?.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:25:01.696206+00:00",
+  "session_started_at": "2026-07-23T17:36:38.549695Z",
+  "session_ended_at": "2026-07-23T17:37:06.915336Z",
+  "receipt_response_sha256": "34cff46d11e6c7bbe05d06031bc0978248993ec7844cc871cc9e0ba72f2a0f34",
+  "receipt_exercises_sha256": "05f57c2491b91f7431243e94daf25b5d51fbd16ac312d306a702a3b9c11bb53f",
+  "receipt_selfcheck_sha256": "5ead7d483c1ab263ddcee7b7d48014736275b8fed17ca8394c0bc0ba292e8469"
+}

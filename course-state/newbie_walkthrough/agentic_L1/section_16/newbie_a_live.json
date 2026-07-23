@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s16-f9f6f014c3",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))\n",
+      "justification_from_packet": "La política required trata nulls de id como violación: primero cuento con isna().sum() sin imputar. En el fixture hay un null → 1, base del gate de calidad del subtema nulls y políticas por campo."
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "code": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {}\nfor col, pol in policy.items():\n    if pol == \"required\":\n        n = int(df[col].isna().sum())\n        if n > 0:\n            viol[col] = n\nprint(viol)\n",
+      "justification_from_packet": "El mapa de violaciones solo incluye campos required con nulls; optional puede tener NA sin entrar al dict. Aquí a es required con 1 null → {'a': 1}; b optional se omite, como pide el contrato del policy map."
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nviol = int(df[\"id\"].isna().sum())\nprint(\"fail\" if viol > 0 else \"pass\")\n",
+      "justification_from_packet": "Si hay violaciones required el gate es fail-closed: no relleno nulls para maquillar el pass. El fixture tiene id nulo → 'fail', alineado con null ⇒ cuarentena o fail del gate."
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nprint(df[\"was_null\"].tolist())\n",
+      "justification_from_packet": "Antes de imputar, el indicador was_null = isna() preserva la señal de ausencia (True en la fila nula). Luego fillna(0); la lista [False, True] documenta qué se imputó, como exige el subtema de indicadores."
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "code": "import pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = float(s.isna().mean())\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n",
+      "justification_from_packet": "El cap de imputación bloquea si null_rate supera el umbral (0.3). Con 2/4 nulls, rate=0.5 > 0.3 → 'blocked' y no se imputa a ciegas, límite operativo del subtema."
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = float(s.median())\nprint(s.fillna(med).tolist())\n",
+      "justification_from_packet": "median() con skipna da 1.5 sobre [1,2]; fillna(med) deja [1.0, 2.0, 1.5]. La mediana de no-nulos se usa como imputación estable y el vector final demuestra el efecto sin inventar otra política."
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+      "justification_from_packet": "duplicated(keep=False) marca todas las filas del grupo exacto repetido. Las dos primeras filas (1,0) son idénticas → conteo 2; aún no hago drop, solo diagnóstico de duplicados exactos."
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nnuniq = df.groupby(\"cliente_id\")[\"region\"].nunique()\nprint(nuniq[nuniq > 1].index.tolist())\n",
+      "justification_from_packet": "Conflicto = misma clave con atributos distintos: groupby cliente_id + nunique(region)>1. C001 tiene Lima y Cusco → ['C001']. No es un simple drop_duplicates de filas exactas."
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nif len(sub) > 1 and sub.duplicated(keep=False).all():\n    print(\"exact\")\nelif sub[\"region\"].nunique() > 1:\n    print(\"conflict\")\nelse:\n    print(\"clean\")\n",
+      "justification_from_packet": "Clasifico en orden: exact si hay dups idénticos, conflict si nunique(region)>1, si no clean. El fixture de una sola fila C001/Lima cae en clean, sin conflicto ni dup exacto."
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nquarantine = df[df.duplicated(\"id\", keep=False)].copy()\nclean = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(quarantine), len(clean))\n",
+      "justification_from_packet": "Split por clave: quarantine = filas con id duplicado (keep=False) conservan evidencia; clean = drop_duplicates keep first. Lens 2 y 2 sobre el fixture a,a,b, listos para el join 1:1 de S17."
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nquarantine = df[df.duplicated(\"id\", keep=False)].copy()\nprint(quarantine.columns.tolist())\n",
+      "justification_from_packet": "La cuarentena debe conservar evidencia (batch) sin dropear columnas: columns.tolist() → ['id','batch']. El subtema de claves insiste en no perder el rastro al separar dups."
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\nprint(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_fail\")\n",
+      "justification_from_packet": "Cardinalidad 1 fila por id: nunique(id)==len(df). Con ids a,b sin dups imprimo card_ok, prerequisito del merge one_to_one que anuncia el paquete hacia S17."
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "code": "import pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+      "justification_from_packet": "Normalización de strings: strip + title colapsa espacios y unifica casing → ['Lima','Cusco']. Es el primer paso del subtema de normalización antes de categorías o joins."
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "code": "import pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(v.sum()))\n",
+      "justification_from_packet": "Parse de montos PEN: quitar prefijo S/ y castear float. La suma 1.5+2=3.5 valida la normalización numérica del paquete (no es imputación de nulls)."
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\nprint(df[\"region_raw\"].tolist(), df[\"region\"].tolist())\n",
+      "justification_from_packet": "Se crea region canónica sin pisar region_raw: raw sigue ['lima'] y canónica ['Lima']. Conservar el original permite auditar y disputar la forma canónica, núcleo del subtema."
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "code": "import pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+      "justification_from_packet": "Domain bounds: monto < 0 es error de dominio, no solo outlier estadístico. La máscara [False, True, False] marca el negativo del fixture sin aplicar IQR todavía."
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[mask].tolist())\n",
+      "justification_from_packet": "IQR 1.5 detecta outliers estadísticos: 100 queda fuera de las fences y aparece en la lista. El paquete separa esto de domain bounds: no borro filas, solo las marco."
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = float(s.iloc[2])\nlabel = \"error\" if val < 0 else \"ok\"\nprint(label)\n",
+      "justification_from_packet": "Priorizo domain sobre IQR: -1 es error de dominio → 'error', no un simple flag estadístico. La teoría de outliers plausibles vs errores exige esa jerarquía de etiquetas."
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nmissing = [c for c in required if c not in df.columns]\nprint(missing)\n",
+      "justification_from_packet": "Schema required: columnas ausentes se listan de forma explícita. Falta monto → ['monto'], mensaje de drift explicable del subtema de reglas de schema."
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\nbad = df.index[df[\"fin\"] < df[\"inicio\"]].tolist()\nprint(bad)\n",
+      "justification_from_packet": "Cross-field temporal: fin >= inicio. La segunda fila tiene fin < inicio → índice [1]. Cada regla devuelve máscara + significado, como pide el contrato de schema/cross-field."
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")\n",
+      "justification_from_packet": "Gate fail-closed ante drift: si faltan required → 'drift'; si no → schema_ok. Con solo id en el DF, falta monto y el gate imprime drift."
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "code": "rows_in = 10\nq = 3\nprint(rows_in - q)\n",
+      "justification_from_packet": "Métrica rows_clean = rows_in - quarantine_n = 10 - 3 = 7. Es la métrica básica del reporte del quality gate en el subtema de métricas y audit trail."
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "code": "audit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\"})\nprint(len(audit))\n",
+      "justification_from_packet": "Audit append-only: se agrega el evento quarantine sin reescribir el historial. len pasa de 1 a 2, rastro auditable del run."
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "code": "n_q = 1\nprint(False if n_q > 0 else True)\n",
+      "justification_from_packet": "Si quarantine>0 entonces pass=False aunque se publiquen métricas. Con n_q=1 imprimo False: el gate falla de forma visible, no oculta el problema."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Un campo required con nulls debe provocar violación/cuarentena o fail del gate, no imputarse a 0 ni ignorarse por un umbral informal. La teoría de políticas por campo lo deja explícito."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Exacto = filas idénticas; conflicto = misma clave de negocio con atributos distintos (p. ej. dos regiones). No son lo mismo ni se resuelven solo con drop_duplicates ciego."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Conservar region_raw al normalizar sirve para auditar y disputar la forma canónica sin perder el valor original; no es un truco de rendimiento ni de merge."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "IQR sin domain bounds puede marcar (o borrar) colas legítimas de negocio como si fueran error. Por eso el paquete separa outlier plausible de error de dominio."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Un quality gate que falla debe publicar métricas y cuarentena aunque pass=False. Ocultar métricas o borrar audit trail viola el subtema de audit trail operable."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:42:19.330669+00:00",
+  "session_started_at": "2026-07-23T16:39:30+00:00",
+  "session_ended_at": "2026-07-23T16:40:21.200000+00:00",
+  "receipt_response_sha256": "8df38402caa0abad46988043fd0b71226e37a999385acc9d9c811ed7f6d09ece",
+  "receipt_exercises_sha256": "c9dfb9bbb7d4d871d5a97fd57f7fe0f19da6ab1321736327a12add0fe6334f29",
+  "receipt_selfcheck_sha256": "e26df8e34fe02a43b0abe5c8616857ee56c2a54016b70a80f597e0f2cc7ba1da"
+}
