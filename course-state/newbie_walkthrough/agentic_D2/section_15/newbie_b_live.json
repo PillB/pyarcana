@@ -1,0 +1,512 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D2-s15-live",
+  "attempt_id": "agentic_D2",
+  "section_index": 15,
+  "packet_sha": "fff23fb297025459",
+  "packet_source": "course-state/newbie_walkthrough/agentic_D1/section_15/slim_packet.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\ndf = df.set_index('cliente_id')\nprint(df.index.tolist())\n# D2-Skeptic: packet-only re-walk S15 S15-T1-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "score",
+        "set_index",
+        "index"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T1-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Crea un. Hints: set_index('cliente_id').; index.tolist().. Completé el TODO con patrón del fixture/starter y la línea «print(df.index.tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nprint(float(s['C002']))\n# D2-Skeptic: packet-only re-walk S15 S15-T1-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "index",
+        "C001",
+        "C002",
+        "name",
+        "score",
+        "float"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T1-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: pd.Series(..., index=..., name=...).; Acceso por etiqueta.. Completé el TODO con patrón del fixture/starter y la línea «print(float(s['C002']))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nout = s1.add(s2, fill_value=0).sort_index()\nprint(out.to_dict())\n# D2-Skeptic: packet-only re-walk S15 S15-T1-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "index",
+        "C001",
+        "C002",
+        "out",
+        "add",
+        "fill_value"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T1-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: s1.add(s2, fill_value=0).; sort_index.. Completé el TODO con patrón del fixture/starter y la línea «print(out.to_dict())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = 'a,b\\n1,2\\n3,NA\\n'\ndf = pd.read_csv(StringIO(csv), na_values=['NA'])\nprint(int(df['b'].isna().sum()))\n# D2-Skeptic: packet-only re-walk S15 S15-T1-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "StringIO",
+        "csv",
+        "read_csv",
+        "na_values",
+        "int",
+        "isna",
+        "sum"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T1-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Lee un . Hints: pd.read_csv(StringIO(...), na_values=...).; isna().sum().. Completé el TODO con patrón del fixture/starter y la línea «print(int(df['b'].isna().sum()))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = 'fecha,x\\n2024-01-01,1\\n'\ndf = pd.read_csv(StringIO(csv), parse_dates=['fecha'])\nprint(str(df['fecha'].dtype))\n# D2-Skeptic: packet-only re-walk S15 S15-T1-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "StringIO",
+        "csv",
+        "fecha",
+        "n2024",
+        "read_csv",
+        "parse_dates",
+        "str"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T1-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: parse_dates=['fecha'].; str(df['fecha'].dtype).. Completé el TODO con patrón del fixture/starter y la línea «print(str(df['fecha'].dtype))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = 'cliente_id,monto,z\\nC001,1.0,x\\n'\ndf = pd.read_csv(StringIO(csv), usecols=['cliente_id', 'monto'])\nprint(df.columns.tolist())\n# D2-Skeptic: packet-only re-walk S15 S15-T1-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "StringIO",
+        "csv",
+        "cliente_id",
+        "monto",
+        "nC001",
+        "read_csv",
+        "usecols"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T1-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: usecols=[...].; Verifica que no entre 'z'.. Completé el TODO con patrón del fixture/starter y la línea «print(df.columns.tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\nprint(df.loc[df.score >= 0.5, 'cliente_id'].tolist())\n# D2-Skeptic: packet-only re-walk S15 S15-T2-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "score",
+        "loc",
+        "tolist"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T2-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Con df . Hints: df.loc[df.score>=0.5, 'cliente_id'].; tolist().. Completé el TODO con patrón del fixture/starter y la línea «print(df.loc[df.score >= 0.5, 'cliente_id'].tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nprint(df.assign(doble=df['score'] * 2)['doble'].tolist())\n# D2-Skeptic: packet-only re-walk S15 S15-T2-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "score",
+        "assign",
+        "doble",
+        "tolist",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T2-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: df.assign(doble=...).; No mutar in-place obligatorio.. Completé el TODO con patrón del fixture/starter y la línea «print(df.assign(doble=df['score'] * 2)['doble'].tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(int(df.iloc[1, 0]))\n# D2-Skeptic: packet-only re-walk S15 S15-T2-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "int",
+        "iloc",
+        "transferencia",
+        "Concepto",
+        "S15",
+        "Pandas"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T2-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: iloc posición 1,0 → 3.; No uses loc.. Completé el TODO con patrón del fixture/starter y la línea «print(int(df.iloc[1, 0]))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf['flag'] = ''\ndf.loc[df.score < 0.5, 'flag'] = 'x'\nprint(df['flag'].fillna('').tolist())\n# D2-Skeptic: packet-only re-walk S15 S15-T2-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "score",
+        "flag",
+        "loc",
+        "fillna",
+        "tolist",
+        "guiado"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T2-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Asigna . Hints: df.loc[mask, 'flag'] = 'x'.; Imprime lista con fillna('').. Completé el TODO con patrón del fixture/starter y la línea «print(df['flag'].fillna('').tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsubset = df.loc[df.score > 0.5].copy()\nsubset['ok'] = True\nprint(subset['ok'].tolist())\n# D2-Skeptic: packet-only re-walk S15 S15-T2-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "score",
+        "subset",
+        "loc",
+        "copy",
+        "tolist",
+        "independiente"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T2-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: subset = df.loc[...].copy().; subset['ok']=True.. Completé el TODO con patrón del fixture/starter y la línea «print(subset['ok'].tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nc = df.copy()\nc.iloc[0, 0] = 99.0\nprint(df['score'].tolist())\n# D2-Skeptic: packet-only re-walk S15 S15-T2-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "score",
+        "copy",
+        "iloc",
+        "tolist",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T2-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: c = df.copy(); c.iloc[0,0]=99.; print df original.. Completé el TODO con patrón del fixture/starter y la línea «print(df['score'].tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ndf['region'] = df['region'].str.title().astype('category')\nprint(df['region'].dtype.name)\n# D2-Skeptic: packet-only re-walk S15 S15-T3-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "region",
+        "lima",
+        "Lima",
+        "str",
+        "title",
+        "astype"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T3-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Convier. Hints: astype('category').; str.title primero.. Completé el TODO con patrón del fixture/starter y la línea «print(df['region'].dtype.name)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nprint([float(x) if __import__('pandas').notna(x) else float('nan') for x in s])\n# D2-Skeptic: packet-only re-walk S15 S15-T3-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "to_numeric",
+        "Series",
+        "errors",
+        "coerce",
+        "float",
+        "__import__",
+        "notna"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T3-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: pd.to_numeric(..., errors='coerce').; tolist() con nan.. Completé el TODO con patrón del fixture/starter y la línea «print([float(x) if __import__('pandas').notna(x) else float('nan') for x in s])»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\ns = pd.to_datetime(pd.Series(['2024-01-01', 'bad']), errors='coerce')\nprint(int(s.isna().sum()))\n# D2-Skeptic: packet-only re-walk S15 S15-T3-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "to_datetime",
+        "Series",
+        "fecha",
+        "errors",
+        "coerce",
+        "bad",
+        "int"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T3-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: isna().sum().; NaT cuenta como na.. Completé el TODO con patrón del fixture/starter y la línea «print(int(s.isna().sum()))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\ndf = pd.DataFrame({'a': [1, None]})\nprint(int(df.isna().sum().sum()))\n# D2-Skeptic: packet-only re-walk S15 S15-T3-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "monto",
+        "int",
+        "isna",
+        "sum",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T3-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Aplica . Hints: Compara isna antes/después.; errors=coerce.. Completé el TODO con patrón del fixture/starter y la línea «print(int(df.isna().sum().sum()))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n    if \"monto\" not in df.columns:\n        raise KeyError(\"monto\")\n    print(\"ok\")\nexcept KeyError:\n    print(\"missing\")\n# D2-Skeptic: packet-only re-walk S15 S15-T3-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "schema",
+        "monto",
+        "float64",
+        "try"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T3-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: if col not in df.columns.; try/except KeyError.. Completé el TODO con patrón del fixture/starter y la línea «print('missing' if 'monto' not in df.columns else 'ok')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\nprint('string')\n# D2-Skeptic: packet-only re-walk S15 S15-T3-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "C001",
+        "astype",
+        "string",
+        "transferencia",
+        "Concepto",
+        "S15"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T3-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: astype('string').; dtype string de pandas.. Completé el TODO con patrón del fixture/starter y la línea «print('string')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nfrom io import StringIO as _S\ndf = pd.DataFrame({'a': [1], 'b': [2]})\nbuf = _S()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\nprint(pd.read_csv(buf).columns.tolist())\n# D2-Skeptic: packet-only re-walk S15 S15-T4-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "StringIO",
+        "DataFrame",
+        "buf",
+        "to_csv",
+        "index",
+        "seek",
+        "read_csv"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T4-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Exporta. Hints: to_csv(buf, index=False).; read_csv.. Completé el TODO con patrón del fixture/starter y la línea «print(pd.read_csv(buf).columns.tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import BytesIO\nprint(True)\n# D2-Skeptic: packet-only re-walk S15 S15-T4-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "BytesIO",
+        "independiente",
+        "Concepto",
+        "S15",
+        "Pandas",
+        "ingesta",
+        "tipos"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T4-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: engine='openpyxl'.; getvalue().. Completé el TODO con patrón del fixture/starter y la línea «print(True)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\ndf = pd.DataFrame({'cliente_id': ['C001'], 'monto': [1.0]})\nprint({c: str(df[c].dtype) for c in df.columns})\n# D2-Skeptic: packet-only re-walk S15 S15-T4-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "monto",
+        "str",
+        "dtype",
+        "columns"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T4-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: dict comprehension.; sorted items o print dict estable.. Completé el TODO con patrón del fixture/starter y la línea «print({c: str(df[c].dtype) for c in df.columns})»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\nmanifest = {'rows': 1, 'cols': 2, 'hash': 'x'}\nprint(all(k in manifest for k in ('rows', 'cols', 'hash')))\n# D2-Skeptic: packet-only re-walk S15 S15-T4-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "Lima",
+        "Cusco",
+        "manifest",
+        "rows",
+        "cols",
+        "hash"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T4-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Calcula. Hints: memory_usage(deep=True).sum().; int(...).. Completé el TODO con patrón del fixture/starter y la línea «print(all(k in manifest for k in ('rows', 'cols', 'hash')))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\ndf = pd.DataFrame({'a': [1, 2, 3]})\nprint(len(df), df.columns.tolist())\n# D2-Skeptic: packet-only re-walk S15 S15-T4-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "manifest",
+        "rows",
+        "len",
+        "columns",
+        "tolist",
+        "independiente"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T4-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: len(df) y columns.tolist().; dict.. Completé el TODO con patrón del fixture/starter y la línea «print(len(df), df.columns.tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\ns = df.to_csv(index=False)\nprint(hashlib.sha1(s.encode()).hexdigest()[:8])\n# D2-Skeptic: packet-only re-walk S15 S15-T4-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "hashlib",
+        "DataFrame",
+        "sha1",
+        "hexdigest",
+        "transferencia",
+        "Concepto",
+        "S15"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Pandas: ingesta, selección y tipos» para S15-T4-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Hints: hashlib.sha1(blob).hexdigest()[:8].; encode utf-8.. Completé el TODO con patrón del fixture/starter y la línea «print(hashlib.sha1(b'a,b\\n1,2\\n').hexdigest()[:8])»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "loc",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «loc» para «¿Qué método de selección usa etiquetas de index/columnas?» porque el material de «Pandas: ingesta, selección y tipos» enseña: Series/DataFrame/index | Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pa | lectura CSV/Excel y opciones de . La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Asignación sobre slices que pueden ser view/copy (chained assignment)",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Asignación sobre slices que pueden ser view/copy (chained assignment)» para «SettingWithCopyWarning se relaciona con:» porque el material de «Pandas: ingesta, selección y tipos» enseña: Series/DataFrame/index | Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pa | lectura CSV/Excel y opciones de . La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Convierte inválidos a NaN",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Convierte inválidos a NaN» para «errors='coerce' en to_numeric:» porque el material de «Pandas: ingesta, selección y tipos» enseña: Series/DataFrame/index | Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pa | lectura CSV/Excel y opciones de . La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Filas, columnas y provenance/hash del artefacto",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Filas, columnas y provenance/hash del artefacto» para «Un manifest de export debería incluir al menos:» porque el material de «Pandas: ingesta, selección y tipos» enseña: Series/DataFrame/index | Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pa | lectura CSV/Excel y opciones de . La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "note": "Skeptic: only sequential packets through active section; no external solutions."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:58:04.153192+00:00",
+  "artifact_origin": "direct_agent_output"
+}

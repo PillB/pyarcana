@@ -1,0 +1,11 @@
+{
+  "attempt_id": "agentic_D2",
+  "started_at": "2026-07-23T03:58:03.899637+00:00",
+  "evidence_origin": "live_agentic_transcript",
+  "generation_mode": "fresh_sequential_packet_read",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "brand": "PyArcana",
+  "prior_clean": "agentic_D1",
+  "reason": "Second consecutive pure agentic dual-newbie full run"
+}

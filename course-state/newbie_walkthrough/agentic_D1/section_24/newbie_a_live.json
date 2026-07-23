@@ -1,0 +1,384 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 24,
+  "packet_sha": "b630b1d121c06add",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "answer": "200",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndpi=96\nprint(max(dpi, 200))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T1-A",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T1-A-E1 (guided) apoyándome en la teoría «DPI, deskew, crop y contraste» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 200."
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "answer": "True",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nskew=1.2\nprint(abs(skew) >= 0.5)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T1-A",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T1-A-E2 (independent) apoyándome en la teoría «DPI, deskew, crop y contraste» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: True."
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "answer": "(50, 50, 950, 950)",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nw=h=1000\nm=0.05\nprint((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T1-A",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T1-A-E3 (transfer) apoyándome en la teoría «DPI, deskew, crop y contraste» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: (50, 50, 950, 950)."
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "answer": "90",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns={0:0.1,90:0.8}\nprint(max(s, key=s.get))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T1-B",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T1-B-E1 (guided) apoyándome en la teoría «ruido y orientación» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 90."
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "answer": "2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nflags=[0,1,1,0]\nprint(sum(flags))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T1-B",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T1-B-E2 (independent) apoyándome en la teoría «ruido y orientación» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 2."
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "answer": "manual_orient",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=0.4\nprint('manual_orient' if score < 0.5 else 'auto')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T1-B",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T1-B-E3 (transfer) apoyándome en la teoría «ruido y orientación» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: manual_orient."
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "answer": "['A']",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.85])\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T2-A",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T2-A-E1 (guided) apoyándome en la teoría «idiomas, layout y confidence» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: ['A']."
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "answer": "spa",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint(ocr('Hola')['lang'])\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T2-A",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T2-A-E2 (independent) apoyándome en la teoría «idiomas, layout y confidence» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: spa."
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "answer": "0.75 review",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nconfs=[0.9,0.75,0.95]\nm=min(confs)\nprint(m, 'review' if m < 0.8 else 'auto')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T2-A",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T2-A-E3 (transfer) apoyándome en la teoría «idiomas, layout y confidence» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 0.75 review."
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "answer": "Total 12.5",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='Total: 12.5'\nk,v=s.split(':',1)\nprint(k.strip(), v.strip())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T2-B",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T2-B-E1 (guided) apoyándome en la teoría «texto, tablas y pares clave–valor» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: Total 12.5."
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "answer": "1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nt=[['H1','H2'],['a','b']]\nprint(len(t)-1)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T2-B",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T2-B-E2 (independent) apoyándome en la teoría «texto, tablas y pares clave–valor» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 1."
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "answer": "[0, 0, 10, 10] 20123456789",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfield={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint(field['bbox'], field['value'])\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T2-B",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T2-B-E3 (transfer) apoyándome en la teoría «texto, tablas y pares clave–valor» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: [0, 0, 10, 10] 20123456789."
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "answer": "20123",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\ns='20-123'\nprint(re.sub(r'\\D', '', s))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T3-A",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T3-A-E1 (guided) apoyándome en la teoría «schema y normalización» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 20123."
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "answer": "2026-01-15",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import datetime\nprint(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T3-A",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T3-A-E2 (independent) apoyándome en la teoría «schema y normalización» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 2026-01-15."
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "answer": "None",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\nraw='123'\nd=re.sub(r'\\D','',raw)\nprint(d if len(d)==11 else None)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T3-A",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T3-A-E3 (transfer) apoyándome en la teoría «schema y normalización» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: None."
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "answer": "needs_review",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntotal, lines=10.0,[4.0,5.0]\nprint('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T3-B",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T3-B-E1 (guided) apoyándome en la teoría «validación cross-field y cola de revisión» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: needs_review."
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "answer": "['ruc_missing']",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint(reasons)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T3-B",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T3-B-E2 (independent) apoyándome en la teoría «validación cross-field y cola de revisión» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: ['ruc_missing']."
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "answer": "review_not_fraud",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmismatch=True\nprint('review_not_fraud' if mismatch else 'auto')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T3-B",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T3-B-E3 (transfer) apoyándome en la teoría «validación cross-field y cola de revisión» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: review_not_fraud."
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "answer": "0.75",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncorrect, n = 3, 4\nprint(correct / n)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T4-A",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T4-A-E1 (guided) apoyándome en la teoría «golden set sintético, exactitud por campo y cobertura» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 0.75."
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "answer": "0.5",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T4-A",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T4-A-E2 (independent) apoyándome en la teoría «golden set sintético, exactitud por campo y cobertura» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 0.5."
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "answer": "0.7",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nauto, review = 7, 3\nprint(auto / (auto + review))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T4-A",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T4-A-E3 (transfer) apoyándome en la teoría «golden set sintético, exactitud por campo y cobertura» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 0.7."
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "answer": "reject",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('reject' if mime not in allowed else 'ok')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T4-B",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T4-B-E1 (guided) apoyándome en la teoría «privacidad, archivos hostiles y fallback» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: reject."
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "answer": "reject",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=6_000_000\nprint('reject' if n > 5_000_000 else 'ok')\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T4-B",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T4-B-E2 (independent) apoyándome en la teoría «privacidad, archivos hostiles y fallback» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: reject."
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "answer": "human_rescan",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus='ocr_fail'\nprint({'ocr_fail':'human_rescan'}.get(status, 'continue'))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S24-T4-B",
+        "packet_theory",
+        "iDo",
+        "OCR y Document AI"
+      ],
+      "justification_from_packet": "Como explorer del paquete S24, resolví S24-T4-B-E3 (transfer) apoyándome en la teoría «privacidad, archivos hostiles y fallback» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: human_rescan."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S24 Q0 «¿Qué haces si confidence de RUC es 0.6?»: elijo [3] «Abstener y encolar revisión». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S24 Q1 «Un mismatch total vs líneas implica:»: elijo [1] «Cola de revisión / corrección». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S24 Q2 «¿Por qué medir accuracy por campo?»: elijo [2] «Los campos críticos pueden fallar aunque el global se vea bien». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S24 Q3 «Archivo application/zip en intake de facturas:»: elijo [0] «Gate reject/review por mime no permitido». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:42:20.960320+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s24-live"
+}

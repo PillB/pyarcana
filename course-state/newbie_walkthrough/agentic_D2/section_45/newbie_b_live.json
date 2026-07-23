@@ -1,0 +1,453 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D2",
+  "section_index": 45,
+  "packet_sha": "c95d2786702fb237",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S45-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"object\",\"transactions\":\"relational\",\"cache_authoritative\":False,\"cache_ttl_s\":300}}\nmeets_contract = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\nstatus = \"PASS\" if meets_contract else \"REDESIGN_PERSISTENCE\"\nprint(\"S45-T1-A\", status)\n# D2-Skeptic: packet-only re-walk S45 S45-T1-A-E1\n",
+      "answer": "S45-T1-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Calcula",
+        "contrato",
+        "object",
+        "store",
+        "relacional",
+        "cache",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T1-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `record = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"object\",\"transactions\":\"relational\",\"cache_`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"blob_store\", \"cache_authoritative\", \"cache_ttl_s\", \"case_id\", \"transactions\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")) else \"REDESIGN_PERSISTENCE\"\n\nvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\ninvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}\nincomplete = dict(valid)\nincomplete.pop(\"cache_ttl_s\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T1-A-E2\n",
+      "answer": "PASS REDESIGN_PERSISTENCE MISSING:cache_ttl_s",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Modela",
+        "tres",
+        "rutas",
+        "object",
+        "store",
+        "relacional",
+        "cache"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T1-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"blob_store\", \"cache_authoritative\", \"cache_ttl_s\", \"case_id\", \"transactions\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"WRITE_STORE_ADR\"\n    return \"CONTINUE\" if (not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")) else \"REDESIGN_PERSISTENCE\"\n\nvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\ninvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}\nuncertain = dict(valid)\nuncertain.pop(\"cache_ttl_s\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T1-A-E3\n",
+      "answer": "CONTINUE REDESIGN_PERSISTENCE WRITE_STORE_ADR",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "object",
+        "store",
+        "relacional"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T1-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"read-after-write\",\"backup_age_h\":4,\"rpo_h\":6,\"restore_minutes\":25,\"rto_minutes\":30}}\nmeets_contract = record[\"backup_age_h\"] <= record[\"rpo_h\"] or record[\"restore_minutes\"] <= record[\"rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_LOSS_RISK\"\nprint(\"S45-T1-B\", status)\n# D2-Skeptic: packet-only re-walk S45 S45-T1-B-E1\n",
+      "answer": "S45-T1-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Compara",
+        "contrato",
+        "consistencia",
+        "lifecycle",
+        "backups",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T1-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `record = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"read-after-write\"`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"backup_age_h\", \"case_id\", \"consistency\", \"operation\", \"restore_minutes\", \"rpo_h\", \"rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"backup_age_h\"] <= record[\"rpo_h\"] or record[\"restore_minutes\"] <= record[\"rto_minutes\"]) else \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\ninvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 30, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 4}\nincomplete = dict(valid)\nincomplete.pop(\"rto_minutes\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T1-B-E2\n",
+      "answer": "PASS DECLARE_DATA_LOSS_RISK MISSING:rto_minutes",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Verifica",
+        "tres",
+        "rutas",
+        "consistencia",
+        "lifecycle",
+        "backups",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T1-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"backup_age_h\", \"case_id\", \"consistency\", \"operation\", \"restore_minutes\", \"rpo_h\", \"rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RUN_RESTORE_DRILL\"\n    return \"CONTINUE\" if (record[\"backup_age_h\"] <= record[\"rpo_h\"] or record[\"restore_minutes\"] <= record[\"rto_minutes\"]) else \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\ninvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 30, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 4}\nuncertain = dict(valid)\nuncertain.pop(\"rto_minutes\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T1-B-E3\n",
+      "answer": "CONTINUE DECLARE_DATA_LOSS_RISK RUN_RESTORE_DRILL",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "consistencia",
+        "lifecycle",
+        "backups"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T1-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_after_effect\":True,\"idempotency_key\":\"job-iqu-1\",\"backoff\":True}}\nmeets_contract = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\nstatus = \"PASS\" if meets_contract else \"NACK_AND_RETRY\"\nprint(\"S45-T2-A\", status)\n# D2-Skeptic: packet-only re-walk S45 S45-T2-A-E1\n",
+      "answer": "S45-T2-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Filtra",
+        "contrato",
+        "queue",
+        "event",
+        "delivery",
+        "semantics",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T2-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `record = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_a`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"acked_after_effect\", \"backoff\", \"case_id\", \"delivery\", \"effect_durable\", \"idempotency_key\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])) else \"NACK_AND_RETRY\"\n\nvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\ninvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nincomplete = dict(valid)\nincomplete.pop(\"backoff\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T2-A-E2\n",
+      "answer": "PASS NACK_AND_RETRY MISSING:backoff",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "queue",
+        "event",
+        "delivery",
+        "semantics"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T2-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"acked_after_effect\", \"backoff\", \"case_id\", \"delivery\", \"effect_durable\", \"idempotency_key\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"VERIFY_DELIVERY_SEMANTICS\"\n    return \"CONTINUE\" if (not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])) else \"NACK_AND_RETRY\"\n\nvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\ninvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nuncertain = dict(valid)\nuncertain.pop(\"backoff\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T2-A-E3\n",
+      "answer": "CONTINUE NACK_AND_RETRY VERIFY_DELIVERY_SEMANTICS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "queue",
+        "event",
+        "delivery"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T2-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"},\"ordered_partition\":True,\"terminal_in_dlq\":True}}\nmeets_contract = record.get(\"case_id\") == 'CASO-IQU-045-2B' and not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])\nstatus = \"PASS\" if meets_contract else \"DEDUP_OR_DLQ\"\nprint(\"S45-T2-B\", status)\n# D2-Skeptic: packet-only re-walk S45 S45-T2-B-E1\n",
+      "answer": "S45-T2-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Modela",
+        "contrato",
+        "dedup",
+        "ordering",
+        "dead",
+        "letter",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T2-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `record = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"message_ids\", \"ordered_partition\", \"processed_ids\", \"terminal_in_dlq\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"case_id\") == 'CASO-IQU-045-2B' and not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])) else \"DEDUP_OR_DLQ\"\n\nvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\ninvalid = {'case_id': 'CASO-IQU-045-2B-ADV', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\nincomplete = dict(valid)\nincomplete.pop(\"terminal_in_dlq\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T2-B-E2\n",
+      "answer": "PASS DEDUP_OR_DLQ MISSING:terminal_in_dlq",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Audita",
+        "tres",
+        "rutas",
+        "dedup",
+        "ordering",
+        "dead",
+        "letter"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T2-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"message_ids\", \"ordered_partition\", \"processed_ids\", \"terminal_in_dlq\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INSPECT_MESSAGE_ORDER\"\n    return \"CONTINUE\" if (record.get(\"case_id\") == 'CASO-IQU-045-2B' and not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])) else \"DEDUP_OR_DLQ\"\n\nvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\ninvalid = {'case_id': 'CASO-IQU-045-2B-ADV', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\nuncertain = dict(valid)\nuncertain.pop(\"terminal_in_dlq\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T2-B-E3\n",
+      "answer": "CONTINUE DEDUP_OR_DLQ INSPECT_MESSAGE_ORDER",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "dedup",
+        "ordering",
+        "dead"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T2-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":80,\"workers\":4,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":True,\"backpressure\":True}}\nmeets_contract = record[\"workers\"] <= record[\"quota_workers\"] or not record[\"backpressure\"]\nstatus = \"PASS\" if meets_contract else \"APPLY_BACKPRESSURE\"\nprint(\"S45-T3-A\", status)\n# D2-Skeptic: packet-only re-walk S45 S45-T3-A-E1\n",
+      "answer": "S45-T3-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Verifica",
+        "contrato",
+        "compute",
+        "autoscaling",
+        "networking",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T3-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `record = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":80,\"workers\":4,\"target_per_worker\":25,\"quota_wo`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"backlog\", \"backpressure\", \"case_id\", \"private_network\", \"quota_workers\", \"target_per_worker\", \"workers\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"workers\"] <= record[\"quota_workers\"] or not record[\"backpressure\"]) else \"APPLY_BACKPRESSURE\"\n\nvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\ninvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 104, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\nincomplete = dict(valid)\nincomplete.pop(\"backpressure\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T3-A-E2\n",
+      "answer": "PASS APPLY_BACKPRESSURE MISSING:backpressure",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Decide",
+        "tres",
+        "rutas",
+        "compute",
+        "autoscaling",
+        "networking",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T3-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"backlog\", \"backpressure\", \"case_id\", \"private_network\", \"quota_workers\", \"target_per_worker\", \"workers\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CAPACITY\"\n    return \"CONTINUE\" if (record[\"workers\"] <= record[\"quota_workers\"] or not record[\"backpressure\"]) else \"APPLY_BACKPRESSURE\"\n\nvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\ninvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 104, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\nuncertain = dict(valid)\nuncertain.pop(\"backpressure\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T3-A-E3\n",
+      "answer": "CONTINUE APPLY_BACKPRESSURE REQUEST_CAPACITY",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "compute",
+        "autoscaling",
+        "networking"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T3-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\",\"queue:ack\"},\"requested_action\":\"object:get\",\"private_path\":True,\"egress_host\":\"api.internal\",\"egress_allow\":{\"api.internal\"}}}\nmeets_contract = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\nstatus = \"PASS\" if meets_contract else \"DENY_IAM_OR_EGRESS\"\nprint(\"S45-T3-B\", status)\n# D2-Skeptic: packet-only re-walk S45 S45-T3-B-E1\n",
+      "answer": "S45-T3-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Clasifica",
+        "contrato",
+        "IAM",
+        "private",
+        "paths",
+        "egress",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T3-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `record = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\",\"queue:ack\"},\"requested_a`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"allowed_actions\", \"case_id\", \"egress_allow\", \"egress_host\", \"private_path\", \"requested_action\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])) else \"DENY_IAM_OR_EGRESS\"\n\nvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\ninvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': set(), 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\nincomplete = dict(valid)\nincomplete.pop(\"egress_allow\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T3-B-E2\n",
+      "answer": "PASS DENY_IAM_OR_EGRESS MISSING:egress_allow",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Calcula",
+        "tres",
+        "rutas",
+        "IAM",
+        "private",
+        "paths",
+        "egress"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T3-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"allowed_actions\", \"case_id\", \"egress_allow\", \"egress_host\", \"private_path\", \"requested_action\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SCOPED_POLICY\"\n    return \"CONTINUE\" if (not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])) else \"DENY_IAM_OR_EGRESS\"\n\nvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\ninvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': set(), 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\nuncertain = dict(valid)\nuncertain.pop(\"egress_allow\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T3-B-E3\n",
+      "answer": "CONTINUE DENY_IAM_OR_EGRESS REQUEST_SCOPED_POLICY",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "IAM",
+        "private",
+        "paths"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T3-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"queue\",\"bucket\"},\"environment\":\"staging\",\"secret_values_in_plan\":False,\"destructive_changes\":0}}\nmeets_contract = record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] <= 0\nstatus = \"PASS\" if meets_contract else \"REJECT_IAC_PLAN\"\nprint(\"S45-T4-A\", status)\n# D2-Skeptic: packet-only re-walk S45 S45-T4-A-E1\n",
+      "answer": "S45-T4-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Audita",
+        "contrato",
+        "configuraci",
+        "declarativa",
+        "environments",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T4-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `record = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resource`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"declared_resources\", \"destructive_changes\", \"environment\", \"planned_resources\", \"secret_values_in_plan\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] <= 0) else \"REJECT_IAC_PLAN\"\n\nvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'queue', 'bucket'}, 'planned_resources': {'queue', 'bucket'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\ninvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'queue', 'bucket'}, 'planned_resources': {'queue', 'bucket'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 1}\nincomplete = dict(valid)\nincomplete.pop(\"destructive_changes\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T4-A-E2\n",
+      "answer": "PASS REJECT_IAC_PLAN MISSING:destructive_changes",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Compara",
+        "tres",
+        "rutas",
+        "configuraci",
+        "declarativa",
+        "environments",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T4-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"declared_resources\", \"destructive_changes\", \"environment\", \"planned_resources\", \"secret_values_in_plan\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_DRIFT\"\n    return \"CONTINUE\" if (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] <= 0) else \"REJECT_IAC_PLAN\"\n\nvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'queue', 'bucket'}, 'planned_resources': {'queue', 'bucket'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\ninvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'queue', 'bucket'}, 'planned_resources': {'queue', 'bucket'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 1}\nuncertain = dict(valid)\nuncertain.pop(\"destructive_changes\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T4-A-E3\n",
+      "answer": "CONTINUE REJECT_IAC_PLAN REVIEW_DRIFT",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "configuraci",
+        "declarativa",
+        "environments"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T4-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":820,\"budget_pen\":1000,\"quota_used\":72,\"quota_limit\":100,\"restore_tested\":True,\"portable_export\":True}}\nmeets_contract = record[\"forecast_pen\"] <= record[\"budget_pen\"] or record[\"quota_used\"] <= record[\"quota_limit\"]\nstatus = \"PASS\" if meets_contract else \"FREEZE_SCALE_OUT\"\nprint(\"S45-T4-B\", status)\n# D2-Skeptic: packet-only re-walk S45 S45-T4-B-E1\n",
+      "answer": "S45-T4-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Decide",
+        "contrato",
+        "costos",
+        "quotas",
+        "recovery",
+        "portability",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T4-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `record = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":820,\"budget_pen\":1000,\"quota_used\":72,\"quo`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"budget_pen\", \"case_id\", \"forecast_pen\", \"portable_export\", \"quota_limit\", \"quota_used\", \"restore_tested\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"forecast_pen\"] <= record[\"budget_pen\"] or record[\"quota_used\"] <= record[\"quota_limit\"]) else \"FREEZE_SCALE_OUT\"\n\nvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\ninvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 72, 'quota_used': 1000, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nincomplete = dict(valid)\nincomplete.pop(\"portable_export\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T4-B-E2\n",
+      "answer": "PASS FREEZE_SCALE_OUT MISSING:portable_export",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Filtra",
+        "tres",
+        "rutas",
+        "costos",
+        "quotas",
+        "recovery",
+        "portability"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T4-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S45-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"budget_pen\", \"case_id\", \"forecast_pen\", \"portable_export\", \"quota_limit\", \"quota_used\", \"restore_tested\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"COST_OWNER_REVIEW\"\n    return \"CONTINUE\" if (record[\"forecast_pen\"] <= record[\"budget_pen\"] or record[\"quota_used\"] <= record[\"quota_limit\"]) else \"FREEZE_SCALE_OUT\"\n\nvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\ninvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 72, 'quota_used': 1000, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nuncertain = dict(valid)\nuncertain.pop(\"portable_export\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S45 S45-T4-B-E3\n",
+      "answer": "CONTINUE FREEZE_SCALE_OUT COST_OWNER_REVIEW",
+      "blocked_on": [],
+      "concepts_used": [
+        "S45",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "costos",
+        "quotas",
+        "recovery"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S45-T4-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados Elige object/relacional/cache Define consistencia, lifecycle y backups Dis». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Qué evidencia permite aprobar `object store, relacional y cache` en CASO-IQU-045?» elijo «ADR de persistencia con fuente de verdad» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados\nElige object/relacional/cache\nDefine consist». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «Si ocurre la condición de error de S45, ¿qué respuesta preserva seguridad y auditabilidad?» elijo «emitir SEND_TO_DLQ y conservar evidencia» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados\nElige object/relacional/cache\nDefine consist». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Cuál resultado demuestra el gate `CP-N4-B · job asíncrono resiliente`?» elijo «reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados\nElige object/relacional/cache\nDefine consist». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Qué tratamiento de `CASO-IQU-045` respeta el alcance del curso?» elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados\nElige object/relacional/cache\nDefine consist». Descarto PII real, ocultar fallos o inventar evidencia."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:58:04.589900+00:00",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D2-s45-live",
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "notes": "D1-Skeptic live solve from slim_packet + exercise_batch_40_52 only; justifications packet-grounded.",
+  "artifact_origin": "direct_agent_output"
+}

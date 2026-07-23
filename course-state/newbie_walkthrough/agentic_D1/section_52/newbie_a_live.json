@@ -1,0 +1,548 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 52,
+  "packet_sha": "27ccf9109ffd9c11",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S52-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PER-052-1A\", **{\"stakeholders\":{\"ops\",\"relationship\",\"privacy\"},\"jobs\":3,\"metrics\":{\"ttr\",\"review_precision\"},\"baseline_frozen\":True}}\nmeets_contract = not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"])\nstatus = \"PASS\" if meets_contract else \"REOPEN_CF1\"\nprint(\"S52-T1-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PER",
+        "stakeholders",
+        "ops",
+        "relationship",
+        "privacy",
+        "jobs"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T1-A-E1 a partir de la instrucción: S52-T1-A-E1 · Calcula el contrato de `stakeholders, jobs y success metrics de CF-1` sobre `CASO-PER-052-1A`. La entrada es el dict completo del starte. En teoría/iDo se exige: Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar una necesidad ya inválida. Contrato o. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `stakeholders`, `jobs`, `metrics`, `baseline_frozen` con la regla explicada en S52-T1-A.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"stakeholders\", \"jobs\", \"metrics\", \"baseline_frozen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"])) else \"REOPEN_CF1\"\n\nvalid = {\"case_id\": \"CASO-PER-052-1A\", \"stakeholders\": {\"ops\", \"privacy\", \"relationship\"}, \"jobs\": 3, \"metrics\": {\"review_precision\", \"ttr\"}, \"baseline_frozen\": True}\ninvalid = {\"case_id\": \"CASO-PER-052-1A\", \"stakeholders\": {\"ops\", \"privacy\", \"relationship\"}, \"jobs\": 3, \"metrics\": {\"review_precision\", \"ttr\"}, \"baseline_frozen\": False}\nincomplete = {**valid}\nincomplete.pop(\"baseline_frozen\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "stakeholders",
+        "jobs",
+        "metrics",
+        "baseline_frozen",
+        "keys",
+        "join"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T1-A-E2 a partir de la instrucción: S52-T1-A-E2 · Modela tres rutas de `stakeholders, jobs y success metrics de CF-1`: fixture válido, fixture adverso y registro sin `baseline_frozen`. E. En teoría/iDo se exige: Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar una necesidad ya inválida. Contrato o. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a baseline_frozen debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"stakeholders\", \"jobs\", \"metrics\", \"baseline_frozen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"INTERVIEW_STAKEHOLDER\"\n    return \"CONTINUE\" if (not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"])) else \"REOPEN_CF1\"\n\nvalid = {\"case_id\": \"CASO-PER-052-1A\", \"stakeholders\": {\"ops\", \"privacy\", \"relationship\"}, \"jobs\": 3, \"metrics\": {\"review_precision\", \"ttr\"}, \"baseline_frozen\": True}\ninvalid = {\"case_id\": \"CASO-PER-052-1A\", \"stakeholders\": {\"ops\", \"privacy\", \"relationship\"}, \"jobs\": 3, \"metrics\": {\"review_precision\", \"ttr\"}, \"baseline_frozen\": False}\nincomplete = {**valid}\nincomplete.pop(\"baseline_frozen\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "stakeholders",
+        "jobs",
+        "metrics",
+        "baseline_frozen",
+        "keys",
+        "ausencia"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T1-A-E3 a partir de la instrucción: S52-T1-A-E3 · Simula fallo cerrado para `stakeholders, jobs y success metrics de CF-1` con tres fixtures distintos. `CASO-PER-052-1A` debe continuar, . En teoría/iDo se exige: Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar una necesidad ya inválida. Contrato o. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `INTERVIEW_STAKEHOLDER` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PER-052-1B\", **{\"constraints\":{\"synthetic-only\",\"human-review\"},\"risks_with_owner\":5,\"no_go\":{\"real-pii\",\"auto-risk-decision\"},\"residual_risk_accepted\":True}}\nmeets_contract = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_NO_GO\"\nprint(\"S52-T1-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PER",
+        "constraints",
+        "synthetic",
+        "only",
+        "human",
+        "review"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T1-B-E1 a partir de la instrucción: S52-T1-B-E1 · Compara el contrato de `cambios, constraints, riesgos y no-go` sobre `CASO-PER-052-1B`. La entrada es el dict completo del starter; la o. En teoría/iDo se exige: Constraints, riesgos y no-go decisions tienen dueño y umbral; alcance que compromete privacidad o revisión humana se rechaza. Cont. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `constraints`, `risks_with_owner`, `no_go`, `residual_risk_accepted` con la regla explicada en S52-T1-B.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"constraints\", \"risks_with_owner\", \"no_go\", \"residual_risk_accepted\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])) else \"DECLARE_NO_GO\"\n\nvalid = {\"case_id\": \"CASO-PER-052-1B\", \"constraints\": {\"human-review\", \"synthetic-only\"}, \"risks_with_owner\": 5, \"no_go\": {\"auto-risk-decision\", \"real-pii\"}, \"residual_risk_accepted\": True}\ninvalid = {\"case_id\": \"CASO-PER-052-1B\", \"constraints\": {\"human-review\", \"synthetic-only\"}, \"risks_with_owner\": 5, \"no_go\": {\"auto-risk-decision\", \"real-pii\"}, \"residual_risk_accepted\": False}\nincomplete = {**valid}\nincomplete.pop(\"residual_risk_accepted\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "constraints",
+        "risks_with_owner",
+        "no_go",
+        "residual_risk_accepted",
+        "keys",
+        "join"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T1-B-E2 a partir de la instrucción: S52-T1-B-E2 · Verifica tres rutas de `cambios, constraints, riesgos y no-go`: fixture válido, fixture adverso y registro sin `residual_risk_accepted`. En teoría/iDo se exige: Constraints, riesgos y no-go decisions tienen dueño y umbral; alcance que compromete privacidad o revisión humana se rechaza. Cont. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a residual_risk_accepted debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"constraints\", \"risks_with_owner\", \"no_go\", \"residual_risk_accepted\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"INDEPENDENT_RISK_REVIEW\"\n    return \"CONTINUE\" if (not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])) else \"DECLARE_NO_GO\"\n\nvalid = {\"case_id\": \"CASO-PER-052-1B\", \"constraints\": {\"human-review\", \"synthetic-only\"}, \"risks_with_owner\": 5, \"no_go\": {\"auto-risk-decision\", \"real-pii\"}, \"residual_risk_accepted\": True}\ninvalid = {\"case_id\": \"CASO-PER-052-1B\", \"constraints\": {\"human-review\", \"synthetic-only\"}, \"risks_with_owner\": 5, \"no_go\": {\"auto-risk-decision\", \"real-pii\"}, \"residual_risk_accepted\": False}\nincomplete = {**valid}\nincomplete.pop(\"residual_risk_accepted\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "constraints",
+        "risks_with_owner",
+        "no_go",
+        "residual_risk_accepted",
+        "keys",
+        "ausencia"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T1-B-E3 a partir de la instrucción: S52-T1-B-E3 · Extiende fallo cerrado para `cambios, constraints, riesgos y no-go` con tres fixtures distintos. `CASO-PER-052-1B` debe continuar, el ad. En teoría/iDo se exige: Constraints, riesgos y no-go decisions tienen dueño y umbral; alcance que compromete privacidad o revisión humana se rechaza. Cont. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `INDEPENDENT_RISK_REVIEW` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PER-052-2A\", **{\"contexts\":{\"intake\",\"er\",\"triage\",\"reporting\",\"copilot\"},\"apis_versioned\":True,\"events_versioned\":True,\"shared_database\":False,\"contract_tests\":12}}\nmeets_contract = not (record[\"shared_database\"] or not record[\"apis_versioned\"])\nstatus = \"PASS\" if meets_contract else \"STOP_INTEGRATION_RELEASE\"\nprint(\"S52-T2-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PER",
+        "contexts",
+        "intake",
+        "triage",
+        "reporting",
+        "copilot"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T2-A-E1 a partir de la instrucción: S52-T2-A-E1 · Filtra el contrato de `bounded contexts, APIs y eventos` sobre `CASO-PER-052-2A`. La entrada es el dict completo del starter; la operaci. En teoría/iDo se exige: Bounded contexts integran por APIs/eventos versionados; contratos y ownership evitan una base compartida como acoplamiento oculto. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `contexts`, `apis_versioned`, `events_versioned`, `shared_database`, `contract_tests` con la regla explicada », manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"apis_versioned\", \"events_versioned\", \"shared_database\", \"contract_tests\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"shared_database\"] or not record[\"apis_versioned\"])) else \"STOP_INTEGRATION_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-PER-052-2A\", \"contexts\": {\"copilot\", \"er\", \"intake\", \"reporting\", \"triage\"}, \"apis_versioned\": True, \"events_versioned\": True, \"shared_database\": False, \"contract_tests\": 12}\ninvalid = {\"case_id\": \"CASO-PER-052-2A\", \"contexts\": {\"copilot\", \"er\", \"intake\", \"reporting\", \"triage\"}, \"apis_versioned\": False, \"events_versioned\": True, \"shared_database\": False, \"contract_tests\": 12}\nincomplete = {**valid}\nincomplete.pop(\"contract_tests\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "contexts",
+        "apis_versioned",
+        "events_versioned",
+        "shared_database",
+        "contract_tests",
+        "keys"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T2-A-E2 a partir de la instrucción: S52-T2-A-E2 · Clasifica tres rutas de `bounded contexts, APIs y eventos`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: di. En teoría/iDo se exige: Bounded contexts integran por APIs/eventos versionados; contratos y ownership evitan una base compartida como acoplamiento oculto. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"apis_versioned\", \"events_versioned\", \"shared_database\", \"contract_tests\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"MAP_BOUNDED_CONTEXTS\"\n    return \"CONTINUE\" if (not (record[\"shared_database\"] or not record[\"apis_versioned\"])) else \"STOP_INTEGRATION_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-PER-052-2A\", \"contexts\": {\"copilot\", \"er\", \"intake\", \"reporting\", \"triage\"}, \"apis_versioned\": True, \"events_versioned\": True, \"shared_database\": False, \"contract_tests\": 12}\ninvalid = {\"case_id\": \"CASO-PER-052-2A\", \"contexts\": {\"copilot\", \"er\", \"intake\", \"reporting\", \"triage\"}, \"apis_versioned\": False, \"events_versioned\": True, \"shared_database\": False, \"contract_tests\": 12}\nincomplete = {**valid}\nincomplete.pop(\"contract_tests\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "contexts",
+        "apis_versioned",
+        "events_versioned",
+        "shared_database",
+        "contract_tests",
+        "keys"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T2-A-E3 a partir de la instrucción: S52-T2-A-E3 · Defiende fallo cerrado para `bounded contexts, APIs y eventos` con tres fixtures distintos. `CASO-PER-052-2A` debe continuar, el adverso. En teoría/iDo se exige: Bounded contexts integran por APIs/eventos versionados; contratos y ownership evitan una base compartida como acoplamiento oculto. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `MAP_BOUNDED_CONTEXTS` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PER-052-2B\", **{\"er_proposes_match\":True,\"triage_prioritizes\":True,\"rpa_prepares_draft\":True,\"rag_cites\":True,\"human_decides\":True,\"infers_fraud\":False}}\nmeets_contract = not (record[\"infers_fraud\"] or not record[\"human_decides\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_AUTOMATED_RISK_DECISION\"\nprint(\"S52-T2-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PER",
+        "er_proposes_match",
+        "triage_prioritizes",
+        "rpa_prepares_draft",
+        "rag_cites",
+        "human_decides"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T2-B-E1 a partir de la instrucción: S52-T2-B-E1 · Modela el contrato de `datos, modelos, RPA, RAG y human workflow` sobre `CASO-PER-052-2B`. La entrada es el dict completo del starter; l. En teoría/iDo se exige: Datos, modelos, RPA y RAG apoyan un human workflow: ER propone identidad, triage prioriza y ninguna señal prueba fraude o parentes. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `er_proposes_match`, `triage_prioritizes`, `rpa_prepares_draft`, `rag_cites`, `human_decides`, `infers_fraud`», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"er_proposes_match\", \"triage_prioritizes\", \"rpa_prepares_draft\", \"rag_cites\", \"human_decides\", \"infers_fraud\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"infers_fraud\"] or not record[\"human_decides\"])) else \"BLOCK_AUTOMATED_RISK_DECISION\"\n\nvalid = {\"case_id\": \"CASO-PER-052-2B\", \"er_proposes_match\": True, \"triage_prioritizes\": True, \"rpa_prepares_draft\": True, \"rag_cites\": True, \"human_decides\": True, \"infers_fraud\": False}\ninvalid = {\"case_id\": \"CASO-PER-052-2B\", \"er_proposes_match\": True, \"triage_prioritizes\": True, \"rpa_prepares_draft\": True, \"rag_cites\": True, \"human_decides\": False, \"infers_fraud\": False}\nincomplete = {**valid}\nincomplete.pop(\"infers_fraud\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "er_proposes_match",
+        "triage_prioritizes",
+        "rpa_prepares_draft",
+        "rag_cites",
+        "human_decides",
+        "infers_fraud"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T2-B-E2 a partir de la instrucción: S52-T2-B-E2 · Audita tres rutas de `datos, modelos, RPA, RAG y human workflow`: fixture válido, fixture adverso y registro sin `infers_fraud`. Entrada. En teoría/iDo se exige: Datos, modelos, RPA y RAG apoyan un human workflow: ER propone identidad, triage prioriza y ninguna señal prueba fraude o parentes. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a infers_fraud debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"er_proposes_match\", \"triage_prioritizes\", \"rpa_prepares_draft\", \"rag_cites\", \"human_decides\", \"infers_fraud\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"REQUEST_HUMAN_REVIEW\"\n    return \"CONTINUE\" if (not (record[\"infers_fraud\"] or not record[\"human_decides\"])) else \"BLOCK_AUTOMATED_RISK_DECISION\"\n\nvalid = {\"case_id\": \"CASO-PER-052-2B\", \"er_proposes_match\": True, \"triage_prioritizes\": True, \"rpa_prepares_draft\": True, \"rag_cites\": True, \"human_decides\": True, \"infers_fraud\": False}\ninvalid = {\"case_id\": \"CASO-PER-052-2B\", \"er_proposes_match\": True, \"triage_prioritizes\": True, \"rpa_prepares_draft\": True, \"rag_cites\": True, \"human_decides\": False, \"infers_fraud\": False}\nincomplete = {**valid}\nincomplete.pop(\"infers_fraud\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "er_proposes_match",
+        "triage_prioritizes",
+        "rpa_prepares_draft",
+        "rag_cites",
+        "human_decides",
+        "infers_fraud"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T2-B-E3 a partir de la instrucción: S52-T2-B-E3 · Recupera fallo cerrado para `datos, modelos, RPA, RAG y human workflow` con tres fixtures distintos. `CASO-PER-052-2B` debe continuar, e. En teoría/iDo se exige: Datos, modelos, RPA y RAG apoyan un human workflow: ER propone identidad, triage prioriza y ninguna señal prueba fraude o parentes. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_REVIEW` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PER-052-3A\", **{\"unit\":True,\"contract\":True,\"integration\":True,\"evals\":True,\"red_team\":True,\"performance\":True,\"open_p0\":0,\"open_p1\":0}}\nmeets_contract = not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_FINAL_ON_P0_P1\"\nprint(\"S52-T3-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PER",
+        "unit",
+        "contract",
+        "integration",
+        "evals",
+        "red_team"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T3-A-E1 a partir de la instrucción: S52-T3-A-E1 · Verifica el contrato de `tests/evals/red team y performance` sobre `CASO-PER-052-3A`. La entrada es el dict completo del starter; la ope. En teoría/iDo se exige: Tests, evals, red team y performance cubren rutas normales/degradadas; cada P0/P1 tiene regression test permanente. Contrato opera. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `unit`, `contract`, `integration`, `evals`, `red_team`, `performance`, `open_p0`, `open_p1` con la regla expl», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"unit\", \"contract\", \"integration\", \"evals\", \"red_team\", \"performance\", \"open_p0\", \"open_p1\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)) else \"BLOCK_FINAL_ON_P0_P1\"\n\nvalid = {\"case_id\": \"CASO-PER-052-3A\", \"unit\": True, \"contract\": True, \"integration\": True, \"evals\": True, \"red_team\": True, \"performance\": True, \"open_p0\": 0, \"open_p1\": 0}\ninvalid = {\"case_id\": \"CASO-PER-052-3A\", \"unit\": True, \"contract\": True, \"integration\": True, \"evals\": True, \"red_team\": False, \"performance\": True, \"open_p0\": 0, \"open_p1\": 0}\nincomplete = {**valid}\nincomplete.pop(\"open_p1\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "unit",
+        "contract",
+        "integration",
+        "evals",
+        "red_team",
+        "performance"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T3-A-E2 a partir de la instrucción: S52-T3-A-E2 · Decide tres rutas de `tests/evals/red team y performance`: fixture válido, fixture adverso y registro sin `open_p1`. Entrada: dict con c. En teoría/iDo se exige: Tests, evals, red team y performance cubren rutas normales/degradadas; cada P0/P1 tiene regression test permanente. Contrato opera. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a open_p1 debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"unit\", \"contract\", \"integration\", \"evals\", \"red_team\", \"performance\", \"open_p0\", \"open_p1\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"FIX_AND_RERUN_REGRESSION\"\n    return \"CONTINUE\" if (not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)) else \"BLOCK_FINAL_ON_P0_P1\"\n\nvalid = {\"case_id\": \"CASO-PER-052-3A\", \"unit\": True, \"contract\": True, \"integration\": True, \"evals\": True, \"red_team\": True, \"performance\": True, \"open_p0\": 0, \"open_p1\": 0}\ninvalid = {\"case_id\": \"CASO-PER-052-3A\", \"unit\": True, \"contract\": True, \"integration\": True, \"evals\": True, \"red_team\": False, \"performance\": True, \"open_p0\": 0, \"open_p1\": 0}\nincomplete = {**valid}\nincomplete.pop(\"open_p1\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "unit",
+        "contract",
+        "integration",
+        "evals",
+        "red_team",
+        "performance"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T3-A-E3 a partir de la instrucción: S52-T3-A-E3 · Contrasta fallo cerrado para `tests/evals/red team y performance` con tres fixtures distintos. `CASO-PER-052-3A` debe continuar, el adve. En teoría/iDo se exige: Tests, evals, red team y performance cubren rutas normales/degradadas; cada P0/P1 tiene regression test permanente. Contrato opera. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `FIX_AND_RERUN_REGRESSION` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PER-052-3B\", **{\"availability\":0.999,\"slo\":0.995,\"backup_age_h\":3,\"rpo_h\":4,\"rollback_min\":8,\"rto_min\":15,\"disaster_exercise\":True}}\nmeets_contract = not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])\nstatus = \"PASS\" if meets_contract else \"NO_GO_RESILIENCE\"\nprint(\"S52-T3-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PER",
+        "availability",
+        "slo",
+        "backup_age_h",
+        "rpo_h",
+        "rollback_min"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T3-B-E1 a partir de la instrucción: S52-T3-B-E1 · Clasifica el contrato de `SLO, backup, rollback y disaster exercise` sobre `CASO-PER-052-3B`. La entrada es el dict completo del starter. En teoría/iDo se exige: SLO, backup, rollback y disaster exercise se demuestran con reloj/evidencia; un runbook no probado no reduce riesgo. Contrato oper. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `availability`, `slo`, `backup_age_h`, `rpo_h`, `rollback_min`, `rto_min`, `disaster_exercise` con la regla e», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"availability\", \"slo\", \"backup_age_h\", \"rpo_h\", \"rollback_min\", \"rto_min\", \"disaster_exercise\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])) else \"NO_GO_RESILIENCE\"\n\nvalid = {\"case_id\": \"CASO-PER-052-3B\", \"availability\": 0.999, \"slo\": 0.995, \"backup_age_h\": 3, \"rpo_h\": 4, \"rollback_min\": 8, \"rto_min\": 15, \"disaster_exercise\": True}\ninvalid = {\"case_id\": \"CASO-PER-052-3B\", \"availability\": 0.999, \"slo\": 99.995, \"backup_age_h\": 3, \"rpo_h\": 4, \"rollback_min\": 8, \"rto_min\": 15, \"disaster_exercise\": True}\nincomplete = {**valid}\nincomplete.pop(\"disaster_exercise\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "availability",
+        "slo",
+        "backup_age_h",
+        "rpo_h",
+        "rollback_min",
+        "rto_min"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T3-B-E2 a partir de la instrucción: S52-T3-B-E2 · Calcula tres rutas de `SLO, backup, rollback y disaster exercise`: fixture válido, fixture adverso y registro sin `disaster_exercise`. E. En teoría/iDo se exige: SLO, backup, rollback y disaster exercise se demuestran con reloj/evidencia; un runbook no probado no reduce riesgo. Contrato oper. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a disaster_exercise debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"availability\", \"slo\", \"backup_age_h\", \"rpo_h\", \"rollback_min\", \"rto_min\", \"disaster_exercise\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"RUN_DISASTER_EXERCISE\"\n    return \"CONTINUE\" if (not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])) else \"NO_GO_RESILIENCE\"\n\nvalid = {\"case_id\": \"CASO-PER-052-3B\", \"availability\": 0.999, \"slo\": 0.995, \"backup_age_h\": 3, \"rpo_h\": 4, \"rollback_min\": 8, \"rto_min\": 15, \"disaster_exercise\": True}\ninvalid = {\"case_id\": \"CASO-PER-052-3B\", \"availability\": 0.999, \"slo\": 99.995, \"backup_age_h\": 3, \"rpo_h\": 4, \"rollback_min\": 8, \"rto_min\": 15, \"disaster_exercise\": True}\nincomplete = {**valid}\nincomplete.pop(\"disaster_exercise\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "availability",
+        "slo",
+        "backup_age_h",
+        "rpo_h",
+        "rollback_min",
+        "rto_min"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T3-B-E3 a partir de la instrucción: S52-T3-B-E3 · Instrumenta fallo cerrado para `SLO, backup, rollback y disaster exercise` con tres fixtures distintos. `CASO-PER-052-3B` debe continuar. En teoría/iDo se exige: SLO, backup, rollback y disaster exercise se demuestran con reloj/evidencia; un runbook no probado no reduce riesgo. Contrato oper. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `RUN_DISASTER_EXERCISE` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PER-052-4A\", **{\"baseline_ttr_min\":90,\"result_ttr_min\":42,\"benchmark_synthetic\":True,\"demo_minutes\":10,\"cv_claims_sourced\":True,\"personal_contribution\":True}}\nmeets_contract = not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\nprint(\"S52-T4-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PER",
+        "baseline_ttr_min",
+        "result_ttr_min",
+        "benchmark_synthetic",
+        "demo_minutes",
+        "cv_claims_sourced"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T4-A-E1 a partir de la instrucción: S52-T4-A-E1 · Audita el contrato de `demo y narrativa CV` sobre `CASO-PER-052-4A`. La entrada es el dict completo del starter; la operación debe demos. En teoría/iDo se exige: La demo narra problema, baseline, decisión, métrica y límite; CV distingue contribución personal de trabajo previo/equipo. Contrat. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `baseline_ttr_min`, `result_ttr_min`, `benchmark_synthetic`, `demo_minutes`, `cv_claims_sourced`, `personal_c», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"baseline_ttr_min\", \"result_ttr_min\", \"benchmark_synthetic\", \"demo_minutes\", \"cv_claims_sourced\", \"personal_contribution\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"])) else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-PER-052-4A\", \"baseline_ttr_min\": 90, \"result_ttr_min\": 42, \"benchmark_synthetic\": True, \"demo_minutes\": 10, \"cv_claims_sourced\": True, \"personal_contribution\": True}\ninvalid = {\"case_id\": \"CASO-PER-052-4A\", \"baseline_ttr_min\": 0, \"result_ttr_min\": 42, \"benchmark_synthetic\": True, \"demo_minutes\": 10, \"cv_claims_sourced\": True, \"personal_contribution\": True}\nincomplete = {**valid}\nincomplete.pop(\"personal_contribution\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "baseline_ttr_min",
+        "result_ttr_min",
+        "benchmark_synthetic",
+        "demo_minutes",
+        "cv_claims_sourced",
+        "personal_contribution"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T4-A-E2 a partir de la instrucción: S52-T4-A-E2 · Compara tres rutas de `demo y narrativa CV`: fixture válido, fixture adverso y registro sin `personal_contribution`. Entrada: dict con c. En teoría/iDo se exige: La demo narra problema, baseline, decisión, métrica y límite; CV distingue contribución personal de trabajo previo/equipo. Contrat. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a personal_contribution debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"baseline_ttr_min\", \"result_ttr_min\", \"benchmark_synthetic\", \"demo_minutes\", \"cv_claims_sourced\", \"personal_contribution\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"RECORD_PERSONAL_CONTRIBUTION\"\n    return \"CONTINUE\" if (not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"])) else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-PER-052-4A\", \"baseline_ttr_min\": 90, \"result_ttr_min\": 42, \"benchmark_synthetic\": True, \"demo_minutes\": 10, \"cv_claims_sourced\": True, \"personal_contribution\": True}\ninvalid = {\"case_id\": \"CASO-PER-052-4A\", \"baseline_ttr_min\": 0, \"result_ttr_min\": 42, \"benchmark_synthetic\": True, \"demo_minutes\": 10, \"cv_claims_sourced\": True, \"personal_contribution\": True}\nincomplete = {**valid}\nincomplete.pop(\"personal_contribution\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "baseline_ttr_min",
+        "result_ttr_min",
+        "benchmark_synthetic",
+        "demo_minutes",
+        "cv_claims_sourced",
+        "personal_contribution"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T4-A-E3 a partir de la instrucción: S52-T4-A-E3 · Aísla fallo cerrado para `demo y narrativa CV` con tres fixtures distintos. `CASO-PER-052-4A` debe continuar, el adverso debe devolver `. En teoría/iDo se exige: La demo narra problema, baseline, decisión, métrica y límite; CV distingue contribución personal de trabajo previo/equipo. Contrat. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `RECORD_PERSONAL_CONTRIBUTION` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PER-052-4B\", **{\"artifacts\":{\"architecture\",\"README\",\"ADR\",\"system_card\",\"model_card\",\"LICENSE\",\"video\",\"defense\"},\"reproducible_command\":True,\"tradeoffs_defended\":True,\"cpn4c_independent\":True}}\nmeets_contract = not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\nprint(\"S52-T4-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PER",
+        "artifacts",
+        "architecture",
+        "README",
+        "ADR",
+        "system_card"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T4-B-E1 a partir de la instrucción: S52-T4-B-E1 · Decide el contrato de `arquitectura, READMEs, cards, licencia, video y defensa` sobre `CASO-PER-052-4B`. La entrada es el dict completo . En teoría/iDo se exige: Arquitectura, README, ADR/cards, licencia, video y defensa permiten ejecutar y cuestionar el sistema sin conocimiento tribal. Cont. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `artifacts`, `reproducible_command`, `tradeoffs_defended`, `cpn4c_independent` con la regla explicada en S52-», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"artifacts\", \"reproducible_command\", \"tradeoffs_defended\", \"cpn4c_independent\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])) else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\n\nvalid = {\"case_id\": \"CASO-PER-052-4B\", \"artifacts\": {\"ADR\", \"LICENSE\", \"README\", \"architecture\", \"defense\", \"model_card\", \"system_card\", \"video\"}, \"reproducible_command\": True, \"tradeoffs_defended\": True, \"cpn4c_independent\": True}\ninvalid = {\"case_id\": \"CASO-PER-052-4B\", \"artifacts\": {\"ADR\", \"LICENSE\", \"README\", \"architecture\", \"defense\", \"model_card\", \"system_card\", \"video\"}, \"reproducible_command\": True, \"tradeoffs_defended\": True, \"cpn4c_independent\": False}\nincomplete = {**valid}\nincomplete.pop(\"cpn4c_independent\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "artifacts",
+        "reproducible_command",
+        "tradeoffs_defended",
+        "cpn4c_independent",
+        "keys",
+        "join"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T4-B-E2 a partir de la instrucción: S52-T4-B-E2 · Filtra tres rutas de `arquitectura, READMEs, cards, licencia, video y defensa`: fixture válido, fixture adverso y registro sin `cpn4c_in. En teoría/iDo se exige: Arquitectura, README, ADR/cards, licencia, video y defensa permiten ejecutar y cuestionar el sistema sin conocimiento tribal. Cont. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a cpn4c_independent debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S52-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"artifacts\", \"reproducible_command\", \"tradeoffs_defended\", \"cpn4c_independent\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"SCHEDULE_TECHNICAL_DEFENSE\"\n    return \"CONTINUE\" if (not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])) else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\n\nvalid = {\"case_id\": \"CASO-PER-052-4B\", \"artifacts\": {\"ADR\", \"LICENSE\", \"README\", \"architecture\", \"defense\", \"model_card\", \"system_card\", \"video\"}, \"reproducible_command\": True, \"tradeoffs_defended\": True, \"cpn4c_independent\": True}\ninvalid = {\"case_id\": \"CASO-PER-052-4B\", \"artifacts\": {\"ADR\", \"LICENSE\", \"README\", \"architecture\", \"defense\", \"model_card\", \"system_card\", \"video\"}, \"reproducible_command\": True, \"tradeoffs_defended\": True, \"cpn4c_independent\": False}\nincomplete = {**valid}\nincomplete.pop(\"cpn4c_independent\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "artifacts",
+        "reproducible_command",
+        "tradeoffs_defended",
+        "cpn4c_independent",
+        "keys",
+        "ausencia"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S52-T4-B-E3 a partir de la instrucción: S52-T4-B-E3 · Demuestra fallo cerrado para `arquitectura, READMEs, cards, licencia, video y defensa` con tres fixtures distintos. `CASO-PER-052-4B` de. En teoría/iDo se exige: Arquitectura, README, ADR/cards, licencia, video y defensa permiten ejecutar y cuestionar el sistema sin conocimiento tribal. Cont. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `SCHEDULE_TECHNICAL_DEFENSE` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "matriz stakeholder/job/métrica con evidencia",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer: en el material de S52 (teoría e iDo del paquete) respalda «matriz stakeholder/job/métrica con evidencia». Pregunta: «¿Qué evidencia permite aprobar `stakeholders, jobs y success metrics de CF-1` en CASO-PER-052?». Conceptos de soporte: matriz, stakeholder, métrica, evidencia. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "emitir NO_GO_RELEASE y conservar evidencia",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer: en el material de S52 (teoría e iDo del paquete) respalda «emitir NO_GO_RELEASE y conservar evidencia». Pregunta: «Si ocurre la condición de error de S52, ¿qué respuesta preserva seguridad y auditabilidad?». Conceptos de soporte: evidencia. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "52/52, 12/12 capstones, CP-FINAL y regresión completa pasan sin compensar CP-N4-C",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer: en el material de S52 (teoría e iDo del paquete) respalda «52/52, 12/12 capstones, CP-FINAL y regresión completa pasan sin compensar CP-N4-C». Pregunta: «¿Cuál resultado demuestra el gate `CP-FINAL · plataforma integral defendible`?». Conceptos de soporte: capstones, FINAL, regresión, completa, pasan, compensar. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer: en el material de S52 (teoría e iDo del paquete) respalda «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana». Pregunta: «¿Qué tratamiento de `CASO-PER-052` respeta el alcance del curso?». Conceptos de soporte: sintético, revisión, humana. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52
+    ],
+    "note": "Knowledge limited to sequential packets through active section; solved from exercise_batch/quiz_card only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:42:13.470817+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s52-live"
+}

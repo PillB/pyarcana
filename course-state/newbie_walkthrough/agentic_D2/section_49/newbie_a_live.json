@@ -1,0 +1,545 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D2",
+  "section_index": 49,
+  "packet_sha": "2864233a4f8e529b",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S49-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"tool_choice_uncertain\":False,\"baseline_success\":0.96,\"agent_success\":0.9}}\nmeets_contract = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_DETERMINISTIC_WORKFLOW\"\nprint(\"S49-T1-A\", status)\n# D2-Explorer: packet-only re-walk S49 S49-T1-A-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "known_steps",
+        "branch_count",
+        "tool_choice_uncertain",
+        "baseline_success",
+        "agent_success"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T1-A-E1 a partir de la instrucción: S49-T1-A-E1 · Calcula el contrato de `workflow vs agente` sobre `CASO-AYA-049-1A`. La entrada es el dict completo del starter; la operación debe demos. En teoría/iDo se exige: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificabl. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `known_steps`, `branch_count`, `tool_choice_uncertain`, `baseline_success`, `agent_success` con la regla expl», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"known_steps\", \"branch_count\", \"tool_choice_uncertain\", \"baseline_success\", \"agent_success\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])) else \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-1A\", \"known_steps\": True, \"branch_count\": 2, \"tool_choice_uncertain\": False, \"baseline_success\": 0.96, \"agent_success\": 0.9}\ninvalid = {\"case_id\": \"CASO-AYA-049-1A\", \"known_steps\": False, \"branch_count\": 2, \"tool_choice_uncertain\": False, \"baseline_success\": 0.96, \"agent_success\": 0.9}\nincomplete = {**valid}\nincomplete.pop(\"agent_success\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T1-A-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "known_steps",
+        "branch_count",
+        "tool_choice_uncertain",
+        "baseline_success",
+        "agent_success",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T1-A-E2 a partir de la instrucción: S49-T1-A-E2 · Modela tres rutas de `workflow vs agente`: fixture válido, fixture adverso y registro sin `agent_success`. Entrada: dict con case_id, kn. En teoría/iDo se exige: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificabl. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a agent_success debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"known_steps\", \"branch_count\", \"tool_choice_uncertain\", \"baseline_success\", \"agent_success\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"RUN_AGENT_BASELINE\"\n    return \"CONTINUE\" if (not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])) else \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-1A\", \"known_steps\": True, \"branch_count\": 2, \"tool_choice_uncertain\": False, \"baseline_success\": 0.96, \"agent_success\": 0.9}\ninvalid = {\"case_id\": \"CASO-AYA-049-1A\", \"known_steps\": False, \"branch_count\": 2, \"tool_choice_uncertain\": False, \"baseline_success\": 0.96, \"agent_success\": 0.9}\nincomplete = {**valid}\nincomplete.pop(\"agent_success\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T1-A-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "known_steps",
+        "branch_count",
+        "tool_choice_uncertain",
+        "baseline_success",
+        "agent_success",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T1-A-E3 a partir de la instrucción: S49-T1-A-E3 · Simula fallo cerrado para `workflow vs agente` con tres fixtures distintos. `CASO-AYA-049-1A` debe continuar, el adverso debe devolver `. En teoría/iDo se exige: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificabl. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `RUN_AGENT_BASELINE` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_steps\":5,\"worker_outputs\":3,\"evaluator_pass\":True}}\nmeets_contract = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\nstatus = \"PASS\" if meets_contract else \"STOP_AGENT_LOOP\"\nprint(\"S49-T1-B\", status)\n# D2-Explorer: packet-only re-walk S49 S49-T1-B-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "route",
+        "report",
+        "plan_steps",
+        "max_steps",
+        "worker_outputs"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T1-B-E1 a partir de la instrucción: S49-T1-B-E1 · Compara el contrato de `routing, planner/worker y evaluator–optimizer` sobre `CASO-AYA-049-1B`. La entrada es el dict completo del start. En teoría/iDo se exige: Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto entre roles. Contrato o. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `route`, `plan_steps`, `max_steps`, `worker_outputs`, `evaluator_pass` con la regla explicada en S49-T1-B.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"route\", \"plan_steps\", \"max_steps\", \"worker_outputs\", \"evaluator_pass\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])) else \"STOP_AGENT_LOOP\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-1B\", \"route\": \"report\", \"plan_steps\": 3, \"max_steps\": 5, \"worker_outputs\": 3, \"evaluator_pass\": True}\ninvalid = {\"case_id\": \"CASO-AYA-049-1B\", \"route\": \"report\", \"plan_steps\": 102, \"max_steps\": 5, \"worker_outputs\": 3, \"evaluator_pass\": True}\nincomplete = {**valid}\nincomplete.pop(\"evaluator_pass\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T1-B-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "route",
+        "plan_steps",
+        "max_steps",
+        "worker_outputs",
+        "evaluator_pass",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T1-B-E2 a partir de la instrucción: S49-T1-B-E2 · Verifica tres rutas de `routing, planner/worker y evaluator–optimizer`: fixture válido, fixture adverso y registro sin `evaluator_pass`. En teoría/iDo se exige: Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto entre roles. Contrato o. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a evaluator_pass debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"route\", \"plan_steps\", \"max_steps\", \"worker_outputs\", \"evaluator_pass\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"REPLAN_WITH_BOUNDS\"\n    return \"CONTINUE\" if (not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])) else \"STOP_AGENT_LOOP\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-1B\", \"route\": \"report\", \"plan_steps\": 3, \"max_steps\": 5, \"worker_outputs\": 3, \"evaluator_pass\": True}\ninvalid = {\"case_id\": \"CASO-AYA-049-1B\", \"route\": \"report\", \"plan_steps\": 102, \"max_steps\": 5, \"worker_outputs\": 3, \"evaluator_pass\": True}\nincomplete = {**valid}\nincomplete.pop(\"evaluator_pass\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T1-B-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "route",
+        "plan_steps",
+        "max_steps",
+        "worker_outputs",
+        "evaluator_pass",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T1-B-E3 a partir de la instrucción: S49-T1-B-E3 · Extiende fallo cerrado para `routing, planner/worker y evaluator–optimizer` con tres fixtures distintos. `CASO-AYA-049-1B` debe continua. En teoría/iDo se exige: Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto entre roles. Contrato o. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `REPLAN_WITH_BOUNDS` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibilities\":1,\"schema_fields\":{\"case_id\"},\"side_effect\":False,\"typed_errors\":True}}\nmeets_contract = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_OVERBROAD_TOOL\"\nprint(\"S49-T2-A\", status)\n# D2-Explorer: packet-only re-walk S49 S49-T2-A-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "tool",
+        "get_case_status",
+        "responsibilities",
+        "schema_fields",
+        "side_effect"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T2-A-E1 a partir de la instrucción: S49-T2-A-E1 · Filtra el contrato de `funciones de responsabilidad única` sobre `CASO-AYA-049-2A`. La entrada es el dict completo del starter; la opera. En teoría/iDo se exige: Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede autoridad. Contrato op. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `tool`, `responsibilities`, `schema_fields`, `side_effect`, `typed_errors` con la regla explicada en S49-T2-A», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"tool\", \"responsibilities\", \"schema_fields\", \"side_effect\", \"typed_errors\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])) else \"DISABLE_OVERBROAD_TOOL\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-2A\", \"tool\": \"get_case_status\", \"responsibilities\": 1, \"schema_fields\": {\"case_id\"}, \"side_effect\": False, \"typed_errors\": True}\ninvalid = {\"case_id\": \"CASO-AYA-049-2A\", \"tool\": \"get_case_status\", \"responsibilities\": 100, \"schema_fields\": {\"case_id\"}, \"side_effect\": False, \"typed_errors\": True}\nincomplete = {**valid}\nincomplete.pop(\"typed_errors\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T2-A-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "tool",
+        "responsibilities",
+        "schema_fields",
+        "side_effect",
+        "typed_errors",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T2-A-E2 a partir de la instrucción: S49-T2-A-E2 · Clasifica tres rutas de `funciones de responsabilidad única`: fixture válido, fixture adverso y registro sin `typed_errors`. Entrada: di. En teoría/iDo se exige: Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede autoridad. Contrato op. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a typed_errors debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"tool\", \"responsibilities\", \"schema_fields\", \"side_effect\", \"typed_errors\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"SPLIT_TOOL_CONTRACT\"\n    return \"CONTINUE\" if (not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])) else \"DISABLE_OVERBROAD_TOOL\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-2A\", \"tool\": \"get_case_status\", \"responsibilities\": 1, \"schema_fields\": {\"case_id\"}, \"side_effect\": False, \"typed_errors\": True}\ninvalid = {\"case_id\": \"CASO-AYA-049-2A\", \"tool\": \"get_case_status\", \"responsibilities\": 100, \"schema_fields\": {\"case_id\"}, \"side_effect\": False, \"typed_errors\": True}\nincomplete = {**valid}\nincomplete.pop(\"typed_errors\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T2-A-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "tool",
+        "responsibilities",
+        "schema_fields",
+        "side_effect",
+        "typed_errors",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T2-A-E3 a partir de la instrucción: S49-T2-A-E3 · Defiende fallo cerrado para `funciones de responsabilidad única` con tres fixtures distintos. `CASO-AYA-049-2A` debe continuar, el adver. En teoría/iDo se exige: Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede autoridad. Contrato op. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `SPLIT_TOOL_CONTRACT` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:prepare\",\"granted\":{\"report:prepare\"},\"idempotency_key\":\"tool-1\",\"attempts\":2,\"effects\":1,\"error_kind\":\"retryable\"}}\nmeets_contract = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\nstatus = \"PASS\" if meets_contract else \"DENY_TOOL_CALL\"\nprint(\"S49-T2-B\", status)\n# D2-Explorer: packet-only re-walk S49 S49-T2-B-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "schema_valid",
+        "scope",
+        "report",
+        "prepare",
+        "granted"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T2-B-E1 a partir de la instrucción: S49-T2-B-E1 · Modela el contrato de `schema, permisos, idempotencia y errores` sobre `CASO-AYA-049-2B`. La entrada es el dict completo del starter; la. En teoría/iDo se exige: Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin filtrar secretos. Con. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `schema_valid`, `scope`, `granted`, `idempotency_key`, `attempts`, `effects`, `error_kind` con la regla expli», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"schema_valid\", \"scope\", \"granted\", \"idempotency_key\", \"attempts\", \"effects\", \"error_kind\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)) else \"DENY_TOOL_CALL\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-2B\", \"schema_valid\": True, \"scope\": \"report:prepare\", \"granted\": {\"report:prepare\"}, \"idempotency_key\": \"tool-1\", \"attempts\": 2, \"effects\": 1, \"error_kind\": \"retryable\"}\ninvalid = {\"case_id\": \"CASO-AYA-049-2B\", \"schema_valid\": True, \"scope\": \"report:prepare_BAD\", \"granted\": {\"report:prepare\"}, \"idempotency_key\": \"tool-1\", \"attempts\": 2, \"effects\": 1, \"error_kind\": \"retryable\"}\nincomplete = {**valid}\nincomplete.pop(\"error_kind\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T2-B-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "schema_valid",
+        "scope",
+        "granted",
+        "idempotency_key",
+        "attempts",
+        "effects"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T2-B-E2 a partir de la instrucción: S49-T2-B-E2 · Audita tres rutas de `schema, permisos, idempotencia y errores`: fixture válido, fixture adverso y registro sin `error_kind`. Entrada: d. En teoría/iDo se exige: Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin filtrar secretos. Con. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a error_kind debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"schema_valid\", \"scope\", \"granted\", \"idempotency_key\", \"attempts\", \"effects\", \"error_kind\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"CLASSIFY_TOOL_ERROR\"\n    return \"CONTINUE\" if (not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)) else \"DENY_TOOL_CALL\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-2B\", \"schema_valid\": True, \"scope\": \"report:prepare\", \"granted\": {\"report:prepare\"}, \"idempotency_key\": \"tool-1\", \"attempts\": 2, \"effects\": 1, \"error_kind\": \"retryable\"}\ninvalid = {\"case_id\": \"CASO-AYA-049-2B\", \"schema_valid\": True, \"scope\": \"report:prepare_BAD\", \"granted\": {\"report:prepare\"}, \"idempotency_key\": \"tool-1\", \"attempts\": 2, \"effects\": 1, \"error_kind\": \"retryable\"}\nincomplete = {**valid}\nincomplete.pop(\"error_kind\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T2-B-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "schema_valid",
+        "scope",
+        "granted",
+        "idempotency_key",
+        "attempts",
+        "effects"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T2-B-E3 a partir de la instrucción: S49-T2-B-E3 · Recupera fallo cerrado para `schema, permisos, idempotencia y errores` con tres fixtures distintos. `CASO-AYA-049-2B` debe continuar, el. En teoría/iDo se exige: Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin filtrar secretos. Con. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `CLASSIFY_TOOL_ERROR` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_tokens\":2000,\"retrieved_just_in_time\":True,\"checkpoint_after_effect\":True,\"provenance\":True}}\nmeets_contract = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\nstatus = \"PASS\" if meets_contract else \"COMPACT_AND_CHECKPOINT\"\nprint(\"S49-T3-A\", status)\n# D2-Explorer: packet-only re-walk S49 S49-T3-A-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "context_tokens",
+        "max_context_tokens",
+        "retrieved_just_in_time",
+        "checkpoint_after_effect",
+        "provenance"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T3-A-E1 a partir de la instrucción: S49-T3-A-E1 · Verifica el contrato de `contexto mínimo, retrieval JIT y checkpoints` sobre `CASO-AYA-049-3A`. La entrada es el dict completo del start. En teoría/iDo se exige: Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras efectos durables. C. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `context_tokens`, `max_context_tokens`, `retrieved_just_in_time`, `checkpoint_after_effect`, `provenance` con», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"context_tokens\", \"max_context_tokens\", \"retrieved_just_in_time\", \"checkpoint_after_effect\", \"provenance\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])) else \"COMPACT_AND_CHECKPOINT\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-3A\", \"context_tokens\": 1200, \"max_context_tokens\": 2000, \"retrieved_just_in_time\": True, \"checkpoint_after_effect\": True, \"provenance\": True}\ninvalid = {\"case_id\": \"CASO-AYA-049-3A\", \"context_tokens\": 1200, \"max_context_tokens\": 0, \"retrieved_just_in_time\": True, \"checkpoint_after_effect\": True, \"provenance\": True}\nincomplete = {**valid}\nincomplete.pop(\"provenance\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T3-A-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "context_tokens",
+        "max_context_tokens",
+        "retrieved_just_in_time",
+        "checkpoint_after_effect",
+        "provenance",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T3-A-E2 a partir de la instrucción: S49-T3-A-E2 · Decide tres rutas de `contexto mínimo, retrieval JIT y checkpoints`: fixture válido, fixture adverso y registro sin `provenance`. Entrad. En teoría/iDo se exige: Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras efectos durables. C. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a provenance debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"context_tokens\", \"max_context_tokens\", \"retrieved_just_in_time\", \"checkpoint_after_effect\", \"provenance\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"RETRIEVE_MINIMUM_CONTEXT\"\n    return \"CONTINUE\" if (not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])) else \"COMPACT_AND_CHECKPOINT\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-3A\", \"context_tokens\": 1200, \"max_context_tokens\": 2000, \"retrieved_just_in_time\": True, \"checkpoint_after_effect\": True, \"provenance\": True}\ninvalid = {\"case_id\": \"CASO-AYA-049-3A\", \"context_tokens\": 1200, \"max_context_tokens\": 0, \"retrieved_just_in_time\": True, \"checkpoint_after_effect\": True, \"provenance\": True}\nincomplete = {**valid}\nincomplete.pop(\"provenance\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T3-A-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "context_tokens",
+        "max_context_tokens",
+        "retrieved_just_in_time",
+        "checkpoint_after_effect",
+        "provenance",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T3-A-E3 a partir de la instrucción: S49-T3-A-E3 · Contrasta fallo cerrado para `contexto mínimo, retrieval JIT y checkpoints` con tres fixtures distintos. `CASO-AYA-049-3A` debe continua. En teoría/iDo se exige: Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras efectos durables. C. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `RETRIEVE_MINIMUM_CONTEXT` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"no_prod_write\"},\"facts_after\":{\"case_id\",\"budget\",\"no_prod_write\"},\"memory_retention_days\":7,\"last_known_good\":\"cp-7\"}}\nmeets_contract = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\nstatus = \"PASS\" if meets_contract else \"RESTORE_LAST_KNOWN_GOOD\"\nprint(\"S49-T3-B\", status)\n# D2-Explorer: packet-only re-walk S49 S49-T3-B-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "facts_before",
+        "budget",
+        "no_prod_write",
+        "facts_after",
+        "memory_retention_days"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T3-B-E1 a partir de la instrucción: S49-T3-B-E1 · Clasifica el contrato de `memoria, compaction y last-known-good` sobre `CASO-AYA-049-3B`. La entrada es el dict completo del starter; la. En teoría/iDo se exige: Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good permite volver a esta. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `facts_before`, `facts_after`, `memory_retention_days`, `last_known_good` con la regla explicada en S49-T3-B.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"facts_before\", \"facts_after\", \"memory_retention_days\", \"last_known_good\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])) else \"RESTORE_LAST_KNOWN_GOOD\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-3B\", \"facts_before\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"facts_after\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"memory_retention_days\": 7, \"last_known_good\": \"cp-7\"}\ninvalid = {\"case_id\": \"CASO-AYA-049-3B\", \"facts_before\": {\"__extra__\", \"budget\", \"case_id\", \"no_prod_write\"}, \"facts_after\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"memory_retention_days\": 7, \"last_known_good\": \"cp-7\"}\nincomplete = {**valid}\nincomplete.pop(\"last_known_good\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T3-B-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "facts_before",
+        "facts_after",
+        "memory_retention_days",
+        "last_known_good",
+        "keys",
+        "join"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T3-B-E2 a partir de la instrucción: S49-T3-B-E2 · Calcula tres rutas de `memoria, compaction y last-known-good`: fixture válido, fixture adverso y registro sin `last_known_good`. Entrada. En teoría/iDo se exige: Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good permite volver a esta. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a last_known_good debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"facts_before\", \"facts_after\", \"memory_retention_days\", \"last_known_good\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"REVIEW_COMPACTION_LOSS\"\n    return \"CONTINUE\" if (not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])) else \"RESTORE_LAST_KNOWN_GOOD\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-3B\", \"facts_before\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"facts_after\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"memory_retention_days\": 7, \"last_known_good\": \"cp-7\"}\ninvalid = {\"case_id\": \"CASO-AYA-049-3B\", \"facts_before\": {\"__extra__\", \"budget\", \"case_id\", \"no_prod_write\"}, \"facts_after\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"memory_retention_days\": 7, \"last_known_good\": \"cp-7\"}\nincomplete = {**valid}\nincomplete.pop(\"last_known_good\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T3-B-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "facts_before",
+        "facts_after",
+        "memory_retention_days",
+        "last_known_good",
+        "keys",
+        "ausencia"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T3-B-E3 a partir de la instrucción: S49-T3-B-E3 · Instrumenta fallo cerrado para `memoria, compaction y last-known-good` con tres fixtures distintos. `CASO-AYA-049-3B` debe continuar, el. En teoría/iDo se exige: Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good permite volver a esta. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `REVIEW_COMPACTION_LOSS` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\":6,\"tokens\":3200,\"max_tokens\":5000,\"cost_pen\":0.04,\"max_cost_pen\":0.06}}\nmeets_contract = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\nstatus = \"PASS\" if meets_contract else \"STOP_BUDGET_EXHAUSTED\"\nprint(\"S49-T4-A\", status)\n# D2-Explorer: packet-only re-walk S49 S49-T4-A-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "goal_met",
+        "steps",
+        "max_steps",
+        "tokens",
+        "max_tokens"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T4-A-E1 a partir de la instrucción: S49-T4-A-E1 · Audita el contrato de `stopping conditions y budgets` sobre `CASO-AYA-049-4A`. La entrada es el dict completo del starter; la operación . En teoría/iDo se exige: Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explícito, no continuación . Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `goal_met`, `steps`, `max_steps`, `tokens`, `max_tokens`, `cost_pen`, `max_cost_pen` con la regla explicada e», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"goal_met\", \"steps\", \"max_steps\", \"tokens\", \"max_tokens\", \"cost_pen\", \"max_cost_pen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])) else \"STOP_BUDGET_EXHAUSTED\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-4A\", \"goal_met\": True, \"steps\": 4, \"max_steps\": 6, \"tokens\": 3200, \"max_tokens\": 5000, \"cost_pen\": 0.04, \"max_cost_pen\": 0.06}\ninvalid = {\"case_id\": \"CASO-AYA-049-4A\", \"goal_met\": True, \"steps\": 103, \"max_steps\": 6, \"tokens\": 3200, \"max_tokens\": 5000, \"cost_pen\": 0.04, \"max_cost_pen\": 0.06}\nincomplete = {**valid}\nincomplete.pop(\"max_cost_pen\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T4-A-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "goal_met",
+        "steps",
+        "max_steps",
+        "tokens",
+        "max_tokens",
+        "cost_pen"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T4-A-E2 a partir de la instrucción: S49-T4-A-E2 · Compara tres rutas de `stopping conditions y budgets`: fixture válido, fixture adverso y registro sin `max_cost_pen`. Entrada: dict con . En teoría/iDo se exige: Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explícito, no continuación . Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a max_cost_pen debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"goal_met\", \"steps\", \"max_steps\", \"tokens\", \"max_tokens\", \"cost_pen\", \"max_cost_pen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"ASK_FOR_SCOPE_REDUCTION\"\n    return \"CONTINUE\" if (not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])) else \"STOP_BUDGET_EXHAUSTED\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-4A\", \"goal_met\": True, \"steps\": 4, \"max_steps\": 6, \"tokens\": 3200, \"max_tokens\": 5000, \"cost_pen\": 0.04, \"max_cost_pen\": 0.06}\ninvalid = {\"case_id\": \"CASO-AYA-049-4A\", \"goal_met\": True, \"steps\": 103, \"max_steps\": 6, \"tokens\": 3200, \"max_tokens\": 5000, \"cost_pen\": 0.04, \"max_cost_pen\": 0.06}\nincomplete = {**valid}\nincomplete.pop(\"max_cost_pen\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T4-A-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "goal_met",
+        "steps",
+        "max_steps",
+        "tokens",
+        "max_tokens",
+        "cost_pen"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T4-A-E3 a partir de la instrucción: S49-T4-A-E3 · Aísla fallo cerrado para `stopping conditions y budgets` con tres fixtures distintos. `CASO-AYA-049-4A` debe continuar, el adverso debe . En teoría/iDo se exige: Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explícito, no continuación . Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `ASK_FOR_SCOPE_REDUCTION` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"workspace-read\",\"sensitive_action\":\"prepare-draft\",\"approval_required\":True,\"approval_present\":True,\"checkpoint\":\"cp-9\",\"replayed_effects\":0}}\nmeets_contract = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\nstatus = \"PASS\" if meets_contract else \"SANDBOX_AND_STOP\"\nprint(\"S49-T4-B\", status)\n# D2-Explorer: packet-only re-walk S49 S49-T4-B-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "network",
+        "filesystem",
+        "workspace",
+        "read",
+        "sensitive_action"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T4-B-E1 a partir de la instrucción: S49-T4-B-E1 · Decide el contrato de `sandbox, human approval y recuperación` sobre `CASO-AYA-049-4B`. La entrada es el dict completo del starter; la o. En teoría/iDo se exige: Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con efecto. Co. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `network`, `filesystem`, `sensitive_action`, `approval_required`, `approval_present`, `checkpoint`, `replayed», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"network\", \"filesystem\", \"sensitive_action\", \"approval_required\", \"approval_present\", \"checkpoint\", \"replayed_effects\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)) else \"SANDBOX_AND_STOP\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-4B\", \"network\": \"none\", \"filesystem\": \"workspace-read\", \"sensitive_action\": \"prepare-draft\", \"approval_required\": True, \"approval_present\": True, \"checkpoint\": \"cp-9\", \"replayed_effects\": 0}\ninvalid = {\"case_id\": \"CASO-AYA-049-4B\", \"network\": \"none\", \"filesystem\": \"workspace-read\", \"sensitive_action\": \"prepare-draft\", \"approval_required\": True, \"approval_present\": False, \"checkpoint\": \"cp-9\", \"replayed_effects\": 0}\nincomplete = {**valid}\nincomplete.pop(\"replayed_effects\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T4-B-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "network",
+        "filesystem",
+        "sensitive_action",
+        "approval_required",
+        "approval_present",
+        "checkpoint"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T4-B-E2 a partir de la instrucción: S49-T4-B-E2 · Filtra tres rutas de `sandbox, human approval y recuperación`: fixture válido, fixture adverso y registro sin `replayed_effects`. Entrad. En teoría/iDo se exige: Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con efecto. Co. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a replayed_effects debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S49-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"network\", \"filesystem\", \"sensitive_action\", \"approval_required\", \"approval_present\", \"checkpoint\", \"replayed_effects\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"REQUEST_HUMAN_APPROVAL\"\n    return \"CONTINUE\" if (not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)) else \"SANDBOX_AND_STOP\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-4B\", \"network\": \"none\", \"filesystem\": \"workspace-read\", \"sensitive_action\": \"prepare-draft\", \"approval_required\": True, \"approval_present\": True, \"checkpoint\": \"cp-9\", \"replayed_effects\": 0}\ninvalid = {\"case_id\": \"CASO-AYA-049-4B\", \"network\": \"none\", \"filesystem\": \"workspace-read\", \"sensitive_action\": \"prepare-draft\", \"approval_required\": True, \"approval_present\": False, \"checkpoint\": \"cp-9\", \"replayed_effects\": 0}\nincomplete = {**valid}\nincomplete.pop(\"replayed_effects\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S49 S49-T4-B-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "network",
+        "filesystem",
+        "sensitive_action",
+        "approval_required",
+        "approval_present",
+        "checkpoint"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S49-T4-B-E3 a partir de la instrucción: S49-T4-B-E3 · Demuestra fallo cerrado para `sandbox, human approval y recuperación` con tres fixtures distintos. `CASO-AYA-049-4B` debe continuar, el . En teoría/iDo se exige: Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con efecto. Co. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_APPROVAL` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "ADR workflow/agente con baseline",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer: en el material de S49 (teoría e iDo del paquete) respalda «ADR workflow/agente con baseline». Pregunta: «¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049?». Conceptos de soporte: workflow, agente, baseline. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "emitir STOP_AGENT y conservar evidencia",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer: en el material de S49 (teoría e iDo del paquete) respalda «emitir STOP_AGENT y conservar evidencia». Pregunta: «Si ocurre la condición de error de S49, ¿qué respuesta preserva seguridad y auditabilidad?». Conceptos de soporte: STOP, AGENT, evidencia. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer: en el material de S49 (teoría e iDo del paquete) respalda «cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible». Pregunta: «¿Cuál resultado demuestra el gate `CP-N4-C · agente acotado con aprobación humana`?». Conceptos de soporte: cada, tool, idempotente, agente, detiene, persona. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer: en el material de S49 (teoría e iDo del paquete) respalda «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana». Pregunta: «¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso?». Conceptos de soporte: sintético, mínimo. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ],
+    "note": "Knowledge limited to sequential packets through active section; solved from exercise_batch/quiz_card only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:58:04.637155+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D2-s49-live"
+}

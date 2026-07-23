@@ -1,0 +1,527 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D2-s22-live",
+  "attempt_id": "agentic_D2",
+  "section_index": 22,
+  "packet_sha": "9c104917fbc2cfb3",
+  "packet_source": "course-state/newbie_walkthrough/agentic_D1/section_22/slim_packet.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\nprint(msg.get_content_type())\n# D2-Skeptic: packet-only re-walk S22 S22-T1-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "email",
+        "mime",
+        "text",
+        "MIMEText",
+        "msg",
+        "Hola",
+        "plain",
+        "utf"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T1-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola', 'plain', 'utf-8'); print(msg.get_content_type()).. Hints: from email.mime.text import MIMEText; print(msg['Content-Type']) o as_string.. Completé el TODO con patrón del fixture/starter y la línea «print(msg.get_content_type())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt['Content-Disposition'] = 'attachment; filename=\"a.txt\"'\nmsg.attach(att)\nmsg.attach(att)\nprint(msg.get_content_type())\n# D2-Skeptic: packet-only re-walk S22 S22-T1-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "email",
+        "mime",
+        "multipart",
+        "MIMEMultipart",
+        "application",
+        "MIMEApplication",
+        "msg",
+        "mixed"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T1-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg = MIMEMultipart('mixed'); msg['Subject'] = 'Test'. C. Hints: MIMEMultipart + attach; Content-Disposition filename. Completé el TODO con patrón del fixture/starter y la línea «print(msg.get_content_type())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\nmsg.attach(alt)\nprint(msg.get_content_maintype())\n# D2-Skeptic: packet-only re-walk S22 S22-T1-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "email",
+        "mime",
+        "multipart",
+        "MIMEMultipart",
+        "text",
+        "MIMEText",
+        "msg",
+        "mixed"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T1-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = MIMEMultipart('mixed'); alt = MIMEMultipart('alter. Hints: alternative dentro de mixed; alt.attach dos MIMEText. Completé el TODO con patrón del fixture/starter y la línea «print(msg.get_content_maintype())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nprint(html.escape('<script>x</script>'))\n# D2-Skeptic: packet-only re-walk S22 S22-T1-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "html"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T1-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<script>x</script>')). Completa el TODO del starter . Hints: import html; html.escape. Completé el TODO con patrón del fixture/starter y la línea «print(html.escape('<script>x</script>'))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nname = '<b>Ana</b>'\nprint('Hola ' + html.escape(name))\n# D2-Skeptic: packet-only re-walk S22 S22-T1-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "html"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T1-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>Ana</b>'; print('Hola ' + html.escape(name)). Comp. Hints: escape antes de format; no uses f-string con HTML crudo. Completé el TODO con patrón del fixture/starter y la línea «print('Hola ' + html.escape(name))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "urls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n    print('ok' if 'example.pe' in u else 'block')\n# D2-Skeptic: packet-only re-walk S22 S22-T1-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "urls",
+        "https",
+        "example",
+        "evil",
+        "test",
+        "else",
+        "block",
+        "transferencia"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T1-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = ['https://example.pe/a', 'https://evil.test']; for. Hints: if 'example.pe' in url; lista de prueba. Completé el TODO con patrón del fixture/starter y la línea «    print('ok' if 'example.pe' in u else 'block')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "requested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\nprint([s for s in requested if s in allowed])\n# D2-Skeptic: packet-only re-walk S22 S22-T2-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "requested",
+        "mail",
+        "draft",
+        "full",
+        "allowed",
+        "readonly",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T2-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail.draft', 'mail.full']; allowed = {'mail.draft', 'm. Hints: list comprehension; set membership. Completé el TODO con patrón del fixture/starter y la línea «print([s for s in requested if s in allowed])»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(bad.isdisjoint(granted))\n# D2-Skeptic: packet-only re-walk S22 S22-T2-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "granted"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T2-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = ['mail.draft']; bad = {'mail.full', 'admin'}. Compl. Hints: all(x not in granted for x in ...); set isdisjoint. Completé el TODO con patrón del fixture/starter y la línea «print(bad.isdisjoint(granted))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n    print('refresh' if exp < now else 'valid')\n# D2-Skeptic: packet-only re-walk S22 S22-T2-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "datetime",
+        "timezone",
+        "timedelta",
+        "now",
+        "utc",
+        "exp",
+        "minutes",
+        "hours"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T2-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = datetime.now(timezone.utc); for exp in (now - timedel. Hints: datetime.fromisoformat; compara con now UTC. Completé el TODO con patrón del fixture/starter y la línea «    print('refresh' if exp < now else 'valid')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\nstore['d001'] = {'status': 'draft'}\nprint(store['d001']['status'])\n# D2-Skeptic: packet-only re-walk S22 S22-T2-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "store"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T2-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d001'] = {'status': 'draft'}. Completa el TODO del st. Hints: dict assignment; print store[id]. Completé el TODO con patrón del fixture/starter y la línea «print(store['d001']['status'])»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nprint(bool(now < expires_at))\n# D2-Skeptic: packet-only re-walk S22 S22-T2-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "datetime",
+        "timezone",
+        "timedelta",
+        "now",
+        "utc",
+        "expires_at",
+        "seconds",
+        "bool"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T2-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datetime.now(timezone.utc); expires_at = now - timedelt. Hints: timedelta; now < expires. Completé el TODO con patrón del fixture/starter y la línea «print(bool(now < expires_at))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())\n# D2-Skeptic: packet-only re-walk S22 S22-T2-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "store"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T2-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}; def create_draft():. Completa el TODO del starte. Hints: len(store)+1; f-string d{n:03d}. Completé el TODO con patrón del fixture/starter y la línea «print(create_draft(), create_draft())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\npat = r'^[^@]+@[^@]+\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n    print(e, bool(re.match(pat, e)))\n# D2-Skeptic: packet-only re-walk S22 S22-T3-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pat",
+        "ana",
+        "example",
+        "bad",
+        "bool",
+        "match",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T3-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\\\.[^@]+$'; for e in ('ana@example.pe', 'bad'):. Co. Hints: re.match; bool del match. Completé el TODO con patrón del fixture/starter y la línea «    print(e, bool(re.match(pat, e)))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "DIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\nprint('verified' if em and em.endswith('@example.pe') else 'unknown')\n# D2-Skeptic: packet-only re-walk S22 S22-T3-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "DIRECTORY",
+        "C001",
+        "ana",
+        "example",
+        "get",
+        "verified",
+        "endswith",
+        "else"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T3-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY = {'C001': 'ana@example.pe'}; em = DIRECTORY.get('C0. Hints: dict.get; split @. Completé el TODO con patrón del fixture/starter y la línea «print('verified' if em and em.endswith('@example.pe') else 'unknown')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), 'match_no_es_fraude')\n# D2-Skeptic: packet-only re-walk S22 S22-T3-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "ana",
+        "rojas",
+        "example",
+        "com",
+        "zip",
+        "break",
+        "score",
+        "max"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T3-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'. Hints: os.path common o loop; no uses el score como prueba de fraude. Completé el TODO con patrón del fixture/starter y la línea «print(round(score, 2), 'match_no_es_fraude')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = ['a@x', 'b@x', 'a@x']\nprint(list(dict.fromkeys(xs)))\n# D2-Skeptic: packet-only re-walk S22 S22-T3-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "list"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T3-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@x', 'b@x', 'a@x']; print(list(dict.fromkeys(xs))).. Hints: dict.fromkeys; list. Completé el TODO con patrón del fixture/starter y la línea «print(list(dict.fromkeys(xs)))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "rows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\nprint(rows[0]['role'])\n# D2-Skeptic: packet-only re-walk S22 S22-T3-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "email",
+        "other",
+        "test",
+        "role",
+        "endswith",
+        "bcc",
+        "independiente"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T3-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{'email': 'p@other.test', 'role': 'cc'}]; for r in . Hints: endswith; mutar role. Completé el TODO con patrón del fixture/starter y la línea «print(rows[0]['role'])»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "rows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\nprint(len(vis), vis)\n# D2-Skeptic: packet-only re-walk S22 S22-T3-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "example",
+        "other",
+        "test",
+        "vis",
+        "role",
+        "endswith",
+        "bcc"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T3-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a@example.pe','to'),('b@other.test','cc')]; vis = [. Hints: filtrar roles; after policy. Completé el TODO con patrón del fixture/starter y la línea «print(len(vis), vis)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "T = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\nprint(state)\n# D2-Skeptic: packet-only re-walk S22 S22-T4-A-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "draft",
+        "submit",
+        "pending",
+        "state",
+        "guiado",
+        "Concepto",
+        "Fixture",
+        "S22"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T4-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft': {'submit': 'pending'}}; state = 'draft'. Comple. Hints: dict de dicts; TRANSITIONS[state][action]. Completé el TODO con patrón del fixture/starter y la línea «print(state)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\nprint('invalid' if nxt is None else nxt)\n# D2-Skeptic: packet-only re-walk S22 S22-T4-A-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "draft",
+        "submit",
+        "pending",
+        "approve",
+        "approved",
+        "state",
+        "action",
+        "nxt"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T4-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'draft': {'submit': 'pending'}, 'pending': {'approve. Hints: try/except o .get; None check. Completé el TODO con patrón del fixture/starter y la línea «print('invalid' if nxt is None else nxt)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "log = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\nprint(log)\n# D2-Skeptic: packet-only re-walk S22 S22-T4-A-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "log",
+        "append",
+        "pending",
+        "approved",
+        "actor",
+        "rev1",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T4-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []; log.append({'from': 'pending', 'to': 'approved',. Hints: append dict; actor obligatorio. Completé el TODO con patrón del fixture/starter y la línea «print(log)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\n# D2-Skeptic: packet-only re-walk S22 S22-T4-B-E1\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "hashlib"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T4-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sha256(b'run|to|v1').hexdigest()[:8]). Completa el T. Hints: hashlib.sha256; hexdigest slice. Completé el TODO con patrón del fixture/starter y la línea «print(hashlib.sha256(b'run|to|v1').hexdigest()[:8])»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nprint(create('k') == create('k'))\n# D2-Skeptic: packet-only re-walk S22 S22-T4-B-E2\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "store"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T4-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {}; def create(key):. Completa el TODO del starter . Hints: cache dict; return existing. Completé el TODO con patrón del fixture/starter y la línea «print(create('k') == create('k'))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "audit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\nprint(audit)\n# D2-Skeptic: packet-only re-walk S22 S22-T4-B-E3\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "audit",
+        "store",
+        "key",
+        "range",
+        "append",
+        "retry_hit",
+        "else",
+        "create"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Email, identidad y aprobación humana» para S22-T4-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = []; store = {}. Completa el TODO del starter sin borr. Hints: lista de event names; mismo key. Completé el TODO con patrón del fixture/starter y la línea «print(audit)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Solo drafts/.eml en sandbox y aprobación humana",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Solo drafts/.eml en sandbox y aprobación humana» para «¿Qué garantiza no enviar correo real en el gate de S22?» porque el material de «Email, identidad y aprobación humana» enseña: MIME, encoding, HTML/text y attachments | **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake en | templates y san. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Solo evidencia débil de contacto a revisar; no prueba de fraude",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Solo evidencia débil de contacto a revisar; no prueba de fraude» para «Un score alto de similitud entre dos emails implica:» porque el material de «Email, identidad y aprobación humana» enseña: MIME, encoding, HTML/text y attachments | **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake en | templates y san. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Solo los scopes mínimos (p. ej. draft) necesarios",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Solo los scopes mínimos (p. ej. draft) necesarios» para «Least privilege en OAuth de correo significa:» porque el material de «Email, identidad y aprobación humana» enseña: MIME, encoding, HTML/text y attachments | **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake en | templates y san. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Reutilizar el mismo draft_id si la key existe",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Reutilizar el mismo draft_id si la key existe» para «La idempotency key al reintentar create_draft debe:» porque el material de «Email, identidad y aprobación humana» enseña: MIME, encoding, HTML/text y attachments | **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake en | templates y san. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo «Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica» para «Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de email de CP-N2-C?» porque el material de «Email, identidad y aprobación humana» enseña: MIME, encoding, HTML/text y attachments | **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake en | templates y san. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22
+    ],
+    "note": "Skeptic: only sequential packets through active section; no external solutions."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:58:04.265281+00:00",
+  "artifact_origin": "direct_agent_output"
+}

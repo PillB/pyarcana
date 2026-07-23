@@ -1545,22 +1545,22 @@ if __name__ == "__main__":
     questions: [
       {
         question: "El target del workbench debe:",
-        options: ["Llamarse is_fraud", "Ser needs_review con horizonte", "Omitir unidad", "Ignorar prevalencia"],
-        correctIndex: 1,
+        options: ["Ser needs_review con horizonte", "Llamarse is_fraud", "Omitir unidad", "Ignorar prevalencia"],
+        correctIndex: 0,
         explanation:
           "needs_review con horizonte y unidad cierra el problema sin auto-etiqueta de fraude.",
       },
       {
         question: "Antes del modelo ML conviene:",
-        options: ["Solo deep learning", "Dummy/regla y costos", "Borrar features", "Cambiar el thr a 0"],
-        correctIndex: 1,
+        options: ["Solo deep learning", "Borrar features", "Dummy/regla y costos", "Cambiar el thr a 0"],
+        correctIndex: 2,
         explanation:
           "Baseline y costos demuestran si el ML agrega valor real a la cola.",
       },
       {
         question: "Comparar coeficientes exige:",
-        options: ["Features sin escala", "Features scaled y causal=False", "SHAP obligatorio", "Depth ilimitada"],
-        correctIndex: 1,
+        options: ["Features sin escala", "SHAP obligatorio", "Depth ilimitada", "Features scaled y causal=False"],
+        correctIndex: 3,
         explanation:
           "Sin scaling los |coef| no son comparables; el signo no es causa.",
       },

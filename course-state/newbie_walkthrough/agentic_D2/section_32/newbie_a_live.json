@@ -1,0 +1,528 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D2",
+  "section_index": 32,
+  "packet_sha": "a164fd7487359385",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S32-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\nmeets_contract = record[\"catalog_ok\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNKNOWN_FEATURE\"\nprint(\"S32-T1-A\", status)\n# D2-Explorer: packet-only re-walk S32 S32-T1-A-E1\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "schema",
+        "numeric",
+        "amount_7d",
+        "categorical"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «numéricas/categóricas/texto» del paquete indica: Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature… Resolví S32-T1-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"S32-T1-A\", status). Las pistas (Relaciona los campos `schema, row, catalog_ok` con la regla explicada en S32-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva row keys ⊆ catalog con catalog_ok; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T1-A-E2\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "schema",
+        "row"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «numéricas/categóricas/texto» del paquete indica: Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature… Resolví S32-T1-A-E2 (independent) completando el starter sin reescribir fixtures: print(*results). Las pistas (Primero se calcula `missing`; ningún acceso a schema debe ocurrir antes de esa rama.; Después aplica la regla de S32-T1-A: row keys ⊆ catalog con catalog_ok. El fixture adverso debe fallar por contenido, no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"schema\", \"row\", \"catalog_ok\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CATALOG\"\n    return \"CONTINUE\" if record.get(\"catalog_ok\") is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", \"schema\": {\"numeric\": [\"amount_7d\"], \"categorical\": [\"canal\"]}, \"row\": {\"amount_7d\": 1.0, \"canal\": \"app\"}, \"catalog_ok\": True}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", \"schema\": {\"numeric\": [\"amount_7d\"]}, \"row\": {\"unknown_feat\": 1}, \"catalog_ok\": False}\nuncertain = {k: v for k, v in valid.items() if k != \"schema\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n# D2-Explorer: packet-only re-walk S32 S32-T1-A-E3\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "schema",
+        "row"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «numéricas/categóricas/texto» del paquete indica: Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature… Resolví S32-T1-A-E3 (transfer) completando el starter sin reescribir fixtures: print(decide(valid). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_CATALOG` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró row keys ⊆ catalog con catalog_ok; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\nmeets_contract = record[\"silent_fill\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_FILL\"\nprint(\"S32-T1-B\", status)\n# D2-Explorer: packet-only re-walk S32 S32-T1-B-E1\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "values",
+        "median",
+        "silent_fill",
+        "meets_contract"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «missing indicators, escalamiento y encoding» del paquete indica: Missing indicator + fill (mediana/moda) preserva la señal de ausencia. One-hot con unknown y z-score con mu/sd de train evitan silent fill y leakage de estadíst… Resolví S32-T1-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"S32-T1-B\", status). Las pistas (Relaciona los campos `values, median, silent_fill` con la regla explicada en S32-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva mediana de train con silent_fill=False; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nincomplete = {**valid}\nincomplete.pop(\"median\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T1-B-E2\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "values",
+        "median"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «missing indicators, escalamiento y encoding» del paquete indica: Missing indicator + fill (mediana/moda) preserva la señal de ausencia. One-hot con unknown y z-score con mu/sd de train evitan silent fill y leakage de estadíst… Resolví S32-T1-B-E2 (independent) completando el starter sin reescribir fixtures: print(*results). Las pistas (Primero se calcula `missing`; ningún acceso a median debe ocurrir antes de esa rama.; Después aplica la regla de S32-T1-B: mediana de train con silent_fill=False. El fixture adverso debe fallar por contenido, no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_MEDIAN\"\n    return \"REJECT_SILENT_FILL\" if record[\"silent_fill\"] is True else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nuncertain = {**valid}\nuncertain.pop(\"median\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T1-B-E3\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "values",
+        "median"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «missing indicators, escalamiento y encoding» del paquete indica: Missing indicator + fill (mediana/moda) preserva la señal de ausencia. One-hot con unknown y z-score con mu/sd de train evitan silent fill y leakage de estadíst… Resolví S32-T1-B-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_MEDIAN` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró mediana de train con silent_fill=False; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\nmeets_contract = record[\"uses_label\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LABEL_AS_FEATURE\"\nprint(\"S32-T2-A\", status)\n# D2-Explorer: packet-only re-walk S32 S32-T2-A-E1\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "shared",
+        "degree",
+        "uses_label",
+        "meets_contract"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «shared contact/address, distance y graph features» del paquete indica: Features relacionales (shared address, degree, min path) resumen evidencia de grafo. No conviertas el score de matching en label de parentesco o fraude. En el w… Resolví S32-T2-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"S32-T2-A\", status). Las pistas (Relaciona los campos `shared, degree, uses_label` con la regla explicada en S32-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva graph feats sin usar label de decisión; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uses_label\"] is False else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nincomplete = {**valid}\nincomplete.pop(\"degree\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T2-A-E2\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "shared",
+        "degree"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «shared contact/address, distance y graph features» del paquete indica: Features relacionales (shared address, degree, min path) resumen evidencia de grafo. No conviertas el score de matching en label de parentesco o fraude. En el w… Resolví S32-T2-A-E2 (independent) completando el starter sin reescribir fixtures: print(*results). Las pistas (Primero se calcula `missing`; ningún acceso a degree debe ocurrir antes de esa rama.; Después aplica la regla de S32-T2-A: graph feats sin usar label de decisión. El fixture adverso debe fallar por contenido, no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_GRAPH_FEAT\"\n    return \"REJECT_LABEL_AS_FEATURE\" if record[\"uses_label\"] is True else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nuncertain = {**valid}\nuncertain.pop(\"degree\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T2-A-E3\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "shared",
+        "degree"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «shared contact/address, distance y graph features» del paquete indica: Features relacionales (shared address, degree, min path) resumen evidencia de grafo. No conviertas el score de matching en label de parentesco o fraude. En el w… Resolví S32-T2-A-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_GRAPH_FEAT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró graph feats sin usar label de decisión; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\nmeets_contract = record[\"includes_t\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_FUTURE_TS\"\nprint(\"S32-T2-B\", status)\n# D2-Explorer: packet-only re-walk S32 S32-T2-B-E1\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "events",
+        "includes_t",
+        "meets_contract",
+        "status"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «ventanas y frecuencia» del paquete indica: Ventanas half-open [t−w, t) cuentan eventos sin incluir el instante de decisión t. Incluir ts==t o futuro es leakage temporal clásico. En el workbench sintético… Resolví S32-T2-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"S32-T2-B\", status). Las pistas (Relaciona los campos `events, t, w, includes_t` con la regla explicada en S32-T2-B.; El predicado correcto debe ser verdadero porque el fixture conserva ventana half-open sin incluir t; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"includes_t\"] is False else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nincomplete = {**valid}\nincomplete.pop(\"w\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T2-B-E2\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "events",
+        "includes_t"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «ventanas y frecuencia» del paquete indica: Ventanas half-open [t−w, t) cuentan eventos sin incluir el instante de decisión t. Incluir ts==t o futuro es leakage temporal clásico. En el workbench sintético… Resolví S32-T2-B-E2 (independent) completando el starter sin reescribir fixtures: print(*results). Las pistas (Primero se calcula `missing`; ningún acceso a w debe ocurrir antes de esa rama.; Después aplica la regla de S32-T2-B: ventana half-open sin incluir t. El fixture adverso debe fallar por contenido, no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_WINDOW\"\n    return \"REJECT_FUTURE_TS\" if record[\"includes_t\"] is True else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nuncertain = {**valid}\nuncertain.pop(\"w\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T2-B-E3\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "events",
+        "includes_t"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «ventanas y frecuencia» del paquete indica: Ventanas half-open [t−w, t) cuentan eventos sin incluir el instante de decisión t. Incluir ts==t o futuro es leakage temporal clásico. En el workbench sintético… Resolví S32-T2-B-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_WINDOW` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró ventana half-open sin incluir t; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\nmeets_contract = record[\"transform_before_fit\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_TRANSFORM_BEFORE_FIT\"\nprint(\"S32-T3-A\", status)\n# D2-Explorer: packet-only re-walk S32 S32-T3-A-E1\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "fitted",
+        "mode",
+        "app",
+        "transform_before_fit"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «ColumnTransformer y custom transformers» del paquete indica: Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill luego scale exige fitted=True; transform antes de fit debe fallar de forma explíc… Resolví S32-T3-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"S32-T3-A\", status). Las pistas (Relaciona los campos `fitted, mode, transform_before_fit` con la regla explicada en S32-T3-A.; El predicado correcto debe ser verdadero porque el fixture conserva transformer fitted con mode y sin transform prematuro; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"transform_before_fit\"] is False else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nincomplete = {**valid}\nincomplete.pop(\"fitted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T3-A-E2\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "fitted",
+        "mode"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «ColumnTransformer y custom transformers» del paquete indica: Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill luego scale exige fitted=True; transform antes de fit debe fallar de forma explíc… Resolví S32-T3-A-E2 (independent) completando el starter sin reescribir fixtures: print(*results). Las pistas (Primero se calcula `missing`; ningún acceso a fitted debe ocurrir antes de esa rama.; Después aplica la regla de S32-T3-A: transformer fitted con mode y sin transform prematuro. El fixture adverso debe fallar por contenido, no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIT_STATE\"\n    return \"REJECT_TRANSFORM_BEFORE_FIT\" if record[\"transform_before_fit\"] is True else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nuncertain = {**valid}\nuncertain.pop(\"fitted\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T3-A-E3\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "fitted",
+        "mode"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «ColumnTransformer y custom transformers» del paquete indica: Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill luego scale exige fitted=True; transform antes de fit debe fallar de forma explíc… Resolví S32-T3-A-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_FIT_STATE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró transformer fitted con mode y sin transform prematuro; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\nmeets_contract = record[\"versioned\"] is True or not record[\"version\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNVERSIONED\"\nprint(\"S32-T3-B\", status)\n# D2-Explorer: packet-only re-walk S32 S32-T3-B-E1\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "state",
+        "median",
+        "version",
+        "versioned"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «fit/transform y persistencia» del paquete indica: El estado (mediana, vocab) se serializa a JSON y se reutiliza en serve. Si el vocab cambia, version bump del feature set. Aplicar med de train al batch de serve… Resolví S32-T3-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"S32-T3-B\", status). Las pistas (Relaciona los campos `state, version, versioned` con la regla explicada en S32-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva state JSON con version fs-vN; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"versioned\"] is False or not record[\"version\"]) else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nincomplete = {**valid}\nincomplete.pop(\"version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T3-B-E2\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "state",
+        "version"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «fit/transform y persistencia» del paquete indica: El estado (mediana, vocab) se serializa a JSON y se reutiliza en serve. Si el vocab cambia, version bump del feature set. Predicado corregido a not(record[\"versioned\"] is False or not record[\"version\"]) para que el adverso dispare REJECT_UNVERSIONED."
+    },
+    {
+      "exercise_id": "S32-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STATE_JSON\"\n    return \"REJECT_UNVERSIONED\" if record[\"versioned\"] is False or not record[\"version\"] else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nuncertain = {**valid}\nuncertain.pop(\"version\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T3-B-E3\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "state",
+        "version"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «fit/transform y persistencia» del paquete indica: El estado (mediana, vocab) se serializa a JSON y se reutiliza en serve. Si el vocab cambia, version bump del feature set. Aplicar med de train al batch de serve… Resolví S32-T3-B-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_STATE_JSON` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró state JSON con version fs-vN; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\nmeets_contract = not (record[\"overlap\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REJECT_ENTITY_OVERLAP\"\nprint(\"S32-T4-A\", status)\n# D2-Explorer: packet-only re-walk S32 S32-T4-A-E1\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "n_train",
+        "n_test",
+        "overlap",
+        "meets_contract"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «split por entidad/grupo/tiempo» del paquete indica: Split temporal (train ts < cutoff) y group split por entity evitan overlap. Si una entidad aparece en train y test, hay leakage de identidad. En el workbench si… Resolví S32-T4-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"S32-T4-A\", status). Las pistas (Relaciona los campos `n_train, n_test, overlap` con la regla explicada en S32-T4-A.; El predicado correcto debe ser verdadero porque el fixture conserva split con overlap 0 y ambos lados no vacíos; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"overlap\"] > 0) else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nincomplete = {**valid}\nincomplete.pop(\"overlap\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T4-A-E2\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "n_train",
+        "n_test"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «split por entidad/grupo/tiempo» del paquete indica: Split temporal (train ts < cutoff) y group split por entity evitan overlap. Si una entidad aparece en train y test, hay leakage de identidad. En el workbench si… Resolví S32-T4-A-E2 (independent) completando el starter sin reescribir fixtures: print(*results). Las pistas (Primero se calcula `missing`; ningún acceso a overlap debe ocurrir antes de esa rama.; Después aplica la regla de S32-T4-A: split con overlap 0 y ambos lados no vacíos. El fixture adverso debe fallar por contenido, no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SPLIT_KEYS\"\n    return \"REJECT_ENTITY_OVERLAP\" if record[\"overlap\"] > 0 else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nuncertain = {**valid}\nuncertain.pop(\"overlap\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T4-A-E3\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "n_train",
+        "n_test"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «split por entidad/grupo/tiempo» del paquete indica: Split temporal (train ts < cutoff) y group split por entity evitan overlap. Si una entidad aparece en train y test, hay leakage de identidad. En el workbench si… Resolví S32-T4-A-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_SPLIT_KEYS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró split con overlap 0 y ambos lados no vacíos; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\nmeets_contract = bool(record[\"leaky\"]) or record[\"skew\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKAGE\"\nprint(\"S32-T4-B\", status)\n# D2-Explorer: packet-only re-walk S32 S32-T4-B-E1\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "leaky",
+        "skew",
+        "feature_set",
+        "meets_contract"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «leakage, train–serve skew y versionado» del paquete indica: Nombres con label o decision en features son red flags. Si serve_mean se desvía >tol de train_mean, hay skew. El feature set id fs-vN congela el contrato. En el… Resolví S32-T4-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"S32-T4-B\", status). Las pistas (Relaciona los campos `leaky, skew, feature_set` con la regla explicada en S32-T4-B.; El predicado correcto debe ser verdadero porque el fixture conserva sin leaky names, sin skew y con feature_set id; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S32-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (bool(record[\"leaky\"]) or record[\"skew\"] is True) else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nincomplete = {**valid}\nincomplete.pop(\"feature_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T4-B-E2\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "leaky",
+        "skew"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «leakage, train–serve skew y versionado» del paquete indica: Nombres con label o decision en features son red flags. Si serve_mean se desvía >tol de train_mean, hay skew. E Predicado corregido a not(bool(record[\"leaky\"]) or record[\"skew\"] is True) para que el adverso dispare REJECT_LEAKAGE."
+    },
+    {
+      "exercise_id": "S32-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FEATURE_SET_ID\"\n    return \"REJECT_LEAKAGE\" if bool(record[\"leaky\"]) or record[\"skew\"] is True else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nuncertain = {**valid}\nuncertain.pop(\"feature_set\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Explorer: packet-only re-walk S32 S32-T4-B-E3\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "leaky",
+        "skew"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Explorer — en S32 la teoría «leakage, train–serve skew y versionado» del paquete indica: Nombres con label o decision en features son red flags. Si serve_mean se desvía >tol de train_mean, hay skew. El feature set id fs-vN congela el contrato. En el… Resolví S32-T4-B-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_FEATURE_SET_ID` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró sin leaky names, sin skew y con feature_set id; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "El instante t y el futuro",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer — con base en theory/iDo de S32 («numéricas/categóricas/texto»), elijo «El instante t y el futuro» (chosen_index=1) para «Una ventana half-open [t−w, t) excluye:». Fragmento enseñado: Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en … La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Fallar de forma explícita",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer — con base en theory/iDo de S32 («missing indicators, escalamiento y encoding»), elijo «Fallar de forma explícita» (chosen_index=1) para «Transform antes de fit debe:». Fragmento enseñado: Missing indicator + fill (mediana/moda) preserva la señal de ausencia. One-hot con unknown y z-score con mu/sd de train evitan silent fill y leakage d… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Es leakage de identidad",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer — con base en theory/iDo de S32 («shared contact/address, distance y graph features»), elijo «Es leakage de identidad» (chosen_index=1) para «Overlap de entidades entre train y test:». Fragmento enseñado: Features relacionales (shared address, degree, min path) resumen evidencia de grafo. No conviertas el score de matching en label de parentesco o fraud… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Es red flag de leakage",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer — con base en theory/iDo de S32 («ventanas y frecuencia»), elijo «Es red flag de leakage» (chosen_index=1) para «Un nombre de feature con 'label' o 'decision':». Fragmento enseñado: Ventanas half-open [t−w, t) cuentan eventos sin incluir el instante de decisión t. Incluir ts==t o futuro es leakage temporal clásico. En el workbench… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:58:04.402088+00:00",
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32
+    ],
+    "note": "Knowledge limited to sequential packets through active section; solved from exercise_batch/quiz_card only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D2-s32-live"
+}

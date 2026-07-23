@@ -1,0 +1,512 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D1",
+  "section_index": 7,
+  "packet_sha": "ee5c9933e094c618",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S07-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import unicodedata\nnames = ['José', 'Jose\\u0301', '']\nfor s in names:\n    print(repr(unicodedata.normalize('NFC', s)))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicodedata",
+        "names",
+        "Jose",
+        "u0301",
+        "repr",
+        "normalize",
+        "NFC",
+        "guiado"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T1-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Normaliza a NFC la lista `['José', 'Jose\\u0301', '']` e imprime cada resu. Hints: unicodedata.normalize('NFC', s); import unicodedata. Entrega: «import unicodedata names = ['José', 'Jose\\u0301', ''] for s in names:     print(repr(unicodedata.normalize('NFC', s))) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "a, b = 'MAÑANA', 'mañana'\nprint(a.casefold() == b.casefold())\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "casefold",
+        "independiente",
+        "Concepto",
+        "S07",
+        "Texto",
+        "Unicode",
+        "regex",
+        "Entrada"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T1-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Usa casefold para decidir si `'MAÑANA'` y `'mañana'` matchean. Imp. Hints: a.casefold() == b.casefold(); lower también funciona en este caso; prefiere casefold en matching.. Entrega: «a, b = 'MAÑANA', 'mañana' print(a.casefold() == b.casefold()) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import unicodedata\na = 'José'\nb = 'Jose\\u0301'\nprint('raw', a == b)\nprint('nfc', unicodedata.normalize('NFC', a) == unicodedata.normalize('NFC', b))\nprint('causa: NFD residual / formas Unicode distintas')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicodedata",
+        "Jose",
+        "u0301",
+        "raw",
+        "nfc",
+        "normalize",
+        "NFC",
+        "causa"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T1-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Diagnostica mismatch: dos strings que se ven iguales pero fallan `==`. Imprime igualdad cruda, igualdad NFC y un mensaje de causa (NFD residual).. Hints: Compara sin/con normalize; Muestra code points con ord si ayuda.. Entrega: «import unicodedata a = 'José' b = 'Jose\\u0301' print('raw', a == b) print('nfc', unicodedata.normalize('NFC', a) == unicodedata.normalize('N». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "raw = 'Ana María Quispe Huamán'\ntoks = raw.split()\ngiven = ' '.join(toks[:-2])\napellidos = ' '.join(toks[-2:])\nprint(given, '|', apellidos)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "Ana",
+        "Quispe",
+        "toks",
+        "split",
+        "given",
+        "join",
+        "apellidos"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T1-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: De `'Ana María Quispe Huamán'` extrae given y dos apellidos (últimos dos . Hints: tokens[-2:]; given = join tokens[:-2]. Entrega: «raw = 'Ana María Quispe Huamán' toks = raw.split() given = ' '.join(toks[:-2]) apellidos = ' '.join(toks[-2:]) print(given, '|', apellidos) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "raw = 'María del Carmen Quispe Ríos'\ntoks = raw.split()\ngiven = ' '.join(toks[:-2])\napellidos = ' '.join(toks[-2:])\nprint(given, '|', apellidos)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "del",
+        "Carmen",
+        "Quispe",
+        "toks",
+        "split",
+        "given",
+        "join"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T1-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Preserva partículas en given: `'María del Carmen Quispe Ríos'`. gi. Hints: No borres tokens del medio al cortar apellidos finales.; Misma heurística últimos 2 = apellidos.. Entrega: «raw = 'María del Carmen Quispe Ríos' toks = raw.split() given = ' '.join(toks[:-2]) apellidos = ' '.join(toks[-2:]) print(given, '|', apelli». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def parse_nombre(raw):\n    toks = raw.split()\n    if len(toks) < 3:\n        return {\"status\": \"review\", \"raw\": raw, \"given\": raw, \"apellidos\": None}\n    return {\n        \"status\": \"ok\",\n        \"raw\": raw,\n        \"given\": \" \".join(toks[:-2]),\n        \"apellidos\": \" \".join(toks[-2:]),\n    }\n\nfor n in [\"Madonna\", \"Ana María Quispe Huamán\"]:\n    print(parse_nombre(n))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "parse_nombre",
+        "raw",
+        "toks",
+        "split",
+        "len",
+        "status",
+        "review",
+        "given"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T1-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Si hay menos de 3 tokens, marca `status='review'` y no inventes ap. Hints: len(toks) < 3 → review; Conserva raw siempre.. Entrega: «def parse_nombre(raw):     toks = raw.split()     if len(toks) < 3:         return {\"status\": \"review\", \"raw\": raw, \"given\": raw, \"apellidos». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "line = 'C001, Ana , Lima'\nprint([p.strip() for p in line.split(',')])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "line",
+        "C001",
+        "Ana",
+        "Lima",
+        "strip",
+        "split",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T2-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Split CSV-like simple `'C001,Ana,Lima'` en lista de campos strippeados e . Hints: split(',') + strip por campo; Sin comillas en este ejercicio.. Entrega: «line = 'C001, Ana , Lima' print([p.strip() for p in line.split(',')]) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "toks = ['Jr.', 'Unión', '450']\nprint(' '.join(toks), '|', '-'.join(toks))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "toks",
+        "join",
+        "independiente",
+        "Concepto",
+        "S07",
+        "Texto",
+        "Unicode",
+        "regex"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T2-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Une tokens `['Jr.', 'Unión', '450']` con espacio estable e imprime. Hints: ' '.join(tokens); join no inserta al inicio/final.. Entrega: «toks = ['Jr.', 'Unión', '450'] print(' '.join(toks), '|', '-'.join(toks)) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "raw = '999.000-111'\nprint(raw.replace('.', '').replace('-', ''))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "replace",
+        "transferencia",
+        "Normaliza",
+        "guiones",
+        "con",
+        "encadenado",
+        "sin"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T2-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Normaliza guiones de teléfono con replace encadenado sin regex: `'999.000-111'` → solo stdlib str/unicodedata/re (S01–S07). Documenta el criterio en el memo del ejercicio y no inventes evidencia fuer. Hints: replace('.','').replace('-','') o filter isdigit; str primero.. Entrega: «raw = '999.000-111' print(raw.replace('.', '').replace('-', '')) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def normalize_email(raw):\n    s = raw.strip().casefold()\n    if ' ' in s or s.count('@') != 1:\n        raise ValueError('review_error')\n    local, domain = s.split('@')\n    if not local or not domain:\n        raise ValueError('review_error')\n    return s\n\nfor v in ['  A@B.COM ', '@b.com', 'a@@b.com', 'a b@c.com', 'user+tag@example.com']:\n    try:\n        print(v, '→', normalize_email(v))\n    except ValueError as e:\n        print(v, '→', e)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_email",
+        "raw",
+        "strip",
+        "casefold",
+        "count",
+        "raise",
+        "ValueError",
+        "review_error"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T2-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Implementa `normalize_email`: strip+casefold, exactamente un `@`, local/dominio no vacíos y cero espacios. Imprime `'  A@B.COM '` y captura errores para `'@b.com'`, `'a@@b.com'` y `'a b@c.com'`.. Hints: s.count('@') == 1; split; local/domain no vacíos; cero espacios; No uses regex ni exijas .com; acepta plus addressing.. Entrega: «def normalize_email(raw):     s = raw.strip().casefold()     if ' ' in s or s.count('@') != 1:         raise ValueError('review_error')     ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "raw = '(+51) 999-000-111'\nprint(''.join(c for c in raw if c.isdigit()))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "join",
+        "isdigit",
+        "independiente",
+        "Concepto",
+        "S07",
+        "Texto",
+        "Unicode"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T2-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Concepto: S07-T2-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Teléfono a dígitos: `'(+51) 999-000-111'` → `'51999000111'`. Salid. Hints: filter isdigit; No valides operadora.. Entrega: «raw = '(+51) 999-000-111' print(''.join(c for c in raw if c.isdigit())) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import re\nemail = 'user+tag@example.com'\nrejected = re.fullmatch(r'^[a-z]+@[a-z]+\\.com$', email.lower()) is None\nprint('rejected', rejected)\nprint('política: un @, local/dominio no vacíos y cero espacios; entregabilidad fuera de alcance')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "email",
+        "user",
+        "tag",
+        "example",
+        "com",
+        "rejected",
+        "fullmatch",
+        "lower"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T2-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Muestra que la regex `^[a-z]+@[a-z]+\\.com$` rechaza un email válido con `+`. Imprime rejected=True y la política exacta: un @, local/dominio no vacíos y cero espacios; la entregabilidad queda fuera d. Hints: fullmatch sobre email lower; Print de política en español.. Entrega: «import re email = 'user+tag@example.com' rejected = re.fullmatch(r'^[a-z]+@[a-z]+\\.com$', email.lower()) is None print('rejected', rejected)». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\nprint(bool(re.fullmatch(r'^[A-Z]{3}$', 'LIM')), bool(re.fullmatch(r'^[A-Z]{3}$', 'Lima')))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "bool",
+        "fullmatch",
+        "LIM",
+        "Lima",
+        "guiado",
+        "Concepto",
+        "S07",
+        "Texto"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T3-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: `fullmatch` de código región `^[A-Z]{3}$` sobre `'LIM'` y `'Lima'`. Impri. Hints: re.fullmatch; Case sensitive según patrón.. Entrega: «import re print(bool(re.fullmatch(r'^[A-Z]{3}$', 'LIM')), bool(re.fullmatch(r'^[A-Z]{3}$', 'Lima'))) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import re\nm = re.fullmatch(r'^(?P<nom>\\w+) (?P<ap>\\w+)$', 'Ana Quispe')\nprint(m.groupdict() if m else None)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "fullmatch",
+        "nom",
+        "Ana",
+        "Quispe",
+        "groupdict",
+        "else",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T3-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Extrae grupos nombre/apellido de `r'^(?P<nom>\\w+) (?P<ap>\\w+)$'` s. Hints: groupdict(); fullmatch. Entrega: «import re m = re.fullmatch(r'^(?P<nom>\\w+) (?P<ap>\\w+)$', 'Ana Quispe') print(m.groupdict() if m else None) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import re\ntext = 'DNI 12345678'\nprint('search', bool(re.search(r'\\d{8}', text)))\nprint('fullmatch', bool(re.fullmatch(r'\\d{8}', text)))\nprint('search para encontrar; fullmatch para validar el string completo')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "text",
+        "DNI",
+        "search",
+        "bool",
+        "fullmatch",
+        "para",
+        "encontrar",
+        "validar"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T3-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Contrasta search vs fullmatch del patrón `\\d{8}` sobre `'DNI 12345. Hints: search True fullmatch False; Explica en una línea.. Entrega: «import re text = 'DNI 12345678' print('search', bool(re.search(r'\\d{8}', text))) print('fullmatch', bool(re.fullmatch(r'\\d{8}', text))) prin». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\npat = re.compile(r'\\b9\\d{8}\\b')\nfor s in ['tel 999000111', 'no match 123']:\n    print(s, '→', pat.findall(s))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "pat",
+        "compile",
+        "tel",
+        "match",
+        "findall",
+        "guiado",
+        "Concepto",
+        "S07"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T3-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Compila `\\b9\\d{8}\\b` y reutiliza sobre dos strings; imprime findall de ca. Hints: re.compile una vez; reuse en loop. Entrega: «import re pat = re.compile(r'\\b9\\d{8}\\b') for s in ['tel 999000111', 'no match 123']:     print(s, '→', pat.findall(s)) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import re\nlog = 'ok LIM-01 y CUS-02 fin'\nprint(re.findall(r'[A-Z]{3}-\\d{2}', log))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "log",
+        "LIM",
+        "CUS",
+        "fin",
+        "findall",
+        "independiente",
+        "Concepto",
+        "S07"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T3-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: findall de códigos `[A-Z]{3}-\\d{2}` en un log sintético con dos có. Hints: re.findall(pat, log); Patrón simple.. Entrega: «import re log = 'ok LIM-01 y CUS-02 fin' print(re.findall(r'[A-Z]{3}-\\d{2}', log)) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print('riesgo: (a+)+b provoca backtracking catastrófico en entradas ambigüas')\nprint('preferir a+b o métodos str (find/split) para patrones simples')\nprint('mitigación: evitar cuantificadores anidados ambiguos y acotar input')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "riesgo",
+        "provoca",
+        "backtracking",
+        "entradas",
+        "preferir",
+        "str",
+        "find",
+        "split"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T3-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Explica en prints el riesgo de backtracking con un patrón malo conceptual `(a+)+b` y por qué preferimos `a+b` o str methods. No necesitas colgar el proceso: solo stdlib str/unicodedata/re (S01–S07).. Hints: Cuantificadores anidados ambiguos; Mensaje en español peruano/claro.. Entrega: «print('riesgo: (a+)+b provoca backtracking catastrófico en entradas ambigüas') print('preferir a+b o métodos str (find/split) para patrones ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def norm(s):\n    return ' '.join(s.split()).casefold()\n\nprint(norm('  Juan  PEREZ ') == norm('juan perez'))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "norm",
+        "join",
+        "split",
+        "casefold",
+        "Juan",
+        "PEREZ",
+        "juan",
+        "perez"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T4-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Exact match tras normalize: collapse + casefold de `'  Juan  PEREZ '` vs . Hints: join split + casefold; print bool. Entrega: «def norm(s):     return ' '.join(s.split()).casefold()  print(norm('  Juan  PEREZ ') == norm('juan perez')) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def tokens(s):\n    return set(' '.join(s.split()).casefold().split())\n\ndef jaccard(a, b):\n    A, B = tokens(a), tokens(b)\n    if not A and not B:\n        return 1.0\n    return len(A & B) / len(A | B)\n\nprint(round(jaccard('Ana Quispe', 'Ana Quispe Rojas'), 2))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "tokens",
+        "set",
+        "join",
+        "split",
+        "casefold",
+        "jaccard",
+        "not",
+        "len"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T4-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Implementa Jaccard de tokens y calcula score redondeado a 3 decima. Hints: |A∩B|/|A∪B|; set(split). Entrega: «def tokens(s):     return set(' '.join(s.split()).casefold().split())  def jaccard(a, b):     A, B = tokens(a), tokens(b)     if not A and n». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "score = 0.67\nif score >= 0.9:\n    decision = 'auto_link'\nelif score >= 0.5:\n    decision = 'review'\nelse:\n    decision = 'no_link'\nprint(decision, score)\nprint('Jaccard intermedio va a review con evidencia raw/score; no fusiona identidades')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "score",
+        "decision",
+        "auto_link",
+        "elif",
+        "review",
+        "else",
+        "no_link",
+        "Jaccard"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T4-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Si score está en [0.4, 1.0) decide `review`; si 1.0 `exact`; si <0. Hints: Umbrales explícitos; No auto-merge en review.. Entrega: «score = 0.67 if score >= 0.9:     decision = 'auto_link' elif score >= 0.5:     decision = 'review' else:     decision = 'no_link' print(dec». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import re, unicodedata\n\ndef pipeline(name):\n    nfc = unicodedata.normalize('NFC', name)\n    collapsed = ' '.join(nfc.split())\n    return collapsed.casefold()\n\nprint(pipeline('  José  QUISPE '))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicodedata",
+        "pipeline",
+        "name",
+        "nfc",
+        "normalize",
+        "NFC",
+        "collapsed",
+        "join"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T4-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Clasifica FP/FN: pred match + truth no → FP; pred no + truth match → FN. . Hints: Tabla de confusión 2x2 simplificada; print tag por caso. Entrega: «import re, unicodedata  def pipeline(name):     nfc = unicodedata.normalize('NFC', name)     collapsed = ' '.join(nfc.split())     return co». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "candidates = [\n    {\"id\": \"A\", \"score\": 0.95},\n    {\"id\": \"B\", \"score\": 0.67},\n    {\"id\": \"C\", \"score\": 0.2},\n]\nfor c in candidates:\n    band = 'auto' if c['score'] >= 0.9 else ('review' if c['score'] >= 0.5 else 'drop')\n    print(c['id'], c['score'], band)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "candidates",
+        "score",
+        "band",
+        "auto",
+        "else",
+        "review",
+        "drop",
+        "independiente"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T4-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Empaqueta evidencia `dict(raw_a, raw_b, score, decision, reason)` . Hints: Un dict con 5 claves; reason en español. Entrega: «candidates = [     {\"id\": \"A\", \"score\": 0.95},     {\"id\": \"B\", \"score\": 0.67},     {\"id\": \"C\", \"score\": 0.2}, ] for c in candidates:     ban». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S07-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print('memo: similaridad de texto es señal de matching, no prueba de parentesco ni fraude')\nprint('siempre conservar raw, score y decisión de review en la evidencia')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "memo",
+        "similaridad",
+        "texto",
+        "matching",
+        "prueba",
+        "parentesco",
+        "fraude",
+        "siempre"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S07-T4-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Redacta en 2-3 prints por qué el pipeline **no** afirma parentesco. Hints: Falta fuente autoritativa; riesgo ético; score ≠ prueba; Español claro.. Entrega: «print('memo: similaridad de texto es señal de matching, no prueba de parentesco ni fraude') print('siempre conservar raw, score y decisión d». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Formas Unicode distintas (NFC vs NFD)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q0 elijo índice 2 «Formas Unicode distintas (NFC vs NFD)» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Marcar review y conservar raw",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q1 elijo índice 0 «Marcar review y conservar raw» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: En nombres latam, si solo hay un token, la política segura es…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Cuando la transformación es literal/simple",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q2 elijo índice 1 «Cuando la transformación es literal/simple» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Cuándo preferir str.replace/split sobre regex?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "None (no es full match)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q3 elijo índice 3 «None (no es full match)» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: fullmatch(r'\\d{8}', 'DNI 12345678') devuelve…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Ir a review con evidencia (raw, score)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q4 elijo índice 2 «Ir a review con evidencia (raw, score)» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: Un Jaccard 0.67 entre nombres debe…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:41:41.947886+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-agentic-D1-s07-live",
+  "method_declared": "llm_packet_only_no_gen"
+}

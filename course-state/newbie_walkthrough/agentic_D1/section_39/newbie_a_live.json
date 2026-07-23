@@ -1,0 +1,543 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 39,
+  "packet_sha": "92753e3551164bb0",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S39-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\nmeets = record[\"stages\"] == list(CANON) and record[\"label_space\"] == \"needs_review\" and record[\"auto_fraud\"] is False\nstatus = \"PASS\" if meets else \"REJECT_STAGE_ORDER\"\nprint(\"S39-T1-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "CANON",
+        "intake",
+        "relation_graph",
+        "features",
+        "model_score",
+        "queue",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «intake → ER → relación → features → modelo» del paquete indica: El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma entidad (no familia ni culpa); el **graf… Resolví S39-T1-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"S39-T1-A\", status). Las pistas (Compara stages con la tupla canónica; no inviertas el orden ni cambies los datos del fixture.; label_space debe ser exactamente needs_review y auto_fraud debe ser False (score ≠ fraude).) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"stages\", \"label_space\", \"auto_fraud\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = record[\"stages\"] == list(CANON) and record[\"label_space\"] == \"needs_review\" and record.get(\"auto_fraud\") is False\n    return \"PASS\" if ok else \"REJECT_STAGE_ORDER\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\ninvalid = {**valid, \"stages\": list(reversed(CANON))}\nincomplete = {k: v for k, v in valid.items() if k != \"label_space\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "CANON",
+        "intake",
+        "relation_graph",
+        "features",
+        "model_score",
+        "queue",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «intake → ER → relación → features → modelo» del paquete indica: El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma entidad (no familia ni culpa); el **graf… Resolví S39-T1-A-E2 (independent) completando el starter sin reescribir fixtures: print(assess(valid). Las pistas (Primero calcula missing de campos requeridos; no evalúes stages si falta label_space.; El adverso tiene stages al revés: debe fallar por contenido (REJECT_STAGE_ORDER), no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef decide(record: dict):\n    if \"stages\" not in record or record.get(\"stages\") is None:\n        return \"REQUEST_STAGE_LIST\"\n    if record.get(\"er_claims_parentesco\") is True:\n        return \"REJECT_ER_SCOPE\"\n    if record.get(\"stages\") != list(CANON):\n        return \"REJECT_STAGE_ORDER\"\n    return \"CONTINUE\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"er_claims_parentesco\": False,\n}\nprint(decide(valid))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "CANON",
+        "intake",
+        "relation_graph",
+        "features",
+        "model_score",
+        "queue",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «intake → ER → relación → features → modelo» del paquete indica: El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma entidad (no familia ni culpa); el **graf… Resolví S39-T1-A-E3 (transfer) completando el starter sin reescribir fixtures: print(decide(valid). Las pistas (Incertidumbre (missing) no es breach de parentesco: token REQUEST_STAGE_LIST va antes de evaluar contenido.; ER solo habla de misma entidad; er_claims_parentesco True es REJECT_ER_SCOPE aunque el orden de stages sea correcto.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"graph_schema\",\n    \"ver\": \"3.0.0\",\n    \"owner\": \"investigations\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\nmeets = bool(record[\"owner\"]) and ((not record[\"breaking\"]) or record[\"bump\"] == \"major\")\nstatus = \"PASS\" if meets else \"REJECT_BUMP_POLICY\"\nprint(\"S39-T1-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "T1B",
+        "name",
+        "graph_schema",
+        "ver"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «contratos, versiones y ownership» del paquete indica: Cada artefacto del triage — motor de ER, `graph_schema`, `feature_set`, ranker, umbral y plantilla de packet — debe tener **owner**, **versión semver** y **polí… Resolví S39-T1-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"S39-T1-B\", status). Las pistas (Breaking change → major. Owner vacío o None falla el contrato aunque el bump sea correcto.; No alteres el fixture; corrige solo la expresión booleana del predicado.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"name\", \"ver\", \"owner\", \"breaking\", \"bump\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if not record.get(\"owner\"):\n        return \"MISSING:owner\"\n    if record.get(\"breaking\") and record.get(\"bump\") != \"major\":\n        return \"REJECT_BUMP_POLICY\"\n    return \"PASS\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"ranker\",\n    \"ver\": \"2.1.0\",\n    \"owner\": \"ml-risk\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\ninvalid = {**valid, \"bump\": \"minor\"}\nincomplete = {k: v for k, v in valid.items() if k != \"owner\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "name",
+        "ver",
+        "owner"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «contratos, versiones y ownership» del paquete indica: Cada artefacto del triage — motor de ER, `graph_schema`, `feature_set`, ranker, umbral y plantilla de packet — debe tener **owner**, **versión semver** y **polí… Resolví S39-T1-B-E2 (independent) completando el starter sin reescribir fixtures: print(assess(valid). Las pistas (Si falta owner, devuelve MISSING:owner sin mirar bump.; Si breaking y bump != major → REJECT_BUMP_POLICY aunque haya owner.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "registry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\", \"breaking\": False, \"bump\": \"patch\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\", \"breaking\": True, \"bump\": \"major\"},\n    \"feature_set\": {\"ver\": \"fs-v3\", \"owner\": \"ml-platform\", \"breaking\": False, \"bump\": \"minor\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\", \"breaking\": False, \"bump\": \"patch\"},\n}\n\ndef decide(reg: dict) -> str:\n    for art in reg.values():\n        if not art.get(\"owner\"):\n            return \"ESCALATE_NO_OWNER\"\n        if art.get(\"breaking\") and art.get(\"bump\") != \"major\":\n            return \"REJECT_BUMP_POLICY\"\n    return \"CONTINUE\"\n\nprint(decide(registry), len(registry) - 1)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "registry",
+        "er_engine",
+        "ver",
+        "owner",
+        "data",
+        "quality",
+        "breaking",
+        "bump"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «contratos, versiones y ownership» del paquete indica: Cada artefacto del triage — motor de ER, `graph_schema`, `feature_set`, ranker, umbral y plantilla de packet — debe tener **owner**, **versión semver** y **polí… Resolví S39-T1-B-E3 (transfer) completando el starter sin reescribir fixtures: print(decide(registry). Las pistas (Recorre todos los artefactos antes de CONTINUE; un solo fallo de política bloquea.; n_art es len(registry); no hardcodees 3 por error de off-by-one del starter.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "packet = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\nmeets = bool(packet.get(\"evidence\")) and bool(packet.get(\"graph_path\"))\nstatus = \"PASS\" if meets else \"REJECT_PACKET_INCOMPLETE\"\nprint(\"S39-T2-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "packet",
+        "case_id",
+        "CASO",
+        "LIM",
+        "T2A",
+        "score",
+        "evidence",
+        "shared_phone_synth"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «queue, evidence packet y explicación» del paquete indica: La cola ordena casos por score calibrado y capacidad del equipo; el **evidence packet** es lo que el revisor ve: hechos sintéticos, path de grafo, top features,… Resolví S39-T2-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"S39-T2-A\", status). Las pistas (evidence y graph_path deben ser listas con al menos un elemento; score solo no basta.; No cambies los datos del fixture feliz; corrige el predicado meets_contract.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(packet: dict) -> str:\n    required = {\"case_id\", \"score\", \"evidence\", \"graph_path\"}\n    missing = sorted(required - packet.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if not packet.get(\"evidence\") or not packet.get(\"graph_path\"):\n        return \"REJECT_PACKET_INCOMPLETE\"\n    return \"PASS\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\ninvalid = {**valid, \"evidence\": []}\nincomplete = {k: v for k, v in valid.items() if k != \"graph_path\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "packet",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "score",
+        "evidence"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «queue, evidence packet y explicación» del paquete indica: La cola ordena casos por score calibrado y capacidad del equipo; el **evidence packet** es lo que el revisor ve: hechos sintéticos, path de grafo, top features,… Resolví S39-T2-A-E2 (independent) completando el starter sin reescribir fixtures: print(assess(valid). Las pistas (Missing de clave ≠ lista vacía: tokens distintos (MISSING vs REJECT_PACKET_INCOMPLETE).; score alone nunca es PASS aunque sea 0.99.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(packet: dict):\n    has_ev = bool(packet.get(\"evidence\"))\n    has_gp = bool(packet.get(\"graph_path\"))\n    if not has_ev and not has_gp:\n        return \"REJECT_SCORE_ALONE\", 0\n    if \"uncertainty\" not in packet:\n        return \"REQUEST_UNCERTAINTY\", 0\n    if has_ev and has_gp:\n        return \"CONTINUE\", 4\n    return \"REJECT_PACKET_INCOMPLETE\", 0\n\nok = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n    \"uncertainty\": \"in_distribution\",\n}\nprint(*decide(ok))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "packet",
+        "dict",
+        "has_ev",
+        "bool",
+        "get",
+        "evidence",
+        "has_gp"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «queue, evidence packet y explicación» del paquete indica: La cola ordena casos por score calibrado y capacidad del equipo; el **evidence packet** es lo que el revisor ve: hechos sintéticos, path de grafo, top features,… Resolví S39-T2-A-E3 (transfer) completando el starter sin reescribir fixtures: print(*decide(ok). Las pistas (Las 4 capas de explicación (S35) se asumen cuando el packet está completo; score-only no las habilita.; uncertainty ausente es incertidumbre de contrato → REQUEST_UNCERTAINTY, no inventes in_distribution.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"score\": 0.9,\n    \"threshold\": 0.7,\n    \"human_action\": \"skip\",\n}\nauto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\nif record.get(\"human_action\") is not None:\n    final = record[\"human_action\"]\n    override = True\nelse:\n    final = auto\n    override = False\nmeets = final == \"skip\" and override is True\nstatus = \"PASS\" if meets else \"REJECT_OVERRIDE\"\nprint(\"S39-T2-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "T2B",
+        "score",
+        "threshold",
+        "human_action"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «decisión, override, feedback y apelación» del paquete indica: Las acciones de cola típicas son **queue** (priorizar revisión), **skip** (baja prioridad o sin señal accionable) y **escalate**. La política automática sugiere… Resolví S39-T2-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"S39-T2-B\", status). Las pistas (human_action no nulo gana siempre; debe setear override True en el evento de audit conceptual.; No borres el score; solo corrige la precedencia de la decisión final.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    if record.get(\"appeal\") and not record.get(\"second_reviewer\"):\n        return \"MISSING:second_reviewer\"\n    auto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\n    if record.get(\"human_action\") is not None:\n        return record[\"human_action\"]\n    return auto\n\nbase = {\"case_id\": \"CASO-LIM-039-T2B\", \"score\": 0.9, \"threshold\": 0.7, \"human_action\": None, \"appeal\": False}\nauto_q = dict(base)\noverride = {**base, \"human_action\": \"skip\"}\nappeal = {**base, \"appeal\": True}\nprint(assess(auto_q), assess(override), assess(appeal))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "get",
+        "appeal",
+        "not",
+        "second_reviewer"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «decisión, override, feedback y apelación» del paquete indica: Las acciones de cola típicas son **queue** (priorizar revisión), **skip** (baja prioridad o sin señal accionable) y **escalate**. La política automática sugiere… Resolví S39-T2-B-E2 (independent) completando el starter sin reescribir fixtures: print(assess(auto_q). Las pistas (Si appeal True y no hay second_reviewer → MISSING:second_reviewer antes de cerrar.; Override solo aplica cuando human_action no es None; imprime la acción final o el missing.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(event: dict):\n    if event.get(\"override\") and not event.get(\"audit_entry\"):\n        return \"REJECT_NO_AUDIT\", False\n    if event.get(\"feedback\") and not event.get(\"feedback_id\"):\n        return \"MISSING:feedback_id\", False\n    if event.get(\"feedback\") and not event.get(\"leakage_care\"):\n        return \"REJECT_LEAKAGE_CARE\", False\n    return \"LOGGED\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"override\": True,\n    \"audit_entry\": True,\n    \"feedback\": True,\n    \"feedback_id\": \"fb-01\",\n    \"leakage_care\": True,\n}\nprint(*decide(happy))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "event",
+        "dict",
+        "get",
+        "override",
+        "not",
+        "audit_entry",
+        "REJECT_NO_AUDIT"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «decisión, override, feedback y apelación» del paquete indica: Las acciones de cola típicas son **queue** (priorizar revisión), **skip** (baja prioridad o sin señal accionable) y **escalate**. La política automática sugiere… Resolví S39-T2-B-E3 (transfer) completando el starter sin reescribir fixtures: print(*decide(happy). Las pistas (Fail-closed: sin audit_entry no hay override válido; feedback sin id no se reinyecta.; leakage_care True es obligatorio al loguear feedback hacia datasets o reglas.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "checklist = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\nmeets = all([\n    checklist[\"pii_minimized\"],\n    checklist[\"rbac\"],\n    not checklist[\"secrets_in_repo\"],\n    checklist[\"slice_metrics\"],\n    checklist[\"input_limits\"],\n])\nstatus = \"PASS\" if meets else \"REJECT_RELEASE\"\nprint(\"S39-T3-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "checklist",
+        "case_id",
+        "CASO",
+        "LIM",
+        "T3A",
+        "pii_minimized",
+        "rbac",
+        "secrets_in_repo"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «privacidad, fairness y seguridad» del paquete indica: Antes de abrir el triage a revisores, aplica minimización de PII (solo campos necesarios del packet), **RBAC** por rol (reviewer vs admin), y prohíbe secretos o… Resolví S39-T3-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"S39-T3-A\", status). Las pistas (not secrets_in_repo es obligatorio; un True bloquea aunque el resto esté verde.; No borres campos del checklist; corrige solo el predicado all(...).) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(c: dict) -> str:\n    required = {\"pii_minimized\", \"rbac\", \"secrets_in_repo\", \"slice_metrics\", \"input_limits\"}\n    missing = sorted(required - c.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if c.get(\"secrets_in_repo\") is True:\n        return \"REJECT_SECRETS\"\n    return \"PASS\"\n\nvalid = {\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\ninvalid = {**valid, \"secrets_in_repo\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"rbac\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "pii_minimized",
+        "rbac",
+        "secrets_in_repo",
+        "slice_metrics"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «privacidad, fairness y seguridad» del paquete indica: Antes de abrir el triage a revisores, aplica minimización de PII (solo campos necesarios del packet), **RBAC** por rol (reviewer vs admin), y prohíbe secretos o… Resolví S39-T3-A-E2 (independent) completando el starter sin reescribir fixtures: print(assess(valid). Las pistas (Missing de rbac se detecta por claves; secrets True es breach de contenido.; min_role conceptual del packet es reviewer; aquí solo validas flags del checklist.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(payload: dict):\n    if not payload.get(\"slices\"):\n        return \"REQUEST_SLICE_METRICS\", \"fp_rate\"\n    thr = payload.get(\"fp_threshold\", 0.15)\n    for sl in payload[\"slices\"]:\n        if sl.get(\"fp_rate\", 0) > thr:\n            return \"REJECT_SLICE_FP\", \"fp_rate\"\n    return \"CONTINUE\", \"fp_rate\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"slices\": [{\"name\": \"canal_app\", \"fp_rate\": 0.08}],\n    \"fp_threshold\": 0.15,\n}\nprint(*decide(happy))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "payload",
+        "dict",
+        "not",
+        "get",
+        "slices",
+        "REQUEST_SLICE_METRICS",
+        "fp_rate"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «privacidad, fairness y seguridad» del paquete indica: Antes de abrir el triage a revisores, aplica minimización de PII (solo campos necesarios del packet), **RBAC** por rol (reviewer vs admin), y prohíbe secretos o… Resolví S39-T3-A-E3 (transfer) completando el starter sin reescribir fixtures: print(*decide(happy). Las pistas (Los slices son sintéticos de canal/producto; fp_rate alto reabre el release, no etiqueta personas.; REQUEST_SLICE_METRICS cuando la clave slices no existe o está vacía.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nrecord = {\"case_id\": \"CASO-LIM-039-T3B\", \"drift_high\": True, \"incident\": True}\nm = mode(record[\"drift_high\"], record[\"incident\"])\nmeets = m == \"human_only\"\nstatus = \"PASS\" if meets else \"REJECT_MODE\"\nprint(\"S39-T3-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "mode",
+        "drift_high",
+        "incident",
+        "human_only",
+        "abstain_more",
+        "normal",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «drift, incidentes, rollback y human control» del paquete indica: En producción del triage monitoreas distribución de scores, prevalencia proxy de cola, calibración, latencia del packet y tasa de overrides. **Drift** no es un … Resolví S39-T3-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"S39-T3-B\", status). Las pistas (incident gana siempre sobre drift; no devuelvas abstain_more si incident es True.; Corrige solo la función mode; el fixture de assert usa incident=True.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nprint(mode(False, False), mode(True, False), mode(False, True))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "mode",
+        "drift_high",
+        "incident",
+        "human_only",
+        "abstain_more",
+        "normal",
+        "S39",
+        "Tres"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «drift, incidentes, rollback y human control» del paquete indica: En producción del triage monitoreas distribución de scores, prevalencia proxy de cola, calibración, latencia del packet y tasa de overrides. **Drift** no es un … Resolví S39-T3-B-E2 (independent) completando el starter sin reescribir fixtures: print(mode(False, False). Las pistas (Tabla de verdad simple: (F,F)=normal, (T,F)=abstain_more, (F,T)=human_only.; Si ambos True, human_only (cubierto por la prioridad de incident).) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(ops: dict):\n    if ops.get(\"incident\"):\n        if not ops.get(\"prev_model_id\"):\n            return \"REQUEST_PREV_MODEL\", None\n        return ops[\"prev_model_id\"], ops.get(\"prev_thr\", \"previous\")\n    if ops.get(\"drift_high\"):\n        return \"MONITOR\", \"abstain_more\"\n    return \"STAY\", \"current_model\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3B\",\n    \"incident\": True,\n    \"drift_high\": False,\n    \"prev_model_id\": \"previous_model\",\n    \"prev_thr\": \"previous\",\n}\nprint(*decide(happy))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "ops",
+        "dict",
+        "get",
+        "incident",
+        "not",
+        "prev_model_id",
+        "REQUEST_PREV_MODEL"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «drift, incidentes, rollback y human control» del paquete indica: En producción del triage monitoreas distribución de scores, prevalencia proxy de cola, calibración, latencia del packet y tasa de overrides. **Drift** no es un … Resolví S39-T3-B-E3 (transfer) completando el starter sin reescribir fixtures: print(*decide(happy). Las pistas (Rollback apunta a artefacto versionado previo, no al working tree local.; Sin prev_model_id no inventes un id; pide REQUEST_PREV_MODEL.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "acceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\nmeets = \"no_auto_fraud_label\" in acceptance and \"audit_log\" in acceptance and \"e2e_synthetic_run\" in acceptance\nstatus = \"PASS\" if meets else \"REJECT_ACCEPTANCE\"\nprint(\"S39-T4-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "acceptance",
+        "e2e_synthetic_run",
+        "baseline_in_metrics",
+        "abstention_path",
+        "audit_log",
+        "no_auto_fraud_label",
+        "regression_smoke_s27_s39",
+        "meets"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «aceptación y demo» del paquete indica: La aceptación de CP-N3-C no es un screenshot: es una lista de criterios ejecutables sobre fixtures sintéticos. Mínimo: corrida e2e, baseline visible en métricas… Resolví S39-T4-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"S39-T4-A\", status). Las pistas (Busca el string exacto no_auto_fraud_label dentro de la lista acceptance.; No reescribas la lista; corrige la condición membership.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(notes: dict) -> str:\n    required = {\"regression_scope\", \"cf3_lane\", \"section_passed\"}\n    missing = sorted(required - notes.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if notes.get(\"section_passed\") is True:\n        return \"REJECT_AUTO_PASS\"\n    if notes.get(\"regression_scope\") != \"S27-S39\":\n        return \"REJECT_SCOPE\"\n    if notes.get(\"cf3_lane\") != \"separate_lane\":\n        return \"REJECT_CF3_LANE\"\n    return \"PASS\"\n\nvalid = {\n    \"regression_scope\": \"S27-S39\",\n    \"cf3_lane\": \"separate_lane\",\n    \"section_passed\": False,\n}\ninvalid = {**valid, \"section_passed\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"regression_scope\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "notes",
+        "dict",
+        "str",
+        "required",
+        "regression_scope",
+        "cf3_lane",
+        "section_passed"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «aceptación y demo» del paquete indica: La aceptación de CP-N3-C no es un screenshot: es una lista de criterios ejecutables sobre fixtures sintéticos. Mínimo: corrida e2e, baseline visible en métricas… Resolví S39-T4-A-E2 (independent) completando el starter sin reescribir fixtures: print(assess(valid). Las pistas (Esta lane nunca auto-marca PASS; section_passed True es rechazo de política de autoría.; cf3_lane separate_lane es el recordatorio de calificación externa.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(paths: list):\n    need = {\"happy\", \"override\", \"ood_abstain\"}\n    got = set(paths)\n    if got == {\"happy\"}:\n        return \"REJECT_HAPPY_ONLY\", len(paths)\n    if not need.issubset(got):\n        return \"REQUEST_DEMO_PATH\", len(paths)\n    return \"CONTINUE\", len(paths)\n\nprint(*decide([\"happy\", \"override\", \"ood_abstain\"]))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "paths",
+        "list",
+        "need",
+        "happy",
+        "override",
+        "ood_abstain",
+        "got"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «aceptación y demo» del paquete indica: La aceptación de CP-N3-C no es un screenshot: es una lista de criterios ejecutables sobre fixtures sintéticos. Mínimo: corrida e2e, baseline visible en métricas… Resolví S39-T4-A-E3 (transfer) completando el starter sin reescribir fixtures: print(*decide([\"happy\", \"override\", \"ood_abstain\"]). Las pistas (Compara como conjunto los nombres canónicos; el orden de la lista no importa.; ood_abstain es distinto de ood; usa el token canónico del theory block.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "cards = [\"model\", \"data\", \"system\"]\nmeets = set(cards) == {\"model\", \"data\", \"system\"}\nstatus = \"PASS\" if meets else \"REJECT_CARDS\"\nprint(\"S39-T4-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "cards",
+        "model",
+        "data",
+        "system",
+        "meets",
+        "set",
+        "status",
+        "PASS"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «model/data/system cards, métricas de valor y postmortem» del paquete indica: El cierre de nivel exige **cards** legibles: model card (label_space, límites, no auto-fraude), data card (fixtures sintéticos, ventanas, PII minimizada) y syst… Resolví S39-T4-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"S39-T4-B\", status). Las pistas (Conjunto {model, data, system}; ni de más ni de menos para el contrato mínimo de S39.; Orden de impresión puede ser sorted; el predicado usa igualdad de sets.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(payload: dict) -> str:\n    if \"value\" not in payload:\n        return \"MISSING:value\"\n    return \"PASS\" if \"override_rate\" in payload[\"value\"] else \"REJECT_VALUE_METRICS\"\n\nvalid = {\"value\": {\"precision_at_k\": 0.55, \"override_rate\": 0.12, \"median_review_s\": 90}}\ninvalid = {\"value\": {\"auc\": 0.91}}\nincomplete = {\"cards\": [\"model\"]}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "payload",
+        "dict",
+        "str",
+        "value",
+        "not",
+        "MISSING",
+        "PASS"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «model/data/system cards, métricas de valor y postmortem» del paquete indica: El cierre de nivel exige **cards** legibles: model card (label_space, límites, no auto-fraude), data card (fixtures sintéticos, ventanas, PII minimizada) y syst… Resolví S39-T4-B-E2 (independent) completando el starter sin reescribir fixtures: print(assess(valid). Las pistas (Valor operativo del triage ≠ solo AUC; override_rate es la métrica canónica de este ejercicio.; MISSING:value cuando el payload no trae la clave value.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S39-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(pm: dict):\n    if pm.get(\"blameless\") is False:\n        return \"REJECT_BLAMEFUL\", False\n    if not pm.get(\"root_cause\"):\n        return \"REQUEST_ROOT_CAUSE\", False\n    if not pm.get(\"actions\"):\n        return \"REQUEST_ACTIONS\", False\n    return \"CONTINUE\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T4B\",\n    \"blameless\": True,\n    \"root_cause\": \"calib_drift\",\n    \"actions\": [\"rollback\", \"recalibrate\"],\n}\nprint(*decide(happy))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "get",
+        "blameless",
+        "REJECT_BLAMEFUL",
+        "not",
+        "root_cause",
+        "REQUEST_ROOT_CAUSE"
+      ],
+      "justification_from_packet": "Explorer — en S39 la teoría «model/data/system cards, métricas de valor y postmortem» del paquete indica: El cierre de nivel exige **cards** legibles: model card (label_space, límites, no auto-fraude), data card (fixtures sintéticos, ventanas, PII minimizada) y syst… Resolví S39-T4-B-E3 (transfer) completando el starter sin reescribir fixtures: print(*decide(happy). Las pistas (Blameless mira procesos y sistemas; no nombres de personas como root_cause.; actions debe ser lista con al menos un ítem (rollback, recalibrate, etc.).) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "needs_review / prioridad de cola",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S39 («intake → ER → relación → features → modelo»), elijo «needs_review / prioridad de cola» (chosen_index=2) para «El label_space del triage N3 es preferentemente:». Fragmento enseñado: El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma entidad (no familia ni culpa);… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Se documentan; PASS lo califica otra lane",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S39 («contratos, versiones y ownership»), elijo «Se documentan; PASS lo califica otra lane» (chosen_index=0) para «CF-3 y regresión S27–S39 en esta lane de autoría:». Fragmento enseñado: Cada artefacto del triage — motor de ER, `graph_schema`, `feature_set`, ranker, umbral y plantilla de packet — debe tener **owner**, **versión semver*… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Evidencia y path además del score",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S39 («queue, evidence packet y explicación»), elijo «Evidencia y path además del score» (chosen_index=1) para «Evidence packet debe incluir:». Fragmento enseñado: La cola ordena casos por score calibrado y capacidad del equipo; el **evidence packet** es lo que el revisor ve: hechos sintéticos, path de grafo, top… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "human_only / rollback a artefacto previo",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S39 («decisión, override, feedback y apelación»), elijo «human_only / rollback a artefacto previo» (chosen_index=3) para «Ante incidente grave el modo seguro es:». Fragmento enseñado: Las acciones de cola típicas son **queue** (priorizar revisión), **skip** (baja prioridad o sin señal accionable) y **escalate**. La política automáti… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Bump major, owner contactable y revalidación de paths",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S39 («privacidad, fairness y seguridad»), elijo «Bump major, owner contactable y revalidación de paths» (chosen_index=1) para «Un breaking change en graph_schema del triage exige:». Fragmento enseñado: Antes de abrir el triage a revisores, aplica minimización de PII (solo campos necesarios del packet), **RBAC** por rol (reviewer vs admin), y prohíbe … La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:42:12.039470+00:00",
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39
+    ],
+    "note": "Knowledge limited to sequential packets through active section; solved from exercise_batch/quiz_card only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s39-live"
+}

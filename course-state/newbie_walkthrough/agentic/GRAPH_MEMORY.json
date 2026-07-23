@@ -1,18 +1,19 @@
 {
-  "created_at": "2026-07-21T21:56:30.215647+00:00",
-  "rule": "agentic_justification_primary_hardened",
+  "created_at": "2026-07-23T03:30:21.813817+00:00",
+  "rule": "agentic_justification_primary",
+  "attempt": "agentic_D1",
   "forbidden_for_pass_bar": [
     "code_exec_only",
     "dual_sim_lexical_only",
     "generator_scripts"
   ],
-  "updated_at": "2026-07-22T02:14:36.602823+00:00",
+  "brand": "PyArcana",
+  "updated_at": "2026-07-23T04:00:02.707969+00:00",
   "clean_runs": [
-    "agentic_B1",
-    "agentic_B2"
+    "agentic_D1",
+    "agentic_D2"
   ],
   "consecutive_clean": 2,
   "branding": "PyArcana",
-  "adversarial": "green",
-  "validator": "incomplete+template+missing rejected"
+  "adversarial": "pending_or_green"
 }

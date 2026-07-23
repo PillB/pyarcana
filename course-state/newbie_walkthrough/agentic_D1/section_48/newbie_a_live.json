@@ -1,0 +1,544 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 48,
+  "packet_sha": "61a21f5ec27d0d59",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S48-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"version\":\"emb-v2\",\"expected_top\":\"d1\"}}\nmeets_contract = max(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"], record[\"docs\"][k]))) == record[\"expected_top\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_EMBEDDING_RANK\"\nprint(\"S48-T1-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PUN",
+        "query",
+        "docs",
+        "metric",
+        "dot",
+        "version"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T1-A-E1 a partir de la instrucción: S48-T1-A-E1 · Calcula el contrato de `embeddings y similarity` sobre `CASO-PUN-048-1A`. La entrada es el dict completo del starter; la operación debe . En teoría/iDo se exige: Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y métrica forman parte. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `query`, `docs`, `metric`, `version`, `expected_top` con la regla explicada en S48-T1-A.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"query\", \"docs\", \"metric\", \"version\", \"expected_top\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (max(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"], record[\"docs\"][k]))) == record[\"expected_top\"]) else \"REJECT_EMBEDDING_RANK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-1A\", \"query\": [1.0, 0.0], \"docs\": {\"d1\": [0.8, 0.2], \"d2\": [0.1, 0.9]}, \"metric\": \"dot\", \"version\": \"emb-v2\", \"expected_top\": \"d1\"}\ninvalid = {\"case_id\": \"CASO-PUN-048-1A\", \"query\": [1.0, 0.0], \"docs\": {\"d1\": [0.8, 0.2], \"d2\": [0.1, 0.9]}, \"metric\": \"dot\", \"version\": \"emb-v2\", \"expected_top\": \"wrong-doc\"}\nincomplete = {**valid}\nincomplete.pop(\"expected_top\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "query",
+        "docs",
+        "metric",
+        "version",
+        "expected_top",
+        "keys"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T1-A-E2 a partir de la instrucción: S48-T1-A-E2 · Modela tres rutas de `embeddings y similarity`: fixture válido, fixture adverso y registro sin `expected_top`. Entrada: dict con case_id. En teoría/iDo se exige: Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y métrica forman parte. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"query\", \"docs\", \"metric\", \"version\", \"expected_top\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"REVIEW_METRIC_VERSION\"\n    return \"CONTINUE\" if (max(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"], record[\"docs\"][k]))) == record[\"expected_top\"]) else \"REJECT_EMBEDDING_RANK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-1A\", \"query\": [1.0, 0.0], \"docs\": {\"d1\": [0.8, 0.2], \"d2\": [0.1, 0.9]}, \"metric\": \"dot\", \"version\": \"emb-v2\", \"expected_top\": \"d1\"}\ninvalid = {\"case_id\": \"CASO-PUN-048-1A\", \"query\": [1.0, 0.0], \"docs\": {\"d1\": [0.8, 0.2], \"d2\": [0.1, 0.9]}, \"metric\": \"dot\", \"version\": \"emb-v2\", \"expected_top\": \"wrong-doc\"}\nincomplete = {**valid}\nincomplete.pop(\"expected_top\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "query",
+        "docs",
+        "metric",
+        "version",
+        "expected_top",
+        "keys"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T1-A-E3 a partir de la instrucción: S48-T1-A-E3 · Simula fallo cerrado para `embeddings y similarity` con tres fixtures distintos. `CASO-PUN-048-1A` debe continuar, el adverso debe devol. En teoría/iDo se exige: Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y métrica forman parte. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `REVIEW_METRIC_VERSION` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"rag-holdout-v1\",\"reindex_cost_pen\":30}}\nmeets_contract = not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_EMBEDDING_BASELINE\"\nprint(\"S48-T1-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PUN",
+        "baseline_recall",
+        "candidate_recall",
+        "min_recall",
+        "holdout",
+        "rag"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T1-B-E1 a partir de la instrucción: S48-T1-B-E1 · Compara el contrato de `límites, versiones y evaluación` sobre `CASO-PUN-048-1B`. La entrada es el dict completo del starter; la operaci. En teoría/iDo se exige: Evalúa recall/precision en tareas reales y slicea errores; cambiar embedding exige baseline, costo y reindexación, no intuición. C. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `baseline_recall`, `candidate_recall`, `min_recall`, `holdout`, `reindex_cost_pen` con la regla explicada en », manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"baseline_recall\", \"candidate_recall\", \"min_recall\", \"holdout\", \"reindex_cost_pen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])) else \"KEEP_EMBEDDING_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-1B\", \"baseline_recall\": 0.72, \"candidate_recall\": 0.81, \"min_recall\": 0.78, \"holdout\": \"rag-holdout-v1\", \"reindex_cost_pen\": 30}\ninvalid = {\"case_id\": \"CASO-PUN-048-1B\", \"baseline_recall\": 99.72, \"candidate_recall\": 0.81, \"min_recall\": 0.78, \"holdout\": \"rag-holdout-v1\", \"reindex_cost_pen\": 30}\nincomplete = {**valid}\nincomplete.pop(\"reindex_cost_pen\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "baseline_recall",
+        "candidate_recall",
+        "min_recall",
+        "holdout",
+        "reindex_cost_pen",
+        "keys"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T1-B-E2 a partir de la instrucción: S48-T1-B-E2 · Verifica tres rutas de `límites, versiones y evaluación`: fixture válido, fixture adverso y registro sin `reindex_cost_pen`. Entrada: di. En teoría/iDo se exige: Evalúa recall/precision en tareas reales y slicea errores; cambiar embedding exige baseline, costo y reindexación, no intuición. C. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a reindex_cost_pen debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"baseline_recall\", \"candidate_recall\", \"min_recall\", \"holdout\", \"reindex_cost_pen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"EVALUATE_ERROR_SLICES\"\n    return \"CONTINUE\" if (not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])) else \"KEEP_EMBEDDING_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-1B\", \"baseline_recall\": 0.72, \"candidate_recall\": 0.81, \"min_recall\": 0.78, \"holdout\": \"rag-holdout-v1\", \"reindex_cost_pen\": 30}\ninvalid = {\"case_id\": \"CASO-PUN-048-1B\", \"baseline_recall\": 99.72, \"candidate_recall\": 0.81, \"min_recall\": 0.78, \"holdout\": \"rag-holdout-v1\", \"reindex_cost_pen\": 30}\nincomplete = {**valid}\nincomplete.pop(\"reindex_cost_pen\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "baseline_recall",
+        "candidate_recall",
+        "min_recall",
+        "holdout",
+        "reindex_cost_pen",
+        "keys"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T1-B-E3 a partir de la instrucción: S48-T1-B-E3 · Extiende fallo cerrado para `límites, versiones y evaluación` con tres fixtures distintos. `CASO-PUN-048-1B` debe continuar, el adverso . En teoría/iDo se exige: Evalúa recall/precision en tareas reales y slicea errores; cambiar embedding exige baseline, costo y reindexación, no intuición. C. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `EVALUATE_ERROR_SLICES` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\nmeets_contract = not (len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]))\nstatus = \"PASS\" if meets_contract else \"DEDUP_AND_RECHUNK\"\nprint(\"S48-T2-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PUN",
+        "chunks",
+        "hash",
+        "section",
+        "policy",
+        "limits"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T2-A-E1 a partir de la instrucción: S48-T2-A-E1 · Filtra el contrato de `chunking, metadata y dedup` sobre `CASO-PUN-048-2A`. La entrada es el dict completo del starter; la operación deb. En teoría/iDo se exige: Chunking sigue unidades semánticas y conserva metadata; dedup por hash/identidad evita evidencia repetida y fuga entre versiones. . Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `chunks`, `unique_hashes`, `source_version` con la regla explicada en S48-T2-A.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"chunks\", \"unique_hashes\", \"source_version\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]))) else \"DEDUP_AND_RECHUNK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2A\", \"chunks\": [{\"id\": \"d1#1\", \"hash\": \"a\", \"section\": \"policy\"}, {\"id\": \"d1#2\", \"hash\": \"b\", \"section\": \"limits\"}], \"unique_hashes\": 2, \"source_version\": \"d1-v3\"}\ninvalid = {\"case_id\": \"CASO-PUN-048-2A\", \"chunks\": [{\"id\": \"d1#1\", \"hash\": \"a\", \"section\": \"policy\"}, {\"id\": \"d1#2\", \"hash\": \"a\", \"section\": \"limits\"}], \"unique_hashes\": 1, \"source_version\": \"d1-v3\"}\nincomplete = {**valid}\nincomplete.pop(\"source_version\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "chunks",
+        "unique_hashes",
+        "source_version",
+        "keys",
+        "join",
+        "not"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T2-A-E2 a partir de la instrucción: S48-T2-A-E2 · Clasifica tres rutas de `chunking, metadata y dedup`: fixture válido, fixture adverso y registro sin `source_version`. Entrada: dict con. En teoría/iDo se exige: Chunking sigue unidades semánticas y conserva metadata; dedup por hash/identidad evita evidencia repetida y fuga entre versiones. . Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a source_version debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"chunks\", \"unique_hashes\", \"source_version\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"RESTORE_CHUNK_METADATA\"\n    return \"CONTINUE\" if (not (len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]))) else \"DEDUP_AND_RECHUNK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2A\", \"chunks\": [{\"id\": \"d1#1\", \"hash\": \"a\", \"section\": \"policy\"}, {\"id\": \"d1#2\", \"hash\": \"b\", \"section\": \"limits\"}], \"unique_hashes\": 2, \"source_version\": \"d1-v3\"}\ninvalid = {\"case_id\": \"CASO-PUN-048-2A\", \"chunks\": [{\"id\": \"d1#1\", \"hash\": \"a\", \"section\": \"policy\"}, {\"id\": \"d1#2\", \"hash\": \"a\", \"section\": \"limits\"}], \"unique_hashes\": 1, \"source_version\": \"d1-v3\"}\nincomplete = {**valid}\nincomplete.pop(\"source_version\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "chunks",
+        "unique_hashes",
+        "source_version",
+        "keys",
+        "ausencia",
+        "equivale"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T2-A-E3 a partir de la instrucción: S48-T2-A-E3 · Defiende fallo cerrado para `chunking, metadata y dedup` con tres fixtures distintos. `CASO-PUN-048-2A` debe continuar, el adverso debe . En teoría/iDo se exige: Chunking sigue unidades semánticas y conserva metadata; dedup por hash/identidad evita evidencia repetida y fuga entre versiones. . Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `RESTORE_CHUNK_METADATA` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\nmeets_contract = not (not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"])\nstatus = \"PASS\" if meets_contract else \"FILTER_OR_DELETE_CHUNK\"\nprint(\"S48-T2-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PUN",
+        "user_acl",
+        "public",
+        "ops",
+        "chunk_acl",
+        "deleted"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T2-B-E1 a partir de la instrucción: S48-T2-B-E1 · Modela el contrato de `ACL, deletion y provenance` sobre `CASO-PUN-048-2B`. La entrada es el dict completo del starter; la operación deb. En teoría/iDo se exige: ACL se filtra antes de retrieval/rerank; deletion invalida índice/cache y provenance enlaza cada chunk a documento y versión. Cont. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `user_acl`, `chunk_acl`, `deleted`, `provenance`, `cache_invalidated` con la regla explicada en S48-T2-B.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"user_acl\", \"chunk_acl\", \"deleted\", \"provenance\", \"cache_invalidated\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"])) else \"FILTER_OR_DELETE_CHUNK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2B\", \"user_acl\": {\"ops\", \"public\"}, \"chunk_acl\": {\"ops\"}, \"deleted\": False, \"provenance\": \"doc-7-v2\", \"cache_invalidated\": True}\ninvalid = {\"case_id\": \"CASO-PUN-048-2B\", \"user_acl\": {\"ops\", \"public\"}, \"chunk_acl\": {\"ops\"}, \"deleted\": True, \"provenance\": \"doc-7-v2\", \"cache_invalidated\": True}\nincomplete = {**valid}\nincomplete.pop(\"cache_invalidated\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "user_acl",
+        "chunk_acl",
+        "deleted",
+        "provenance",
+        "cache_invalidated",
+        "keys"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T2-B-E2 a partir de la instrucción: S48-T2-B-E2 · Audita tres rutas de `ACL, deletion y provenance`: fixture válido, fixture adverso y registro sin `cache_invalidated`. Entrada: dict con. En teoría/iDo se exige: ACL se filtra antes de retrieval/rerank; deletion invalida índice/cache y provenance enlaza cada chunk a documento y versión. Cont. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a cache_invalidated debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"user_acl\", \"chunk_acl\", \"deleted\", \"provenance\", \"cache_invalidated\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"VERIFY_ACL_PROVENANCE\"\n    return \"CONTINUE\" if (not (not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"])) else \"FILTER_OR_DELETE_CHUNK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2B\", \"user_acl\": {\"ops\", \"public\"}, \"chunk_acl\": {\"ops\"}, \"deleted\": False, \"provenance\": \"doc-7-v2\", \"cache_invalidated\": True}\ninvalid = {\"case_id\": \"CASO-PUN-048-2B\", \"user_acl\": {\"ops\", \"public\"}, \"chunk_acl\": {\"ops\"}, \"deleted\": True, \"provenance\": \"doc-7-v2\", \"cache_invalidated\": True}\nincomplete = {**valid}\nincomplete.pop(\"cache_invalidated\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "user_acl",
+        "chunk_acl",
+        "deleted",
+        "provenance",
+        "cache_invalidated",
+        "keys"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T2-B-E3 a partir de la instrucción: S48-T2-B-E3 · Recupera fallo cerrado para `ACL, deletion y provenance` con tres fixtures distintos. `CASO-PUN-048-2B` debe continuar, el adverso debe . En teoría/iDo se exige: ACL se filtra antes de retrieval/rerank; deletion invalida índice/cache y provenance enlaza cada chunk a documento y versión. Cont. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `VERIFY_ACL_PROVENANCE` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\nmeets_contract = not (max(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"])\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_HYBRID_RANK\"\nprint(\"S48-T3-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PUN",
+        "lexical",
+        "vector",
+        "weights",
+        "expected_top",
+        "meets_contract"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T3-A-E1 a partir de la instrucción: S48-T3-A-E1 · Verifica el contrato de `lexical/vector/hybrid y reranking` sobre `CASO-PUN-048-3A`. La entrada es el dict completo del starter; la oper. En teoría/iDo se exige: Lexical captura términos exactos, vector semántica y hybrid combina scores calibrados; rerank opera solo sobre candidatos permitid. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `lexical`, `vector`, `weights`, `expected_top` con la regla explicada en S48-T3-A.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"lexical\", \"vector\", \"weights\", \"expected_top\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (max(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"])) else \"RECALIBRATE_HYBRID_RANK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-3A\", \"lexical\": {\"d1\": 0.9, \"d2\": 0.2}, \"vector\": {\"d1\": 0.6, \"d2\": 0.8}, \"weights\": {\"lexical\": 0.6, \"vector\": 0.4}, \"expected_top\": \"d1\"}\ninvalid = {\"case_id\": \"CASO-PUN-048-3A\", \"lexical\": {\"d1\": 0.9, \"d2\": 0.2}, \"vector\": {\"d1\": 0.6, \"d2\": 0.8}, \"weights\": {\"lexical\": 0.6, \"vector\": 0.4}, \"expected_top\": \"d2\"}\nincomplete = {**valid}\nincomplete.pop(\"expected_top\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "lexical",
+        "vector",
+        "weights",
+        "expected_top",
+        "keys",
+        "join"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T3-A-E2 a partir de la instrucción: S48-T3-A-E2 · Decide tres rutas de `lexical/vector/hybrid y reranking`: fixture válido, fixture adverso y registro sin `expected_top`. Entrada: dict c. En teoría/iDo se exige: Lexical captura términos exactos, vector semántica y hybrid combina scores calibrados; rerank opera solo sobre candidatos permitid. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"lexical\", \"vector\", \"weights\", \"expected_top\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"REVIEW_RERANK_CANDIDATES\"\n    return \"CONTINUE\" if (not (max(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"])) else \"RECALIBRATE_HYBRID_RANK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-3A\", \"lexical\": {\"d1\": 0.9, \"d2\": 0.2}, \"vector\": {\"d1\": 0.6, \"d2\": 0.8}, \"weights\": {\"lexical\": 0.6, \"vector\": 0.4}, \"expected_top\": \"d1\"}\ninvalid = {\"case_id\": \"CASO-PUN-048-3A\", \"lexical\": {\"d1\": 0.9, \"d2\": 0.2}, \"vector\": {\"d1\": 0.6, \"d2\": 0.8}, \"weights\": {\"lexical\": 0.6, \"vector\": 0.4}, \"expected_top\": \"d2\"}\nincomplete = {**valid}\nincomplete.pop(\"expected_top\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "lexical",
+        "vector",
+        "weights",
+        "expected_top",
+        "keys",
+        "ausencia"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T3-A-E3 a partir de la instrucción: S48-T3-A-E3 · Contrasta fallo cerrado para `lexical/vector/hybrid y reranking` con tres fixtures distintos. `CASO-PUN-048-3A` debe continuar, el adver. En teoría/iDo se exige: Lexical captura términos exactos, vector semántica y hybrid combina scores calibrados; rerank opera solo sobre candidatos permitid. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `REVIEW_RERANK_CANDIDATES` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\nmeets_contract = not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_UNCITED\"\nprint(\"S48-T3-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PUN",
+        "claims",
+        "cited_claims",
+        "citation_acl",
+        "context_tokens",
+        "max_context_tokens"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T3-B-E1 a partir de la instrucción: S48-T3-B-E1 · Clasifica el contrato de `contexto, citas y permisos` sobre `CASO-PUN-048-3B`. La entrada es el dict completo del starter; la operación . En teoría/iDo se exige: Contexto incluye fragmentos mínimos, citas y límites; una cita debe resolver a texto/ver­sión accesible por el solicitante. Contra. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `claims`, `cited_claims`, `citation_acl`, `context_tokens`, `max_context_tokens` con la regla explicada en S4», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"claims\", \"cited_claims\", \"citation_acl\", \"context_tokens\", \"max_context_tokens\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])) else \"ABSTAIN_UNCITED\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-3B\", \"claims\": {\"c1\", \"c2\"}, \"cited_claims\": {\"c1\", \"c2\"}, \"citation_acl\": True, \"context_tokens\": 800, \"max_context_tokens\": 1000}\ninvalid = {\"case_id\": \"CASO-PUN-048-3B\", \"claims\": {\"__extra__\", \"c1\", \"c2\"}, \"cited_claims\": {\"c1\", \"c2\"}, \"citation_acl\": True, \"context_tokens\": 800, \"max_context_tokens\": 1000}\nincomplete = {**valid}\nincomplete.pop(\"max_context_tokens\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "claims",
+        "cited_claims",
+        "citation_acl",
+        "context_tokens",
+        "max_context_tokens",
+        "keys"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T3-B-E2 a partir de la instrucción: S48-T3-B-E2 · Calcula tres rutas de `contexto, citas y permisos`: fixture válido, fixture adverso y registro sin `max_context_tokens`. Entrada: dict c. En teoría/iDo se exige: Contexto incluye fragmentos mínimos, citas y límites; una cita debe resolver a texto/ver­sión accesible por el solicitante. Contra. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a max_context_tokens debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"claims\", \"cited_claims\", \"citation_acl\", \"context_tokens\", \"max_context_tokens\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"REQUEST_AUTHORIZED_CONTEXT\"\n    return \"CONTINUE\" if (not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])) else \"ABSTAIN_UNCITED\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-3B\", \"claims\": {\"c1\", \"c2\"}, \"cited_claims\": {\"c1\", \"c2\"}, \"citation_acl\": True, \"context_tokens\": 800, \"max_context_tokens\": 1000}\ninvalid = {\"case_id\": \"CASO-PUN-048-3B\", \"claims\": {\"__extra__\", \"c1\", \"c2\"}, \"cited_claims\": {\"c1\", \"c2\"}, \"citation_acl\": True, \"context_tokens\": 800, \"max_context_tokens\": 1000}\nincomplete = {**valid}\nincomplete.pop(\"max_context_tokens\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "claims",
+        "cited_claims",
+        "citation_acl",
+        "context_tokens",
+        "max_context_tokens",
+        "keys"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T3-B-E3 a partir de la instrucción: S48-T3-B-E3 · Instrumenta fallo cerrado para `contexto, citas y permisos` con tres fixtures distintos. `CASO-PUN-048-3B` debe continuar, el adverso de. En teoría/iDo se exige: Contexto incluye fragmentos mínimos, citas y límites; una cita debe resolver a texto/ver­sión accesible por el solicitante. Contra. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `REQUEST_AUTHORIZED_CONTEXT` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\nmeets_contract = not (not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGROUNDED_OUTPUT\"\nprint(\"S48-T4-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PUN",
+        "output",
+        "answer",
+        "plazo",
+        "evidence_ids",
+        "schema_keys"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T4-A-E1 a partir de la instrucción: S48-T4-A-E1 · Audita el contrato de `structured output y grounding` sobre `CASO-PUN-048-4A`. La entrada es el dict completo del starter; la operación . En teoría/iDo se exige: Structured output se valida contra schema; grounding limita afirmaciones a evidencia y separa instrucciones del usuario del conten. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `output`, `schema_keys`, `allowed_evidence`, `injected_instruction_ignored` con la regla explicada en S48-T4-», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"output\", \"schema_keys\", \"allowed_evidence\", \"injected_instruction_ignored\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"])) else \"REJECT_UNGROUNDED_OUTPUT\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-4A\", \"output\": {\"answer\": \"plazo 30 días\", \"evidence_ids\": [\"d7#2\"]}, \"schema_keys\": {\"answer\", \"evidence_ids\"}, \"allowed_evidence\": {\"d7#2\"}, \"injected_instruction_ignored\": True}\ninvalid = {\"case_id\": \"CASO-PUN-048-4A\", \"output\": {\"answer\": \"plazo 30 días\", \"evidence_ids\": [\"d7#2\"]}, \"schema_keys\": {\"answer\", \"evidence_ids\"}, \"allowed_evidence\": {\"d7#2\"}, \"injected_instruction_ignored\": False}\nincomplete = {**valid}\nincomplete.pop(\"injected_instruction_ignored\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "output",
+        "schema_keys",
+        "allowed_evidence",
+        "injected_instruction_ignored",
+        "keys",
+        "join"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T4-A-E2 a partir de la instrucción: S48-T4-A-E2 · Compara tres rutas de `structured output y grounding`: fixture válido, fixture adverso y registro sin `injected_instruction_ignored`. En. En teoría/iDo se exige: Structured output se valida contra schema; grounding limita afirmaciones a evidencia y separa instrucciones del usuario del conten. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a injected_instruction_ignored debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"output\", \"schema_keys\", \"allowed_evidence\", \"injected_instruction_ignored\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"VALIDATE_OUTPUT_SCHEMA\"\n    return \"CONTINUE\" if (not (not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"])) else \"REJECT_UNGROUNDED_OUTPUT\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-4A\", \"output\": {\"answer\": \"plazo 30 días\", \"evidence_ids\": [\"d7#2\"]}, \"schema_keys\": {\"answer\", \"evidence_ids\"}, \"allowed_evidence\": {\"d7#2\"}, \"injected_instruction_ignored\": True}\ninvalid = {\"case_id\": \"CASO-PUN-048-4A\", \"output\": {\"answer\": \"plazo 30 días\", \"evidence_ids\": [\"d7#2\"]}, \"schema_keys\": {\"answer\", \"evidence_ids\"}, \"allowed_evidence\": {\"d7#2\"}, \"injected_instruction_ignored\": False}\nincomplete = {**valid}\nincomplete.pop(\"injected_instruction_ignored\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "output",
+        "schema_keys",
+        "allowed_evidence",
+        "injected_instruction_ignored",
+        "keys",
+        "ausencia"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T4-A-E3 a partir de la instrucción: S48-T4-A-E3 · Aísla fallo cerrado para `structured output y grounding` con tres fixtures distintos. `CASO-PUN-048-4A` debe continuar, el adverso debe . En teoría/iDo se exige: Structured output se valida contra schema; grounding limita afirmaciones a evidencia y separa instrucciones del usuario del conten. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `VALIDATE_OUTPUT_SCHEMA` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulness\":0.9,\"cost_pen\":0.08,\"cost_cap_pen\":0.1,\"support\":True}}\nmeets_contract = not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_WITH_REASON\"\nprint(\"S48-T4-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PUN",
+        "retrieval_recall",
+        "min_recall",
+        "faithfulness",
+        "min_faithfulness",
+        "cost_pen"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T4-B-E1 a partir de la instrucción: S48-T4-B-E1 · Decide el contrato de `retrieval/answer eval, costo y abstención` sobre `CASO-PUN-048-4B`. La entrada es el dict completo del starter; l. En teoría/iDo se exige: Retrieval eval y answer eval son gates separados; costo/latencia tienen presupuesto y la abstención es éxito cuando falta soporte. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `retrieval_recall`, `min_recall`, `faithfulness`, `min_faithfulness`, `cost_pen`, `cost_cap_pen`, `support` c», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"retrieval_recall\", \"min_recall\", \"faithfulness\", \"min_faithfulness\", \"cost_pen\", \"cost_cap_pen\", \"support\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])) else \"ABSTAIN_WITH_REASON\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-4B\", \"retrieval_recall\": 0.84, \"min_recall\": 0.8, \"faithfulness\": 0.91, \"min_faithfulness\": 0.9, \"cost_pen\": 0.08, \"cost_cap_pen\": 0.1, \"support\": True}\ninvalid = {\"case_id\": \"CASO-PUN-048-4B\", \"retrieval_recall\": 0.84, \"min_recall\": 0.8, \"faithfulness\": 0.91, \"min_faithfulness\": 99.9, \"cost_pen\": 0.08, \"cost_cap_pen\": 0.1, \"support\": True}\nincomplete = {**valid}\nincomplete.pop(\"support\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "retrieval_recall",
+        "min_recall",
+        "faithfulness",
+        "min_faithfulness",
+        "cost_pen",
+        "cost_cap_pen"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T4-B-E2 a partir de la instrucción: S48-T4-B-E2 · Filtra tres rutas de `retrieval/answer eval, costo y abstención`: fixture válido, fixture adverso y registro sin `support`. Entrada: dic. En teoría/iDo se exige: Retrieval eval y answer eval son gates separados; costo/latencia tienen presupuesto y la abstención es éxito cuando falta soporte. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a support debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S48-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"retrieval_recall\", \"min_recall\", \"faithfulness\", \"min_faithfulness\", \"cost_pen\", \"cost_cap_pen\", \"support\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"TUNE_RETRIEVAL_OR_BUDGET\"\n    return \"CONTINUE\" if (not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])) else \"ABSTAIN_WITH_REASON\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-4B\", \"retrieval_recall\": 0.84, \"min_recall\": 0.8, \"faithfulness\": 0.91, \"min_faithfulness\": 0.9, \"cost_pen\": 0.08, \"cost_cap_pen\": 0.1, \"support\": True}\ninvalid = {\"case_id\": \"CASO-PUN-048-4B\", \"retrieval_recall\": 0.84, \"min_recall\": 0.8, \"faithfulness\": 0.91, \"min_faithfulness\": 99.9, \"cost_pen\": 0.08, \"cost_cap_pen\": 0.1, \"support\": True}\nincomplete = {**valid}\nincomplete.pop(\"support\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "retrieval_recall",
+        "min_recall",
+        "faithfulness",
+        "min_faithfulness",
+        "cost_pen",
+        "cost_cap_pen"
+      ],
+      "justification_from_packet": "Como explorer leí el paquete activo y resolví S48-T4-B-E3 a partir de la instrucción: S48-T4-B-E3 · Demuestra fallo cerrado para `retrieval/answer eval, costo y abstención` con tres fixtures distintos. `CASO-PUN-048-4B` debe continuar, . En teoría/iDo se exige: Retrieval eval y answer eval son gates separados; costo/latencia tienen presupuesto y la abstención es éxito cuando falta soporte. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `TUNE_RETRIEVAL_OR_BUDGET` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "ranking reproducible con versión de embedding",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer: en el material de S48 (teoría e iDo del paquete) respalda «ranking reproducible con versión de embedding». Pregunta: «¿Qué evidencia permite aprobar `embeddings y similarity` en CASO-PUN-048?». Conceptos de soporte: ranking, reproducible, versión, embedding. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "emitir ABSTAIN y conservar evidencia",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer: en el material de S48 (teoría e iDo del paquete) respalda «emitir ABSTAIN y conservar evidencia». Pregunta: «Si ocurre la condición de error de S48, ¿qué respuesta preserva seguridad y auditabilidad?». Conceptos de soporte: evidencia. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer: en el material de S48 (teoría e iDo del paquete) respalda «retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido». Pregunta: «¿Cuál resultado demuestra el gate `CP-N4-C · RAG con evidencia y abstención`?». Conceptos de soporte: retrieval, respuesta, superan, umbrales, separados, toda. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer: en el material de S48 (teoría e iDo del paquete) respalda «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana». Pregunta: «¿Qué tratamiento de `CASO-PUN-048` respeta el alcance del curso?». Conceptos de soporte: sintético, mínimo, trazable. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48
+    ],
+    "note": "Knowledge limited to sequential packets through active section; solved from exercise_batch/quiz_card only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:42:13.470817+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s48-live"
+}

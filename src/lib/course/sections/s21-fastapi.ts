@@ -1446,13 +1446,8 @@ context = {
 
 {
   question: "El PDF del informe se generó dibujando texto dentro de una imagen; pypdf no extrae capa de texto. ¿Qué debe devolver el contrato de trazabilidad?",
-  options: [
-    "Inventar el texto del resumen a partir del título del archivo",
-    "Marcar needs_ocr (o equivalente) y no fingir PDF digital nativo",
-    "Aprobar el paquete igual porque el PNG se ve legible en pantalla",
-    "Convertir el PDF a DOCX sin avisar en el provenance",
-  ],
-  correctIndex: 1,
+  options: ["Marcar needs_ocr (o equivalente) y no fingir PDF digital nativo", "Inventar el texto del resumen a partir del título del archivo", "Aprobar el paquete igual porque el PNG se ve legible en pantalla", "Convertir el PDF a DOCX sin avisar en el provenance"],
+  correctIndex: 0,
   explanation:
     "PDF imagen-only no es texto seleccionable. El contrato documenta needs_ocr; no inventa extracción ni oculta el modo en provenance.",
 },

@@ -1952,49 +1952,29 @@ def build_bundle(out: Path, *, force_failure: bool = False) -> dict:
       },
       {
         question: "CF-3 y regresión S27–S39 en esta lane de autoría:",
-        options: [
-          "Se documentan; PASS lo califica otra lane",
-          "Marcan PASS solos en el ledger",
-          "Se borran al exportar el bundle",
-          "Solo aplican a S01",
-        ],
+        options: ["Se documentan; PASS lo califica otra lane", "Marcan PASS solos en el ledger", "Se borran al exportar el bundle", "Solo aplican a S01"],
         correctIndex: 0,
         explanation:
           "Dejas smoke de regresión y expediente listos, pero section_passed y el PASS de CF-3/promoción se escriben en una lane de calificación separada, no en la autoría del material.",
       },
       {
         question: "Evidence packet debe incluir:",
-        options: [
-          "Solo el score del modelo",
-          "Evidencia y path además del score",
-          "Solo el owner del repo de ML",
-          "Claves de API de producción",
-        ],
+        options: ["Solo el score del modelo", "Evidencia y path además del score", "Solo el owner del repo de ML", "Claves de API de producción"],
         correctIndex: 1,
         explanation:
           "Sin evidence y graph_path el revisor no tiene workbench. El score solo es insuficiente y las claves de API no pertenecen al packet.",
       },
       {
         question: "Ante incidente grave el modo seguro es:",
-        options: [
-          "Ignorar y subir throughput",
-          "Subir contamination del training set",
-          "Etiquetar fraude masivo con el score",
-          "human_only / rollback a artefacto previo",
-        ],
+        options: ["Ignorar y subir throughput", "Subir contamination del training set", "Etiquetar fraude masivo con el score", "human_only / rollback a artefacto previo"],
         correctIndex: 3,
         explanation:
           "Fail-closed: human_only y rollback versionado. No conviertas el score en etiqueta masiva de fraude ni «arregles» el incidente contaminando datos.",
       },
       {
         question: "Un breaking change en graph_schema del triage exige:",
-        options: [
-          "Bump patch silencioso",
-          "Bump major, owner contactable y revalidación de paths",
-          "Borrar el registry",
-          "Desactivar el audit log",
-        ],
-        correctIndex: 1,
+        options: ["Bump patch silencioso", "Borrar el registry", "Bump major, owner contactable y revalidación de paths", "Desactivar el audit log"],
+        correctIndex: 2,
         explanation:
           "Semver major + owner + regresión de contratos (incl. paths del grafo) evitan packets incompatibles en cola humana.",
       },

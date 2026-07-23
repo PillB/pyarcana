@@ -1363,8 +1363,8 @@ if __name__ == "__main__":
       },
       {
         question: "En un portfolio ejecutivo, si suma(partes) ≠ total de referencia debes:",
-        options: ["Ignorar la diferencia si es <10%", "Documentar diff con tolerancia eps o corregir el corte", "Borrar la región más grande", "Cambiar a inner join siempre"],
-        correctIndex: 1,
+        options: ["Documentar diff con tolerancia eps o corregir el corte", "Ignorar la diferencia si es <10%", "Borrar la región más grande", "Cambiar a inner join siempre"],
+        correctIndex: 0,
         explanation:
           "La reconciliación exige igualdad bajo eps o una bridge table con residual documentado; no se oculta el descuadre.",
       },

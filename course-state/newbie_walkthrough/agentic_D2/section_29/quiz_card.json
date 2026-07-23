@@ -1,0 +1,421 @@
+{
+  "section_index": 29,
+  "title": "SQL avanzado y modelado relacional",
+  "tagline": "esquema que preserva registros fuente, entidades, pares candidatos, decisiones y evidencia sin sobrescribir historia",
+  "outcomes": [
+    "Modelar claves y constraints correctos",
+    "Preservar temporalidad y provenance",
+    "Escribir CTEs, windows y anti-joins",
+    "Razonar cardinalidad, NULL y planes",
+    "Elegir isolation y garantizar ACID",
+    "Implementar upserts y recuperación",
+    "Diseñar índices y migrations seguras",
+    "Aplicar repository, pooling y tests"
+  ],
+  "theory": [
+    {
+      "heading": "claves, constraints y normalización",
+      "paragraphs": [
+        "**PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_id). El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "Normaliza a **3NF** para hechos: no repitas atributos de entidad en cada par; la evidencia puede ser tabla hija. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "Ids sintéticos estables (`ent_…`, `pair_…`) facilitan tests. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto."
+      ],
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE entities(\n  id TEXT PRIMARY KEY,\n  canonical_name TEXT NOT NULL\n);\nCREATE TABLE candidate_pairs(\n  id TEXT PRIMARY KEY,\n  entity_a TEXT NOT NULL REFERENCES entities(id),\n  entity_b TEXT NOT NULL REFERENCES entities(id),\n  score REAL NOT NULL CHECK(score >= 0 AND score <= 1),\n  CHECK(entity_a < entity_b)\n);\n''')\ncon.execute(\"INSERT INTO entities VALUES ('e1','Ana'),('e2','Ana López')\")\ncon.execute(\"INSERT INTO candidate_pairs VALUES ('p1','e1','e2',0.82)\")\nn = con.execute(\"SELECT COUNT(*) FROM candidate_pairs\")."
+    },
+    {
+      "heading": "temporalidad y provenance",
+      "paragraphs": [
+        "**Temporalidad**: valid_from/valid_to o tablas de eventos. No sobrescribas la decisión anterior; inserta una nueva fila versionada. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "**Provenance**: source_system, source_record_id, ingested_at, transform_version. Toda entidad debe rastrearse al registro fuente. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "Auditoría: quién (actor sintético) decidió match/non-match y cuándo. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto."
+      ],
+      "code": "import sqlite3\nfrom datetime import datetime, timezone\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE decisions(\n  id INTEGER PRIMARY KEY,\n  pair_id TEXT NOT NULL,\n  label TEXT NOT NULL,\n  decided_at TEXT NOT NULL,\n  actor TEXT NOT NULL,\n  evidence_ref TEXT\n);\n''')\nnow = datetime(2026, 7, 20, tzinfo=timezone.utc).isoformat()\ncon.execute(\n    \"INSERT INTO decisions(pair_id,label,decided_at,actor,evidence_ref) VALUES (?,?,?,?,?)\",\n    (\"p1\", \"review\", now, \"rev_sintetica\", \"ev_01\"),\n)\n# nueva decisión no borra la anterior\ncon.execute(\n    \"INSERT INTO decisions(pair_id,labe"
+    },
+    {
+      "heading": "CTEs, windows y anti-joins",
+      "paragraphs": [
+        "**CTEs** (`WITH`) nombran pasos: candidatos filtrados, scores rankeados. **Windows** (`ROW_NUMBER`, `RANK`) particionan por entidad. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "**Anti-join**: entidades sin par, o pares sin decisión — `NOT EXISTS` / `LEFT JOIN … IS NULL`. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "Útil para colas de review y coverage de blocking. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto."
+      ],
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE pairs(id TEXT, score REAL);\nCREATE TABLE decisions(pair_id TEXT);\nINSERT INTO pairs VALUES ('p1',0.9),('p2',0.4),('p3',0.7);\nINSERT INTO decisions VALUES ('p1');\n''')\nq = '''\nWITH ranked AS (\n  SELECT id, score, ROW_NUMBER() OVER (ORDER BY score DESC) AS rn\n  FROM pairs\n)\nSELECT r.id FROM ranked r\nWHERE r.rn <= 3\n  AND NOT EXISTS (SELECT 1 FROM decisions d WHERE d.pair_id = r.id)\nORDER BY r.id\n'''\nprint(\"pending_review\", [r[0] for r in con.execute(q)])\nprint(\"cte\", True)\nprint(\"antijoin\", True)"
+    },
+    {
+      "heading": "cardinalidad, NULL y planes",
+      "paragraphs": [
+        "**Cardinalidad** de joins define explosión de pares: n×m sin blocking es inviable. Estima filas antes de correr. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "**NULL**: `NULL != NULL`; usa `IS NULL`. Agrega con cuidado (`COUNT` vs `COUNT(col)`). Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "**Planes**: `EXPLAIN QUERY PLAN` en sqlite para ver scans vs search por índice. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto."
+      ],
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE e(id INTEGER, grp TEXT)\")\ncon.executemany(\"INSERT INTO e VALUES (?,?)\", [(1,\"a\"),(2,\"a\"),(3,None)])\nn = con.execute(\"SELECT COUNT(*) FROM e\").fetchone()[0]\nn_grp = con.execute(\"SELECT COUNT(grp) FROM e\").fetchone()[0]\n# cardinalidad self-join mismo grp\npairs = con.execute(\n    \"SELECT COUNT(*) FROM e a JOIN e b ON a.grp = b.grp AND a.id < b.id\"\n).fetchone()[0]\nplan = con.execute(\"EXPLAIN QUERY PLAN SELECT * FROM e WHERE id = 1\").fetchall()\nprint(\"count_star\", n)\nprint(\"count_grp\", n_grp)\nprint(\"pairs_card\", pairs)\nprint"
+    },
+    {
+      "heading": "ACID e isolation",
+      "paragraphs": [
+        "**ACID**: Atomicity, Consistency, Isolation, Durability. Una decisión + evidencia deben commitearse juntas o no. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "Isolation (READ COMMITTED, SERIALIZABLE…) define qué ven transacciones concurrentes. sqlite: transacciones + `BEGIN IMMEDIATE` cuando hay escritura concurrente. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "En el curso: demuestra rollback si falla el segundo insert. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto."
+      ],
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE decisions(id INTEGER PRIMARY KEY, pair_id TEXT, label TEXT)\")\ncon.execute(\"CREATE TABLE evidence(id INTEGER PRIMARY KEY, pair_id TEXT, note TEXT)\")\ntry:\n    con.execute(\"BEGIN\")\n    con.execute(\"INSERT INTO decisions(pair_id,label) VALUES ('p1','match')\")\n    # simula fallo de evidencia\n    raise RuntimeError(\"evidence write failed\")\n    con.execute(\"INSERT INTO evidence(pair_id,note) VALUES ('p1','ok')\")\n    con.execute(\"COMMIT\")\nexcept RuntimeError:\n    con.execute(\"ROLLBACK\")\nn_d = con.execute(\"SELECT COUNT(*) FROM d"
+    },
+    {
+      "heading": "upserts, concurrencia y recuperación",
+      "paragraphs": [
+        "**Upsert** (`INSERT … ON CONFLICT`): actualiza atributos mutables de entidad sin perder el id estable. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "Concurrencia: dos workers no deben crear el mismo par; usa constraints + reintento. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "Recuperación: journal/WAL, reaplicar eventos, o marcar jobs `pending` tras crash. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto."
+      ],
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\n    \"CREATE TABLE entities(id TEXT PRIMARY KEY, name TEXT, updated INTEGER)\"\n)\ncon.execute(\"INSERT INTO entities VALUES ('e1','Ana',1)\")\ncon.execute(\n    '''INSERT INTO entities(id,name,updated) VALUES ('e1','Ana López',2)\n       ON CONFLICT(id) DO UPDATE SET name=excluded.name, updated=excluded.updated'''\n)\nrow = con.execute(\"SELECT name, updated FROM entities WHERE id='e1'\").fetchone()\nprint(\"name\", row[0])\nprint(\"updated\", row[1])\nprint(\"upsert\", True)"
+    },
+    {
+      "heading": "índices y migrations",
+      "paragraphs": [
+        "Índices en FK y columnas de filtro (`score`, `status`, `block_key`) bajan latencia de colas y blocking. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "**Migrations** versionadas: expand → backfill → contract. Evita drops destructivos sin backup. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "En sqlite didáctico: `CREATE INDEX` y tabla `schema_migrations`. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto."
+      ],
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE schema_migrations(version INTEGER PRIMARY KEY, name TEXT);\nCREATE TABLE pairs(id TEXT PRIMARY KEY, block_key TEXT, score REAL);\nCREATE INDEX idx_pairs_block ON pairs(block_key);\nINSERT INTO schema_migrations VALUES (1, 'init_pairs');\nINSERT INTO pairs VALUES ('p1','BLOQ|ANA',0.8);\n''')\nplan = \"\\n\".join(\n    str(r) for r in con.execute(\n        \"EXPLAIN QUERY PLAN SELECT * FROM pairs WHERE block_key='BLOQ|ANA'\"\n    )\n)\nprint(\"migration\", con.execute(\"SELECT MAX(version) FROM schema_migrations\").fetchone()[0])\npr"
+    },
+    {
+      "heading": "repository pattern, pooling y pruebas",
+      "paragraphs": [
+        "El **repository** encapsula SQL: `get_entity`, `insert_decision`. La lógica de matching no arma SQL crudo por todos lados. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "**Pooling**: reusa conexiones (en sqlite a menudo una por thread). En servers: pool con timeout. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "Prueba el repo con sqlite memoria: inserts, constraints y anti-joins de la cola de review. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline."
+      ],
+      "code": "import sqlite3\n\nclass PairRepo:\n    def __init__(self, con):\n        self.con = con\n    def add_pair(self, pid, a, b, score):\n        self.con.execute(\n            \"INSERT INTO pairs(id,entity_a,entity_b,score) VALUES (?,?,?,?)\",\n            (pid, a, b, score),\n        )\n    def pending(self):\n        return self.con.execute(\n            \"SELECT id FROM pairs WHERE id NOT IN (SELECT pair_id FROM decisions)\"\n        ).fetchall()\n\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE pairs(id TEXT PRIMARY KEY, entity_a TEXT, entity_b TEXT, score REAL);\nCREATE TABLE decisions(pair_"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S29-T1-A-DEMO",
+      "description": "Crea entities y pairs con CHECK score y orden entity_a < entity_b.",
+      "why": "Constraints protegen el almacén ER.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('''\ncreate table entities(id text primary key);\ncreate table pairs(id text primary key, a text references entities(id), b text references entities(id),\n score real check(score between 0 and 1), check(a<b));\ninsert into entities values ('e1'),('e2');\ninsert into pairs values ('p1','e1','e2',0.5);\n''')\nprint(c.execute('select score from pairs').fetchone()[0])\nprint('ok', True)"
+    },
+    {
+      "demoId": "S29-T1-B-DEMO",
+      "description": "Inserta dos decisiones append-only para el mismo par y lista labels.",
+      "why": "Historia de decisiones sin overwrite.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(id integer primary key, pair text, label text)')\nc.executemany('insert into d(pair,label) values (?,?)', [('p1','review'),('p1','match')])\nprint([r[0] for r in c.execute('select label from d order by id')])"
+    },
+    {
+      "demoId": "S29-T2-A-DEMO",
+      "description": "CTE + anti-join: pares sin decisión ordenados por score.",
+      "why": "Cola de review vía SQL.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('''\ncreate table pairs(id text, score real);\ncreate table dec(pair_id text);\ninsert into pairs values ('p1',0.2),('p2',0.9);\ninsert into dec values ('p2');\n''')\nq='''with x as (select * from pairs)\nselect id from x where id not in (select pair_id from dec)'''\nprint(c.execute(q).fetchall())"
+    },
+    {
+      "demoId": "S29-T2-B-DEMO",
+      "description": "COUNT(*) vs COUNT(col) y cardinalidad de self-join.",
+      "why": "NULL y cardinalidad evitan sorpresas.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(g text)')\nc.executemany('insert into t values (?)', [('a',),('a',),(None,)])\nprint('star', c.execute('select count(*) from t').fetchone()[0])\nprint('col', c.execute('select count(g) from t').fetchone()[0])\nprint('pairs', c.execute('select count(*) from t a join t b on a.g=b.g and rowid(a)<rowid(b)').fetchone()[0] if False else 1)\n# sqlite rowid compare:\nprint('self_pairs', c.execute(\n  'select count(*) from t a join t b on a.g=b.g and a.rowid<b.rowid').fetchone()[0])"
+    },
+    {
+      "demoId": "S29-T3-A-DEMO",
+      "description": "Transacción con ROLLBACK deja ambas tablas vacías.",
+      "why": "Atomicidad decisión+evidencia.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table a(x int); create table b(y int);')\ntry:\n    c.execute('begin')\n    c.execute('insert into a values (1)')\n    raise RuntimeError('fail')\nexcept RuntimeError:\n    c.execute('rollback')\nprint(c.execute('select count(*) from a').fetchone()[0],\n      c.execute('select count(*) from b').fetchone()[0])"
+    },
+    {
+      "demoId": "S29-T3-B-DEMO",
+      "description": "Upsert actualiza name de entidad e1.",
+      "why": "Upsert de atributos con id estable.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('e1','Ana')\")\nc.execute('''insert into e values ('e1','Ana L')\n on conflict(id) do update set name=excluded.name''')\nprint(c.execute(\"select name from e where id='e1'\").fetchone()[0])"
+    },
+    {
+      "demoId": "S29-T4-A-DEMO",
+      "description": "Migration v1 + índice en block_key; cuenta migraciones.",
+      "why": "Evolución de esquema versionada.",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('''\ncreate table schema_migrations(v int primary key);\ncreate table pairs(id text, block_key text);\ncreate index ix on pairs(block_key);\ninsert into schema_migrations values (1);\n''')\nprint(c.execute('select max(v) from schema_migrations').fetchone()[0])\nprint('indexed', True)"
+    },
+    {
+      "demoId": "S29-T4-B-DEMO",
+      "description": "Repository pending() lista pares sin decisión.",
+      "why": "SQL encapsulado y testeable.",
+      "code": "import sqlite3\nclass R:\n    def __init__(self,c): self.c=c\n    def pending(self):\n        return list(self.c.execute('select id from p where id not in (select pair_id from d)'))\nc=sqlite3.connect(':memory:')\nc.executescript('create table p(id text); create table d(pair_id text); insert into p values (\"p1\"),(\"p2\"); insert into d values (\"p1\");')\nprint(R(c).pending())"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "entity_a < entity_b en el par sirve para:",
+      "options": [
+        "Evitar duplicar el mismo par en orden invertido",
+        "Inferir fraude",
+        "Borrar historia",
+        "Subir isolation"
+      ]
+    },
+    {
+      "question": "Append-only en decisions significa:",
+      "options": [
+        "UPDATE del label in place sin rastro",
+        "Drop de tabla cada noche",
+        "Nueva fila por cambio de decisión",
+        "Solo un match eterno"
+      ]
+    },
+    {
+      "question": "Decisión y evidencia deben:",
+      "options": [
+        "Commitearse en transacciones separadas siempre",
+        "Ignorar rollback",
+        "Vivir solo en logs de texto",
+        "Ser atómicas en la misma transacción lógica"
+      ]
+    },
+    {
+      "question": "El repository pattern:",
+      "options": [
+        "Esparce SQL por toda la app a propósito",
+        "Encapsula acceso a datos y facilita tests con :memory:",
+        "Reemplaza constraints",
+        "Marca fraude automático"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S29-T1-A-E1",
+      "instruction": "S29-T1-A-E1 · Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "sqlite3",
+        "PRIMARY KEY"
+      ],
+      "kind": "guided",
+      "starterCode": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\n# TODO: imprime la salida contractual (ver instruction / solution output)\n"
+    },
+    {
+      "id": "S29-T1-A-E2",
+      "instruction": "S29-T1-A-E2 · CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "try/except",
+        "CHECK"
+      ],
+      "kind": "independent",
+      "starterCode": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\n# TODO\n"
+    },
+    {
+      "id": "S29-T1-A-E3",
+      "instruction": "S29-T1-A-E3 · Imprime True si 'e1'<'e2' (orden canónico de par). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "comparación strings",
+        "a<b"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('e1' < 'e2')\n"
+    },
+    {
+      "id": "S29-T1-B-E1",
+      "instruction": "S29-T1-B-E1 · Inserta dos labels para pair p1; imprime número de filas de historia. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "append-only",
+        "count"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n"
+    },
+    {
+      "id": "S29-T1-B-E2",
+      "instruction": "S29-T1-B-E2 · Imprime provenance dict source='crm_synth' record='r9'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "dict",
+        "provenance"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print({'source': 'crm_synth', 'record': 'r9'})\n"
+    },
+    {
+      "id": "S29-T1-B-E3",
+      "instruction": "S29-T1-B-E3 · valid_to NULL significa vigente: imprime 'open' si valid_to is None. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "None",
+        "temporal"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('open' if valid_to is None else 'closed')\n"
+    },
+    {
+      "id": "S29-T2-A-E1",
+      "instruction": "S29-T2-A-E1 · Con pairs p1,p2 y decision solo p1, lista ids sin decisión. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "NOT IN o left join",
+        "anti-join"
+      ],
+      "kind": "guided",
+      "starterCode": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\n# TODO print list\n"
+    },
+    {
+      "id": "S29-T2-A-E2",
+      "instruction": "S29-T2-A-E2 · Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "sorted",
+        "rank 1"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(sorted(scores, reverse=True)[0])\n"
+    },
+    {
+      "id": "S29-T2-A-E3",
+      "instruction": "S29-T2-A-E3 · Imprime el nombre de la CTE de ejemplo: ranked. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "literal",
+        "WITH"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('ranked')\n"
+    },
+    {
+      "id": "S29-T2-B-E1",
+      "instruction": "S29-T2-B-E1 · C(n,2) para n=5 → 10. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "combinatoria",
+        "pares"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(n*(n-1)//2)\n"
+    },
+    {
+      "id": "S29-T2-B-E2",
+      "instruction": "S29-T2-B-E2 · Imprime True si None is None (recuerda NULL SQL ≠ Python en joins). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "is",
+        "NULL"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(None is None)\n"
+    },
+    {
+      "id": "S29-T2-B-E3",
+      "instruction": "S29-T2-B-E3 · Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáctico). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "string",
+        "planes"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('SCAN')\n"
+    },
+    {
+      "id": "S29-T3-A-E1",
+      "instruction": "S29-T3-A-E1 · Tras BEGIN insert y ROLLBACK, count debe ser 0. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "rollback",
+        "atomic"
+      ],
+      "kind": "guided",
+      "starterCode": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('rollback')\n# TODO: imprime la salida contractual (ver instruction / solution output)\n"
+    },
+    {
+      "id": "S29-T3-A-E2",
+      "instruction": "S29-T3-A-E2 · Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "string",
+        "ACID"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('A,C,I,D')\n"
+    },
+    {
+      "id": "S29-T3-A-E3",
+      "instruction": "S29-T3-A-E3 · Si evidence_ok es False no hagas commit conceptual: imprime 'abort'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "guard",
+        "transacción"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('abort' if not evidence_ok else 'commit')\n"
+    },
+    {
+      "id": "S29-T3-B-E1",
+      "instruction": "S29-T3-B-E1 · Upsert: segunda insert con mismo id actualiza; imprime name final 'B'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "ON CONFLICT",
+        "DO UPDATE"
+      ],
+      "kind": "guided",
+      "starterCode": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\n# TODO upsert to B and print\n"
+    },
+    {
+      "id": "S29-T3-B-E2",
+      "instruction": "S29-T3-B-E2 · Recuperación: job status 'pending' tras crash; imprime status. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "literal/dict",
+        "resume"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print({'job': 'er_block', 'status': 'pending'}['status'])\n"
+    },
+    {
+      "id": "S29-T3-B-E3",
+      "instruction": "S29-T3-B-E3 · Conflicto de par duplicado → imprime 'retry'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "política",
+        "concurrencia"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('retry' if conflict else 'ok')\n"
+    },
+    {
+      "id": "S29-T4-A-E1",
+      "instruction": "S29-T4-A-E1 · Registra migration version 2 name 'add_index'; imprime max version. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "schema_migrations",
+        "insert"
+      ],
+      "kind": "guided",
+      "starterCode": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\n# TODO\n"
+    },
+    {
+      "id": "S29-T4-A-E2",
+      "instruction": "S29-T4-A-E2 · Imprime nombre de índice sugerido idx_pairs_block_key. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "convención",
+        "índices"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('idx_pairs_block_key')\n"
+    },
+    {
+      "id": "S29-T4-A-E3",
+      "instruction": "S29-T4-A-E3 · Política: imprime 'no_drop_without_backup'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "string",
+        "migrations"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('no_drop_without_backup')\n"
+    },
+    {
+      "id": "S29-T4-B-E1",
+      "instruction": "S29-T4-B-E1 · Repo.get: dict store {'e1':'Ana'}; imprime get e1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "dict",
+        "repository"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(store.get('e1'))\n"
+    },
+    {
+      "id": "S29-T4-B-E2",
+      "instruction": "S29-T4-B-E2 · Pool size conceptual 5; imprime pool_size. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "dict",
+        "pooling"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print({'pool_size': 5}['pool_size'])\n"
+    },
+    {
+      "id": "S29-T4-B-E3",
+      "instruction": "S29-T4-B-E3 · Test de repo: pending count 1; imprime 1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+      "hints": [
+        "assert blando",
+        "memoria"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(pending_count)\n"
+    }
+  ],
+  "packet_sha": "298a66f05c46a228",
+  "attempt_id": "agentic_D2"
+}

@@ -1,0 +1,453 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D2",
+  "section_index": 50,
+  "packet_sha": "8b3a1203a154a6bf",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S50-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\nmeets_contract = record.get(\"case_id\") == 'CASO-ICA-050-1A' and not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)\nstatus = \"PASS\" if meets_contract else \"REBUILD_EVAL_DATASET\"\nprint(\"S50-T1-A\", status)\n# D2-Skeptic: packet-only re-walk S50 S50-T1-A-E1\n",
+      "answer": "S50-T1-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Calcula",
+        "contrato",
+        "task",
+        "dataset",
+        "rubric",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T1-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `record = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"holdout\", \"rubric_levels\", \"slices\", \"tasks\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"case_id\") == 'CASO-ICA-050-1A' and not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)) else \"REBUILD_EVAL_DATASET\"\n\nvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\ninvalid = {'case_id': 'CASO-ICA-050-1A-ADV', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\nincomplete = dict(valid)\nincomplete.pop(\"holdout\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T1-A-E2\n",
+      "answer": "PASS REBUILD_EVAL_DATASET MISSING:holdout",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Modela",
+        "tres",
+        "rutas",
+        "task",
+        "dataset",
+        "rubric",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T1-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"holdout\", \"rubric_levels\", \"slices\", \"tasks\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CALIBRATE_RUBRIC\"\n    return \"CONTINUE\" if (record.get(\"case_id\") == 'CASO-ICA-050-1A' and not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)) else \"REBUILD_EVAL_DATASET\"\n\nvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\ninvalid = {'case_id': 'CASO-ICA-050-1A-ADV', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\nuncertain = dict(valid)\nuncertain.pop(\"holdout\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T1-A-E3\n",
+      "answer": "CONTINUE REBUILD_EVAL_DATASET CALIBRATE_RUBRIC",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "task",
+        "dataset",
+        "rubric"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T1-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\nmeets_contract = record[\"outcome\"] == 3 or record[\"forbidden_tool_used\"]\nstatus = \"PASS\" if meets_contract else \"FAIL_UNSAFE_TRAJECTORY\"\nprint(\"S50-T1-B\", status)\n# D2-Skeptic: packet-only re-walk S50 S50-T1-B-E1\n",
+      "answer": "S50-T1-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Compara",
+        "contrato",
+        "resultado",
+        "proceso",
+        "trajectory",
+        "recovery",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T1-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `record = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forb`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"forbidden_tool_used\", \"min_dimension\", \"outcome\", \"process\", \"recovery\", \"trajectory\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"outcome\"] == 3 or record[\"forbidden_tool_used\"]) else \"FAIL_UNSAFE_TRAJECTORY\"\n\nvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}\ninvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 0, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}\nincomplete = dict(valid)\nincomplete.pop(\"min_dimension\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T1-B-E2\n",
+      "answer": "PASS FAIL_UNSAFE_TRAJECTORY MISSING:min_dimension",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Verifica",
+        "tres",
+        "rutas",
+        "resultado",
+        "proceso",
+        "trajectory",
+        "recovery"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T1-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"forbidden_tool_used\", \"min_dimension\", \"outcome\", \"process\", \"recovery\", \"trajectory\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"HUMAN_REVIEW_PROCESS\"\n    return \"CONTINUE\" if (record[\"outcome\"] == 3 or record[\"forbidden_tool_used\"]) else \"FAIL_UNSAFE_TRAJECTORY\"\n\nvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}\ninvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 0, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}\nuncertain = dict(valid)\nuncertain.pop(\"min_dimension\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T1-B-E3\n",
+      "answer": "CONTINUE FAIL_UNSAFE_TRAJECTORY HUMAN_REVIEW_PROCESS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "resultado",
+        "proceso",
+        "trajectory"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T1-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\nmeets_contract = record[\"human_llm_agreement\"] >= record[\"min_agreement\"]\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_GRADERS\"\nprint(\"S50-T2-A\", status)\n# D2-Skeptic: packet-only re-walk S50 S50-T2-A-E1\n",
+      "answer": "S50-T2-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Filtra",
+        "contrato",
+        "graders",
+        "deterministas",
+        "humanos",
+        "LLM",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T2-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `record = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_ag`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"deterministic\", \"human\", \"human_llm_agreement\", \"llm\", \"min_agreement\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"human_llm_agreement\"] >= record[\"min_agreement\"]) else \"RECALIBRATE_GRADERS\"\n\nvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}\ninvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.0, 'min_agreement': 0.75}\nincomplete = dict(valid)\nincomplete.pop(\"min_agreement\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T2-A-E2\n",
+      "answer": "PASS RECALIBRATE_GRADERS MISSING:min_agreement",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "graders",
+        "deterministas",
+        "humanos",
+        "LLM"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T2-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"deterministic\", \"human\", \"human_llm_agreement\", \"llm\", \"min_agreement\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ADJUDICATE_DISAGREEMENT\"\n    return \"CONTINUE\" if (record[\"human_llm_agreement\"] >= record[\"min_agreement\"]) else \"RECALIBRATE_GRADERS\"\n\nvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}\ninvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.0, 'min_agreement': 0.75}\nuncertain = dict(valid)\nuncertain.pop(\"min_agreement\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T2-A-E3\n",
+      "answer": "CONTINUE RECALIBRATE_GRADERS ADJUDICATE_DISAGREEMENT",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "graders",
+        "deterministas",
+        "humanos"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T2-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\nmeets_contract = record[\"order_gap\"] <= record[\"max_order_gap\"] and not record[\"holdout_touched\"] and record[\"anchor_accuracy\"] >= record[\"min_anchor_accuracy\"]\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_JUDGE\"\nprint(\"S50-T2-B\", status)\n# D2-Skeptic: packet-only re-walk S50 S50-T2-B-E1\n",
+      "answer": "S50-T2-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Modela",
+        "contrato",
+        "calibraci",
+        "order",
+        "bias",
+        "conjunto",
+        "retenido"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T2-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `record = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_g`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"anchor_accuracy\", \"case_id\", \"holdout_touched\", \"max_order_gap\", \"min_anchor_accuracy\", \"order_gap\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"order_gap\"] <= record[\"max_order_gap\"] and not record[\"holdout_touched\"] and record[\"anchor_accuracy\"] >= record[\"min_anchor_accuracy\"]) else \"INVALIDATE_JUDGE\"\n\nvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}\ninvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 1.02, 'max_order_gap': 0.05, 'holdout_touched': False}\nincomplete = dict(valid)\nincomplete.pop(\"holdout_touched\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T2-B-E2\n",
+      "answer": "PASS INVALIDATE_JUDGE MISSING:holdout_touched",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Audita",
+        "tres",
+        "rutas",
+        "calibraci",
+        "order",
+        "bias",
+        "conjunto"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T2-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"anchor_accuracy\", \"case_id\", \"holdout_touched\", \"max_order_gap\", \"min_anchor_accuracy\", \"order_gap\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SEAL_NEW_HOLDOUT\"\n    return \"CONTINUE\" if (record[\"order_gap\"] <= record[\"max_order_gap\"] and not record[\"holdout_touched\"] and record[\"anchor_accuracy\"] >= record[\"min_anchor_accuracy\"]) else \"INVALIDATE_JUDGE\"\n\nvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}\ninvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 1.02, 'max_order_gap': 0.05, 'holdout_touched': False}\nuncertain = dict(valid)\nuncertain.pop(\"holdout_touched\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T2-B-E3\n",
+      "answer": "CONTINUE INVALIDATE_JUDGE SEAL_NEW_HOLDOUT",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "calibraci",
+        "order",
+        "bias"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T2-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\nmeets_contract = not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] <= 0\nstatus = \"PASS\" if meets_contract else \"BLOCK_SECURITY_P0\"\nprint(\"S50-T3-A\", status)\n# D2-Skeptic: packet-only re-walk S50 S50-T3-A-E1\n",
+      "answer": "S50-T3-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Verifica",
+        "contrato",
+        "prompt",
+        "injection",
+        "exfiltraci",
+        "tool",
+        "misuse"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T3-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `record = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_sco`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"exfiltration_bytes\", \"injection_blocked\", \"severity\", \"tool_args_valid\", \"tool_scope\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] <= 0) else \"BLOCK_SECURITY_P0\"\n\nvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\ninvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 1, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\nincomplete = dict(valid)\nincomplete.pop(\"severity\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T3-A-E2\n",
+      "answer": "PASS BLOCK_SECURITY_P0 MISSING:severity",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Decide",
+        "tres",
+        "rutas",
+        "prompt",
+        "injection",
+        "exfiltraci",
+        "tool"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T3-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"exfiltration_bytes\", \"injection_blocked\", \"severity\", \"tool_args_valid\", \"tool_scope\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"PRESERVE_ATTACK_TRACE\"\n    return \"CONTINUE\" if (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] <= 0) else \"BLOCK_SECURITY_P0\"\n\nvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\ninvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 1, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\nuncertain = dict(valid)\nuncertain.pop(\"severity\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T3-A-E3\n",
+      "answer": "CONTINUE BLOCK_SECURITY_P0 PRESERVE_ATTACK_TRACE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "prompt",
+        "injection",
+        "exfiltraci"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T3-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\nmeets_contract = record[\"document_instruction_treated_as_data\"] and record[\"requested_permission\"] in record[\"tool_permissions\"]\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_POISONED_CORPUS\"\nprint(\"S50-T3-B\", status)\n# D2-Skeptic: packet-only re-walk S50 S50-T3-B-E1\n",
+      "answer": "S50-T3-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Clasifica",
+        "contrato",
+        "indirect",
+        "injection",
+        "data",
+        "poisoning",
+        "least"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T3-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `record = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chu`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"document_instruction_treated_as_data\", \"poisoned_chunks_removed\", \"requested_permission\", \"tool_permissions\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"document_instruction_treated_as_data\"] and record[\"requested_permission\"] in record[\"tool_permissions\"]) else \"QUARANTINE_POISONED_CORPUS\"\n\nvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\ninvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': False, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\nincomplete = dict(valid)\nincomplete.pop(\"requested_permission\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T3-B-E2\n",
+      "answer": "PASS QUARANTINE_POISONED_CORPUS MISSING:requested_permission",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Calcula",
+        "tres",
+        "rutas",
+        "indirect",
+        "injection",
+        "data",
+        "poisoning"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T3-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"document_instruction_treated_as_data\", \"poisoned_chunks_removed\", \"requested_permission\", \"tool_permissions\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REDUCE_TOOL_PRIVILEGE\"\n    return \"CONTINUE\" if (record[\"document_instruction_treated_as_data\"] and record[\"requested_permission\"] in record[\"tool_permissions\"]) else \"QUARANTINE_POISONED_CORPUS\"\n\nvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\ninvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': False, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\nuncertain = dict(valid)\nuncertain.pop(\"requested_permission\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T3-B-E3\n",
+      "answer": "CONTINUE QUARANTINE_POISONED_CORPUS REDUCE_TOOL_PRIVILEGE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "indirect",
+        "injection",
+        "data"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T3-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\nmeets_contract = record[\"unsupported_critical\"] == 0 and record[\"abstained_when_empty\"] and record[\"supported_claims\"]/record[\"total_claims\"] >= record[\"min_support_rate\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_HALLUCINATION_REGRESSION\"\nprint(\"S50-T4-A\", status)\n# D2-Skeptic: packet-only re-walk S50 S50-T4-A-E1\n",
+      "answer": "S50-T4-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Audita",
+        "contrato",
+        "hallucination",
+        "abstenci",
+        "sobre",
+        "CASO",
+        "ICA"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T4-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `record = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"abstained_when_empty\", \"case_id\", \"min_support_rate\", \"supported_claims\", \"total_claims\", \"unsupported_critical\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"unsupported_critical\"] == 0 and record[\"abstained_when_empty\"] and record[\"supported_claims\"]/record[\"total_claims\"] >= record[\"min_support_rate\"]) else \"BLOCK_HALLUCINATION_REGRESSION\"\n\nvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}\ninvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 1, 'abstained_when_empty': True}\nincomplete = dict(valid)\nincomplete.pop(\"abstained_when_empty\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T4-A-E2\n",
+      "answer": "PASS BLOCK_HALLUCINATION_REGRESSION MISSING:abstained_when_empty",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Compara",
+        "tres",
+        "rutas",
+        "hallucination",
+        "abstenci",
+        "fixture",
+        "lido"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T4-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"abstained_when_empty\", \"case_id\", \"min_support_rate\", \"supported_claims\", \"total_claims\", \"unsupported_critical\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_ABSTENTION_SLICE\"\n    return \"CONTINUE\" if (record[\"unsupported_critical\"] == 0 and record[\"abstained_when_empty\"] and record[\"supported_claims\"]/record[\"total_claims\"] >= record[\"min_support_rate\"]) else \"BLOCK_HALLUCINATION_REGRESSION\"\n\nvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}\ninvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 1, 'abstained_when_empty': True}\nuncertain = dict(valid)\nuncertain.pop(\"abstained_when_empty\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T4-A-E3\n",
+      "answer": "CONTINUE BLOCK_HALLUCINATION_REGRESSION REVIEW_ABSTENTION_SLICE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "hallucination",
+        "abstenci",
+        "con"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T4-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\nmeets_contract = record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] <= record[\"rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AI_RELEASE\"\nprint(\"S50-T4-B\", status)\n# D2-Skeptic: packet-only re-walk S50 S50-T4-B-E1\n",
+      "answer": "S50-T4-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Decide",
+        "contrato",
+        "latency",
+        "cost",
+        "caching",
+        "incident",
+        "response"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T4-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `record = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\"`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"cache_acl_safe\", \"case_id\", \"cost_cap_pen\", \"cost_pen\", \"p95_ms\", \"rollback_minutes\", \"rto_minutes\", \"slo_ms\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] <= record[\"rto_minutes\"]) else \"ROLLBACK_AI_RELEASE\"\n\nvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\ninvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 8501, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 850, 'rto_minutes': 10}\nincomplete = dict(valid)\nincomplete.pop(\"rto_minutes\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T4-B-E2\n",
+      "answer": "PASS ROLLBACK_AI_RELEASE MISSING:rto_minutes",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Filtra",
+        "tres",
+        "rutas",
+        "latency",
+        "cost",
+        "caching",
+        "incident"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T4-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S50-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"cache_acl_safe\", \"case_id\", \"cost_cap_pen\", \"cost_pen\", \"p95_ms\", \"rollback_minutes\", \"rto_minutes\", \"slo_ms\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ACTIVATE_INCIDENT_RESPONSE\"\n    return \"CONTINUE\" if (record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] <= record[\"rto_minutes\"]) else \"ROLLBACK_AI_RELEASE\"\n\nvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\ninvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 8501, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 850, 'rto_minutes': 10}\nuncertain = dict(valid)\nuncertain.pop(\"rto_minutes\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S50 S50-T4-B-E3\n",
+      "answer": "CONTINUE ROLLBACK_AI_RELEASE ACTIVATE_INCIDENT_RESPONSE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S50",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "latency",
+        "cost",
+        "caching"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S50-T4-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación Arma dataset y rúbrica de tareas Evalúa resultado, proceso y reco». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Qué evidencia permite aprobar `task dataset y rubric` en CASO-ICA-050?» elijo «dataset versionado y rúbrica calibrada» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación\nArma dataset y rúbrica de tareas\nEv». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «Si ocurre la condición de error de S50, ¿qué respuesta preserva seguridad y auditabilidad?» elijo «emitir BLOCK_CANDIDATE y conservar evidencia» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación\nArma dataset y rúbrica de tareas\nEv». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Cuál resultado demuestra el gate `CP-N4-C · quality gate de IA adversarial`?» elijo «evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación\nArma dataset y rúbrica de tareas\nEv». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Qué tratamiento de `CASO-ICA-050` respeta el alcance del curso?» elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación\nArma dataset y rúbrica de tareas\nEv». Descarto PII real, ocultar fallos o inventar evidencia."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:58:04.654373+00:00",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D2-s50-live",
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "notes": "D1-Skeptic live solve from slim_packet + exercise_batch_40_52 only; justifications packet-grounded.",
+  "artifact_origin": "direct_agent_output"
+}

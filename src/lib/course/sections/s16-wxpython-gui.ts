@@ -1344,61 +1344,36 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Un campo marked required con nulls debe:",
-        options: [
-          "Imputarse siempre con 0",
-          "Provocar violación/cuarentena o fail del gate",
-          "Ignorarse si es <5% de filas",
-          "Convertirse a string vacío",
-        ],
-        correctIndex: 1,
+        options: ["Imputarse siempre con 0", "Ignorarse si es <5% de filas", "Convertirse a string vacío", "Provocar violación/cuarentena o fail del gate"],
+        correctIndex: 3,
         explanation:
           "Required implica presencia: null no se “arregla” en silencio; va a violations/cuarentena o tumba el gate con métricas.",
       },
       {
         question: "Duplicado exacto vs conflicto de clave:",
-        options: [
-          "Son lo mismo y siempre se drop_duplicates",
-          "Exacto = filas idénticas; conflicto = misma clave con atributos distintos",
-          "Conflicto solo existe en SQL, no en pandas",
-          "Exacto se resuelve con melt",
-        ],
+        options: ["Son lo mismo y siempre se drop_duplicates", "Exacto = filas idénticas; conflicto = misma clave con atributos distintos", "Conflicto solo existe en SQL, no en pandas", "Exacto se resuelve con melt"],
         correctIndex: 1,
         explanation:
           "Clasifica antes de borrar: el conflicto requiere evidencia y regla de resolución; el exacto puede colapsarse tras log.",
       },
       {
         question: "Conservar region_raw al normalizar sirve para:",
-        options: [
-          "Acelerar groupby",
-          "Auditar y disputar la forma canónica sin perder el valor original",
-          "Imputar nulls automáticamente",
-          "Validar one_to_one en merge",
-        ],
-        correctIndex: 1,
+        options: ["Acelerar groupby", "Imputar nulls automáticamente", "Auditar y disputar la forma canónica sin perder el valor original", "Validar one_to_one en merge"],
+        correctIndex: 2,
         explanation:
           "Normalizar ≠ borrar historia: el raw lateral permite auditoría y rollback conceptual del transform.",
       },
       {
         question: "IQR sin domain bounds es riesgoso porque:",
-        options: [
-          "No funciona con floats",
-          "Puede marcar (o borrar) colas legítimas de negocio como si fueran error",
-          "Siempre es más lento que z-score",
-          "Requiere MultiIndex",
-        ],
-        correctIndex: 1,
+        options: ["Puede marcar (o borrar) colas legítimas de negocio como si fueran error", "No funciona con floats", "Siempre es más lento que z-score", "Requiere MultiIndex"],
+        correctIndex: 0,
         explanation:
           "IQR solo candidata outliers estadísticos; los bounds de dominio deciden error vs flag plausible.",
       },
       {
         question: "Un quality gate que falla debe:",
-        options: [
-          "Ocultar métricas para no alarmar",
-          "Publicar métricas y cuarentena aunque pass=False",
-          "Imputar todos los nulls y reintentar en silencio",
-          "Borrar el audit trail del run anterior",
-        ],
-        correctIndex: 1,
+        options: ["Ocultar métricas para no alarmar", "Imputar todos los nulls y reintentar en silencio", "Borrar el audit trail del run anterior", "Publicar métricas y cuarentena aunque pass=False"],
+        correctIndex: 3,
         explanation:
           "Operar un fail exige rows_in/clean/quarantine y razones; el audit es append-only y el exit code refleja pass.",
       },

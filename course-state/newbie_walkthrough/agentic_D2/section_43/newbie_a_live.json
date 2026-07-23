@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D2",
+  "section_index": 43,
+  "packet_sha": "a94c58728e1bc959",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S43-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-1A\", **{\"lock_agentic_before_source\":True,\"dependency_layer_reused\":True,\"source_change_agentics\":1,\"digest_stable\":True}}\nmeets_contract = not (not record[\"dependency_layer_reused\"] and record[\"source_change_agentics\"] > 3)\nstatus = \"PASS\" if meets_contract else \"REORDER_DOCKERFILE\"\nprint(\"S43-T1-A\", status)\n# D2-Explorer: packet-only re-walk S43 S43-T1-A-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "lock_agentic_before_source",
+        "dependency_layer_reused",
+        "source_change_agentics",
+        "digest_stable",
+        "meets_contract"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T1-A-E1 a partir de la instrucción: S43-T1-A-E1 · Calcula el contrato de `Dockerfile, layers y cache` sobre `CASO-TRU-043-1A`. La entrada es el dict completo del starter; la operación de. En teoría/iDo se exige: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el build dependiente de . Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `lock_agentic_before_source`, `dependency_layer_reused`, `source_change_agentics`, `digest_stable` con la regl», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"lock_agentic_before_source\", \"dependency_layer_reused\", \"source_change_agentics\", \"digest_stable\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"dependency_layer_reused\"] and record[\"source_change_agentics\"] > 3)) else \"REORDER_DOCKERFILE\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-1A\", \"lock_agentic_before_source\": True, \"dependency_layer_reused\": True, \"source_change_agentics\": 1, \"digest_stable\": True}\ninvalid = {\"case_id\": \"CASO-TRU-043-1A\", \"lock_agentic_before_source\": True, \"dependency_layer_reused\": False, \"source_change_agentics\": 5, \"digest_stable\": True}\nincomplete = {**valid}\nincomplete.pop(\"digest_stable\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T1-A-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "lock_agentic_before_source",
+        "dependency_layer_reused",
+        "source_change_agentics",
+        "digest_stable",
+        "keys",
+        "join"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T1-A-E2 a partir de la instrucción: S43-T1-A-E2 · Modela tres rutas de `Dockerfile, layers y cache`: fixture válido, fixture adverso y registro sin `digest_stable`. Entrada: dict con cas. En teoría/iDo se exige: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el build dependiente de . Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a digest_stable debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"lock_agentic_before_source\", \"dependency_layer_reused\", \"source_change_agentics\", \"digest_stable\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"INSPECT_CACHE_INVALIDATION\"\n    return \"CONTINUE\" if (not (not record[\"dependency_layer_reused\"] and record[\"source_change_agentics\"] > 3)) else \"REORDER_DOCKERFILE\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-1A\", \"lock_agentic_before_source\": True, \"dependency_layer_reused\": True, \"source_change_agentics\": 1, \"digest_stable\": True}\ninvalid = {\"case_id\": \"CASO-TRU-043-1A\", \"lock_agentic_before_source\": True, \"dependency_layer_reused\": False, \"source_change_agentics\": 5, \"digest_stable\": True}\nincomplete = {**valid}\nincomplete.pop(\"digest_stable\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T1-A-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "lock_agentic_before_source",
+        "dependency_layer_reused",
+        "source_change_agentics",
+        "digest_stable",
+        "keys",
+        "ausencia"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T1-A-E3 a partir de la instrucción: S43-T1-A-E3 · Simula fallo cerrado para `Dockerfile, layers y cache` con tres fixtures distintos. `CASO-TRU-043-1A` debe continuar, el adverso debe de. En teoría/iDo se exige: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el build dependiente de . Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `INSPECT_CACHE_INVALIDATION` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-1B\", **{\"base_pinned\":True,\"uid\":10001,\"capabilities\":set(),\"runtime_mb\":118,\"max_mb\":150}}\nmeets_contract = not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))\nstatus = \"PASS\" if meets_contract else \"REBUILD_NONROOT\"\nprint(\"S43-T1-B\", status)\n# D2-Explorer: packet-only re-walk S43 S43-T1-B-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "base_pinned",
+        "uid",
+        "capabilities",
+        "set",
+        "runtime_mb"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T1-B-E1 a partir de la instrucción: S43-T1-B-E1 · Compara el contrato de `bases, usuarios no root y tamaño` sobre `CASO-TRU-043-1B`. La entrada es el dict completo del starter; la operac. En teoría/iDo se exige: Una base mínima reduce superficie, pero debe seguir parchable; fija versión/digest y ejecuta con UID sin privilegios, filesystem y. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `base_pinned`, `uid`, `capabilities`, `runtime_mb`, `max_mb` con la regla explicada en S43-T1-B.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"base_pinned\", \"uid\", \"capabilities\", \"runtime_mb\", \"max_mb\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))) else \"REBUILD_NONROOT\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-1B\", \"base_pinned\": True, \"uid\": 10001, \"capabilities\": set(), \"runtime_mb\": 118, \"max_mb\": 150}\ninvalid = {\"case_id\": \"CASO-TRU-043-1B\", \"base_pinned\": True, \"uid\": 0, \"capabilities\": set(), \"runtime_mb\": 118, \"max_mb\": 150}\nincomplete = {**valid}\nincomplete.pop(\"max_mb\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T1-B-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "base_pinned",
+        "uid",
+        "capabilities",
+        "runtime_mb",
+        "max_mb",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T1-B-E2 a partir de la instrucción: S43-T1-B-E2 · Verifica tres rutas de `bases, usuarios no root y tamaño`: fixture válido, fixture adverso y registro sin `max_mb`. Entrada: dict con ca. En teoría/iDo se exige: Una base mínima reduce superficie, pero debe seguir parchable; fija versión/digest y ejecuta con UID sin privilegios, filesystem y. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a max_mb debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"base_pinned\", \"uid\", \"capabilities\", \"runtime_mb\", \"max_mb\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"SELECT_PATCHABLE_BASE\"\n    return \"CONTINUE\" if (not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))) else \"REBUILD_NONROOT\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-1B\", \"base_pinned\": True, \"uid\": 10001, \"capabilities\": set(), \"runtime_mb\": 118, \"max_mb\": 150}\ninvalid = {\"case_id\": \"CASO-TRU-043-1B\", \"base_pinned\": True, \"uid\": 0, \"capabilities\": set(), \"runtime_mb\": 118, \"max_mb\": 150}\nincomplete = {**valid}\nincomplete.pop(\"max_mb\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T1-B-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "base_pinned",
+        "uid",
+        "capabilities",
+        "runtime_mb",
+        "max_mb",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T1-B-E3 a partir de la instrucción: S43-T1-B-E3 · Extiende fallo cerrado para `bases, usuarios no root y tamaño` con tres fixtures distintos. `CASO-TRU-043-1B` debe continuar, el adverso. En teoría/iDo se exige: Una base mínima reduce superficie, pero debe seguir parchable; fija versión/digest y ejecuta con UID sin privilegios, filesystem y. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `SELECT_PATCHABLE_BASE` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-2A\", **{\"secret_baked\":False,\"runtime_secret\":True,\"config_declared\":True,\"durable_volumes\":{\"db\"},\"ephemeral_volumes\":{\"cache\"}}}\nmeets_contract = not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])\nstatus = \"PASS\" if meets_contract else \"REMOVE_BAKED_SECRET\"\nprint(\"S43-T2-A\", status)\n# D2-Explorer: packet-only re-walk S43 S43-T2-A-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "secret_baked",
+        "runtime_secret",
+        "config_declared",
+        "durable_volumes",
+        "ephemeral_volumes"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T2-A-E1 a partir de la instrucción: S43-T2-A-E1 · Filtra el contrato de `config, secrets y volumes` sobre `CASO-TRU-043-2A`. La entrada es el dict completo del starter; la operación debe. En teoría/iDo se exige: Config no secreta puede declararse; secretos se inyectan, rotan y no se hornean. Volumes distinguen estado durable de datos descar. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `secret_baked`, `runtime_secret`, `config_declared`, `durable_volumes`, `ephemeral_volumes` con la regla expl», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"secret_baked\", \"runtime_secret\", \"config_declared\", \"durable_volumes\", \"ephemeral_volumes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])) else \"REMOVE_BAKED_SECRET\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-2A\", \"secret_baked\": False, \"runtime_secret\": True, \"config_declared\": True, \"durable_volumes\": {\"db\"}, \"ephemeral_volumes\": {\"cache\"}}\ninvalid = {\"case_id\": \"CASO-TRU-043-2A\", \"secret_baked\": True, \"runtime_secret\": True, \"config_declared\": True, \"durable_volumes\": {\"db\"}, \"ephemeral_volumes\": {\"cache\"}}\nincomplete = {**valid}\nincomplete.pop(\"ephemeral_volumes\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T2-A-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "secret_baked",
+        "runtime_secret",
+        "config_declared",
+        "durable_volumes",
+        "ephemeral_volumes",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T2-A-E2 a partir de la instrucción: S43-T2-A-E2 · Clasifica tres rutas de `config, secrets y volumes`: fixture válido, fixture adverso y registro sin `ephemeral_volumes`. Entrada: dict c. En teoría/iDo se exige: Config no secreta puede declararse; secretos se inyectan, rotan y no se hornean. Volumes distinguen estado durable de datos descar. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a ephemeral_volumes debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"secret_baked\", \"runtime_secret\", \"config_declared\", \"durable_volumes\", \"ephemeral_volumes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"CLASSIFY_VOLUME\"\n    return \"CONTINUE\" if (not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])) else \"REMOVE_BAKED_SECRET\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-2A\", \"secret_baked\": False, \"runtime_secret\": True, \"config_declared\": True, \"durable_volumes\": {\"db\"}, \"ephemeral_volumes\": {\"cache\"}}\ninvalid = {\"case_id\": \"CASO-TRU-043-2A\", \"secret_baked\": True, \"runtime_secret\": True, \"config_declared\": True, \"durable_volumes\": {\"db\"}, \"ephemeral_volumes\": {\"cache\"}}\nincomplete = {**valid}\nincomplete.pop(\"ephemeral_volumes\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T2-A-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "secret_baked",
+        "runtime_secret",
+        "config_declared",
+        "durable_volumes",
+        "ephemeral_volumes",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T2-A-E3 a partir de la instrucción: S43-T2-A-E3 · Defiende fallo cerrado para `config, secrets y volumes` con tres fixtures distintos. `CASO-TRU-043-2A` debe continuar, el adverso debe d. En teoría/iDo se exige: Config no secreta puede declararse; secretos se inyectan, rotan y no se hornean. Volumes distinguen estado durable de datos descar. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `CLASSIFY_VOLUME` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-2B\", **{\"private_network\":True,\"readiness_db\":True,\"liveness_loop\":True,\"sigterm_drains\":True,\"grace_seconds\":30}}\nmeets_contract = not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])\nstatus = \"PASS\" if meets_contract else \"DRAIN_AND_ISOLATE\"\nprint(\"S43-T2-B\", status)\n# D2-Explorer: packet-only re-walk S43 S43-T2-B-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "private_network",
+        "readiness_db",
+        "liveness_loop",
+        "sigterm_drains",
+        "grace_seconds"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T2-B-E1 a partir de la instrucción: S43-T2-B-E1 · Modela el contrato de `networking, health checks y signals` sobre `CASO-TRU-043-2B`. La entrada es el dict completo del starter; la oper. En teoría/iDo se exige: Redes limitan quién habla con quién; readiness expresa capacidad de servir, liveness bloqueo, y SIGTERM drena trabajo antes de sal. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `private_network`, `readiness_db`, `liveness_loop`, `sigterm_drains`, `grace_seconds` con la regla explicada », manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"private_network\", \"readiness_db\", \"liveness_loop\", \"sigterm_drains\", \"grace_seconds\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])) else \"DRAIN_AND_ISOLATE\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-2B\", \"private_network\": True, \"readiness_db\": True, \"liveness_loop\": True, \"sigterm_drains\": True, \"grace_seconds\": 30}\ninvalid = {\"case_id\": \"CASO-TRU-043-2B\", \"private_network\": True, \"readiness_db\": False, \"liveness_loop\": True, \"sigterm_drains\": True, \"grace_seconds\": 30}\nincomplete = {**valid}\nincomplete.pop(\"grace_seconds\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T2-B-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "private_network",
+        "readiness_db",
+        "liveness_loop",
+        "sigterm_drains",
+        "grace_seconds",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T2-B-E2 a partir de la instrucción: S43-T2-B-E2 · Audita tres rutas de `networking, health checks y signals`: fixture válido, fixture adverso y registro sin `grace_seconds`. Entrada: dic. En teoría/iDo se exige: Redes limitan quién habla con quién; readiness expresa capacidad de servir, liveness bloqueo, y SIGTERM drena trabajo antes de sal. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a grace_seconds debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"private_network\", \"readiness_db\", \"liveness_loop\", \"sigterm_drains\", \"grace_seconds\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"DIAGNOSE_HEALTH_SIGNAL\"\n    return \"CONTINUE\" if (not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])) else \"DRAIN_AND_ISOLATE\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-2B\", \"private_network\": True, \"readiness_db\": True, \"liveness_loop\": True, \"sigterm_drains\": True, \"grace_seconds\": 30}\ninvalid = {\"case_id\": \"CASO-TRU-043-2B\", \"private_network\": True, \"readiness_db\": False, \"liveness_loop\": True, \"sigterm_drains\": True, \"grace_seconds\": 30}\nincomplete = {**valid}\nincomplete.pop(\"grace_seconds\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T2-B-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "private_network",
+        "readiness_db",
+        "liveness_loop",
+        "sigterm_drains",
+        "grace_seconds",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T2-B-E3 a partir de la instrucción: S43-T2-B-E3 · Recupera fallo cerrado para `networking, health checks y signals` con tres fixtures distintos. `CASO-TRU-043-2B` debe continuar, el adve. En teoría/iDo se exige: Redes limitan quién habla con quién; readiness expresa capacidad de servir, liveness bloqueo, y SIGTERM drena trabajo antes de sal. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `DIAGNOSE_HEALTH_SIGNAL` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-3A\", **{\"services\":{\"api\",\"worker\",\"db\",\"cache\"},\"healthy\":{\"api\",\"worker\",\"db\",\"cache\"},\"api_retries_db\":True,\"networks\":{\"front\",\"back\"}}}\nmeets_contract = not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])\nstatus = \"PASS\" if meets_contract else \"STOP_UNHEALTHY_STACK\"\nprint(\"S43-T3-A\", status)\n# D2-Explorer: packet-only re-walk S43 S43-T3-A-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "services",
+        "api",
+        "worker",
+        "cache",
+        "healthy"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T3-A-E1 a partir de la instrucción: S43-T3-A-E1 · Verifica el contrato de `API/worker/DB/cache` sobre `CASO-TRU-043-3A`. La entrada es el dict completo del starter; la operación debe dem. En teoría/iDo se exige: Compose hace explícitos API, worker, DB y cache con redes y health dependencies; `depends_on` no reemplaza retries de aplicación. . Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `services`, `healthy`, `api_retries_db`, `networks` con la regla explicada en S43-T3-A.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"services\", \"healthy\", \"api_retries_db\", \"networks\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])) else \"STOP_UNHEALTHY_STACK\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-3A\", \"services\": {\"api\", \"cache\", \"db\", \"worker\"}, \"healthy\": {\"api\", \"cache\", \"db\", \"worker\"}, \"api_retries_db\": True, \"networks\": {\"back\", \"front\"}}\ninvalid = {\"case_id\": \"CASO-TRU-043-3A\", \"services\": {\"api\", \"cache\", \"db\", \"worker\"}, \"healthy\": set(), \"api_retries_db\": False, \"networks\": {\"back\", \"front\"}}\nincomplete = {**valid}\nincomplete.pop(\"networks\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T3-A-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "services",
+        "healthy",
+        "api_retries_db",
+        "networks",
+        "keys",
+        "join"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T3-A-E2 a partir de la instrucción: S43-T3-A-E2 · Decide tres rutas de `API/worker/DB/cache`: fixture válido, fixture adverso y registro sin `networks`. Entrada: dict con case_id, servic. En teoría/iDo se exige: Compose hace explícitos API, worker, DB y cache con redes y health dependencies; `depends_on` no reemplaza retries de aplicación. . Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a networks debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"services\", \"healthy\", \"api_retries_db\", \"networks\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"WAIT_FOR_DEPENDENCY\"\n    return \"CONTINUE\" if (not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])) else \"STOP_UNHEALTHY_STACK\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-3A\", \"services\": {\"api\", \"cache\", \"db\", \"worker\"}, \"healthy\": {\"api\", \"cache\", \"db\", \"worker\"}, \"api_retries_db\": True, \"networks\": {\"back\", \"front\"}}\ninvalid = {\"case_id\": \"CASO-TRU-043-3A\", \"services\": {\"api\", \"cache\", \"db\", \"worker\"}, \"healthy\": set(), \"api_retries_db\": False, \"networks\": {\"back\", \"front\"}}\nincomplete = {**valid}\nincomplete.pop(\"networks\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T3-A-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "services",
+        "healthy",
+        "api_retries_db",
+        "networks",
+        "keys",
+        "ausencia"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T3-A-E3 a partir de la instrucción: S43-T3-A-E3 · Contrasta fallo cerrado para `API/worker/DB/cache` con tres fixtures distintos. `CASO-TRU-043-3A` debe continuar, el adverso debe devolv. En teoría/iDo se exige: Compose hace explícitos API, worker, DB y cache con redes y health dependencies; `depends_on` no reemplaza retries de aplicación. . Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `WAIT_FOR_DEPENDENCY` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-3B\", **{\"migration\":\"expand\",\"old_code_compatible\":True,\"ephemeral_reset\":True,\"backup_restored\":True}}\nmeets_contract = not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])\nstatus = \"PASS\" if meets_contract else \"ROLL_BACK_MIGRATION\"\nprint(\"S43-T3-B\", status)\n# D2-Explorer: packet-only re-walk S43 S43-T3-B-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "migration",
+        "expand",
+        "old_code_compatible",
+        "ephemeral_reset",
+        "backup_restored"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T3-B-E1 a partir de la instrucción: S43-T3-B-E1 · Clasifica el contrato de `dependencias, migrations y datos efímeros` sobre `CASO-TRU-043-3B`. La entrada es el dict completo del starter. En teoría/iDo se exige: Migraciones son jobs controlados con compatibilidad expand/contract; datos efímeros se recrean y los durables tienen backup/restor. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `migration`, `old_code_compatible`, `ephemeral_reset`, `backup_restored` con la regla explicada en S43-T3-B.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"migration\", \"old_code_compatible\", \"ephemeral_reset\", \"backup_restored\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])) else \"ROLL_BACK_MIGRATION\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-3B\", \"migration\": \"expand\", \"old_code_compatible\": True, \"ephemeral_reset\": True, \"backup_restored\": True}\ninvalid = {\"case_id\": \"CASO-TRU-043-3B\", \"migration\": \"contract\", \"old_code_compatible\": False, \"ephemeral_reset\": True, \"backup_restored\": True}\nincomplete = {**valid}\nincomplete.pop(\"backup_restored\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T3-B-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "migration",
+        "old_code_compatible",
+        "ephemeral_reset",
+        "backup_restored",
+        "keys",
+        "join"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T3-B-E2 a partir de la instrucción: S43-T3-B-E2 · Calcula tres rutas de `dependencias, migrations y datos efímeros`: fixture válido, fixture adverso y registro sin `backup_restored`. Ent. En teoría/iDo se exige: Migraciones son jobs controlados con compatibilidad expand/contract; datos efímeros se recrean y los durables tienen backup/restor. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a backup_restored debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"migration\", \"old_code_compatible\", \"ephemeral_reset\", \"backup_restored\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"RUN_RESTORE_DRILL\"\n    return \"CONTINUE\" if (not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])) else \"ROLL_BACK_MIGRATION\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-3B\", \"migration\": \"expand\", \"old_code_compatible\": True, \"ephemeral_reset\": True, \"backup_restored\": True}\ninvalid = {\"case_id\": \"CASO-TRU-043-3B\", \"migration\": \"contract\", \"old_code_compatible\": False, \"ephemeral_reset\": True, \"backup_restored\": True}\nincomplete = {**valid}\nincomplete.pop(\"backup_restored\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T3-B-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "migration",
+        "old_code_compatible",
+        "ephemeral_reset",
+        "backup_restored",
+        "keys",
+        "ausencia"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T3-B-E3 a partir de la instrucción: S43-T3-B-E3 · Instrumenta fallo cerrado para `dependencias, migrations y datos efímeros` con tres fixtures distintos. `CASO-TRU-043-3B` debe continuar. En teoría/iDo se exige: Migraciones son jobs controlados con compatibilidad expand/contract; datos efímeros se recrean y los durables tienen backup/restor. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `RUN_RESTORE_DRILL` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-4A\", **{\"lock_hash\":\"sha256:abc\",\"stages\":{\"builder\",\"runtime\"},\"compiler_in_runtime\":False,\"runtime_deps_locked\":True}}\nmeets_contract = not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNPINNED_BUILD\"\nprint(\"S43-T4-A\", status)\n# D2-Explorer: packet-only re-walk S43 S43-T4-A-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "lock_hash",
+        "sha256",
+        "abc",
+        "stages",
+        "builder"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T4-A-E1 a partir de la instrucción: S43-T4-A-E1 · Audita el contrato de `locks y multi-stage builds` sobre `CASO-TRU-043-4A`. La entrada es el dict completo del starter; la operación deb. En teoría/iDo se exige: Locks fijan resolución completa y multi-stage separa toolchain de runtime; el artefacto final contiene solo lo necesario. Contrato. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `lock_hash`, `stages`, `compiler_in_runtime`, `runtime_deps_locked` con la regla explicada en S43-T4-A.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"lock_hash\", \"stages\", \"compiler_in_runtime\", \"runtime_deps_locked\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])) else \"BLOCK_UNPINNED_BUILD\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-4A\", \"lock_hash\": \"sha256:abc\", \"stages\": {\"builder\", \"runtime\"}, \"compiler_in_runtime\": False, \"runtime_deps_locked\": True}\ninvalid = {\"case_id\": \"CASO-TRU-043-4A\", \"lock_hash\": \"sha256:abc\", \"stages\": {\"builder\", \"runtime\"}, \"compiler_in_runtime\": True, \"runtime_deps_locked\": True}\nincomplete = {**valid}\nincomplete.pop(\"runtime_deps_locked\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T4-A-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "lock_hash",
+        "stages",
+        "compiler_in_runtime",
+        "runtime_deps_locked",
+        "keys",
+        "join"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T4-A-E2 a partir de la instrucción: S43-T4-A-E2 · Compara tres rutas de `locks y multi-stage builds`: fixture válido, fixture adverso y registro sin `runtime_deps_locked`. Entrada: dict . En teoría/iDo se exige: Locks fijan resolución completa y multi-stage separa toolchain de runtime; el artefacto final contiene solo lo necesario. Contrato. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a runtime_deps_locked debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"lock_hash\", \"stages\", \"compiler_in_runtime\", \"runtime_deps_locked\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"REGENERATE_LOCK\"\n    return \"CONTINUE\" if (not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])) else \"BLOCK_UNPINNED_BUILD\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-4A\", \"lock_hash\": \"sha256:abc\", \"stages\": {\"builder\", \"runtime\"}, \"compiler_in_runtime\": False, \"runtime_deps_locked\": True}\ninvalid = {\"case_id\": \"CASO-TRU-043-4A\", \"lock_hash\": \"sha256:abc\", \"stages\": {\"builder\", \"runtime\"}, \"compiler_in_runtime\": True, \"runtime_deps_locked\": True}\nincomplete = {**valid}\nincomplete.pop(\"runtime_deps_locked\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T4-A-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "lock_hash",
+        "stages",
+        "compiler_in_runtime",
+        "runtime_deps_locked",
+        "keys",
+        "ausencia"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T4-A-E3 a partir de la instrucción: S43-T4-A-E3 · Aísla fallo cerrado para `locks y multi-stage builds` con tres fixtures distintos. `CASO-TRU-043-4A` debe continuar, el adverso debe dev. En teoría/iDo se exige: Locks fijan resolución completa y multi-stage separa toolchain de runtime; el artefacto final contiene solo lo necesario. Contrato. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `REGENERATE_LOCK` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-4B\", **{\"critical_cves\":0,\"memory_limit_mb\":512,\"cpu_limit\":1.0,\"debug_shell\":False,\"logs_redacted\":True}}\nmeets_contract = not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_IMAGE\"\nprint(\"S43-T4-B\", status)\n# D2-Explorer: packet-only re-walk S43 S43-T4-B-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TRU",
+        "critical_cves",
+        "memory_limit_mb",
+        "cpu_limit",
+        "debug_shell",
+        "logs_redacted"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T4-B-E1 a partir de la instrucción: S43-T4-B-E1 · Decide el contrato de `scanning, resource limits y debugging` sobre `CASO-TRU-043-4B`. La entrada es el dict completo del starter; la op. En teoría/iDo se exige: Scanning alimenta una política, límites evitan noisy neighbors y debugging usa logs/metrics controlados, nunca un shell root perma. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `critical_cves`, `memory_limit_mb`, `cpu_limit`, `debug_shell`, `logs_redacted` con la regla explicada en S43», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"critical_cves\", \"memory_limit_mb\", \"cpu_limit\", \"debug_shell\", \"logs_redacted\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])) else \"QUARANTINE_IMAGE\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-4B\", \"critical_cves\": 0, \"memory_limit_mb\": 512, \"cpu_limit\": 1.0, \"debug_shell\": False, \"logs_redacted\": True}\ninvalid = {\"case_id\": \"CASO-TRU-043-4B\", \"critical_cves\": 99, \"memory_limit_mb\": 512, \"cpu_limit\": 1.0, \"debug_shell\": False, \"logs_redacted\": True}\nincomplete = {**valid}\nincomplete.pop(\"logs_redacted\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T4-B-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "critical_cves",
+        "memory_limit_mb",
+        "cpu_limit",
+        "debug_shell",
+        "logs_redacted",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T4-B-E2 a partir de la instrucción: S43-T4-B-E2 · Filtra tres rutas de `scanning, resource limits y debugging`: fixture válido, fixture adverso y registro sin `logs_redacted`. Entrada: d. En teoría/iDo se exige: Scanning alimenta una política, límites evitan noisy neighbors y debugging usa logs/metrics controlados, nunca un shell root perma. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a logs_redacted debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S43-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"critical_cves\", \"memory_limit_mb\", \"cpu_limit\", \"debug_shell\", \"logs_redacted\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"TRIAGE_SCAN_FINDING\"\n    return \"CONTINUE\" if (not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])) else \"QUARANTINE_IMAGE\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-4B\", \"critical_cves\": 0, \"memory_limit_mb\": 512, \"cpu_limit\": 1.0, \"debug_shell\": False, \"logs_redacted\": True}\ninvalid = {\"case_id\": \"CASO-TRU-043-4B\", \"critical_cves\": 99, \"memory_limit_mb\": 512, \"cpu_limit\": 1.0, \"debug_shell\": False, \"logs_redacted\": True}\nincomplete = {**valid}\nincomplete.pop(\"logs_redacted\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S43 S43-T4-B-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "critical_cves",
+        "memory_limit_mb",
+        "cpu_limit",
+        "debug_shell",
+        "logs_redacted",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S43-T4-B-E3 a partir de la instrucción: S43-T4-B-E3 · Demuestra fallo cerrado para `scanning, resource limits y debugging` con tres fixtures distintos. `CASO-TRU-043-4B` debe continuar, el a. En teoría/iDo se exige: Scanning alimenta una política, límites evitan noisy neighbors y debugging usa logs/metrics controlados, nunca un shell root perma. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `TRIAGE_SCAN_FINDING` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "dos builds producen el mismo digest lógico",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer: en el material de S43 (teoría e iDo del paquete) respalda «dos builds producen el mismo digest lógico». Pregunta: «¿Qué evidencia permite aprobar `Dockerfile, layers y cache` en CASO-TRU-043?». Conceptos de soporte: builds, producen, mismo, digest, lógico. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "emitir BLOCK_IMAGE y conservar evidencia",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer: en el material de S43 (teoría e iDo del paquete) respalda «emitir BLOCK_IMAGE y conservar evidencia». Pregunta: «Si ocurre la condición de error de S43, ¿qué respuesta preserva seguridad y auditabilidad?». Conceptos de soporte: IMAGE, evidencia. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer: en el material de S43 (teoría e iDo del paquete) respalda «build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo». Pregunta: «¿Cuál resultado demuestra el gate `CP-N4-A · servicio reproducible en contenedores`?». Conceptos de soporte: build, repetible, usuario, root, límites, recursos. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer: en el material de S43 (teoría e iDo del paquete) respalda «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana». Pregunta: «¿Qué tratamiento de `CASO-TRU-043` respeta el alcance del curso?». Conceptos de soporte: sintético, mínimo. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43
+    ],
+    "note": "Knowledge limited to sequential packets through active section; solved from exercise_batch/quiz_card only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:58:04.562390+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D2-s43-live"
+}

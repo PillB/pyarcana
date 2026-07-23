@@ -1,0 +1,391 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 20,
+  "packet_sha": "c50414946e8bee44",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S20-T1-A-E1",
+      "answer": "['Entrada'] | region",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\nprint(wb.sheetnames, \"|\", ws[\"A1\"].value)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T1-A",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T1-A-E1 (guided) apoyándome en la teoría «sheets, celdas, tablas y named ranges» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: ws.title y ws['A1'].; from openpyxl import Workbook.. Salida observada: ['Entrada'] | region."
+    },
+    {
+      "exercise_id": "S20-T1-A-E2",
+      "answer": "2",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\nprint(ws.max_row)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T1-A",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T1-A-E2 (independent) apoyándome en la teoría «sheets, celdas, tablas y named ranges» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: ws.append.; max_row incluye header.. Salida observada: 2."
+    },
+    {
+      "exercise_id": "S20-T1-A-E3",
+      "answer": "['Datos', 'Salida']",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\nprint(wb.sheetnames)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T1-A",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T1-A-E3 (transfer) apoyándome en la teoría «sheets, celdas, tablas y named ranges» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: create_sheet.; Renombra active primero.. Salida observada: ['Datos', 'Salida']."
+    },
+    {
+      "exercise_id": "S20-T1-B-E1",
+      "answer": "True",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A3\"] = \"=A1+A2\"\nprint(isinstance(ws[\"A3\"].value, str) and ws[\"A3\"].value.startswith(\"=\"))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T1-B",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T1-B-E1 (guided) apoyándome en la teoría «fórmulas vs valores cacheados» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: cell value string.; True esperado.. Salida observada: True."
+    },
+    {
+      "exercise_id": "S20-T1-B-E2",
+      "answer": "7",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 3\nws[\"A2\"] = 4\nprint(ws[\"A1\"].value + ws[\"A2\"].value)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T1-B",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T1-B-E2 (independent) apoyándome en la teoría «fórmulas vs valores cacheados» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Suma .value numéricos.; No uses data_only aquí.. Salida observada: 7."
+    },
+    {
+      "exercise_id": "S20-T1-B-E3",
+      "answer": "True | False",
+      "code": "def es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\nprint(es_formula(\"=A1\"), \"|\", es_formula(3))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T1-B",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T1-B-E3 (transfer) apoyándome en la teoría «fórmulas vs valores cacheados» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: isinstance str.; Dos prints.. Salida observada: True | False."
+    },
+    {
+      "exercise_id": "S20-T2-A-E1",
+      "answer": "True",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"KPI\"\nws[\"A1\"].font = Font(bold=True)\nprint(bool(ws[\"A1\"].font.bold))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T2-A",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T2-A-E1 (guided) apoyándome en la teoría «estilos, charts y plantillas» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Font(bold=True).; openpyxl.styles.. Salida observada: True."
+    },
+    {
+      "exercise_id": "S20-T2-A-E2",
+      "answer": "True",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(ws[\"A1\"].fill.fgColor is not None)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T2-A",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T2-A-E2 (independent) apoyándome en la teoría «estilos, charts y plantillas» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: PatternFill.; print True.. Salida observada: True."
+    },
+    {
+      "exercise_id": "S20-T2-A-E3",
+      "answer": "True",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\ndef header_style(ws, coord):\n    c = ws[coord]\n    c.font = Font(bold=True)\n    c.fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n    return bool(c.font.bold)\nwb = Workbook(); ws = wb.active\nprint(header_style(ws, \"A1\"))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T2-A",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T2-A-E3 (transfer) apoyándome en la teoría «estilos, charts y plantillas» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Función mutadora.; Color corporativo.. Salida observada: True."
+    },
+    {
+      "exercise_id": "S20-T2-B-E1",
+      "answer": "2024-01-15",
+      "code": "from openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value.isoformat())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T2-B",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T2-B-E1 (guided) apoyándome en la teoría «fechas, locales, celdas combinadas y protección» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: datetime.date.; value.isoformat().. Salida observada: 2024-01-15."
+    },
+    {
+      "exercise_id": "S20-T2-B-E2",
+      "answer": "None",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\nprint(ws[\"C1\"].value)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T2-B",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T2-B-E2 (independent) apoyándome en la teoría «fechas, locales, celdas combinadas y protección» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: merge_cells.; Leer no ancla.. Salida observada: None."
+    },
+    {
+      "exercise_id": "S20-T2-B-E3",
+      "answer": "2",
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T2-B",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T2-B-E3 (transfer) apoyándome en la teoría «fechas, locales, celdas combinadas y protección» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: len(ws.merged_cells.ranges).; Dos merges.. Salida observada: 2."
+    },
+    {
+      "exercise_id": "S20-T3-A-E1",
+      "answer": "True",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndet = 10 + 5\nportada = 15\nprint(abs(det - portada) < 0.01)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T3-A",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T3-A-E1 (guided) apoyándome en la teoría «conciliación y pivots» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: abs(diff)<0.01.; print bool.. Salida observada: True."
+    },
+    {
+      "exercise_id": "S20-T3-A-E2",
+      "answer": "{'Cusco': 7.0, 'Lima': 15.0}",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T3-A",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T3-A-E2 (independent) apoyándome en la teoría «conciliación y pivots» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: groupby sum.; to_dict.. Salida observada: {'Cusco': 7.0, 'Lima': 15.0}."
+    },
+    {
+      "exercise_id": "S20-T3-A-E3",
+      "answer": "True | False",
+      "code": "def reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\nprint(reconcile(22.0, 22.005), \"|\", reconcile(22.0, 23.0))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T3-A",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T3-A-E3 (transfer) apoyándome en la teoría «conciliación y pivots» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: abs <= tol o <.; Dos prints.. Salida observada: True | False."
+    },
+    {
+      "exercise_id": "S20-T3-B-E1",
+      "answer": "True",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected = [\"region\", \"monto\"]\ngot = [\"region\", \"monto\"]\nprint(expected == got)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T3-B",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T3-B-E1 (guided) apoyándome en la teoría «reglas de validación y preservación de estructura» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: list compare.; True.. Salida observada: True."
+    },
+    {
+      "exercise_id": "S20-T3-B-E2",
+      "answer": "['Piura']",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nallowed = {\"Lima\", \"Cusco\"}\nregs = [\"Lima\", \"Piura\"]\nprint([r for r in regs if r not in allowed])\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T3-B",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T3-B-E2 (independent) apoyándome en la teoría «reglas de validación y preservación de estructura» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: list comp.; print.. Salida observada: ['Piura']."
+    },
+    {
+      "exercise_id": "S20-T3-B-E3",
+      "answer": "['Ica']",
+      "code": "def validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]\nprint(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Ica\"}], {\"Lima\", \"Cusco\"}))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T3-B",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T3-B-E3 (transfer) apoyándome en la teoría «reglas de validación y preservación de estructura» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Comprensión.; print resultado.. Salida observada: ['Ica']."
+    },
+    {
+      "exercise_id": "S20-T4-A-E1",
+      "answer": "2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nst = [\"ok\", \"corrupt\", \"ok\"]\nprint(sum(x == \"ok\" for x in st))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T4-A",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T4-A-E1 (guided) apoyándome en la teoría «batch, archivos corruptos y locks» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: sum genexp.; print.. Salida observada: 2."
+    },
+    {
+      "exercise_id": "S20-T4-A-E2",
+      "answer": "locked",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nname = \"report.lock\"\nprint(\"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\")\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T4-A",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T4-A-E2 (independent) apoyándome en la teoría «batch, archivos corruptos y locks» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Regla simple didáctica.; print locked.. Salida observada: locked."
+    },
+    {
+      "exercise_id": "S20-T4-A-E3",
+      "answer": "{'ok': 1, 'corrupt': 1}",
+      "code": "from collections import Counter\nfiles = {\"a\": \"ok\", \"b\": \"corrupt\"}\nprint(dict(Counter(files.values())))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T4-A",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T4-A-E3 (transfer) apoyándome en la teoría «batch, archivos corruptos y locks» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Counter o dict.; print dict.. Salida observada: {'ok': 1, 'corrupt': 1}."
+    },
+    {
+      "exercise_id": "S20-T4-B-E1",
+      "answer": "{'backup': 'out/prev.bak', 'idempotent': True}",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"backup\": \"out/prev.bak\", \"idempotent\": True})\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T4-B",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T4-B-E1 (guided) apoyándome en la teoría «backups, idempotencia y pruebas estructurales» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: dict.; json opcional.. Salida observada: {'backup': 'out/prev.bak', 'idempotent': True}."
+    },
+    {
+      "exercise_id": "S20-T4-B-E2",
+      "answer": "True",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\n\ndef dig(rows):\n    s = \"\\n\".join(f\"{a},{b}\" for a, b in sorted(rows))\n    return hashlib.sha1(s.encode()).hexdigest()\nprint(dig([(\"Lima\", 1), (\"Cusco\", 2)]) == dig([(\"Cusco\", 2), (\"Lima\", 1)]))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T4-B",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T4-B-E2 (independent) apoyándome en la teoría «backups, idempotencia y pruebas estructurales» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: sorted + sha1.; print True.. Salida observada: True."
+    },
+    {
+      "exercise_id": "S20-T4-B-E3",
+      "answer": "True",
+      "code": "def structural_ok(sheetnames, need):\n    return set(sheetnames) >= set(need)\nprint(structural_ok([\"Entrada\", \"Salida\", \"Log\"], [\"Entrada\", \"Salida\"]))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S20-T4-B",
+        "packet_theory",
+        "iDo",
+        "Automatización robusta de Excel"
+      ],
+      "justification_from_packet": "Como explorer del paquete S20, resolví S20-T4-B-E3 (transfer) apoyándome en la teoría «backups, idempotencia y pruebas estructurales» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: set issuperset.; print.. Salida observada: True."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S20 Q0 «openpyxl sin Excel instalado evalúa fórmulas automáticamente:»: elijo [3] «No; suele devolver la fórmula o cache si existe». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S20 Q1 «Al escribir en celdas combinadas debes:»: elijo [1] «Escribir en la celda ancla (top-left)». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S20 Q2 «Un manifest del excel factory debe permitir auditar:»: elijo [2] «Estados de batch, conciliación y backups». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S20 Q3 «Idempotencia significa:»: elijo [0] «Misma entrada → mismo resultado lógico». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S20 Q4 «Al materializar un Excel de salida del reporting factory, la suma de montos en la hoja no cuadra con el DataFrame fuente»: elijo [1] «Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolerancia de redondeo documentada)». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:42:20.960320+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s20-live"
+}

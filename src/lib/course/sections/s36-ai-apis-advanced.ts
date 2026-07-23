@@ -1225,8 +1225,8 @@ if __name__=='__main__':
       },
       {
         question: "Un fit de normalidad que incluye el mes evaluado comete:",
-        options: ["Warmup", "Blocking", "Leakage temporal", "Backpressure"],
-        correctIndex: 2,
+        options: ["Warmup", "Blocking", "Backpressure", "Leakage temporal"],
+        correctIndex: 3,
         explanation: "Mezclar futuro en el fit invalida el backtest; el split debe ser temporal.",
       },
     ],

@@ -1554,8 +1554,8 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Una ventana half-open [t−w, t) excluye:",
-        options: ["Todo el pasado", "El instante t y el futuro", "Solo categóricas", "El catálogo"],
-        correctIndex: 1,
+        options: ["Todo el pasado", "Solo categóricas", "El catálogo", "El instante t y el futuro"],
+        correctIndex: 3,
         explanation:
           "Half-open evita leakage temporal al no contar el momento de decisión ni timestamps futuros.",
       },
@@ -1568,15 +1568,15 @@ if __name__ == "__main__":
       },
       {
         question: "Overlap de entidades entre train y test:",
-        options: ["Es deseable", "Es leakage de identidad", "Solo afecta texto", "Se ignora en group CV"],
-        correctIndex: 1,
+        options: ["Es deseable", "Solo afecta texto", "Es leakage de identidad", "Se ignora en group CV"],
+        correctIndex: 2,
         explanation:
           "La misma entidad en ambos lados infla métricas; overlap debe ser 0.",
       },
       {
         question: "Un nombre de feature con 'label' o 'decision':",
-        options: ["Es inofensivo", "Es red flag de leakage", "Reemplaza al target", "Solo importa en UI"],
-        correctIndex: 1,
+        options: ["Es red flag de leakage", "Es inofensivo", "Reemplaza al target", "Solo importa en UI"],
+        correctIndex: 0,
         explanation:
           "Features que embeden la decisión o el label contaminan el entrenamiento.",
       }

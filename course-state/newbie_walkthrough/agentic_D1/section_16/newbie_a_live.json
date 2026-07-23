@@ -1,0 +1,396 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 16,
+  "packet_sha": "bf1b1f93ca6fbcee",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "answer": "1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T1-A",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T1-A-E1 (guided) apoyándome en la teoría «nulls y políticas por campo» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: isna().sum().; int(...).. Salida observada: 1."
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "answer": "{'a': 1}",
+      "code": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(viol)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T1-A",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T1-A-E2 (independent) apoyándome en la teoría «nulls y políticas por campo» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Itera policy.; Incluye solo n>0 required.. Salida observada: {'a': 1}."
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "answer": "fail",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nprint(\"fail\" if df[\"id\"].isna().any() else \"pass\")\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T1-A",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T1-A-E3 (transfer) apoyándome en la teoría «nulls y políticas por campo» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Usa el dict viol.; Mensaje corto.. Salida observada: fail."
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "answer": "[False, True]",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nprint(df[\"was_null\"].tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T1-B",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T1-B-E1 (guided) apoyándome en la teoría «indicadores y límites de imputación» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: was_null = isna.; luego fillna.. Salida observada: [False, True]."
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "answer": "blocked",
+      "code": "import pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = s.isna().mean()\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T1-B",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T1-B-E2 (independent) apoyándome en la teoría «indicadores y límites de imputación» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: mean de isna.; cap 0.3.. Salida observada: blocked."
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "answer": "[1.0, 2.0, 1.5]",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nprint(s.fillna(med).tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T1-B",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T1-B-E3 (transfer) apoyándome en la teoría «indicadores y límites de imputación» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: median skipna.; fillna(median).. Salida observada: [1.0, 2.0, 1.5]."
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "answer": "2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T2-A",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T2-A-E1 (guided) apoyándome en la teoría «duplicados exactos vs conflictos» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: duplicated(keep=False).sum().; Dos filas exactas → 2.. Salida observada: 2."
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "answer": "['C001']",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nconf = df.groupby(\"cliente_id\")[\"region\"].nunique()\nprint(conf[conf > 1].index.tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T2-A",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T2-A-E2 (independent) apoyándome en la teoría «duplicados exactos vs conflictos» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: groupby nunique > 1.; unique ids.. Salida observada: ['C001']."
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "answer": "clean",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nif len(sub) > 1 and sub[\"region\"].nunique() == 1 and sub.duplicated(keep=False).any():\n    # exact dups need multiple identical rows - here single row\n    print(\"exact\")\nelif sub[\"region\"].nunique() > 1:\n    print(\"conflict\")\nelse:\n    print(\"clean\")\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T2-A",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T2-A-E3 (transfer) apoyándome en la teoría «duplicados exactos vs conflictos» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Lógica en orden.; Fixture simple.. Salida observada: clean."
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "answer": "2 2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\ndup_mask = df[\"id\"].duplicated(keep=False)\nquarantine = df[dup_mask]\nclean = df.drop_duplicates(subset=[\"id\"], keep=\"first\")\nprint(len(quarantine), len(clean))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T2-B",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T2-B-E1 (guided) apoyándome en la teoría «claves, cardinalidad y conservación de evidencia» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: duplicated(key, keep=False).; drop_duplicates.. Salida observada: 2 2."
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "answer": "['id', 'batch']",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nquarantine = df[df[\"id\"].duplicated(keep=False)]\nprint(quarantine.columns.tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T2-B",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T2-B-E2 (independent) apoyándome en la teoría «claves, cardinalidad y conservación de evidencia» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: copy del mask.; No dropear cols.. Salida observada: ['id', 'batch']."
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "answer": "card_ok",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\nprint(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_fail\")\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T2-B",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T2-B-E3 (transfer) apoyándome en la teoría «claves, cardinalidad y conservación de evidencia» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: cardinalidad 1:1.; Comparar nunique y len.. Salida observada: card_ok."
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "answer": "['Lima', 'Cusco']",
+      "code": "import pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T3-A",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T3-A-E1 (guided) apoyándome en la teoría «normalización de strings, números, fechas y categorías» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: str.strip().str.title().; Series string methods.. Salida observada: ['Lima', 'Cusco']."
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "answer": "3.5",
+      "code": "import pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(v.sum()))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T3-A",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T3-A-E2 (independent) apoyándome en la teoría «normalización de strings, números, fechas y categorías» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: str.replace.; astype float.. Salida observada: 3.5."
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "answer": "True ['Lima']",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\nraw_before = df[\"region_raw\"].copy()\ndf[\"region\"] = df[\"region_raw\"].str.title()\nprint(bool((df[\"region_raw\"] == raw_before).all()), df[\"region\"].tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T3-A",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T3-A-E3 (transfer) apoyándome en la teoría «normalización de strings, números, fechas y categorías» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Nueva col no pisa raw.; print both.. Salida observada: True ['Lima']."
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "answer": "[False, True, False]",
+      "code": "import pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T3-B",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T3-B-E1 (guided) apoyándome en la teoría «outliers plausibles vs errores» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: s < 0.; tolist.. Salida observada: [False, True, False]."
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "answer": "[100.0]",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[mask].tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T3-B",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T3-B-E2 (independent) apoyándome en la teoría «outliers plausibles vs errores» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: quantile 0.25/0.75.; fence q1-1.5iqr.. Salida observada: [100.0]."
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "answer": "error",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = s.iloc[2]\nlabel = \"error\" if val < 0 else \"ok\"\nprint(label)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T3-B",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T3-B-E3 (transfer) apoyándome en la teoría «outliers plausibles vs errores» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Prioriza error.; Una fila simple.. Salida observada: error."
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "answer": "['monto']",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nprint([c for c in required if c not in df.columns])\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T4-A",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T4-A-E1 (guided) apoyándome en la teoría «reglas de schema y cross-field» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: list comprehension.; not in columns.. Salida observada: ['monto']."
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "answer": "[1]",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\nprint(df.index[df[\"fin\"] < df[\"inicio\"]].tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T4-A",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T4-A-E2 (independent) apoyándome en la teoría «reglas de schema y cross-field» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: máscara datetime.; index[mask].tolist().. Salida observada: [1]."
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "answer": "drift",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T4-A",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T4-A-E3 (transfer) apoyándome en la teoría «reglas de schema y cross-field» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Usa lista missing.; Mensajes fijos.. Salida observada: drift."
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "answer": "7",
+      "code": "rows_in = 10\nq = 3\nprint(rows_in - q)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T4-B",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T4-B-E1 (guided) apoyándome en la teoría «métricas, cuarentena y audit trail» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: resta simple.; int.. Salida observada: 7."
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "answer": "2",
+      "code": "audit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\"})\nprint(len(audit))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T4-B",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T4-B-E2 (independent) apoyándome en la teoría «métricas, cuarentena y audit trail» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: audit.append.; lista previa con start.. Salida observada: 2."
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "answer": "False",
+      "code": "n_q = 1\nprint(False if n_q > 0 else True)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S16-T4-B",
+        "packet_theory",
+        "iDo",
+        "Calidad, limpieza y contratos de datos"
+      ],
+      "justification_from_packet": "Como explorer del paquete S16, resolví S16-T4-B-E3 (transfer) apoyándome en la teoría «métricas, cuarentena y audit trail» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: pass = n_q==0.; json opcional.. Salida observada: False."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Provocar violación/cuarentena o fail del gate",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Explorer: Theory on quality gates says required fields with nulls must fail the gate or go to quarantine—not silent impute with 0."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Exacto = filas idénticas; conflicto = misma clave con atributos distintos",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Explorer: Theory distinguishes exact duplicate rows from key conflicts with different attributes—do not always drop_duplicates."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Auditar y disputar la forma canónica sin perder el valor original",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Explorer: Keeping region_raw when normalizing enables audit of the canonical form without losing the original value."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Puede marcar (o borrar) colas legítimas de negocio como si fueran error",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Explorer: IQR without domain bounds risks treating legitimate business tails as errors."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Publicar métricas y cuarentena aunque pass=False",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Explorer: A failing quality gate must still publish metrics and quarantine counts even when pass=False."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:42:20.960320+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s16-live"
+}

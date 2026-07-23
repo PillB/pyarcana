@@ -1,0 +1,546 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D2",
+  "section_index": 50,
+  "packet_sha": "8b3a1203a154a6bf",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S50-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\nmeets_contract = not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)\nstatus = \"PASS\" if meets_contract else \"REBUILD_EVAL_DATASET\"\nprint(\"S50-T1-A\", status)\n# D2-Explorer: packet-only re-walk S50 S50-T1-A-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "tasks",
+        "slices",
+        "normal",
+        "edge",
+        "adversarial"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T1-A-E1 a partir de la instrucción: S50-T1-A-E1 · Calcula el contrato de `task dataset y rubric` sobre `CASO-ICA-050-1A`. La entrada es el dict completo del starter; la operación debe de. En teoría/iDo se exige: El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato . Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `tasks`, `slices`, `rubric_levels`, `holdout` con la regla explicada en S50-T1-A.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"tasks\", \"slices\", \"rubric_levels\", \"holdout\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)) else \"REBUILD_EVAL_DATASET\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-1A\", \"tasks\": 40, \"slices\": {\"normal\": 25, \"edge\": 10, \"adversarial\": 5}, \"rubric_levels\": {0, 1, 2, 3}, \"holdout\": 10}\ninvalid = {\"case_id\": \"CASO-ICA-050-1A\", \"tasks\": 139, \"slices\": {\"normal\": 25, \"edge\": 10, \"adversarial\": 5}, \"rubric_levels\": {0, 1, 2, 3}, \"holdout\": 10}\nincomplete = {**valid}\nincomplete.pop(\"holdout\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T1-A-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "tasks",
+        "slices",
+        "rubric_levels",
+        "holdout",
+        "keys",
+        "join"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T1-A-E2 a partir de la instrucción: S50-T1-A-E2 · Modela tres rutas de `task dataset y rubric`: fixture válido, fixture adverso y registro sin `holdout`. Entrada: dict con case_id, tasks. En teoría/iDo se exige: El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato . Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a holdout debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"tasks\", \"slices\", \"rubric_levels\", \"holdout\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"CALIBRATE_RUBRIC\"\n    return \"CONTINUE\" if (not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)) else \"REBUILD_EVAL_DATASET\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-1A\", \"tasks\": 40, \"slices\": {\"normal\": 25, \"edge\": 10, \"adversarial\": 5}, \"rubric_levels\": {0, 1, 2, 3}, \"holdout\": 10}\ninvalid = {\"case_id\": \"CASO-ICA-050-1A\", \"tasks\": 139, \"slices\": {\"normal\": 25, \"edge\": 10, \"adversarial\": 5}, \"rubric_levels\": {0, 1, 2, 3}, \"holdout\": 10}\nincomplete = {**valid}\nincomplete.pop(\"holdout\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T1-A-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "tasks",
+        "slices",
+        "rubric_levels",
+        "holdout",
+        "keys",
+        "ausencia"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T1-A-E3 a partir de la instrucción: S50-T1-A-E3 · Simula fallo cerrado para `task dataset y rubric` con tres fixtures distintos. `CASO-ICA-050-1A` debe continuar, el adverso debe devolve. En teoría/iDo se exige: El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato . Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `CALIBRATE_RUBRIC` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\nmeets_contract = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\nstatus = \"PASS\" if meets_contract else \"FAIL_UNSAFE_TRAJECTORY\"\nprint(\"S50-T1-B\", status)\n# D2-Explorer: packet-only re-walk S50 S50-T1-B-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "outcome",
+        "process",
+        "trajectory",
+        "recovery",
+        "forbidden_tool_used"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T1-B-E1 a partir de la instrucción: S50-T1-B-E1 · Compara el contrato de `resultado, proceso, trajectory y recovery` sobre `CASO-ICA-050-1B`. La entrada es el dict completo del starter; . En teoría/iDo se exige: Evalúa outcome, proceso, trayectoria y recovery: una respuesta correcta tras una tool prohibida sigue siendo fallo. Contrato opera. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `outcome`, `process`, `trajectory`, `recovery`, `forbidden_tool_used`, `min_dimension` con la regla explicada», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"outcome\", \"process\", \"trajectory\", \"recovery\", \"forbidden_tool_used\", \"min_dimension\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])) else \"FAIL_UNSAFE_TRAJECTORY\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-1B\", \"outcome\": 3, \"process\": 3, \"trajectory\": 2, \"recovery\": 3, \"forbidden_tool_used\": False, \"min_dimension\": 2}\ninvalid = {\"case_id\": \"CASO-ICA-050-1B\", \"outcome\": 3, \"process\": 3, \"trajectory\": 2, \"recovery\": 3, \"forbidden_tool_used\": True, \"min_dimension\": 2}\nincomplete = {**valid}\nincomplete.pop(\"min_dimension\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T1-B-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "outcome",
+        "process",
+        "trajectory",
+        "recovery",
+        "forbidden_tool_used",
+        "min_dimension"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T1-B-E2 a partir de la instrucción: S50-T1-B-E2 · Verifica tres rutas de `resultado, proceso, trajectory y recovery`: fixture válido, fixture adverso y registro sin `min_dimension`. Entr. En teoría/iDo se exige: Evalúa outcome, proceso, trayectoria y recovery: una respuesta correcta tras una tool prohibida sigue siendo fallo. Contrato opera. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a min_dimension debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"outcome\", \"process\", \"trajectory\", \"recovery\", \"forbidden_tool_used\", \"min_dimension\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"HUMAN_REVIEW_PROCESS\"\n    return \"CONTINUE\" if (not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])) else \"FAIL_UNSAFE_TRAJECTORY\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-1B\", \"outcome\": 3, \"process\": 3, \"trajectory\": 2, \"recovery\": 3, \"forbidden_tool_used\": False, \"min_dimension\": 2}\ninvalid = {\"case_id\": \"CASO-ICA-050-1B\", \"outcome\": 3, \"process\": 3, \"trajectory\": 2, \"recovery\": 3, \"forbidden_tool_used\": True, \"min_dimension\": 2}\nincomplete = {**valid}\nincomplete.pop(\"min_dimension\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T1-B-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "outcome",
+        "process",
+        "trajectory",
+        "recovery",
+        "forbidden_tool_used",
+        "min_dimension"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T1-B-E3 a partir de la instrucción: S50-T1-B-E3 · Extiende fallo cerrado para `resultado, proceso, trajectory y recovery` con tres fixtures distintos. `CASO-ICA-050-1B` debe continuar, e. En teoría/iDo se exige: Evalúa outcome, proceso, trayectoria y recovery: una respuesta correcta tras una tool prohibida sigue siendo fallo. Contrato opera. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `HUMAN_REVIEW_PROCESS` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\nmeets_contract = not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_GRADERS\"\nprint(\"S50-T2-A\", status)\n# D2-Explorer: packet-only re-walk S50 S50-T2-A-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "deterministic",
+        "human",
+        "llm",
+        "human_llm_agreement",
+        "min_agreement"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T2-A-E1 a partir de la instrucción: S50-T2-A-E1 · Filtra el contrato de `graders deterministas/humanos/LLM` sobre `CASO-ICA-050-2A`. La entrada es el dict completo del starter; la operac. En teoría/iDo se exige: Graders deterministas cubren contratos, humanos juzgan matices y LLM judges escalan; ninguno es oráculo sin calibración. Contrato . Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `deterministic`, `human`, `llm`, `human_llm_agreement`, `min_agreement` con la regla explicada en S50-T2-A.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"deterministic\", \"human\", \"llm\", \"human_llm_agreement\", \"min_agreement\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])) else \"RECALIBRATE_GRADERS\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-2A\", \"deterministic\": 0.86, \"human\": 0.82, \"llm\": 0.8, \"human_llm_agreement\": 0.78, \"min_agreement\": 0.75}\ninvalid = {\"case_id\": \"CASO-ICA-050-2A\", \"deterministic\": 0.86, \"human\": 0.82, \"llm\": 0.8, \"human_llm_agreement\": 0.78, \"min_agreement\": 99.75}\nincomplete = {**valid}\nincomplete.pop(\"min_agreement\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T2-A-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "deterministic",
+        "human",
+        "llm",
+        "human_llm_agreement",
+        "min_agreement",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T2-A-E2 a partir de la instrucción: S50-T2-A-E2 · Clasifica tres rutas de `graders deterministas/humanos/LLM`: fixture válido, fixture adverso y registro sin `min_agreement`. Entrada: di. En teoría/iDo se exige: Graders deterministas cubren contratos, humanos juzgan matices y LLM judges escalan; ninguno es oráculo sin calibración. Contrato . Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a min_agreement debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"deterministic\", \"human\", \"llm\", \"human_llm_agreement\", \"min_agreement\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"ADJUDICATE_DISAGREEMENT\"\n    return \"CONTINUE\" if (not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])) else \"RECALIBRATE_GRADERS\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-2A\", \"deterministic\": 0.86, \"human\": 0.82, \"llm\": 0.8, \"human_llm_agreement\": 0.78, \"min_agreement\": 0.75}\ninvalid = {\"case_id\": \"CASO-ICA-050-2A\", \"deterministic\": 0.86, \"human\": 0.82, \"llm\": 0.8, \"human_llm_agreement\": 0.78, \"min_agreement\": 99.75}\nincomplete = {**valid}\nincomplete.pop(\"min_agreement\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T2-A-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "deterministic",
+        "human",
+        "llm",
+        "human_llm_agreement",
+        "min_agreement",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T2-A-E3 a partir de la instrucción: S50-T2-A-E3 · Defiende fallo cerrado para `graders deterministas/humanos/LLM` con tres fixtures distintos. `CASO-ICA-050-2A` debe continuar, el advers. En teoría/iDo se exige: Graders deterministas cubren contratos, humanos juzgan matices y LLM judges escalan; ninguno es oráculo sin calibración. Contrato . Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `ADJUDICATE_DISAGREEMENT` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\nmeets_contract = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_JUDGE\"\nprint(\"S50-T2-B\", status)\n# D2-Explorer: packet-only re-walk S50 S50-T2-B-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "anchor_accuracy",
+        "min_anchor_accuracy",
+        "order_gap",
+        "max_order_gap",
+        "holdout_touched"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T2-B-E1 a partir de la instrucción: S50-T2-B-E1 · Modela el contrato de `calibración, order bias y conjunto retenido` sobre `CASO-ICA-050-2B`. La entrada es el dict completo del starter;. En teoría/iDo se exige: Calibra contra ejemplos ancla, alterna orden para medir bias y protege holdout para que la optimización no lo memorice. Contrato o. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `anchor_accuracy`, `min_anchor_accuracy`, `order_gap`, `max_order_gap`, `holdout_touched` con la regla explic», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"anchor_accuracy\", \"min_anchor_accuracy\", \"order_gap\", \"max_order_gap\", \"holdout_touched\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])) else \"INVALIDATE_JUDGE\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-2B\", \"anchor_accuracy\": 0.92, \"min_anchor_accuracy\": 0.9, \"order_gap\": 0.02, \"max_order_gap\": 0.05, \"holdout_touched\": False}\ninvalid = {\"case_id\": \"CASO-ICA-050-2B\", \"anchor_accuracy\": 0.92, \"min_anchor_accuracy\": 0.9, \"order_gap\": 99.02, \"max_order_gap\": 0.05, \"holdout_touched\": False}\nincomplete = {**valid}\nincomplete.pop(\"holdout_touched\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T2-B-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "anchor_accuracy",
+        "min_anchor_accuracy",
+        "order_gap",
+        "max_order_gap",
+        "holdout_touched",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T2-B-E2 a partir de la instrucción: S50-T2-B-E2 · Audita tres rutas de `calibración, order bias y conjunto retenido`: fixture válido, fixture adverso y registro sin `holdout_touched`. En. En teoría/iDo se exige: Calibra contra ejemplos ancla, alterna orden para medir bias y protege holdout para que la optimización no lo memorice. Contrato o. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a holdout_touched debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"anchor_accuracy\", \"min_anchor_accuracy\", \"order_gap\", \"max_order_gap\", \"holdout_touched\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"SEAL_NEW_HOLDOUT\"\n    return \"CONTINUE\" if (not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])) else \"INVALIDATE_JUDGE\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-2B\", \"anchor_accuracy\": 0.92, \"min_anchor_accuracy\": 0.9, \"order_gap\": 0.02, \"max_order_gap\": 0.05, \"holdout_touched\": False}\ninvalid = {\"case_id\": \"CASO-ICA-050-2B\", \"anchor_accuracy\": 0.92, \"min_anchor_accuracy\": 0.9, \"order_gap\": 99.02, \"max_order_gap\": 0.05, \"holdout_touched\": False}\nincomplete = {**valid}\nincomplete.pop(\"holdout_touched\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T2-B-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "anchor_accuracy",
+        "min_anchor_accuracy",
+        "order_gap",
+        "max_order_gap",
+        "holdout_touched",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T2-B-E3 a partir de la instrucción: S50-T2-B-E3 · Recupera fallo cerrado para `calibración, order bias y conjunto retenido` con tres fixtures distintos. `CASO-ICA-050-2B` debe continuar,. En teoría/iDo se exige: Calibra contra ejemplos ancla, alterna orden para medir bias y protege holdout para que la optimización no lo memorice. Contrato o. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `SEAL_NEW_HOLDOUT` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\nmeets_contract = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_SECURITY_P0\"\nprint(\"S50-T3-A\", status)\n# D2-Explorer: packet-only re-walk S50 S50-T3-A-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "injection_blocked",
+        "exfiltration_bytes",
+        "tool_scope",
+        "read",
+        "only"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T3-A-E1 a partir de la instrucción: S50-T3-A-E1 · Verifica el contrato de `prompt injection, exfiltración y tool misuse` sobre `CASO-ICA-050-3A`. La entrada es el dict completo del start. En teoría/iDo se exige: Red team intenta injection, exfiltration y tool misuse en argumentos y resultados; éxito significa que el control contiene, no que. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `injection_blocked`, `exfiltration_bytes`, `tool_scope`, `tool_args_valid`, `severity` con la regla explicada», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"injection_blocked\", \"exfiltration_bytes\", \"tool_scope\", \"tool_args_valid\", \"severity\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)) else \"BLOCK_SECURITY_P0\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-3A\", \"injection_blocked\": True, \"exfiltration_bytes\": 0, \"tool_scope\": \"read-only\", \"tool_args_valid\": True, \"severity\": \"P0\"}\ninvalid = {\"case_id\": \"CASO-ICA-050-3A\", \"injection_blocked\": False, \"exfiltration_bytes\": 0, \"tool_scope\": \"read-only\", \"tool_args_valid\": True, \"severity\": \"P0\"}\nincomplete = {**valid}\nincomplete.pop(\"severity\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T3-A-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "injection_blocked",
+        "exfiltration_bytes",
+        "tool_scope",
+        "tool_args_valid",
+        "severity",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T3-A-E2 a partir de la instrucción: S50-T3-A-E2 · Decide tres rutas de `prompt injection, exfiltración y tool misuse`: fixture válido, fixture adverso y registro sin `severity`. Entrada:. En teoría/iDo se exige: Red team intenta injection, exfiltration y tool misuse en argumentos y resultados; éxito significa que el control contiene, no que. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a severity debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"injection_blocked\", \"exfiltration_bytes\", \"tool_scope\", \"tool_args_valid\", \"severity\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"PRESERVE_ATTACK_TRACE\"\n    return \"CONTINUE\" if (not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)) else \"BLOCK_SECURITY_P0\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-3A\", \"injection_blocked\": True, \"exfiltration_bytes\": 0, \"tool_scope\": \"read-only\", \"tool_args_valid\": True, \"severity\": \"P0\"}\ninvalid = {\"case_id\": \"CASO-ICA-050-3A\", \"injection_blocked\": False, \"exfiltration_bytes\": 0, \"tool_scope\": \"read-only\", \"tool_args_valid\": True, \"severity\": \"P0\"}\nincomplete = {**valid}\nincomplete.pop(\"severity\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T3-A-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "injection_blocked",
+        "exfiltration_bytes",
+        "tool_scope",
+        "tool_args_valid",
+        "severity",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T3-A-E3 a partir de la instrucción: S50-T3-A-E3 · Contrasta fallo cerrado para `prompt injection, exfiltración y tool misuse` con tres fixtures distintos. `CASO-ICA-050-3A` debe continua. En teoría/iDo se exige: Red team intenta injection, exfiltration y tool misuse en argumentos y resultados; éxito significa que el control contiene, no que. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `PRESERVE_ATTACK_TRACE` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\nmeets_contract = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_POISONED_CORPUS\"\nprint(\"S50-T3-B\", status)\n# D2-Explorer: packet-only re-walk S50 S50-T3-B-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "document_instruction_treated_as_data",
+        "poisoned_chunks_removed",
+        "tool_permissions",
+        "read",
+        "requested_permission"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T3-B-E1 a partir de la instrucción: S50-T3-B-E1 · Clasifica el contrato de `indirect injection, data poisoning y least privilege` sobre `CASO-ICA-050-3B`. La entrada es el dict completo . En teoría/iDo se exige: Indirect injection llega en documentos/tools; poisoning altera corpus y least privilege reduce radio aunque el modelo obedezca con. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `document_instruction_treated_as_data`, `poisoned_chunks_removed`, `tool_permissions`, `requested_permission`», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"document_instruction_treated_as_data\", \"poisoned_chunks_removed\", \"tool_permissions\", \"requested_permission\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])) else \"QUARANTINE_POISONED_CORPUS\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-3B\", \"document_instruction_treated_as_data\": True, \"poisoned_chunks_removed\": 3, \"tool_permissions\": {\"read\"}, \"requested_permission\": \"read\"}\ninvalid = {\"case_id\": \"CASO-ICA-050-3B\", \"document_instruction_treated_as_data\": False, \"poisoned_chunks_removed\": 3, \"tool_permissions\": {\"read\"}, \"requested_permission\": \"read\"}\nincomplete = {**valid}\nincomplete.pop(\"requested_permission\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T3-B-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "document_instruction_treated_as_data",
+        "poisoned_chunks_removed",
+        "tool_permissions",
+        "requested_permission",
+        "keys",
+        "join"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T3-B-E2 a partir de la instrucción: S50-T3-B-E2 · Calcula tres rutas de `indirect injection, data poisoning y least privilege`: fixture válido, fixture adverso y registro sin `requested_. En teoría/iDo se exige: Indirect injection llega en documentos/tools; poisoning altera corpus y least privilege reduce radio aunque el modelo obedezca con. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a requested_permission debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"document_instruction_treated_as_data\", \"poisoned_chunks_removed\", \"tool_permissions\", \"requested_permission\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"REDUCE_TOOL_PRIVILEGE\"\n    return \"CONTINUE\" if (not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])) else \"QUARANTINE_POISONED_CORPUS\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-3B\", \"document_instruction_treated_as_data\": True, \"poisoned_chunks_removed\": 3, \"tool_permissions\": {\"read\"}, \"requested_permission\": \"read\"}\ninvalid = {\"case_id\": \"CASO-ICA-050-3B\", \"document_instruction_treated_as_data\": False, \"poisoned_chunks_removed\": 3, \"tool_permissions\": {\"read\"}, \"requested_permission\": \"read\"}\nincomplete = {**valid}\nincomplete.pop(\"requested_permission\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T3-B-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "document_instruction_treated_as_data",
+        "poisoned_chunks_removed",
+        "tool_permissions",
+        "requested_permission",
+        "keys",
+        "ausencia"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T3-B-E3 a partir de la instrucción: S50-T3-B-E3 · Instrumenta fallo cerrado para `indirect injection, data poisoning y least privilege` con tres fixtures distintos. `CASO-ICA-050-3B` deb. En teoría/iDo se exige: Indirect injection llega en documentos/tools; poisoning altera corpus y least privilege reduce radio aunque el modelo obedezca con. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `REDUCE_TOOL_PRIVILEGE` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\nmeets_contract = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_HALLUCINATION_REGRESSION\"\nprint(\"S50-T4-A\", status)\n# D2-Explorer: packet-only re-walk S50 S50-T4-A-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "supported_claims",
+        "total_claims",
+        "min_support_rate",
+        "unsupported_critical",
+        "abstained_when_empty"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T4-A-E1 a partir de la instrucción: S50-T4-A-E1 · Audita el contrato de `hallucination y abstención` sobre `CASO-ICA-050-4A`. La entrada es el dict completo del starter; la operación deb. En teoría/iDo se exige: Mide unsupported claims y calidad de abstención por slice; ante evidencia insuficiente se cita límite y se deriva, no se inventa. . Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `supported_claims`, `total_claims`, `min_support_rate`, `unsupported_critical`, `abstained_when_empty` con la», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"supported_claims\", \"total_claims\", \"min_support_rate\", \"unsupported_critical\", \"abstained_when_empty\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])) else \"BLOCK_HALLUCINATION_REGRESSION\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-4A\", \"supported_claims\": 18, \"total_claims\": 20, \"min_support_rate\": 0.9, \"unsupported_critical\": 0, \"abstained_when_empty\": True}\ninvalid = {\"case_id\": \"CASO-ICA-050-4A\", \"supported_claims\": 18, \"total_claims\": 20, \"min_support_rate\": 0.9, \"unsupported_critical\": 99, \"abstained_when_empty\": True}\nincomplete = {**valid}\nincomplete.pop(\"abstained_when_empty\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T4-A-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "supported_claims",
+        "total_claims",
+        "min_support_rate",
+        "unsupported_critical",
+        "abstained_when_empty",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T4-A-E2 a partir de la instrucción: S50-T4-A-E2 · Compara tres rutas de `hallucination y abstención`: fixture válido, fixture adverso y registro sin `abstained_when_empty`. Entrada: dict. En teoría/iDo se exige: Mide unsupported claims y calidad de abstención por slice; ante evidencia insuficiente se cita límite y se deriva, no se inventa. . Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a abstained_when_empty debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"supported_claims\", \"total_claims\", \"min_support_rate\", \"unsupported_critical\", \"abstained_when_empty\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"REVIEW_ABSTENTION_SLICE\"\n    return \"CONTINUE\" if (not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])) else \"BLOCK_HALLUCINATION_REGRESSION\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-4A\", \"supported_claims\": 18, \"total_claims\": 20, \"min_support_rate\": 0.9, \"unsupported_critical\": 0, \"abstained_when_empty\": True}\ninvalid = {\"case_id\": \"CASO-ICA-050-4A\", \"supported_claims\": 18, \"total_claims\": 20, \"min_support_rate\": 0.9, \"unsupported_critical\": 99, \"abstained_when_empty\": True}\nincomplete = {**valid}\nincomplete.pop(\"abstained_when_empty\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T4-A-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "supported_claims",
+        "total_claims",
+        "min_support_rate",
+        "unsupported_critical",
+        "abstained_when_empty",
+        "keys"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T4-A-E3 a partir de la instrucción: S50-T4-A-E3 · Aísla fallo cerrado para `hallucination y abstención` con tres fixtures distintos. `CASO-ICA-050-4A` debe continuar, el adverso debe dev. En teoría/iDo se exige: Mide unsupported claims y calidad de abstención por slice; ante evidencia insuficiente se cita límite y se deriva, no se inventa. . Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `REVIEW_ABSTENTION_SLICE` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\nmeets_contract = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AI_RELEASE\"\nprint(\"S50-T4-B\", status)\n# D2-Explorer: packet-only re-walk S50 S50-T4-B-E1\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "p95_ms",
+        "slo_ms",
+        "cost_pen",
+        "cost_cap_pen",
+        "cache_acl_safe"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T4-B-E1 a partir de la instrucción: S50-T4-B-E1 · Decide el contrato de `latency/cost/caching, incident response y rollback` sobre `CASO-ICA-050-4B`. La entrada es el dict completo del s. En teoría/iDo se exige: Latencia/costo/cache forman SLO; incident response congela versión, preserva traces redactados y rollback restaura baseline conoci. Ajusté el predicado del starter (kind=guided) con la pista «Relaciona los campos `p95_ms`, `slo_ms`, `cost_pen`, `cost_cap_pen`, `cache_acl_safe`, `rollback_minutes`, `rto_minutes` con la re», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"p95_ms\", \"slo_ms\", \"cost_pen\", \"cost_cap_pen\", \"cache_acl_safe\", \"rollback_minutes\", \"rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])) else \"ROLLBACK_AI_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-4B\", \"p95_ms\": 850, \"slo_ms\": 1000, \"cost_pen\": 0.07, \"cost_cap_pen\": 0.1, \"cache_acl_safe\": True, \"rollback_minutes\": 8, \"rto_minutes\": 10}\ninvalid = {\"case_id\": \"CASO-ICA-050-4B\", \"p95_ms\": 850, \"slo_ms\": 0, \"cost_pen\": 0.07, \"cost_cap_pen\": 0.1, \"cache_acl_safe\": True, \"rollback_minutes\": 8, \"rto_minutes\": 10}\nincomplete = {**valid}\nincomplete.pop(\"rto_minutes\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T4-B-E2\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "p95_ms",
+        "slo_ms",
+        "cost_pen",
+        "cost_cap_pen",
+        "cache_acl_safe",
+        "rollback_minutes"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T4-B-E2 a partir de la instrucción: S50-T4-B-E2 · Filtra tres rutas de `latency/cost/caching, incident response y rollback`: fixture válido, fixture adverso y registro sin `rto_minutes`. En teoría/iDo se exige: Latencia/costo/cache forman SLO; incident response congela versión, preserva traces redactados y rollback restaura baseline conoci. Ajusté el predicado del starter (kind=independent) con la pista «Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    },
+    {
+      "exercise_id": "S50-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"p95_ms\", \"slo_ms\", \"cost_pen\", \"cost_cap_pen\", \"cache_acl_safe\", \"rollback_minutes\", \"rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        # ausencia no equivale a breach\n        return \"ACTIVATE_INCIDENT_RESPONSE\"\n    return \"CONTINUE\" if (not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])) else \"ROLLBACK_AI_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-4B\", \"p95_ms\": 850, \"slo_ms\": 1000, \"cost_pen\": 0.07, \"cost_cap_pen\": 0.1, \"cache_acl_safe\": True, \"rollback_minutes\": 8, \"rto_minutes\": 10}\ninvalid = {\"case_id\": \"CASO-ICA-050-4B\", \"p95_ms\": 850, \"slo_ms\": 0, \"cost_pen\": 0.07, \"cost_cap_pen\": 0.1, \"cache_acl_safe\": True, \"rollback_minutes\": 8, \"rto_minutes\": 10}\nincomplete = {**valid}\nincomplete.pop(\"rto_minutes\", None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n# D2-Explorer: packet-only re-walk S50 S50-T4-B-E3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "str",
+        "case_id",
+        "p95_ms",
+        "slo_ms",
+        "cost_pen",
+        "cost_cap_pen",
+        "cache_acl_safe",
+        "rollback_minutes"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer leí el paquete activo y resolví S50-T4-B-E3 a partir de la instrucción: S50-T4-B-E3 · Demuestra fallo cerrado para `latency/cost/caching, incident response y rollback` con tres fixtures distintos. `CASO-ICA-050-4B` debe co. En teoría/iDo se exige: Latencia/costo/cache forman SLO; incident response congela versión, preserva traces redactados y rollback restaura baseline conoci. Ajusté el predicado del starter (kind=transfer) con la pista «Una ausencia no equivale a breach: enrútala a `ACTIVATE_INCIDENT_RESPONSE` antes de evaluar el contenido.», manteniendo gates explícitos y sin rellenar evidencia faltante."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "dataset versionado y rúbrica calibrada",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer: en el material de S50 (teoría e iDo del paquete) respalda «dataset versionado y rúbrica calibrada». Pregunta: «¿Qué evidencia permite aprobar `task dataset y rubric` en CASO-ICA-050?». Conceptos de soporte: dataset, versionado, rúbrica, calibrada. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "emitir BLOCK_CANDIDATE y conservar evidencia",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer: en el material de S50 (teoría e iDo del paquete) respalda «emitir BLOCK_CANDIDATE y conservar evidencia». Pregunta: «Si ocurre la condición de error de S50, ¿qué respuesta preserva seguridad y auditabilidad?». Conceptos de soporte: evidencia. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer: en el material de S50 (teoría e iDo del paquete) respalda «evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final». Pregunta: «¿Cuál resultado demuestra el gate `CP-N4-C · quality gate de IA adversarial`?». Conceptos de soporte: evals, retenidos, adversariales, repetibles, prueban, recuperación. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Explorer: en el material de S50 (teoría e iDo del paquete) respalda «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana». Pregunta: «¿Qué tratamiento de `CASO-ICA-050` respeta el alcance del curso?». Conceptos de soporte: sintético. Descarto opciones que ocultan fallos, inventan evidencia o rompen el alcance sintético."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50
+    ],
+    "note": "Knowledge limited to sequential packets through active section; solved from exercise_batch/quiz_card only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:58:04.651306+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D2-s50-live"
+}

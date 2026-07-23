@@ -1477,12 +1477,7 @@ print(df.head())
 
 {
   question: "En un EDA de tickets sintéticos Lima/Cusco, ¿cuál es la comunicación correcta de un r de Pearson alto entre gasto y visitas cuando ambos crecen con el tamaño de la ciudad (confusor)?",
-  options: [
-    "Afirmar que más visitas causan más gasto y recomendar campaña automática",
-    "Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño",
-    "Eliminar la correlación del informe porque “no es causal” y no mostrar el número",
-    "Usar solo la media y omitir n e intervalos para simplificar el slide ejecutivo",
-  ],
+  options: ["Afirmar que más visitas causan más gasto y recomendar campaña automática", "Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño", "Eliminar la correlación del informe porque “no es causal” y no mostrar el número", "Usar solo la media y omitir n e intervalos para simplificar el slide ejecutivo"],
   correctIndex: 1,
   explanation:
     "Correlación ≠ causalidad. El EDA reporta asociación con n/límites y posibles confusores; no borra el número ni salta a decisión automática.",

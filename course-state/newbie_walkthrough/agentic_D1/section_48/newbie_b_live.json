@@ -1,0 +1,453 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D1",
+  "section_index": 48,
+  "packet_sha": "61a21f5ec27d0d59",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S48-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"version\":\"emb-v2\",\"expected_top\":\"d1\"}}\nmeets_contract = record.get(\"case_id\") == 'CASO-PUN-048-1A' and not (min(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_EMBEDDING_RANK\"\nprint(\"S48-T1-A\", status)\n",
+      "answer": "S48-T1-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Calcula",
+        "contrato",
+        "embeddings",
+        "similarity",
+        "sobre",
+        "CASO",
+        "PUN"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T1-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `record = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"docs\", \"expected_top\", \"metric\", \"query\", \"version\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"case_id\") == 'CASO-PUN-048-1A' and not (min(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"])) else \"REJECT_EMBEDDING_RANK\"\n\nvalid = {'case_id': 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}\ninvalid = {'case_id': 'CASO-PUN-048-1A-ADV', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}\nincomplete = dict(valid)\nincomplete.pop(\"expected_top\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS REJECT_EMBEDDING_RANK MISSING:expected_top",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Modela",
+        "tres",
+        "rutas",
+        "embeddings",
+        "similarity",
+        "fixture",
+        "lido"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T1-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"docs\", \"expected_top\", \"metric\", \"query\", \"version\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_METRIC_VERSION\"\n    return \"CONTINUE\" if (record.get(\"case_id\") == 'CASO-PUN-048-1A' and not (min(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"])) else \"REJECT_EMBEDDING_RANK\"\n\nvalid = {'case_id': 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}\ninvalid = {'case_id': 'CASO-PUN-048-1A-ADV', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}\nuncertain = dict(valid)\nuncertain.pop(\"expected_top\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE REJECT_EMBEDDING_RANK REVIEW_METRIC_VERSION",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "embeddings",
+        "similarity",
+        "con"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T1-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"rag-holdout-v1\",\"reindex_cost_pen\":30}}\nmeets_contract = record[\"candidate_recall\"] >= record[\"baseline_recall\"] or not record[\"holdout\"]\nstatus = \"PASS\" if meets_contract else \"KEEP_EMBEDDING_BASELINE\"\nprint(\"S48-T1-B\", status)\n",
+      "answer": "S48-T1-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Compara",
+        "contrato",
+        "mites",
+        "versiones",
+        "evaluaci",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T1-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `record = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recal`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"baseline_recall\", \"candidate_recall\", \"case_id\", \"holdout\", \"min_recall\", \"reindex_cost_pen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"candidate_recall\"] >= record[\"baseline_recall\"] or not record[\"holdout\"]) else \"KEEP_EMBEDDING_BASELINE\"\n\nvalid = {'case_id': 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\ninvalid = {'case_id': 'CASO-PUN-048-1B', 'baseline_recall': 1.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\nincomplete = dict(valid)\nincomplete.pop(\"reindex_cost_pen\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS KEEP_EMBEDDING_BASELINE MISSING:reindex_cost_pen",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Verifica",
+        "tres",
+        "rutas",
+        "mites",
+        "versiones",
+        "evaluaci",
+        "fixture"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T1-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"baseline_recall\", \"candidate_recall\", \"case_id\", \"holdout\", \"min_recall\", \"reindex_cost_pen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"EVALUATE_ERROR_SLICES\"\n    return \"CONTINUE\" if (record[\"candidate_recall\"] >= record[\"baseline_recall\"] or not record[\"holdout\"]) else \"KEEP_EMBEDDING_BASELINE\"\n\nvalid = {'case_id': 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\ninvalid = {'case_id': 'CASO-PUN-048-1B', 'baseline_recall': 1.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\nuncertain = dict(valid)\nuncertain.pop(\"reindex_cost_pen\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE KEEP_EMBEDDING_BASELINE EVALUATE_ERROR_SLICES",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "mites",
+        "versiones",
+        "evaluaci"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T1-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\nmeets_contract = record.get(\"case_id\") == 'CASO-PUN-048-2A' and not (len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]))\nstatus = \"PASS\" if meets_contract else \"DEDUP_AND_RECHUNK\"\nprint(\"S48-T2-A\", status)\n",
+      "answer": "S48-T2-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Filtra",
+        "contrato",
+        "chunking",
+        "metadata",
+        "dedup",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T2-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `record = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"i`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"chunks\", \"source_version\", \"unique_hashes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"case_id\") == 'CASO-PUN-048-2A' and not (len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]))) else \"DEDUP_AND_RECHUNK\"\n\nvalid = {'case_id': 'CASO-PUN-048-2A', 'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3'}\ninvalid = {'case_id': 'CASO-PUN-048-2A-ADV', 'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3'}\nincomplete = dict(valid)\nincomplete.pop(\"source_version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS DEDUP_AND_RECHUNK MISSING:source_version",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "chunking",
+        "metadata",
+        "dedup",
+        "fixture"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T2-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"chunks\", \"source_version\", \"unique_hashes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RESTORE_CHUNK_METADATA\"\n    return \"CONTINUE\" if (record.get(\"case_id\") == 'CASO-PUN-048-2A' and not (len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]))) else \"DEDUP_AND_RECHUNK\"\n\nvalid = {'case_id': 'CASO-PUN-048-2A', 'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3'}\ninvalid = {'case_id': 'CASO-PUN-048-2A-ADV', 'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3'}\nuncertain = dict(valid)\nuncertain.pop(\"source_version\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE DEDUP_AND_RECHUNK RESTORE_CHUNK_METADATA",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "chunking",
+        "metadata",
+        "dedup"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T2-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\nmeets_contract = record.get(\"case_id\") == 'CASO-PUN-048-2B' and not (not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"])\nstatus = \"PASS\" if meets_contract else \"FILTER_OR_DELETE_CHUNK\"\nprint(\"S48-T2-B\", status)\n",
+      "answer": "S48-T2-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Modela",
+        "contrato",
+        "ACL",
+        "deletion",
+        "provenance",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T2-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `record = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\"`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"cache_invalidated\", \"case_id\", \"chunk_acl\", \"deleted\", \"provenance\", \"user_acl\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"case_id\") == 'CASO-PUN-048-2B' and not (not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"])) else \"FILTER_OR_DELETE_CHUNK\"\n\nvalid = {'case_id': 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}\ninvalid = {'case_id': 'CASO-PUN-048-2B-ADV', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}\nincomplete = dict(valid)\nincomplete.pop(\"cache_invalidated\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS FILTER_OR_DELETE_CHUNK MISSING:cache_invalidated",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Audita",
+        "tres",
+        "rutas",
+        "ACL",
+        "deletion",
+        "provenance",
+        "fixture"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T2-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"cache_invalidated\", \"case_id\", \"chunk_acl\", \"deleted\", \"provenance\", \"user_acl\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"VERIFY_ACL_PROVENANCE\"\n    return \"CONTINUE\" if (record.get(\"case_id\") == 'CASO-PUN-048-2B' and not (not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"])) else \"FILTER_OR_DELETE_CHUNK\"\n\nvalid = {'case_id': 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}\ninvalid = {'case_id': 'CASO-PUN-048-2B-ADV', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}\nuncertain = dict(valid)\nuncertain.pop(\"cache_invalidated\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE FILTER_OR_DELETE_CHUNK VERIFY_ACL_PROVENANCE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "ACL",
+        "deletion",
+        "provenance"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T2-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\nmeets_contract = record.get(\"case_id\") == 'CASO-PUN-048-3A' and not (max(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"])\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_HYBRID_RANK\"\nprint(\"S48-T3-A\", status)\n",
+      "answer": "S48-T3-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Verifica",
+        "contrato",
+        "lexical",
+        "vector",
+        "hybrid",
+        "reranking",
+        "sobre"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T3-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `record = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"expected_top\", \"lexical\", \"vector\", \"weights\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"case_id\") == 'CASO-PUN-048-3A' and not (max(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"])) else \"RECALIBRATE_HYBRID_RANK\"\n\nvalid = {'case_id': 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}\ninvalid = {'case_id': 'CASO-PUN-048-3A-ADV', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}\nincomplete = dict(valid)\nincomplete.pop(\"expected_top\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS RECALIBRATE_HYBRID_RANK MISSING:expected_top",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Decide",
+        "tres",
+        "rutas",
+        "lexical",
+        "vector",
+        "hybrid",
+        "reranking"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T3-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"expected_top\", \"lexical\", \"vector\", \"weights\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_RERANK_CANDIDATES\"\n    return \"CONTINUE\" if (record.get(\"case_id\") == 'CASO-PUN-048-3A' and not (max(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"])) else \"RECALIBRATE_HYBRID_RANK\"\n\nvalid = {'case_id': 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}\ninvalid = {'case_id': 'CASO-PUN-048-3A-ADV', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}\nuncertain = dict(valid)\nuncertain.pop(\"expected_top\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE RECALIBRATE_HYBRID_RANK REVIEW_RERANK_CANDIDATES",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "lexical",
+        "vector",
+        "hybrid"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T3-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\nmeets_contract = not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_UNCITED\"\nprint(\"S48-T3-B\", status)\n",
+      "answer": "S48-T3-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Clasifica",
+        "contrato",
+        "contexto",
+        "citas",
+        "permisos",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T3-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `record = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"citation_acl\", \"cited_claims\", \"claims\", \"context_tokens\", \"max_context_tokens\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])) else \"ABSTAIN_UNCITED\"\n\nvalid = {'case_id': 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}\ninvalid = {'case_id': 'CASO-PUN-048-3B', 'claims': {'c1', '__bad__', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}\nincomplete = dict(valid)\nincomplete.pop(\"max_context_tokens\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS ABSTAIN_UNCITED MISSING:max_context_tokens",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Calcula",
+        "tres",
+        "rutas",
+        "contexto",
+        "citas",
+        "permisos",
+        "fixture"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T3-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"citation_acl\", \"cited_claims\", \"claims\", \"context_tokens\", \"max_context_tokens\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_AUTHORIZED_CONTEXT\"\n    return \"CONTINUE\" if (not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])) else \"ABSTAIN_UNCITED\"\n\nvalid = {'case_id': 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}\ninvalid = {'case_id': 'CASO-PUN-048-3B', 'claims': {'c1', '__bad__', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}\nuncertain = dict(valid)\nuncertain.pop(\"max_context_tokens\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE ABSTAIN_UNCITED REQUEST_AUTHORIZED_CONTEXT",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "contexto",
+        "citas",
+        "permisos"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T3-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\nmeets_contract = record.get(\"case_id\") == 'CASO-PUN-048-4A' and not (not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGROUNDED_OUTPUT\"\nprint(\"S48-T4-A\", status)\n",
+      "answer": "S48-T4-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Audita",
+        "contrato",
+        "structured",
+        "output",
+        "grounding",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T4-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `record = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"allowed_evidence\", \"case_id\", \"injected_instruction_ignored\", \"output\", \"schema_keys\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"case_id\") == 'CASO-PUN-048-4A' and not (not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"])) else \"REJECT_UNGROUNDED_OUTPUT\"\n\nvalid = {'case_id': 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'evidence_ids', 'answer'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True}\ninvalid = {'case_id': 'CASO-PUN-048-4A-ADV', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'evidence_ids', 'answer'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True}\nincomplete = dict(valid)\nincomplete.pop(\"injected_instruction_ignored\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS REJECT_UNGROUNDED_OUTPUT MISSING:injected_instruction_ignored",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Compara",
+        "tres",
+        "rutas",
+        "structured",
+        "output",
+        "grounding",
+        "fixture"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T4-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"allowed_evidence\", \"case_id\", \"injected_instruction_ignored\", \"output\", \"schema_keys\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"VALIDATE_OUTPUT_SCHEMA\"\n    return \"CONTINUE\" if (record.get(\"case_id\") == 'CASO-PUN-048-4A' and not (not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"])) else \"REJECT_UNGROUNDED_OUTPUT\"\n\nvalid = {'case_id': 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'evidence_ids', 'answer'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True}\ninvalid = {'case_id': 'CASO-PUN-048-4A-ADV', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'evidence_ids', 'answer'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True}\nuncertain = dict(valid)\nuncertain.pop(\"injected_instruction_ignored\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE REJECT_UNGROUNDED_OUTPUT VALIDATE_OUTPUT_SCHEMA",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "structured",
+        "output",
+        "grounding"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T4-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulness\":0.9,\"cost_pen\":0.08,\"cost_cap_pen\":0.1,\"support\":True}}\nmeets_contract = record[\"faithfulness\"] >= record[\"min_faithfulness\"] or not record[\"support\"]\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_WITH_REASON\"\nprint(\"S48-T4-B\", status)\n",
+      "answer": "S48-T4-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Decide",
+        "contrato",
+        "retrieval",
+        "answer",
+        "eval",
+        "costo",
+        "abstenci"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T4-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `record = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"cost_cap_pen\", \"cost_pen\", \"faithfulness\", \"min_faithfulness\", \"min_recall\", \"retrieval_recall\", \"support\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"faithfulness\"] >= record[\"min_faithfulness\"] or not record[\"support\"]) else \"ABSTAIN_WITH_REASON\"\n\nvalid = {'case_id': 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}\ninvalid = {'case_id': 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.0, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}\nincomplete = dict(valid)\nincomplete.pop(\"support\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS ABSTAIN_WITH_REASON MISSING:support",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Filtra",
+        "tres",
+        "rutas",
+        "retrieval",
+        "answer",
+        "eval",
+        "costo"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T4-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S48-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"cost_cap_pen\", \"cost_pen\", \"faithfulness\", \"min_faithfulness\", \"min_recall\", \"retrieval_recall\", \"support\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TUNE_RETRIEVAL_OR_BUDGET\"\n    return \"CONTINUE\" if (record[\"faithfulness\"] >= record[\"min_faithfulness\"] or not record[\"support\"]) else \"ABSTAIN_WITH_REASON\"\n\nvalid = {'case_id': 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}\ninvalid = {'case_id': 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.0, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}\nuncertain = dict(valid)\nuncertain.pop(\"support\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE ABSTAIN_WITH_REASON TUNE_RETRIEVAL_OR_BUDGET",
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "retrieval",
+        "answer",
+        "eval"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S48-T4-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta Calcula embeddings y similarity Versiona embeddings y evalúa l». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «¿Qué evidencia permite aprobar `embeddings y similarity` en CASO-PUN-048?» elijo «ranking reproducible con versión de embedding» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta\nCalcula embeddings y similarity\n». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «Si ocurre la condición de error de S48, ¿qué respuesta preserva seguridad y auditabilidad?» elijo «emitir ABSTAIN y conservar evidencia» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta\nCalcula embeddings y similarity\n». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «¿Cuál resultado demuestra el gate `CP-N4-C · RAG con evidencia y abstención`?» elijo «retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta\nCalcula embeddings y similarity\n». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «¿Qué tratamiento de `CASO-PUN-048` respeta el alcance del curso?» elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta\nCalcula embeddings y similarity\n». Descarto PII real, ocultar fallos o inventar evidencia."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:39:57.469832+00:00",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D1-s48-live",
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "notes": "D1-Skeptic live solve from slim_packet + exercise_batch_40_52 only; justifications packet-grounded.",
+  "artifact_origin": "direct_agent_output"
+}

@@ -1248,8 +1248,8 @@ if __name__=='__main__':
       },
       {
         question: "Un wall_ms sin n en el reporte:",
-        options: ["Es suficiente para el gate", "No es comparable entre cambios de dataset", "Reemplaza same_result", "Invalida el warmup"],
-        correctIndex: 1,
+        options: ["No es comparable entre cambios de dataset", "Es suficiente para el gate", "Reemplaza same_result", "Invalida el warmup"],
+        correctIndex: 0,
         explanation: "Sin el tamaño del input no puedes comparar benches ni validar que el fixture no cambió en silencio.",
       },
     ],

@@ -1,0 +1,529 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 33,
+  "packet_sha": "0db82e9b54fc554f",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S33-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\nmeets_contract = \"fraud\" not in record[\"target\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_FRAUD_TARGET\"\nprint(\"S33-T1-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "unit",
+        "entity_pair",
+        "target",
+        "needs_review_7d"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «unidad, target y horizonte» del paquete indica: La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este workbench es … Resolví S33-T1-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"S33-T1-A\", status). Las pistas (Relaciona los campos `unit, target, horizon` con la regla explicada en S33-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva target needs_review con horizonte y unit; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'unit', 'target', 'horizon'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if \"fraud\" not in record[\"target\"] else \"REJECT_FRAUD_TARGET\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}\nincomplete = {**valid}\nincomplete.pop(\"horizon\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "unit",
+        "target"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «unidad, target y horizonte» del paquete indica: La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este workbench es … Resolví S33-T1-A-E2 (independent) completando el starter sin reescribir fixtures: print(*results). Las pistas (Primero se calcula `missing`; ningún acceso a horizon debe ocurrir antes de esa rama.; Después aplica la regla de S33-T1-A: target needs_review con horizonte y unit. El fixture adverso debe fallar por contenido, no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'unit', 'target', 'horizon'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_HORIZON\"\n    return \"REJECT_FRAUD_TARGET\" if \"fraud\" in record[\"target\"] else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}\nuncertain = {**valid}\nuncertain.pop(\"horizon\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "unit",
+        "target"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «unidad, target y horizonte» del paquete indica: La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este workbench es … Resolví S33-T1-A-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_HORIZON` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró target needs_review con horizonte y unit; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\nmeets_contract = record[\"has_baseline\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_NO_BASELINE\"\nprint(\"S33-T1-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "dummy_acc",
+        "cost",
+        "has_baseline",
+        "meets_contract"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «costos, baseline de regla y dummy estimator» del paquete indica: El dummy majority y una regla simple (x>=thr) anclan el valor mínimo. El costo fp*c_fp+fn*c_fn traduce errores a impacto de cola, no a moral de fraude. En el wo… Resolví S33-T1-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"S33-T1-B\", status). Las pistas (Relaciona los campos `dummy_acc, cost, has_baseline` con la regla explicada en S33-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva baseline y costo no nulos; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'dummy_acc', 'cost', 'has_baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"has_baseline\"] is True else \"REJECT_NO_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}\nincomplete = {**valid}\nincomplete.pop(\"cost\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "dummy_acc",
+        "cost"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «costos, baseline de regla y dummy estimator» del paquete indica: El dummy majority y una regla simple (x>=thr) anclan el valor mínimo. El costo fp*c_fp+fn*c_fn traduce errores a impacto de cola, no a moral de fraude. En el wo… Resolví S33-T1-B-E2 (independent) completando el starter sin reescribir fixtures: print(*results). Las pistas (Primero se calcula `missing`; ningún acceso a cost debe ocurrir antes de esa rama.; Después aplica la regla de S33-T1-B: baseline y costo no nulos. El fixture adverso debe fallar por contenido, no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'dummy_acc', 'cost', 'has_baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_COST\"\n    return \"REJECT_NO_BASELINE\" if record[\"has_baseline\"] is False else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}\nuncertain = {**valid}\nuncertain.pop(\"cost\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "dummy_acc",
+        "cost"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «costos, baseline de regla y dummy estimator» del paquete indica: El dummy majority y una regla simple (x>=thr) anclan el valor mínimo. El costo fp*c_fp+fn*c_fn traduce errores a impacto de cola, no a moral de fraude. En el wo… Resolví S33-T1-B-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_COST` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró baseline y costo no nulos; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\nmeets_contract = record[\"l2\"] != 0\nstatus = \"PASS\" if meets_contract else \"REJECT_UNREGULARIZED\"\nprint(\"S33-T2-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "pred",
+        "meets_contract",
+        "status",
+        "PASS"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «regresión/logística y regularización» del paquete indica: La logística con sigmoid y regularización L2 limita coeficientes grandes. Un umbral convierte probabilidad en priorización de cola, no en veredicto. En el workb… Resolví S33-T2-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"S33-T2-A\", status). Las pistas (Relaciona los campos `p, pred, l2` con la regla explicada en S33-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva sigmoid p con L2>0 y pred binaria; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'pred', 'l2'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"l2\"] != 0 else \"REJECT_UNREGULARIZED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}\nincomplete = {**valid}\nincomplete.pop(\"p\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "pred",
+        "missing"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «regresión/logística y regularización» del paquete indica: La logística con sigmoid y regularización L2 limita coeficientes grandes. Un umbral convierte probabilidad en priorización de cola, no en veredicto. En el workb… Resolví S33-T2-A-E2 (independent) completando el starter sin reescribir fixtures: print(*results). Las pistas (Primero se calcula `missing`; ningún acceso a p debe ocurrir antes de esa rama.; Después aplica la regla de S33-T2-A: sigmoid p con L2>0 y pred binaria. El fixture adverso debe fallar por contenido, no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'p', 'pred', 'l2'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SIGMOID\"\n    return \"REJECT_UNREGULARIZED\" if record[\"l2\"] == 0 else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}\nuncertain = {**valid}\nuncertain.pop(\"p\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "pred",
+        "missing"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «regresión/logística y regularización» del paquete indica: La logística con sigmoid y regularización L2 limita coeficientes grandes. Un umbral convierte probabilidad en priorización de cola, no en veredicto. En el workb… Resolví S33-T2-A-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_SIGMOID` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró sigmoid p con L2>0 y pred binaria; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\nmeets_contract = record[\"scaled\"] is True or record[\"causal\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSCALED_COEF\"\nprint(\"S33-T2-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "coefs",
+        "shared_phone",
+        "scaled",
+        "causal"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «coeficientes, supuestos y scaling» del paquete indica: Comparar |coef| exige features escaladas. El signo indica dirección de asociación en el modelo, no causalidad social ni fraude probado. En el workbench sintétic… Resolví S33-T2-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"S33-T2-B\", status). Las pistas (Relaciona los campos `coefs, scaled, causal` con la regla explicada en S33-T2-B.; El predicado correcto debe ser verdadero porque el fixture conserva coefs scaled con causal=False; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'coefs', 'scaled', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"scaled\"] is False or record[\"causal\"] is True) else \"REJECT_UNSCALED_COEF\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"scaled\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "coefs",
+        "scaled"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «coeficientes, supuestos y scaling» del paquete indica: Comparar |coef| exige features escaladas. El signo indica dirección de asociación en el modelo, no causalidad social Predicado corregido a not(record[\"scaled\"] is False or record[\"causal\"] is True) para que el adverso dispare REJECT_UNSCALED_COEF."
+    },
+    {
+      "exercise_id": "S33-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'coefs', 'scaled', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SCALE_FLAG\"\n    return \"REJECT_UNSCALED_COEF\" if record[\"scaled\"] is False or record[\"causal\"] is True else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}\nuncertain = {**valid}\nuncertain.pop(\"scaled\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "coefs",
+        "scaled"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «coeficientes, supuestos y scaling» del paquete indica: Comparar |coef| exige features escaladas. El signo indica dirección de asociación en el modelo, no causalidad social ni fraude probado. En el workbench sintétic… Resolví S33-T2-B-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_SCALE_FLAG` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró coefs scaled con causal=False; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\nmeets_contract = record[\"depth_unlimited\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_DEPTH_UNLIMITED\"\nprint(\"S33-T3-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "stump_preds",
+        "majority",
+        "depth_unlimited",
+        "meets_contract"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «decisiones y random forest/boosting» del paquete indica: Un stump (árbol profundidad 1) y el voto de varios stumps ilustran ensambles sin APIs pesadas. Profundidad ilimitada overfittea el workbench sintético. En el wo… Resolví S33-T3-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"S33-T3-A\", status). Las pistas (Relaciona los campos `stump_preds, majority, depth_unlimited` con la regla explicada en S33-T3-A.; El predicado correcto debe ser verdadero porque el fixture conserva stump/vote con depth controlada; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'stump_preds', 'majority', 'depth_unlimited'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"depth_unlimited\"] is False else \"REJECT_DEPTH_UNLIMITED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}\nincomplete = {**valid}\nincomplete.pop(\"stump_preds\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "stump_preds",
+        "majority"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «decisiones y random forest/boosting» del paquete indica: Un stump (árbol profundidad 1) y el voto de varios stumps ilustran ensambles sin APIs pesadas. Profundidad ilimitada overfittea el workbench sintético. En el wo… Resolví S33-T3-A-E2 (independent) completando el starter sin reescribir fixtures: print(*results). Las pistas (Primero se calcula `missing`; ningún acceso a stump_preds debe ocurrir antes de esa rama.; Después aplica la regla de S33-T3-A: stump/vote con depth controlada. El fixture adverso debe fallar por contenido, no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'stump_preds', 'majority', 'depth_unlimited'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STUMP\"\n    return \"REJECT_DEPTH_UNLIMITED\" if record[\"depth_unlimited\"] is True else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}\nuncertain = {**valid}\nuncertain.pop(\"stump_preds\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "stump_preds",
+        "majority"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «decisiones y random forest/boosting» del paquete indica: Un stump (árbol profundidad 1) y el voto de varios stumps ilustran ensambles sin APIs pesadas. Profundidad ilimitada overfittea el workbench sintético. En el wo… Resolví S33-T3-A-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_STUMP` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró stump/vote con depth controlada; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\nmeets_contract = not (record[\"train_acc\"] - record[\"valid_acc\"] > 0.2)\nstatus = \"PASS\" if meets_contract else \"REJECT_OVERFIT\"\nprint(\"S33-T3-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "train_acc",
+        "valid_acc",
+        "seed",
+        "meets_contract"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «overfit, profundidad y reproducibilidad» del paquete indica: Gap train−valid > umbral señala overfit. Fijar seed hace comparable la corrida. Sin seed, el workbench no puede auditar regresiones. En el workbench sintético d… Resolví S33-T3-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"S33-T3-B\", status). Las pistas (Relaciona los campos `train_acc, valid_acc, seed` con la regla explicada en S33-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva gap controlado y seed fija; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'train_acc', 'valid_acc', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"train_acc\"] - record[\"valid_acc\"] > 0.2) else \"REJECT_OVERFIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.99, 'valid_acc': 0.6, 'seed': 42}}\nincomplete = {**valid}\nincomplete.pop(\"seed\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "train_acc",
+        "valid_acc"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «overfit, profundidad y reproducibilidad» del paquete indica: Gap train−valid > umbral señala overfit. Fijar seed hace comparable la corrida. Sin seed, el workbench no puede auditar regresiones. En el workbench sintético d… Resolví S33-T3-B-E2 (independent) completando el starter sin reescribir fixtures: print(*results). Las pistas (Primero se calcula `missing`; ningún acceso a seed debe ocurrir antes de esa rama.; Después aplica la regla de S33-T3-B: gap controlado y seed fija. El fixture adverso debe fallar por contenido, no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'train_acc', 'valid_acc', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SEED\"\n    return \"REJECT_OVERFIT\" if record[\"train_acc\"] - record[\"valid_acc\"] > 0.2 else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.99, 'valid_acc': 0.6, 'seed': 42}}\nuncertain = {**valid}\nuncertain.pop(\"seed\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "train_acc",
+        "valid_acc"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «overfit, profundidad y reproducibilidad» del paquete indica: Gap train−valid > umbral señala overfit. Fijar seed hace comparable la corrida. Sin seed, el workbench no puede auditar regresiones. En el workbench sintético d… Resolví S33-T3-B-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_SEED` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró gap controlado y seed fija; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\nmeets_contract = record[\"metrics\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNLOGGED_RUN\"\nprint(\"S33-T4-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "metrics",
+        "accuracy",
+        "beats_dummy",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «pipeline y tracking mínimo» del paquete indica: Un run mínimo registra metrics keys, params y si beats_dummy. Sin log, no hay comparación responsable entre experimentos del workbench. En el workbench sintétic… Resolví S33-T4-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"S33-T4-A\", status). Las pistas (Relaciona los campos `metrics, beats_dummy, run_id` con la regla explicada en S33-T4-A.; El predicado correcto debe ser verdadero porque el fixture conserva metrics no vacías con beats_dummy y run_id; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'metrics', 'beats_dummy', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"metrics\"] else \"REJECT_UNLOGGED_RUN\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {}, 'beats_dummy': False, 'run_id': 'run-1'}}\nincomplete = {**valid}\nincomplete.pop(\"metrics\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "metrics",
+        "beats_dummy"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «pipeline y tracking mínimo» del paquete indica: Un run mínimo registra metrics keys, params y si beats_dummy. Sin log, no hay comparación responsable entre experimentos del workbench. En el workbench sintétic… Resolví S33-T4-A-E2 (independent) completando el starter sin reescribir fixtures: print(*results). Las pistas (Primero se calcula `missing`; ningún acceso a metrics debe ocurrir antes de esa rama.; Después aplica la regla de S33-T4-A: metrics no vacías con beats_dummy y run_id. El fixture adverso debe fallar por contenido, no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'metrics', 'beats_dummy', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_METRICS\"\n    return \"REJECT_UNLOGGED_RUN\" if not record[\"metrics\"] else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {}, 'beats_dummy': False, 'run_id': 'run-1'}}\nuncertain = {**valid}\nuncertain.pop(\"metrics\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "metrics",
+        "beats_dummy"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «pipeline y tracking mínimo» del paquete indica: Un run mínimo registra metrics keys, params y si beats_dummy. Sin log, no hay comparación responsable entre experimentos del workbench. En el workbench sintétic… Resolví S33-T4-A-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_METRICS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró metrics no vacías con beats_dummy y run_id; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\nmeets_contract = record[\"random_split\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_RANDOM_LEAK\"\nprint(\"S33-T4-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "fold_scores",
+        "entities",
+        "random_split",
+        "meets_contract"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «validación cruzada apropiada y error analysis» del paquete indica: Group CV por entidad evita leakage entre folds. El análisis de errores mira el slice con más FN, no solo la media global de folds. En el workbench sintético de … Resolví S33-T4-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"S33-T4-B\", status). Las pistas (Relaciona los campos `fold_scores, entities, random_split` con la regla explicada en S33-T4-B.; El predicado correcto debe ser verdadero porque el fixture conserva group CV con entities y sin random leak; revisa dirección de comparación, conjuntos y negaciones.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'fold_scores', 'entities', 'random_split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"random_split\"] is False else \"REJECT_RANDOM_LEAK\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}\nincomplete = {**valid}\nincomplete.pop(\"entities\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "fold_scores",
+        "entities"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «validación cruzada apropiada y error analysis» del paquete indica: Group CV por entidad evita leakage entre folds. El análisis de errores mira el slice con más FN, no solo la media global de folds. En el workbench sintético de … Resolví S33-T4-B-E2 (independent) completando el starter sin reescribir fixtures: print(*results). Las pistas (Primero se calcula `missing`; ningún acceso a entities debe ocurrir antes de esa rama.; Después aplica la regla de S33-T4-B: group CV con entities y sin random leak. El fixture adverso debe fallar por contenido, no por schema.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    },
+    {
+      "exercise_id": "S33-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'fold_scores', 'entities', 'random_split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_GROUP_IDS\"\n    return \"REJECT_RANDOM_LEAK\" if record[\"random_split\"] is True else \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}\nuncertain = {**valid}\nuncertain.pop(\"entities\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "fold_scores",
+        "entities"
+      ],
+      "justification_from_packet": "Explorer — en S33 la teoría «validación cruzada apropiada y error analysis» del paquete indica: Group CV por entidad evita leakage entre folds. El análisis de errores mira el slice con más FN, no solo la media global de folds. En el workbench sintético de … Resolví S33-T4-B-E3 (transfer) completando el starter sin reescribir fixtures: print(*results). Las pistas (Una ausencia no equivale a breach: enrútala a `REQUEST_GROUP_IDS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró group CV con entities y sin random leak; solo ese caso devuelve `CONTINUE`.) y el iDo del tema anclan el contrato I/O. Sin correctIndex ni material externo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Ser needs_review con horizonte",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S33 («unidad, target y horizonte»), elijo «Ser needs_review con horizonte» (chosen_index=1) para «El target del workbench debe:». Fragmento enseñado: La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este wor… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Dummy/regla y costos",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S33 («costos, baseline de regla y dummy estimator»), elijo «Dummy/regla y costos» (chosen_index=1) para «Antes del modelo ML conviene:». Fragmento enseñado: El dummy majority y una regla simple (x>=thr) anclan el valor mínimo. El costo fp*c_fp+fn*c_fn traduce errores a impacto de cola, no a moral de fraude… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Features scaled y causal=False",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S33 («regresión/logística y regularización»), elijo «Features scaled y causal=False» (chosen_index=1) para «Comparar coeficientes exige:». Fragmento enseñado: La logística con sigmoid y regularización L2 limita coeficientes grandes. Un umbral convierte probabilidad en priorización de cola, no en veredicto. E… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Leakage de la misma entidad entre folds",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S33 («coeficientes, supuestos y scaling»), elijo «Leakage de la misma entidad entre folds» (chosen_index=1) para «Group CV por entidad evita:». Fragmento enseñado: Comparar |coef| exige features escaladas. El signo indica dirección de asociación en el modelo, no causalidad social ni fraude probado. En el workbenc… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:42:12.039470+00:00",
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33
+    ],
+    "note": "Knowledge limited to sequential packets through active section; solved from exercise_batch/quiz_card only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s33-live"
+}

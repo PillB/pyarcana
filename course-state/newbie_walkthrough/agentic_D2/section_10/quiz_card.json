@@ -1,0 +1,439 @@
+{
+  "section_index": 10,
+  "title": "Módulos, packaging y CLI profesional",
+  "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+  "outcomes": [
+    "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+    "Definir API pública estable y helpers privados",
+    "Crear paquete instalable con layout src y pyproject.toml",
+    "Aplicar semver simple y requires-python / deps con criterio",
+    "Implementar subcomandos argparse con exit codes 0/1/2",
+    "Separar stdout (datos) de stderr (diagnóstico)",
+    "Implementar precedencia flags > env > archivo > defaults",
+    "Mantener secretos fuera del repo y validar config al arranque"
+  ],
+  "theory": [
+    {
+      "heading": "Imports, namespaces y __main__",
+      "paragraphs": [
+        "`import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys.modules`. **`__name__`** es el nombre del módulo, o `'__main__'` si se ejecuta como script. En packaging y CLI, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+        "`if __name__ == '__main__':` protege el CLI/demo para que no corra al importar. **`__all__`** documenta la API pública de `from mod import *` (y comunica intención). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+        "Los **imports circulares** se rompen extrayendo un tercer módulo, importando dentro de funciones (lazy) o invirtiendo dependencias. Prefiere diseño a hacks. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Imports, namespaces y __main__»; nunca PII real ni inferencia automática de parentesco/fraude."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Dependencias cíclicas y API pública",
+      "paragraphs": [
+        "Prefijo `_` marca helpers **privados** (convención). La fachada (`__init__.py` o `api.py`) reexporta solo lo estable. En packaging y CLI, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+        "Una **API pública pequeña** (p. ej. 4 símbolos) reduce breaking changes. Versiona la intención: añadir es minor; renombrar/eliminar es major. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+        "Lazy import dentro de funciones evita ciclos y acelera el import del paquete cuando un submódulo es pesado. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Dependencias cíclicas y API pública»; nunca PII real ni inferencia automática de parentesco/fraude."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Layout src, pyproject.toml y builds",
+      "paragraphs": [
+        "Layout **src/**: `src/familiarity_core/...` evita importar el paquete desde el repo sin instalar. `pyproject.toml` declara name, version, requires-python y el build backend (setuptools/hatchling). En packaging y CLI, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+        "`pip install -e .` instala en editable: cambias código y el import refleja al toque. Ideal en desarrollo del CLI. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+        "Si ves `ModuleNotFoundError` post-install, revisa nombre del paquete, packages discovery y el cwd. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Layout src, pyproject.toml y builds»; nunca PII real ni inferencia automática de parentesco/fraude."
+      ],
+      "code": "# fragmento conceptual de pyproject (como dict)\npyproject = {\n    \"project\": {\n        \"name\": \"familiarity-core\",\n        \"version\": \"0.1.0\",\n        \"requires-python\": \">=3.11\",\n        \"dependencies\": [],\n    },\n    \"build-system\": {\n        \"requires\": [\"setuptools>=61\"],\n        \"build-backend\": \"setuptools.build_meta\",\n    },\n}\nprint(pyproject[\"project\"][\"name\"], pyproject[\"project\"][\"version\"])\nprint(\"layout\", \"src/familiarity_core/__init__.py\")"
+    },
+    {
+      "heading": "Versionado y compatibilidad",
+      "paragraphs": [
+        "**SemVer** simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero documenta igual. En packaging y CLI, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+        "`requires-python` y dependencies pinadas con criterio (mínimos, no caos de upper bounds sin razón). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+        "Un **CHANGELOG** real, aunque breve (Added/Changed/Fixed con cambios concretos), evita amnesia entre sprints. Breaking de firma pública se anuncia. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Versionado y compatibilidad»; nunca PII real ni inferencia automática de parentesco/fraude."
+      ],
+      "code": "def bump(version: str, level: str) -> str:\n    maj, minor, patch = map(int, version.split(\".\"))\n    if level == \"major\":\n        return f\"{maj+1}.0.0\"\n    if level == \"minor\":\n        return f\"{maj}.{minor+1}.0\"\n    if level == \"patch\":\n        return f\"{maj}.{minor}.{patch+1}\"\n    raise ValueError(level)\n\nprint(\"0.1.0 + feature subcomando\", bump(\"0.1.0\", \"minor\"))\nprint(\"0.2.0 + fix help text\", bump(\"0.2.0\", \"patch\"))\nprint(\"1.0.0 + rename API\", bump(\"1.0.0\", \"major\"))"
+    },
+    {
+      "heading": "argparse, subcomandos y exit codes",
+      "paragraphs": [
+        "`argparse.ArgumentParser` + **subparsers** modelan `ingest|normalize|compare|report`. Cada subcomando tiene flags propios. En packaging y CLI, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+        "Exit codes: **0** éxito, **2** uso/CLI inválido (argparse default), **1** error de runtime/negocio. Scripts y CI dependen de esto. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+        "Separa el parse de args de la lógica: `main(argv) -> int` retorna el código; el entrypoint hace `sys.exit(main())`. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «argparse, subcomandos y exit codes»; nunca PII real ni inferencia automática de parentesco/fraude."
+      ],
+      "code": "import argparse\n\ndef build_parser() -> argparse.ArgumentParser:\n    p = argparse.ArgumentParser(prog=\"familiarity\")\n    sub = p.add_subparsers(dest=\"cmd\", required=True)\n    sub.add_parser(\"ingest\", help=\"ingerir archivos\")\n    n = sub.add_parser(\"normalize\", help=\"normalizar registros\")\n    n.add_argument(\"--field\", default=\"name\")\n    sub.add_parser(\"compare\")\n    r = sub.add_parser(\"report\")\n    r.add_argument(\"--format\", choices=[\"text\", \"json\"], default=\"text\")\n    return p\n\nfor argv in [[\"normalize\", \"--field\", \"email\"], [\"report\", \"--format\", \"json\"]]:\n    ns = build_parser().parse_args"
+    },
+    {
+      "heading": "stdin/stdout/stderr y ayuda",
+      "paragraphs": [
+        "**stdout** = datos (JSON, CSV). **stderr** = logs y progreso. Así `cmd > out.json` no contamina el archivo. En packaging y CLI, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+        "Soportar path o **`-`** para stdin habilita pipes: `cat data.json | familiarity normalize`. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+        "No mezcles `print` de debug en stdout. Progress bars y logs van a stderr. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «stdin/stdout/stderr y ayuda»; nunca PII real ni inferencia automática de parentesco/fraude."
+      ],
+      "code": "import sys\nfrom io import StringIO\n\ndef normalize_stream(inp: str) -> str:\n    return inp.strip().casefold()\n\n# simula: datos a stdout, log a stderr\ndata_in = \"  Ana Perez  \"\nlog = StringIO()\nlog.write(\"stage=normalize event=start\\n\")\nout = normalize_stream(data_in)\nlog.write(\"stage=normalize event=done\\n\")\nprint(out)  # stdout data\nprint(log.getvalue().strip(), file=sys.stderr)"
+    },
+    {
+      "heading": "Archivo/env/flags y precedencia",
+      "paragraphs": [
+        "Precedencia canónica: **flags CLI > variables de entorno > archivo de config > defaults**. En packaging y CLI, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+        "Documenta la tabla en README. Un flag `--log-level` debe ganar a `FAMILIARITY_LOG_LEVEL`. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+        "Implementa un `merge_config` puro y testeable: dicts por capa, reduce de menor a mayor prioridad. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Archivo/env/flags y precedencia»; nunca PII real ni inferencia automática de parentesco/fraude."
+      ],
+      "code": "def merge_config(defaults, file_cfg, env_cfg, flags):\n    out = {}\n    out.update(defaults)\n    out.update({k: v for k, v in file_cfg.items() if v is not None})\n    out.update({k: v for k, v in env_cfg.items() if v is not None})\n    out.update({k: v for k, v in flags.items() if v is not None})\n    return out\n\ncfg = merge_config(\n    {\"log_level\": \"INFO\", \"jobs\": 1},\n    {\"log_level\": \"WARNING\"},\n    {\"log_level\": \"DEBUG\"},\n    {\"log_level\": \"ERROR\"},\n)\nprint(cfg)"
+    },
+    {
+      "heading": "Secretos, defaults y validación temprana",
+      "paragraphs": [
+        "Secretos **fuera del repo**: `.env` en `.gitignore`, nunca en logs. El ETL local de este nivel **no inventa un API token**: solo un adaptador remoto futuro podría exigirlo. Defaults seguros (log level INFO, no debug PII). En packaging y CLI, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta módulo instalable + CLI auditable sin inventar hechos sobre personas reales.",
+        "`validate_config()` al arranque reporta qué clave falta y qué subcomando la exige: `input_path` para ingest y `manifest_path` para report. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: importlib, argparse, pyproject conceptual (S01–S10); no sklearn real, no packaging cloud.",
+        "Fail-fast de config evita procesar 10k filas con un path mal tipeado. Caso sintético Perú: CLI local que emite scores sintéticos y exit codes. Documenta decisión, métrica y límite conocido en el memo del subtema «Secretos, defaults y validación temprana»; nunca PII real ni inferencia automática de parentesco/fraude."
+      ],
+      "code": "def validate_config(cfg: dict, command: str) -> None:\n    required_always = [\"log_level\"]\n    for k in required_always:\n        if not cfg.get(k):\n            raise RuntimeError(f\"config: falta {k}\")\n    required_by_command = {\"ingest\": \"input_path\", \"report\": \"manifest_path\"}\n    required = required_by_command.get(command)\n    if required and not cfg.get(required):\n        raise RuntimeError(f\"config: falta {required} para {command}\")\n\nvalidate_config({\"log_level\": \"INFO\"}, \"normalize\")\nprint(\"normalize ok\")\ntry:\n    validate_config({\"log_level\": \"INFO\"}, \"ingest\")\nexcept RuntimeError as e:\n "
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S10-T1-A-DEMO",
+      "description": "Separar normalize y cli en funciones; demo con guard __main__.",
+      "why": "La lógica vive en normalize; el entrypoint solo orquesta.",
+      "code": "__all__ = [\"normalize\"]\n\ndef normalize(text: str) -> str:\n    return \" \".join(text.split()).casefold()\n\ndef main(argv=None) -> int:\n    import sys\n    args = argv if argv is not None else [\"  Ana  \"]\n    print(normalize(args[0]))\n    return 0\n\n# al importar no corre main; lo invocamos explícito\nassert normalize(\"X\") == \"x\"\nraise SystemExit(main([\"  José Pérez \"]))"
+    },
+    {
+      "demoId": "S10-T1-B-DEMO",
+      "description": "Fachada que exporta solo 4 símbolos públicos.",
+      "why": "Cuatro símbolos estables; helpers con _ fuera de la API.",
+      "code": "def _private_token(s: str) -> list[str]:\n    return s.split()\n\ndef normalize(s: str) -> str:\n    return \" \".join(_private_token(s)).casefold()\n\ndef compare(a: str, b: str) -> float:\n    return 1.0 if normalize(a) == normalize(b) else 0.0\n\ndef ingest_row(row: dict) -> dict:\n    return {**row, \"name\": normalize(row.get(\"name\", \"\"))}\n\ndef report(rows: list) -> int:\n    return len(rows)\n\n__all__ = [\"normalize\", \"compare\", \"ingest_row\", \"report\"]\nprint(\"exports\", __all__)\nprint(compare(\"Ana\", \" ana \"))\nprint(report([ingest_row({\"name\": \" Luis \"})]))"
+    },
+    {
+      "demoId": "S10-T2-A-DEMO",
+      "description": "Modelo mínimo de layout src + metadatos instalables.",
+      "why": "El layout src + pyproject es el contrato de packaging del curso.",
+      "code": "from pathlib import PurePosixPath\n\nlayout = [\n    \"src/familiarity_core/__init__.py\",\n    \"src/familiarity_core/normalize.py\",\n    \"src/familiarity_core/cli.py\",\n    \"pyproject.toml\",\n    \"README.md\",\n]\nfor p in layout:\n    print(PurePosixPath(p))\nmeta = {\"name\": \"familiarity-core\", \"version\": \"0.1.0\"}\nprint(\"editable_install\", f\"pip install -e .  # {meta}\")"
+    },
+    {
+      "demoId": "S10-T2-B-DEMO",
+      "description": "Bump 0.1.0 → 0.2.0 por subcomando nuevo (minor).",
+      "why": "Feature compatible sube minor; documenta en CHANGELOG.",
+      "code": "def classify_change(description: str) -> str:\n    d = description.lower()\n    if \"breaking\" in d or \"rename api\" in d:\n        return \"major\"\n    if \"add\" in d or \"subcomando\" in d or \"feature\" in d:\n        return \"minor\"\n    return \"patch\"\n\ndef bump(v: str, kind: str) -> str:\n    a, b, c = map(int, v.split(\".\"))\n    return {\n        \"major\": f\"{a+1}.0.0\",\n        \"minor\": f\"{a}.{b+1}.0\",\n        \"patch\": f\"{a}.{b}.{c+1}\",\n    }[kind]\n\nch = \"add subcomando report\"\nkind = classify_change(ch)\nprint(ch, \"->\", kind, bump(\"0.1.0\", kind))"
+    },
+    {
+      "demoId": "S10-T3-A-DEMO",
+      "description": "CLI con subcomandos ingest|normalize|compare|report y exit codes.",
+      "why": "Subparsers + return codes hacen la CLI operable en scripts.",
+      "code": "import argparse\n\ndef main(argv: list[str]) -> int:\n    p = argparse.ArgumentParser(prog=\"familiarity\")\n    sub = p.add_subparsers(dest=\"cmd\", required=True)\n    sub.add_parser(\"ingest\")\n    sub.add_parser(\"normalize\")\n    sub.add_parser(\"compare\")\n    r = sub.add_parser(\"report\")\n    r.add_argument(\"--format\", default=\"text\")\n    try:\n        ns = p.parse_args(argv)\n    except SystemExit as e:\n        # argparse ya usa 2 en usage errors cuando no se intercepta;\n        # aquí re-lanzamos código\n        return int(e.code) if e.code is not None else 2\n    if ns.cmd == \"report\":\n        print(f\"report format={ns.format}\")\n        return 0\n    print(f\"run {ns.cmd}\")\n    return 0\n\nprint(\"code\", main([\"report\", \"--format\", \"json\"]))\nprint(\"code\", main([\"normalize\"]))"
+    },
+    {
+      "demoId": "S10-T3-B-DEMO",
+      "description": "Datos a stdout y diagnóstico a stderr (simula pipe normalize).",
+      "why": "El pipe de datos queda limpio; logs viven en stderr.",
+      "code": "import sys\nfrom io import StringIO\n\ndef normalize_cmd(raw: str, err: StringIO) -> str:\n    err.write(\"stage=normalize event=start\\n\")\n    out = raw.strip().casefold()\n    err.write(\"stage=normalize event=done\\n\")\n    return out\n\nstderr = StringIO()\ndata = normalize_cmd('  {\"name\": \"Ana\"}  ', stderr)\nprint(data)  # stdout\nprint(\"--- stderr ---\")\nprint(stderr.getvalue().strip())"
+    },
+    {
+      "demoId": "S10-T4-A-DEMO",
+      "description": "FAMILIARITY_LOG_LEVEL vs --log-level: gana el flag.",
+      "why": "Precedencia flags > env > default documentada y testeable.",
+      "code": "def resolve_log_level(default=\"INFO\", env=None, flag=None) -> str:\n    level = default\n    if env:\n        level = env\n    if flag:\n        level = flag\n    return level\n\nprint(\"solo env\", resolve_log_level(env=\"DEBUG\"))\nprint(\"flag gana\", resolve_log_level(env=\"DEBUG\", flag=\"ERROR\"))\nprint(\"default\", resolve_log_level())"
+    },
+    {
+      "demoId": "S10-T4-B-DEMO",
+      "description": "Abort con mensaje exacto si falta el path requerido por el subcomando local.",
+      "why": "Validación temprana y contextual, sin exigir secretos irrelevantes al ETL local.",
+      "code": "REQUIRED = {\"ingest\": \"input_path\", \"report\": \"manifest_path\"}\n\ndef validate(command: str, cfg: dict) -> None:\n    key = REQUIRED.get(command)\n    if key and not cfg.get(key):\n        raise SystemExit(f\"config: falta {key} para {command}\")\n\nvalidate(\"normalize\", {})\nprint(\"normalize ok\")\ntry:\n    validate(\"ingest\", {})\nexcept SystemExit as e:\n    print(\"abort\", e)\nvalidate(\"ingest\", {\"input_path\": \"data/clients.csv\"})\nprint(\"ingest ok\")"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Para qué sirve `if __name__ == '__main__'`?",
+      "options": [
+        "Acelerar el interpreter",
+        "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+        "Definir __all__",
+        "Instalar dependencias"
+      ]
+    },
+    {
+      "question": "Precedencia correcta de config…",
+      "options": [
+        "defaults > flags > env > file",
+        "env > flags > file > defaults",
+        "file > flags > env > defaults",
+        "flags > env > file > defaults"
+      ]
+    },
+    {
+      "question": "Exit code 2 en CLI argparse suele significar…",
+      "options": [
+        "Error de uso/parseo de argumentos",
+        "Éxito",
+        "Timeout de red",
+        "Fraude detectado"
+      ]
+    },
+    {
+      "question": "¿Dónde van los logs de progreso?",
+      "options": [
+        "stdout con el JSON",
+        "en el nombre del archivo",
+        "stderr",
+        "en __all__"
+      ]
+    },
+    {
+      "question": "Añadir un subcomando nuevo compatible es tipicamente…",
+      "options": [
+        "major",
+        "minor",
+        "borrar el repo",
+        "patch obligatorio siempre"
+      ]
+    },
+    {
+      "question": "¿Qué no debe ir al git del paquete?",
+      "options": [
+        "README.md",
+        "pyproject.toml",
+        "src/.../__init__.py",
+        ".env con API_TOKEN"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S10-T1-A-E1",
+      "instruction": "E1 (guiado) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Crea un módulo lógico con función pública `clean` y `__all__ = ['clean']`. Salida/pass: `['clean'] | x`. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "Helper privado con _ no va en __all__.",
+        "Imprime __all__ y clean('  X ')."
+      ],
+      "kind": "guided",
+      "starterCode": "def _ws(s: str) -> str:\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T1-A-E2",
+      "instruction": "E2 (independiente) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Simula un import circular y arréglalo extrayendo un util compartido. Salida/pass: `hola:a | hola:b | ok`. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "a importa b y b importa a → rompe; mueve la función común a util.",
+        "Imprime ok desde ambos lados."
+      ],
+      "kind": "independent",
+      "starterCode": "def util_norm(s: str) -> str:\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T1-A-E3",
+      "instruction": "E3 (transferencia) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Elige import absoluto vs relativo en layout src: imprime la recomendación para 3 casos. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "Dentro del paquete: relativo OK; plugins externos: absoluto; scripts: -m.",
+        "Formato caso -> recomendación."
+      ],
+      "kind": "transfer",
+      "starterCode": "recs = {\n    \"normalize.py importa compare en el mismo paquete\": \"relativo o absoluto del paquete (from . import compare)\",\n    \"plugin externo usa familiarity_core\": \"absoluto (import familiarity_core)\",\n    \"ejecutar el CLI del paquete\": \"python -m familiarity_core\",\n}\nfor c, r in recs.items():\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T1-B-E1",
+      "instruction": "E1 (guiado) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Marca helpers privados con _ y deja públicas solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "Imprime lista public vs private detectada por nombre.",
+        "Usa dir() filtrado o una lista explícita."
+      ],
+      "kind": "guided",
+      "starterCode": "def _tokenize(s):\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T1-B-E2",
+      "instruction": "E2 (independiente) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implementa una fachada que reexporta normalize y compare e imprime __all__. Salida/pass: `['normalize', 'compare'] | True`. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "Las implementaciones pueden ser locales.",
+        "from-style reexport simulado."
+      ],
+      "kind": "independent",
+      "starterCode": "def normalize(s: str) -> str:\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T1-B-E3",
+      "instruction": "E3 (transferencia) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Documenta un breaking change de firma pública: old → new y versión major. Salida/pass: primeros tokens de `BREAKING: compare(a,b)->bool  =>  compare(a,b)->fl…` según solution. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no.",
+      "hints": [
+        "Imprime BREAKING y NEW_VERSION.",
+        "Ejemplo: compare(a,b)->bool se vuelve compare(a,b)->float score."
+      ],
+      "kind": "transfer",
+      "starterCode": "pass  # fixture vacío — usa solution contract\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T2-A-E1",
+      "instruction": "E1 (guiado) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Completa un dict estilo pyproject con name y version e imprímelos. Salida/pass: primeros tokens de `{'name': 'familiarity-core', 'version': '0.1.0', '…` según solution. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud;.",
+      "hints": [
+        "name=familiarity-core version=0.1.0",
+        "Incluye requires-python >=3.11."
+      ],
+      "kind": "guided",
+      "starterCode": "project = {\n    \"name\": \"familiarity-core\",\n    \"version\": \"0.1.0\",\n    \"requires-python\": \">=3.11\",\n}\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T2-A-E2",
+      "instruction": "E2 (independiente) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Lista el layout src mínimo de un paquete importable e imprime cada path. Salida/pass: primeros tokens de `src/familiarity_core/__init__.py | src/familiarity…` según solution. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no.",
+      "hints": [
+        "Incluye __init__.py, normalize.py, cli.py, pyproject.toml.",
+        "Usa prefijo src/familiarity_core/."
+      ],
+      "kind": "independent",
+      "starterCode": "paths = [\n    \"src/familiarity_core/__init__.py\",\n    \"src/familiarity_core/normalize.py\",\n    \"src/familiarity_core/cli.py\",\n    \"pyproject.toml\",\n]\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T2-A-E3",
+      "instruction": "E3 (transferencia) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Diagnostica ModuleNotFoundError: imprime 3 causas probables post-install. Salida/pass: primeros tokens de `cause: paquete no instalado (falta pip install -e …` según solution. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no.",
+      "hints": [
+        "Piensa en nombre, editable, y cwd.",
+        "Formato cause: ..."
+      ],
+      "kind": "transfer",
+      "starterCode": "causes = [\n    \"cause: paquete no instalado (falta pip install -e .)\",\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T2-B-E1",
+      "instruction": "E1 (guiado) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Clasifica 4 cambios en major/minor/patch. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "Breaking → major; feature → minor; fix → patch.",
+        "Imprime cambio: nivel."
+      ],
+      "kind": "guided",
+      "starterCode": "niveles = {\n    \"renombrar normalize a clean_name (API pública)\": \"major\",\n    \"añadir flag --format a report\": \"minor\",\n    \"corregir typo en help\": \"patch\",\n    \"eliminar subcomando compare\": \"major\",\n}\nfor c, n in niveles.items():\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T2-B-E2",
+      "instruction": "E2 (independiente) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Fija dependencies mínimas del paquete (puede ser lista vacía + note) e imprime requires-python. Salida/pass: primeros tokens de `{'requires-python': '>=3.11', 'dependencies': [], …` según solution. Conserva el contrato del starter (no borres asserts ni datos); no.",
+      "hints": [
+        "Para N1 stdlib: dependencies=[].",
+        "requires-python>=3.11."
+      ],
+      "kind": "independent",
+      "starterCode": "deps = {\n    \"requires-python\": \">=3.11\",\n    \"dependencies\": [],\n    \"optional-dependencies\": {\"dev\": [\"pytest\"]},\n}\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T2-B-E3",
+      "instruction": "E3 (transferencia) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe una política de compatibilidad hacia S11 dominio (3 bullets). Salida/pass: primeros tokens de `POLICY: renombrar ClientRecord es MAJOR; documenta…` según solution. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging.",
+      "hints": [
+        "Cubrir renames de entidades y versiones.",
+        "Imprime POLICY líneas."
+      ],
+      "kind": "transfer",
+      "starterCode": "# fixture\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T3-A-E1",
+      "instruction": "E1 (guiado) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Añade subcomando report con --format text|json y parsea un argv de ejemplo. Salida/pass: `Namespace(cmd='report', format='json')`. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "Usa argparse subparsers.",
+        "Imprime el namespace."
+      ],
+      "kind": "guided",
+      "starterCode": "import argparse\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T3-A-E2",
+      "instruction": "E2 (independiente) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Mapea situaciones a exit codes 0/1/2 e imprime `caso: code`. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "0 éxito, 1 runtime, 2 usage.",
+        "Cinco casos."
+      ],
+      "kind": "independent",
+      "starterCode": "codes = {\n    \"normalize ok\": 0,\n    \"archivo de input no existe\": 1,\n    \"flag desconocido\": 2,\n    \"subcomando ausente\": 2,\n    \"validación de config falla al arrancar\": 1,\n}\nfor c, code in codes.items():\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T3-A-E3",
+      "instruction": "E3 (transferencia) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe 3 líneas de ayuda --help orientadas a operador no dev. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "Evita jerga de frameworks.",
+        "Imprime HELP: ..."
+      ],
+      "kind": "transfer",
+      "starterCode": "# fixture\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T3-B-E1",
+      "instruction": "E1 (guiado) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe resultado a stdout y un log a stderr (capturado con StringIO en la demo). Salida/pass: `6 | stderr: event=done`. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "Función process(n) retorna n*2; log event=done.",
+        "Imprime ambos streams."
+      ],
+      "kind": "guided",
+      "starterCode": "from io import StringIO\nimport sys\n\ndef process(n: int, err: StringIO) -> int:\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T3-B-E2",
+      "instruction": "E2 (independiente) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implementa `read_input(path_or_dash, stdin_text)` que lee path o '-' como stdin. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "Si path=='-', usa stdin_text.",
+        "Prueba ambos modos."
+      ],
+      "kind": "independent",
+      "starterCode": "def read_input(path_or_dash, stdin_text=\"\", file_text=None):\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T3-B-E3",
+      "instruction": "E3 (transferencia) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Revisa un CLI que contamina stdout con prints de progreso y propón la salida limpia. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "Imprime BAD y GOOD.",
+        "GOOD solo JSON final."
+      ],
+      "kind": "transfer",
+      "starterCode": "from io import StringIO\n\ndef bad_cli():\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T4-A-E1",
+      "instruction": "E1 (guiado) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Imprime la tabla de precedencia de 4 capas (1=más baja … 4=más alta). Salida/pass: `1:defaults | 2:file | 3:env | 4:flags`. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "defaults < file < env < flags.",
+        "Formato rank:layer"
+      ],
+      "kind": "guided",
+      "starterCode": "layers = [\"defaults\", \"file\", \"env\", \"flags\"]\nfor i, name in enumerate(layers, 1):\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T4-A-E2",
+      "instruction": "E2 (independiente) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implementa `merge(defaults, file_cfg, env_cfg, flags)` ignorando None en capas altas. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "Prueba con log_level en todas las capas.",
+        "El flag debe ganar."
+      ],
+      "kind": "independent",
+      "starterCode": "def merge(defaults, file_cfg, env_cfg, flags):\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T4-A-E3",
+      "instruction": "E3 (transferencia) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Caso conflictivo: env=DEBUG y flag=INFO — imprime el resultado esperado y por qué. Salida/pass: primeros tokens de `result=INFO | razon=el flag CLI tiene mayor preced…` según solution. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real,.",
+      "hints": [
+        "Una línea result= y una razón.",
+        "Español claro."
+      ],
+      "kind": "transfer",
+      "starterCode": "pass  # fixture vacío — usa solution contract\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T4-B-E1",
+      "instruction": "E1 (guiado) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Checklist de secretos en .gitignore: imprime 4 entradas típicas. Salida/pass: primeros tokens de `ignore: .env | ignore: .env.* | ignore: *.pem | ig…` según solution. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "Incluye .env, *.pem, credentials.json, .venv opcional no es secreto pero sí local.",
+        "Formato ignore: ..."
+      ],
+      "kind": "guided",
+      "starterCode": "# fixture\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T4-B-E2",
+      "instruction": "E2 (independiente) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implementa `validate_config(cfg)` que exige log_level y data_dir; errores claros. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no sklearn real, no packaging cloud; solo importlib, argparse, pyproject conceptual (S01–S10).",
+      "hints": [
+        "Raise RuntimeError con nombre de clave.",
+        "Prueba ok y fail."
+      ],
+      "kind": "independent",
+      "starterCode": "def validate_config(cfg: dict) -> None:\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    },
+    {
+      "id": "S10-T4-B-E3",
+      "instruction": "E3 (transferencia) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Dado un default inseguro (log_level=DEBUG y echo_sql=True), propone defaults seguros. Salida/pass: primeros tokens de `log_level: 'DEBUG' -> 'INFO' | echo_sql: True -> F…` según solution. Conserva el contrato del starter (no borres asserts ni datos); no sklearn.",
+      "hints": [
+        "Imprime old → new por clave.",
+        "Sin secretos en defaults."
+      ],
+      "kind": "transfer",
+      "starterCode": "inseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}\nseguro = {\"log_level\": \"INFO\", \"echo_sql\": False, \"api_token\": None}\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+    }
+  ],
+  "packet_sha": "8b461ffa87af3bfa",
+  "attempt_id": "agentic_D2"
+}

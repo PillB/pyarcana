@@ -1,0 +1,505 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D2",
+  "section_index": 3,
+  "packet_sha": "06e920dd4f6b4cf2",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S03-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "edad = 25\nregion = \"Cusco\"\n\nprint(edad >= 18)\nprint(edad < 65)\nprint(18 <= edad <= 65)\nprint(region == \"Lima\")\nprint(region != \"Piura\")\n# D2-Skeptic: packet-only re-walk S03 S03-T1-A-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "edad",
+        "region",
+        "Cusco",
+        "Lima",
+        "Piura",
+        "guiado",
+        "Con",
+        "imprime"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T1-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Con `edad = 25` y `region = \"Cusco\"`, imprime el booleano de: `edad >= 18`, `edad < 65`, `18 <= edad <= 65`, `region == \"Lima\"`, `region != \"Piura\"`.. Hints: Usa print(expresion) directamente; no hace falta if todavía.; El encadenamiento 18 <= edad <= 65 es True para 25. region == \"Lima\" es False.. Entrega: «edad = 25 region = \"Cusco\"  print(edad >= 18) print(edad < 65) print(18 <= edad <= 65) print(region == \"Lima\") print(region != \"Piura\") ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t in TIPOS_DOC)\n# D2-Skeptic: packet-only re-walk S03 S03-T1-A-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "TIPOS_DOC",
+        "DNI",
+        "PAS",
+        "dni",
+        "RUC",
+        "independiente",
+        "Define",
+        "Para"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T1-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Define `TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}`. Para cada valor en `[\"DNI\", \"dni\", \"RUC\"]`, imprime si está en la allowlist (`in`).. Hints: for t in lista: print(t, \"→\", t in TIPOS_DOC); Case sensitivity: \"dni\" ≠ \"DNI\". RUC no está en el set.. Entrega: «TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"} for t in [\"DNI\", \"dni\", \"RUC\"]:     print(t, \"→\", t in TIPOS_DOC) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "valor = None\nprint(\"valor is None →\", valor is None)\nprint(\"True == 1 →\", True == 1)\nprint(\"True is 1 →\", True is 1)\nprint(\"Nota:\", \"usa is None para ausencia; == para valores de negocio, nunca is con enteros\")\n# D2-Skeptic: packet-only re-walk S03 S03-T1-A-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "valor",
+        "Nota",
+        "usa",
+        "para",
+        "ausencia",
+        "valores",
+        "negocio",
+        "nunca"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T1-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Diagnóstico: imprime `valor is None` con `valor = None`, luego `True == 1` y `True is 1`. Explica en un print cuándo usar `is` vs `==` en validadores de intake.. Hints: is None para ausencia; == para valores de negocio. No uses is con enteros.; True == 1 es True (bool subtipo int) pero True is 1 es False: identidad ≠ igualdad.. Entrega: «valor = None print(\"valor is None →\", valor is None) print(\"True == 1 →\", True == 1) print(\"True is 1 →\", True is 1) print(\"Nota:\", \"usa is ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", bool(v))\n# D2-Skeptic: packet-only re-walk S03 S03-T1-B-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "vals",
+        "set",
+        "range",
+        "repr",
+        "bool",
+        "guiado",
+        "Tabla",
+        "truthiness"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T1-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Tabla truthiness: imprime `bool(v)` para `None`, `False`, `0`, `0.0`, `\"\"`, `[]`, `{}`, `set()`, `range(0)`, `\"x\"`, `1`, `[0]`.. Hints: for v in lista: print(repr(v), \"→\", bool(v)); range(0) es falsy; [0] es truthy (lista no vacía).. Entrega: «vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]] for v in vals:     print(repr(v), \"→\", bool(v)) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"'' or 'default' →\", \"\" or \"default\")\nprint(\"'Lima' or 'default' →\", \"Lima\" or \"default\")\nprint(\"0 and 99 →\", 0 and 99)\nprint(\"5 and 99 →\", 5 and 99)\nprint(\"None or 0 →\", None or 0)\n# D2-Skeptic: packet-only re-walk S03 S03-T1-B-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "default",
+        "Lima",
+        "independiente",
+        "Predice",
+        "imprime"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T1-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Predice e imprime: `'' or 'default'`, `'Lima' or 'default'`, `0 and 99`, `5 and 99`, `None or 0`.. Hints: and/or devuelven operando, no necesariamente bool. Short-circuit: or se detiene en el primero truthy.; '' or 'default' → 'default'; 0 and 99 → 0; None or 0 → 0.. Entrega: «print(\"'' or 'default' →\", \"\" or \"default\") print(\"'Lima' or 'default' →\", \"Lima\" or \"default\") print(\"0 and 99 →\", 0 and 99) print(\"5 and 9». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))\n# D2-Skeptic: packet-only re-walk S03 S03-T1-B-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "validate_monto",
+        "review",
+        "reject",
+        "accept",
+        "transferencia",
+        "Bug",
+        "validador",
+        "hace"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T1-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Bug: un validador hace `if not monto: return \"reject\"`. Reescribe `validate_monto(m)` con `is None` para review, `< 0` reject, y accept para 0 y positivos. Prueba `None`, `0`, `-1`, `100`.. Hints: Nunca uses truthiness para montos. if m is None primero.; 0 debe devolver accept; None → review; negativo → reject.. Entrega: «def validate_monto(m):     if m is None:         return \"review\"     if m < 0:         return \"reject\"     return \"accept\"  for m in [None, ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))\n# D2-Skeptic: packet-only re-walk S03 S03-T2-A-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "classify_score",
+        "score",
+        "int",
+        "str",
+        "accept",
+        "elif",
+        "review",
+        "else"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T2-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Completa `classify_score`: ≥80 accept, ≥50 review, else reject. Imprime resultados para 80, 50, 49, 100.. Hints: if score >= 80: ... elif score >= 50: ... else: ...; Fronteras: 80 es accept; 50 es review; 49 es reject.. Entrega: «def classify_score(score: int) -> str:     if score >= 80:         return \"accept\"     elif score >= 50:         return \"review\"     else:  ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))\n# D2-Skeptic: packet-only re-walk S03 S03-T2-A-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "bad",
+        "score",
+        "status",
+        "accept",
+        "review",
+        "reject",
+        "good",
+        "elif"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T2-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — La función `bad` usa ifs independientes y clasifica mal el 95 (queda review). Reescribe `good` con if/elif/else y compara ambos en 95, 60, 30.. Hints: El segundo if score >= 50 pisa el accept. Usa elif para exclusión mutua.; good(95) debe ser accept; bad(95) es review.. Entrega: «def bad(score):     status = None     if score >= 80:         status = \"accept\"     if score >= 50:         status = \"review\"     if score <». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in [150, 75, 10, 0, -3]:\n    print(n, \"→\", band(n))\n# D2-Skeptic: packet-only re-walk S03 S03-T2-A-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "band",
+        "alto",
+        "elif",
+        "medio",
+        "bajo",
+        "else",
+        "nulo",
+        "transferencia"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T2-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Traza mentalmente y luego implementa `band(n)`: `>100` alto, `>50` medio, `>0` bajo, else nulo. Verifica 150, 75, 10, 0, -3.. Hints: Orden: primero el umbral más alto. else cubre 0 y negativos.; 0 no es > 0 → nulo. 75 no es >100 pero sí >50 → medio.. Entrega: «def band(n):     if n > 100:         return \"alto\"     elif n > 50:         return \"medio\"     elif n > 0:         return \"bajo\"     else:  ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int) or isinstance(edad, bool):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    if edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))\n# D2-Skeptic: packet-only re-walk S03 S03-T2-B-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "validate_edad",
+        "edad",
+        "status",
+        "review",
+        "code",
+        "MISSING",
+        "not",
+        "isinstance"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T2-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Completa guards en `validate_edad`: None → MISSING/review; no int → BAD_TYPE/reject; luego OUT_OF_RANGE / NEEDS_REVIEW / OK como en la demo. Prueba None, \"25\", 15, 30.. Hints: if edad is None primero; luego isinstance; no compares None con <.; return dicts con status y code; el camino feliz es el último return.. Entrega: «def validate_edad(edad):     if edad is None:         return {\"status\": \"review\", \"code\": \"MISSING\"}     if not isinstance(edad, int) or isi». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def validate_monto_nested(m):\n    if m is not None:\n        if isinstance(m, int):\n            if m >= 0:\n                if m <= 10000:\n                    return \"accept\"\n                else:\n                    return \"review\"\n            else:\n                return \"reject\"\n        else:\n            return \"reject\"\n    else:\n        return \"review\"\n\ndef validate_monto_guards(m):\n    if m is None:\n        return \"review\"\n    if not isinstance(m, int) or isinstance(m, bool):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m <= 10000:\n        return \"accept\"\n    return \"review\"\n\nfor m in [None, \"x\", -1, 0, 500, 20000]:\n    print(m, nested=validate_monto_nested(m) if not isinstance(m, str) else validate_monto_nested(m),\n          guards=validate_monto_guards(m) if True else None)\n    print(m, \"→\", validate_monto_nested(m), validate_monto_guards(m))\n# D2-Skeptic: packet-only re-walk S03 S03-T2-B-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "validate_monto_nested",
+        "not",
+        "isinstance",
+        "int",
+        "accept",
+        "else",
+        "review",
+        "reject"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T2-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Refactoriza la pirámide anidada de `validate_monto_nested` a guards lineales con la misma semántica: None review, no int reject, <0 reject, 0–10000 accept, else review (outlier).. Hints: Invierte el anidamiento: un if + return por precondición.; Compara salidas con la función nested en los mismos casos de prueba.. Entrega: «def validate_monto_nested(m):     if m is not None:         if isinstance(m, int):             if m >= 0:                 if m <= 10000:    ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def gate(row):\n    if row.get(\"doc_type\") not in {\"DNI\", \"CE\", \"PAS\"}:\n        return \"reject\"\n    if row.get(\"edad\") is None:\n        return \"review\"\n    if row.get(\"monto\", 0) < 0:\n        return \"reject\"\n    return \"accept\"\n\nrows = [\n    {\"doc_type\": \"DNI\", \"edad\": 30, \"monto\": 10},\n    {\"doc_type\": \"RUC\", \"edad\": 30, \"monto\": 10},\n    {\"doc_type\": \"CE\", \"edad\": None, \"monto\": 10},\n    {\"doc_type\": \"PAS\", \"edad\": 40, \"monto\": -1},\n]\nfor r in rows:\n    print(r, \"→\", gate(r))\n# D2-Skeptic: packet-only re-walk S03 S03-T2-B-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "gate",
+        "row",
+        "get",
+        "doc_type",
+        "not",
+        "DNI",
+        "PAS",
+        "reject"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T2-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — En el snippet, identifica la rama muerta: imprime cuál `elif` nunca corre y por qué. Luego reordena/corrige para que `x == 0` sea alcanzable y muestre `cero`.. Hints: Mira el orden: cualquier condición ya cubierta por un if anterior es inalcanzable.; Corrige: if x > 0 / elif x < 0 / else (cero), o chequea x == 0 primero.. Entrega: «def gate(row):     if row.get(\"doc_type\") not in {\"DNI\", \"CE\", \"PAS\"}:         return \"reject\"     if row.get(\"edad\") is None:         retur». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def label_region(r):\n    match r:\n        case \"Lima\":\n            return \"capital\"\n        case \"Cusco\" | \"Arequipa\":\n            return \"andina\"\n        case _:\n            return \"otra\"\n\nfor r in [\"Lima\", \"Cusco\", \"Piura\", \"Arequipa\"]:\n    print(r, \"→\", label_region(r))\n# D2-Skeptic: packet-only re-walk S03 S03-T3-A-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "label_region",
+        "match",
+        "case",
+        "Lima",
+        "capital",
+        "Cusco",
+        "Arequipa",
+        "andina"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T3-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — `ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}`. Escribe `check_region(r)`: None → review; not in ALLOWED → review; else accept. Prueba Lima, Tacna, None.. Hints: if r is None / if r not in ALLOWED / return accept; Región desconocida → review (no reject) en esta política sintética.. Entrega: «def label_region(r):     match r:         case \"Lima\":             return \"capital\"         case \"Cusco\" | \"Arequipa\":             return \"a». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def status_code(code: int) -> str:\n    match code:\n        case 200:\n            return \"ok\"\n        case 400 | 404:\n            return \"client_error\"\n        case 500:\n            return \"server_error\"\n        case _:\n            return \"other\"\n\nfor c in [200, 400, 404, 500, 302]:\n    print(c, \"→\", status_code(c))\n# D2-Skeptic: packet-only re-walk S03 S03-T3-A-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "status_code",
+        "code",
+        "int",
+        "str",
+        "match",
+        "case",
+        "client_error",
+        "server_error"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T3-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — `monto_ingreso(m)`: None → review; <0 → reject; >50000 → review (outlier); else accept (incluye 0). Casos: None, -1, 0, 1200, 60000.. Hints: Orden: ausencia, hard reject, outlier review, accept.; 0 es accept; 60000 es review, no reject.. Entrega: «def status_code(code: int) -> str:     match code:         case 200:             return \"ok\"         case 400 | 404:             return \"cli». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# match/case brilla con literales/estados finitos y case _; if/elif mejor para rangos y guards complejos\nprint(\"match: códigos finitos; if: umbrales numéricos y precondiciones is None\")\n# D2-Skeptic: packet-only re-walk S03 S03-T3-A-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "match",
+        "case",
+        "brilla",
+        "con",
+        "literales",
+        "estados",
+        "finitos",
+        "elif"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T3-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Combina allowlist de tipo_doc `{\"DNI\",\"CE\",\"PAS\"}` con longitudes DNI=8, CE=9, PAS=9. Devuelve dict status/code: MISSING, NOT_IN_ALLOWLIST, OUT_OF_RANGE, OK. Casos: DNI+8 dígitos, DNI corto, RUC, Non. Hints: Primero None, luego not in allowlist, luego len != esperado.; DOC_LEN = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}; usa len(str(numero)).. Entrega: «# match/case brilla con literales/estados finitos y case _; if/elif mejor para rangos y guards complejos print(\"match: códigos finitos; if: ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\"}\nfor region in [\"Lima\", \"Piura\", \"cusco\"]:\n    print(region, \"→\", region in ALLOWED)\n# D2-Skeptic: packet-only re-walk S03 S03-T3-B-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "ALLOWED",
+        "Lima",
+        "Arequipa",
+        "Cusco",
+        "region",
+        "Piura",
+        "cusco",
+        "guiado"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T3-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Completa la decision table como dict `codigo → status` para OK→accept, MISSING→review, OUT_OF_RANGE→reject, _default→review. Imprime el status de cada clave en la lista de prueba.. Hints: table.get(code, \"review\") si no incluyes _default como clave de negocio.; Fila default cubre códigos desconocidos (FOO).. Entrega: «ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\"} for region in [\"Lima\", \"Piura\", \"cusco\"]:     print(region, \"→\", region in ALLOWED) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def decide(row):\n    if row.get(\"region\") not in {\"Lima\", \"Arequipa\", \"Cusco\"}:\n        return \"reject\"\n    monto = row.get(\"monto\")\n    if monto is None:\n        return \"review\"\n    if monto < 0:\n        return \"reject\"\n    if monto > 10000:\n        return \"review\"\n    return \"accept\"\n\nfor row in [\n    {\"region\": \"Lima\", \"monto\": 100},\n    {\"region\": \"Piura\", \"monto\": 100},\n    {\"region\": \"Cusco\", \"monto\": None},\n    {\"region\": \"Lima\", \"monto\": -5},\n    {\"region\": \"Lima\", \"monto\": 50000},\n]:\n    print(row, \"→\", decide(row))\n# D2-Skeptic: packet-only re-walk S03 S03-T3-B-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "row",
+        "get",
+        "region",
+        "not",
+        "Lima",
+        "Arequipa",
+        "Cusco"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T3-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Implementa la misma tabla con `match/case`, OR patterns para MISSING|NEEDS_REVIEW y OUT_OF_RANGE|NOT_IN_ALLOWLIST|BAD_TYPE, y `case _`.. Hints: case \"A\" | \"B\": en una sola rama. case _: al final.; Requiere Python 3.10+. Si no, usa if/elif equivalente y anótalo.. Entrega: «def decide(row):     if row.get(\"region\") not in {\"Lima\", \"Arequipa\", \"Cusco\"}:         return \"reject\"     monto = row.get(\"monto\")     if ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Tabla de decisión (documentación ejecutable)\n# region allowlist × monto\n# allow + monto None → review\n# allow + monto < 0 → reject\n# allow + 0..10000 → accept\n# allow + >10000 → review\n# no allow → reject\nprint(\"fail-closed: todo lo no listado es reject/review, nunca accept silencioso\")\n# D2-Skeptic: packet-only re-walk S03 S03-T3-B-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Tabla",
+        "ejecutable",
+        "region",
+        "allowlist",
+        "monto",
+        "allow",
+        "review",
+        "reject"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T3-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Para (a) códigos de error finitos y (b) rango de edad 18–65, elige if o match, implementa ambos validadores y justifica en prints por qué match no es ideal para el rango numérico.. Hints: match brilla en literales; rangos numéricos son más claros con if y comparaciones.; Puedes match en status codes y if en edad en el mismo módulo.. Entrega: «# Tabla de decisión (documentación ejecutable) # region allowlist × monto # allow + monto None → review # allow + monto < 0 → reject # allow». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def risk(score, flag):\n    if score is None:\n        return \"review\"\n    if score >= 80 and flag:\n        return \"accept\"\n    if score >= 50:\n        return \"review\"\n    return \"reject\"\n\nfor s, f in [(90, True), (90, False), (60, True), (30, False), (None, True)]:\n    print(s, f, \"→\", risk(s, f))\n# D2-Skeptic: packet-only re-walk S03 S03-T4-A-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "risk",
+        "score",
+        "flag",
+        "review",
+        "accept",
+        "reject",
+        "guiado",
+        "Completa"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T4-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Completa `examples` para el campo `edad` con expected accept/reject/review/missing (usa value None para missing/review según tu invariante). Ejecuta validate y marca ok.. Hints: Cuatro dicts {value, expected}. None → review; -1 reject; 30 accept; \"x\" reject.; missing key en el record se modela aquí como value None.. Entrega: «def risk(score, flag):     if score is None:         return \"review\"     if score >= 80 and flag:         return \"accept\"     if score >= 50». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Traza: score=95, ifs independientes pisan accept con review\nscore = 95\nstatus = None\nif score >= 80:\n    status = \"accept\"\nif score >= 50:\n    status = \"review\"  # pisa\nprint(\"status final\", status, \"← bug de ifs no excluyentes\")\n# D2-Skeptic: packet-only re-walk S03 S03-T4-A-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Traza",
+        "score",
+        "ifs",
+        "independientes",
+        "pisan",
+        "accept",
+        "con",
+        "review"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T4-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Escribe invariante multi-campo: `apellido_paterno` y `apellido_materno` no vacíos (tras strip) para accept; si uno falta → review; si ambos vacíos → reject. Incluye texto + 3 examples.. Hints: strip y trata \"\" como vacío. None en uno → review.; invariant_text en español; examples con expected.. Entrega: «# Traza: score=95, ifs independientes pisan accept con review score = 95 status = None if score >= 80:     status = \"accept\" if score >= 50:». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def explain(row):\n    reasons = []\n    if row.get(\"doc\") not in {\"DNI\", \"CE\"}:\n        reasons.append(\"doc_not_allowed\")\n    if row.get(\"edad\") is None:\n        reasons.append(\"edad_missing\")\n    if not reasons:\n        return \"accept\", []\n    if \"edad_missing\" in reasons and \"doc_not_allowed\" not in reasons:\n        return \"review\", reasons\n    return \"reject\", reasons\n\nfor r in [{\"doc\": \"DNI\", \"edad\": 20}, {\"doc\": \"RUC\", \"edad\": 20}, {\"doc\": \"DNI\", \"edad\": None}]:\n    print(r, \"→\", explain(r))\n# D2-Skeptic: packet-only re-walk S03 S03-T4-A-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "explain",
+        "row",
+        "reasons",
+        "get",
+        "doc",
+        "not",
+        "DNI",
+        "append"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T4-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — El invariante dice “edad siempre entre 18 y 65 inclusive (reject si no)”. Encuentra el contraejemplo que rompe la política real del negocio (menores en review, no reject) y ajusta la función + el tex. Hints: edad 15 no debería ser reject duro si la política es review para menores.; None sigue siendo review; >120 o <0 sí reject.. Entrega: «def explain(row):     reasons = []     if row.get(\"doc\") not in {\"DNI\", \"CE\"}:         reasons.append(\"doc_not_allowed\")     if row.get(\"eda». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "rules = [\n    (\"missing_edad\", lambda r: r.get(\"edad\") is None, \"review\"),\n    (\"bad_doc\", lambda r: r.get(\"doc\") not in {\"DNI\", \"CE\", \"PAS\"}, \"reject\"),\n    (\"neg_monto\", lambda r: (r.get(\"monto\") is not None and r.get(\"monto\") < 0), \"reject\"),\n]\n\ndef apply_rules(row):\n    for name, pred, status in rules:\n        if pred(row):\n            return status, name\n    return \"accept\", \"ok\"\n\nfor row in [\n    {\"edad\": None, \"doc\": \"DNI\", \"monto\": 1},\n    {\"edad\": 30, \"doc\": \"RUC\", \"monto\": 1},\n    {\"edad\": 30, \"doc\": \"DNI\", \"monto\": -1},\n    {\"edad\": 30, \"doc\": \"DNI\", \"monto\": 10},\n]:\n    print(row, \"→\", apply_rules(row))\n# D2-Skeptic: packet-only re-walk S03 S03-T4-B-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "rules",
+        "missing_edad",
+        "lambda",
+        "get",
+        "edad",
+        "review",
+        "bad_doc",
+        "doc"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T4-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Reescribe 3 mensajes vagos a plantilla campo+problema+acción: (1) \"Error\", (2) \"inválido\", (3) \"bad age\". Usa el campo `edad` y valores de ejemplo.. Hints: Incluye nombre del campo y qué hacer. No agregues PII real.; Ejemplo: Campo edad=-3 fuera de rango; usa 0–120.. Entrega: «rules = [     (\"missing_edad\", lambda r: r.get(\"edad\") is None, \"review\"),     (\"bad_doc\", lambda r: r.get(\"doc\") not in {\"DNI\", \"CE\", \"PAS\"». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Precedencia documentada: missing → type → range → accept\nprint(\"orden fail-closed: MISSING, BAD_TYPE, OUT_OF_RANGE, OK\")\n# D2-Skeptic: packet-only re-walk S03 S03-T4-B-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Precedencia",
+        "documentada",
+        "missing",
+        "type",
+        "range",
+        "accept",
+        "orden",
+        "fail"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T4-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Dado `classify_score` (accept/review/reject), escribe una lista `cases` con un input por cada rama (incl. frontera) y un loop assert/print PASS.. Hints: Al menos 3 casos: p.ej. 90, 55, 10. Opcional 80 y 50.; for val, expected in cases: assert classify_score(val) == expected. Entrega: «# Precedencia documentada: missing → type → range → accept print(\"orden fail-closed: MISSING, BAD_TYPE, OUT_OF_RANGE, OK\") ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S03-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def audit(decision, reasons):\n    return {\"decision\": decision, \"reasons\": list(reasons), \"auto_fraud\": False}\n\nprint(audit(\"review\", [\"edad_missing\"]))\n# D2-Skeptic: packet-only re-walk S03 S03-T4-B-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "audit",
+        "decision",
+        "reasons",
+        "list",
+        "auto_fraud",
+        "review",
+        "edad_missing",
+        "transferencia"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: para S03-T4-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Test rojo: la regla usa `edad > 18` y falla para 18 (espera accept). Arregla a `>= 18` y deja la suite en verde (18 accept, 17 review, None review).. Hints: Off-by-one clásico en frontera inferior inclusiva.; Cambia > por >= en el camino accept; mantén guards de None.. Entrega: «def audit(decision, reasons):     return {\"decision\": decision, \"reasons\": list(reasons), \"auto_fraud\": False}  print(audit(\"review\", [\"edad». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "if campo is None:",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en selfcheck Q0 elijo índice 2 «if campo is None:» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Cuál es la forma correcta de chequear ausencia de un campo opcional en un validador?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Se ejecuta esa rama y se omiten las siguientes",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en selfcheck Q1 elijo índice 0 «Se ejecuta esa rama y se omiten las siguientes» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es verdadera?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "\"default\"",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en selfcheck Q2 elijo índice 1 «\"default\"» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Qué devuelve la expresión `\"\" or \"default\"` en Python?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Un set de literales y el operador in",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en selfcheck Q3 elijo índice 3 «Un set de literales y el operador in» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: Una allowlist de tipos de documento se implementa mejor como…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Cuando el sujeto es un literal/estado finito (códigos) y hay case _",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en selfcheck Q4 elijo índice 2 «Cuando el sujeto es un literal/estado finito (códigos) y hay case _» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Cuándo aporta más claridad `match/case` que `if` en un motor de reglas introductorio?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:58:03.945384+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-agentic-D2-s03-live",
+  "method_declared": "llm_packet_only_no_gen"
+}

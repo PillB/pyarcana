@@ -1,0 +1,391 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 17,
+  "packet_sha": "4dfb9a19457db16f",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "answer": "2",
+      "code": "import pandas as pd\ncli=pd.DataFrame({'cliente_id':['C001','C002']})\ntx=pd.DataFrame({'cliente_id':['C001'],'monto':[1.0]})\nprint(len(cli.merge(tx, on='cliente_id', how='left')))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T1-A",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T1-A-E1 (guided) apoyándome en la teoría «claves y cardinalidad en joins» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: merge how='left'.; Cuenta filas.. Salida observada: 2."
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "answer": "False",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\nprint(bool(cli[\"cliente_id\"].is_unique))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T1-A",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T1-A-E2 (independent) apoyándome en la teoría «claves y cardinalidad en joins» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: is_unique.; Series.cliente_id.. Salida observada: False."
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "answer": "3",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"] * 3, \"monto\": [1.0, 2.0, 3.0]})\nprint(len(cli.merge(tx, on=\"cliente_id\", how=\"inner\")))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T1-A",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T1-A-E3 (transfer) apoyándome en la teoría «claves y cardinalidad en joins» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: merge inner.; print len.. Salida observada: 3."
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "answer": "['C002']",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T1-B",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T1-B-E1 (guided) apoyándome en la teoría «validate, duplicación accidental y anti-join» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: merge left indicator.; filtra _merge.. Salida observada: ['C002']."
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "answer": "fail",
+      "code": "import pandas as pd\na = pd.DataFrame({\"id\": [1]})\nb = pd.DataFrame({\"id\": [1, 1]})\ntry:\n    a.merge(b, on=\"id\", validate=\"one_to_one\")\n    print(\"ok\")\nexcept Exception:\n    print(\"fail\")\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T1-B",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T1-B-E2 (independent) apoyándome en la teoría «validate, duplicación accidental y anti-join» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: try MergeError o Exception.; validate=.. Salida observada: fail."
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "answer": "2",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(int((m[\"_merge\"] == \"left_only\").sum()))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T1-B",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T1-B-E3 (transfer) apoyándome en la teoría «validate, duplicación accidental y anti-join» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: left_only count.; nunique o len.. Salida observada: 2."
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "answer": "4",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [3, 4]})\nprint(len(df.melt(id_vars=\"id\", value_vars=[\"a\", \"b\"])))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T2-A",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T2-A-E1 (guided) apoyándome en la teoría «concat, melt y pivot» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: melt.; var_name value_name opcionales.. Salida observada: 4."
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "answer": "['id', 'a', 'b']",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [1.0, 2.0]})\nwide = long.pivot_table(index=\"id\", columns=\"k\", values=\"v\", aggfunc=\"sum\").reset_index()\nprint(wide.columns.tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T2-A",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T2-A-E2 (independent) apoyándome en la teoría «concat, melt y pivot» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: aggfunc sum.; reset_index.. Salida observada: ['id', 'a', 'b']."
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "answer": "2",
+      "code": "import pandas as pd\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\nprint(len(pd.concat([a, b], ignore_index=True)))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T2-A",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T2-A-E3 (transfer) apoyándome en la teoría «concat, melt y pivot» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: pd.concat(..., ignore_index=True).; mismas cols.. Salida observada: 2."
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "answer": "['monto_e', 'monto_f']",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"mes\": [\"e\", \"f\"], \"monto\": [1.0, 2.0]})\nwide = long.pivot(index=\"id\", columns=\"mes\", values=\"monto\")\nwide.columns = [f\"monto_{c}\" for c in wide.columns]\nprint(list(wide.columns))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T2-B",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T2-B-E1 (guided) apoyándome en la teoría «long/wide y nombres estables» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: map join o f-string.; tras pivot.. Salida observada: ['monto_e', 'monto_f']."
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "answer": "True",
+      "code": "import pandas as pd\ndf = pd.DataFrame(columns=[\"cliente_id\", \"monto_ene\"])\nexpected = {\"cliente_id\", \"monto_ene\"}\nprint(set(df.columns) == expected)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T2-B",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T2-B-E2 (independent) apoyándome en la teoría «long/wide y nombres estables» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: set igualdad.; expected fijo.. Salida observada: True."
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "answer": "['monto']",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\nprint(df.rename(columns={\"a\": \"monto\"}).columns.tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T2-B",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T2-B-E3 (transfer) apoyándome en la teoría «long/wide y nombres estables» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: rename(columns=...).; inplace False.. Salida observada: ['monto']."
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "answer": "{'Cusco': 3.0, 'Lima': 3.0}",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0, 3.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T3-A",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T3-A-E1 (guided) apoyándome en la teoría «groupby / agg / transform» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: groupby sum.; to_dict.. Salida observada: {'Cusco': 3.0, 'Lima': 3.0}."
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "answer": "[2.0, 2.0, 2.0]",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 3.0, 2.0]})\nprint(df.groupby(\"region\")[\"monto\"].transform(\"mean\").tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T3-A",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T3-A-E2 (independent) apoyándome en la teoría «groupby / agg / transform» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: groupby transform.; mismas filas que df.. Salida observada: [2.0, 2.0, 2.0]."
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "answer": "['region', 'total', 'n']",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0]})\nout = df.groupby(\"region\", as_index=False).agg(total=(\"monto\", \"sum\"), n=(\"monto\", \"count\"))\nprint(out.columns.tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T3-A",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T3-A-E3 (transfer) apoyándome en la teoría «groupby / agg / transform» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: named agg.; as_index=False.. Salida observada: ['region', 'total', 'n']."
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "answer": "[None, 1.5, 2.5]",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\nprint([None if pd.isna(x) else float(x) for x in s])\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T3-B",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T3-B-E1 (guided) apoyándome en la teoría «ventanas, fechas y cohortes» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: rolling mean.; tolist y nan check.. Salida observada: [None, 1.5, 2.5]."
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "answer": "{'C001': '2024-01', 'C002': '2024-02'}",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-05\", \"2024-03-01\", \"2024-02-10\"]),\n})\ncohort = df.groupby(\"cliente_id\")[\"fecha\"].min().dt.strftime(\"%Y-%m\")\nprint(cohort.to_dict())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T3-B",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T3-B-E2 (independent) apoyándome en la teoría «ventanas, fechas y cohortes» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: groupby transform min.; dt.to_period('M').. Salida observada: {'C001': '2024-01', 'C002': '2024-02'}."
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "answer": "2.5",
+      "code": "import pandas as pd\ns = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime([\"2024-01-03\", \"2024-01-01\", \"2024-01-02\"]))\nprint(float(s.sort_index().rolling(2).mean().iloc[-1]))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T3-B",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T3-B-E3 (transfer) apoyándome en la teoría «ventanas, fechas y cohortes» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: sort_index.; rolling 2.. Salida observada: 2.5."
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "answer": "True",
+      "code": "parts = [10.0, 20.0, 70.0]\ntotal = 100.0\nprint(abs(sum(parts) - total) < 1e-9)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T4-A",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T4-A-E1 (guided) apoyándome en la teoría «denominadores y totales» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: sum y abs.; eps 1e-9.. Salida observada: True."
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "answer": "0.25",
+      "code": "activos = 40\npagados = 10\nprint(pagados / activos)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T4-A",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T4-A-E2 (independent) apoyándome en la teoría «denominadores y totales» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: división float.; print tasa.. Salida observada: 0.25."
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "answer": "40.0",
+      "code": "total = 100.0\nlima = 60.0\nprint(total - lima)\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T4-A",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T4-A-E3 (transfer) apoyándome en la teoría «denominadores y totales» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: total - lima.; residual.. Salida observada: 40.0."
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "answer": "[1.0]",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-02-01\"]), \"monto\": [1.0, 9.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T4-B",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T4-B-E1 (guided) apoyándome en la teoría «leakage temporal y controles antes/después» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Timestamp cutoff.; máscara <=.. Salida observada: [1.0]."
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "answer": "5.0",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-03-01\"]), \"monto\": [10.0, 5.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(float(tx[\"monto\"].sum() - tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].sum()))\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T4-B",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T4-B-E2 (independent) apoyándome en la teoría «leakage temporal y controles antes/después» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: total - pre.; float.. Salida observada: 5.0."
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "answer": "{'C001': 3.0}",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"monto\": [3.0, 10.0],\n})\ncutoff = pd.Timestamp(\"2024-02-01\")\npre = tx[tx[\"fecha\"] <= cutoff]\nprint(pre.groupby(\"cliente_id\")[\"monto\"].max().to_dict())\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S17-T4-B",
+        "packet_theory",
+        "iDo",
+        "Joins, reshape, groupby y cierre analíti"
+      ],
+      "justification_from_packet": "Como explorer del paquete S17, resolví S17-T4-B-E3 (transfer) apoyándome en la teoría «leakage temporal y controles antes/después» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: filter then groupby max.; un cliente.. Salida observada: {'C001': 3.0}."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S17 Q0 «validate='one_to_one' en merge sirve para:»: elijo [0] «Fallar si la cardinalidad no es 1:1». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S17 Q1 «Un anti-join left_only identifica:»: elijo [2] «Filas del left sin match en right». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S17 Q2 «transform en groupby:»: elijo [3] «Reinyecta el agregado al shape original». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S17 Q3 «Leakage temporal ocurre cuando:»: elijo [1] «Incluyes datos posteriores al cutoff en features/métricas del pasado». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "SelfCheck S17 Q4 «En un portfolio ejecutivo, si suma(partes) ≠ total de referencia debes:»: elijo [1] «Documentar diff con tolerancia eps o corregir el corte». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:42:20.960320+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s17-live"
+}

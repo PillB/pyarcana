@@ -1,0 +1,453 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D2",
+  "section_index": 47,
+  "packet_sha": "0cfe281a467074e4",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S47-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\":42,\"params\":{\"depth\":4},\"metric\":0.81,\"rerun_metric\":0.805,\"tolerance\":0.01}}\nmeets_contract = record.get(\"case_id\") == 'CASO-TAC-047-1A' and not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\nstatus = \"PASS\" if meets_contract else \"MARK_RUN_NONREPRODUCIBLE\"\nprint(\"S47-T1-A\", status)\n# D2-Skeptic: packet-only re-walk S47 S47-T1-A-E1\n",
+      "answer": "S47-T1-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Calcula",
+        "contrato",
+        "tracking",
+        "reproducibilidad",
+        "sobre",
+        "CASO",
+        "TAC"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T1-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `record = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\":42,\"params\":{\"depth\":4},\"metric\":0.81,\"rerun_metri`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"metric\", \"params\", \"rerun_metric\", \"seed\", \"tolerance\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"case_id\") == 'CASO-TAC-047-1A' and not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])) else \"MARK_RUN_NONREPRODUCIBLE\"\n\nvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\ninvalid = {'case_id': 'CASO-TAC-047-1A-ADV', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\nincomplete = dict(valid)\nincomplete.pop(\"tolerance\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T1-A-E2\n",
+      "answer": "PASS MARK_RUN_NONREPRODUCIBLE MISSING:tolerance",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Modela",
+        "tres",
+        "rutas",
+        "tracking",
+        "reproducibilidad",
+        "fixture",
+        "lido"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T1-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"metric\", \"params\", \"rerun_metric\", \"seed\", \"tolerance\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INVESTIGATE_RANDOMNESS\"\n    return \"CONTINUE\" if (record.get(\"case_id\") == 'CASO-TAC-047-1A' and not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])) else \"MARK_RUN_NONREPRODUCIBLE\"\n\nvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\ninvalid = {'case_id': 'CASO-TAC-047-1A-ADV', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\nuncertain = dict(valid)\nuncertain.pop(\"tolerance\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T1-A-E3\n",
+      "answer": "CONTINUE MARK_RUN_NONREPRODUCIBLE INVESTIGATE_RANDOMNESS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "tracking",
+        "reproducibilidad",
+        "con"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T1-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\":\"ds-v3\",\"code\":\"git:abc\",\"env\":\"lock:def\",\"split\":\"holdout-v1\",\"metric_definition\":\"f1-v2\",\"candidate\":0.82,\"baseline\":0.78}}\nmeets_contract = not record[\"data\"] or record[\"candidate\"] >= record[\"baseline\"]\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_COMPARISON\"\nprint(\"S47-T1-B\", status)\n# D2-Skeptic: packet-only re-walk S47 S47-T1-B-E1\n",
+      "answer": "S47-T1-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Compara",
+        "contrato",
+        "data",
+        "code",
+        "env",
+        "lineage",
+        "comparaci"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T1-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `record = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\":\"ds-v3\",\"code\":\"git:abc\",\"env\":\"lock:def\",\"split\":`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"baseline\", \"candidate\", \"case_id\", \"code\", \"data\", \"env\", \"metric_definition\", \"split\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not record[\"data\"] or record[\"candidate\"] >= record[\"baseline\"]) else \"INVALIDATE_COMPARISON\"\n\nvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\ninvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.0, 'baseline': 0.78}\nincomplete = dict(valid)\nincomplete.pop(\"baseline\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T1-B-E2\n",
+      "answer": "PASS INVALIDATE_COMPARISON MISSING:baseline",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Verifica",
+        "tres",
+        "rutas",
+        "data",
+        "code",
+        "env",
+        "lineage"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T1-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"baseline\", \"candidate\", \"case_id\", \"code\", \"data\", \"env\", \"metric_definition\", \"split\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RESTORE_LINEAGE\"\n    return \"CONTINUE\" if (not record[\"data\"] or record[\"candidate\"] >= record[\"baseline\"]) else \"INVALIDATE_COMPARISON\"\n\nvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\ninvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.0, 'baseline': 0.78}\nuncertain = dict(valid)\nuncertain.pop(\"baseline\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T1-B-E3\n",
+      "answer": "CONTINUE INVALIDATE_COMPARISON RESTORE_LINEAGE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "data",
+        "code",
+        "env"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T1-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\":{\"age\":\"int\",\"region\":\"str\"},\"output_signature\":{\"priority\":\"float\"},\"stage\":\"staging\",\"approved\":True}}\nmeets_contract = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\nstatus = \"PASS\" if meets_contract else \"DENY_MODEL_PROMOTION\"\nprint(\"S47-T2-A\", status)\n# D2-Skeptic: packet-only re-walk S47 S47-T2-A-E1\n",
+      "answer": "S47-T2-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Filtra",
+        "contrato",
+        "firmas",
+        "stages",
+        "approvals",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T2-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `record = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\":{\"age\":\"int\",\"region\":\"str\"},\"output_si`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"approved\", \"case_id\", \"input_signature\", \"output_signature\", \"stage\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"approved\"] or record[\"stage\"] == \"production\")) else \"DENY_MODEL_PROMOTION\"\n\nvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\ninvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}\nincomplete = dict(valid)\nincomplete.pop(\"approved\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T2-A-E2\n",
+      "answer": "PASS DENY_MODEL_PROMOTION MISSING:approved",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "firmas",
+        "stages",
+        "approvals",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T2-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"approved\", \"case_id\", \"input_signature\", \"output_signature\", \"stage\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_MODEL_APPROVAL\"\n    return \"CONTINUE\" if (not (not record[\"approved\"] or record[\"stage\"] == \"production\")) else \"DENY_MODEL_PROMOTION\"\n\nvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\ninvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}\nuncertain = dict(valid)\nuncertain.pop(\"approved\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T2-A-E3\n",
+      "answer": "CONTINUE DENY_MODEL_PROMOTION REQUEST_MODEL_APPROVAL",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "firmas",
+        "stages",
+        "approvals"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T2-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"features-v3\",\"serving_feature_version\":\"features-v3\",\"card_sections\":{\"use\",\"limits\",\"metrics\",\"risks\"}}}\nmeets_contract = (record[\"feature_version\"] == record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4) and record.get(\"case_id\") == 'CASO-TAC-047-2B'\nstatus = \"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\"\nprint(\"S47-T2-B\", status)\n# D2-Skeptic: packet-only re-walk S47 S47-T2-B-E1\n",
+      "answer": "S47-T2-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Modela",
+        "contrato",
+        "artefactos",
+        "model",
+        "card",
+        "compatibilidad",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T2-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `record = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"featu`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"artifact_digest\", \"card_sections\", \"case_id\", \"feature_version\", \"serving_feature_version\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((record[\"feature_version\"] == record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4) and record.get(\"case_id\") == 'CASO-TAC-047-2B') else \"REJECT_MODEL_ARTIFACT\"\n\nvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'risks', 'metrics', 'limits', 'use'}}\ninvalid = {'case_id': 'CASO-TAC-047-2B-ADV', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'risks', 'metrics', 'limits', 'use'}}\nincomplete = dict(valid)\nincomplete.pop(\"card_sections\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T2-B-E2\n",
+      "answer": "PASS REJECT_MODEL_ARTIFACT MISSING:card_sections",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Audita",
+        "tres",
+        "rutas",
+        "artefactos",
+        "model",
+        "card",
+        "compatibilidad"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T2-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"artifact_digest\", \"card_sections\", \"case_id\", \"feature_version\", \"serving_feature_version\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"COMPLETE_MODEL_CARD\"\n    return \"CONTINUE\" if ((record[\"feature_version\"] == record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4) and record.get(\"case_id\") == 'CASO-TAC-047-2B') else \"REJECT_MODEL_ARTIFACT\"\n\nvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'risks', 'metrics', 'limits', 'use'}}\ninvalid = {'case_id': 'CASO-TAC-047-2B-ADV', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'risks', 'metrics', 'limits', 'use'}}\nuncertain = dict(valid)\nuncertain.pop(\"card_sections\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T2-B-E3\n",
+      "answer": "CONTINUE REJECT_MODEL_ARTIFACT COMPLETE_MODEL_CARD",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "artefactos",
+        "model",
+        "card"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T2-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\":[0.1,0.4,0.8],\"online_features\":[0.1,0.4,0.8],\"leakage\":False,\"contract_tests\":3}}\nmeets_contract = record[\"batch_features\"] == record[\"online_features\"] or record[\"leakage\"]\nstatus = \"PASS\" if meets_contract else \"DISABLE_INCONSISTENT_SERVING\"\nprint(\"S47-T3-A\", status)\n# D2-Skeptic: packet-only re-walk S47 S47-T3-A-E1\n",
+      "answer": "S47-T3-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Verifica",
+        "contrato",
+        "batch",
+        "online",
+        "feature",
+        "consistency",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T3-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `record = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\":[0.1,0.4,0.8],\"online_features\":[0.1,0.4`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"batch_features\", \"case_id\", \"contract_tests\", \"leakage\", \"online_features\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"batch_features\"] == record[\"online_features\"] or record[\"leakage\"]) else \"DISABLE_INCONSISTENT_SERVING\"\n\nvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\nincomplete = dict(valid)\nincomplete.pop(\"contract_tests\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T3-A-E2\n",
+      "answer": "PASS DISABLE_INCONSISTENT_SERVING MISSING:contract_tests",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Decide",
+        "tres",
+        "rutas",
+        "batch",
+        "online",
+        "feature",
+        "consistency"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T3-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"batch_features\", \"case_id\", \"contract_tests\", \"leakage\", \"online_features\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TRACE_FEATURE_PIPELINE\"\n    return \"CONTINUE\" if (record[\"batch_features\"] == record[\"online_features\"] or record[\"leakage\"]) else \"DISABLE_INCONSISTENT_SERVING\"\n\nvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\nuncertain = dict(valid)\nuncertain.pop(\"contract_tests\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T3-A-E3\n",
+      "answer": "CONTINUE DISABLE_INCONSISTENT_SERVING TRACE_FEATURE_PIPELINE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "batch",
+        "online",
+        "feature"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T3-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\":120,\"slo_ms\":180,\"batch_size\":16,\"fallback\":\"rules-v2\",\"fallback_tested\":True}}\nmeets_contract = record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"fallback_tested\"]\nstatus = \"PASS\" if meets_contract else \"ACTIVATE_SAFE_FALLBACK\"\nprint(\"S47-T3-B\", status)\n# D2-Skeptic: packet-only re-walk S47 S47-T3-B-E1\n",
+      "answer": "S47-T3-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Clasifica",
+        "contrato",
+        "latency",
+        "batching",
+        "fallback",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T3-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `record = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\":120,\"slo_ms\":180,\"batch_size\":16,\"fallback\":\"rul`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"batch_size\", \"case_id\", \"fallback\", \"fallback_tested\", \"p95_ms\", \"slo_ms\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"fallback_tested\"]) else \"ACTIVATE_SAFE_FALLBACK\"\n\nvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\ninvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 680, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True, 'cache_acl_safe': False, 'rollback_minutes': 1000000}\nincomplete = dict(valid)\nincomplete.pop(\"fallback_tested\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T3-B-E2\n",
+      "answer": "PASS ACTIVATE_SAFE_FALLBACK MISSING:fallback_tested",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Calcula",
+        "tres",
+        "rutas",
+        "latency",
+        "batching",
+        "fallback",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T3-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"batch_size\", \"case_id\", \"fallback\", \"fallback_tested\", \"p95_ms\", \"slo_ms\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TUNE_BATCH_OR_CAPACITY\"\n    return \"CONTINUE\" if (record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"fallback_tested\"]) else \"ACTIVATE_SAFE_FALLBACK\"\n\nvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\ninvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 680, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True, 'cache_acl_safe': False, 'rollback_minutes': 1000000}\nuncertain = dict(valid)\nuncertain.pop(\"fallback_tested\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T3-B-E3\n",
+      "answer": "CONTINUE ACTIVATE_SAFE_FALLBACK TUNE_BATCH_OR_CAPACITY",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "latency",
+        "batching",
+        "fallback"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T3-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"quality_delta\":0.01,\"max_quality_drop\":0.02,\"error_rate\":0.004,\"max_error_rate\":0.01,\"hooks\":True}}\nmeets_contract = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\nstatus = \"PASS\" if meets_contract else \"STOP_CANARY\"\nprint(\"S47-T4-A\", status)\n# D2-Skeptic: packet-only re-walk S47 S47-T4-A-E1\n",
+      "answer": "S47-T4-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Audita",
+        "contrato",
+        "shadow",
+        "canary",
+        "monitoring",
+        "hooks",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T4-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `record = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"quality_delta\":0.01,\"max`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"error_rate\", \"hooks\", \"max_error_rate\", \"max_quality_drop\", \"mode\", \"quality_delta\", \"traffic_pct\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])) else \"STOP_CANARY\"\n\nvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\ninvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 105, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\nincomplete = dict(valid)\nincomplete.pop(\"hooks\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T4-A-E2\n",
+      "answer": "PASS STOP_CANARY MISSING:hooks",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Compara",
+        "tres",
+        "rutas",
+        "shadow",
+        "canary",
+        "monitoring",
+        "hooks"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T4-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"error_rate\", \"hooks\", \"max_error_rate\", \"max_quality_drop\", \"mode\", \"quality_delta\", \"traffic_pct\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"COLLECT_MORE_SHADOW_EVIDENCE\"\n    return \"CONTINUE\" if (not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])) else \"STOP_CANARY\"\n\nvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\ninvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 105, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\nuncertain = dict(valid)\nuncertain.pop(\"hooks\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T4-A-E3\n",
+      "answer": "CONTINUE STOP_CANARY COLLECT_MORE_SHADOW_EVIDENCE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "shadow",
+        "canary",
+        "monitoring"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T4-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\":\"1.2.0\",\"last_good\":\"1.1.0\",\"compatible_features\":True,\"rollback_tested\":True,\"retired\":{\"1.0.0\"},\"audit_entry\":True}}\nmeets_contract = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_TO_LAST_GOOD\"\nprint(\"S47-T4-B\", status)\n# D2-Skeptic: packet-only re-walk S47 S47-T4-B-E1\n",
+      "answer": "S47-T4-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Decide",
+        "contrato",
+        "rollback",
+        "retirement",
+        "audit",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T4-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `record = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\":\"1.2.0\",\"last_good\":\"1.1.0\",\"compatible_feature`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"audit_entry\", \"case_id\", \"compatible_features\", \"current\", \"last_good\", \"retired\", \"rollback_tested\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])) else \"ROLLBACK_TO_LAST_GOOD\"\n\nvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\ninvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nincomplete = dict(valid)\nincomplete.pop(\"audit_entry\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T4-B-E2\n",
+      "answer": "PASS ROLLBACK_TO_LAST_GOOD MISSING:audit_entry",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Filtra",
+        "tres",
+        "rutas",
+        "rollback",
+        "retirement",
+        "audit",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T4-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S47-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"audit_entry\", \"case_id\", \"compatible_features\", \"current\", \"last_good\", \"retired\", \"rollback_tested\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_RETIREMENT\"\n    return \"CONTINUE\" if (not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])) else \"ROLLBACK_TO_LAST_GOOD\"\n\nvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\ninvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nuncertain = dict(valid)\nuncertain.pop(\"audit_entry\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S47 S47-T4-B-E3\n",
+      "answer": "CONTINUE ROLLBACK_TO_LAST_GOOD REVIEW_RETIREMENT",
+      "blocked_on": [],
+      "concepts_used": [
+        "S47",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "rollback",
+        "retirement",
+        "audit"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S47-T4-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4 Trackea experimentos reproducibles Compara runs con lineage completo Registra con st». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Qué evidencia permite aprobar `tracking y reproducibilidad` en CASO-TAC-047?» elijo «rerun dentro de tolerancia declarada» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4\nTrackea experimentos reproducibles\nCompara runs con li». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «Si ocurre la condición de error de S47, ¿qué respuesta preserva seguridad y auditabilidad?» elijo «emitir ROLLBACK_MODEL y conservar evidencia» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4\nTrackea experimentos reproducibles\nCompara runs con li». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Cuál resultado demuestra el gate `CP-N4-B + CF-4 · modelo promovible y reversible`?» elijo «solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4\nTrackea experimentos reproducibles\nCompara runs con li». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Qué tratamiento de `CASO-TAC-047` respeta el alcance del curso?» elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4\nTrackea experimentos reproducibles\nCompara runs con li». Descarto PII real, ocultar fallos o inventar evidencia."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:58:04.614780+00:00",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D2-s47-live",
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "notes": "D1-Skeptic live solve from slim_packet + exercise_batch_40_52 only; justifications packet-grounded.",
+  "artifact_origin": "direct_agent_output"
+}

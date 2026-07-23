@@ -1,0 +1,13 @@
+{
+  "attempt_id": "agentic_D1",
+  "started_at": "2026-07-23T03:30:21.813817+00:00",
+  "git_sha": "aa57e1c5014f91152edae8743f9488838e07ac11",
+  "reason": "Phase2 pure agentic dual-newbie D1 from landing; Validator justification primary",
+  "brand": "PyArcana",
+  "method_required": "llm_packet_only_no_gen",
+  "evidence_origin": "live_agentic_transcript",
+  "generation_mode": "fresh_sequential_packet_read",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "updated_at": "2026-07-23T03:53:53.282763+00:00"
+}

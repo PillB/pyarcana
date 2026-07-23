@@ -1342,13 +1342,8 @@ print(df)
 
 {
   question: "Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hacer el gate de integridad del dashboard CP-N2-B?",
-  options: [
-    "Aceptarlo si los colores tienen buen contraste",
-    "Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita",
-    "Convertirlo automáticamente a dual-axis para “ganar espacio”",
-    "Eliminar las etiquetas de ejes para que se vea más limpio en el slide",
-  ],
-  correctIndex: 1,
+  options: ["Aceptarlo si los colores tienen buen contraste", "Convertirlo automáticamente a dual-axis para “ganar espacio”", "Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita", "Eliminar las etiquetas de ejes para que se vea más limpio en el slide"],
+  correctIndex: 2,
   explanation:
     "Recortar el baseline de barras de magnitudes absolutas infla diferencias. El gate pide ylim 0 o justificación documentada.",
 },

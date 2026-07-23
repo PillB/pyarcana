@@ -1508,12 +1508,7 @@ print("TODO pipeline email")
 
 {
   question: "Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de email de CP-N2-C?",
-  options: [
-    "Declarar fraude o parentesco y bloquear al cliente automáticamente",
-    "Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica",
-    "Enviar el correo sin aprobación porque el score supera 0.9",
-    "Publicar el DNI del contacto en el cuerpo para “confirmar identidad”",
-  ],
+  options: ["Declarar fraude o parentesco y bloquear al cliente automáticamente", "Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica", "Enviar el correo sin aprobación porque el score supera 0.9", "Publicar el DNI del contacto en el cuerpo para “confirmar identidad”"],
   correctIndex: 1,
   explanation:
     "Matching apoya entrega correcta; no prueba fraude ni identidad legal. Aprobación humana e idempotencia siguen siendo obligatorias antes de cualquier envío (simulado).",

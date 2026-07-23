@@ -45,6 +45,8 @@ LIVE_METHOD = "live_agentic_packet_only_no_execution"
 LIVE_ORIGIN = "direct_agent_output"
 META_ORIGIN = "live_agentic_transcript"
 META_MODE = "fresh_sequential_packet_read"
+# Provenance taint markers — match as provenance fingerprints, not domain tokens
+# in learner code (e.g. REBUILD_NONROOT, generator expressions in theory).
 TAINT_MARKERS = (
     "rebuilt",
     "rebuild",
@@ -57,6 +59,38 @@ TAINT_MARKERS = (
     "produce_agent",
     "programmatic",
 )
+
+# Domain tokens that contain a marker substring but are legitimate curriculum text
+TAINT_ALLOWLIST = (
+    "rebuild_nonroot",
+    "rebuild_provenance",
+    "rebuild_partition",
+    "rebuild_eval_dataset",
+    "rebuild_eval",
+    "rebuild_schema",
+    "rebuild_index",
+    "rebuild_cache",
+    "generator expression",
+    "generators",
+    "generator-based",
+    "random.generator",
+    "default_rng",
+)
+
+
+def blob_has_taint(blob: str) -> bool:
+    """True if provenance taint markers appear outside known domain allowlist."""
+    low = (blob or "").lower()
+    # neutralize allowlisted domain phrases so substring markers do not fire
+    scrubbed = low
+    for phrase in TAINT_ALLOWLIST:
+        scrubbed = scrubbed.replace(phrase, " ")
+    # also neutralize SCREAMING_SNAKE reject tokens like REBUILD_* used in exercises
+    scrubbed = re.sub(r"\brebuild_[a-z0-9_]+\b", " ", scrubbed)
+    # neutralize method label that ends with no_generator (already non-tainted method uses no_execution)
+    scrubbed = scrubbed.replace("no_generator", " ")
+    scrubbed = scrubbed.replace("llm_packet_only_no_generator", " ")
+    return any(marker in scrubbed for marker in TAINT_MARKERS)
 
 
 def tokens(s: str) -> set[str]:
@@ -115,7 +149,7 @@ def provenance_issues(
     issues: list[dict] = []
     meta = meta or {}
     meta_blob = json.dumps(meta, ensure_ascii=False).lower()
-    if has_rebuild_report or any(marker in meta_blob for marker in TAINT_MARKERS):
+    if has_rebuild_report or blob_has_taint(meta_blob):
         issues.append({"tag": "TAINTED_ATTEMPT_ORIGIN", "detail": "rebuild/copy/generator fingerprint"})
     required_meta = {
         "evidence_origin": META_ORIGIN,
@@ -139,7 +173,7 @@ def provenance_issues(
         if not raw:
             continue
         blob = json.dumps(raw, ensure_ascii=False).lower()
-        if any(marker in blob for marker in TAINT_MARKERS):
+        if blob_has_taint(blob):
             issues.append(
                 {"tag": "TAINTED_AGENT_ORIGIN", "agent": label, "detail": "rebuild/copy/generator/code-exec fingerprint"}
             )

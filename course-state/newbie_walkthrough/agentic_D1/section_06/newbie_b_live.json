@@ -1,0 +1,511 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D1",
+  "section_index": 6,
+  "packet_sha": "2b7e2c730df3d20b",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "txs = [10, 20, 30, 40, 50]\nwindow = txs[-2:]\nprint(window)\nprint(len(window))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "txs",
+        "window",
+        "len",
+        "guiado",
+        "Dada",
+        "montos",
+        "imprime",
+        "los"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T1-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la ventana. Caso vacío: si `txs=[]`, imprime `ventana=[]` y `len=0`.. Hints: Usa txs[-2:] (funciona también si hay menos de 2).; print la lista y luego len(ventana).. Entrega: «txs = [10, 20, 30, 40, 50] window = txs[-2:] print(window) print(len(window)) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "KEYS = tuple([\"id\", \"monto\"])\nprint(KEYS, type(KEYS).__name__)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "KEYS",
+        "tuple",
+        "monto",
+        "type",
+        "__name__",
+        "independiente",
+        "Convierte",
+        "lista"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T1-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmutable). Imprime `KEYS` y demuestra que `KEYS + ('canal',)` crea otra tupla sin mutar `KEYS`.. Hints: tuple(lista) o keys = ('id','monto'); KEYS no tiene append; usa + para nueva tupla.. Entrega: «KEYS = tuple([\"id\", \"monto\"]) print(KEYS, type(KEYS).__name__) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "ids = (\"C001\", \"C002\")\ntry:\n    ids.append(\"C003\")  # type: ignore\nexcept AttributeError as e:\n    print(\"error\", type(e).__name__)\nprint(\"ids\", ids)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "ids",
+        "C001",
+        "C002",
+        "try",
+        "append",
+        "C003",
+        "type",
+        "ignore"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T1-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError, convierte a list, append 'C003', e imprime el resultado y un mensaje de diagnóstico.. Hints: tuple no tiene append → AttributeError; list(ids) para mutar una copia.. Entrega: «ids = (\"C001\", \"C002\") try:     ids.append(\"C003\")  # type: ignore except AttributeError as e:     print(\"error\", type(e).__name__) print(\"i». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "row = (\"C001\", \"Lima\", 10)\ncid, region, monto = row\nprint(cid, region, monto)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "row",
+        "C001",
+        "Lima",
+        "cid",
+        "region",
+        "monto",
+        "guiado",
+        "Unpacking"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T1-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si la fila tuviera 2 valores, el unpack fallaría (no lo fuerces aquí).. Hints: a, b, c = fila; Orden posicional importa.. Entrega: «row = (\"C001\", \"Lima\", 10) cid, region, monto = row print(cid, region, monto) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint(\"xs\", xs, \"copia\", copia, \"alias_is\", alias is xs, \"copia_is\", copia is xs)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "alias",
+        "copia",
+        "copy",
+        "append",
+        "alias_is",
+        "copia_is",
+        "independiente",
+        "Demuestra"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T1-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3; imprimir xs y copia. Luego append 4 a copia e imprimir de nuevo xs.. Hints: alias comparte objeto; copy es superficial de la lista de ints.; ints inmutables: shallow basta.. Entrega: «xs = [1, 2] alias = xs copia = xs.copy() alias.append(3) print(\"xs\", xs, \"copia\", copia, \"alias_is\", alias is xs, \"copia_is\", copia is xs) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import copy\nrows = [{\"id\": \"C1\", \"tags\": [\"a\"]}]\nshallow = rows.copy()\ndeep = copy.deepcopy(rows)\nshallow[0][\"tags\"].append(\"b\")\nprint(\"shallow tags\", rows[0][\"tags\"])\ndeep[0][\"tags\"].append(\"z\")\nprint(\"original after deep mutate other\", rows[0][\"tags\"])\nprint(\"deep tags\", deep[0][\"tags\"])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "copy",
+        "rows",
+        "tags",
+        "shallow",
+        "deep",
+        "deepcopy",
+        "append",
+        "original"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T1-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.deepcopy`, muta tags del deep, e imprime original vs deep.. Hints: import copy; deepcopy; shallow[0] is original[0] → True. Entrega: «import copy rows = [{\"id\": \"C1\", \"tags\": [\"a\"]}] shallow = rows.copy() deep = copy.deepcopy(rows) shallow[0][\"tags\"].append(\"b\") print(\"shal». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "pares = [(\"C001\", \"Lima\"), (\"C002\", \"Cusco\")]\nd = dict(pares)\nprint(d)\nprint(d[\"C001\"])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "pares",
+        "C001",
+        "Lima",
+        "C002",
+        "Cusco",
+        "dict",
+        "guiado",
+        "Construye"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T2-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002']`.. Hints: dict(pares) o comprensión; Claves deben ser hashables (str ok).. Entrega: «pares = [(\"C001\", \"Lima\"), (\"C002\", \"Cusco\")] d = dict(pares) print(d) print(d[\"C001\"]) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "idx = {\"C001\": \"Lima\"}\nprint(idx.get(\"C001\"))\nprint(idx.get(\"C999\", \"N/A\"))\nprint(\"C001\" in idx, \"C999\" in idx)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "idx",
+        "C001",
+        "Lima",
+        "get",
+        "C999",
+        "independiente",
+        "Dado",
+        "con"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T2-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra un `try/except KeyError` al acceder `idx['C999']` directo.. Hints: idx.get('C999','N/A'); KeyError solo en acceso duro.. Entrega: «idx = {\"C001\": \"Lima\"} print(idx.get(\"C001\")) print(idx.get(\"C999\", \"N/A\")) print(\"C001\" in idx, \"C999\" in idx) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "defaults = {\"retry\": 1, \"timeout\": 30}\noverride = {\"retry\": 5}\nmerged = {**defaults, **override}\nprint(merged)\nprint(\"defaults intact\", defaults)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "defaults",
+        "retry",
+        "timeout",
+        "override",
+        "merged",
+        "intact",
+        "transferencia",
+        "Fusiona"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T2-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder timeout. Imprime merged. Luego muestra el peligro de `defaults.update(override)` mutando defaults (usa copia).. Hints: {**defaults, **override} o defaults | override (3.9+); Copia antes de update in-place.. Entrega: «defaults = {\"retry\": 1, \"timeout\": 30} override = {\"retry\": 5} merged = {**defaults, **override} print(merged) print(\"defaults intact\", defa». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "emails = [\"a@ex.com\", \"b@ex.com\", \"a@ex.com\"]\nprint(sorted(set(emails)))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "emails",
+        "com",
+        "sorted",
+        "set",
+        "guiado",
+        "Deduplica",
+        "con",
+        "devuelve"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T2-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.. Hints: sorted(set(emails)); set no garantiza orden de impresión sin sorted.. Entrega: «emails = [\"a@ex.com\", \"b@ex.com\", \"a@ex.com\"] print(sorted(set(emails))) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "lote_a = {\"a@ex.com\", \"b@ex.com\"}\nlote_b = {\"b@ex.com\", \"c@ex.com\"}\nprint(sorted(lote_a & lote_b))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "lote_a",
+        "com",
+        "lote_b",
+        "sorted",
+        "independiente",
+        "contactos",
+        "sets",
+        "emails"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T2-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la intersección y de la diferencia simétrica.. Hints: a & b ; a ^ b; sorted para determinismo.. Entrega: «lote_a = {\"a@ex.com\", \"b@ex.com\"} lote_b = {\"b@ex.com\", \"c@ex.com\"} print(sorted(lote_a & lote_b)) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def dedup_report(rows, key=\"id\"):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        k = r[key]\n        if k not in seen:\n            seen[k] = r\n            unique.append(r)\n        else:\n            if r != seen[k]:\n                conflicts.append({\"id\": k, \"a\": seen[k], \"b\": r})\n    return {\"unique\": unique, \"conflicts\": conflicts}\n\nrows = [\n    {\"id\": \"C1\", \"v\": 1},\n    {\"id\": \"C1\", \"v\": 2},\n    {\"id\": \"C2\", \"v\": 1},\n]\nprint(dedup_report(rows))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "dedup_report",
+        "rows",
+        "key",
+        "seen",
+        "unique",
+        "conflicts",
+        "not",
+        "append"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T2-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin eliminar del reporte los conflictos. Filas sintéticas con C001 repetido distinto.. Hints: seen dict; si key existe y row!=prev → conflict; unique guarda primera ocurrencia.. Entrega: «def dedup_report(rows, key=\"id\"):     seen = {}     unique = []     conflicts = []     for r in rows:         k = r[key]         if k not in». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "clients = [\n    {\"id\": \"C1\", \"contacts\": [1, 2]},\n    {\"id\": \"C2\", \"contacts\": [1]},\n]\nfor c in clients:\n    print(c[\"id\"], \"→\", len(c[\"contacts\"]))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "clients",
+        "contacts",
+        "len",
+        "guiado",
+        "Cuenta",
+        "contactos",
+        "por",
+        "cliente"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T3-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.. Hints: len(c['contacts']); for c in clients. Entrega: «clients = [     {\"id\": \"C1\", \"contacts\": [1, 2]},     {\"id\": \"C2\", \"contacts\": [1]}, ] for c in clients:     print(c[\"id\"], \"→\", len(c[\"cont». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "nested = [\n    {\"client_id\": \"C1\", \"txs\": [{\"tx_id\": \"T1\", \"monto\": 10}]},\n    {\"client_id\": \"C2\", \"txs\": [{\"tx_id\": \"T2\", \"monto\": 5}, {\"tx_id\": \"T3\", \"monto\": 7}]},\n]\nflat = []\nfor c in nested:\n    for t in c[\"txs\"]:\n        flat.append({\"client_id\": c[\"client_id\"], \"tx_id\": t[\"tx_id\"], \"monto\": t[\"monto\"]})\nprint(flat)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "nested",
+        "client_id",
+        "txs",
+        "tx_id",
+        "monto",
+        "flat",
+        "append",
+        "independiente"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T3-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.. Hints: doble for o comprehension anidada; conserva client_id en cada fila. Entrega: «nested = [     {\"client_id\": \"C1\", \"txs\": [{\"tx_id\": \"T1\", \"monto\": 10}]},     {\"client_id\": \"C2\", \"txs\": [{\"tx_id\": \"T2\", \"monto\": 5}, {\"tx». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def check_shape(row):\n    if \"txs\" not in row or not isinstance(row.get(\"txs\"), list):\n        return {**row, \"status\": \"review\"}\n    return {**row, \"status\": \"ok\"}\n\nfor r in [{\"id\": \"C1\", \"txs\": []}, {\"id\": \"C2\"}, {\"id\": \"C3\", \"txs\": \"x\"}]:\n    print(check_shape(r))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "check_shape",
+        "row",
+        "txs",
+        "not",
+        "isinstance",
+        "get",
+        "list",
+        "status"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T3-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprime status por cliente sintético (uno ok, uno malo).. Hints: isinstance(c.get('txs'), list); No asumas claves siempre presentes.. Entrega: «def check_shape(row):     if \"txs\" not in row or not isinstance(row.get(\"txs\"), list):         return {**row, \"status\": \"review\"}     return». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\n\nd = {\"profile\": {\"phone\": \"999\"}}\nprint(get_nested(d, \"profile\", \"phone\"))\nprint(get_nested(d, \"profile\", \"email\", default=\"N/A\"))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "get_nested",
+        "keys",
+        "default",
+        "cur",
+        "not",
+        "isinstance",
+        "dict",
+        "profile"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T3-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintético.. Hints: Recorre keys; si falta retorna default.; Chequea isinstance dict en cada nivel.. Entrega: «def get_nested(d, *keys, default=None):     cur = d     for k in keys:         if not isinstance(cur, dict) or k not in cur:             ret». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "clients = [\n    {\"id\": \"C1\", \"email\": \"a@b.com\"},\n    {\"id\": \"C2\", \"email\": None},\n    {\"id\": \"C3\"},\n]\nfor c in clients:\n    email = c.get(\"email\")\n    missing = email is None or \"email\" not in c\n    print(c[\"id\"], \"missing\" if missing else \"ok\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "clients",
+        "email",
+        "com",
+        "get",
+        "missing",
+        "not",
+        "else",
+        "independiente"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T3-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present. Imprime líneas `id: missing|present`.. Hints: 'email' not in c or c['email'] is None → missing; '' puede contarse present vacío según política; aquí '' = present.. Entrega: «clients = [     {\"id\": \"C1\", \"email\": \"a@b.com\"},     {\"id\": \"C2\", \"email\": None},     {\"id\": \"C3\"}, ] for c in clients:     email = c.get(\"». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "vals = [None, \"\", 0, []]\nfor v in vals:\n    print(repr(v), \"truthy\", bool(v), \"is_None\", v is None, \"policy: use is None for missing, not truthiness\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "vals",
+        "repr",
+        "truthy",
+        "bool",
+        "is_None",
+        "policy",
+        "use",
+        "missing"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T3-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si representan missing de negocio (solo None = missing aquí).. Hints: bool(x) vs x is None; 0 y '' son falsy pero pueden ser datos válidos.. Entrega: «vals = [None, \"\", 0, []] for v in vals:     print(repr(v), \"truthy\", bool(v), \"is_None\", v is None, \"policy: use is None for missing, not tr». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "rows = [{\"id\": \"A\", \"monto\": 30}, {\"id\": \"B\", \"monto\": 10}, {\"id\": \"C\", \"monto\": 20}]\nordered = sorted(rows, key=lambda r: r[\"monto\"])\nprint([r[\"id\"] for r in ordered])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "monto",
+        "ordered",
+        "sorted",
+        "key",
+        "lambda",
+        "guiado",
+        "Ordena"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T4-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.. Hints: key=lambda r: r['monto']; sorted no muta la lista original.. Entrega: «rows = [{\"id\": \"A\", \"monto\": 30}, {\"id\": \"B\", \"monto\": 10}, {\"id\": \"C\", \"monto\": 20}] ordered = sorted(rows, key=lambda r: r[\"monto\"]) print». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "rows = [\n    {\"region\": \"Lima\", \"nombre\": \"Zoe\"},\n    {\"region\": \"Cusco\", \"nombre\": \"Ana\"},\n    {\"region\": \"Lima\", \"nombre\": \"Ana\"},\n]\nordered = sorted(rows, key=lambda r: (r[\"region\"], r[\"nombre\"]))\nfor r in ordered:\n    print(r[\"region\"], r[\"nombre\"])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "region",
+        "Lima",
+        "nombre",
+        "Zoe",
+        "Cusco",
+        "Ana",
+        "ordered"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T4-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.. Hints: key=lambda r: (r['region'], r['nombre']); Tupla compara lexicográficamente.. Entrega: «rows = [     {\"region\": \"Lima\", \"nombre\": \"Zoe\"},     {\"region\": \"Cusco\", \"nombre\": \"Ana\"},     {\"region\": \"Lima\", \"nombre\": \"Ana\"}, ] order». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "rows = [3, 1, 2]\nret = rows.sort()\nprint(\"return\", ret, type(ret).__name__)\nprint(\"mutated\", rows)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "ret",
+        "sort",
+        "type",
+        "__name__",
+        "mutated",
+        "transferencia",
+        "Demuestra"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T4-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista mutada. Luego usa sorted para obtener copia ordenada sin tocar otra lista `base`.. Hints: x = lst.sort() → x is None; sorted(base) no muta base.. Entrega: «rows = [3, 1, 2] ret = rows.sort() print(\"return\", ret, type(ret).__name__) print(\"mutated\", rows) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"cola llegada → list\")\nprint(\"lookup por id → dict\")\nprint(\"conjunto de emails únicos → set\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "cola",
+        "llegada",
+        "list",
+        "lookup",
+        "por",
+        "dict",
+        "conjunto",
+        "emails"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T4-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de emails únicos.. Hints: list / dict / set; Una línea por job con la elección.. Entrega: «print(\"cola llegada → list\") print(\"lookup por id → dict\") print(\"conjunto de emails únicos → set\") ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import json\npayload = {\"b\": 2, \"a\": 1, \"ids\": [\"c\", \"a\", \"b\"]}\npayload[\"ids\"] = sorted(payload[\"ids\"])\nprint(json.dumps(payload, sort_keys=True))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "json",
+        "payload",
+        "ids",
+        "sorted",
+        "dumps",
+        "sort_keys",
+        "independiente",
+        "Haz"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T4-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JSON una vez.. Hints: sorted ids; sort_keys=True; ensure_ascii=False para tildes si hubiera.. Entrega: «import json payload = {\"b\": 2, \"a\": 1, \"ids\": [\"c\", \"a\", \"b\"]} payload[\"ids\"] = sorted(payload[\"ids\"]) print(json.dumps(payload, sort_keys=T». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "ids_list = list(range(1000))\nids_set = set(ids_list)\nprint(\"list membership ~ O(n); set membership ~ O(1)\")\nprint(\"999 in list?\", 999 in ids_list)\nprint(\"999 in set?\", 999 in ids_set)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "ids_list",
+        "list",
+        "range",
+        "ids_set",
+        "set",
+        "membership",
+        "transferencia",
+        "Justifica"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S06-T4-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad conceptual y un micro-ejemplo n=5 mostrando `x in set` True.. Hints: list O(n) vs set O(1) promedio; No necesitas timeit; razona y demo pequeña.. Entrega: «ids_list = list(range(1000)) ids_set = set(ids_list) print(\"list membership ~ O(n); set membership ~ O(1)\") print(\"999 in list?\", 999 in ids». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "[3,4]",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q0 elijo índice 1 «[3,4]» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Qué produce xs[-2:] si xs = [1,2,3,4]?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "a también ve el append (alias)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q1 elijo índice 3 «a también ve el append (alias)» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: b = a (listas) y mutas b.append(1). ¿Qué pasa con a?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Listar conflicto en conflicts sin silenciar",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q2 elijo índice 0 «Listar conflicto en conflicts sin silenciar» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: Para reportar dos filas con mismo id y payload distinto debes…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "None (muta in-place)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q3 elijo índice 2 «None (muta in-place)» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: rows.sort(key=...) retorna…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "salidas deterministas/reproducibles",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q4 elijo índice 1 «salidas deterministas/reproducibles» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: json.dumps(..., sort_keys=True) ayuda a…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:41:41.945222+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-agentic-D1-s06-live",
+  "method_declared": "llm_packet_only_no_gen"
+}

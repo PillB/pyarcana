@@ -1,0 +1,453 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D1",
+  "section_index": 43,
+  "packet_sha": "a94c58728e1bc959",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S43-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-1A\", **{\"lock_agentic_before_source\":True,\"dependency_layer_reused\":True,\"source_change_agentics\":1,\"digest_stable\":True}}\nmeets_contract = record[\"dependency_layer_reused\"] and record[\"source_change_agentics\"] <= 1 and record[\"digest_stable\"]\nstatus = \"PASS\" if meets_contract else \"REORDER_DOCKERFILE\"\nprint(\"S43-T1-A\", status)\n",
+      "answer": "S43-T1-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Calcula",
+        "contrato",
+        "Dockerfile",
+        "layers",
+        "cache",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T1-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `record = {\"case_id\": \"CASO-TRU-043-1A\", **{\"lock_agentic_before_source\":True,\"dependency_layer_reused`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"dependency_layer_reused\", \"digest_stable\", \"lock_agentic_before_source\", \"source_change_agentics\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"dependency_layer_reused\"] and record[\"source_change_agentics\"] <= 1 and record[\"digest_stable\"]) else \"REORDER_DOCKERFILE\"\n\nvalid = {'case_id': 'CASO-TRU-043-1A', 'lock_agentic_before_source': True, 'dependency_layer_reused': True, 'source_change_agentics': 1, 'digest_stable': True}\ninvalid = {'case_id': 'CASO-TRU-043-1A', 'lock_agentic_before_source': False, 'dependency_layer_reused': False, 'source_change_agentics': 9, 'digest_stable': True}\nincomplete = dict(valid)\nincomplete.pop(\"digest_stable\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS REORDER_DOCKERFILE MISSING:digest_stable",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Modela",
+        "tres",
+        "rutas",
+        "Dockerfile",
+        "layers",
+        "cache",
+        "fixture"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T1-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"dependency_layer_reused\", \"digest_stable\", \"lock_agentic_before_source\", \"source_change_agentics\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INSPECT_CACHE_INVALIDATION\"\n    return \"CONTINUE\" if (record[\"dependency_layer_reused\"] and record[\"source_change_agentics\"] <= 1 and record[\"digest_stable\"]) else \"REORDER_DOCKERFILE\"\n\nvalid = {'case_id': 'CASO-TRU-043-1A', 'lock_agentic_before_source': True, 'dependency_layer_reused': True, 'source_change_agentics': 1, 'digest_stable': True}\ninvalid = {'case_id': 'CASO-TRU-043-1A', 'lock_agentic_before_source': False, 'dependency_layer_reused': False, 'source_change_agentics': 9, 'digest_stable': True}\nuncertain = dict(valid)\nuncertain.pop(\"digest_stable\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE REORDER_DOCKERFILE INSPECT_CACHE_INVALIDATION",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "Dockerfile",
+        "layers",
+        "cache"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T1-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-1B\", **{\"base_pinned\":True,\"uid\":10001,\"capabilities\":set(),\"runtime_mb\":118,\"max_mb\":150}}\nmeets_contract = record[\"uid\"] != 0 and not record[\"capabilities\"] and record[\"runtime_mb\"] <= record[\"max_mb\"]\nstatus = \"PASS\" if meets_contract else \"REBUILD_NONROOT\"\nprint(\"S43-T1-B\", status)\n",
+      "answer": "S43-T1-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Compara",
+        "contrato",
+        "bases",
+        "usuarios",
+        "root",
+        "tama",
+        "sobre"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T1-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `record = {\"case_id\": \"CASO-TRU-043-1B\", **{\"base_pinned\":True,\"uid\":10001,\"capabilities\":set(),\"runt`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"base_pinned\", \"capabilities\", \"case_id\", \"max_mb\", \"runtime_mb\", \"uid\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"uid\"] != 0 and not record[\"capabilities\"] and record[\"runtime_mb\"] <= record[\"max_mb\"]) else \"REBUILD_NONROOT\"\n\nvalid = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}\ninvalid = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': False, 'uid': 0, 'capabilities': {'SYS_ADMIN'}, 'runtime_mb': 118, 'max_mb': 150}\nincomplete = dict(valid)\nincomplete.pop(\"max_mb\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS REBUILD_NONROOT MISSING:max_mb",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Verifica",
+        "tres",
+        "rutas",
+        "bases",
+        "usuarios",
+        "root",
+        "tama"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T1-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"base_pinned\", \"capabilities\", \"case_id\", \"max_mb\", \"runtime_mb\", \"uid\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SELECT_PATCHABLE_BASE\"\n    return \"CONTINUE\" if (record[\"uid\"] != 0 and not record[\"capabilities\"] and record[\"runtime_mb\"] <= record[\"max_mb\"]) else \"REBUILD_NONROOT\"\n\nvalid = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}\ninvalid = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': False, 'uid': 0, 'capabilities': {'SYS_ADMIN'}, 'runtime_mb': 118, 'max_mb': 150}\nuncertain = dict(valid)\nuncertain.pop(\"max_mb\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE REBUILD_NONROOT SELECT_PATCHABLE_BASE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "bases",
+        "usuarios",
+        "root"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T1-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-2A\", **{\"secret_baked\":False,\"runtime_secret\":True,\"config_declared\":True,\"durable_volumes\":{\"db\"},\"ephemeral_volumes\":{\"cache\"}}}\nmeets_contract = (not record[\"secret_baked\"]) and record[\"runtime_secret\"]\nstatus = \"PASS\" if meets_contract else \"REMOVE_BAKED_SECRET\"\nprint(\"S43-T2-A\", status)\n",
+      "answer": "S43-T2-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Filtra",
+        "contrato",
+        "config",
+        "secrets",
+        "volumes",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T2-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `record = {\"case_id\": \"CASO-TRU-043-2A\", **{\"secret_baked\":False,\"runtime_secret\":True,\"config_declar`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"config_declared\", \"durable_volumes\", \"ephemeral_volumes\", \"runtime_secret\", \"secret_baked\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not record[\"secret_baked\"]) and record[\"runtime_secret\"]) else \"REMOVE_BAKED_SECRET\"\n\nvalid = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': False, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}\ninvalid = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': True, 'runtime_secret': False, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}\nincomplete = dict(valid)\nincomplete.pop(\"ephemeral_volumes\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS REMOVE_BAKED_SECRET MISSING:ephemeral_volumes",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "config",
+        "secrets",
+        "volumes",
+        "fixture"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T2-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"config_declared\", \"durable_volumes\", \"ephemeral_volumes\", \"runtime_secret\", \"secret_baked\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CLASSIFY_VOLUME\"\n    return \"CONTINUE\" if ((not record[\"secret_baked\"]) and record[\"runtime_secret\"]) else \"REMOVE_BAKED_SECRET\"\n\nvalid = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': False, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}\ninvalid = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': True, 'runtime_secret': False, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}\nuncertain = dict(valid)\nuncertain.pop(\"ephemeral_volumes\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE REMOVE_BAKED_SECRET CLASSIFY_VOLUME",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "config",
+        "secrets",
+        "volumes"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T2-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-2B\", **{\"private_network\":True,\"readiness_db\":True,\"liveness_loop\":True,\"sigterm_drains\":True,\"grace_seconds\":30}}\nmeets_contract = record[\"readiness_db\"] and record[\"sigterm_drains\"] and record[\"private_network\"]\nstatus = \"PASS\" if meets_contract else \"DRAIN_AND_ISOLATE\"\nprint(\"S43-T2-B\", status)\n",
+      "answer": "S43-T2-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Modela",
+        "contrato",
+        "networking",
+        "health",
+        "checks",
+        "signals",
+        "sobre"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T2-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `record = {\"case_id\": \"CASO-TRU-043-2B\", **{\"private_network\":True,\"readiness_db\":True,\"liveness_loop`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"grace_seconds\", \"liveness_loop\", \"private_network\", \"readiness_db\", \"sigterm_drains\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"readiness_db\"] and record[\"sigterm_drains\"] and record[\"private_network\"]) else \"DRAIN_AND_ISOLATE\"\n\nvalid = {'case_id': 'CASO-TRU-043-2B', 'private_network': True, 'readiness_db': True, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}\ninvalid = {'case_id': 'CASO-TRU-043-2B', 'private_network': False, 'readiness_db': False, 'liveness_loop': True, 'sigterm_drains': False, 'grace_seconds': 30}\nincomplete = dict(valid)\nincomplete.pop(\"grace_seconds\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS DRAIN_AND_ISOLATE MISSING:grace_seconds",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Audita",
+        "tres",
+        "rutas",
+        "networking",
+        "health",
+        "checks",
+        "signals"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T2-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"grace_seconds\", \"liveness_loop\", \"private_network\", \"readiness_db\", \"sigterm_drains\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"DIAGNOSE_HEALTH_SIGNAL\"\n    return \"CONTINUE\" if (record[\"readiness_db\"] and record[\"sigterm_drains\"] and record[\"private_network\"]) else \"DRAIN_AND_ISOLATE\"\n\nvalid = {'case_id': 'CASO-TRU-043-2B', 'private_network': True, 'readiness_db': True, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}\ninvalid = {'case_id': 'CASO-TRU-043-2B', 'private_network': False, 'readiness_db': False, 'liveness_loop': True, 'sigterm_drains': False, 'grace_seconds': 30}\nuncertain = dict(valid)\nuncertain.pop(\"grace_seconds\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE DRAIN_AND_ISOLATE DIAGNOSE_HEALTH_SIGNAL",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "networking",
+        "health",
+        "checks"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T2-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-3A\", **{\"services\":{\"api\",\"worker\",\"db\",\"cache\"},\"healthy\":{\"api\",\"worker\",\"db\",\"cache\"},\"api_retries_db\":True,\"networks\":{\"front\",\"back\"}}}\nmeets_contract = not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])\nstatus = \"PASS\" if meets_contract else \"STOP_UNHEALTHY_STACK\"\nprint(\"S43-T3-A\", status)\n",
+      "answer": "S43-T3-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Verifica",
+        "contrato",
+        "API",
+        "worker",
+        "cache",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T3-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `record = {\"case_id\": \"CASO-TRU-043-3A\", **{\"services\":{\"api\",\"worker\",\"db\",\"cache\"},\"healthy\":{\"api\"`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"api_retries_db\", \"case_id\", \"healthy\", \"networks\", \"services\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])) else \"STOP_UNHEALTHY_STACK\"\n\nvalid = {'case_id': 'CASO-TRU-043-3A', 'services': {'cache', 'worker', 'db', 'api'}, 'healthy': {'cache', 'worker', 'db', 'api'}, 'api_retries_db': True, 'networks': {'front', 'back'}}\ninvalid = {'case_id': 'CASO-TRU-043-3A', 'services': {'cache', 'worker', 'db', 'api'}, 'healthy': set(), 'api_retries_db': False, 'networks': set()}\nincomplete = dict(valid)\nincomplete.pop(\"networks\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS STOP_UNHEALTHY_STACK MISSING:networks",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Decide",
+        "tres",
+        "rutas",
+        "API",
+        "worker",
+        "cache",
+        "fixture"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T3-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"api_retries_db\", \"case_id\", \"healthy\", \"networks\", \"services\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"WAIT_FOR_DEPENDENCY\"\n    return \"CONTINUE\" if (not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])) else \"STOP_UNHEALTHY_STACK\"\n\nvalid = {'case_id': 'CASO-TRU-043-3A', 'services': {'cache', 'worker', 'db', 'api'}, 'healthy': {'cache', 'worker', 'db', 'api'}, 'api_retries_db': True, 'networks': {'front', 'back'}}\ninvalid = {'case_id': 'CASO-TRU-043-3A', 'services': {'cache', 'worker', 'db', 'api'}, 'healthy': set(), 'api_retries_db': False, 'networks': set()}\nuncertain = dict(valid)\nuncertain.pop(\"networks\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE STOP_UNHEALTHY_STACK WAIT_FOR_DEPENDENCY",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "API",
+        "worker",
+        "cache"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T3-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-3B\", **{\"migration\":\"expand\",\"old_code_compatible\":True,\"ephemeral_reset\":True,\"backup_restored\":True}}\nmeets_contract = (not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])) and record.get(\"case_id\") == 'CASO-TRU-043-3B'\nstatus = \"PASS\" if meets_contract else \"ROLL_BACK_MIGRATION\"\nprint(\"S43-T3-B\", status)\n",
+      "answer": "S43-T3-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Clasifica",
+        "contrato",
+        "dependencias",
+        "migrations",
+        "datos",
+        "meros",
+        "sobre"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T3-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `record = {\"case_id\": \"CASO-TRU-043-3B\", **{\"migration\":\"expand\",\"old_code_compatible\":True,\"ephemera`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"backup_restored\", \"case_id\", \"ephemeral_reset\", \"migration\", \"old_code_compatible\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])) and record.get(\"case_id\") == 'CASO-TRU-043-3B') else \"ROLL_BACK_MIGRATION\"\n\nvalid = {'case_id': 'CASO-TRU-043-3B', 'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}\ninvalid = {'case_id': 'CASO-TRU-043-3B-ADV', 'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}\nincomplete = dict(valid)\nincomplete.pop(\"backup_restored\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS ROLL_BACK_MIGRATION MISSING:backup_restored",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Calcula",
+        "tres",
+        "rutas",
+        "dependencias",
+        "migrations",
+        "datos",
+        "meros"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T3-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"backup_restored\", \"case_id\", \"ephemeral_reset\", \"migration\", \"old_code_compatible\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RUN_RESTORE_DRILL\"\n    return \"CONTINUE\" if ((not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])) and record.get(\"case_id\") == 'CASO-TRU-043-3B') else \"ROLL_BACK_MIGRATION\"\n\nvalid = {'case_id': 'CASO-TRU-043-3B', 'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}\ninvalid = {'case_id': 'CASO-TRU-043-3B-ADV', 'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}\nuncertain = dict(valid)\nuncertain.pop(\"backup_restored\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE ROLL_BACK_MIGRATION RUN_RESTORE_DRILL",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "dependencias",
+        "migrations",
+        "datos"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T3-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-4A\", **{\"lock_hash\":\"sha256:abc\",\"stages\":{\"builder\",\"runtime\"},\"compiler_in_runtime\":False,\"runtime_deps_locked\":True}}\nmeets_contract = not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNPINNED_BUILD\"\nprint(\"S43-T4-A\", status)\n",
+      "answer": "S43-T4-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Audita",
+        "contrato",
+        "locks",
+        "multi",
+        "stage",
+        "builds",
+        "sobre"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T4-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `record = {\"case_id\": \"CASO-TRU-043-4A\", **{\"lock_hash\":\"sha256:abc\",\"stages\":{\"builder\",\"runtime\"},\"`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"compiler_in_runtime\", \"lock_hash\", \"runtime_deps_locked\", \"stages\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])) else \"BLOCK_UNPINNED_BUILD\"\n\nvalid = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': False, 'runtime_deps_locked': True}\ninvalid = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': True, 'runtime_deps_locked': True}\nincomplete = dict(valid)\nincomplete.pop(\"runtime_deps_locked\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS BLOCK_UNPINNED_BUILD MISSING:runtime_deps_locked",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Compara",
+        "tres",
+        "rutas",
+        "locks",
+        "multi",
+        "stage",
+        "builds"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T4-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"compiler_in_runtime\", \"lock_hash\", \"runtime_deps_locked\", \"stages\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REGENERATE_LOCK\"\n    return \"CONTINUE\" if (not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])) else \"BLOCK_UNPINNED_BUILD\"\n\nvalid = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': False, 'runtime_deps_locked': True}\ninvalid = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': True, 'runtime_deps_locked': True}\nuncertain = dict(valid)\nuncertain.pop(\"runtime_deps_locked\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE BLOCK_UNPINNED_BUILD REGENERATE_LOCK",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "locks",
+        "multi",
+        "stage"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T4-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-4B\", **{\"critical_cves\":0,\"memory_limit_mb\":512,\"cpu_limit\":1.0,\"debug_shell\":False,\"logs_redacted\":True}}\nmeets_contract = record[\"critical_cves\"] <= 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"]\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_IMAGE\"\nprint(\"S43-T4-B\", status)\n",
+      "answer": "S43-T4-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Decide",
+        "contrato",
+        "scanning",
+        "resource",
+        "limits",
+        "debugging",
+        "sobre"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T4-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `record = {\"case_id\": \"CASO-TRU-043-4B\", **{\"critical_cves\":0,\"memory_limit_mb\":512,\"cpu_limit\":1.0,\"`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"cpu_limit\", \"critical_cves\", \"debug_shell\", \"logs_redacted\", \"memory_limit_mb\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"critical_cves\"] <= 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"]) else \"QUARANTINE_IMAGE\"\n\nvalid = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 0, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}\ninvalid = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 1, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}\nincomplete = dict(valid)\nincomplete.pop(\"logs_redacted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS QUARANTINE_IMAGE MISSING:logs_redacted",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Filtra",
+        "tres",
+        "rutas",
+        "scanning",
+        "resource",
+        "limits",
+        "debugging"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T4-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S43-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"cpu_limit\", \"critical_cves\", \"debug_shell\", \"logs_redacted\", \"memory_limit_mb\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TRIAGE_SCAN_FINDING\"\n    return \"CONTINUE\" if (record[\"critical_cves\"] <= 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"]) else \"QUARANTINE_IMAGE\"\n\nvalid = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 0, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}\ninvalid = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 1, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}\nuncertain = dict(valid)\nuncertain.pop(\"logs_redacted\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE QUARANTINE_IMAGE TRIAGE_SCAN_FINDING",
+      "blocked_on": [],
+      "concepts_used": [
+        "S43",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "scanning",
+        "resource",
+        "limits"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S43-T4-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas Optimiza Dockerfile y layers Usa non-root y reduce tamaño Inyecta». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «¿Qué evidencia permite aprobar `Dockerfile, layers y cache` en CASO-TRU-043?» elijo «dos builds producen el mismo digest lógico» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas\nOptimiza Dockerfile y layers\nUsa no». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «Si ocurre la condición de error de S43, ¿qué respuesta preserva seguridad y auditabilidad?» elijo «emitir BLOCK_IMAGE y conservar evidencia» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas\nOptimiza Dockerfile y layers\nUsa no». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «¿Cuál resultado demuestra el gate `CP-N4-A · servicio reproducible en contenedores`?» elijo «build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas\nOptimiza Dockerfile y layers\nUsa no». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «¿Qué tratamiento de `CASO-TRU-043` respeta el alcance del curso?» elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas\nOptimiza Dockerfile y layers\nUsa no». Descarto PII real, ocultar fallos o inventar evidencia."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:39:57.154943+00:00",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D1-s43-live",
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "notes": "D1-Skeptic live solve from slim_packet + exercise_batch_40_52 only; justifications packet-grounded.",
+  "artifact_origin": "direct_agent_output"
+}

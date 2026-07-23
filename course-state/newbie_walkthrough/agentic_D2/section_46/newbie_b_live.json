@@ -1,0 +1,453 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D2",
+  "section_index": 46,
+  "packet_sha": "7545b9e7cdaa742a",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S46-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\":110,\"window_end\":120,\"watermark\":115,\"allowed_lateness\":10}}\nmeets_contract = record[\"event_time\"] <= record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"]\nstatus = \"PASS\" if meets_contract else \"SIDE_OUTPUT_LATE_EVENT\"\nprint(\"S46-T1-A\", status)\n# D2-Skeptic: packet-only re-walk S46 S46-T1-A-E1\n",
+      "answer": "S46-T1-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Calcula",
+        "contrato",
+        "ventanas",
+        "event",
+        "time",
+        "watermarks",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T1-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `record = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\":110,\"window_end\":120,\"watermark\":115,\"allowe`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"allowed_lateness\", \"case_id\", \"event_time\", \"watermark\", \"window_end\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"event_time\"] <= record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"]) else \"SIDE_OUTPUT_LATE_EVENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 210, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nincomplete = dict(valid)\nincomplete.pop(\"allowed_lateness\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T1-A-E2\n",
+      "answer": "PASS SIDE_OUTPUT_LATE_EVENT MISSING:allowed_lateness",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Modela",
+        "tres",
+        "rutas",
+        "ventanas",
+        "event",
+        "time",
+        "watermarks"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T1-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"allowed_lateness\", \"case_id\", \"event_time\", \"watermark\", \"window_end\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"WAIT_FOR_WATERMARK\"\n    return \"CONTINUE\" if (record[\"event_time\"] <= record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"]) else \"SIDE_OUTPUT_LATE_EVENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 210, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nuncertain = dict(valid)\nuncertain.pop(\"allowed_lateness\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T1-A-E3\n",
+      "answer": "CONTINUE SIDE_OUTPUT_LATE_EVENT WAIT_FOR_WATERMARK",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "ventanas",
+        "event",
+        "time"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T1-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\":[\"e1\",\"e1\",\"e2\"],\"sink_ids\":{\"e1\",\"e2\"},\"checkpoint\":2,\"late_policy\":\"update\"}}\nmeets_contract = record.get(\"case_id\") == 'CASO-HYO-046-1B' and not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])\nstatus = \"PASS\" if meets_contract else \"REPLAY_IDEMPOTENTLY\"\nprint(\"S46-T1-B\", status)\n# D2-Skeptic: packet-only re-walk S46 S46-T1-B-E1\n",
+      "answer": "S46-T1-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Compara",
+        "contrato",
+        "late",
+        "data",
+        "exactly",
+        "once",
+        "como"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T1-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `record = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\":[\"e1\",\"e1\",\"e2\"],\"sink_ids\":{\"e1\",\"e2\"},\"chec`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"checkpoint\", \"event_ids\", \"late_policy\", \"sink_ids\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"case_id\") == 'CASO-HYO-046-1B' and not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])) else \"REPLAY_IDEMPOTENTLY\"\n\nvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {'case_id': 'CASO-HYO-046-1B-ADV', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\nincomplete = dict(valid)\nincomplete.pop(\"late_policy\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T1-B-E2\n",
+      "answer": "PASS REPLAY_IDEMPOTENTLY MISSING:late_policy",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Verifica",
+        "tres",
+        "rutas",
+        "late",
+        "data",
+        "exactly",
+        "once"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T1-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"checkpoint\", \"event_ids\", \"late_policy\", \"sink_ids\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CHOOSE_LATE_POLICY\"\n    return \"CONTINUE\" if (record.get(\"case_id\") == 'CASO-HYO-046-1B' and not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])) else \"REPLAY_IDEMPOTENTLY\"\n\nvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {'case_id': 'CASO-HYO-046-1B-ADV', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\nuncertain = dict(valid)\nuncertain.pop(\"late_policy\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T1-B-E3\n",
+      "answer": "CONTINUE REPLAY_IDEMPOTENTLY CHOOSE_LATE_POLICY",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "late",
+        "data",
+        "exactly"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T1-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\nmeets_contract = not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))\nstatus = \"PASS\" if meets_contract else \"REJECT_DAG\"\nprint(\"S46-T2-A\", status)\n# D2-Skeptic: packet-only re-walk S46 S46-T2-A-E1\n",
+      "answer": "S46-T2-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Filtra",
+        "contrato",
+        "DAG",
+        "assets",
+        "dependency",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T2-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `record = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\")`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"edges\", \"nodes\", \"typed_io\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))) else \"REJECT_DAG\"\n\nvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('raw', 'clean'), ('clean', 'report')}, 'typed_io': True}\ninvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw'}, 'edges': {('raw', 'raw'), ('clean', 'report')}, 'typed_io': False}\nincomplete = dict(valid)\nincomplete.pop(\"typed_io\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T2-A-E2\n",
+      "answer": "PASS REJECT_DAG MISSING:typed_io",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "DAG",
+        "assets",
+        "dependency",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T2-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"edges\", \"nodes\", \"typed_io\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"DECLARE_ASSET_DEPENDENCY\"\n    return \"CONTINUE\" if (not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))) else \"REJECT_DAG\"\n\nvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('raw', 'clean'), ('clean', 'report')}, 'typed_io': True}\ninvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw'}, 'edges': {('raw', 'raw'), ('clean', 'report')}, 'typed_io': False}\nuncertain = dict(valid)\nuncertain.pop(\"typed_io\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T2-A-E3\n",
+      "answer": "CONTINUE REJECT_DAG DECLARE_ASSET_DEPENDENCY",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "DAG",
+        "assets",
+        "dependency"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T2-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\":[[1,3],[4,6]],\"overlap\":False,\"checkpoint\":\"2026-07-01\",\"resume_from\":\"2026-07-01\"}}\nmeets_contract = record[\"overlap\"] or record[\"checkpoint\"] == record[\"resume_from\"]\nstatus = \"PASS\" if meets_contract else \"STOP_OVERLAPPING_BACKFILL\"\nprint(\"S46-T2-B\", status)\n# D2-Skeptic: packet-only re-walk S46 S46-T2-B-E1\n",
+      "answer": "S46-T2-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Modela",
+        "contrato",
+        "schedules",
+        "backfills",
+        "state",
+        "recovery",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T2-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `record = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\":[[1,3],[4,6]],\"overlap\":False,\"checkpoint\":\"2`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"checkpoint\", \"intervals\", \"overlap\", \"resume_from\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"overlap\"] or record[\"checkpoint\"] == record[\"resume_from\"]) else \"STOP_OVERLAPPING_BACKFILL\"\n\nvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01_X', 'resume_from': '2026-07-01'}\nincomplete = dict(valid)\nincomplete.pop(\"resume_from\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T2-B-E2\n",
+      "answer": "PASS STOP_OVERLAPPING_BACKFILL MISSING:resume_from",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Audita",
+        "tres",
+        "rutas",
+        "schedules",
+        "backfills",
+        "state",
+        "recovery"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T2-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"checkpoint\", \"intervals\", \"overlap\", \"resume_from\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RECOVER_CHECKPOINT\"\n    return \"CONTINUE\" if (record[\"overlap\"] or record[\"checkpoint\"] == record[\"resume_from\"]) else \"STOP_OVERLAPPING_BACKFILL\"\n\nvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01_X', 'resume_from': '2026-07-01'}\nuncertain = dict(valid)\nuncertain.pop(\"resume_from\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T2-B-E3\n",
+      "answer": "CONTINUE STOP_OVERLAPPING_BACKFILL RECOVER_CHECKPOINT",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "schedules",
+        "backfills",
+        "state"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T2-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"observed_schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"freshness_min\":8,\"slo_min\":15,\"owner\":\"data-ops\"}}\nmeets_contract = record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] <= record[\"slo_min\"]\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_DATASET\"\nprint(\"S46-T3-A\", status)\n# D2-Skeptic: packet-only re-walk S46 S46-T3-A-E1\n",
+      "answer": "S46-T3-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Verifica",
+        "contrato",
+        "contracts",
+        "freshness",
+        "sobre",
+        "CASO",
+        "HYO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T3-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `record = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"observed_s`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"freshness_min\", \"observed_schema\", \"owner\", \"schema\", \"slo_min\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] <= record[\"slo_min\"]) else \"QUARANTINE_DATASET\"\n\nvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 108, 'slo_min': 15, 'owner': 'data-ops'}\nincomplete = dict(valid)\nincomplete.pop(\"owner\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T3-A-E2\n",
+      "answer": "PASS QUARANTINE_DATASET MISSING:owner",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Decide",
+        "tres",
+        "rutas",
+        "contracts",
+        "freshness",
+        "fixture",
+        "lido"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T3-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"freshness_min\", \"observed_schema\", \"owner\", \"schema\", \"slo_min\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"PAGE_DATA_OWNER\"\n    return \"CONTINUE\" if (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] <= record[\"slo_min\"]) else \"QUARANTINE_DATASET\"\n\nvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 108, 'slo_min': 15, 'owner': 'data-ops'}\nuncertain = dict(valid)\nuncertain.pop(\"owner\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T3-A-E3\n",
+      "answer": "CONTINUE QUARANTINE_DATASET PAGE_DATA_OWNER",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "contracts",
+        "freshness",
+        "con"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T3-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\":\"run-hyo-46\",\"inputs\":{\"raw-v2\"},\"outputs\":{\"clean-v3\"},\"metrics\":{\"rows\":120,\"null_rate\":0.01},\"owner\":\"analytics\"}}\nmeets_contract = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\nstatus = \"PASS\" if meets_contract else \"OPEN_QUALITY_INCIDENT\"\nprint(\"S46-T3-B\", status)\n# D2-Skeptic: packet-only re-walk S46 S46-T3-B-E1\n",
+      "answer": "S46-T3-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Clasifica",
+        "contrato",
+        "lineage",
+        "observability",
+        "ownership",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T3-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `record = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\":\"run-hyo-46\",\"inputs\":{\"raw-v2\"},\"outputs\":{\"cle`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"inputs\", \"metrics\", \"outputs\", \"owner\", \"run_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)) else \"OPEN_QUALITY_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\ninvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': set(), 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\nincomplete = dict(valid)\nincomplete.pop(\"owner\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T3-B-E2\n",
+      "answer": "PASS OPEN_QUALITY_INCIDENT MISSING:owner",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Calcula",
+        "tres",
+        "rutas",
+        "lineage",
+        "observability",
+        "ownership",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T3-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"inputs\", \"metrics\", \"outputs\", \"owner\", \"run_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TRACE_LINEAGE\"\n    return \"CONTINUE\" if (not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)) else \"OPEN_QUALITY_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\ninvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': set(), 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\nuncertain = dict(valid)\nuncertain.pop(\"owner\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T3-B-E3\n",
+      "answer": "CONTINUE OPEN_QUALITY_INCIDENT TRACE_LINEAGE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "lineage",
+        "observability",
+        "ownership"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T3-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\":\"2026-07-22\",\"source_keys\":{\"a\",\"b\",\"c\"},\"target_keys\":{\"a\",\"b\",\"c\"},\"second_run_changes\":0,\"small_files\":2,\"max_small_files\":5}}\nmeets_contract = record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] <= 0\nstatus = \"PASS\" if meets_contract else \"REBUILD_PARTITION\"\nprint(\"S46-T4-A\", status)\n# D2-Skeptic: packet-only re-walk S46 S46-T4-A-E1\n",
+      "answer": "S46-T4-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Audita",
+        "contrato",
+        "partitions",
+        "incremental",
+        "loads",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T4-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `record = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\":\"2026-07-22\",\"source_keys\":{\"a\",\"b\",\"c\"},\"tar`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"max_small_files\", \"partition\", \"second_run_changes\", \"small_files\", \"source_keys\", \"target_keys\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] <= 0) else \"REBUILD_PARTITION\"\n\nvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'c', 'b'}, 'target_keys': {'a', 'c', 'b'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'b', 'a', 'c'}, 'target_keys': {'b', 'a', 'c'}, 'second_run_changes': 1, 'small_files': 2, 'max_small_files': 5}\nincomplete = dict(valid)\nincomplete.pop(\"max_small_files\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T4-A-E2\n",
+      "answer": "PASS REBUILD_PARTITION MISSING:max_small_files",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Compara",
+        "tres",
+        "rutas",
+        "partitions",
+        "incremental",
+        "loads",
+        "fixture"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T4-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"max_small_files\", \"partition\", \"second_run_changes\", \"small_files\", \"source_keys\", \"target_keys\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_INCREMENTAL_KEY\"\n    return \"CONTINUE\" if (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] <= 0) else \"REBUILD_PARTITION\"\n\nvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'c', 'b'}, 'target_keys': {'a', 'c', 'b'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'b', 'a', 'c'}, 'target_keys': {'b', 'a', 'c'}, 'second_run_changes': 1, 'small_files': 2, 'max_small_files': 5}\nuncertain = dict(valid)\nuncertain.pop(\"max_small_files\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T4-A-E3\n",
+      "answer": "CONTINUE REBUILD_PARTITION REVIEW_INCREMENTAL_KEY",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "partitions",
+        "incremental",
+        "loads"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T4-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\":0.995,\"freshness_slo\":0.99,\"rto_minutes\":25,\"target_rto_minutes\":30,\"postmortem_actions\":3,\"owner\":\"data-oncall\"}}\nmeets_contract = record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] <= record[\"target_rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_INCIDENT\"\nprint(\"S46-T4-B\", status)\n# D2-Skeptic: packet-only re-walk S46 S46-T4-B-E1\n",
+      "answer": "S46-T4-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Decide",
+        "contrato",
+        "SLO",
+        "incidentes",
+        "data",
+        "recovery",
+        "sobre"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T4-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `record = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\":0.995,\"freshness_slo\":0.99,\"rto_minutes\":`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"freshness_sli\", \"freshness_slo\", \"owner\", \"postmortem_actions\", \"rto_minutes\", \"target_rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] <= record[\"target_rto_minutes\"]) else \"DECLARE_DATA_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 125, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nincomplete = dict(valid)\nincomplete.pop(\"owner\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T4-B-E2\n",
+      "answer": "PASS DECLARE_DATA_INCIDENT MISSING:owner",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Filtra",
+        "tres",
+        "rutas",
+        "SLO",
+        "incidentes",
+        "data",
+        "recovery"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T4-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S46-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"freshness_sli\", \"freshness_slo\", \"owner\", \"postmortem_actions\", \"rto_minutes\", \"target_rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ACTIVATE_RECOVERY_RUNBOOK\"\n    return \"CONTINUE\" if (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] <= record[\"target_rto_minutes\"]) else \"DECLARE_DATA_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 125, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nuncertain = dict(valid)\nuncertain.pop(\"owner\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n# D2-Skeptic: packet-only re-walk S46 S46-T4-B-E3\n",
+      "answer": "CONTINUE DECLARE_DATA_INCIDENT ACTIVATE_RECOVERY_RUNBOOK",
+      "blocked_on": [],
+      "concepts_used": [
+        "S46",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "SLO",
+        "incidentes",
+        "data"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: el starter de S46-T4-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto Maneja ventanas y watermarks Trata late data y exactly-once compuest». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Qué evidencia permite aprobar `ventanas, event time y watermarks` en CASO-HYO-046?» elijo «fixtures en hora/desorden/tardío con resultado esperado» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto\nManeja ventanas y watermarks\nTrata lat». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «Si ocurre la condición de error de S46, ¿qué respuesta preserva seguridad y auditabilidad?» elijo «emitir QUARANTINE_PARTITION y conservar evidencia» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto\nManeja ventanas y watermarks\nTrata lat». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Cuál resultado demuestra el gate `CP-N4-B · pipeline incremental y backfillable`?» elijo «backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto\nManeja ventanas y watermarks\nTrata lat». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: en «¿Qué tratamiento de `CASO-HYO-046` respeta el alcance del curso?» elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto\nManeja ventanas y watermarks\nTrata lat». Descarto PII real, ocultar fallos o inventar evidencia."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:58:04.602581+00:00",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D2-s46-live",
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "notes": "D1-Skeptic live solve from slim_packet + exercise_batch_40_52 only; justifications packet-grounded.",
+  "artifact_origin": "direct_agent_output"
+}

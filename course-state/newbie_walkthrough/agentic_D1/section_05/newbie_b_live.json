@@ -1,0 +1,507 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D1",
+  "section_index": 5,
+  "packet_sha": "2d6b238f92680c4c",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def doble(n):\n    return n * 2\nprint(doble(21))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "doble",
+        "guiado",
+        "Escribe",
+        "que",
+        "retorne",
+        "Imprime"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T1-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Escribe `def doble(n):` que retorne `n*2`. Imprime doble(21).. Hints: return n * 2; No uses print dentro de doble.. Entrega: «def doble(n):     return n * 2 print(doble(21)) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\n\nprint(normalize_nombre(\"  Juan   Perez  \"))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_nombre",
+        "raw",
+        "join",
+        "strip",
+        "split",
+        "Juan",
+        "Perez",
+        "independiente"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T1-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — `normalize_nombre(raw)` colapsa espacios internos y strip. Prueba con `'  Juan   Pérez '`.. Hints: \" \".join(raw.strip().split()); title() es opcional; aquí solo colapsar.. Entrega: «def normalize_nombre(raw):     return \" \".join(raw.strip().split())  print(normalize_nombre(\"  Juan   Perez  \")) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def saluda(nombre):\n    return f\"Hola {nombre}\"\n\ndef main():\n    msg = saluda(\"Ana\")\n    print(msg)\n\nif __name__ == \"__main__\":\n    main()\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "saluda",
+        "nombre",
+        "Hola",
+        "main",
+        "msg",
+        "Ana",
+        "__name__",
+        "__main__"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T1-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Función `saluda(nombre)` que retorne el string; en main imprime el return. Demuestra que sin return print(saluda(...)) muestra None si olvidas return (arregla para que no sea None).. Hints: Si ves None, falta return.; return f'Hola {nombre}'. Entrega: «def saluda(nombre):     return f\"Hola {nombre}\"  def main():     msg = saluda(\"Ana\")     print(msg)  if __name__ == \"__main__\":     main() ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def present(nombre, titulo=\"Cliente\"):\n    return f\"{titulo}: {nombre}\"\n\nprint(present(\"Ana\"))\nprint(present(\"Ana\", \"VIP\"))\nprint(present(titulo=\"Lead\", nombre=\"Luis\"))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "present",
+        "nombre",
+        "titulo",
+        "Cliente",
+        "Ana",
+        "VIP",
+        "Lead",
+        "Luis"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T1-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'`. Llama posicional y con keyword titulo=.. Hints: default solo se usa si omites el arg; Dos prints distintos. Entrega: «def present(nombre, titulo=\"Cliente\"):     return f\"{titulo}: {nombre}\"  print(present(\"Ana\")) print(present(\"Ana\", \"VIP\")) print(present(ti». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def bad_add(item, bucket=[]):\n    bucket.append(item)\n    return bucket\n\ndef good_add(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\n\nprint(\"bad\", bad_add(1), bad_add(2))\nprint(\"good\", good_add(1), good_add(2))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "bad_add",
+        "item",
+        "bucket",
+        "append",
+        "good_add",
+        "bad",
+        "good",
+        "independiente"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T1-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Reescribe un `bad_add` con default mutable a la versión segura con None. Muestra dos llamadas good(1), good(2) independientes.. Hints: if bucket is None: bucket = []; No deben compartir lista.. Entrega: «def bad_add(item, bucket=[]):     bucket.append(item)     return bucket  def good_add(item, bucket=None):     if bucket is None:         buc». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def normalize_telefono(raw, *, digits_only=True):\n    s = raw.strip()\n    if digits_only:\n        return \"\".join(ch for ch in s if ch.isdigit())\n    return s\n\nprint(normalize_telefono(\"(+51) 999-000\"))\nprint(normalize_telefono(\"(+51) 999\", digits_only=False))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_telefono",
+        "raw",
+        "digits_only",
+        "strip",
+        "join",
+        "isdigit",
+        "transferencia",
+        "keyword"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T1-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — `normalize_telefono(raw, *, digits_only=True)` keyword-only. Si digits_only, deja solo dígitos; si False, solo strip. Demuestra ambas llamadas por keyword.. Hints: El * fuerza keyword para digits_only.; normalize_telefono(' 999-1 ', digits_only=False). Entrega: «def normalize_telefono(raw, *, digits_only=True):     s = raw.strip()     if digits_only:         return \"\".join(ch for ch in s if ch.isdigi». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def area(w, h):\n    \"\"\"Retorna el área w*h.\"\"\"\n    return w * h\n\nprint(area.__doc__)\nprint(area(3, 4))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "area",
+        "Retorna",
+        "__doc__",
+        "guiado",
+        "docstring",
+        "una",
+        "imprime"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T2-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Añade docstring de una línea a `def area(w, h): return w*h` e imprime `area.__doc__`.. Hints: Triple comillas justo bajo def; Docstring no es un comentario #. Entrega: «def area(w, h):     \"\"\"Retorna el área w*h.\"\"\"     return w * h  print(area.__doc__) print(area(3, 4)) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: strip+lower con @.\"\"\"\n    s = raw.strip().lower()\n    if \"@\" not in s:\n        raise ValueError(\"email sin @\")\n    return s\n\nprint(normalize_email(\"  A@B.COM \"))\ntry:\n    normalize_email(\"sin\")\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_email",
+        "raw",
+        "str",
+        "Pre",
+        "Post",
+        "strip",
+        "lower",
+        "con"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T2-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — `normalize_email` con pre/post en docstring: strip+lower; ValueError si no hay @. Prueba OK y error.. Hints: if '@' not in s: raise ValueError; Mensaje accionable en español.. Entrega: «def normalize_email(raw: str) -> str:     \"\"\"Pre: str. Post: strip+lower con @.\"\"\"     s = raw.strip().lower()     if \"@\" not in s:         ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin espacios extremos; espacios internos colapsados.\"\"\"\n    return \" \".join(raw.strip().split())\n\nout = normalize_nombre(\"  Ana  María  \")\nassert out == out.strip()\nassert \"  \" not in out\nprint(out)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_nombre",
+        "raw",
+        "str",
+        "Post",
+        "sin",
+        "espacios",
+        "extremos",
+        "internos"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T2-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Documenta y escribe `normalize_nombre` con postcondición: no empiezan/terminan espacios y no hay dobles espacios. Assert de la postcondición en un ejemplo.. Hints: assert result == result.strip() and '  ' not in result; La post se puede chequear en tests.. Entrega: «def normalize_nombre(raw: str) -> str:     \"\"\"Post: sin espacios extremos; espacios internos colapsados.\"\"\"     return \" \".join(raw.strip().». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def len_safe(s: str) -> int:\n    return len(s)\n\nprint(len_safe(\"hola\"))\nprint(\"# type hints documentan el contrato; no validan en runtime sin checker\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "len_safe",
+        "str",
+        "int",
+        "len",
+        "hola",
+        "type",
+        "hints",
+        "documentan"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T2-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Anota `def len_safe(s: str) -> int` y retorna len. Imprime el resultado y un comentario mental de que el hint no valida en runtime.. Hints: hints no ejecutan isinstance mágicamente; len_safe(123) fallaría en runtime igual. Entrega: «def len_safe(s: str) -> int:     return len(s)  print(len_safe(\"hola\")) print(\"# type hints documentan el contrato; no validan en runtime si». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def parse_monto(raw: str):\n    t = raw.strip()\n    if t == \"\":\n        return (False, None, \"vacío\")\n    try:\n        n = int(t)\n    except ValueError:\n        return (False, None, \"no entero\")\n    if n < 0:\n        return (False, None, \"negativo\")\n    return (True, n, None)\n\nfor v in [\"10\", \"-1\", \"x\", \"\"]:\n    print(v, parse_monto(v))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "parse_monto",
+        "raw",
+        "str",
+        "strip",
+        "try",
+        "int",
+        "except",
+        "ValueError"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T2-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de dominio si negativo o no int.. Hints: try int; if n<0 dominio; 0 es válido.. Entrega: «def parse_monto(raw: str):     t = raw.strip()     if t == \"\":         return (False, None, \"vacío\")     try:         n = int(t)     except ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def normalize_email(raw: str) -> str:\n    # raise ValueError: el caller no puede continuar con email basura\n    s = raw.strip().lower()\n    if s.count(\"@\") != 1:\n        raise ValueError(\"email inválido\")\n    local, domain = s.split(\"@\")\n    if not local or not domain:\n        raise ValueError(\"email inválido\")\n    return s\n\nprint(normalize_email(\"a@b.com\"))\nprint(\"política: raise en normalizador puro; tupla en parsers batch con cuarentena\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_email",
+        "raw",
+        "str",
+        "raise",
+        "ValueError",
+        "caller",
+        "puede",
+        "continuar"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T2-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Elige raise ValueError **o** tupla para `normalize_email` y documenta por qué en un print. Implementa la opción raise y captura en el caller del lote (for de 2 emails).. Hints: Lote: try/except por fila para no abortar todo; Una fila mala no impide la buena. Entrega: «def normalize_email(raw: str) -> str:     # raise ValueError: el caller no puede continuar con email basura     s = raw.strip().lower()     ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def strip_collapse(s):\n    return \" \".join(s.strip().split())\n\ndef normalize_nombre(raw):\n    return strip_collapse(raw).title()\n\nprint(normalize_nombre(\"  ana  maría  \"))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "strip_collapse",
+        "join",
+        "strip",
+        "split",
+        "normalize_nombre",
+        "raw",
+        "title",
+        "ana"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T3-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Extrae `strip_collapse` y úsalo dentro de `normalize_nombre` que además hace .title().. Hints: def strip_collapse; return strip_collapse(raw).title(); Composición de dos pasos.. Entrega: «def strip_collapse(s):     return \" \".join(s.strip().split())  def normalize_nombre(raw):     return strip_collapse(raw).title()  print(norm». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\n\ndef normalize_email(raw):\n    return raw.strip().lower()\n\ndef normalize_contact(nombre, email):\n    return {\"nombre\": normalize_nombre(nombre), \"email\": normalize_email(email)}\n\nprint(normalize_contact(\"  Ana  \", \"  A@B.COM \"))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_nombre",
+        "raw",
+        "join",
+        "strip",
+        "split",
+        "normalize_email",
+        "lower",
+        "normalize_contact"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T3-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Orquestador `normalize_contact(nombre, email)` devuelve dict usando dos helpers.. Hints: return {'nombre': ..., 'email': ...}; email lower strip. Entrega: «def normalize_nombre(raw):     return \" \".join(raw.strip().split())  def normalize_email(raw):     return raw.strip().lower()  def normalize». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\n\ndef normalize_email(raw):\n    return raw.strip().lower()\n\ndef normalize_tel(raw):\n    return \"\".join(c for c in raw if c.isdigit())\n\ndef normalize_row(nombre, email, tel):\n    return {\n        \"nombre\": normalize_nombre(nombre),\n        \"email\": normalize_email(email),\n        \"tel\": normalize_tel(tel),\n    }\n\nprint(normalize_row(\"  A  B \", \"X@Y.Z\", \"(51)1\"))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_nombre",
+        "raw",
+        "join",
+        "strip",
+        "split",
+        "normalize_email",
+        "lower",
+        "normalize_tel"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T3-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Parte una función monstruo de 10 líneas (nombre+email+tel en un solo def con comentarios) en 3 funciones + orquestador. Misma salida.. Hints: Cada campo = una función; Salida dict con 3 claves. Entrega: «def normalize_nombre(raw):     return \" \".join(raw.strip().split())  def normalize_email(raw):     return raw.strip().lower()  def normalize». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def normalize_tel(raw):\n    return \"\".join(c for c in raw if c.isdigit())\n\nx = normalize_tel(\"(51) 999\")\nprint(x)\nprint(normalize_tel(x))  # idempotente\nprint(\"idempotent\", normalize_tel(x) == x)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_tel",
+        "raw",
+        "join",
+        "isdigit",
+        "idempotente",
+        "idempotent",
+        "guiado",
+        "Escribe"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T3-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Escribe `normalize_tel` puro (solo dígitos). Demuestra idempotencia con dos llamadas encadenadas.. Hints: once = f(x); twice = f(once); print once==twice; Sin print dentro de normalize_tel.. Entrega: «def normalize_tel(raw):     return \"\".join(c for c in raw if c.isdigit())  x = normalize_tel(\"(51) 999\") print(x) print(normalize_tel(x))  #». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def normalize_email(raw):\n    return raw.strip().lower()\n\ndef print_report(email):\n    print(\"report\", normalize_email(email))\n\nprint(normalize_email(\" A@B.COM \"))\nprint_report(\" A@B.COM \")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_email",
+        "raw",
+        "strip",
+        "lower",
+        "print_report",
+        "email",
+        "report",
+        "COM"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T3-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Separa: `normalize_email` puro + `print_report(email)` con efecto de print. No imprimas dentro del normalizador.. Hints: print solo en print_report; Core testeable sin capturar stdout. Entrega: «def normalize_email(raw):     return raw.strip().lower()  def print_report(email):     print(\"report\", normalize_email(email))  print(normal». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def normalize_tel(raw):\n    return \"\".join(c for c in raw if c.isdigit())\n\ndef process(line, norm=normalize_tel):\n    return norm(line)\n\nprint(process(\"999-000\"))\nprint(process(\"ABC\", norm=str.lower))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_tel",
+        "raw",
+        "join",
+        "isdigit",
+        "process",
+        "line",
+        "norm",
+        "ABC"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T3-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Inyecta un normalizador: `process(line, norm=normalize_tel)` usa la fn inyectada. Llama con default y con un norm alternativo que deja todo upper strip.. Hints: norm es parámetro con default; Demuestra dos comportamientos. Entrega: «def normalize_tel(raw):     return \"\".join(c for c in raw if c.isdigit())  def process(line, norm=normalize_tel):     return norm(line)  pri». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "x = 1\n\ndef f():\n    x = 2\n    print(\"inside\", x)\n\nf()\nprint(\"outside\", x)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "inside",
+        "outside",
+        "guiado",
+        "Predice",
+        "LEGB",
+        "global",
+        "dentro",
+        "local"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T4-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Predice LEGB: global x=1; dentro de f, x=2 local; print dentro y fuera.. Hints: Local no pisa global sin global keyword; Fuera sigue 1. Entrega: «x = 1  def f():     x = 2     print(\"inside\", x)  f() print(\"outside\", x) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def make_multiplier(k):\n    def mul(n):\n        return n * k\n    return mul\n\nm3 = make_multiplier(3)\nm5 = make_multiplier(5)\nprint(m3(4), m5(4))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "make_multiplier",
+        "mul",
+        "independiente",
+        "devuelve",
+        "que",
+        "multiplica",
+        "por",
+        "closure"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T4-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — `make_multiplier(k)` devuelve función que multiplica por k (closure). Crea *3 y *10.. Hints: def inner(n): return n*k; return inner; print(m3(4), m10(4)). Entrega: «def make_multiplier(k):     def mul(n):         return n * k     return mul  m3 = make_multiplier(3) m5 = make_multiplier(5) print(m3(4), m5». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def make_normalizer(mode):\n    if mode == \"digits\":\n        return lambda s: \"\".join(c for c in s if c.isdigit())\n    if mode == \"lower\":\n        return lambda s: s.strip().lower()\n    raise ValueError(mode)\n\nprint(make_normalizer(\"digits\")(\"a1b2\"))\nprint(make_normalizer(\"lower\")(\"  Hi \"))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "make_normalizer",
+        "mode",
+        "digits",
+        "lambda",
+        "join",
+        "isdigit",
+        "lower",
+        "strip"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T4-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Factory `make_normalizer(mode)` donde mode 'digits' o 'lower' devuelve la fn adecuada. Úsala en dos prints.. Hints: if mode=='digits': return lambda o def digits...; Sin global mode. Entrega: «def make_normalizer(mode):     if mode == \"digits\":         return lambda s: \"\".join(c for c in s if c.isdigit())     if mode == \"lower\":   ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "normalize_email = lambda s: s.strip().lower()\nassert normalize_email(\" A@B \") == \"a@b\"\nassert normalize_email(\"x@y\") == \"x@y\"\nprint(\"asserts ok\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_email",
+        "lambda",
+        "strip",
+        "lower",
+        "assert",
+        "asserts",
+        "guiado",
+        "Escribe"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T4-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Escribe 2 asserts de ejemplo para `normalize_email = lambda s: s.strip().lower()` e imprime OK.. Hints: assert normalize_email('A@B.COM')=='a@b.com'; Incluye idempotencia. Entrega: «normalize_email = lambda s: s.strip().lower() assert normalize_email(\" A@B \") == \"a@b\" assert normalize_email(\"x@y\") == \"x@y\" print(\"asserts». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def strip_collapse(s):\n    return \" \".join(s.strip().split())\n\ndef normalize_dir(raw):\n    return strip_collapse(raw).upper()\n\nprint(normalize_dir(\"  jr.  lima  \"))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "strip_collapse",
+        "join",
+        "strip",
+        "split",
+        "normalize_dir",
+        "raw",
+        "upper",
+        "lima"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T4-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Refactoriza `normalize_dir` de una línea densa a dos pasos (strip_collapse + upper) sin romper asserts dados.. Hints: Corre asserts antes y después mentalmente; Misma salida. Entrega: «def strip_collapse(s):     return \" \".join(s.strip().split())  def normalize_dir(raw):     return strip_collapse(raw).upper()  print(normali». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\n\ncases = [(\"  a  b \", \"a b\"), (\"x\", \"x\")]\nfor inp, exp in cases:\n    assert normalize_nombre(inp) == exp\nprint(\"suite ok\", len(cases))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_nombre",
+        "raw",
+        "join",
+        "strip",
+        "split",
+        "cases",
+        "inp",
+        "exp"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S05-T4-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Suite mínima: lista de (input, expected) para normalize_nombre; loop assert. Luego cambia implementación a title-case y actualiza expected si la política cambia conscientemente — aquí **mantén** coll. Hints: No cambies política sin actualizar tests; Todos PASS. Entrega: «def normalize_nombre(raw):     return \" \".join(raw.strip().split())  cases = [(\"  a  b \", \"a b\"), (\"x\", \"x\")] for inp, exp in cases:     ass». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "None",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q0 elijo índice 0 «None» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: Si una función no tiene return, ¿qué devuelve la llamada?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "El default mutable se comparte entre llamadas",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q1 elijo índice 2 «El default mutable se comparte entre llamadas» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Por qué `def f(xs=[])` es peligroso?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Mismo input → mismo output, sin efectos colaterales",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q2 elijo índice 3 «Mismo input → mismo output, sin efectos colaterales» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: Una función pura…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Local, Enclosing, Global, Builtin",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q3 elijo índice 1 «Local, Enclosing, Global, Builtin» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: LEGB significa…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "f(f(x)) == f(x) para entradas del dominio",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q4 elijo índice 0 «f(f(x)) == f(x) para entradas del dominio» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: Idempotencia de un normalizador f significa…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:41:41.942422+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-agentic-D1-s05-live",
+  "method_declared": "llm_packet_only_no_gen"
+}

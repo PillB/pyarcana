@@ -1551,15 +1551,15 @@ if __name__ == "__main__":
       },
       {
         question: "Resamplear todo el dataset antes de CV:",
-        options: ["Es best practice", "Introduce leakage y métricas infladas", "Elimina necesidad de thr", "Garantiza calibración"],
-        correctIndex: 1,
+        options: ["Es best practice", "Elimina necesidad de thr", "Garantiza calibración", "Introduce leakage y métricas infladas"],
+        correctIndex: 3,
         explanation:
           "El resampling debe vivir dentro del fold de train; hacerlo global contamina validación.",
       },
       {
         question: "Un calibrador debe ajustarse:",
-        options: ["En el test final", "En el mismo train del modelo base sin holdout", "En un set de calibración fuera de muestra", "Solo en producción sin logs"],
-        correctIndex: 2,
+        options: ["En un set de calibración fuera de muestra", "En el test final", "En el mismo train del modelo base sin holdout", "Solo en producción sin logs"],
+        correctIndex: 0,
         explanation:
           "Fit de calibración en holdout evita autoengaño de reliability.",
       },

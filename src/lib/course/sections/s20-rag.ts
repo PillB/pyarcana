@@ -1412,13 +1412,8 @@ print(wb.sheetnames)
 
 {
   question: "Al materializar un Excel de salida del reporting factory, la suma de montos en la hoja no cuadra con el DataFrame fuente. ¿Cuál es la política correcta?",
-  options: [
-    "Enviar el xlsx igual y aclarar la diferencia solo si el cliente pregunta",
-    "Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolerancia de redondeo documentada)",
-    "Borrar la hoja de Entrada para que no se note la discrepancia",
-    "Cambiar el total del DataFrame para que coincida con Excel sin audit trail",
-  ],
-  correctIndex: 1,
+  options: ["Enviar el xlsx igual y aclarar la diferencia solo si el cliente pregunta", "Borrar la hoja de Entrada para que no se note la discrepancia", "Cambiar el total del DataFrame para que coincida con Excel sin audit trail", "Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolerancia de redondeo documentada)"],
+  correctIndex: 3,
   explanation:
     "La conciliación es un quality gate del factory. Sin cuadrar totales/n, no se emite el paquete hacia S21.",
 },

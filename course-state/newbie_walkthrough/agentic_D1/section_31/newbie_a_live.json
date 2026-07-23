@@ -1,0 +1,527 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 31,
+  "packet_sha": "a9458715256e6ce4",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S31-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "nodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}}\nedges = [\n    {\"src\": \"E1\", \"dst\": \"A1\", \"etype\": \"owns\", \"weight\": 1.0, \"directed\": True},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"link\", \"weight\": 0.5, \"directed\": False},\n]\nprint(\"n_nodes\", len(nodes))\nprint(\"n_edges\", len(edges))\nprint(\"n_directed\", sum(1 for e in edges if e[\"directed\"]))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "nodes",
+        "edges",
+        "src",
+        "dst",
+        "etype",
+        "owns",
+        "weight",
+        "directed"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «nodos, aristas, dirección y peso» del paquete indica: Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opcionalmente, **dirección** y **peso** (monto,… Resolví S31-T1-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"n_nodes\", len(nodes). Las pistas del card (Usa literales de dict/list.; Cuenta con sum(1 for e in edges if e['directed']).) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]\nout = {}\nfor s, d, w in edges:\n    out[s] = out.get(s, 0.0) + w\ntop = max(out, key=out.get)\nprint(\"top\", top)\nprint(\"value\", out[top])\nprint(\"n\", len(out))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "edges",
+        "out",
+        "get",
+        "top",
+        "max",
+        "key",
+        "value",
+        "len"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «nodos, aristas, dirección y peso» del paquete indica: Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opcionalmente, **dirección** y **peso** (monto,… Resolví S31-T1-A-E2 (independent) completando el starter sin reescribir fixtures: print(\"top\", top). Las pistas del card (Acumula en un dict.; Usa max(out, key=out.get).) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]\nprint(\"directed\", sum(1 for e in edges if e[\"directed\"]))\nprint(\"undirected\", sum(1 for e in edges if not e[\"directed\"]))\nprint(\"etypes\", sorted({e[\"etype\"] for e in edges}))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "edges",
+        "directed",
+        "etype",
+        "share",
+        "sum",
+        "undirected",
+        "not",
+        "etypes"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «nodos, aristas, dirección y peso» del paquete indica: Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opcionalmente, **dirección** y **peso** (monto,… Resolví S31-T1-A-E3 (transfer) completando el starter sin reescribir fixtures: print(\"directed\", sum(1 for e in edges if e[\"directed\"]). Las pistas del card (sets para etypes.; sorted(set(...)).) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from collections import Counter\nrows = [('E1','E2'),('E1','E2'),('E2','E3')]\nc = Counter(rows)\npair, n = c.most_common(1)[0]\nprint(\"pair\", pair)\nprint(\"n\", n)\nprint(\"pairs\", len(c))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "collections",
+        "Counter",
+        "rows",
+        "pair",
+        "most_common",
+        "pairs",
+        "len",
+        "S31"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «multigrafo, tiempo y provenance» del paquete indica: Un **multigrafo** permite varias aristas entre el mismo par (varias transferencias, varios contactos). No colapses a una sola arista sin guardar el detalle. La estructura… Resolví S31-T1-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"pair\", pair). Las pistas del card (tuple (src,dst) como clave.; Counter o dict.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "edges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]\nf = [e for e in edges if e[\"ts\"] >= \"2026-02-01\"]\nprint(\"n\", len(f))\nprint(\"prov\", all(\"record_id\" in e for e in f))\nprint(\"first\", f[0][\"record_id\"])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "edges",
+        "record_id",
+        "len",
+        "prov",
+        "all",
+        "first",
+        "S31",
+        "Filtra"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «multigrafo, tiempo y provenance» del paquete indica: Un **multigrafo** permite varias aristas entre el mismo par (varias transferencias, varios contactos). No colapses a una sola arista sin guardar el detalle. La estructura… Resolví S31-T1-B-E2 (independent) completando el starter sin reescribir fixtures: print(\"n\", len(f). Las pistas del card (Compara strings ISO fecha ordenables.; all('record_id' in e for e in filtered).) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "edges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source':'tx','record_id':'3'}]\ndef ok(e):\n    return bool(e.get(\"source\") and e.get(\"record_id\"))\nn_bad = sum(1 for e in edges if not ok(e))\nprint(\"all_ok\", n_bad == 0)\nprint(\"n_bad\", n_bad)\nprint(\"n\", len(edges))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "edges",
+        "source",
+        "crm",
+        "record_id",
+        "bool",
+        "get",
+        "n_bad",
+        "sum"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «multigrafo, tiempo y provenance» del paquete indica: Un **multigrafo** permite varias aristas entre el mismo par (varias transferencias, varios contactos). No colapses a una sola arista sin guardar el detalle. La estructura… Resolví S31-T1-B-E3 (transfer) completando el starter sin reescribir fixtures: print(\"all_ok\", n_bad == 0). Las pistas del card (strip de strings.; n_bad = sum(...).) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "accounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]\nowns = sorted((a[\"owner\"], a[\"id\"]) for a in accounts)\nprint(owns)\nprint(\"n\", len(owns))\nprint(\"etype\", \"owns\")\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "accounts",
+        "owner",
+        "owns",
+        "sorted",
+        "len",
+        "etype",
+        "S31",
+        "Desde"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «clientes/entidades/transacciones/contactos» del paquete indica: Construyes el grafo desde tablas: **entidades** (nodos), **transacciones** (aristas dirigidas), **contactos** (email/teléfono/dirección como nodos o aristas). La estructu… Resolví S31-T2-A-E1 (guided) completando el starter sin reescribir fixtures: print(owns). Las pistas del card (list comprehension.; sorted por owner luego id.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from collections import defaultdict\ncontacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]\nm = defaultdict(set)\nfor e, v in contacts:\n    m[v].add(e)\nshared = sorted(v for v, es in m.items() if len(es) >= 2)\nprint(shared)\nprint(\"n_shared\", len(shared))\nprint(\"note\", \"not_parentesco\")\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "collections",
+        "defaultdict",
+        "contacts",
+        "set",
+        "add",
+        "shared",
+        "sorted",
+        "items"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «clientes/entidades/transacciones/contactos» del paquete indica: Construyes el grafo desde tablas: **entidades** (nodos), **transacciones** (aristas dirigidas), **contactos** (email/teléfono/dirección como nodos o aristas). La estructu… Resolví S31-T2-A-E2 (independent) completando el starter sin reescribir fixtures: print(shared). Las pistas del card (groupby por value.; filtra len(entities)>=2.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "entities=['e1','e2']; accounts=['a1']; contacts=['900','901']\nnodes = set(entities) | set(accounts) | set(contacts)\nprint(\"n_nodes\", len(nodes))\nprint(\"has_contact\", \"900\" in nodes)\nprint(\"has_ent\", \"e1\" in nodes)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "entities",
+        "accounts",
+        "contacts",
+        "nodes",
+        "set",
+        "n_nodes",
+        "len",
+        "has_contact"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «clientes/entidades/transacciones/contactos» del paquete indica: Construyes el grafo desde tablas: **entidades** (nodos), **transacciones** (aristas dirigidas), **contactos** (email/teléfono/dirección como nodos o aristas). La estructu… Resolví S31-T2-A-E3 (transfer) completando el starter sin reescribir fixtures: print(\"n_nodes\", len(nodes). Las pistas del card (sets.; union de tres conjuntos.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "canon = {'r1':'E1','r2':'E1','r3':'E2'}\nedges = [('r1','r3'),('r2','r3')]\nce = sorted({(canon[a], canon[b]) for a, b in edges})\nprint(ce)\nprint(\"n\", len(ce))\nprint(\"collapsed\", True)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "canon",
+        "edges",
+        "sorted",
+        "len",
+        "collapsed",
+        "S31",
+        "Colapsa",
+        "raw_ids"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «deduplicación y agregación sin borrar detalle» del paquete indica: **Deduplicar nodos** tras ER (misma entidad) colapsa ids canónicos; conserva mapa `raw_id → canonical_id`. La estructura relacional se usa para *explicar* conexiones audi… Resolví S31-T2-B-E1 (guided) completando el starter sin reescribir fixtures: print(ce). Las pistas del card (map.get(x,x).; set de tuples.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from collections import defaultdict\nrows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]\nagg = defaultdict(lambda: {'sum': 0, 'records': []})\nfor r in rows:\n    k = (r['src'], r['dst'])\n    agg[k]['sum'] += r['amount']\n    agg[k]['records'].append(r['record_id'])\nprint(\"sum\", agg[(\"A\", \"B\")][\"sum\"])\nprint(\"records\", agg[('A','B')]['records'])\nprint(\"detail_kept\", True)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "collections",
+        "defaultdict",
+        "rows",
+        "src",
+        "dst",
+        "amount",
+        "record_id",
+        "agg"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «deduplicación y agregación sin borrar detalle» del paquete indica: **Deduplicar nodos** tras ER (misma entidad) colapsa ids canónicos; conserva mapa `raw_id → canonical_id`. La estructura relacional se usa para *explicar* conexiones audi… Resolví S31-T2-B-E2 (independent) completando el starter sin reescribir fixtures: print(\"sum\", agg[(\"A\", \"B\"). Las pistas del card (defaultdict.; append record_id.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "detail_n=5\naggs=[{'n':2},{'n':3}]\ntotal = sum(a['n'] for a in aggs)\nprint(\"ok\", total == detail_n)\nprint(\"total\", total)\nprint(\"detail_n\", detail_n)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "detail_n",
+        "aggs",
+        "total",
+        "sum",
+        "S31",
+        "Verifica",
+        "invariante",
+        "agregados"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «deduplicación y agregación sin borrar detalle» del paquete indica: **Deduplicar nodos** tras ER (misma entidad) colapsa ids canónicos; conserva mapa `raw_id → canonical_id`. La estructura relacional se usa para *explicar* conexiones audi… Resolví S31-T2-B-E3 (transfer) completando el starter sin reescribir fixtures: print(\"ok\", total == detail_n). Las pistas del card (sum v['n'].; assert conceptual con print.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from collections import defaultdict\nedges=[('a','b'),('b','c'),('a','c')]\ndeg = defaultdict(int)\nfor u, v in edges:\n    deg[u] += 1; deg[v] += 1\nprint(dict(sorted(deg.items())))\nprint(\"max\", max(deg.values()))\nprint(\"n\", len(deg))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "collections",
+        "defaultdict",
+        "edges",
+        "deg",
+        "int",
+        "dict",
+        "sorted",
+        "items"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «grado, componentes y caminos» del paquete indica: **Grado**: número de vecinos (in/out en dirigidos). Útil para filtrar hubs, no para culpar. La estructura relacional se usa para *explicar* conexiones auditables en inves… Resolví S31-T3-A-E1 (guided) completando el starter sin reescribir fixtures: print(dict(sorted(deg.items(). Las pistas del card (undirected: cuenta ambos extremos.; dict sorted items via sorted keys.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from collections import defaultdict\nedges=[('a','b'),('c','d'),('d','e')]\nadj = defaultdict(set)\nfor u, v in edges:\n    adj[u].add(v); adj[v].add(u)\nseen, comps = set(), []\nfor s in sorted(adj):\n    if s in seen:\n        continue\n    stack, comp = [s], []\n    seen.add(s)\n    while stack:\n        n = stack.pop()\n        comp.append(n)\n        for m in adj[n]:\n            if m not in seen:\n                seen.add(m); stack.append(m)\n    comps.append(sorted(comp))\ncomps = sorted(comps, key=lambda c: c[0])\nprint(comps)\nprint(\"n_comp\", len(comps))\nprint(\"ok\", True)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "collections",
+        "defaultdict",
+        "edges",
+        "adj",
+        "set",
+        "add",
+        "seen",
+        "comps"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «grado, componentes y caminos» del paquete indica: **Grado**: número de vecinos (in/out en dirigidos). Útil para filtrar hubs, no para culpar. La estructura relacional se usa para *explicar* conexiones auditables en inves… Resolví S31-T3-A-E2 (independent) completando el starter sin reescribir fixtures: print(comps). Las pistas del card (DFS o BFS.; sort componentes.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from collections import defaultdict, deque\nadj = defaultdict(set)\nfor u, v in [('A','B'),('B','C'),('C','D')]:\n    adj[u].add(v); adj[v].add(u)\nq = deque([('A', ['A'])]); seen = {'A'}\npath = None\nwhile q:\n    n, p = q.popleft()\n    if n == 'D':\n        path = p; break\n    for m in sorted(adj[n]):\n        if m not in seen:\n            seen.add(m); q.append((m, p+[m]))\nprint(path)\nprint(\"hops\", len(path)-1)\nprint(\"found\", path is not None)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "collections",
+        "defaultdict",
+        "deque",
+        "adj",
+        "set",
+        "add",
+        "seen",
+        "path"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «grado, componentes y caminos» del paquete indica: **Grado**: número de vecinos (in/out en dirigidos). Útil para filtrar hubs, no para culpar. La estructura relacional se usa para *explicar* conexiones auditables en inves… Resolví S31-T3-A-E3 (transfer) completando el starter sin reescribir fixtures: print(path). Las pistas del card (deque BFS.; hops = len(path)-1.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "deg={'H':3,'A':1,'B':1,'C':1}\nm = max(deg.values())\nnorm = {k: deg[k]/m for k in deg}\ntop = max(norm, key=norm.get)\nprint(\"top\", top)\nprint(\"score\", round(norm[top], 2))\nprint(\"guilt\", False)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "deg",
+        "max",
+        "values",
+        "norm",
+        "top",
+        "key",
+        "get",
+        "score"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «centralidad con interpretación limitada» del paquete indica: **Degree / betweenness / closeness** miden estructura, no culpa. Un hub puede ser un procesador de pagos legítimo o un dato compartido (call center). La estructura relaci… Resolví S31-T3-B-E1 (guided) completando el starter sin reescribir fixtures: print(\"top\", top). Las pistas del card (score = deg/max_deg.; round(score, 2).) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "hub='INF-PAY'\nkind = \"infra\" if hub.startswith(\"INF-\") else \"person\"\nprint(\"kind\", kind)\nprint(\"disclaimer\", \"centrality_not_guilt\")\nprint(\"hub\", hub)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "hub",
+        "INF",
+        "PAY",
+        "kind",
+        "infra",
+        "startswith",
+        "person",
+        "disclaimer"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «centralidad con interpretación limitada» del paquete indica: **Degree / betweenness / closeness** miden estructura, no culpa. Un hub puede ser un procesador de pagos legítimo o un dato compartido (call center). La estructura relaci… Resolví S31-T3-B-E2 (independent) completando el starter sin reescribir fixtures: print(\"kind\", kind). Las pistas del card (startswith.; disclaimer fijo.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "incident={'H':['transfer','transfer','shared_phone']}\nhigh = sorted(n for n, ts in incident.items() if len(ts) >= 3)\nonly_tx = all(t == \"transfer\" for t in incident[\"H\"])\nprint(high)\nprint(\"only_transfer\", only_tx)\nprint(\"interpret_with_types\", True)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "incident",
+        "transfer",
+        "shared_phone",
+        "high",
+        "sorted",
+        "items",
+        "len",
+        "only_tx"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «centralidad con interpretación limitada» del paquete indica: **Degree / betweenness / closeness** miden estructura, no culpa. Un hub puede ser un procesador de pagos legítimo o un dato compartido (call center). La estructura relaci… Resolví S31-T3-B-E3 (transfer) completando el starter sin reescribir fixtures: print(high). Las pistas del card (revisa edge types incidentes.; set de etypes.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from collections import defaultdict\nedges=[('A','B'),('B','C'),('C','D')]\nadj=defaultdict(set)\nfor u,v in edges:\n    adj[u].add(v); adj[v].add(u)\n\ndef ego(seed, k):\n    seen={seed}; layer={seed}\n    for _ in range(k):\n        nxt=set()\n        for n in layer:\n            for m in adj[n]:\n                if m not in seen:\n                    seen.add(m); nxt.add(m)\n        layer=nxt\n    return seen\nprint(\"k1\", sorted(ego(\"A\", 1)))\nprint(\"k2\", sorted(ego('A',2)))\nprint(\"has_D_k2\", 'D' in ego('A',2))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "collections",
+        "defaultdict",
+        "edges",
+        "adj",
+        "set",
+        "add",
+        "ego",
+        "seed"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «subgrafos y pruebas» del paquete indica: Extrae un **subgrafo de caso**: nodos seed + k hops + filtros de tipo/tiempo. Prueba invariantes: sin self-loops basura, pesos ≥ 0, provenance presente. La estructura rel… Resolví S31-T4-A-E1 (guided) completando el starter sin reescribir fixtures: print(\"k1\", sorted(ego(\"A\", 1). Las pistas del card (expansión por capas.; sets.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "edges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]\nno_self = all(e['src'] != e['dst'] for e in edges)\nw_ok = all(e['w'] >= 0 for e in edges)\nprov = all(e.get('rid') for e in edges)\nprint(\"no_self\", no_self)\nprint(\"w_ok\", w_ok)\nprint(\"prov\", prov)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "edges",
+        "src",
+        "dst",
+        "rid",
+        "no_self",
+        "all",
+        "w_ok",
+        "prov"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «subgrafos y pruebas» del paquete indica: Extrae un **subgrafo de caso**: nodos seed + k hops + filtros de tipo/tiempo. Prueba invariantes: sin self-loops basura, pesos ≥ 0, provenance presente. La estructura rel… Resolví S31-T4-A-E2 (independent) completando el starter sin reescribir fixtures: print(\"no_self\", no_self). Las pistas del card (any self loop.; all weights.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "raw=[('a','b'),('b','c')]\n\ndef build(edges):\n    return sorted(set(tuple(sorted(e)) for e in edges))\nprint(build(raw) == build(raw))\nprint(\"edges\", build(raw))\nprint(\"idempotent\", True)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "build",
+        "edges",
+        "sorted",
+        "set",
+        "tuple",
+        "idempotent",
+        "S31"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «subgrafos y pruebas» del paquete indica: Extrae un **subgrafo de caso**: nodos seed + k hops + filtros de tipo/tiempo. Prueba invariantes: sin self-loops basura, pesos ≥ 0, provenance presente. La estructura rel… Resolví S31-T4-A-E3 (transfer) completando el starter sin reescribir fixtures: print(build(raw). Las pistas del card (función build → frozenset.; compara.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "email='ana@example.pe'\nlocal, _, domain = email.partition('@')\nred = local[:2] + '***@' + domain\nprint(red)\nprint(\"domain\", domain)\nprint(\"full_pii\", False)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "email",
+        "ana",
+        "example",
+        "local",
+        "domain",
+        "partition",
+        "red",
+        "full_pii"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «visualización, escalabilidad, privacidad y evidencia por arista» del paquete indica: Visualiza subgrafos acotados; no intentes dibujar 100k nodos en el navegador del revisor. La estructura relacional se usa para *explicar* conexiones auditables en investi… Resolví S31-T4-B-E1 (guided) completando el starter sin reescribir fixtures: print(red). Las pistas del card (partition @.; local[:2].) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "path=['E1','E2','E3']\nev={('E1','E2'):['r1'],('E2','E3'):['r2','r3']}\nrecords = [ev[(a,b)] for a,b in zip(path, path[1:])]\nprint(records)\nprint(\"n_hops\", len(records))\nprint(\"explainable\", True)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "path",
+        "records",
+        "zip",
+        "n_hops",
+        "len",
+        "explainable",
+        "S31",
+        "Dado"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «visualización, escalabilidad, privacidad y evidencia por arista» del paquete indica: Visualiza subgrafos acotados; no intentes dibujar 100k nodos en el navegador del revisor. La estructura relacional se usa para *explicar* conexiones auditables en investi… Resolví S31-T4-B-E2 (independent) completando el starter sin reescribir fixtures: print(records). Las pistas del card (zip path path[1:].; get evidence.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    },
+    {
+      "exercise_id": "S31-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "max_n=500\n\ndef decide(n):\n    return \"summarize\" if n > max_n else \"render\"\nprint(\"n5000\", decide(5000))\nprint(\"n50\", decide(50))\nprint(\"max_n\", max_n)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "max_n",
+        "decide",
+        "summarize",
+        "render",
+        "n5000",
+        "n50",
+        "S31",
+        "escala"
+      ],
+      "justification_from_packet": "Explorer — en S31 la teoría «visualización, escalabilidad, privacidad y evidencia por arista» del paquete indica: Visualiza subgrafos acotados; no intentes dibujar 100k nodos en el navegador del revisor. La estructura relacional se usa para *explicar* conexiones auditables en investi… Resolví S31-T4-B-E3 (transfer) completando el starter sin reescribir fixtures: print(\"n5000\", decide(5000). Las pistas del card (comparar.; dos prints.) y el iDo del mismo tema anclan el contrato I/O. Sin correctIndex ni material fuera del packet activo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Posición estructural que requiere contexto, no culpa",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S31 («nodos, aristas, dirección y peso»), elijo «Posición estructural que requiere contexto, no culpa» (chosen_index=2) para «En CP-N3-B, un score alto de centralidad significa:». Fragmento enseñado: Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opcionalmente, **dirección*… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Auditar source/record_id del hecho relacional",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S31 («multigrafo, tiempo y provenance»), elijo «Auditar source/record_id del hecho relacional» (chosen_index=0) para «Provenance en una arista sirve para:». Fragmento enseñado: Un **multigrafo** permite varias aristas entre el mismo par (varias transferencias, varios contactos). No colapses a una sola arista sin guardar el de… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Conservar detalle o punteros además del agregado",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S31 («clientes/entidades/transacciones/contactos»), elijo «Conservar detalle o punteros además del agregado» (chosen_index=1) para «Al agregar transferencias entre el mismo par debes:». Fragmento enseñado: Construyes el grafo desde tablas: **entidades** (nodos), **transacciones** (aristas dirigidas), **contactos** (email/teléfono/dirección como nodos o a… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Un hecho de contacto compartido a investigar con evidencia, no veredicto",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — con base en theory/iDo de S31 («deduplicación y agregación sin borrar detalle»), elijo «Un hecho de contacto compartido a investigar con evidencia, no veredicto» (chosen_index=3) para «Shared phone entre dos entidades implica:». Fragmento enseñado: **Deduplicar nodos** tras ER (misma entidad) colapsa ids canónicos; conserva mapa `raw_id → canonical_id`. La estructura relacional se usa para *expli… La opción coincide con el vocabulario del paquete (pirámide/contratos/fail-closed según el tema), sin mirar correctIndex ni otras attempts."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:40:13.339027+00:00",
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "note": "Knowledge limited to sequential packets through active section; solved from exercise_batch/quiz_card only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s31-live"
+}

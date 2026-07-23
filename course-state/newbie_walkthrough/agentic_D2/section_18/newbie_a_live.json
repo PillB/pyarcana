@@ -1,0 +1,391 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D2",
+  "section_index": 18,
+  "packet_sha": "e42d9a39f6f4973a",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S18-T1-A-E1",
+      "answer": "n 5 | mean 30.4 | median 14.0",
+      "code": "import numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(\"n\", montos.size, \"| mean\", round(float(montos.mean()), 1), \"| median\", float(np.median(montos)))\n# D2-Explorer: packet-only re-walk S18 S18-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T1-A",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T1-A-E1 (guided) apoyándome en la teoría «centro, dispersión y cuantiles» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Usa len o .size; np.mean y np.median.; round(float(...), 2) para la media.. Salida observada: n 5 | mean 30.4 | median 14.0."
+    },
+    {
+      "exercise_id": "S18-T1-A-E2",
+      "answer": "Q1 8.5 | Q3 12.5 | IQR 4.0",
+      "code": "import numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\nprint(\"Q1\", float(q1), \"| Q3\", float(q3), \"| IQR\", float(q3 - q1))\n# D2-Explorer: packet-only re-walk S18 S18-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T1-A",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T1-A-E2 (independent) apoyándome en la teoría «centro, dispersión y cuantiles» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: np.quantile con [0.25, 0.75].; IQR = Q3 - Q1.. Salida observada: Q1 8.5 | Q3 12.5 | IQR 4.0."
+    },
+    {
+      "exercise_id": "S18-T1-A-E3",
+      "answer": "{'n': 5, 'mean': 3.0, 'median': 3.0, 'std': 1.5811}",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport numpy as np\n\ndef resumen(x):\n    x = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(x.size),\n        \"mean\": round(float(x.mean()), 4),\n        \"median\": round(float(np.median(x)), 4),\n        \"std\": round(float(x.std(ddof=1)), 4),\n    }\nprint(resumen([1, 2, 3, 4, 5]))\n# D2-Explorer: packet-only re-walk S18 S18-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T1-A",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T1-A-E3 (transfer) apoyándome en la teoría «centro, dispersión y cuantiles» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: std con ddof=1.; Redondea mean/median/std a 4 decimales o 2 según print claro.. Salida observada: {'n': 5, 'mean': 3.0, 'median': 3.0, 'std': 1.5811}."
+    },
+    {
+      "exercise_id": "S18-T1-B-E1",
+      "answer": "mean 29.2 | median 12.0 | ratio 2.43",
+      "code": "import numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean())\nmed = float(np.median(x))\nprint(\"mean\", round(m, 1), \"| median\", med, \"| ratio\", round(m / med, 2))\n# D2-Explorer: packet-only re-walk S18 S18-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T1-B",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T1-B-E1 (guided) apoyándome en la teoría «métricas robustas y escalas» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: np.mean y np.median.; ratio = mean/median.. Salida observada: mean 29.2 | median 12.0 | ratio 2.43."
+    },
+    {
+      "exercise_id": "S18-T1-B-E2",
+      "answer": "MAD 1.0",
+      "code": "import numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = float(np.median(x))\nmad = float(np.median(np.abs(x - med)))\nprint(\"MAD\", mad)\n# D2-Explorer: packet-only re-walk S18 S18-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T1-B",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T1-B-E2 (independent) apoyándome en la teoría «métricas robustas y escalas» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: MAD = median(|x - median(x)|).; Usa np.median y np.abs.. Salida observada: MAD 1.0."
+    },
+    {
+      "exercise_id": "S18-T1-B-E3",
+      "answer": "[0.0, 0.693, 2.303, 4.605]",
+      "code": "import numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\nprint([round(float(v), 3) for v in np.log1p(x)])\n# D2-Explorer: packet-only re-walk S18 S18-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T1-B",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T1-B-E3 (transfer) apoyándome en la teoría «métricas robustas y escalas» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: np.log1p.; tolist + round por elemento.. Salida observada: [0.0, 0.693, 2.303, 4.605]."
+    },
+    {
+      "exercise_id": "S18-T2-A-E1",
+      "answer": "share_Lima 0.75",
+      "code": "muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare_lima = muestra.count(\"Lima\") / len(muestra)\nprint(\"share_Lima\", share_lima)\n# D2-Explorer: packet-only re-walk S18 S18-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T2-A",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T2-A-E1 (guided) apoyándome en la teoría «población, muestra y sesgo» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Cuenta ocurrencias / n.; round a 2 decimales.. Salida observada: share_Lima 0.75."
+    },
+    {
+      "exercise_id": "S18-T2-A-E2",
+      "answer": "bias_Lima_pp 0.3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nshare = 8 / 10\npob = 0.5\nprint(\"bias_Lima_pp\", round(share - pob, 2))\n# D2-Explorer: packet-only re-walk S18 S18-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T2-A",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T2-A-E2 (independent) apoyándome en la teoría «población, muestra y sesgo» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: share = 8/10.; bias = share - 0.5.. Salida observada: bias_Lima_pp 0.3."
+    },
+    {
+      "exercise_id": "S18-T2-A-E3",
+      "answer": "0.4",
+      "code": "def max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\n\nprint(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}), 2))\n# D2-Explorer: packet-only re-walk S18 S18-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T2-A",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T2-A-E3 (transfer) apoyándome en la teoría «población, muestra y sesgo» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: share = count/sum(counts).; max de valores absolutos.. Salida observada: 0.4."
+    },
+    {
+      "exercise_id": "S18-T2-B-E1",
+      "answer": "margen 0.98",
+      "code": "import math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\nprint(\"margen\", round(margen, 2))\n# D2-Explorer: packet-only re-walk S18 S18-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T2-B",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T2-B-E1 (guided) apoyándome en la teoría «intervalos básicos y tamaño de efecto» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: import math o numpy sqrt.; margen = 1.96 * s / sqrt(n).. Salida observada: margen 0.98."
+    },
+    {
+      "exercise_id": "S18-T2-B-E2",
+      "answer": "d 1.5",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nd = (13 - 10) / 2\nprint(\"d\", round(d, 2))\n# D2-Explorer: packet-only re-walk S18 S18-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T2-B",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T2-B-E2 (independent) apoyándome en la teoría «intervalos básicos y tamaño de efecto» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: d = (mb-ma)/sp.; round 2.. Salida observada: d 1.5."
+    },
+    {
+      "exercise_id": "S18-T2-B-E3",
+      "answer": "ic95 (1.06, 6.94)",
+      "code": "diff, se = 4, 1.5\nic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2))\nprint(\"ic95\", ic)\n# D2-Explorer: packet-only re-walk S18 S18-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T2-B",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T2-B-E3 (transfer) apoyándome en la teoría «intervalos básicos y tamaño de efecto» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: low = diff - 1.96*se.; high = diff + 1.96*se.. Salida observada: ic95 (1.06, 6.94)."
+    },
+    {
+      "exercise_id": "S18-T3-A-E1",
+      "answer": "r 1.0",
+      "code": "import numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nprint(\"r\", round(float(np.corrcoef(x, y)[0, 1]), 1))\n# D2-Explorer: packet-only re-walk S18 S18-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T3-A",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T3-A-E1 (guided) apoyándome en la teoría «correlación y confusión» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: corrcoef[0,1].; Debe ser ~1.. Salida observada: r 1.0."
+    },
+    {
+      "exercise_id": "S18-T3-A-E2",
+      "answer": "asociacion_observada",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nr = 0.82\nprint(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")\n# D2-Explorer: packet-only re-walk S18 S18-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T3-A",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T3-A-E2 (independent) apoyándome en la teoría «correlación y confusión» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: if abs(r)>0.5.; Mensaje fijo no causal.. Salida observada: asociacion_observada."
+    },
+    {
+      "exercise_id": "S18-T3-A-E3",
+      "answer": "r_raw 1.0 | max_abs_resid 0.0",
+      "code": "import numpy as np\nz = np.arange(5, dtype=float)\nx = z.copy()\ny = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1)\nby = np.polyfit(z, y, 1)\nrx = x - (bx[0] * z + bx[1])\nry = y - (by[0] * z + by[1])\nprint(\"r_raw\", round(r_raw, 1), \"| max_abs_resid\", round(float(max(abs(rx).max(), abs(ry).max())), 1))\n# D2-Explorer: packet-only re-walk S18 S18-T3-A-E3\n",
+      "confidence": 0.9,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T3-A",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T3-A-E3 (transfer) apoyándome en la teoría «correlación y confusión» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Residualiza x e y respecto a z.; corrcoef de residuales ≈ 0 o nan controlado.. Salida observada: r_raw 0.9999999999999999 | max_abs_resid 4.440892098500626e-16."
+    },
+    {
+      "exercise_id": "S18-T3-B-E1",
+      "answer": "n_hi 1",
+      "code": "import numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nhi = q3 + 1.5 * iqr\nprint(\"n_hi\", int((m > hi).sum()))\n# D2-Explorer: packet-only re-walk S18 S18-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T3-B",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T3-B-E1 (guided) apoyándome en la teoría «segmentación, anomalías y causalidad no demostrada» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: quantile 0.25/0.75.; suma booleana.. Salida observada: n_hi 1."
+    },
+    {
+      "exercise_id": "S18-T3-B-E2",
+      "answer": "tasa_Lima 1.0",
+      "code": "import numpy as np\nregion = np.array([\"Lima\", \"Lima\", \"Cusco\"])\nflag = np.array([True, True, False])\ntasa = float(flag[region == \"Lima\"].mean())\nprint(\"tasa_Lima\", tasa)\n# D2-Explorer: packet-only re-walk S18 S18-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T3-B",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T3-B-E2 (independent) apoyándome en la teoría «segmentación, anomalías y causalidad no demostrada» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Filtra región Lima.; mean de flags.. Salida observada: tasa_Lima 1.0."
+    },
+    {
+      "exercise_id": "S18-T3-B-E3",
+      "answer": "[False, False, False, False, True]",
+      "code": "import numpy as np\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nprint(((m < lo) | (m > hi)).tolist())\n# D2-Explorer: packet-only re-walk S18 S18-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T3-B",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T3-B-E3 (transfer) apoyándome en la teoría «segmentación, anomalías y causalidad no demostrada» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: lo = Q1-1.5IQR, hi=Q3+1.5IQR.; tolist de bool.. Salida observada: [False, False, False, False, True]."
+    },
+    {
+      "exercise_id": "S18-T4-A-E1",
+      "answer": "¿Cuál es el ticket mediano?",
+      "code": "evidencia = {\n    \"pregunta\": \"¿Cuál es el ticket mediano?\",\n    \"hipotesis\": \"mediana >= 5\",\n    \"resultado\": {\"n\": 10, \"median\": 5.0},\n}\nprint(evidencia[\"pregunta\"])\n# D2-Explorer: packet-only re-walk S18 S18-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T4-A",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T4-A-E1 (guided) apoyándome en la teoría «preguntas, hipótesis y evidencia» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Dict literal.; print evidencia['pregunta'].. Salida observada: ¿Cuál es el ticket mediano?."
+    },
+    {
+      "exercise_id": "S18-T4-A-E2",
+      "answer": "solo_hallazgo",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmedian = 12\nprint(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")\n# D2-Explorer: packet-only re-walk S18 S18-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T4-A",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T4-A-E2 (independent) apoyándome en la teoría «preguntas, hipótesis y evidencia» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Compara median < 15.; No inventes decisión de campaña.. Salida observada: solo_hallazgo."
+    },
+    {
+      "exercise_id": "S18-T4-A-E3",
+      "answer": "P: ticket mediano Lima | M: median | V: 27.5 | L: solo web",
+      "code": "print(\"P: ticket mediano Lima | M: median | V: 27.5 | L: solo web\")\n# D2-Explorer: packet-only re-walk S18 S18-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T4-A",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T4-A-E3 (transfer) apoyándome en la teoría «preguntas, hipótesis y evidencia» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Función con 4 prints.; Etiquetas fijas P/M/V/L.. Salida observada: P: ticket mediano Lima | M: median | V: 27.5 | L: solo web."
+    },
+    {
+      "exercise_id": "S18-T4-B-E1",
+      "answer": "{'n_raw': 5, 'n_final': 4, 'filtros': ['monto>0']}",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnote = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n# D2-Explorer: packet-only re-walk S18 S18-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T4-B",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T4-B-E1 (guided) apoyándome en la teoría «notebook reproducible y data notes» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: Dict con n_raw, n_final, filtros.; print el dict.. Salida observada: {'n_raw': 5, 'n_final': 4, 'filtros': ['monto>0']}."
+    },
+    {
+      "exercise_id": "S18-T4-B-E2",
+      "answer": "2aa26ec9",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n# D2-Explorer: packet-only re-walk S18 S18-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T4-B",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T4-B-E2 (independent) apoyándome en la teoría «notebook reproducible y data notes» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: hashlib.sha1(...).hexdigest()[:8].; encode no necesario si ya es bytes.. Salida observada: 2aa26ec9."
+    },
+    {
+      "exercise_id": "S18-T4-B-E3",
+      "answer": "{'n_raw': 3, 'n_final': 2, 'seed': 42}",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]})\nn_raw = len(df)\ndf2 = df[df[\"monto\"] > 0]\nnote = {\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42}\nprint(note)\n# D2-Explorer: packet-only re-walk S18 S18-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S18-T4-B",
+        "packet_theory",
+        "iDo",
+        "EDA, estadística descriptiva e incertidu"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S18, resolví S18-T4-B-E3 (transfer) apoyándome en la teoría «notebook reproducible y data notes» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: len antes/después.; Incluye seed.. Salida observada: {'n_raw': 3, 'n_final': 2, 'seed': 42}."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] SelfCheck S18 Q0 «¿Qué comunica mejor un ticket “típico” con outliers fuertes?»: elijo [1] «Mediana (y opcionalmente IQR)». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] SelfCheck S18 Q1 «Una correlación alta entre X e Y implica:»: elijo [3] «Asociación observada (no causal por sí sola)». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] SelfCheck S18 Q2 «¿Qué debe incluir un data note mínimo?»: elijo [0] «Origen, filtros, n y límites de cobertura». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] SelfCheck S18 Q3 «El sesgo de muestra ocurre cuando:»: elijo [2] «La muestra no representa la población de interés». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] SelfCheck S18 Q4 «En un EDA de tickets sintéticos Lima/Cusco, ¿cuál es la comunicación correcta de un r de Pearson alto entre gasto y visi»: elijo [1] «Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:58:04.202076+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D2-s18-live"
+}

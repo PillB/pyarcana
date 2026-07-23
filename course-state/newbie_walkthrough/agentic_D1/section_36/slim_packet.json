@@ -1,0 +1,1145 @@
+{
+  "attempt_id": "agentic_D1",
+  "section_index": 36,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "78058f8237924509"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "stdlib-deep",
+      "title": "Pandas: ingesta, selección y tipos",
+      "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+      "learningOutcomes": [
+        "Modelar Series/DataFrame con Index estable",
+        "Leer CSV/Excel con parser y dtypes controlados",
+        "Seleccionar con loc/iloc y assign de forma idiomática",
+        "Evitar chained assignment y controlar copias",
+        "Tipar strings, nullable, fechas y categorías",
+        "Aplicar coerción explícita con schema y reporte",
+        "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+        "Documentar índices, provenance y uso de memoria"
+      ]
+    },
+    {
+      "index": 16,
+      "id": "wxpython-gui",
+      "title": "Calidad, limpieza y contratos de datos",
+      "tagline": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
+      "learningOutcomes": [
+        "Definir políticas de null por campo",
+        "Limitar imputación y usar indicadores de ausencia",
+        "Distinguir duplicados exactos de conflictos",
+        "Conservar evidencia al resolver claves/cardinalidad",
+        "Normalizar strings/números/fechas/categorías",
+        "Clasificar outliers plausibles vs errores",
+        "Implementar contratos de schema y cross-field",
+        "Cuarentenar fallos con métricas y audit trail"
+      ]
+    },
+    {
+      "index": 17,
+      "id": "packaging",
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "tagline": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
+      "learningOutcomes": [
+        "Diseñar joins con claves y cardinalidad correctas",
+        "Usar validate y anti-join para detectar fan-out/huérfanos",
+        "Reshapear con concat/melt/pivot",
+        "Mantener nombres estables long/wide",
+        "Agregar con groupby/agg/transform",
+        "Construir ventanas, fechas y cohortes",
+        "Reconciliar denominadores y totales",
+        "Controlar leakage temporal antes/después"
+      ]
+    },
+    {
+      "index": 18,
+      "id": "data-engineering",
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "tagline": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+      "learningOutcomes": [
+        "Resumir distribuciones con centro, dispersión y cuantiles",
+        "Elegir métricas robustas y escalas honestas",
+        "Identificar sesgo de población/muestra",
+        "Reportar intervalos y tamaños de efecto básicos",
+        "Interpretar correlación sin confundir causalidad",
+        "Segmentar y marcar anomalías con límites claros",
+        "Estructurar preguntas, hipótesis y evidencia",
+        "Entregar notebook/script reproducible con data notes"
+      ]
+    },
+    {
+      "index": 19,
+      "id": "databases-orm",
+      "title": "Visualización y comunicación accesible",
+      "tagline": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
+      "learningOutcomes": [
+        "Elegir charts por pregunta y audiencia",
+        "Diseñar ejes, escalas y encodings honestos",
+        "Producir figuras Matplotlib (estilo Seaborn opcional)",
+        "Anotar y exportar de forma reproducible",
+        "Construir vistas interactivas lógicas (filtros/tooltips simulados)",
+        "Proveer alternativas accesibles y cuidar performance",
+        "Documentar unidades, fuente y limitaciones",
+        "Aplicar contraste, alt text y no sobreclaim"
+      ]
+    },
+    {
+      "index": 20,
+      "id": "rag",
+      "title": "Automatización robusta de Excel",
+      "tagline": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
+      "learningOutcomes": [
+        "Manipular sheets, celdas, tablas y named ranges",
+        "Distinguir fórmulas de valores cacheados",
+        "Aplicar estilos, charts y plantillas",
+        "Manejar fechas, locales, merged cells y protección",
+        "Conciliar totales y trabajar con pivots lógicos",
+        "Preservar estructura y validaciones",
+        "Operar batch con corruptos y locks",
+        "Garantizar backups, idempotencia y tests estructurales"
+      ]
+    },
+    {
+      "index": 21,
+      "id": "fastapi",
+      "title": "Documentos, plantillas y reportes trazables",
+      "tagline": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
+      "learningOutcomes": [
+        "Separar datos y presentación con Jinja",
+        "Renderizar condiciones/tablas con formato seguro",
+        "Generar, abrir, extraer y renderizar DOCX/PDF locales",
+        "Distinguir PDF digital de imagen/OCR",
+        "Estructurar informe ejecutivo con método y hallazgos",
+        "Embeber gráficos/tablas con fuentes y limitaciones",
+        "Revisar redacción, a11y y consistencia numérica",
+        "Documentar provenance y flujo de aprobación"
+      ]
+    },
+    {
+      "index": 22,
+      "id": "rapidfuzz-entity",
+      "title": "Email, identidad y aprobación humana",
+      "tagline": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
+      "learningOutcomes": [
+        "Construir mensajes MIME con encoding y attachments",
+        "Sanitizar templates HTML de correo",
+        "Configurar OAuth/service account con scopes mínimos",
+        "Crear drafts vía adaptadores con expiración",
+        "Resolver y verificar destinatarios",
+        "Aplicar privacidad y mínima divulgación en listas",
+        "Implementar approval queue y state machine",
+        "Garantizar idempotencia, audit log y reintentos seguros"
+      ]
+    },
+    {
+      "index": 23,
+      "id": "computer-vision",
+      "title": "Browser RPA con Playwright",
+      "tagline": "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y reanudación idempotente",
+      "learningOutcomes": [
+        "Usar locators orientados a usuario",
+        "Aplicar auto-waiting y assertions fiables",
+        "Automatizar formularios, uploads y downloads",
+        "Modelar auth y Page Objects",
+        "Diagnosticar con trace, screenshot y logs",
+        "Diseñar retries y recovery robustos",
+        "Priorizar API/export sobre RPA",
+        "Respetar ToS/CAPTCHA y handoff humano"
+      ]
+    },
+    {
+      "index": 24,
+      "id": "rpa-advanced",
+      "title": "OCR y Document AI",
+      "tagline": "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico",
+      "learningOutcomes": [
+        "Preprocesar imágenes (DPI, deskew, crop, contraste)",
+        "Corregir ruido y orientación",
+        "Ejecutar OCR con idiomas, layout y confidence",
+        "Extraer texto, tablas y pares clave–valor",
+        "Normalizar a schema de extracción",
+        "Validar cross-field y encolar revisión",
+        "Evaluar exactitud por campo en golden set",
+        "Manejar privacidad, hostiles y fallback"
+      ]
+    },
+    {
+      "index": 25,
+      "id": "streamlit-dashboards",
+      "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+      "tagline": "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline",
+      "learningOutcomes": [
+        "Elegir regla vs modelo especializado vs LLM",
+        "Usar model cards, licencias y decidir local/cloud",
+        "Ejecutar pipelines/endpoints de Hugging Face",
+        "Operar batching, timeout, cache, costo y fallback",
+        "Diseñar prompts con salida estructurada",
+        "Usar thinking/tools/checkpoints de forma controlada",
+        "Evaluar con golden set, schema y revisión humana",
+        "Mitigar injection, exfiltración, sesgo y minimizar datos"
+      ]
+    },
+    {
+      "index": 26,
+      "id": "integrator-phase1",
+      "title": "Orquestación y VP RPA + AI Analyst",
+      "tagline": "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas",
+      "learningOutcomes": [
+        "Modelar tasks/flows/DAG con estados",
+        "Configurar límites, metadata y schedules",
+        "Implementar checkpoints, retry/backoff y dead-letter",
+        "Garantizar idempotencia, concurrencia y rollback",
+        "Diseñar revisión humana de análisis/reporte/destinatario",
+        "Operar aprobación, rechazo, edición y auditoría",
+        "Definir SLO, alerts y runbook",
+        "Validar E2E, seguridad, costo y métricas de valor"
+      ]
+    },
+    {
+      "index": 27,
+      "id": "async-concurrency",
+      "title": "Estrategia de pruebas con pytest",
+      "tagline": "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión",
+      "learningOutcomes": [
+        "Priorizar pruebas según riesgo y pirámide",
+        "Escribir tests AAA con oráculos confiables",
+        "Usar discovery y assertions de pytest",
+        "Aislar estado con fixtures y scopes",
+        "Cubrir excepciones, floats, fechas y tmp files",
+        "Diseñar casos negativos con mensajes útiles",
+        "Medir cobertura por rama y riesgo",
+        "Interpretar mutación conceptual y fallas útiles"
+      ]
+    },
+    {
+      "index": 28,
+      "id": "llm-agents",
+      "title": "Pruebas de datos, propiedades e integración",
+      "tagline": "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
+      "learningOutcomes": [
+        "Generar casos desde invariantes",
+        "Aplicar tests metamórficos y de simetría",
+        "Validar contratos de schema/calidad",
+        "Detectar drift y reconciliar goldens",
+        "Doblar HTTP/DB/reloj con control",
+        "Escribir contract tests sin sobre-mocking",
+        "Montar integración/E2E con containers (concepto)",
+        "Eliminar flakes y fijar determinismo en CI"
+      ]
+    },
+    {
+      "index": 29,
+      "id": "mlops",
+      "title": "SQL avanzado y modelado relacional",
+      "tagline": "esquema que preserva registros fuente, entidades, pares candidatos, decisiones y evidencia sin sobrescribir historia",
+      "learningOutcomes": [
+        "Modelar claves y constraints correctos",
+        "Preservar temporalidad y provenance",
+        "Escribir CTEs, windows y anti-joins",
+        "Razonar cardinalidad, NULL y planes",
+        "Elegir isolation y garantizar ACID",
+        "Implementar upserts y recuperación",
+        "Diseñar índices y migrations seguras",
+        "Aplicar repository, pooling y tests"
+      ]
+    },
+    {
+      "index": 30,
+      "id": "security-infra",
+      "title": "Entity resolution probabilístico",
+      "tagline": "Testable Entity Resolution Engine con benchmark etiquetado, blocking medido, comparadores explicables y cola de revisión",
+      "learningOutcomes": [
+        "Comparar exact/edit/token/fecha",
+        "Tratar missingness y frecuencia",
+        "Diseñar blocking con recall medido",
+        "Controlar costo y pares imposibles",
+        "Estimar pesos y umbrales",
+        "Operar review y consistencia de cluster",
+        "Partir datos por entidad sin leakage",
+        "Reportar métricas pairwise/cluster y slices"
+      ]
+    },
+    {
+      "index": 31,
+      "id": "streaming-data",
+      "title": "Grafos y evidencia relacional",
+      "tagline": "grafo temporal que responde cómo están conectados con camino reproducible y no convierte centralidad en culpabilidad",
+      "learningOutcomes": [
+        "Modelar nodos/aristas con peso y dirección",
+        "Representar multigrafo temporal con provenance",
+        "Construir grafo desde entidades y transacciones",
+        "Agregar sin borrar detalle fuente",
+        "Calcular grado, componentes y caminos",
+        "Interpretar centralidad con límites",
+        "Extraer subgrafos y probarlos",
+        "Visualizar con privacidad y evidencia por arista"
+      ]
+    },
+    {
+      "index": 32,
+      "id": "microservices",
+      "title": "Feature engineering y pipelines sin leakage",
+      "tagline": "tabla de features versionada cuya construcción en train e inferencia es idéntica y no usa información futura o de decisión",
+      "learningOutcomes": [
+        "Diseñar features numéricas/categóricas/texto",
+        "Aplicar missing indicators, scale y encoding",
+        "Crear features relacionales y de grafo",
+        "Calcular ventanas y frecuencias sin leakage",
+        "Componer transformers reutilizables",
+        "Persistir fit y reutilizar en inferencia",
+        "Partir por entidad/grupo/tiempo",
+        "Detectar leakage y versionar features"
+      ]
+    },
+    {
+      "index": 33,
+      "id": "advanced-models",
+      "title": "ML supervisado y baselines responsables",
+      "tagline": "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor",
+      "learningOutcomes": [
+        "Definir unidad, target y horizonte",
+        "Fijar baseline de regla y dummy",
+        "Entrenar modelos lineales regularizados",
+        "Interpretar coeficientes y supuestos",
+        "Entrenar árboles y ensambles",
+        "Controlar overfit y reproducibilidad",
+        "Registrar experimentos mínimos",
+        "Hacer CV y análisis de errores"
+      ]
+    },
+    {
+      "index": 34,
+      "id": "cv-ai-integration",
+      "title": "Métricas, desbalance, calibración y umbrales",
+      "tagline": "Relationship Investigation Workbench: grafo + evidencia con ranking calibrado para revisión; no etiqueta fraude automáticamente",
+      "learningOutcomes": [
+        "Elegir métricas para desbalance",
+        "Dimensionar top-k y carga de revisión",
+        "Balancear clases sin leakage en CV",
+        "Evitar métricas engañosas por prevalencia",
+        "Evaluar calibración con Brier/reliability",
+        "Calibrar y evaluar fuera de muestra",
+        "Elegir umbral por costo y capacidad",
+        "Aplicar abstención y sensibilidad por slice"
+      ]
+    },
+    {
+      "index": 35,
+      "id": "system-design",
+      "title": "Explicabilidad, equidad e incertidumbre",
+      "tagline": "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana",
+      "learningOutcomes": [
+        "Explicar con coeficientes e importancia",
+        "Delimitar explicación local y correlación",
+        "Medir equidad por cohorte/slice",
+        "Detectar proxies y daño diferencial",
+        "Comunicar incertidumbre y conformal",
+        "Abstener ante OOD",
+        "Documentar model card y contestabilidad",
+        "Operar aprobación, override y retiro"
+      ]
+    }
+  ],
+  "active": {
+    "id": "ai-apis-advanced",
+    "index": 36,
+    "title": "Clustering, anomalías y validación temporal",
+    "tagline": "señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida",
+    "jobRelevance": "Señales no supervisadas alimentan el triage CP-N3-C como **auxiliares** de cola de review. En banca de procesos, fintech y retail, un flag de rareza mal comunicado se convierte en daño. Id `ai-apis-advanced` conservado. Anomalía ≠ conducta indebida ni fraude. Caso sintético CASO-LIM-036.",
+    "learningOutcomes": [
+      "Aplicar clustering con escalamiento previo de features",
+      "Elegir k con estabilidad multi-seed y reportar límites de métricas internas",
+      "Proyectar con PCA (o pesos toy) solo para exploración visual",
+      "Interpretar proyecciones con prudencia y sin auto-etiquetar culpa",
+      "Detectar rareza con reglas σ e ideas IF/LOF sin veredicto de conducta",
+      "Distinguir novelty vs outlier y calibrar contamination a capacidad de review",
+      "Validar con backtests temporales y ventanas sin leakage",
+      "Evaluar con labels escasos vía precision@k y revisión humana obligatoria"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S36-T1-A",
+        "heading": "escalamiento y k-means/density",
+        "paragraphs": [
+          "Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan regiones densas; aquí usamos un toy 1D de centroides. Los centroides son resúmenes geométricos, no etiquetas morales ni de fraude.",
+          "Contrato operativo. Entrada: vector de features sintéticas y decisión de escalado. Salida: centroides y flags scaled=True, verdict=False. Error: clusterizar montos crudos contra conteos sin normalizar, o publicar el cluster como veredicto. Criterio: el pipeline documenta scale-first y prohíbe usar el id de cluster como sanción.",
+          "Aplicación a `CASO-LIM-036-T1A`: xs=[1.0,1.2,5.0,5.2,5.1] → c1≈1.1, c2≈5.1. Dos grupos de «bajo/alto» sintético del laboratorio; scaled True; verdict False siempre. Útil para segmentar la cola de review, nunca para culpar ni inferir parentesco o fraude a partir del centroide."
+        ],
+        "code": "xs = [1.0, 1.2, 5.0, 5.2, 5.1]\nc1 = sum(xs[:2])/2; c2 = sum(xs[2:])/3\nprint(\"c1\", round(c1, 2), \"c2\", round(c2, 2))\nprint(\"scaled\", True)\nprint(\"verdict\", False)",
+        "code_output": "c1 1.1 c2 5.1\nscaled True\nverdict False"
+      },
+      {
+        "subtopicId": "S36-T1-B",
+        "heading": "elección, estabilidad y métricas limitadas",
+        "paragraphs": [
+          "Elige k con estabilidad multi-seed y sentido de negocio (capacidad de cola), no solo maximizando silhouette. Las métricas internas fallan con formas raras, solapamiento y desbalance. Reporta sensibilidad a seed en el notebook de señales del triage sintético.",
+          "Contrato operativo. Entrada: mapa k→score interno sintético. Salida: k elegido, score y stable_check=multi_seed. Error: k que fragmenta de más la cola o que no se sostiene entre seeds. Criterio: silhouette alto no legitima sanción; la decisión de k se documenta con límites explícitos de la métrica interna.",
+          "Aplicación a `CASO-LIM-036-T1B`: scores {2:0.4, 3:0.55, 4:0.52} → k=3 con score 0.55. Se exige multi_seed en el checklist del PR de señales. Datos inventados del laboratorio; no existen labels de «culpable» ni de parentesco en este fixture."
+        ],
+        "code": "scores = {2: 0.4, 3: 0.55, 4: 0.52}\nbest = max(scores, key=scores.get)\nprint(\"k\", best)\nprint(\"score\", scores[best])\nprint(\"stable_check\", \"multi_seed\")",
+        "code_output": "k 3\nscore 0.55\nstable_check multi_seed"
+      },
+      {
+        "subtopicId": "S36-T2-A",
+        "heading": "PCA y visualización",
+        "paragraphs": [
+          "PCA proyecta a 1–2D para explorar; no es el modelo de decisión final del triage. La varianza explicada informa compresión, no causalidad. Didáctica: proyección manual por pesos fijos sobre features sintéticas del caso Red Andina ficticio.",
+          "Contrato operativo. Entrada: puntos y pesos de proyección. Salida: coordenadas pc y decision_model=False. Error: clasificar culpa en el scatter o tratar el eje como «eje de fraude». Criterio: el artefacto se etiqueta exploratory y no alimenta un auto-rechazo ni una sanción automática.",
+          "Aplicación a `CASO-LIM-036-T2A`: w=(0.8,0.2) sobre puntos toy → lista pc; var_idea weighted; decision_model False. Solo exploración visual del space de features sintéticas; el revisor humano sigue mandando en la cola de triage."
+        ],
+        "code": "w = (0.8, 0.2)\npts = [(1, 2), (2, 1), (8, 9)]\npc = [w[0]*x + w[1]*y for x, y in pts]\nprint(\"pc\", [round(v, 2) for v in pc])\nprint(\"var_idea\", \"weighted\")\nprint(\"decision_model\", False)",
+        "code_output": "pc [1.2, 1.8, 8.2]\nvar_idea weighted\ndecision_model False"
+      },
+      {
+        "subtopicId": "S36-T2-B",
+        "heading": "interpretación prudente de proyecciones",
+        "paragraphs": [
+          "Los ejes PC no traen nombre de negocio automático: no inventes «PC2 = riesgo moral». Un outlier visual puede ser escala mal hecha o un error de datos, no un villano. Documenta el uso como exploratorio en el dossier de señales del pipeline sintético.",
+          "Contrato operativo. Entrada: proyección y checklist de interpretación. Salida: axis_named_by_business=False, use=exploratory, auto_label=False. Error: auto-etiquetar clusters en el plot como «sospechosos». Criterio: cualquier historia de negocio sobre un eje se valida con features originales y un humano revisor.",
+          "Aplicación a `CASO-LIM-036-T2B`: flags de prudencia en el reporte de laboratorio. Si un punto se aleja en el scatter, primero revisa scale y missingness sintéticos antes de encolar review; nunca auto-label de conducta indebida."
+        ],
+        "code": "print(\"axis_named_by_business\", False)\nprint(\"use\", \"exploratory\")\nprint(\"auto_label\", False)",
+        "code_output": "axis_named_by_business False\nuse exploratory\nauto_label False"
+      },
+      {
+        "subtopicId": "S36-T3-A",
+        "heading": "Isolation Forest/LOF y reglas",
+        "paragraphs": [
+          "Isolation Forest y LOF (conceptual) generan scores de rareza; las reglas legibles (monto > μ+3σ) ayudan al revisor a entender el flag. Score alto ⇒ candidato a review, no culpa. Combina modelo y regla cuando puedas explicar el caso sintético en una frase clara.",
+          "Contrato operativo. Entrada: serie sintética de montos. Salida: flags binarios, method y misconduct=False. Error: pipe del flag a un despido o bloqueo automático. Criterio: todo flag de rareza conserva ruta humana y disclaimer explícito de no-conducta en el workbench de triage.",
+          "Aplicación a `CASO-LIM-036-T3A`: xs=[10,11,10,12,50]; μ sobre los «normales» del lab → flag en 50. method rule_sigma; misconduct False. El valor 50 es raro respecto al resto, no «culpable» ni prueba de fraude o parentesco."
+        ],
+        "code": "import statistics\nxs = [10, 11, 10, 12, 50]\nmu = statistics.mean(xs[:-1]); sd = statistics.pstdev(xs[:-1]) or 1\nrule = [1 if x > mu + 3 * sd else 0 for x in xs]\nprint(\"mu\", mu, \"flags\", rule)\nprint(\"method\", \"rule_sigma\")\nprint(\"misconduct\", False)",
+        "code_output": "mu 10.75 flags [0, 0, 0, 0, 1]\nmethod rule_sigma\nmisconduct False"
+      },
+      {
+        "subtopicId": "S36-T3-B",
+        "heading": "novelty vs outlier y contamination",
+        "paragraphs": [
+          "Outlier: punto raro respecto al train. Novelty: punto nuevo comparado con un modelo de normalidad ya fijado. contamination es una hipótesis de fracción a flaggear, no la prevalencia de fraude del negocio. Ajústala a la capacidad real de la cola de review sintética del lab.",
+          "Contrato operativo. Entrada: contamination y n del batch sintético. Salida: expected_flags e is_fraud_rate=False. Error: vender contamination=0.05 como «5% de fraude». Criterio: expected_flags ≤ capacidad de review; si no, bajas contamination o priorizas con otra señal auxiliar documentada.",
+          "Aplicación a `CASO-LIM-036-T3B`: contamination=0.05, n=200 → expected_flags=10. use=capacity_tuning. Sin afirmar tasas reales de ilícitos ni parentesco; solo control de rareza y de carga de la cola de analistas del caso ficticio."
+        ],
+        "code": "contamination = 0.05\nn = 200\nprint(\"expected_flags\", int(n * contamination))\nprint(\"contamination_is_fraud_rate\", False)\nprint(\"use\", \"capacity_tuning\")",
+        "code_output": "expected_flags 10\ncontamination_is_fraud_rate False\nuse capacity_tuning"
+      },
+      {
+        "subtopicId": "S36-T4-A",
+        "heading": "splits/backtests y ventanas",
+        "paragraphs": [
+          "Valida señales con backtest temporal: fit de normalidad en el pasado, score en el futuro. Ventanas deslizantes miden estabilidad de la flag rate. Sin labels densos, usa un proxy de utilidad (click de review sintético), nunca leakage de datos futuros en el fit del modelo de normalidad.",
+          "Contrato operativo. Entrada: ventanas (mes, flag_rate). Salida: mean_flag_rate, backtest=True, leakage=False. Error: entrenar con todo el histórico incluyendo el mes evaluado. Criterio: el split es temporal y se documenta; un spike de flags se investiga antes de ampliar la cola de review.",
+          "Aplicación a `CASO-LIM-036-T4A`: rates 0.1, 0.12, 0.09 → mean≈0.103. backtest True, leakage False. Solo series sintéticas de laboratorio Red Andina; el reloj del caso manda sobre cualquier shuffle aleatorio."
+        ],
+        "code": "windows = [(\"2026-01\", 0.1), (\"2026-02\", 0.12), (\"2026-03\", 0.09)]\nprint(\"mean_flag_rate\", round(sum(r for _, r in windows)/3, 3))\nprint(\"backtest\", True)\nprint(\"leakage\", False)",
+        "code_output": "mean_flag_rate 0.103\nbacktest True\nleakage False"
+      },
+      {
+        "subtopicId": "S36-T4-B",
+        "heading": "labels escasos, precision@k y revisión humana",
+        "paragraphs": [
+          "Con pocas etiquetas, precision@k y el acuerdo humano importan más que un ROC fantasma. El revisor valida si la señal ahorra tiempo en la cola. Nunca: anomalía → conducta indebida automática. El HITL es parte del contrato operativo, no un adorno del dashboard.",
+          "Contrato operativo. Entrada: ranking binario de utilidad sintética y k. Salida: precision_at_k, human_in_loop=True, auto_guilt=False. Error: optimizar solo accuracy global con labels ralos. Criterio: se reporta P@k y se mantiene la ruta humana obligatoria para acciones que afectan personas detrás de los ids sintéticos.",
+          "Aplicación a `CASO-LIM-036-T4B`: ranked=[1,0,1,0,0], k=3 → P@k≈0.67. human_in_loop True; auto_guilt False. La métrica de negocio del lab es «¿ayudó a la cola sintética de review?», no un veredicto moral sobre el titular del registro."
+        ],
+        "code": "ranked = [1, 0, 1, 0, 0]\nk = 3\nprint(\"precision_at_k\", sum(ranked[:k])/k)\nprint(\"human_in_loop\", True)\nprint(\"auto_guilt\", False)",
+        "code_output": "precision_at_k 0.6666666666666666\nhuman_in_loop True\nauto_guilt False"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S36-T1-A-DEMO",
+          "subtopicId": "S36-T1-A",
+          "environment": "local-python",
+          "description": "Demo: centroides 1D de dos grupos sintéticos.",
+          "why": "Centroides toy con scale-first; no hay veredicto de conducta.",
+          "code": "print('c1', 1.0)\nprint('c2', 5.0)\nprint('scaled', True)",
+          "language": "python",
+          "output": "c1 1.0\nc2 5.0\nscaled True"
+        },
+        {
+          "demoId": "S36-T1-B-DEMO",
+          "subtopicId": "S36-T1-B",
+          "environment": "local-python",
+          "description": "Demo: elegir k por score interno.",
+          "why": "Argmax de score + recordatorio de multi-seed en teoría.",
+          "code": "s={2:0.3,3:0.5}; print('k', max(s,key=s.get))\nprint('score', 0.5)\nprint('ok', True)",
+          "language": "python",
+          "output": "k 3\nscore 0.5\nok True"
+        },
+        {
+          "demoId": "S36-T2-A-DEMO",
+          "subtopicId": "S36-T2-A",
+          "environment": "local-python",
+          "description": "Demo: proyección ponderada exploratoria.",
+          "why": "PCA toy como lupa; decision_model fuera del demo.",
+          "code": "print(round(0.8*2+0.2*4,2))\nprint('exploratory', True)\nprint('ok', True)",
+          "language": "python",
+          "output": "2.4\nexploratory True\nok True"
+        },
+        {
+          "demoId": "S36-T2-B-DEMO",
+          "subtopicId": "S36-T2-B",
+          "environment": "local-python",
+          "description": "Demo: límites de interpretación de ejes.",
+          "why": "Prohíbe auto-nombrar ejes y auto-etiquetar culpa.",
+          "code": "print('business_axis', False)\nprint('use', 'explore')\nprint('ok', True)",
+          "language": "python",
+          "output": "business_axis False\nuse explore\nok True"
+        },
+        {
+          "demoId": "S36-T3-A-DEMO",
+          "subtopicId": "S36-T3-A",
+          "environment": "local-python",
+          "description": "Demo: flags de regla sigma sintéticos.",
+          "why": "Rareza encola review; misconduct False es política.",
+          "code": "print('flags', [0,0,1])\nprint('misconduct', False)\nprint('ok', True)",
+          "language": "python",
+          "output": "flags [0, 0, 1]\nmisconduct False\nok True"
+        },
+        {
+          "demoId": "S36-T3-B-DEMO",
+          "subtopicId": "S36-T3-B",
+          "environment": "local-python",
+          "description": "Demo: expected flags por contamination.",
+          "why": "contamination calibra carga; no es tasa de fraude.",
+          "code": "print(int(100*0.05))\nprint('is_fraud_rate', False)\nprint('ok', True)",
+          "language": "python",
+          "output": "5\nis_fraud_rate False\nok True"
+        },
+        {
+          "demoId": "S36-T4-A-DEMO",
+          "subtopicId": "S36-T4-A",
+          "environment": "local-python",
+          "description": "Demo: media de flag rates en backtest.",
+          "why": "Backtest temporal con leakage=False en el contrato de teoría.",
+          "code": "print(round((0.1+0.2)/2,2))\nprint('backtest', True)\nprint('ok', True)",
+          "language": "python",
+          "output": "0.15\nbacktest True\nok True"
+        },
+        {
+          "demoId": "S36-T4-B-DEMO",
+          "subtopicId": "S36-T4-B",
+          "environment": "local-python",
+          "description": "Demo: precision@k y veto de auto_guilt.",
+          "why": "P@k + HITL miden utilidad de cola con labels escasos.",
+          "code": "print(0.5)\nprint('human', True)\nprint('auto_guilt', False)",
+          "language": "python",
+          "output": "0.5\nhuman True\nauto_guilt False"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S36-T1-A-E1",
+          "instruction": "S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3). Fixture de clustering sintético CASO-LIM-036-1A; no es veredicto de conducta.",
+          "hints": [
+            "Centroide 1D = media del grupo.",
+            "No uses la suma cruda como centroide."
+          ],
+          "kind": "guided",
+          "tests": "Salida alinea con solution output de S36-T1-A-E1; fixture sintético.",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(sum(xs)/len(xs))\n"
+        },
+        {
+          "id": "S36-T1-A-E2",
+          "instruction": "S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter olvida dividir por sd (defect=4). Escala antes de k-means en el path sintético.",
+          "hints": [
+            "z = (x-mu)/sd.",
+            "Sin scale, gana la magnitud."
+          ],
+          "kind": "independent",
+          "tests": "Salida alinea con solution output de S36-T1-A-E2; fixture sintético.",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print((x - mu) / sd)\n"
+        },
+        {
+          "id": "S36-T1-A-E3",
+          "instruction": "S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict True (defect: convierte segmento en culpa). Transferencia ética del triage CP-N3-C señales.",
+          "hints": [
+            "Centroides no son sanciones.",
+            "verdict False es fail-closed de conducta."
+          ],
+          "kind": "transfer",
+          "tests": "Salida alinea con solution output de S36-T1-A-E3; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"verdict\", False)\n"
+        },
+        {
+          "id": "S36-T1-B-E1",
+          "instruction": "S36-T1-B-E1 · Elige k con score máximo: scores {2:0.2,3:0.9,4:0.5} → k=3 y score 0.9. Imprime 3, score 0.9, ok True. Starter elige min (defect). Fixture sintético multi-k CASO-LIM-036.",
+          "hints": [
+            "max por score interno del lab.",
+            "Luego valida estabilidad multi-seed."
+          ],
+          "kind": "guided",
+          "tests": "Salida alinea con solution output de S36-T1-B-E1; fixture sintético.",
+          "starterCode": "scores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = min(scores, key=scores.get)  # TODO max\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n"
+        },
+        {
+          "id": "S36-T1-B-E2",
+          "instruction": "S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defect). Contrato de sensibilidad a seed en CASO-LIM-036.",
+          "hints": [
+            "Varias seeds antes de fijar k.",
+            "stable check documenta el rito."
+          ],
+          "kind": "independent",
+          "tests": "Salida alinea con solution output de S36-T1-B-E2; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"seeds\", [0, 1, 2])\n"
+        },
+        {
+          "id": "S36-T1-B-E3",
+          "instruction": "S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegamente en silhouette). Transferencia de humildad métrica del path de señales.",
+          "hints": [
+            "Métricas internas fallan con formas raras.",
+            "limit True = reporta el caveat."
+          ],
+          "kind": "transfer",
+          "tests": "Salida alinea con solution output de S36-T1-B-E3; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"limit\", True)\n"
+        },
+        {
+          "id": "S36-T2-A-E1",
+          "instruction": "S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Exploración sintética CASO-LIM-036, no modelo de decisión final.",
+          "hints": [
+            "pc = w0*x + w1*y.",
+            "Solo exploración visual."
+          ],
+          "kind": "guided",
+          "tests": "Salida alinea con solution output de S36-T2-A-E1; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(round(0.5*2 + 0.5*4, 1))\n"
+        },
+        {
+          "id": "S36-T2-A-E2",
+          "instruction": "S36-T2-A-E2 · PCA no es decision model: imprime decision_model False, ok True, use 'viz'. Starter True (defect). Contrato del dossier de señales CASO-LIM-036.",
+          "hints": [
+            "Prohibido auto-decidir con PC.",
+            "use viz nombra el rol."
+          ],
+          "kind": "independent",
+          "tests": "Salida alinea con solution output de S36-T2-A-E2; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"decision_model\", False)\n"
+        },
+        {
+          "id": "S36-T2-A-E3",
+          "instruction": "S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-proyecta sin plan). Transferencia de n_components del lab sintético.",
+          "hints": [
+            "2D es el default de exploración visual.",
+            "explore True en el reporte."
+          ],
+          "kind": "transfer",
+          "tests": "Salida alinea con solution output de S36-T2-A-E3; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(2)\n"
+        },
+        {
+          "id": "S36-T2-B-E1",
+          "instruction": "S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect: nombra PC2='riesgo'). Prudencia de interpretación en CASO-LIM-036.",
+          "hints": [
+            "axis_named_by_business = False.",
+            "Valida historias en features originales."
+          ],
+          "kind": "guided",
+          "tests": "Salida alinea con solution output de S36-T2-B-E1; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(False)\n"
+        },
+        {
+          "id": "S36-T2-B-E2",
+          "instruction": "S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter auto_label True (defect). Antes de encolar, revisa scale del fixture sintético.",
+          "hints": [
+            "Primero scale/missingness.",
+            "No auto-etiquetes sospechosos en el plot."
+          ],
+          "kind": "independent",
+          "tests": "Salida alinea con solution output de S36-T2-B-E2; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"check_scale\", True)\n"
+        },
+        {
+          "id": "S36-T2-B-E3",
+          "instruction": "S36-T2-B-E3 · Documenta uso exploratorio: imprime 'exploratory', ok True, n 1. Starter 'production_judge' (defect). Transferencia de etiqueta del artefacto PCA en el dossier sintético.",
+          "hints": [
+            "Marca exploratory en el reporte.",
+            "No promociones PCA a juez de prod."
+          ],
+          "kind": "transfer",
+          "tests": "Salida alinea con solution output de S36-T2-B-E3; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"exploratory\")\n"
+        },
+        {
+          "id": "S36-T3-A-E1",
+          "instruction": "S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta len (defect=3). Rareza ≠ conducta indebida en CASO-LIM-036-3A.",
+          "hints": [
+            "sum(flags) cuenta raros.",
+            "misconduct siempre False aquí."
+          ],
+          "kind": "guided",
+          "tests": "Salida alinea con solution output de S36-T3-A-E1; fixture sintético.",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(sum(flags))\n"
+        },
+        {
+          "id": "S36-T3-A-E2",
+          "instruction": "S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabilidad para el revisor humano del path de señales sintéticas.",
+          "hints": [
+            "Regla legible + score de rareza.",
+            "El humano necesita la frase de la regla."
+          ],
+          "kind": "independent",
+          "tests": "Salida alinea con solution output de S36-T3-A-E2; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print([\"rule\", \"score\"])\n"
+        },
+        {
+          "id": "S36-T3-A-E3",
+          "instruction": "S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y route 'auto_ban' (defect). Fail-closed de conducta en el triage sintético.",
+          "hints": [
+            "Ruta humana obligatoria.",
+            "auto_ban está fuera de política."
+          ],
+          "kind": "transfer",
+          "tests": "Salida alinea con solution output de S36-T3-A-E3; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"guilt\", False)\n"
+        },
+        {
+          "id": "S36-T3-B-E1",
+          "instruction": "S36-T3-B-E1 · Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2. Starter solo ['outlier'] (defect). Distingue rareza en train vs punto nuevo en CASO-LIM-036.",
+          "hints": [
+            "Outlier en train; novelty vs modelo fijado.",
+            "Nombra ambos en el glosario de señales."
+          ],
+          "kind": "guided",
+          "tests": "Salida alinea con solution output de S36-T3-B-E1; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print([\"outlier\", \"novelty\"])\n"
+        },
+        {
+          "id": "S36-T3-B-E2",
+          "instruction": "S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter marca is_fraud_rate True (defect). Contamination no es prevalencia de fraude.",
+          "hints": [
+            "expected_flags = int(n*contamination).",
+            "Nunca lo vendas como fraude rate."
+          ],
+          "kind": "independent",
+          "tests": "Salida alinea con solution output de S36-T3-B-E2; fixture sintético.",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(int(n * c))\n"
+        },
+        {
+          "id": "S36-T3-B-E3",
+          "instruction": "S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defect). Transferencia: expected_flags debe caber en la cola sintética de analistas.",
+          "hints": [
+            "Baja contamination si la cola no da abasto.",
+            "capacity_link True en el diseño."
+          ],
+          "kind": "transfer",
+          "tests": "Salida alinea con solution output de S36-T3-B-E3; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"capacity_link\", True)\n"
+        },
+        {
+          "id": "S36-T4-A-E1",
+          "instruction": "S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma sin dividir (defect). Ventanas sintéticas del backtest temporal CASO-LIM-036.",
+          "hints": [
+            "mean de rates por ventana.",
+            "backtest True documenta el protocolo."
+          ],
+          "kind": "guided",
+          "tests": "Salida alinea con solution output de S36-T4-A-E1; fixture sintético.",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(sum(rates)/len(rates))\n"
+        },
+        {
+          "id": "S36-T4-A-E2",
+          "instruction": "S36-T4-A-E2 · Sin leakage de futuro: imprime leakage False, ok True, split 'time'. Starter leakage True (defect: fit con futuro). Contrato temporal del path de señales sintéticas.",
+          "hints": [
+            "Fit en pasado, score en futuro.",
+            "split time, no random shuffle ciego."
+          ],
+          "kind": "independent",
+          "tests": "Salida alinea con solution output de S36-T4-A-E2; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"leakage\", False)\n"
+        },
+        {
+          "id": "S36-T4-A-E3",
+          "instruction": "S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño de ventanas deslizantes sintéticas CASO-LIM-036.",
+          "hints": [
+            "Varias ventanas para ver estabilidad.",
+            "temporal True en el reporte."
+          ],
+          "kind": "transfer",
+          "tests": "Salida alinea con solution output de S36-T4-A-E3; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(3)\n"
+        },
+        {
+          "id": "S36-T4-B-E1",
+          "instruction": "S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=3 (defect). Labels sintéticos de utilidad de review, no de culpa.",
+          "hints": [
+            "P@k = media de los top-k labels de utilidad.",
+            "auto_guilt False siempre."
+          ],
+          "kind": "guided",
+          "tests": "Salida alinea con solution output de S36-T4-B-E1; fixture sintético.",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(sum(ranked[:k])/k)\n"
+        },
+        {
+          "id": "S36-T4-B-E2",
+          "instruction": "S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrato de revisión humana con labels escasos en el triage sintético.",
+          "hints": [
+            "HITL obligatorio con labels ralos.",
+            "labels scarce nombra el régimen."
+          ],
+          "kind": "independent",
+          "tests": "Salida alinea con solution output de S36-T4-B-E2; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(True)\n"
+        },
+        {
+          "id": "S36-T4-B-E3",
+          "instruction": "S36-T4-B-E3 · Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1. Starter 'global_accuracy' (defect). Transferencia: con labels escasos prioriza P@k en CASO-LIM-036.",
+          "hints": [
+            "P@k alinea con capacidad de cola.",
+            "global_accuracy engaña con labels ralos."
+          ],
+          "kind": "transfer",
+          "tests": "Salida alinea con solution output de S36-T4-B-E3; fixture sintético.",
+          "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"precision_at_k\")\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Señales auxiliares de rareza con backtest (CP-N3-C señales)",
+      "context": "Pipeline de clustering/anomalías evaluado por P@k y review; sin concluir conducta indebida. Id ai-apis-advanced conservado. Solo datos sintéticos CASO-LIM-036.",
+      "objectives": [
+        "Scale+cluster con disclaimer",
+        "PCA exploratoria prudente",
+        "Reglas/IF conceptual sin guilt",
+        "Backtest y P@k con HITL"
+      ],
+      "requirements": [
+        "Disclaimer anomalía≠culpa",
+        "Backtest temporal sin leakage",
+        "es-PE sintético",
+        "Ruta humana para flags"
+      ],
+      "portfolioNote": "Señales CP-N3-C; evidencia de utilidad de cola. No PASS automático de carrera.",
+      "starterCode": "# señales auxiliares\ndef sigma_flags(xs, z=3):\n    import statistics\n    mu=statistics.mean(xs); sd=statistics.pstdev(xs) or 1\n    return [x > mu+z*sd for x in xs]\nif __name__=='__main__':\n    print(sigma_flags([1,1,1,10]))\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "Una anomalía en el triage significa:",
+        "options": [
+          "Fraude probado",
+          "Parentesco",
+          "Despido",
+          "Señal de rareza a revisar"
+        ]
+      },
+      {
+        "question": "contamination representa:",
+        "options": [
+          "Tasa de fraude real",
+          "Hipótesis de fracción rara a flaggear",
+          "Accuracy",
+          "Kafka lag"
+        ]
+      },
+      {
+        "question": "PCA en este curso se usa para:",
+        "options": [
+          "Etiquetar culpa",
+          "Reemplazar el workbench",
+          "Exploración/visualización prudente",
+          "Borrar features"
+        ]
+      },
+      {
+        "question": "Con labels escasos prioriza:",
+        "options": [
+          "precision@k y feedback humano",
+          "Solo accuracy global",
+          "Aumentar contamination a 0.9",
+          "Eliminar reglas"
+        ]
+      },
+      {
+        "question": "Un fit de normalidad que incluye el mes evaluado comete:",
+        "options": [
+          "Warmup",
+          "Blocking",
+          "Leakage temporal",
+          "Backpressure"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "39d119976f07d841"
+}
