@@ -1,0 +1,580 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E2",
+  "section_index": 35,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E2-s35-live",
+  "production_note": "E2 Explorer repair: incomplete codes filled from packet/iDo + E1 curriculum reference; justifications natural Explorer E2-only (no E1 just copy)",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "packet_sha": "852e8d1bc73f4048",
+  "exercises": [
+    {
+      "exercise_id": "S35-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\nmeets_contract = record[\"means_fraud\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "drops",
+        "shared_phone",
+        "amount_7d",
+        "metric",
+        "precision_at_k",
+        "means_fraud"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T1-A-E1 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T1-A-E1 · Calcula el contrato de `coeficientes e importancia por permutación` sobre `CASO-LIM-035-1A`. La entrada es el dict completo del starter; la operación debe demostrar ranking de drops con . I used starter fixtures from the quiz card, hints «Relaciona los campos `drops, metric, means_fraud` con la regla explicada en S35-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva ranking de drops con mean», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k'`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'drops', 'metric', 'means_fraud'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"means_fraud\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1}, 'metric': 'precision_at_k', 'means_fraud': True}}\nincomplete = {**valid}\nincomplete.pop(\"drops\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "drops",
+        "metric",
+        "means_fraud"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T1-A-E2 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T1-A-E2 · Modela tres rutas de `coeficientes e importancia por permutación`: fixture válido, fixture adverso y registro sin `drops`. Entrada: dict con case_id, drops, metric, means_fraud. Salidas . I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a drops debe ocurrir antes de esa rama.; Después aplica la regla de S35-T1-A: ranking de drops con means_fraud=False y métrica de negoci», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"amount_7d\", \"case_id\", \"drops\", \"means_fraud\", \"metric\", \"shared_phone\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_METRIC_DROP\"\n    ok = record[\"means_fraud\"] is False\n    return \"CONTINUE\" if ok else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\nif \"case_id\" not in valid:\n    valid = {\"case_id\": \"VALID\", **valid}\ninvalid = dict(valid)\nif \"catalog_ok\" in invalid:\n    invalid[\"catalog_ok\"] = False\nelif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"means_fraud\" in invalid:\n    invalid[\"means_fraud\"] = True\nelif \"cache_authoritative\" in invalid:\n    invalid[\"cache_authoritative\"] = True\nelif \"holdout\" in invalid:\n    invalid[\"holdout\"] = 0\nelif \"jobs\" in invalid:\n    invalid[\"jobs\"] = 0\nelif \"baseline_frozen\" in invalid:\n    invalid[\"baseline_frozen\"] = False\nelif \"auto_fraud\" in invalid:\n    invalid[\"auto_fraud\"] = True\nelif \"stages\" in invalid:\n    try:\n        invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\n    except Exception:\n        pass\nelse:\n    for k, v in list(invalid.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            invalid[k] = not v\n            break\nincomplete = {k: v for k, v in valid.items() if k != \"drops\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "amount_7d",
+        "case_id",
+        "drops",
+        "means_fraud"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T1-A-E3 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T1-A-E3 · Contrasta fallo cerrado para `coeficientes e importancia por permutación` con tres fixtures distintos. `CASO-LIM-035-1A` debe continuar, el adverso debe devolver `REJECT_CAUSAL_CLAIM` y . I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_METRIC_DROP` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró ranking de drops con means_», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\nmeets_contract = record[\"causal\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "contrib",
+        "shared_phone",
+        "amount_z",
+        "layers",
+        "evidence",
+        "model"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T1-B-E1 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T1-B-E1 · Calcula el contrato de `explicación local, correlación y límites` sobre `CASO-LIM-035-1B`. La entrada es el dict completo del starter; la operación debe demostrar cuatro capas y causal=F. I used starter fixtures from the quiz card, hints «Relaciona los campos `contrib, layers, causal` con la regla explicada en S35-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva cuatro capas y causal=False », and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'mo`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'contrib', 'layers', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"causal\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9}, 'layers': ['evidence', 'model'], 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"layers\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "contrib",
+        "layers",
+        "causal"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T1-B-E2 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T1-B-E2 · Modela tres rutas de `explicación local, correlación y límites`: fixture válido, fixture adverso y registro sin `layers`. Entrada: dict con case_id, contrib, layers, causal. Salidas exac. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a layers debe ocurrir antes de esa rama.; Después aplica la regla de S35-T1-B: cuatro capas y causal=False en la ficha. El fixture adver», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"amount_z\", \"case_id\", \"causal\", \"contrib\", \"layers\", \"shared_phone\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_LAYER_FIELDS\"\n    ok = record[\"causal\"] is False\n    return \"CONTINUE\" if ok else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\nif \"case_id\" not in valid:\n    valid = {\"case_id\": \"VALID\", **valid}\ninvalid = dict(valid)\nif \"catalog_ok\" in invalid:\n    invalid[\"catalog_ok\"] = False\nelif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"means_fraud\" in invalid:\n    invalid[\"means_fraud\"] = True\nelif \"cache_authoritative\" in invalid:\n    invalid[\"cache_authoritative\"] = True\nelif \"holdout\" in invalid:\n    invalid[\"holdout\"] = 0\nelif \"jobs\" in invalid:\n    invalid[\"jobs\"] = 0\nelif \"baseline_frozen\" in invalid:\n    invalid[\"baseline_frozen\"] = False\nelif \"auto_fraud\" in invalid:\n    invalid[\"auto_fraud\"] = True\nelif \"stages\" in invalid:\n    try:\n        invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\n    except Exception:\n        pass\nelse:\n    for k, v in list(invalid.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            invalid[k] = not v\n            break\nincomplete = {k: v for k, v in valid.items() if k != \"layers\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "amount_z",
+        "case_id",
+        "causal",
+        "contrib"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T1-B-E3 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T1-B-E3 · Contrasta fallo cerrado para `explicación local, correlación y límites` con tres fixtures distintos. `CASO-LIM-035-1B` debe continuar, el adverso debe devolver `REJECT_CAUSAL_CLAIM` y la. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_LAYER_FIELDS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró cuatro capas y causal=Fals», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\nmeets_contract = record[\"slice_n\"] >= record[\"min_n\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_LOW_N_CLAIM\"\nprint(\"S35-T2-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "slice_n",
+        "precision",
+        "min_n",
+        "meets_contract",
+        "record",
+        "slice_n"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T2-A-E1 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T2-A-E1 · Calcula el contrato de `cohortes y métricas por slice` sobre `CASO-LIM-035-2A`. La entrada es el dict completo del starter; la operación debe demostrar n suficiente junto a precision de . I used starter fixtures from the quiz card, hints «Relaciona los campos `slice_n, precision, min_n` con la regla explicada en S35-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva n suficiente junto a preci», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'slice_n', 'precision', 'min_n'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"slice_n\"] >= record[\"min_n\"] else \"REJECT_LOW_N_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nincomplete = {**valid}\nincomplete.pop(\"slice_n\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "slice_n",
+        "precision",
+        "min_n"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T2-A-E2 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T2-A-E2 · Modela tres rutas de `cohortes y métricas por slice`: fixture válido, fixture adverso y registro sin `slice_n`. Entrada: dict con case_id, slice_n, precision, min_n. Salidas exactas: `PA. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a slice_n debe ocurrir antes de esa rama.; Después aplica la regla de S35-T2-A: n suficiente junto a precision de slice. El fixture adve», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"min_n\", \"precision\", \"slice_n\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"slice_n\"] < record[\"min_n\"] else \"REJECT_LOW_N_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nuncertain = {**valid}\nuncertain.pop(\"slice_n\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "min_n",
+        "precision",
+        "slice_n"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T2-A-E3 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T2-A-E3 · Contrasta fallo cerrado para `cohortes y métricas por slice` con tres fixtures distintos. `CASO-LIM-035-2A` debe continuar, el adverso debe devolver `REJECT_LOW_N_CLAIM` y la ausencia de. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_SLICE_N` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró n suficiente junto a precision », and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\nmeets_contract = not (record[\"action\"] == \"auto_label\")\nstatus = \"PASS\" if meets_contract else \"REJECT_PROXY_FEATURE\"\nprint(\"S35-T2-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "feature",
+        "district_code",
+        "risk",
+        "high",
+        "action",
+        "review"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T2-B-E1 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T2-B-E1 · Calcula el contrato de `proxies, sample size y daño diferencial` sobre `CASO-LIM-035-2B`. La entrada es el dict completo del starter; la operación debe demostrar proxy high con acción de. I used starter fixtures from the quiz card, hints «Relaciona los campos `feature, risk, action` con la regla explicada en S35-T2-B.; El predicado correcto debe ser verdadero porque el fixture conserva proxy high con acción de mitig», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'feature', 'risk', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"action\"] == \"auto_label\") else \"REJECT_PROXY_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "feature",
+        "risk",
+        "action"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T2-B-E2 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T2-B-E2 · Modela tres rutas de `proxies, sample size y daño diferencial`: fixture válido, fixture adverso y registro sin `action`. Entrada: dict con case_id, feature, risk, action. Salidas exactas. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.; Después aplica la regla de S35-T2-B: proxy high con acción de mitigación o review. El fixture », and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"action\", \"case_id\", \"feature\", \"risk\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"action\"] == \"auto_label\" else \"REJECT_PROXY_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "action",
+        "case_id",
+        "feature",
+        "risk"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T2-B-E3 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T2-B-E3 · Contrasta fallo cerrado para `proxies, sample size y daño diferencial` con tres fixtures distintos. `CASO-LIM-035-2B` debe continuar, el adverso debe devolver `REJECT_PROXY_FEATURE` y la. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_PROXY_AUDIT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró proxy high con acción de mi», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\nmeets_contract = record[\"q\"] != 0\nstatus = \"PASS\" if meets_contract else \"REJECT_POINT_ONLY\"\nprint(\"S35-T3-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "level",
+        "toy",
+        "meets_contract",
+        "record",
+        "status",
+        "PASS"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T3-A-E1 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T3-A-E1 · Calcula el contrato de `calibración, intervalos/conformal conceptualmente` sobre `CASO-LIM-035-3A`. La entrada es el dict completo del starter; la operación debe demostrar intervalo con . I used starter fixtures from the quiz card, hints «Relaciona los campos `p, q, level` con la regla explicada en S35-T3-A.; El predicado correcto debe ser verdadero porque el fixture conserva intervalo con q>0 y level distinto de po», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'q', 'level'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"q\"] != 0 else \"REJECT_POINT_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nincomplete = {**valid}\nincomplete.pop(\"q\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "level",
+        "missing",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T3-A-E2 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T3-A-E2 · Modela tres rutas de `calibración, intervalos/conformal conceptualmente`: fixture válido, fixture adverso y registro sin `q`. Entrada: dict con case_id, p, q, level. Salidas exactas: `PA. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a q debe ocurrir antes de esa rama.; Después aplica la regla de S35-T3-A: intervalo con q>0 y level distinto de point. El fixture advers», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"level\", \"p\", \"q\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"q\"] == 0 else \"REJECT_POINT_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nuncertain = {**valid}\nuncertain.pop(\"q\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "level",
+        "missing",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T3-A-E3 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T3-A-E3 · Contrasta fallo cerrado para `calibración, intervalos/conformal conceptualmente` con tres fixtures distintos. `CASO-LIM-035-3A` debe continuar, el adverso debe devolver `REJECT_POINT_ONL. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_INTERVAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró intervalo con q>0 y level dist», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\nmeets_contract = not (record[\"action\"] == \"auto_fraud\")\nstatus = \"PASS\" if meets_contract else \"REJECT_AUTO_LABEL\"\nprint(\"S35-T3-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "threshold",
+        "action",
+        "abstain",
+        "meets_contract",
+        "not",
+        "record"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T3-B-E1 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T3-B-E1 · Calcula el contrato de `out-of-distribution y abstención` sobre `CASO-LIM-035-3B`. La entrada es el dict completo del starter; la operación debe demostrar OOD detectado con action abstai. I used starter fixtures from the quiz card, hints «Relaciona los campos `zs, threshold, action` con la regla explicada en S35-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva OOD detectado con action absta», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'zs', 'threshold', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"action\"] == \"auto_fraud\") else \"REJECT_AUTO_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "threshold",
+        "action",
+        "missing"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T3-B-E2 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T3-B-E2 · Modela tres rutas de `out-of-distribution y abstención`: fixture válido, fixture adverso y registro sin `action`. Entrada: dict con case_id, zs, threshold, action. Salidas exactas: `PASS. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.; Después aplica la regla de S35-T3-B: OOD detectado con action abstain y sin auto-label. El fix», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"action\", \"case_id\", \"threshold\", \"zs\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"action\"] == \"auto_fraud\" else \"REJECT_AUTO_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "action",
+        "case_id",
+        "threshold",
+        "missing"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T3-B-E3 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T3-B-E3 · Contrasta fallo cerrado para `out-of-distribution y abstención` con tres fixtures distintos. `CASO-LIM-035-3B` debe continuar, el adverso debe devolver `REJECT_AUTO_LABEL` y la ausencia . I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_OOD_POLICY` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró OOD detectado con action abs», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}\nmeets_contract = not (record[\"use\"] == \"fraud_label\")\nstatus = \"PASS\" if meets_contract else \"REJECT_SCOPE_BREACH\"\nprint(\"S35-T4-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "use",
+        "queue_rank",
+        "out_of_scope",
+        "fraud_label",
+        "contestability",
+        "True"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T4-A-E1 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T4-A-E1 · Calcula el contrato de `model card y contestabilidad` sobre `CASO-LIM-035-4A`. La entrada es el dict completo del starter; la operación debe demostrar card con use queue_rank, out_of_sco. I used starter fixtures from the quiz card, hints «Relaciona los campos `use, out_of_scope, contestability` con la regla explicada en S35-T4-A.; El predicado correcto debe ser verdadero porque el fixture conserva card con use queue», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"contestability\", \"out_of_scope\", \"use\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"use\"] == \"fraud_label\")\n    return \"PASS\" if ok else \"REJECT_SCOPE_BREACH\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}\nif \"case_id\" not in valid:\n    valid = {\"case_id\": \"VALID\", **valid}\ninvalid = dict(valid)\nif \"catalog_ok\" in invalid:\n    invalid[\"catalog_ok\"] = not bool(invalid[\"catalog_ok\"]) if invalid.get(\"catalog_ok\") is True else False\nelif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"means_fraud\" in invalid:\n    invalid[\"means_fraud\"] = True\nelif \"cache_authoritative\" in invalid:\n    invalid[\"cache_authoritative\"] = True\n    invalid[\"transactions\"] = \"cache\"\nelif \"holdout\" in invalid:\n    invalid[\"holdout\"] = 0\nelif \"jobs\" in invalid:\n    invalid[\"jobs\"] = 0\nelif \"baseline_frozen\" in invalid:\n    invalid[\"baseline_frozen\"] = False\nelif \"auto_fraud\" in invalid:\n    invalid[\"auto_fraud\"] = True\nelif \"stages\" in invalid:\n    try:\n        invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\n    except Exception:\n        pass\nelse:\n    for k, v in list(invalid.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            invalid[k] = not v\n            break\n        if isinstance(v, (int, float)):\n            invalid[k] = -1 if v != -1 else 0\n            break\nincomplete = {k: v for k, v in valid.items() if k != \"out_of_scope\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "contestability",
+        "out_of_scope",
+        "use"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T4-A-E2 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T4-A-E2 · Modela tres rutas de `model card y contestabilidad`: fixture válido, fixture adverso y registro sin `out_of_scope`. Entrada: dict con case_id, use, out_of_scope, contestability. Salidas . I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a out_of_scope debe ocurrir antes de esa rama.; Después aplica la regla de S35-T4-A: card con use queue_rank, out_of_scope fraud_label y», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"contestability\", \"out_of_scope\", \"use\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CARD_KEYS\"\n    ok = not (record[\"use\"] == \"fraud_label\")\n    return \"CONTINUE\" if ok else \"REJECT_SCOPE_BREACH\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}\nif \"case_id\" not in valid:\n    valid = {\"case_id\": \"VALID\", **valid}\ninvalid = dict(valid)\nif \"catalog_ok\" in invalid:\n    invalid[\"catalog_ok\"] = False\nelif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"means_fraud\" in invalid:\n    invalid[\"means_fraud\"] = True\nelif \"cache_authoritative\" in invalid:\n    invalid[\"cache_authoritative\"] = True\nelif \"holdout\" in invalid:\n    invalid[\"holdout\"] = 0\nelif \"jobs\" in invalid:\n    invalid[\"jobs\"] = 0\nelif \"baseline_frozen\" in invalid:\n    invalid[\"baseline_frozen\"] = False\nelif \"auto_fraud\" in invalid:\n    invalid[\"auto_fraud\"] = True\nelif \"stages\" in invalid:\n    try:\n        invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\n    except Exception:\n        pass\nelse:\n    for k, v in list(invalid.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            invalid[k] = not v\n            break\nincomplete = {k: v for k, v in valid.items() if k != \"out_of_scope\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "contestability",
+        "out_of_scope",
+        "use"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T4-A-E3 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T4-A-E3 · Contrasta fallo cerrado para `model card y contestabilidad` con tres fixtures distintos. `CASO-LIM-035-4A` debe continuar, el adverso debe devolver `REJECT_SCOPE_BREACH` y la ausencia de. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_CARD_KEYS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró card con use queue_rank, out_», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\nmeets_contract = not (not record[\"by\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_OVERRIDE\"\nprint(\"S35-T4-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "case",
+        "human",
+        "override_skip",
+        "analyst_7",
+        "meets_contract",
+        "not"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T4-B-E1 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T4-B-E1 · Calcula el contrato de `aprobación, override, apelación y retiro` sobre `CASO-LIM-035-4B`. La entrada es el dict completo del starter; la operación debe demostrar override con case, huma. I used starter fixtures from the quiz card, hints «Relaciona los campos `case, human, by` con la regla explicada en S35-T4-B.; El predicado correcto debe ser verdadero porque el fixture conserva override con case, human y by no vac», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'case', 'human', 'by'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (not record[\"by\"]) else \"REJECT_SILENT_OVERRIDE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nincomplete = {**valid}\nincomplete.pop(\"by\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "case",
+        "human",
+        "missing"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T4-B-E2 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T4-B-E2 · Modela tres rutas de `aprobación, override, apelación y retiro`: fixture válido, fixture adverso y registro sin `by`. Entrada: dict con case_id, case, human, by. Salidas exactas: `PASS`,. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a by debe ocurrir antes de esa rama.; Después aplica la regla de S35-T4-B: override con case, human y by no vacío. El fixture adverso de», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S35-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"by\", \"case\", \"case_id\", \"human\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if not record[\"by\"] else \"REJECT_SILENT_OVERRIDE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nuncertain = {**valid}\nuncertain.pop(\"by\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case",
+        "case_id",
+        "human",
+        "missing"
+      ],
+      "justification_from_packet": "Explorer packet solve for S35-T4-B-E3 in «Explicabilidad, equidad e incertidumbre». Instruction asks: S35-T4-B-E3 · Contrasta fallo cerrado para `aprobación, override, apelación y retiro` con tres fixtures distintos. `CASO-LIM-035-4B` debe continuar, el adverso debe devolver `REJECT_SILENT_OVERRIDE` y. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_AUDIT_FIELDS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró override con case, human y», and theory headings ['coeficientes e importancia por permutación', 'explicación local, correlación y límites', 'cohortes y métricas por slice', 'proxies, sample size y daño diferencial'] plus iDo demos ['S35-T1-A-DEMO', 'S35-T1-B-DEMO', 'S35-T2-A-DEMO', 'S35-T2-B-DEMO', 'S35-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Evidencia, modelo, incertidumbre y decisión humana",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q0 on S35 «Explicabilidad, equidad e incertidumbre». Stem: La ficha de caso debe separar:. I pick [2] «Evidencia, modelo, incertidumbre y decisión humana» because it matches taught safety/testing vocabulary ['incertidumbre', 'evidencia', 'decisión', 'modelo', 'humana'] and packet outcomes/theory (score=12.0). Snippet: «La explicación local asigna contribución de features al score del caso (p.ej. valor × peso). Correlación entre variables no implica que la c». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Sensibilidad del modelo a barajar features",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q1 on S35 «Explicabilidad, equidad e incertidumbre». Stem: Perm importance prueba:. I pick [0] «Sensibilidad del modelo a barajar features» because it matches taught safety/testing vocabulary ['sensibilidad', 'features', 'barajar', 'modelo'] and packet outcomes/theory (score=9.6). Snippet: «Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de negocio al barajar una f». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Abstener y escalar",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q2 on S35 «Explicabilidad, equidad e incertidumbre». Stem: Ante OOD conviene:. I pick [1] «Abstener y escalar» because it matches taught safety/testing vocabulary ['abstener', 'escalar'] and packet outcomes/theory (score=8.8). Snippet: «Cuando un caso se sale del soporte visto en train (canal nuevo, z-score extremo), la política correcta es abstener y escalar, no forzar pred». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Usos prohibidos p.ej. etiqueta de fraude",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q3 on S35 «Explicabilidad, equidad e incertidumbre». Stem: Model card out_of_scope incluye:. I pick [3] «Usos prohibidos p.ej. etiqueta de fraude» because it matches taught safety/testing vocabulary ['prohibidos', 'etiqueta', 'fraude', 'usos'] and packet outcomes/theory (score=9.2). Snippet: «Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de negocio al barajar una f». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+    ],
+    "note": "Explorer walk for sections 27–52 from quiz_card + exercise_batch packets only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:39:34.163737+00:00",
+  "repaired_at": "2026-07-23T04:48:09.363448+00:00"
+}

@@ -1,0 +1,490 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 35,
+  "packet_sha": "852e8d1bc73f4048",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s35-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S35-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T1-A-E1\nrecord = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\nmeets_contract = record[\"means_fraud\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "coeficientes",
+        "permutación",
+        "status",
+        "print",
+        "shared_phone",
+        "importancia",
+        "drops"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T1-A-E1 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T1-A-E1 · Calcula el contrato de `coeficientes e importancia por permutación` sobre `CASO-LIM-035-1A`. La entrada es el dict completo del starter; la operación debe demostrar ranking de drops con …». Hints: Relaciona los campos `drops, metric, means_fraud` con la regla explicada en S35-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva ranking de drops con means_fraud=False y métrica de negocio; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amoun…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'drops', 'metric', 'means_fraud'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"means_fraud\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1}, 'metric': 'precision_at_k', 'means_fraud': True}}\nincomplete = {**valid}\nincomplete.pop(\"drops\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "decisión",
+        "results",
+        "rutas",
+        "invertido",
+        "coeficientes",
+        "permutación",
+        "print"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T1-A-E2 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T1-A-E2 · Modela tres rutas de `coeficientes e importancia por permutación`: fixture válido, fixture adverso y registro sin `drops`. Entrada: dict con case_id, drops, metric, means_fraud. Salidas …». Hints: Primero se calcula `missing`; ningún acceso a drops debe ocurrir antes de esa rama.; Después aplica la regla de S35-T1-A: ranking de drops con means_fraud=False y métrica de negocio. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S35-T1-A-E3\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'drops', 'metric', 'means_fraud'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"drops\"\n    return \"CONTINUE\" if record[\"means_fraud\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1}, 'metric': 'precision_at_k', 'means_fraud': True}}\nincomplete = {**valid}\nincomplete.pop(\"drops\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "results",
+        "fallo",
+        "coeficientes",
+        "permutación",
+        "print",
+        "required",
+        "shared_phone",
+        "importancia"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T1-A-E3 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T1-A-E3 · Contrasta fallo cerrado para `coeficientes e importancia por permutación` con tres fixtures distintos. `CASO-LIM-035-1A` debe continuar, el adverso debe devolver `REJECT_CAUSAL_CLAIM` y …». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_METRIC_DROP` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró ranking de drops con means_fraud=False y métrica de negocio; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T1-B-E1\nrecord = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\nmeets_contract = record[\"causal\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "status",
+        "print",
+        "shared_phone",
+        "human",
+        "capas",
+        "salida",
+        "case_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T1-B-E1 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T1-B-E1 · Calcula el contrato de `explicación local, correlación y límites` sobre `CASO-LIM-035-1B`. La entrada es el dict completo del starter; la operación debe demostrar cuatro capas y causal=F…». Hints: Relaciona los campos `contrib, layers, causal` con la regla explicada en S35-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva cuatro capas y causal=False en la ficha; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amo…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'contrib', 'layers', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"causal\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9}, 'layers': ['evidence', 'model'], 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"layers\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "decisión",
+        "results",
+        "rutas",
+        "invertido",
+        "print",
+        "required",
+        "shared_phone"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T1-B-E2 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T1-B-E2 · Modela tres rutas de `explicación local, correlación y límites`: fixture válido, fixture adverso y registro sin `layers`. Entrada: dict con case_id, contrib, layers, causal. Salidas exac…». Hints: Primero se calcula `missing`; ningún acceso a layers debe ocurrir antes de esa rama.; Después aplica la regla de S35-T1-B: cuatro capas y causal=False en la ficha. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S35-T1-B-E3\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'contrib', 'layers', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"layers\"\n    return \"CONTINUE\" if record[\"causal\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9}, 'layers': ['evidence', 'model'], 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"layers\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "results",
+        "fallo",
+        "print",
+        "required",
+        "shared_phone",
+        "human",
+        "fixtures",
+        "incertidumbre"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T1-B-E3 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T1-B-E3 · Contrasta fallo cerrado para `explicación local, correlación y límites` con tres fixtures distintos. `CASO-LIM-035-1B` debe continuar, el adverso debe devolver `REJECT_CAUSAL_CLAIM` y la…». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_LAYER_FIELDS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró cuatro capas y causal=False en la ficha; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T2-A-E1\nrecord = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\nmeets_contract = record[\"slice_n\"] >= record[\"min_n\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_LOW_N_CLAIM\"\nprint(\"S35-T2-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "status",
+        "print",
+        "métricas",
+        "salida",
+        "case_id",
+        "contrato",
+        "expresión"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T2-A-E1 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T2-A-E1 · Calcula el contrato de `cohortes y métricas por slice` sobre `CASO-LIM-035-2A`. La entrada es el dict completo del starter; la operación debe demostrar n suficiente junto a precision de …». Hints: Relaciona los campos `slice_n, precision, min_n` con la regla explicada en S35-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva n suficiente junto a precision de slice; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'mi…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'slice_n', 'precision', 'min_n'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"slice_n\"] >= record[\"min_n\"] else \"REJECT_LOW_N_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nincomplete = {**valid}\nincomplete.pop(\"slice_n\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "decisión",
+        "results",
+        "rutas",
+        "invertido",
+        "print",
+        "required",
+        "métricas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T2-A-E2 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T2-A-E2 · Modela tres rutas de `cohortes y métricas por slice`: fixture válido, fixture adverso y registro sin `slice_n`. Entrada: dict con case_id, slice_n, precision, min_n. Salidas exactas: `PA…». Hints: Primero se calcula `missing`; ningún acceso a slice_n debe ocurrir antes de esa rama.; Después aplica la regla de S35-T2-A: n suficiente junto a precision de slice. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T2-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'slice_n', 'precision', 'min_n'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"slice_n\"] < record[\"min_n\"] else \"REJECT_LOW_N_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nuncertain = {**valid}\nuncertain.pop(\"slice_n\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "uncertain",
+        "results",
+        "fallo",
+        "item",
+        "print",
+        "required",
+        "fixtures",
+        "incertidumbre"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T2-A-E3 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T2-A-E3 · Contrasta fallo cerrado para `cohortes y métricas por slice` con tres fixtures distintos. `CASO-LIM-035-2A` debe continuar, el adverso debe devolver `REJECT_LOW_N_CLAIM` y la ausencia de…». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_SLICE_N` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró n suficiente junto a precision de slice; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def decide(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T2-B-E1\nrecord = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\nmeets_contract = record[\"action\"] != \"auto_label\"\nstatus = \"PASS\" if meets_contract else \"REJECT_PROXY_FEATURE\"\nprint(\"S35-T2-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "review",
+        "entrada",
+        "risk",
+        "status",
+        "print",
+        "sample",
+        "salida",
+        "case_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T2-B-E1 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T2-B-E1 · Calcula el contrato de `proxies, sample size y daño diferencial` sobre `CASO-LIM-035-2B`. La entrada es el dict completo del starter; la operación debe demostrar proxy high con acción de…». Hints: Relaciona los campos `feature, risk, action` con la regla explicada en S35-T2-B.; El predicado correcto debe ser verdadero porque el fixture conserva proxy high con acción de mitigación o review; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': '…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'feature', 'risk', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"action\"] != \"auto_label\" else \"REJECT_PROXY_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "review",
+        "entrada",
+        "results",
+        "rutas",
+        "decisión",
+        "invertido",
+        "risk",
+        "print"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T2-B-E2 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T2-B-E2 · Modela tres rutas de `proxies, sample size y daño diferencial`: fixture válido, fixture adverso y registro sin `action`. Entrada: dict con case_id, feature, risk, action. Salidas exactas…». Hints: Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.; Después aplica la regla de S35-T2-B: proxy high con acción de mitigación o review. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T2-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'feature', 'risk', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"action\"] == \"auto_label\" else \"REJECT_PROXY_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "review",
+        "uncertain",
+        "results",
+        "fallo",
+        "item",
+        "risk",
+        "print",
+        "required"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T2-B-E3 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T2-B-E3 · Contrasta fallo cerrado para `proxies, sample size y daño diferencial` con tres fixtures distintos. `CASO-LIM-035-2B` debe continuar, el adverso debe devolver `REJECT_PROXY_FEATURE` y la…». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_PROXY_AUDIT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró proxy high con acción de mitigación o review; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def decide(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T3-A-E1\nrecord = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\nmeets_contract = record[\"q\"] != 0\nstatus = \"PASS\" if meets_contract else \"REJECT_POINT_ONLY\"\nprint(\"S35-T3-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "status",
+        "print",
+        "calibración",
+        "conceptualmente",
+        "salida",
+        "case_id",
+        "contrato"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T3-A-E1 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T3-A-E1 · Calcula el contrato de `calibración, intervalos/conformal conceptualmente` sobre `CASO-LIM-035-3A`. La entrada es el dict completo del starter; la operación debe demostrar intervalo con …». Hints: Relaciona los campos `p, q, level` con la regla explicada en S35-T3-A.; El predicado correcto debe ser verdadero porque el fixture conserva intervalo con q>0 y level distinto de point; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'q', 'level'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"q\"] != 0 else \"REJECT_POINT_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nincomplete = {**valid}\nincomplete.pop(\"q\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "decisión",
+        "results",
+        "rutas",
+        "invertido",
+        "print",
+        "required",
+        "calibración"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T3-A-E2 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T3-A-E2 · Modela tres rutas de `calibración, intervalos/conformal conceptualmente`: fixture válido, fixture adverso y registro sin `q`. Entrada: dict con case_id, p, q, level. Salidas exactas: `PA…». Hints: Primero se calcula `missing`; ningún acceso a q debe ocurrir antes de esa rama.; Después aplica la regla de S35-T3-A: intervalo con q>0 y level distinto de point. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T3-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'p', 'q', 'level'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"q\"] == 0 else \"REJECT_POINT_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nuncertain = {**valid}\nuncertain.pop(\"q\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "uncertain",
+        "results",
+        "fallo",
+        "item",
+        "print",
+        "required",
+        "calibración",
+        "fixtures"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T3-A-E3 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T3-A-E3 · Contrasta fallo cerrado para `calibración, intervalos/conformal conceptualmente` con tres fixtures distintos. `CASO-LIM-035-3A` debe continuar, el adverso debe devolver `REJECT_POINT_ONL…». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_INTERVAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró intervalo con q>0 y level distinto de point; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def decide(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T3-B-E1\nrecord = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\nmeets_contract = record[\"action\"] != \"auto_fraud\"\nstatus = \"PASS\" if meets_contract else \"REJECT_AUTO_LABEL\"\nprint(\"S35-T3-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "status",
+        "print",
+        "label",
+        "auto",
+        "salida",
+        "auto_fraud",
+        "case_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T3-B-E1 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T3-B-E1 · Calcula el contrato de `out-of-distribution y abstención` sobre `CASO-LIM-035-3B`. La entrada es el dict completo del starter; la operación debe demostrar OOD detectado con action abstai…». Hints: Relaciona los campos `zs, threshold, action` con la regla explicada en S35-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva OOD detectado con action abstain y sin auto-label; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'zs', 'threshold', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"action\"] != \"auto_fraud\" else \"REJECT_AUTO_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "decisión",
+        "results",
+        "rutas",
+        "invertido",
+        "print",
+        "required",
+        "assess"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T3-B-E2 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T3-B-E2 · Modela tres rutas de `out-of-distribution y abstención`: fixture válido, fixture adverso y registro sin `action`. Entrada: dict con case_id, zs, threshold, action. Salidas exactas: `PASS…». Hints: Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.; Después aplica la regla de S35-T3-B: OOD detectado con action abstain y sin auto-label. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T3-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'zs', 'threshold', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"action\"] == \"auto_fraud\" else \"REJECT_AUTO_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "uncertain",
+        "results",
+        "fallo",
+        "item",
+        "print",
+        "required",
+        "fixtures",
+        "incertidumbre"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T3-B-E3 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T3-B-E3 · Contrasta fallo cerrado para `out-of-distribution y abstención` con tres fixtures distintos. `CASO-LIM-035-3B` debe continuar, el adverso debe devolver `REJECT_AUTO_LABEL` y la ausencia …». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_OOD_POLICY` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró OOD detectado con action abstain y sin auto-label; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def decide(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T4-A-E1\nrecord = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}\nmeets_contract = record[\"use\"] != \"fraud_label\"\nstatus = \"PASS\" if meets_contract else \"REJECT_SCOPE_BREACH\"\nprint(\"S35-T4-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "out_of_scope",
+        "status",
+        "use",
+        "print",
+        "contestability",
+        "reject_scope_breach",
+        "salida"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T4-A-E1 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T4-A-E1 · Calcula el contrato de `model card y contestabilidad` sobre `CASO-LIM-035-4A`. La entrada es el dict completo del starter; la operación debe demostrar card con use queue_rank, out_of_sco…». Hints: Relaciona los campos `use, out_of_scope, contestability` con la regla explicada en S35-T4-A.; El predicado correcto debe ser verdadero porque el fixture conserva card con use queue_rank, out_of_scope fraud_label y contestability; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': …`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S35-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {'out_of_scope', 'use', 'case_id', 'contestability'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = record[\"use\"] != \"fraud_label\"\n    except Exception:\n        return 'REJECT_SCOPE_BREACH'\n    return 'PASS' if ok else 'REJECT_SCOPE_BREACH'\n\nrecord = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'out_of_scope'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get",
+        "starter",
+        "tres"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T4-A-E2 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T4-A-E2 · Modela tres rutas de `model card y contestabilidad`: fixture válido, fixture adverso y registro sin `out_of_scope`. Entrada: dict con case_id, use, out_of_scope, contestability. Salidas …». Hints: Primero se calcula `missing`; ningún acceso a out_of_scope debe ocurrir antes de esa rama.; Después aplica la regla de S35-T4-A: card con use queue_rank, out_of_scope fraud_label y contestability. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S35-T4-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"out_of_scope\"\n    try:\n        ok = record[\"use\"] != \"fraud_label\"\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "contrasta",
+        "true",
+        "get",
+        "ausencia",
+        "starter"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T4-A-E3 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T4-A-E3 · Contrasta fallo cerrado para `model card y contestabilidad` con tres fixtures distintos. `CASO-LIM-035-4A` debe continuar, el adverso debe devolver `REJECT_SCOPE_BREACH` y la ausencia de…». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_CARD_KEYS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró card con use queue_rank, out_of_scope fraud_label y contestability; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T4-B-E1\nrecord = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\nmeets_contract = bool(record[\"by\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_OVERRIDE\"\nprint(\"S35-T4-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "bool",
+        "status",
+        "print",
+        "human",
+        "retiro",
+        "salida",
+        "case_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T4-B-E1 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T4-B-E1 · Calcula el contrato de `aprobación, override, apelación y retiro` sobre `CASO-LIM-035-4B`. La entrada es el dict completo del starter; la operación debe demostrar override con case, huma…». Hints: Relaciona los campos `case, human, by` con la regla explicada en S35-T4-B.; El predicado correcto debe ser verdadero porque el fixture conserva override con case, human y by no vacío; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'case', 'human', 'by'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if bool(record[\"by\"]) else \"REJECT_SILENT_OVERRIDE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nincomplete = {**valid}\nincomplete.pop(\"by\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "bool",
+        "results",
+        "rutas",
+        "decisión",
+        "invertido",
+        "print",
+        "required"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T4-B-E2 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T4-B-E2 · Modela tres rutas de `aprobación, override, apelación y retiro`: fixture válido, fixture adverso y registro sin `by`. Entrada: dict con case_id, case, human, by. Salidas exactas: `PASS`,…». Hints: Primero se calcula `missing`; ningún acceso a by debe ocurrir antes de esa rama.; Después aplica la regla de S35-T4-B: override con case, human y by no vacío. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S35-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S35-T4-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'case', 'human', 'by'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if not record[\"by\"] else \"REJECT_SILENT_OVERRIDE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nuncertain = {**valid}\nuncertain.pop(\"by\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "uncertain",
+        "results",
+        "fallo",
+        "item",
+        "print",
+        "required",
+        "human",
+        "retiro"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S35-T4-B-E3 solo con el paquete activo S35 (Explicabilidad, equidad e incertidumbre). Instruction: «S35-T4-B-E3 · Contrasta fallo cerrado para `aprobación, override, apelación y retiro` con tres fixtures distintos. `CASO-LIM-035-4B` debe continuar, el adverso debe devolver `REJECT_SILENT_OVERRIDE` y…». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_AUDIT_FIELDS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró override con case, human y by no vacío; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «coeficientes e importancia por permutación Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de n…». Demos: S35-T1-A-DEMO | S35-T1-B-DEMO | S35-T2-A-DEMO | S35-T2-B-DEMO | S35-T3-A-DEMO | S35-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def decide(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Evidencia, modelo, incertidumbre y decisión humana",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 2 «Evidencia, modelo, incertidumbre y decisión humana» para la pregunta «La ficha de caso debe separar:» porque el paquete activo S35 (Explicabilidad, equidad e incertidumbre) enseña: «Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de negocio al barajar una feature. Son mapas globales del modelo, n…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Sensibilidad del modelo a barajar features",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 0 «Sensibilidad del modelo a barajar features» para la pregunta «Perm importance prueba:» porque el paquete activo S35 (Explicabilidad, equidad e incertidumbre) enseña: «Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de negocio al barajar una feature. Son mapas globales del modelo, n…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Abstener y escalar",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 1 «Abstener y escalar» para la pregunta «Ante OOD conviene:» porque el paquete activo S35 (Explicabilidad, equidad e incertidumbre) enseña: «Cuando un caso se sale del soporte visto en train (canal nuevo, z-score extremo), la política correcta es abstener y escalar, no forzar pred=1 ni inventar fraude. En el workbench s…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Usos prohibidos p.ej. etiqueta de fraude",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 3 «Usos prohibidos p.ej. etiqueta de fraude» para la pregunta «Model card out_of_scope incluye:» porque el paquete activo S35 (Explicabilidad, equidad e incertidumbre) enseña: «Contrato operativo. Entrada: dict de drops por feature y métrica de cola. Salida: ranking top_feature con drop numérico y flag means_fraud=False. Error: afirmar causalidad legal o …». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    }
+  ],
+  "confusion_points": [],
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:37:09.606217+00:00"
+}

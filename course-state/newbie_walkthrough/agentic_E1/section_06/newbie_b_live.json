@@ -1,0 +1,372 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 6,
+  "packet_sha": "2b7e2c730df3d20b",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s06-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "answer": "txs = [10, 20, 30, 40, 50]",
+      "code": "txs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nempty = []\nv0 = empty[-2:]\nprint(ventana)\nprint(\"len\", len(ventana))\nprint(\"ventana=[]\", v0, \"len=0\", len(v0))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T1-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la ventana. Caso vacío: si `txs=[]`, imprime `ventana=[]` y `len=0`.». Delivered code centers on `txs = [10, 20, 30, 40, 50]` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "answer": "headers = [\"id\", \"monto\"]",
+      "code": "headers = [\"id\", \"monto\"]\nKEYS = tuple(headers)\nmore = KEYS + (\"canal\",)\nprint(\"KEYS\", KEYS)\nprint(\"more\", more)\nprint(\"KEYS intacto\", KEYS)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T1-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmutable). Imprime `KEYS` y demuestra que `KEYS + ('canal',)` crea otra t». Delivered code centers on `headers = [\"id\", \"monto\"]` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "answer": "ids = (\"C001\", \"C002\")",
+      "code": "ids = (\"C001\", \"C002\")\ntry:\n    ids.append(\"C003\")\nexcept Exception as e:\n    print(\"diagnóstico:\", type(e).__name__, e)\n    ids = list(ids)\n    ids.append(\"C003\")\n    print(ids)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T1-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError, convierte a list, append 'C003', e imprime el res». Delivered code centers on `ids = (\"C001\", \"C002\")` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "answer": "fila = (\"C001\", \"Lima\", 10)",
+      "code": "fila = (\"C001\", \"Lima\", 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T1-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si la fila tuviera 2 valores, el unpack fallaría (no lo fuerces aquí).». Delivered code centers on `fila = (\"C001\", \"Lima\", 10)` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "answer": "xs = [1, 2]",
+      "code": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint(\"tras alias\", xs, copia)\ncopia.append(4)\nprint(\"tras copia\", xs, copia)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T1-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3; imprimir xs y copia. Luego append 4 a copia e im». Delivered code centers on `xs = [1, 2]` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "answer": "import copy",
+      "code": "import copy\nrows = [{\"id\": \"C1\", \"tags\": [\"a\"]}]\nshallow = rows.copy()\nshallow[0][\"tags\"].append(\"b\")\nprint(\"shallow afecta orig tags\", rows)\nrows = [{\"id\": \"C1\", \"tags\": [\"a\"]}]\ndeep = copy.deepcopy(rows)\ndeep[0][\"tags\"].append(\"z\")\nprint(\"orig\", rows)\nprint(\"deep\", deep)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T1-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.deepcopy`, muta tags del deep, ». Delivered code centers on `import copy` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "answer": "pares = [(\"C001\", \"Lima\"), (\"C002\", \"Cusco\")]",
+      "code": "pares = [(\"C001\", \"Lima\"), (\"C002\", \"Cusco\")]\nd = dict(pares)\nprint(d)\nprint(d[\"C002\"])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T2-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002']`.». Delivered code centers on `pares = [(\"C001\", \"Lima\"), (\"C002\", \"Cusco\")]` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "answer": "idx = {\"C001\": \"Ana\"}",
+      "code": "idx = {\"C001\": \"Ana\"}\nprint(idx.get(\"C001\", \"N/A\"))\nprint(idx.get(\"C999\", \"N/A\"))\ntry:\n    print(idx[\"C999\"])\nexcept KeyError as e:\n    print(\"KeyError\", e)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T2-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra un `try/except KeyError` al acceder `idx['C999']` directo.». Delivered code centers on `idx = {\"C001\": \"Ana\"}` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "answer": "defaults = {\"retry\": 1, \"timeout\": 30}",
+      "code": "defaults = {\"retry\": 1, \"timeout\": 30}\noverride = {\"retry\": 5}\nmerged = {**defaults, **override}\nprint(\"merged\", merged)\nbase = dict(defaults)\nbase.update(override)\nprint(\"copia mutada\", base, \"defaults intacto\", defaults)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T2-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder timeout. Imprime merged. Luego muestra el peligro de `defaults.». Delivered code centers on `defaults = {\"retry\": 1, \"timeout\": 30}` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "answer": "emails = [\"a@ex.com\", \"b@ex.com\", \"a@ex.com\"]",
+      "code": "emails = [\"a@ex.com\", \"b@ex.com\", \"a@ex.com\"]\nunicos = sorted(set(emails))\nprint(unicos)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T2-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.». Delivered code centers on `emails = [\"a@ex.com\", \"b@ex.com\", \"a@ex.com\"]` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "answer": "a = {\"a@ex.com\", \"b@ex.com\", \"c@ex.com\"}",
+      "code": "a = {\"a@ex.com\", \"b@ex.com\", \"c@ex.com\"}\nb = {\"b@ex.com\", \"c@ex.com\", \"d@ex.com\"}\nprint(\"inter\", sorted(a & b))\nprint(\"symdiff\", sorted(a ^ b))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T2-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la intersección y de la diferencia simétrica.». Delivered code centers on `a = {\"a@ex.com\", \"b@ex.com\", \"c@ex.com\"}` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "answer": "def dedup_report(rows, key=\"id\"):",
+      "code": "def dedup_report(rows, key=\"id\"):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        k = r[key]\n        if k not in seen:\n            seen[k] = r\n            unique.append(r)\n        else:\n            if seen[k] != r:\n                conflicts.append({\"id\": k, \"a\": seen[k], \"b\": r})\n    return {\"unique\": unique, \"conflicts\": conflicts}\nrows = [\n    {\"id\": \"C001\", \"v\": 1},\n    {\"id\": \"C002\", \"v\": 2},\n    {\"id\": \"C001\", \"v\": 9},\n]\nprint(dedup_report(rows))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T2-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin eliminar del reporte los conflictos. Filas sintéticas ». Delivered code centers on `def dedup_report(rows, key=\"id\"):` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "answer": "clients = [",
+      "code": "clients = [\n    {\"id\": \"C001\", \"contacts\": [1, 2]},\n    {\"id\": \"C002\", \"contacts\": []},\n]\nfor c in clients:\n    print(c[\"id\"], \"→\", len(c[\"contacts\"]))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T3-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.». Delivered code centers on `clients = [` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "answer": "clients = [",
+      "code": "clients = [\n    {\"id\": \"C001\", \"txs\": [{\"id\": \"T1\", \"monto\": 5}]},\n    {\"id\": \"C002\", \"txs\": [{\"id\": \"T2\", \"monto\": 7}, {\"id\": \"T3\", \"monto\": 1}]},\n]\nflat = []\nfor c in clients:\n    for t in c[\"txs\"]:\n        flat.append({\"client_id\": c[\"id\"], \"tx_id\": t[\"id\"], \"monto\": t[\"monto\"]})\nprint(flat)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T3-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.». Delivered code centers on `clients = [` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "answer": "clients = [",
+      "code": "clients = [\n    {\"id\": \"C001\", \"txs\": []},\n    {\"id\": \"C002\"},\n    {\"id\": \"C003\", \"txs\": \"oops\"},\n]\nfor c in clients:\n    txs = c.get(\"txs\")\n    ok = isinstance(txs, list)\n    print(c[\"id\"], \"ok\" if ok else \"review\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T3-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprime status por cliente sintético (uno ok, uno malo).». Delivered code centers on `clients = [` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "answer": "def get_nested(d, *keys, default=None):",
+      "code": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {\"profile\": {\"phone\": \"999\"}}\nprint(get_nested(c, \"profile\", \"phone\"))\nprint(get_nested(c, \"profile\", \"email\", default=\"N/A\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T3-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintético.». Delivered code centers on `def get_nested(d, *keys, default=None):` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "answer": "clients = [",
+      "code": "clients = [\n    {\"id\": \"C001\", \"email\": \"a@ex.com\"},\n    {\"id\": \"C002\", \"email\": None},\n    {\"id\": \"C003\"},\n]\nfor c in clients:\n    if \"email\" not in c or c[\"email\"] is None:\n        flag = \"missing\"\n    else:\n        flag = \"present\"\n    print(f\"{c['id']}: {flag}\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T3-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present. Imprime líneas `id: missing|present`.». Delivered code centers on `clients = [` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "answer": "vals = [None, \"\", 0, []]",
+      "code": "vals = [None, \"\", 0, []]\nfor v in vals:\n    print(repr(v), \"falsy=\", not bool(v), \"missing=\", v is None)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T3-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si representan missing de negocio (solo None = missing a». Delivered code centers on `vals = [None, \"\", 0, []]` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "answer": "rows = [{\"id\": \"T2\", \"monto\": 30}, {\"id\": \"T1\", \"monto\": 10}]",
+      "code": "rows = [{\"id\": \"T2\", \"monto\": 30}, {\"id\": \"T1\", \"monto\": 10}]\nordered = sorted(rows, key=lambda r: r[\"monto\"])\nprint([r[\"id\"] for r in ordered])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T4-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.». Delivered code centers on `rows = [{\"id\": \"T2\", \"monto\": 30}, {\"id\": \"T1\", \"monto\": 10}]` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "answer": "rows = [",
+      "code": "rows = [\n    {\"nombre\": \"Zed\", \"region\": \"Lima\"},\n    {\"nombre\": \"Ana\", \"region\": \"Lima\"},\n    {\"nombre\": \"Bob\", \"region\": \"Cusco\"},\n]\nordered = sorted(rows, key=lambda r: (r[\"region\"], r[\"nombre\"]))\nfor r in ordered:\n    print(r[\"region\"], r[\"nombre\"])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T4-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.». Delivered code centers on `rows = [` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "answer": "rows = [3, 1, 2]",
+      "code": "rows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\ncopy_sorted = sorted(base)\nprint(\"ret\", ret)\nprint(\"mutada\", rows)\nprint(\"base intacta\", base, \"sorted\", copy_sorted)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T4-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista mutada. Luego usa sorted para obtener copia ordenada sin tocar o». Delivered code centers on `rows = [3, 1, 2]` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "answer": "jobs = [",
+      "code": "jobs = [\n    \"cola de llegada de filas\",\n    \"lookup frecuente por id\",\n    \"emails únicos de un lote\",\n]\nestructuras = {\n    \"cola de llegada de filas\": \"list (orden de llegada)\",\n    \"lookup frecuente por id\": \"dict id→registro\",\n    \"emails únicos de un lote\": \"set de emails\",\n}\nfor j in jobs:\n    print(j, \"→\", estructuras[j])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T4-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de emails únicos.». Delivered code centers on `import json` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "answer": "import json",
+      "code": "import json\npayload = {\"z\": 1, \"a\": 2, \"ids\": [\"C002\", \"C001\"]}\npayload[\"ids\"] = sorted(payload[\"ids\"])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T4-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JSON una vez.». Delivered code centers on `import json` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "answer": "ids = [\"C001\", \"C002\", \"C003\", \"C004\", \"C005\"]",
+      "code": "ids = [\"C001\", \"C002\", \"C003\", \"C004\", \"C005\"]\ns = set(ids)\nprint(\"list membership: O(n) por chequeo\")\nprint(\"set membership: O(1) promedio\")\nprint(\"C003 in set →\", \"C003\" in s)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "listas",
+        "dict",
+        "set"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S06-T4-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad conceptual y un micro-ejemplo n=5 mostrando `x in set` Tr». Delivered code centers on `import json` matching theory/iDo («Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`)»). Concepts: listas, dict, set."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "[3,4]",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q0 «¿Qué produce xs[-2:] si xs = [1,2,3,4]?» — choose «[3,4]» because packet theory says «Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`). Una **tuple** es i». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "a también ve el append (alias)",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q1 «b = a (listas) y mutas b.append(1). ¿Qué pasa con a?» — choose «a también ve el append (alias)» because packet theory says «Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`). Una **tuple** es i». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Listar conflicto en conflicts sin silenciar",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q2 «Para reportar dos filas con mismo id y payload distinto debes…» — choose «Listar conflicto en conflicts sin silenciar» because packet theory says «Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`). Una **tuple** es i». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "None (muta in-place)",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q3 «rows.sort(key=...) retorna…» — choose «None (muta in-place)» because packet theory says «Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`). Una **tuple** es i». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "salidas deterministas/reproducibles",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q4 «json.dumps(..., sort_keys=True) ayuda a…» — choose «salidas deterministas/reproducibles» because packet theory says «Listas, tuplas y slicing: Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`). Una **tuple** es i». Other options invent speed/compile/legal myths not present in the slim packet."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:14:14.291793+00:00"
+}

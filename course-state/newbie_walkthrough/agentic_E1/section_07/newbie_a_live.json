@@ -1,0 +1,228 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 7,
+  "packet_sha": "ee5c9933e094c618",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s07-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "id": "S07-T1-A-E1",
+      "kind": "guided",
+      "code": "import unicodedata\na = \"José\"\nb = \"Jose\\u0301\"\nprint(\"sin norm:\", a == b)\nna, nb = unicodedata.normalize(\"NFC\", a), unicodedata.normalize(\"NFC\", b)\nprint(\"NFC:\", na == nb, na)\n",
+      "justification_from_packet": "José vs Jose+combining accent fallan en == por NFC vs NFD; normaliza Unicode. NFC alinea formas Unicode antes de comparar.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T1-A-E2",
+      "kind": "independent",
+      "code": "print(\"mañANA\".casefold())\nprint(\"MAÑANA\".casefold() == \"mañana\".casefold())\n",
+      "justification_from_packet": "José vs Jose+combining accent fallan en == por NFC vs NFD; normaliza Unicode. casefold para comparación case-insensitive más fuerte que lower.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T1-A-E3",
+      "kind": "transfer",
+      "code": "import unicodedata\ndef soft_eq(a, b):\n    return unicodedata.normalize(\"NFC\", a).casefold() == unicodedata.normalize(\"NFC\", b).casefold()\nprint(soft_eq(\"José\", \"JOSE\\u0301\"))\nprint(soft_eq(\"Ana\", \"Luis\"))\n",
+      "justification_from_packet": "José vs Jose+combining accent fallan en == por NFC vs NFD; normaliza Unicode. soft_eq = NFC + casefold.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T1-B-E1",
+      "kind": "guided",
+      "code": "import unicodedata\nraw = \"María del Carmen Quispe Huamán\"\nnorm = unicodedata.normalize(\"NFC\", \" \".join(raw.split()))\ntoks = norm.split()\nif len(toks) < 2:\n    print(\"review: un solo token\", raw)\nelse:\n    apellidos = toks[-2:]\n    given = \" \".join(toks[:-2])\n    print(\"given:\", given)\n    print(\"apellido1:\", apellidos[0], \"apellido2:\", apellidos[1])\nprint(\"raw conservado:\", raw)\n",
+      "justification_from_packet": "Un solo token de nombre → review y conserva raw; no inventes apellidos. Split NFC; conserva raw; tokens de apellidos al final.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T1-B-E2",
+      "kind": "independent",
+      "code": "def parse_name(raw):\n    toks = \" \".join(raw.split()).split()\n    if len(toks) < 2:\n        return {\"status\": \"review\", \"raw\": raw, \"given\": None, \"ap1\": None, \"ap2\": None}\n    return {\"status\": \"ok\", \"raw\": raw, \"given\": \" \".join(toks[:-2]) if len(toks)>2 else toks[0],\n            \"ap1\": toks[-2] if len(toks)>=2 else None, \"ap2\": toks[-1]}\nprint(parse_name(\"Luis\"))\nprint(parse_name(\"Ana Quispe Huamán\"))\n",
+      "justification_from_packet": "Un solo token de nombre → review y conserva raw; no inventes apellidos. Un token → review; no inventar apellido2.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T1-B-E3",
+      "kind": "transfer",
+      "code": "# Política: nunca borrar raw; review si <2 tokens; no asumir first/last US\nprint(\"policy: review_single_token; keep_raw; latam_order\")\n",
+      "justification_from_packet": "Un solo token de nombre → review y conserva raw; no inventes apellidos. Política latam documentada en print.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T2-A-E1",
+      "kind": "guided",
+      "code": "raw = \"  Jr.  de  la  Unión   450  \"\nlimpio = \" \".join(raw.strip().split())\nprint(limpio)\nprint(limpio.replace(\"Jr.\", \"Jiron\"))\nprint(\"find Unión:\", limpio.find(\"Unión\"))\n",
+      "justification_from_packet": "replace/split bastan para transformaciones literales simples; regex para patrones. strip/collapse, replace literal, find.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T2-A-E2",
+      "kind": "independent",
+      "code": "s = \"Av. Larco 123\"\nprint(s.startswith(\"Av.\"))\nprint(s.endswith(\"123\"))\nprint(s.partition(\" \"))\n",
+      "justification_from_packet": "replace/split bastan para transformaciones literales simples; regex para patrones. startswith/endswith/partition sin regex.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T2-A-E3",
+      "kind": "transfer",
+      "code": "# preferir replace/split cuando el patrón es literal fijo\naddr = \"Jr. de la Unión\"\nprint(addr.replace(\"Jr.\", \"Jirón\"))\n# regex solo si hay variación estructural real\n",
+      "justification_from_packet": "replace/split bastan para transformaciones literales simples; regex para patrones. replace/split para transformaciones literales simples.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T2-B-E1",
+      "kind": "guided",
+      "code": "def normalize_email(raw: str) -> str:\n    s = raw.strip().casefold()\n    if s.count(\"@\") != 1 or any(ch.isspace() for ch in s):\n        raise ValueError(\"email requiere un @ y cero espacios\")\n    local, domain = s.split(\"@\")\n    if not local or not domain:\n        raise ValueError(\"email requiere local y dominio\")\n    return s\nprint(normalize_email(\"  Ana@Ex.com \"))\n",
+      "justification_from_packet": "replace/split bastan para transformaciones literales simples; regex para patrones. Email: strip casefold un @ sin espacios.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T2-B-E2",
+      "kind": "independent",
+      "code": "def normalize_phone_pe(raw: str) -> str:\n    return \"\".join(ch for ch in raw if ch.isdigit())\nprint(normalize_phone_pe(\"999-000-111\"))\nprint(len(normalize_phone_pe(\"999-000-111\")) == 9)\n",
+      "justification_from_packet": "replace/split bastan para transformaciones literales simples; regex para patrones. Tel PE: solo dígitos; longitud 9 de demo.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T2-B-E3",
+      "kind": "transfer",
+      "code": "def normalize_pair(email, phone):\n    e = email.strip().casefold()\n    p = \"\".join(c for c in phone if c.isdigit())\n    return {\"email\": e, \"phone\": p}\nprint(normalize_pair(\"  X@Y.COM \", \"(999) 111 222\"))\n",
+      "justification_from_packet": "replace/split bastan para transformaciones literales simples; regex para patrones. Par email+phone normalizado.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T3-A-E1",
+      "kind": "guided",
+      "code": "import re\npat = re.compile(r\"DNI\\s+(?P<dni>\\d{8})\\b\")\ntext = \"Cliente demo DNI 12345678 activo\"\nm = pat.search(text)\nprint(m.group(\"dni\") if m else None)\nprint(\"fullmatch solo digitos:\", bool(re.fullmatch(r\"\\d{8}\", \"12345678\")))\nprint(\"fullmatch con prefijo:\", bool(re.fullmatch(r\"\\d{8}\", \"DNI 12345678\")))\n",
+      "justification_from_packet": "fullmatch exige que toda la cadena cumpla; 'DNI 12345678' no fullmatch de \\d{8}. search extrae; fullmatch exige cadena entera.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T3-A-E2",
+      "kind": "independent",
+      "code": "import re\nprint(bool(re.fullmatch(r\"\\d{8}\", \"12345678\")))\nprint(re.fullmatch(r\"\\d{8}\", \"DNI 12345678\"))\n",
+      "justification_from_packet": "fullmatch exige que toda la cadena cumpla; 'DNI 12345678' no fullmatch de \\d{8}. fullmatch de 8 dígitos falla con prefijo DNI.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T3-A-E3",
+      "kind": "transfer",
+      "code": "import re\ndef extract_dni(text):\n    m = re.search(r\"\\b(\\d{8})\\b\", text)\n    return m.group(1) if m else None\nprint(extract_dni(\"doc 87654321 ok\"))\nprint(extract_dni(\"sin numero\"))\n",
+      "justification_from_packet": "fullmatch exige que toda la cadena cumpla; 'DNI 12345678' no fullmatch de \\d{8}. Extrae DNI de 8 dígitos con search y word boundary.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T3-B-E1",
+      "kind": "guided",
+      "code": "import re\nphone = re.compile(r\"\\b9\\d{8}\\b\")\nlog = \"ok 999111222 noise 12345 otro 988777666\"\nprint(\"findall:\", phone.findall(log))\nfor m in phone.finditer(log):\n    print(m.group(), \"at\", m.start())\n",
+      "justification_from_packet": "fullmatch exige que toda la cadena cumpla; 'DNI 12345678' no fullmatch de \\d{8}. findall/finditer de celulares 9xxxxxxxx.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T3-B-E2",
+      "kind": "independent",
+      "code": "import re\n# riesgo: cuantificadores anidados ambiguos pueden ser catastróficos\nprint(\"evita (a+)+ sobre input hostil\")\nprint(bool(re.fullmatch(r\"9\\d{8}\", \"999000111\")))\n",
+      "justification_from_packet": "fullmatch exige que toda la cadena cumpla; 'DNI 12345678' no fullmatch de \\d{8}. Evitar patrones con cuantificadores anidados ambiguos.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T3-B-E3",
+      "kind": "transfer",
+      "code": "import re\nlog = \"ids C001 C002 noise\"\nprint(re.findall(r\"C\\d{3}\", log))\n",
+      "justification_from_packet": "fullmatch exige que toda la cadena cumpla; 'DNI 12345678' no fullmatch de \\d{8}. findall de ids sintéticos C###.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T4-A-E1",
+      "kind": "guided",
+      "code": "def token_jaccard(a: str, b: str) -> float:\n    A = set(a.replace(\".\", \" \").casefold().split())\n    B = set(b.replace(\".\", \" \").casefold().split())\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\ns = token_jaccard(\"Juan Perez\", \"Juan P. Perez\")\nprint(\"score\", round(s, 3))\nprint(\"decision\", \"review\" if 0.4 <= s < 1.0 else (\"exact\" if s == 1.0 else \"no_match\"))\n",
+      "justification_from_packet": "Jaccard intermedio va a review con evidencia; no fusión automática ni parentesco. Jaccard de tokens; banda media → review.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T4-A-E2",
+      "kind": "independent",
+      "code": "def token_jaccard(a, b):\n    A, B = set(a.casefold().split()), set(b.casefold().split())\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\nprint(round(token_jaccard(\"Ana Quispe\", \"Ana Q. Quispe\"), 3))\n",
+      "justification_from_packet": "Jaccard intermedio va a review con evidencia; no fusión automática ni parentesco. Jaccard para pareja de nombres sintéticos.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T4-A-E3",
+      "kind": "transfer",
+      "code": "# score 0.67 → review con evidencia (raw_a, raw_b, score); no merge auto ni parentesco\nprint(\"action=review evidence=jaccard_tokens\")\n",
+      "justification_from_packet": "Jaccard intermedio va a review con evidencia; no fusión automática ni parentesco. Jaccard intermedio a review con evidencia.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T4-B-E1",
+      "kind": "guided",
+      "code": "rows = [\n    {\"pred\": \"match\", \"truth\": \"match\"},\n    {\"pred\": \"match\", \"truth\": \"no\"},\n    {\"pred\": \"no\", \"truth\": \"match\"},\n    {\"pred\": \"match\", \"truth\": \"match\"},\n]\ntp = sum(1 for r in rows if r[\"pred\"]==\"match\" and r[\"truth\"]==\"match\")\nfp = sum(1 for r in rows if r[\"pred\"]==\"match\" and r[\"truth\"]==\"no\")\nfn = sum(1 for r in rows if r[\"pred\"]==\"no\" and r[\"truth\"]==\"match\")\nprint(\"tp\", tp, \"fp\", fp, \"fn\", fn)\n",
+      "justification_from_packet": "Jaccard intermedio va a review con evidencia; no fusión automática ni parentesco. Conteos TP/FP/FN sobre labels sintéticos.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T4-B-E2",
+      "kind": "independent",
+      "code": "tp, fp, fn = 2, 1, 1\nprec = tp / (tp + fp)\nrec = tp / (tp + fn)\nprint(round(prec, 3), round(rec, 3))\n",
+      "justification_from_packet": "Jaccard intermedio va a review con evidencia; no fusión automática ni parentesco. precision y recall desde tp/fp/fn.",
+      "blocked_on": []
+    },
+    {
+      "id": "S07-T4-B-E3",
+      "kind": "transfer",
+      "code": "print(\"FP de matching ≠ fraude; encolar review clerical\")\nprint(\"no_merge_auto_on_gray_scores\")\n",
+      "justification_from_packet": "Jaccard intermedio va a review con evidencia; no fusión automática ni parentesco. FP no implica fraude; acción review.",
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "stem": "¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?",
+      "chosen_index": 2,
+      "chosen_text": "Formas Unicode distintas (NFC vs NFD)",
+      "justification_from_packet": "José vs Jose+combining accent fallan en == por NFC vs NFD; normaliza Unicode. Por eso elijo la opción [2] para: ¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?",
+      "blocked_on": [],
+      "question_index": 0
+    },
+    {
+      "stem": "En nombres latam, si solo hay un token, la política segura es…",
+      "chosen_index": 0,
+      "chosen_text": "Marcar review y conservar raw",
+      "justification_from_packet": "Un solo token de nombre → review y conserva raw; no inventes apellidos. Por eso elijo la opción [0] para: En nombres latam, si solo hay un token, la política segura e",
+      "blocked_on": [],
+      "question_index": 1
+    },
+    {
+      "stem": "¿Cuándo preferir str.replace/split sobre regex?",
+      "chosen_index": 1,
+      "chosen_text": "Cuando la transformación es literal/simple",
+      "justification_from_packet": "replace/split bastan para transformaciones literales simples; regex para patrones. Por eso elijo la opción [1] para: ¿Cuándo preferir str.replace/split sobre regex?",
+      "blocked_on": [],
+      "question_index": 2
+    },
+    {
+      "stem": "fullmatch(r'\\d{8}', 'DNI 12345678') devuelve…",
+      "chosen_index": 3,
+      "chosen_text": "None (no es full match)",
+      "justification_from_packet": "fullmatch exige que toda la cadena cumpla; 'DNI 12345678' no fullmatch de \\d{8}. Por eso elijo la opción [3] para: fullmatch(r'\\d{8}', 'DNI 12345678') devuelve…",
+      "blocked_on": [],
+      "question_index": 3
+    },
+    {
+      "stem": "Un Jaccard 0.67 entre nombres debe…",
+      "chosen_index": 2,
+      "chosen_text": "Ir a review con evidencia (raw, score)",
+      "justification_from_packet": "Jaccard intermedio va a review con evidencia; no fusión automática ni parentesco. Por eso elijo la opción [2] para: Un Jaccard 0.67 entre nombres debe…",
+      "blocked_on": [],
+      "question_index": 4
+    }
+  ],
+  "recorded_at": "2026-07-23T04:17:47.516962+00:00"
+}

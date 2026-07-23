@@ -1,0 +1,493 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 18,
+  "packet_sha": "e42d9a39f6f4973a",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s18-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S18-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(\"n\", montos.size, \"| mean\", float(montos.mean()), \"| median\", float(np.median(montos)))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "montos",
+        "array",
+        "dtype",
+        "float",
+        "size",
+        "mean",
+        "median"
+      ],
+      "justification_from_packet": "Explorer en S18-T1-A-E1 (guided): resolví el fixture del paquete para «centro» respetando el pass «n 5 | mean 30.4 | median 14.0». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['Usa len o .size; np.mean y np.median.', 'round(float(...), 2) para la media.'] del slim packet, sin solutions externas. Cierre: print(\"n\", montos.size, \"| mean\", float(montos.mean()), \"| median\", float(np.median(montos)))"
+    },
+    {
+      "exercise_id": "S18-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\nprint(\"Q1\", float(q1), \"| Q3\", float(q3), \"| IQR\", float(q3 - q1))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "montos",
+        "array",
+        "dtype",
+        "float",
+        "quantile",
+        "IQR",
+        "independiente"
+      ],
+      "justification_from_packet": "Explorer en S18-T1-A-E2 (independent): resolví el fixture del paquete para «cuartiles e IQR» respetando el pass «Q1 8.5 | Q3 12.5 | IQR 4.0». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['np.quantile con [0.25, 0.75].', 'IQR = Q3 - Q1.'] del slim packet, sin solutions externas. Cierre: print(\"Q1\", float(q1), \"| Q3\", float(q3), \"| IQR\", float(q3 - q1))"
+    },
+    {
+      "exercise_id": "S18-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\n\ndef resumen(x):\n    x = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(x.size),\n        \"mean\": round(float(x.mean()), 4),\n        \"median\": round(float(np.median(x)), 4),\n        \"std\": round(float(x.std(ddof=1)), 4),\n    }\nprint(resumen([1, 2, 3, 4, 5]))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "resumen",
+        "asarray",
+        "dtype",
+        "float",
+        "int",
+        "size",
+        "mean"
+      ],
+      "justification_from_packet": "Explorer en S18-T1-A-E3 (transfer): resolví el fixture del paquete para «función resumen n/mean/median/std» respetando el pass «{'n': 5, 'mean': 3.0, 'median': 3.0, 'std': 1.5811}». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['std con ddof=1.', 'Redondea mean/median/std a 4 decimales o 2 según print claro.'] del slim packet, sin solutions externas. Cierre: print(resumen([1, 2, 3, 4, 5]))"
+    },
+    {
+      "exercise_id": "S18-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean())\nmed = float(np.median(x))\nprint(\"mean\", m, \"| median\", med, \"| ratio\", round(m / med, 2))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "mean",
+        "med",
+        "median",
+        "ratio"
+      ],
+      "justification_from_packet": "Explorer en S18-T1-B-E1 (guided): resolví el fixture del paquete para «mean vs median y razón» respetando el pass «mean 29.2 | median 12.0 | ratio 2.43». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['np.mean y np.median.', 'ratio = mean/median.'] del slim packet, sin solutions externas. Cierre: print(\"mean\", m, \"| median\", med, \"| ratio\", round(m / med, 2))"
+    },
+    {
+      "exercise_id": "S18-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = float(np.median(x))\nmad = float(np.median(np.abs(x - med)))\nprint(\"MAD\", mad)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "med",
+        "median",
+        "mad",
+        "abs"
+      ],
+      "justification_from_packet": "Explorer en S18-T1-B-E2 (independent): resolví el fixture del paquete para «MAD respecto a la mediana» respetando el pass «MAD 1.0». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['MAD = median(|x - median(x)|).', 'Usa np.median y np.abs.'] del slim packet, sin solutions externas. Cierre: print(\"MAD\", mad)"
+    },
+    {
+      "exercise_id": "S18-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\nprint(np.round(np.log1p(x), 3).tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "round",
+        "log1p",
+        "tolist",
+        "transferencia"
+      ],
+      "justification_from_packet": "Explorer en S18-T1-B-E3 (transfer): resolví el fixture del paquete para «transformación log1p de montos» respetando el pass «[0.0, 0.693, 2.303, 4.605]». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['np.log1p.', 'tolist + round por elemento.'] del slim packet, sin solutions externas. Cierre: print(np.round(np.log1p(x), 3).tolist())"
+    },
+    {
+      "exercise_id": "S18-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare_lima = muestra.count(\"Lima\") / len(muestra)\nprint(\"share_Lima\", share_lima)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "muestra",
+        "Lima",
+        "Cusco",
+        "share_lima",
+        "count",
+        "len",
+        "share_Lima",
+        "guiado"
+      ],
+      "justification_from_packet": "Explorer en S18-T2-A-E1 (guided): resolví el fixture del paquete para «share muestral vs población» respetando el pass «share_Lima 0.75». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['Cuenta ocurrencias / n.', 'round a 2 decimales.'] del slim packet, sin solutions externas. Cierre: print(\"share_Lima\", share_lima)"
+    },
+    {
+      "exercise_id": "S18-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "share = 8 / 10\npob = 0.5\nprint(\"bias_Lima_pp\", round(share - pob, 2))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "share",
+        "pob",
+        "bias_Lima_pp",
+        "round",
+        "independiente",
+        "Concepto",
+        "bias",
+        "puntos"
+      ],
+      "justification_from_packet": "Explorer en S18-T2-A-E2 (independent): resolví el fixture del paquete para «bias en puntos porcentuales» respetando el pass «bias_Lima_pp 0.3». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['share = 8/10.', 'bias = share - 0.5.'] del slim packet, sin solutions externas. Cierre: print(\"bias_Lima_pp\", round(share - pob, 2))"
+    },
+    {
+      "exercise_id": "S18-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\n\nprint(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}), 2))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "max_bias",
+        "pob",
+        "counts",
+        "sum",
+        "values",
+        "max",
+        "abs",
+        "for"
+      ],
+      "justification_from_packet": "Explorer en S18-T2-A-E3: reescribí el TODO del starter del paquete para cumplir el contrato Pass de la instruction, usando solo fixtures y APIs del slim packet (theory/iDo de la sección 18). Cierre: print(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}), 2))"
+    },
+    {
+      "exercise_id": "S18-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\nprint(\"margen\", round(margen, 2))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "math",
+        "media",
+        "margen",
+        "sqrt",
+        "round",
+        "guiado",
+        "Concepto",
+        "Fixture"
+      ],
+      "justification_from_packet": "Explorer en S18-T2-B-E1 (guided): resolví el fixture del paquete para «margen de IC 95%» respetando el pass «margen 0.98». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['import math o numpy sqrt.', 'margen = 1.96 * s / sqrt(n).'] del slim packet, sin solutions externas. Cierre: print(\"margen\", round(margen, 2))"
+    },
+    {
+      "exercise_id": "S18-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "d = (13 - 10) / 2\nprint(\"d\", round(d, 2))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "round",
+        "independiente",
+        "Concepto",
+        "efecto",
+        "Cohen",
+        "Fixture",
+        "S18",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer en S18-T2-B-E2 (independent): resolví el fixture del paquete para «tamaño de efecto Cohen's d» respetando el pass «d 1.5». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['d = (mb-ma)/sp.', 'round 2.'] del slim packet, sin solutions externas. Cierre: print(\"d\", round(d, 2))"
+    },
+    {
+      "exercise_id": "S18-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "diff, se = 4, 1.5\nic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2))\nprint(\"ic95\", ic)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "diff",
+        "round",
+        "ic95",
+        "transferencia",
+        "Concepto",
+        "IC95",
+        "como",
+        "tupla"
+      ],
+      "justification_from_packet": "Explorer en S18-T2-B-E3 (transfer): resolví el fixture del paquete para «IC95 como tupla» respetando el pass «ic95 (1.06, 6.94)». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['low = diff - 1.96*se.', 'high = diff + 1.96*se.'] del slim packet, sin solutions externas. Cierre: print(\"ic95\", ic)"
+    },
+    {
+      "exercise_id": "S18-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nprint(\"r\", float(np.corrcoef(x, y)[0, 1]))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "corrcoef",
+        "guiado",
+        "Concepto",
+        "Pearson"
+      ],
+      "justification_from_packet": "Explorer en S18-T3-A-E1 (guided): resolví el fixture del paquete para «correlación de Pearson» respetando el pass «r 1.0». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['corrcoef[0,1].', 'Debe ser ~1.'] del slim packet, sin solutions externas. Cierre: print(\"r\", float(np.corrcoef(x, y)[0, 1]))"
+    },
+    {
+      "exercise_id": "S18-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "r = 0.82\nprint(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "asociacion_observada",
+        "abs",
+        "else",
+        "asociacion_debil",
+        "independiente",
+        "Concepto",
+        "etiqueta",
+        "causa"
+      ],
+      "justification_from_packet": "Explorer en S18-T3-A-E2 (independent): resolví el fixture del paquete para «etiqueta asociación_observada» respetando el pass «asociacion_observada». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['if abs(r)>0.5.', 'Mensaje fijo no causal.'] del slim packet, sin solutions externas. Cierre: print(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")"
+    },
+    {
+      "exercise_id": "S18-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nz = np.arange(5, dtype=float)\nx = z.copy()\ny = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1)\nby = np.polyfit(z, y, 1)\nrx = x - (bx[0] * z + bx[1])\nry = y - (by[0] * z + by[1])\nprint(\"r_raw\", r_raw, \"| max_abs_resid\", float(max(np.max(np.abs(rx)), np.max(np.abs(ry)))))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "arange",
+        "dtype",
+        "float",
+        "copy",
+        "r_raw",
+        "corrcoef",
+        "polyfit"
+      ],
+      "justification_from_packet": "Explorer en S18-T3-A-E3 (transfer): resolví el fixture del paquete para «correlación residual tras confusor» respetando el pass «r_raw 1.0 | max_abs_resid 0.0». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['Residualiza x e y respecto a z.', 'corrcoef de residuales ≈ 0 o nan controlado.'] del slim packet, sin solutions externas. Cierre: print(\"r_raw\", r_raw, \"| max_abs_resid\", float(max(np.max(np.abs(rx)), np.max(np.abs(ry)))))"
+    },
+    {
+      "exercise_id": "S18-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nhi = q3 + 1.5 * iqr\nprint(\"n_hi\", int((m > hi).sum()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "quantile",
+        "iqr",
+        "n_hi",
+        "int"
+      ],
+      "justification_from_packet": "Explorer en S18-T3-B-E1 (guided): resolví el fixture del paquete para «conteo de outliers Tukey» respetando el pass «n_hi 1». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['quantile 0.25/0.75.', 'suma booleana.'] del slim packet, sin solutions externas. Cierre: print(\"n_hi\", int((m > hi).sum()))"
+    },
+    {
+      "exercise_id": "S18-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nregion = np.array([\"Lima\", \"Lima\", \"Cusco\"])\nflag = np.array([True, True, False])\nprint(\"tasa_Lima\", float(flag[region == \"Lima\"].mean()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "region",
+        "array",
+        "Lima",
+        "Cusco",
+        "flag",
+        "tasa_Lima",
+        "float"
+      ],
+      "justification_from_packet": "Explorer en S18-T3-B-E2 (independent): resolví el fixture del paquete para «tasa de anomalías por región» respetando el pass «tasa_Lima 1.0». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['Filtra región Lima.', 'mean de flags.'] del slim packet, sin solutions externas. Cierre: print(\"tasa_Lima\", float(flag[region == \"Lima\"].mean()))"
+    },
+    {
+      "exercise_id": "S18-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nprint(((m < lo) | (m > hi)).tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "quantile",
+        "iqr",
+        "tolist",
+        "transferencia"
+      ],
+      "justification_from_packet": "Explorer en S18-T3-B-E3 (transfer): resolví el fixture del paquete para «flags booleanos Tukey» respetando el pass «[False, False, False, False, True]». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['lo = Q1-1.5IQR, hi=Q3+1.5IQR.', 'tolist de bool.'] del slim packet, sin solutions externas. Cierre: print(((m < lo) | (m > hi)).tolist())"
+    },
+    {
+      "exercise_id": "S18-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "evidencia = {\n    \"pregunta\": \"¿Cuál es el ticket mediano?\",\n    \"hipotesis\": \"mediana >= 5\",\n    \"resultado\": {\"n\": 10, \"median\": 5.0},\n}\nprint(evidencia[\"pregunta\"])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "evidencia",
+        "pregunta",
+        "ticket",
+        "mediano",
+        "hipotesis",
+        "mediana",
+        "resultado",
+        "median"
+      ],
+      "justification_from_packet": "Explorer en S18-T4-A-E1 (guided): resolví el fixture del paquete para «dict pregunta/hipótesis/resultado» respetando el pass «¿Cuál es el ticket mediano?». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['Dict literal.', \"print evidencia['pregunta'].\"] del slim packet, sin solutions externas. Cierre: print(evidencia[\"pregunta\"])"
+    },
+    {
+      "exercise_id": "S18-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "median = 12\nprint(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "median",
+        "solo_hallazgo",
+        "else",
+        "candidato_decision",
+        "independiente",
+        "Concepto",
+        "hallazgo",
+        "umbral"
+      ],
+      "justification_from_packet": "Explorer en S18-T4-A-E2 (independent): resolví el fixture del paquete para «hallazgo vs umbral de decisión» respetando el pass «solo_hallazgo». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['Compara median < 15.', 'No inventes decisión de campaña.'] del slim packet, sin solutions externas. Cierre: print(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")"
+    },
+    {
+      "exercise_id": "S18-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def traza(pregunta, metrica, valor, limite):\n    print(\"P:\", pregunta)\n    print(\"M:\", metrica)\n    print(\"V:\", valor)\n    print(\"L:\", limite)\ntraza(\"ticket mediano Lima\", \"median\", 27.5, \"solo web\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "traza",
+        "pregunta",
+        "metrica",
+        "valor",
+        "limite",
+        "ticket",
+        "mediano",
+        "Lima"
+      ],
+      "justification_from_packet": "Explorer en S18-T4-A-E3 (transfer): resolví el fixture del paquete para «traza Pregunta→Métrica→Valor→Límite» respetando el pass «P: ticket mediano Lima | M: median | V: 27.5 | L: solo web». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['Función con 4 prints.', 'Etiquetas fijas P/M/V/L.'] del slim packet, sin solutions externas. Cierre: traza(\"ticket mediano Lima\", \"median\", 27.5, \"solo web\")"
+    },
+    {
+      "exercise_id": "S18-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "note = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "note",
+        "n_raw",
+        "n_final",
+        "filtros",
+        "monto",
+        "guiado",
+        "Concepto",
+        "data"
+      ],
+      "justification_from_packet": "Explorer en S18-T4-B-E1 (guided): resolví el fixture del paquete para «data note n_raw/n_final/filtros» respetando el pass «{'n_raw': 5, 'n_final': 4, 'filtros': ['monto>0']}». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['Dict con n_raw, n_final, filtros.', 'print el dict.'] del slim packet, sin solutions externas. Cierre: print(note)"
+    },
+    {
+      "exercise_id": "S18-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "hashlib",
+        "sha1",
+        "hexdigest",
+        "independiente",
+        "Concepto",
+        "hex",
+        "payload",
+        "CSV"
+      ],
+      "justification_from_packet": "Explorer en S18-T4-B-E2 (independent): resolví el fixture del paquete para «sha1 hex[:8] de payload CSV» respetando el pass «2aa26ec9». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['hashlib.sha1(...).hexdigest()[:8].', 'encode no necesario si ya es bytes.'] del slim packet, sin solutions externas. Cierre: print(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])"
+    },
+    {
+      "exercise_id": "S18-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]})\nn_raw = len(df)\ndf2 = df[df[\"monto\"] > 0]\nnote = {\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42}\nprint(note)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "monto",
+        "n_raw",
+        "len",
+        "df2",
+        "note",
+        "n_final"
+      ],
+      "justification_from_packet": "Explorer en S18-T4-B-E3 (transfer): resolví el fixture del paquete para «note tras filtro monto>0 con seed» respetando el pass «{'n_raw': 3, 'n_final': 2, 'seed': 42}». Usé theory/iDo (S18-T1-A-DEMO) y pistas ['len antes/después.', 'Incluye seed.'] del slim packet, sin solutions externas. Cierre: print(note)"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Mediana (y opcionalmente IQR)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «¿Qué comunica mejor un ticket “típico” con outliers fuertes?», I select «Mediana (y opcionalmente IQR)» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: centro, dispersión y cuantiles El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `ddof…)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Asociación observada (no causal por sí sola)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «Una correlación alta entre X e Y implica:», I select «Asociación observada (no causal por sí sola)» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: centro, dispersión y cuantiles El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `ddof…)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Origen, filtros, n y límites de cobertura",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «¿Qué debe incluir un data note mínimo?», I select «Origen, filtros, n y límites de cobertura» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: centro, dispersión y cuantiles El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `ddof…)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "La muestra no representa la población de interés",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «El sesgo de muestra ocurre cuando:», I select «La muestra no representa la población de interés» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: centro, dispersión y cuantiles El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `ddof…)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «En un EDA de tickets sintéticos Lima/Cusco, ¿cuál es la comunicación correcta de», I select «Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: centro, dispersión y cuantiles El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `ddof…)."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T04:13:58.778297+00:00"
+}

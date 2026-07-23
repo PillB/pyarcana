@@ -1,0 +1,419 @@
+{
+  "section_index": 43,
+  "title": "Contenedores y reproducibilidad operativa",
+  "outcomes": [
+    "Optimiza Dockerfile y layers",
+    "Usa non-root y reduce tamaño",
+    "Inyecta config/secrets/volumes",
+    "Configura net, health y signals",
+    "Compone API/worker/DB/cache",
+    "Ordena deps, migrations y datos efímeros",
+    "Fija locks y multi-stage",
+    "Escanea, limita recursos y debugguea"
+  ],
+  "theory": [
+    {
+      "heading": "Dockerfile, layers y cache",
+      "paragraphs": [
+        "Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el build dependiente de estado oculto.",
+        "Contrato operativo. Entrada: código fijado, locks, configuración no secreta y secretos inyectados en runtime. Salida de este subtema: dos builds producen el mismo digest lógico. Error: imagen mutable, proceso root, health check falso o migración no reversible bloquea release. Criterio de éxito: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo.",
+        "Aplicación de `Dockerfile, layers y cache` al caso peruano sintético `CASO-TRU-043`: API, worker, base y cache locales de una plataforma ficticia en Trujillo. La evidencia esperada es dos builds producen el mismo digest lógico. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "bases, usuarios no root y tamaño",
+      "paragraphs": [
+        "Una base mínima reduce superficie, pero debe seguir parchable; fija versión/digest y ejecuta con UID sin privilegios, filesystem y capabilities mínimos.",
+        "Contrato operativo. Entrada: código fijado, locks, configuración no secreta y secretos inyectados en runtime. Salida de este subtema: proceso non-root verificado. Error: imagen mutable, proceso root, health check falso o migración no reversible bloquea release. Criterio de éxito: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo.",
+        "Aplicación de `bases, usuarios no root y tamaño` al caso peruano sintético `CASO-TRU-043`: API, worker, base y cache locales de una plataforma ficticia en Trujillo. La evidencia esperada es proceso non-root verificado. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "config, secrets y volumes",
+      "paragraphs": [
+        "Config no secreta puede declararse; secretos se inyectan, rotan y no se hornean. Volumes distinguen estado durable de datos descartables.",
+        "Contrato operativo. Entrada: código fijado, locks, configuración no secreta y secretos inyectados en runtime. Salida de este subtema: imagen e inspección sin secreto. Error: imagen mutable, proceso root, health check falso o migración no reversible bloquea release. Criterio de éxito: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo.",
+        "Aplicación de `config, secrets y volumes` al caso peruano sintético `CASO-TRU-043`: API, worker, base y cache locales de una plataforma ficticia en Trujillo. La evidencia esperada es imagen e inspección sin secreto. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": "print(\"env\", \"prod\"); print(\"secret_ref\", \"${SECRET}\"); print(\"volume\", \"/data\")"
+    },
+    {
+      "heading": "networking, health checks y signals",
+      "paragraphs": [
+        "Redes limitan quién habla con quién; readiness expresa capacidad de servir, liveness bloqueo, y SIGTERM drena trabajo antes de salir.",
+        "Contrato operativo. Entrada: código fijado, locks, configuración no secreta y secretos inyectados en runtime. Salida de este subtema: health checks y shutdown ensayados. Error: imagen mutable, proceso root, health check falso o migración no reversible bloquea release. Criterio de éxito: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo.",
+        "Aplicación de `networking, health checks y signals` al caso peruano sintético `CASO-TRU-043`: API, worker, base y cache locales de una plataforma ficticia en Trujillo. La evidencia esperada es health checks y shutdown ensayados. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "API/worker/DB/cache",
+      "paragraphs": [
+        "Compose hace explícitos API, worker, DB y cache con redes y health dependencies; `depends_on` no reemplaza retries de aplicación.",
+        "Contrato operativo. Entrada: código fijado, locks, configuración no secreta y secretos inyectados en runtime. Salida de este subtema: stack sano desde entorno limpio. Error: imagen mutable, proceso root, health check falso o migración no reversible bloquea release. Criterio de éxito: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo.",
+        "Aplicación de `API/worker/DB/cache` al caso peruano sintético `CASO-TRU-043`: API, worker, base y cache locales de una plataforma ficticia en Trujillo. La evidencia esperada es stack sano desde entorno limpio. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "dependencias, migrations y datos efímeros",
+      "paragraphs": [
+        "Migraciones son jobs controlados con compatibilidad expand/contract; datos efímeros se recrean y los durables tienen backup/restore.",
+        "Contrato operativo. Entrada: código fijado, locks, configuración no secreta y secretos inyectados en runtime. Salida de este subtema: migración y rollback de prueba. Error: imagen mutable, proceso root, health check falso o migración no reversible bloquea release. Criterio de éxito: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo.",
+        "Aplicación de `dependencias, migrations y datos efímeros` al caso peruano sintético `CASO-TRU-043`: API, worker, base y cache locales de una plataforma ficticia en Trujillo. La evidencia esperada es migración y rollback de prueba. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "locks y multi-stage builds",
+      "paragraphs": [
+        "Locks fijan resolución completa y multi-stage separa toolchain de runtime; el artefacto final contiene solo lo necesario.",
+        "Contrato operativo. Entrada: código fijado, locks, configuración no secreta y secretos inyectados en runtime. Salida de este subtema: lock verificado e imagen runtime reducida. Error: imagen mutable, proceso root, health check falso o migración no reversible bloquea release. Criterio de éxito: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo.",
+        "Aplicación de `locks y multi-stage builds` al caso peruano sintético `CASO-TRU-043`: API, worker, base y cache locales de una plataforma ficticia en Trujillo. La evidencia esperada es lock verificado e imagen runtime reducida. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "scanning, resource limits y debugging",
+      "paragraphs": [
+        "Scanning alimenta una política, límites evitan noisy neighbors y debugging usa logs/metrics controlados, nunca un shell root permanente.",
+        "Contrato operativo. Entrada: código fijado, locks, configuración no secreta y secretos inyectados en runtime. Salida de este subtema: vulnerabilidad crítica y OOM simulados bloquean. Error: imagen mutable, proceso root, health check falso o migración no reversible bloquea release. Criterio de éxito: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo.",
+        "Aplicación de `scanning, resource limits y debugging` al caso peruano sintético `CASO-TRU-043`: API, worker, base y cache locales de una plataforma ficticia en Trujillo. La evidencia esperada es vulnerabilidad crítica y OOM simulados bloquean. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S43-T1-A-DEMO",
+      "description": "Demo: Dockerfile, layers y cache",
+      "why": "Hace observable `Dockerfile, layers y cache` con un caso local pequeño y deja como evidencia dos builds producen el mismo digest lógico; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S43-T1-B-DEMO",
+      "description": "Demo: bases, usuarios no root y tamaño",
+      "why": "Hace observable `bases, usuarios no root y tamaño` con un caso local pequeño y deja como evidencia proceso non-root verificado; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S43-T2-A-DEMO",
+      "description": "Demo: config, secrets y volumes",
+      "why": "Hace observable `config, secrets y volumes` con un caso local pequeño y deja como evidencia imagen e inspección sin secreto; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S43-T2-B-DEMO",
+      "description": "Demo: networking, health checks y signals",
+      "why": "Hace observable `networking, health checks y signals` con un caso local pequeño y deja como evidencia health checks y shutdown ensayados; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S43-T3-A-DEMO",
+      "description": "Demo: API/worker/DB/cache",
+      "why": "Hace observable `API/worker/DB/cache` con un caso local pequeño y deja como evidencia stack sano desde entorno limpio; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S43-T3-B-DEMO",
+      "description": "Demo: dependencias, migrations y datos efímeros",
+      "why": "Hace observable `dependencias, migrations y datos efímeros` con un caso local pequeño y deja como evidencia migración y rollback de prueba; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S43-T4-A-DEMO",
+      "description": "Demo: locks y multi-stage builds",
+      "why": "Hace observable `locks y multi-stage builds` con un caso local pequeño y deja como evidencia lock verificado e imagen runtime reducida; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S43-T4-B-DEMO",
+      "description": "Demo: scanning, resource limits y debugging",
+      "why": "Hace observable `scanning, resource limits y debugging` con un caso local pequeño y deja como evidencia vulnerabilidad crítica y OOM simulados bloquean; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué evidencia permite aprobar `Dockerfile, layers y cache` en CASO-TRU-043?",
+      "options": [
+        "un print sin assert ni versión",
+        "una captura de pantalla sin fuente",
+        "dos builds producen el mismo digest lógico",
+        "datos personales reales para que parezca auténtico"
+      ]
+    },
+    {
+      "question": "Si ocurre la condición de error de S43, ¿qué respuesta preserva seguridad y auditabilidad?",
+      "options": [
+        "emitir BLOCK_IMAGE y conservar evidencia",
+        "continuar y ocultar el warning",
+        "inventar evidencia faltante",
+        "borrar el trace para reducir ruido"
+      ]
+    },
+    {
+      "question": "¿Cuál resultado demuestra el gate `CP-N4-A · servicio reproducible en contenedores`?",
+      "options": [
+        "el archivo S43 existe, aunque no pruebe el gate",
+        "build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo",
+        "el README afirma que funciona",
+        "se usó la herramienta más nueva"
+      ]
+    },
+    {
+      "question": "¿Qué tratamiento de `CASO-TRU-043` respeta el alcance del curso?",
+      "options": [
+        "reemplazarlo por datos reales sin consentimiento",
+        "subir secretos para facilitar la demo",
+        "inferir fraude o parentesco desde ER",
+        "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S43-T1-A-E1",
+      "instruction": "S43-T1-A-E1 · Calcula el contrato de `Dockerfile, layers y cache` sobre `CASO-TRU-043-1A`. La entrada es el dict completo del starter; la operación debe demostrar layer de dependencias reutilizable y digest estable. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REORDER_DOCKERFILE` en E2.",
+      "hints": [
+        "Relaciona los campos `lock_copied_before_source`, `dependency_layer_reused`, `source_change_rebuilds`, `digest_stable` con la regla explicada en S43-T1-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva dos builds producen el mismo digest lógico; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-TRU-043-1A\", **{\"lock_copied_before_source\":True,\"dependency_layer_reused\":True,\"source_change_rebuilds\":1,\"digest_stable\":True}}\nmeets_contract = not record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] > 3\nstatus = \"PASS\" if meets_contract else \"REORDER_DOCKERFILE\"\nprint(\"S43-T1-A\", status)\n"
+    },
+    {
+      "id": "S43-T1-A-E2",
+      "instruction": "S43-T1-A-E2 · Modela tres rutas de `Dockerfile, layers y cache`: fixture válido, fixture adverso y registro sin `digest_stable`. Entrada: dict con case_id, lock_copied_before_source, dependency_layer_reused, source_change_rebuilds, digest_stable. Salidas exactas: `PASS`, `REORDER_DOCKERFILE`, `MISSING:digest_stable`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a digest_stable debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S43-T1-A: layer de dependencias reutilizable y digest estable. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T1-A-E3",
+      "instruction": "S43-T1-A-E3 · Simula fallo cerrado para `Dockerfile, layers y cache` con tres fixtures distintos. `CASO-TRU-043-1A` debe continuar, el adverso debe devolver `REORDER_DOCKERFILE` y la ausencia de `digest_stable` debe devolver `INSPECT_CACHE_INVALIDATION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `INSPECT_CACHE_INVALIDATION` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró layer de dependencias reutilizable y digest estable; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T1-B-E1",
+      "instruction": "S43-T1-B-E1 · Compara el contrato de `bases, usuarios no root y tamaño` sobre `CASO-TRU-043-1B`. La entrada es el dict completo del starter; la operación debe demostrar base fijada, UID non-root, cero capabilities y tamaño límite. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `REBUILD_NONROOT` en E2.",
+      "hints": [
+        "Relaciona los campos `base_pinned`, `uid`, `capabilities`, `runtime_mb`, `max_mb` con la regla explicada en S43-T1-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva proceso non-root verificado; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-TRU-043-1B\", **{\"base_pinned\":True,\"uid\":10001,\"capabilities\":set(),\"runtime_mb\":118,\"max_mb\":150}}\nmeets_contract = record[\"uid\"] == 0 or bool(record[\"capabilities\"])\nstatus = \"PASS\" if meets_contract else \"REBUILD_NONROOT\"\nprint(\"S43-T1-B\", status)\n"
+    },
+    {
+      "id": "S43-T1-B-E2",
+      "instruction": "S43-T1-B-E2 · Verifica tres rutas de `bases, usuarios no root y tamaño`: fixture válido, fixture adverso y registro sin `max_mb`. Entrada: dict con case_id, base_pinned, uid, capabilities, runtime_mb, max_mb. Salidas exactas: `PASS`, `REBUILD_NONROOT`, `MISSING:max_mb`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a max_mb debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S43-T1-B: base fijada, UID non-root, cero capabilities y tamaño límite. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T1-B-E3",
+      "instruction": "S43-T1-B-E3 · Extiende fallo cerrado para `bases, usuarios no root y tamaño` con tres fixtures distintos. `CASO-TRU-043-1B` debe continuar, el adverso debe devolver `REBUILD_NONROOT` y la ausencia de `max_mb` debe devolver `SELECT_PATCHABLE_BASE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `SELECT_PATCHABLE_BASE` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró base fijada, UID non-root, cero capabilities y tamaño límite; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T2-A-E1",
+      "instruction": "S43-T2-A-E1 · Filtra el contrato de `config, secrets y volumes` sobre `CASO-TRU-043-2A`. La entrada es el dict completo del starter; la operación debe demostrar secretos runtime y estado durable/efímero separado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `REMOVE_BAKED_SECRET` en E2.",
+      "hints": [
+        "Relaciona los campos `secret_baked`, `runtime_secret`, `config_declared`, `durable_volumes`, `ephemeral_volumes` con la regla explicada en S43-T2-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva imagen e inspección sin secreto; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-TRU-043-2A\", **{\"secret_baked\":False,\"runtime_secret\":True,\"config_declared\":True,\"durable_volumes\":{\"db\"},\"ephemeral_volumes\":{\"cache\"}}}\nmeets_contract = record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"]\nstatus = \"PASS\" if meets_contract else \"REMOVE_BAKED_SECRET\"\nprint(\"S43-T2-A\", status)\n"
+    },
+    {
+      "id": "S43-T2-A-E2",
+      "instruction": "S43-T2-A-E2 · Clasifica tres rutas de `config, secrets y volumes`: fixture válido, fixture adverso y registro sin `ephemeral_volumes`. Entrada: dict con case_id, secret_baked, runtime_secret, config_declared, durable_volumes, ephemeral_volumes. Salidas exactas: `PASS`, `REMOVE_BAKED_SECRET`, `MISSING:ephemeral_volumes`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a ephemeral_volumes debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S43-T2-A: secretos runtime y estado durable/efímero separado. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T2-A-E3",
+      "instruction": "S43-T2-A-E3 · Defiende fallo cerrado para `config, secrets y volumes` con tres fixtures distintos. `CASO-TRU-043-2A` debe continuar, el adverso debe devolver `REMOVE_BAKED_SECRET` y la ausencia de `ephemeral_volumes` debe devolver `CLASSIFY_VOLUME`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `CLASSIFY_VOLUME` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró secretos runtime y estado durable/efímero separado; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T2-B-E1",
+      "instruction": "S43-T2-B-E1 · Modela el contrato de `networking, health checks y signals` sobre `CASO-TRU-043-2B`. La entrada es el dict completo del starter; la operación debe demostrar network privada, health semántico y drain de SIGTERM. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `DRAIN_AND_ISOLATE` en E2.",
+      "hints": [
+        "Relaciona los campos `private_network`, `readiness_db`, `liveness_loop`, `sigterm_drains`, `grace_seconds` con la regla explicada en S43-T2-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva health checks y shutdown ensayados; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-TRU-043-2B\", **{\"private_network\":True,\"readiness_db\":True,\"liveness_loop\":True,\"sigterm_drains\":True,\"grace_seconds\":30}}\nmeets_contract = not record[\"readiness_db\"] or not record[\"sigterm_drains\"]\nstatus = \"PASS\" if meets_contract else \"DRAIN_AND_ISOLATE\"\nprint(\"S43-T2-B\", status)\n"
+    },
+    {
+      "id": "S43-T2-B-E2",
+      "instruction": "S43-T2-B-E2 · Audita tres rutas de `networking, health checks y signals`: fixture válido, fixture adverso y registro sin `grace_seconds`. Entrada: dict con case_id, private_network, readiness_db, liveness_loop, sigterm_drains, grace_seconds. Salidas exactas: `PASS`, `DRAIN_AND_ISOLATE`, `MISSING:grace_seconds`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a grace_seconds debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S43-T2-B: network privada, health semántico y drain de SIGTERM. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T2-B-E3",
+      "instruction": "S43-T2-B-E3 · Recupera fallo cerrado para `networking, health checks y signals` con tres fixtures distintos. `CASO-TRU-043-2B` debe continuar, el adverso debe devolver `DRAIN_AND_ISOLATE` y la ausencia de `grace_seconds` debe devolver `DIAGNOSE_HEALTH_SIGNAL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `DIAGNOSE_HEALTH_SIGNAL` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró network privada, health semántico y drain de SIGTERM; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T3-A-E1",
+      "instruction": "S43-T3-A-E1 · Verifica el contrato de `API/worker/DB/cache` sobre `CASO-TRU-043-3A`. La entrada es el dict completo del starter; la operación debe demostrar cuatro servicios sanos, retries y redes segmentadas. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `STOP_UNHEALTHY_STACK` en E2.",
+      "hints": [
+        "Relaciona los campos `services`, `healthy`, `api_retries_db`, `networks` con la regla explicada en S43-T3-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva stack sano desde entorno limpio; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-TRU-043-3A\", **{\"services\":{\"api\",\"worker\",\"db\",\"cache\"},\"healthy\":{\"api\",\"worker\",\"db\",\"cache\"},\"api_retries_db\":True,\"networks\":{\"front\",\"back\"}}}\nmeets_contract = record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"]\nstatus = \"PASS\" if meets_contract else \"STOP_UNHEALTHY_STACK\"\nprint(\"S43-T3-A\", status)\n"
+    },
+    {
+      "id": "S43-T3-A-E2",
+      "instruction": "S43-T3-A-E2 · Decide tres rutas de `API/worker/DB/cache`: fixture válido, fixture adverso y registro sin `networks`. Entrada: dict con case_id, services, healthy, api_retries_db, networks. Salidas exactas: `PASS`, `STOP_UNHEALTHY_STACK`, `MISSING:networks`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a networks debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S43-T3-A: cuatro servicios sanos, retries y redes segmentadas. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T3-A-E3",
+      "instruction": "S43-T3-A-E3 · Contrasta fallo cerrado para `API/worker/DB/cache` con tres fixtures distintos. `CASO-TRU-043-3A` debe continuar, el adverso debe devolver `STOP_UNHEALTHY_STACK` y la ausencia de `networks` debe devolver `WAIT_FOR_DEPENDENCY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `WAIT_FOR_DEPENDENCY` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró cuatro servicios sanos, retries y redes segmentadas; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T3-B-E1",
+      "instruction": "S43-T3-B-E1 · Clasifica el contrato de `dependencias, migrations y datos efímeros` sobre `CASO-TRU-043-3B`. La entrada es el dict completo del starter; la operación debe demostrar expand compatible, efímero recreable y restore aprobado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ROLL_BACK_MIGRATION` en E2.",
+      "hints": [
+        "Relaciona los campos `migration`, `old_code_compatible`, `ephemeral_reset`, `backup_restored` con la regla explicada en S43-T3-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva migración y rollback de prueba; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-TRU-043-3B\", **{\"migration\":\"expand\",\"old_code_compatible\":True,\"ephemeral_reset\":True,\"backup_restored\":True}}\nmeets_contract = record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"]\nstatus = \"PASS\" if meets_contract else \"ROLL_BACK_MIGRATION\"\nprint(\"S43-T3-B\", status)\n"
+    },
+    {
+      "id": "S43-T3-B-E2",
+      "instruction": "S43-T3-B-E2 · Calcula tres rutas de `dependencias, migrations y datos efímeros`: fixture válido, fixture adverso y registro sin `backup_restored`. Entrada: dict con case_id, migration, old_code_compatible, ephemeral_reset, backup_restored. Salidas exactas: `PASS`, `ROLL_BACK_MIGRATION`, `MISSING:backup_restored`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a backup_restored debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S43-T3-B: expand compatible, efímero recreable y restore aprobado. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T3-B-E3",
+      "instruction": "S43-T3-B-E3 · Instrumenta fallo cerrado para `dependencias, migrations y datos efímeros` con tres fixtures distintos. `CASO-TRU-043-3B` debe continuar, el adverso debe devolver `ROLL_BACK_MIGRATION` y la ausencia de `backup_restored` debe devolver `RUN_RESTORE_DRILL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `RUN_RESTORE_DRILL` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró expand compatible, efímero recreable y restore aprobado; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T4-A-E1",
+      "instruction": "S43-T4-A-E1 · Audita el contrato de `locks y multi-stage builds` sobre `CASO-TRU-043-4A`. La entrada es el dict completo del starter; la operación debe demostrar lock con hash y runtime sin toolchain. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_UNPINNED_BUILD` en E2.",
+      "hints": [
+        "Relaciona los campos `lock_hash`, `stages`, `compiler_in_runtime`, `runtime_deps_locked` con la regla explicada en S43-T4-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva lock verificado e imagen runtime reducida; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-TRU-043-4A\", **{\"lock_hash\":\"sha256:abc\",\"stages\":{\"builder\",\"runtime\"},\"compiler_in_runtime\":False,\"runtime_deps_locked\":True}}\nmeets_contract = not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNPINNED_BUILD\"\nprint(\"S43-T4-A\", status)\n"
+    },
+    {
+      "id": "S43-T4-A-E2",
+      "instruction": "S43-T4-A-E2 · Compara tres rutas de `locks y multi-stage builds`: fixture válido, fixture adverso y registro sin `runtime_deps_locked`. Entrada: dict con case_id, lock_hash, stages, compiler_in_runtime, runtime_deps_locked. Salidas exactas: `PASS`, `BLOCK_UNPINNED_BUILD`, `MISSING:runtime_deps_locked`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a runtime_deps_locked debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S43-T4-A: lock con hash y runtime sin toolchain. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T4-A-E3",
+      "instruction": "S43-T4-A-E3 · Aísla fallo cerrado para `locks y multi-stage builds` con tres fixtures distintos. `CASO-TRU-043-4A` debe continuar, el adverso debe devolver `BLOCK_UNPINNED_BUILD` y la ausencia de `runtime_deps_locked` debe devolver `REGENERATE_LOCK`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REGENERATE_LOCK` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró lock con hash y runtime sin toolchain; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T4-B-E1",
+      "instruction": "S43-T4-B-E1 · Decide el contrato de `scanning, resource limits y debugging` sobre `CASO-TRU-043-4B`. La entrada es el dict completo del starter; la operación debe demostrar scan limpio, límites definidos y debugging sin shell root. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `QUARANTINE_IMAGE` en E2.",
+      "hints": [
+        "Relaciona los campos `critical_cves`, `memory_limit_mb`, `cpu_limit`, `debug_shell`, `logs_redacted` con la regla explicada en S43-T4-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva vulnerabilidad crítica y OOM simulados bloquean; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-TRU-043-4B\", **{\"critical_cves\":0,\"memory_limit_mb\":512,\"cpu_limit\":1.0,\"debug_shell\":False,\"logs_redacted\":True}}\nmeets_contract = record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"]\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_IMAGE\"\nprint(\"S43-T4-B\", status)\n"
+    },
+    {
+      "id": "S43-T4-B-E2",
+      "instruction": "S43-T4-B-E2 · Filtra tres rutas de `scanning, resource limits y debugging`: fixture válido, fixture adverso y registro sin `logs_redacted`. Entrada: dict con case_id, critical_cves, memory_limit_mb, cpu_limit, debug_shell, logs_redacted. Salidas exactas: `PASS`, `QUARANTINE_IMAGE`, `MISSING:logs_redacted`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a logs_redacted debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S43-T4-B: scan limpio, límites definidos y debugging sin shell root. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S43-T4-B-E3",
+      "instruction": "S43-T4-B-E3 · Demuestra fallo cerrado para `scanning, resource limits y debugging` con tres fixtures distintos. `CASO-TRU-043-4B` debe continuar, el adverso debe devolver `QUARANTINE_IMAGE` y la ausencia de `logs_redacted` debe devolver `TRIAGE_SCAN_FINDING`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `TRIAGE_SCAN_FINDING` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró scan limpio, límites definidos y debugging sin shell root; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    }
+  ],
+  "packet_sha": "a94c58728e1bc959"
+}

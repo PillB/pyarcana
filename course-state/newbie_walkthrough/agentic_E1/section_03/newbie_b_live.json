@@ -1,0 +1,339 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 3,
+  "packet_sha": "06e920dd4f6b4cf2",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s03-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S03-T1-A-E1",
+      "answer": "edad = 25",
+      "code": "edad = 25\nregion = \"Cusco\"\n\nprint(edad >= 18)\nprint(edad < 65)\nprint(18 <= edad <= 65)\nprint(region == \"Lima\")\nprint(region != \"Piura\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "comparaciones",
+        "encadenamiento"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T1-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Con `edad = 25` y `region = \"Cusco\"`, imprime el booleano de: `edad >= 18`, `edad < 65`, `18 <= edad <= 65`, `region == \"Lima\"`, `region != \"Piura\"`.». Delivered code centers on `edad = 25` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: comparaciones, encadenamiento."
+    },
+    {
+      "exercise_id": "S03-T1-A-E2",
+      "answer": "TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}",
+      "code": "TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t in TIPOS_DOC)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "set",
+        "in",
+        "allowlist"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T1-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Define `TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}`. Para cada valor en `[\"DNI\", \"dni\", \"RUC\"]`, imprime si está en la allowlist (`in`).». Delivered code centers on `TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: set, in, allowlist."
+    },
+    {
+      "exercise_id": "S03-T1-A-E3",
+      "answer": "valor = None",
+      "code": "valor = None\nprint(\"valor is None →\", valor is None)\nprint(\"True == 1 →\", True == 1)\nprint(\"True is 1 →\", True is 1)\nprint(\"Nota:\", \"usa is para None/identidad; == para valores de negocio en intake\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "is None",
+        "identidad"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T1-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Diagnóstico: imprime `valor is None` con `valor = None`, luego `True == 1` y `True is 1`. Explica en un print cuándo usar `is` vs `==` en validadores». Delivered code centers on `valor = None` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: is None, identidad."
+    },
+    {
+      "exercise_id": "S03-T1-B-E1",
+      "answer": "vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]",
+      "code": "vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", bool(v))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "truthiness",
+        "bool"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T1-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Tabla truthiness: imprime `bool(v)` para `None`, `False`, `0`, `0.0`, `\"\"`, `[]`, `{}`, `set()`, `range(0)`, `\"x\"`, `1`, `[0]`.». Delivered code centers on `vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: truthiness, bool."
+    },
+    {
+      "exercise_id": "S03-T1-B-E2",
+      "answer": "print(\"'' or 'default' →\", \"\" or \"default\")",
+      "code": "print(\"'' or 'default' →\", \"\" or \"default\")\nprint(\"'Lima' or 'default' →\", \"Lima\" or \"default\")\nprint(\"0 and 99 →\", 0 and 99)\nprint(\"5 and 99 →\", 5 and 99)\nprint(\"None or 0 →\", None or 0)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "and/or",
+        "short-circuit"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T1-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Predice e imprime: `'' or 'default'`, `'Lima' or 'default'`, `0 and 99`, `5 and 99`, `None or 0`.». Delivered code centers on `print(\"'' or 'default' →\", \"\" or \"default\")` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: and/or, short-circuit."
+    },
+    {
+      "exercise_id": "S03-T1-B-E3",
+      "answer": "def validate_monto(m):",
+      "code": "def validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "monto is None",
+        "no truthiness"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T1-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Bug: un validador hace `if not monto: return \"reject\"`. Reescribe `validate_monto(m)` con `is None` para review, `< 0` reject, y accept para 0 y posi». Delivered code centers on `def validate_monto(m):` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: monto is None, no truthiness."
+    },
+    {
+      "exercise_id": "S03-T2-A-E1",
+      "answer": "def classify_score(score: int) -> str:",
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "classify_score",
+        "if/elif/else"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T2-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Completa `classify_score`: ≥80 accept, ≥50 review, else reject. Imprime resultados para 80, 50, 49, 100.». Delivered code centers on `def classify_score(score: int) -> str:` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: classify_score, if/elif/else."
+    },
+    {
+      "exercise_id": "S03-T2-A-E2",
+      "answer": "def bad(score):",
+      "code": "def bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "ifs independientes vs elif"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T2-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — La función `bad` usa ifs independientes y clasifica mal el 95 (queda review). Reescribe `good` con if/elif/else y compara ambos en 95, 60, 30.». Delivered code centers on `def bad(score):` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: ifs independientes vs elif."
+    },
+    {
+      "exercise_id": "S03-T2-A-E3",
+      "answer": "def band(n):",
+      "code": "def band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in [150, 75, 10, 0, -3]:\n    print(n, \"→\", band(n))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "bandas",
+        "orden umbrales"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T2-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Traza mentalmente y luego implementa `band(n)`: `>100` alto, `>50` medio, `>0` bajo, else nulo. Verifica 150, 75, 10, 0, -3.». Delivered code centers on `def band(n):` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: bandas, orden umbrales."
+    },
+    {
+      "exercise_id": "S03-T2-B-E1",
+      "answer": "def validate_edad(edad):",
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "guards",
+        "validate_edad"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T2-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Completa guards en `validate_edad`: None → MISSING/review; no int → BAD_TYPE/reject; luego OUT_OF_RANGE / NEEDS_REVIEW / OK como en la demo. Prueba None, \"2». Delivered code centers on `def validate_edad(edad):` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: guards, validate_edad."
+    },
+    {
+      "exercise_id": "S03-T2-B-E2",
+      "answer": "def validate_monto_nested(m):",
+      "code": "def validate_monto_nested(m):\n    if m is not None:\n        if isinstance(m, int):\n            if m >= 0:\n                if m <= 10000:\n                    return \"accept\"\n                else:\n                    return \"review\"\n            else:\n                return \"reject\"\n        else:\n            return \"reject\"\n    else:\n        return \"review\"\n\ndef validate_monto_guards(m):\n    if m is None:\n        return \"review\"\n    if not isinstance(m, int):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m <= 10000:\n        return \"accept\"\n    return \"review\"\n\nfor v in [None, \"x\", -1, 0, 500, 20000]:\n    a, b = validate_monto_nested(v), validate_monto_guards(v)\n    print(v, a, b, \"ok=\", a == b)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "early return",
+        "sin pirámide"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T2-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Refactoriza la pirámide anidada de `validate_monto_nested` a guards lineales con la misma semántica: None review, no int reject, <0 reject, 0–10000 a». Delivered code centers on `def validate_monto_nested(m):` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: early return, sin pirámide."
+    },
+    {
+      "exercise_id": "S03-T2-B-E3",
+      "answer": "def etiqueta_bug(x):",
+      "code": "def etiqueta_bug(x):\n    if x != 0:\n        if x > 0:\n            return \"positivo\"\n        return \"negativo\"\n    elif x == 0:  # rama muerta relativa al if exterior? en realidad SI se alcanza cuando x==0\n        return \"cero\"\n    return \"???\"\n\nprint(\"bug 0 →\", etiqueta_bug(0))\nprint(\"bug 3 →\", etiqueta_bug(3))\nprint(\"Nota: el elif x==0 está anidado bajo if x!=0 como hermano muerto conceptual si se escribiera mal; aquí se alcanza vía else del if x!=0\")\n\ndef etiqueta_ok(x):\n    if x > 0:\n        return \"positivo\"\n    elif x < 0:\n        return \"negativo\"\n    else:\n        return \"cero\"\n\nprint(\"ok 0 →\", etiqueta_ok(0))\nprint(\"ok 3 →\", etiqueta_ok(3))\nprint(\"ok -2 →\", etiqueta_ok(-2))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "rama muerta",
+        "reorden"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T2-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — En el snippet, identifica la rama muerta: imprime cuál `elif` nunca corre y por qué. Luego reordena/corrige para que `x == 0` sea alcanzable y muestr». Delivered code centers on `def etiqueta_bug(x):` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: rama muerta, reorden."
+    },
+    {
+      "exercise_id": "S03-T3-A-E1",
+      "answer": "ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}",
+      "code": "ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    if r is None:\n        return \"review\"\n    if r not in ALLOWED:\n        return \"review\"\n    return \"accept\"\n\nfor r in [\"Lima\", \"Tacna\", None]:\n    print(r, \"→\", check_region(r))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "region allowlist"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T3-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — `ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}`. Escribe `check_region(r)`: None → review; not in ALLOWED → review; else accept. Prueba Lima, Tacna, None». Delivered code centers on `ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: region allowlist."
+    },
+    {
+      "exercise_id": "S03-T3-A-E2",
+      "answer": "def monto_ingreso(m):",
+      "code": "def monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "outlier review"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T3-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — `monto_ingreso(m)`: None → review; <0 → reject; >50000 → review (outlier); else accept (incluye 0). Casos: None, -1, 0, 1200, 60000.». Delivered code centers on `def monto_ingreso(m):` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: outlier review."
+    },
+    {
+      "exercise_id": "S03-T3-A-E3",
+      "answer": "ALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}",
+      "code": "ALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}\nDOC_LEN = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef tipo_doc_len(tipo, numero):\n    if tipo is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if tipo not in ALLOWED_DOC:\n        return {\"status\": \"review\", \"code\": \"NOT_IN_ALLOWLIST\"}\n    if len(str(numero)) != DOC_LEN[tipo]:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]:\n    print(t, n, \"→\", tipo_doc_len(t, n))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "DOC_LEN",
+        "tipo_doc"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T3-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Combina allowlist de tipo_doc `{\"DNI\",\"CE\",\"PAS\"}` con longitudes DNI=8, CE=9, PAS=9. Devuelve dict status/code: MISSING, NOT_IN_ALLOWLIST, OUT_OF_RA». Delivered code centers on `ALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: DOC_LEN, tipo_doc."
+    },
+    {
+      "exercise_id": "S03-T3-B-E1",
+      "answer": "TABLE = {",
+      "code": "TABLE = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"review\",\n    \"OUT_OF_RANGE\": \"reject\",\n}\n\ndef apply(code):\n    return TABLE.get(code, \"review\")\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\"]:\n    print(c, \"→\", apply(c))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "decision table"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T3-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Completa la decision table como dict `codigo → status` para OK→accept, MISSING→review, OUT_OF_RANGE→reject, _default→review. Imprime el status de cada clave». Delivered code centers on `TABLE = {` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: decision table."
+    },
+    {
+      "exercise_id": "S03-T3-B-E2",
+      "answer": "def status_match(code: str) -> str:",
+      "code": "def status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NOT_IN_ALLOWLIST\" | \"BAD_TYPE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\", \"NEEDS_REVIEW\"]:\n    print(c, \"→\", status_match(c))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "match/case"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T3-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Implementa la misma tabla con `match/case`, OR patterns para MISSING|NEEDS_REVIEW y OUT_OF_RANGE|NOT_IN_ALLOWLIST|BAD_TYPE, y `case _`.». Delivered code centers on `def status_match(code: str) -> str:` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: match/case."
+    },
+    {
+      "exercise_id": "S03-T3-B-E3",
+      "answer": "def map_code(code: str) -> str:",
+      "code": "def map_code(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\":\n            return \"review\"\n        case \"OUT_OF_RANGE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\ndef map_edad(edad):\n    if edad is None:\n        return \"review\"\n    if 18 <= edad <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(map_code(\"OK\"), map_code(\"MISSING\"))\nprint(map_edad(None), map_edad(30), map_edad(10))\nprint(\"Justificación:\", \"match brilla en literales/estados finitos; rangos numéricos de edad son más claros con if y comparaciones\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "match vs if rangos"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T3-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Para (a) códigos de error finitos y (b) rango de edad 18–65, elige if o match, implementa ambos validadores y justifica en prints por qué match no es». Delivered code centers on `def map_code(code: str) -> str:` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: match vs if rangos."
+    },
+    {
+      "exercise_id": "S03-T4-A-E1",
+      "answer": "def validate_edad(e):",
+      "code": "def validate_edad(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"accept\"\n\nexamples = [\n    {\"value\": 30, \"expected\": \"accept\"},\n    {\"value\": -1, \"expected\": \"reject\"},\n    {\"value\": None, \"expected\": \"review\"},\n    {\"value\": \"x\", \"expected\": \"reject\"},\n]\nfor ex in examples:\n    got = validate_edad(ex[\"value\"])\n    print(ex[\"value\"], got, got == ex[\"expected\"])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "examples",
+        "expected"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T4-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Completa `examples` para el campo `edad` con expected accept/reject/review/missing (usa value None para missing/review según tu invariante). Ejecuta validat». Delivered code centers on `def validate_edad(e):` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: examples, expected."
+    },
+    {
+      "exercise_id": "S03-T4-A-E2",
+      "answer": "def validate_apellidos(ap, am):",
+      "code": "def validate_apellidos(ap, am):\n    a = (ap or \"\").strip()\n    b = (am or \"\").strip()\n    if a == \"\" and b == \"\":\n        return \"reject\"\n    if a == \"\" or b == \"\":\n        return \"review\"\n    return \"accept\"\n\ninvariant_text = \"apellido_paterno y apellido_materno no vacíos tras strip para accept; uno vacío→review; ambos→reject\"\nexamples = [\n    {\"ap\": \"Quispe\", \"am\": \"Rojas\", \"expected\": \"accept\"},\n    {\"ap\": \"Quispe\", \"am\": \"  \", \"expected\": \"review\"},\n    {\"ap\": \"\", \"am\": \"\", \"expected\": \"reject\"},\n]\nprint(invariant_text)\nfor ex in examples:\n    got = validate_apellidos(ex[\"ap\"], ex[\"am\"])\n    print(ex, \"→\", got, got == ex[\"expected\"])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "invariante apellidos"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T4-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Escribe invariante multi-campo: `apellido_paterno` y `apellido_materno` no vacíos (tras strip) para accept; si uno falta → review; si ambos vacíos → ». Delivered code centers on `def validate_apellidos(ap, am):` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: invariante apellidos."
+    },
+    {
+      "exercise_id": "S03-T4-A-E3",
+      "answer": "def validate_edad_strict(e):",
+      "code": "def validate_edad_strict(e):\n    \"\"\"Invariante roto: todo lo no 18-65 es reject (incluye None y menores).\"\"\"\n    if isinstance(e, int) and 18 <= e <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(\"strict 15 →\", validate_edad_strict(15))\nprint(\"strict None →\", validate_edad_strict(None))\n\ndef validate_edad_fixed(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    if e < 18:\n        return \"review\"\n    if e <= 65:\n        return \"accept\"\n    return \"review\"\n\nprint(\"fixed 15 →\", validate_edad_fixed(15))\nprint(\"fixed None →\", validate_edad_fixed(None))\nprint(\"fixed 30 →\", validate_edad_fixed(30))\nprint(\"Invariante:\", \"menores en review (no reject duro); None review; fuera de 0-120 reject; 18-65 accept\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "menores review"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T4-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — El invariante dice “edad siempre entre 18 y 65 inclusive (reject si no)”. Encuentra el contraejemplo que rompe la política real del negocio (menores ». Delivered code centers on `def validate_edad_strict(e):` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: menores review."
+    },
+    {
+      "exercise_id": "S03-T4-B-E1",
+      "answer": "vagos = [\"Error\", \"inválido\", \"bad age\"]",
+      "code": "vagos = [\"Error\", \"inválido\", \"bad age\"]\naccionables = [\n    \"Campo edad: error no especificado; reenvía el valor numérico 0-120\",\n    \"Campo edad: valor inválido; corrige a entero entre 0 y 120\",\n    \"Campo edad=-3 fuera de rango; usa un entero 0–120\",\n]\nfor a in accionables:\n    print(a)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "mensajes accionables"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T4-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Reescribe 3 mensajes vagos a plantilla campo+problema+acción: (1) \"Error\", (2) \"inválido\", (3) \"bad age\". Usa el campo `edad` y valores de ejemplo.». Delivered code centers on `vagos = [\"Error\", \"inválido\", \"bad age\"]` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: mensajes accionables."
+    },
+    {
+      "exercise_id": "S03-T4-B-E2",
+      "answer": "def classify_score(score: int) -> str:",
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\ncases = [\n    (90, \"accept\"),\n    (80, \"accept\"),\n    (55, \"review\"),\n    (50, \"review\"),\n    (10, \"reject\"),\n]\nfor val, expected in cases:\n    got = classify_score(val)\n    assert got == expected, (val, got, expected)\n    print(\"PASS\", val, got)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "suite de casos"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T4-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Dado `classify_score` (accept/review/reject), escribe una lista `cases` con un input por cada rama (incl. frontera) y un loop assert/print PASS.». Delivered code centers on `def classify_score(score: int) -> str:` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: suite de casos."
+    },
+    {
+      "exercise_id": "S03-T4-B-E3",
+      "answer": "def rango_edad(e):",
+      "code": "def rango_edad(e):\n    if e is None:\n        return \"review\"\n    if e >= 18 and e <= 65:\n        return \"accept\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"review\"\n\ncases = [(18, \"accept\"), (17, \"review\"), (None, \"review\"), (30, \"accept\")]\nfor val, expected in cases:\n    got = rango_edad(val)\n    print(val, got, \"ok=\", got == expected)\n    assert got == expected\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "off-by-one",
+        ">="
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S03-T4-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Test rojo: la regla usa `edad > 18` y falla para 18 (espera accept). Arregla a `>= 18` y deja la suite en verde (18 accept, 17 review, None review).». Delivered code centers on `def rango_edad(e):` matching theory/iDo («Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`»). Concepts: off-by-one, >=."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "if campo is None:",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q0 «¿Cuál es la forma correcta de chequear ausencia de un campo opcional en un validador?» — choose «if campo is None:» because packet theory says «Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, c». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Se ejecuta esa rama y se omiten las siguientes",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q1 «En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es verdadera?» — choose «Se ejecuta esa rama y se omiten las siguientes» because packet theory says «Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, c». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "\"default\"",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q2 «¿Qué devuelve la expresión `\"\" or \"default\"` en Python?» — choose «\"default\"» because packet theory says «Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, c». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Un set de literales y el operador in",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q3 «Una allowlist de tipos de documento se implementa mejor como…» — choose «Un set de literales y el operador in» because packet theory says «Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, c». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Cuando el sujeto es un literal/estado finito (códigos) y hay case _",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q4 «¿Cuándo aporta más claridad `match/case` que `if` en un motor de reglas introductorio?» — choose «Cuando el sujeto es un literal/estado finito (códigos) y hay case _» because packet theory says «Comparaciones y el operador in: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, c». Other options invent speed/compile/legal myths not present in the slim packet."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:12:40.453508+00:00"
+}

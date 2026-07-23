@@ -1,0 +1,536 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 40,
+  "packet_sha": "ed5e6493245bb7f8",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s40-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\nmeets_contract = not (record[\"observed_ms\"] >= record[\"target_ms\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_QA_SCENARIO\"\nprint(\"S40-T1-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "LIM",
+        "source",
+        "ops",
+        "stimulus",
+        "req",
+        "environment"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T1-A-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T1-A-E1 · Calcula el contrato de `requisitos funcionales y quality attributes` sobre `CASO-LIM-040-1A`. La entrada es el dict completo del starter; la opera. Pistas usadas: Relaciona los campos `source`, `stimulus`, `environment`, `response`, `observed_ms`, `target_ms`, `owner` con la regla explicada en S40-T1-A.; El predicado correcto debe ser verdadero porque el fixtur. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'source', 'stimulus', 'environment', 'response', 'observed_ms', 'target_ms', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"observed_ms\"] >= record[\"target_ms\"])) else \"REJECT_QA_SCENARIO\"\n\nvalid = {'case_id': 'CASO-LIM-040-1A', 'environment': 'peak', 'observed_ms': 280, 'owner': 'platform', 'response': 'serve', 'source': 'ops', 'stimulus': '100 req/s', 'target_ms': 300}\ninvalid = {'case_id': 'CASO-LIM-040-1A', 'environment': 'peak', 'observed_ms': 2801, 'owner': 'platform', 'response': 'serve', 'source': 'ops', 'stimulus': '100 req/s', 'target_ms': 300}\nincomplete = {**valid}\nincomplete.pop('owner', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "source",
+        "stimulus",
+        "environment"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T1-A-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T1-A-E2 · Modela tres rutas de `requisitos funcionales y quality attributes`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case. Pistas usadas: Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.; Después aplica la regla de S40-T1-A: latencia observada contra umbral y dueño. El fixture adverso debe fallar por c. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'source', 'stimulus', 'environment', 'response', 'observed_ms', 'target_ms', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_QA_OWNER\"\n    return \"CONTINUE\" if (not (record[\"observed_ms\"] >= record[\"target_ms\"])) else \"REJECT_QA_SCENARIO\"\n\nvalid = {'case_id': 'CASO-LIM-040-1A', 'environment': 'peak', 'observed_ms': 280, 'owner': 'platform', 'response': 'serve', 'source': 'ops', 'stimulus': '100 req/s', 'target_ms': 300}\ninvalid = {'case_id': 'CASO-LIM-040-1A', 'environment': 'peak', 'observed_ms': 2801, 'owner': 'platform', 'response': 'serve', 'source': 'ops', 'stimulus': '100 req/s', 'target_ms': 300}\nuncertain = {**valid}\nuncertain.pop('owner', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "source",
+        "stimulus",
+        "environment"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T1-A-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtures distintos. `CASO-LIM-040-1A` debe continuar, el adverso . Pistas usadas: Una ausencia no equivale a breach: enrútala a `REQUEST_QA_OWNER` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró latencia observada contra umbral y dueño; solo ese. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\nmeets_contract = not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))\nstatus = \"PASS\" if meets_contract else \"REOPEN_TRADEOFF\"\nprint(\"S40-T1-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "LIM",
+        "scores",
+        "sync",
+        "async",
+        "selected",
+        "risk_owner"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T1-B-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T1-B-E1 · Compara el contrato de `trade-offs, riesgos y criterios medibles` sobre `CASO-LIM-040-1B`. La entrada es el dict completo del starter; la operació. Pistas usadas: Relaciona los campos `scores`, `selected`, `risk_owner`, `residual_risk` con la regla explicada en S40-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva tabla de decisión y ri. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'scores', 'selected', 'risk_owner', 'residual_risk'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))) else \"REOPEN_TRADEOFF\"\n\nvalid = {'case_id': 'CASO-LIM-040-1B', 'residual_risk': 2, 'risk_owner': 'arquitectura', 'scores': {'async': 2.2, 'sync': 3.8}, 'selected': 'async'}\ninvalid = {'case_id': 'CASO-LIM-040-1B', 'residual_risk': 2, 'risk_owner': 'arquitectura', 'scores': {'async': 2.2, 'sync': 3.8}, 'selected': 'sync'}\nincomplete = {**valid}\nincomplete.pop('residual_risk', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "scores",
+        "selected",
+        "risk_owner"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T1-B-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T1-B-E2 · Verifica tres rutas de `trade-offs, riesgos y criterios medibles`: fixture válido, fixture adverso y registro sin `residual_risk`. Entrada: dict c. Pistas usadas: Primero se calcula `missing`; ningún acceso a residual_risk debe ocurrir antes de esa rama.; Después aplica la regla de S40-T1-B: alternativa con menor score y riesgo residual aceptable. El fixture ad. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'scores', 'selected', 'risk_owner', 'residual_risk'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ESCALATE_RESIDUAL_RISK\"\n    return \"CONTINUE\" if (not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))) else \"REOPEN_TRADEOFF\"\n\nvalid = {'case_id': 'CASO-LIM-040-1B', 'residual_risk': 2, 'risk_owner': 'arquitectura', 'scores': {'async': 2.2, 'sync': 3.8}, 'selected': 'async'}\ninvalid = {'case_id': 'CASO-LIM-040-1B', 'residual_risk': 2, 'risk_owner': 'arquitectura', 'scores': {'async': 2.2, 'sync': 3.8}, 'selected': 'sync'}\nuncertain = {**valid}\nuncertain.pop('residual_risk', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "scores",
+        "selected",
+        "risk_owner"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T1-B-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtures distintos. `CASO-LIM-040-1B` debe continuar, el adverso d. Pistas usadas: Una ausencia no equivale a breach: enrútala a `ESCALATE_RESIDUAL_RISK` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró alternativa con menor score y riesgo residua. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\nmeets_contract = not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))\nstatus = \"PASS\" if meets_contract else \"REDRAW_BOUNDARY\"\nprint(\"S40-T2-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "LIM",
+        "layers",
+        "presentation",
+        "application",
+        "domain",
+        "infrastructure"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T2-A-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T2-A-E1 · Filtra el contrato de `cohesión/coupling y capas` sobre `CASO-LIM-040-2A`. La entrada es el dict completo del starter; la operación debe demostrar. Pistas usadas: Relaciona los campos `layers`, `dependencies` con la regla explicada en S40-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva diagrama de dependencias sin salto de capa; revis. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'layers', 'dependencies'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))) else \"REDRAW_BOUNDARY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2A', 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']], 'layers': ['presentation', 'application', 'domain', 'infrastructure']}\ninvalid = {'case_id': 'CASO-LIM-040-2A', 'dependencies': [], 'layers': ['presentation', 'application', 'domain', 'infrastructure']}\nincomplete = {**valid}\nincomplete.pop('dependencies', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "layers",
+        "dependencies",
+        "missing"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T2-A-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T2-A-E2 · Clasifica tres rutas de `cohesión/coupling y capas`: fixture válido, fixture adverso y registro sin `dependencies`. Entrada: dict con case_id, lay. Pistas usadas: Primero se calcula `missing`; ningún acceso a dependencies debe ocurrir antes de esa rama.; Después aplica la regla de S40-T2-A: grafo de dependencias sin dominio hacia infraestructura. El fixture adv. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'layers', 'dependencies'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_LAYER_OWNER\"\n    return \"CONTINUE\" if (not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))) else \"REDRAW_BOUNDARY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2A', 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']], 'layers': ['presentation', 'application', 'domain', 'infrastructure']}\ninvalid = {'case_id': 'CASO-LIM-040-2A', 'dependencies': [], 'layers': ['presentation', 'application', 'domain', 'infrastructure']}\nuncertain = {**valid}\nuncertain.pop('dependencies', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "layers",
+        "dependencies",
+        "missing"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T2-A-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos. `CASO-LIM-040-2A` debe continuar, el adverso debe devolver `R. Pistas usadas: Una ausencia no equivale a breach: enrútala a `REVIEW_LAYER_OWNER` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró grafo de dependencias sin dominio hacia infraest. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\nmeets_contract = record[\"adapter\"] != record[\"port\"] and not record[\"domain_imports\"] and record[\"contract_tests\"] > 0\nstatus = \"PASS\" if meets_contract else \"INVERT_DEPENDENCY\"\nprint(\"S40-T2-B\", status)",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "LIM",
+        "port",
+        "CaseRepository",
+        "adapter",
+        "MemoryCaseRepository",
+        "domain_imports"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T2-B-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T2-B-E1 · Modela el contrato de `ports/adapters y dependencia hacia dominio` sobre `CASO-LIM-040-2B`. La entrada es el dict completo del starter; la operaci. Pistas usadas: Relaciona los campos `port`, `adapter`, `domain_imports`, `contract_tests` con la regla explicada en S40-T2-B.; El predicado correcto debe ser verdadero porque el fixture conserva test del dominio con. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'port', 'adapter', 'domain_imports', 'contract_tests'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"adapter\"] != record[\"port\"] and not record[\"domain_imports\"] and record[\"contract_tests\"] > 0) else \"INVERT_DEPENDENCY\"\n\nvalid = {'adapter': 'MemoryCaseRepository', 'case_id': 'CASO-LIM-040-2B', 'contract_tests': 3, 'domain_imports': [], 'port': 'CaseRepository'}\ninvalid = {'adapter': 'CaseRepository', 'case_id': 'CASO-LIM-040-2B', 'contract_tests': 0, 'domain_imports': ['sqlalchemy'], 'port': 'CaseRepository'}\nincomplete = {**valid}\nincomplete.pop('contract_tests', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "port",
+        "adapter",
+        "domain_imports"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T2-B-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T2-B-E2 · Audita tres rutas de `ports/adapters y dependencia hacia dominio`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict . Pistas usadas: Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.; Después aplica la regla de S40-T2-B: adapter sustituible y dominio sin imports externos. El fixture advers. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'port', 'adapter', 'domain_imports', 'contract_tests'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"DEFINE_PORT_CONTRACT\"\n    return \"CONTINUE\" if (record[\"adapter\"] != record[\"port\"] and not record[\"domain_imports\"] and record[\"contract_tests\"] > 0) else \"INVERT_DEPENDENCY\"\n\nvalid = {'adapter': 'MemoryCaseRepository', 'case_id': 'CASO-LIM-040-2B', 'contract_tests': 3, 'domain_imports': [], 'port': 'CaseRepository'}\ninvalid = {'adapter': 'CaseRepository', 'case_id': 'CASO-LIM-040-2B', 'contract_tests': 0, 'domain_imports': ['sqlalchemy'], 'port': 'CaseRepository'}\nuncertain = {**valid}\nuncertain.pop('contract_tests', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "port",
+        "adapter",
+        "domain_imports"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T2-B-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T2-B-E3 · Recupera fallo cerrado para `ports/adapters y dependencia hacia dominio` con tres fixtures distintos. `CASO-LIM-040-2B` debe continuar, el adverso. Pistas usadas: Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró adapter sustituible y dominio sin imports exte. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\nmeets_contract = not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))\nstatus = \"PASS\" if meets_contract else \"SPLIT_CONTEXTS\"\nprint(\"S40-T3-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "LIM",
+        "contexts",
+        "intake",
+        "case",
+        "score",
+        "translations"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T3-A-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T3-A-E1 · Verifica el contrato de `bounded contexts y lenguaje ubicuo` sobre `CASO-LIM-040-3A`. La entrada es el dict completo del starter; la operación deb. Pistas usadas: Relaciona los campos `contexts`, `translations` con la regla explicada en S40-T3-A.; El predicado correcto debe ser verdadero porque el fixture conserva glosario ubicuo y context map revisado; revisa . Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'contexts', 'translations'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))) else \"SPLIT_CONTEXTS\"\n\nvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'er': {'record', 'score'}, 'intake': {'case'}}, 'translations': {'case': 'record'}}\ninvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'er': {'case', 'score'}, 'intake': {'case'}}, 'translations': {}}\nincomplete = {**valid}\nincomplete.pop('translations', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "contexts",
+        "translations",
+        "missing"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T3-A-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T3-A-E2 · Decide tres rutas de `bounded contexts y lenguaje ubicuo`: fixture válido, fixture adverso y registro sin `translations`. Entrada: dict con case_i. Pistas usadas: Primero se calcula `missing`; ningún acceso a translations debe ocurrir antes de esa rama.; Después aplica la regla de S40-T3-A: términos locales disjuntos y traducción declarada. El fixture adverso d. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'contexts', 'translations'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"WORKSHOP_UBIQUITOUS_LANGUAGE\"\n    return \"CONTINUE\" if (not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))) else \"SPLIT_CONTEXTS\"\n\nvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'er': {'record', 'score'}, 'intake': {'case'}}, 'translations': {'case': 'record'}}\ninvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'er': {'case', 'score'}, 'intake': {'case'}}, 'translations': {}}\nuncertain = {**valid}\nuncertain.pop('translations', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "contexts",
+        "translations",
+        "missing"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T3-A-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures distintos. `CASO-LIM-040-3A` debe continuar, el adverso debe d. Pistas usadas: Una ausencia no equivale a breach: enrútala a `WORKSHOP_UBIQUITOUS_LANGUAGE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró términos locales disjuntos y traducció. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\nmeets_contract = bool(record.get(\"entity_id\")) and record.get(\"vo\",{}).get(\"currency\")==\"PEN\" and record.get(\"vo_frozen\") and record.get(\"service_stateless\")\nstatus = \"PASS\" if meets_contract else \"REJECT_DOMAIN_MODEL\"\nprint(\"S40-T3-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "LIM",
+        "entity_id",
+        "CASE",
+        "amount",
+        "currency",
+        "PEN"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T3-B-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T3-B-E1 · Clasifica el contrato de `entities, value objects y servicios` sobre `CASO-LIM-040-3B`. La entrada es el dict completo del starter; la operación d. Pistas usadas: Relaciona los campos `entity_id`, `vo`, `vo_frozen`, `service_stateless` con la regla explicada en S40-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva invariantes de entity/. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'entity_id', 'vo', 'vo_frozen', 'service_stateless'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (bool(record.get(\"entity_id\")) and record.get(\"vo\",{}).get(\"currency\")==\"PEN\" and record.get(\"vo_frozen\") and record.get(\"service_stateless\")) else \"REJECT_DOMAIN_MODEL\"\n\nvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'service_stateless': True, 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True}\ninvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'service_stateless': True, 'vo': {'amount': 150, 'currency': 'CASO-LIM-040-3B'}, 'vo_frozen': True}\nincomplete = {**valid}\nincomplete.pop('service_stateless', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "entity_id",
+        "vo_frozen",
+        "service_stateless"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T3-B-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T3-B-E2 · Calcula tres rutas de `entities, value objects y servicios`: fixture válido, fixture adverso y registro sin `service_stateless`. Entrada: dict con. Pistas usadas: Primero se calcula `missing`; ningún acceso a service_stateless debe ocurrir antes de esa rama.; Después aplica la regla de S40-T3-B: identidad estable, VO en PEN e invariantes inmutables. El fixture . Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'entity_id', 'vo', 'vo_frozen', 'service_stateless'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CLARIFY_INVARIANT\"\n    return \"CONTINUE\" if (bool(record.get(\"entity_id\")) and record.get(\"vo\",{}).get(\"currency\")==\"PEN\" and record.get(\"vo_frozen\") and record.get(\"service_stateless\")) else \"REJECT_DOMAIN_MODEL\"\n\nvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'service_stateless': True, 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True}\ninvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'service_stateless': True, 'vo': {'amount': 150, 'currency': 'CASO-LIM-040-3B'}, 'vo_frozen': True}\nuncertain = {**valid}\nuncertain.pop('service_stateless', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "entity_id",
+        "vo_frozen",
+        "service_stateless"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T3-B-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures distintos. `CASO-LIM-040-3B` debe continuar, el adverso deb. Pistas usadas: Una ausencia no equivale a breach: enrútala a `CLARIFY_INVARIANT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró identidad estable, VO en PEN e invariantes inmuta. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\nmeets_contract = record[\"adr_status\"] == \"accepted\" and {\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"} <= set(record[\"adr_fields\"]) and {\"context\",\"container\"} <= set(record[\"c4_levels\"])\nstatus = \"PASS\" if meets_contract else \"RETURN_ADR_TO_DRAFT\"\nprint(\"S40-T4-A\", status)",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "LIM",
+        "c4_levels",
+        "context",
+        "container",
+        "adr_fields",
+        "decision"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T4-A-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T4-A-E1 · Audita el contrato de `diagramas C4/flujo y ADRs` sobre `CASO-LIM-040-4A`. La entrada es el dict completo del starter; la operación debe demostrar. Pistas usadas: Relaciona los campos `c4_levels`, `adr_fields`, `adr_status` con la regla explicada en S40-T4-A.; El predicado correcto debe ser verdadero porque el fixture conserva C4 enlazado a ADR aceptado y rever. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'c4_levels', 'adr_fields', 'adr_status'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"adr_status\"] == \"accepted\" and {\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"} <= set(record[\"adr_fields\"]) and {\"context\",\"container\"} <= set(record[\"c4_levels\"])) else \"RETURN_ADR_TO_DRAFT\"\n\nvalid = {'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}, 'adr_status': 'accepted', 'c4_levels': {'container', 'context'}, 'case_id': 'CASO-LIM-040-4A'}\ninvalid = {'adr_fields': {'context'}, 'adr_status': 'draft', 'c4_levels': {'container', 'context'}, 'case_id': 'CASO-LIM-040-4A'}\nincomplete = {**valid}\nincomplete.pop('adr_status', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "c4_levels",
+        "adr_fields",
+        "adr_status"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T4-A-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T4-A-E2 · Compara tres rutas de `diagramas C4/flujo y ADRs`: fixture válido, fixture adverso y registro sin `adr_status`. Entrada: dict con case_id, c4_leve. Pistas usadas: Primero se calcula `missing`; ningún acceso a adr_status debe ocurrir antes de esa rama.; Después aplica la regla de S40-T4-A: C4 mínimo y ADR con alternativas, consecuencias y rollback. El fixture ad. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'c4_levels', 'adr_fields', 'adr_status'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_ARCH_REVIEW\"\n    return \"CONTINUE\" if (record[\"adr_status\"] == \"accepted\" and {\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"} <= set(record[\"adr_fields\"]) and {\"context\",\"container\"} <= set(record[\"c4_levels\"])) else \"RETURN_ADR_TO_DRAFT\"\n\nvalid = {'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}, 'adr_status': 'accepted', 'c4_levels': {'container', 'context'}, 'case_id': 'CASO-LIM-040-4A'}\ninvalid = {'adr_fields': {'context'}, 'adr_status': 'draft', 'c4_levels': {'container', 'context'}, 'case_id': 'CASO-LIM-040-4A'}\nuncertain = {**valid}\nuncertain.pop('adr_status', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "c4_levels",
+        "adr_fields",
+        "adr_status"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T4-A-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos. `CASO-LIM-040-4A` debe continuar, el adverso debe devolver `RETU. Pistas usadas: Una ausencia no equivale a breach: enrútala a `REQUEST_ARCH_REVIEW` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró C4 mínimo y ADR con alternativas, consecuencias. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\nmeets_contract = not (record[\"v11_fields\"] < record[\"v1_fields\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_BREAKING_CHANGE\"\nprint(\"S40-T4-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "LIM",
+        "v1_fields",
+        "v11_fields",
+        "priority",
+        "debt_owner",
+        "platform"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T4-B-E1 (guided) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T4-B-E1 · Decide el contrato de `APIs, eventos, deuda y evolución compatible` sobre `CASO-LIM-040-4B`. La entrada es el dict completo del starter; la operac. Pistas usadas: Relaciona los campos `v1_fields`, `v11_fields`, `debt_owner`, `retire_on` con la regla explicada en S40-T4-B.; El predicado correcto debe ser verdadero porque el fixture conserva consumer contract de . Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'v1_fields', 'v11_fields', 'debt_owner', 'retire_on'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"v11_fields\"] < record[\"v1_fields\"])) else \"BLOCK_BREAKING_CHANGE\"\n\nvalid = {'case_id': 'CASO-LIM-040-4B', 'debt_owner': 'platform', 'retire_on': '2026-12-01', 'v11_fields': {'case_id', 'priority', 'status'}, 'v1_fields': {'case_id', 'status'}}\ninvalid = {'case_id': 'CASO-LIM-040-4B', 'debt_owner': 'platform', 'retire_on': '2026-12-01', 'v11_fields': set(), 'v1_fields': {'case_id', 'status'}}\nincomplete = {**valid}\nincomplete.pop('retire_on', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "v1_fields",
+        "v11_fields",
+        "debt_owner"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T4-B-E2 (independent) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T4-B-E2 · Filtra tres rutas de `APIs, eventos, deuda y evolución compatible`: fixture válido, fixture adverso y registro sin `retire_on`. Entrada: dict con . Pistas usadas: Primero se calcula `missing`; ningún acceso a retire_on debe ocurrir antes de esa rama.; Después aplica la regla de S40-T4-B: campos v1 preservados y deuda con owner/fecha. El fixture adverso debe fal. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'v1_fields', 'v11_fields', 'debt_owner', 'retire_on'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"NEGOTIATE_VERSION\"\n    return \"CONTINUE\" if (not (record[\"v11_fields\"] < record[\"v1_fields\"])) else \"BLOCK_BREAKING_CHANGE\"\n\nvalid = {'case_id': 'CASO-LIM-040-4B', 'debt_owner': 'platform', 'retire_on': '2026-12-01', 'v11_fields': {'case_id', 'priority', 'status'}, 'v1_fields': {'case_id', 'status'}}\ninvalid = {'case_id': 'CASO-LIM-040-4B', 'debt_owner': 'platform', 'retire_on': '2026-12-01', 'v11_fields': set(), 'v1_fields': {'case_id', 'status'}}\nuncertain = {**valid}\nuncertain.pop('retire_on', None)\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "decide",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "v1_fields",
+        "v11_fields",
+        "debt_owner"
+      ],
+      "justification_from_packet": "Explorer: completé S40-T4-B-E3 (transfer) mapeando el starter defectuoso al contrato del subtema. Instrucción del paquete: S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fixtures distintos. `CASO-LIM-040-4B` debe continuar, el adver. Pistas usadas: Una ausencia no equivale a breach: enrútala a `NEGOTIATE_VERSION` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró campos v1 preservados y deuda con owner/fecha; so. Invertí o reescribí el predicado booleano para que el fixture válido pase y el adverso falle, sin tocar datos del caso sintético ni inventar PII."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "escenario QA completo con umbral y dueño",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría de «requisitos funcionales y quality attributes» y el contrato operativo del paquete: la salida/evidencia enseñada apunta a «escenario QA completo con umbral y dueño». Por eso elijo la opción «escenario QA completo con umbral y dueño» (índice 3) frente a distractores como prints sin assert, PII real o borrar el trace. Pregunta: ¿Qué evidencia permite aprobar `requisitos funcionales y quality attributes` en CASO-LIM-040?"
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "emitir BLOCK_ARCHITECTURE y conservar evidencia",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría de «requisitos funcionales y quality attributes» y el contrato operativo del paquete: la salida/evidencia enseñada apunta a «escenario QA completo con umbral y dueño». Por eso elijo la opción «emitir BLOCK_ARCHITECTURE y conservar evidencia» (índice 1) frente a distractores como prints sin assert, PII real o borrar el trace. Pregunta: Si ocurre la condición de error de S40, ¿qué respuesta preserva seguridad y auditabilidad?"
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría de «requisitos funcionales y quality attributes» y el contrato operativo del paquete: la salida/evidencia enseñada apunta a «escenario QA completo con umbral y dueño». Por eso elijo la opción «cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia» (índice 2) frente a distractores como prints sin assert, PII real o borrar el trace. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-A · mapa de arquitectura gobernado`?"
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría de «requisitos funcionales y quality attributes» y el contrato operativo del paquete: la salida/evidencia enseñada apunta a «escenario QA completo con umbral y dueño». Por eso elijo la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» (índice 0) frente a distractores como prints sin assert, PII real o borrar el trace. Pregunta: ¿Qué tratamiento de `CASO-LIM-040` respeta el alcance del curso?"
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40
+    ],
+    "note": "Knowledge limited to sequential packets through active section; explorer maps starter→contract greedily."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:18:22.644407+00:00"
+}

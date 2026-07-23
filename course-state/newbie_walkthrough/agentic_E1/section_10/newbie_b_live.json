@@ -1,0 +1,380 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 10,
+  "packet_sha": "8b461ffa87af3bfa",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s10-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "answer": "def _ws(s: str) -> str:",
+      "code": "def _ws(s: str) -> str:\n    return \" \".join(s.strip().split())\ndef public_normalize(s: str) -> str:\n    return _ws(s).casefold()\nprint(public_normalize(\"  Hola  Mundo \"))\nif __name__ == \"__main__\":\n    print(\"demo\", public_normalize(\"X\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T1-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Crea un módulo lógico con». Delivered code centers on `def _ws(s: str) -> str:` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "answer": "def util_norm(s: str) -> str:",
+      "code": "def util_norm(s: str) -> str:\n    return s.strip().lower()\n# circular import se evita moviendo shared a util_norm sin importar cli desde normalize\nprint(util_norm(\"  Ab \"))\nprint(\"evita: normalize↔compare imports mutuos; extrae util compartida\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T1-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Simula un import c». Delivered code centers on `def util_norm(s: str) -> str:` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "answer": "recs = {",
+      "code": "recs = {\n    \"normalize.py importa compare en el mismo paquete\": \"relativo o absoluto del paquete (from . import compare)\",\n    \"plugin externo usa familiarity_core\": \"absoluto (import familiarity_core)\",\n}\nfor k, v in recs.items():\n    print(k, \"→\", v)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T1-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Elige import absol». Delivered code centers on `recs = {` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "answer": "def _tokenize(s):",
+      "code": "def _tokenize(s):\n    return s.split()\ndef public_tokens(s):\n    return _tokenize(s.strip())\nprint(public_tokens(\"a b\"), \"_tokenize es privado por convención\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T1-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Marca helpers privados co». Delivered code centers on `def _tokenize(s):` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "answer": "def normalize(s: str) -> str:",
+      "code": "def normalize(s: str) -> str:\n    return \" \".join(s.strip().split()).casefold()\n# fachada API pública\n__all__ = [\"normalize\"]\nprint(normalize(\"  Ana  \"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T1-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implementa una fac». Delivered code centers on `def normalize(s: str) -> str:` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "answer": "print(\"BREAKING: renombrar normalize→clean_name es major\")",
+      "code": "print(\"BREAKING: renombrar normalize→clean_name es major\")\nprint(\"mitigación: alias deprecate un release + changelog\")\nprint(\"comunicar en README y notes de versión\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T1-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Documenta un break». Delivered code centers on `print(\"BREAKING: renombrar normalize→clean_name es major\")` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "answer": "project = {",
+      "code": "project = {\n    \"name\": \"familiarity-core\",\n    \"version\": \"0.1.0\",\n    \"requires-python\": \">=3.11\",\n}\nprint(project)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T2-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Completa un dict estilo p». Delivered code centers on `project = {` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "answer": "paths = [",
+      "code": "paths = [\n    \"src/familiarity_core/__init__.py\",\n    \"src/familiarity_core/normalize.py\",\n    \"src/familiarity_core/cli.py\",\n    \"pyproject.toml\",\n]\nfor p in paths:\n    print(p)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T2-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Lista el layout sr». Delivered code centers on `paths = [` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "answer": "causes = [",
+      "code": "causes = [\n    \"cause: paquete no instalado (falta pip install -e .)\",\n    \"cause: PYTHONPATH no incluye src/\",\n    \"cause: nombre de paquete distinto al import\",\n]\nfor c in causes:\n    print(c)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T2-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Diagnostica Module». Delivered code centers on `causes = [` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "answer": "niveles = {",
+      "code": "niveles = {\n    \"renombrar normalize a clean_name (API pública)\": \"major\",\n    \"añadir flag --format a report\": \"minor\",\n    \"corregir typo en help\": \"patch\",\n    \"eliminar subcomando compare\": \"major\",\n}\nfor c, n in niveles.items():\n    print(c, \"→\", n)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T2-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Clasifica 4 cambios en ma». Delivered code centers on `niveles = {` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "answer": "deps = {",
+      "code": "deps = {\n    \"requires-python\": \">=3.11\",\n    \"dependencies\": [],\n    \"optional-dependencies\": {\"dev\": [\"pytest\"]},\n}\nprint(deps)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T2-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Fija dependencies ». Delivered code centers on `deps = {` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "answer": "print(\"POLICY: renombrar ClientRecord es MAJOR; documenta migración\")",
+      "code": "print(\"POLICY: renombrar ClientRecord es MAJOR; documenta migración\")\nprint(\"POLICY: campos nuevos opcionales pueden ser minor\")\nprint(\"POLICY: fix bugs sin cambio de API = patch\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T2-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe una políti». Delivered code centers on `print(\"POLICY: renombrar ClientRecord es MAJOR; documenta migración\")` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "answer": "import argparse",
+      "code": "import argparse\np = argparse.ArgumentParser()\nsub = p.add_subparsers(dest=\"cmd\", required=True)\nr = sub.add_parser(\"report\")\nr.add_argument(\"--format\", choices=[\"text\", \"json\"], default=\"text\")\nns = p.parse_args([\"report\", \"--format\", \"json\"])\nprint(ns)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T3-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Añade subcomando report c». Delivered code centers on `import argparse` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "answer": "codes = {",
+      "code": "codes = {\n    \"normalize ok\": 0,\n    \"archivo de input no existe\": 1,\n    \"flag desconocido\": 2,\n    \"subcomando ausente\": 2,\n    \"validación de config falla al arrancar\": 1,\n}\nfor c, code in codes.items():\n    print(f\"{c}: {code}\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T3-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Mapea situaciones ». Delivered code centers on `codes = {` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "answer": "print(\"Uso: familiarity report --format json|text\")",
+      "code": "print(\"Uso: familiarity report --format json|text\")\nprint(\"Lee un archivo de entrada y emite el reporte en stdout\")\nprint(\"Errores de uso → exit 2; fallos de datos/config → exit 1\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T3-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe 3 líneas d». Delivered code centers on `print(\"Uso: familiarity report --format json|text\")` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "answer": "from io import StringIO",
+      "code": "from io import StringIO\n\ndef process(n: int, err: StringIO) -> int:\n    err.write(\"event=done\\n\")\n    return n * 2\nerr = StringIO()\nout = process(3, err)\nprint(out)\nprint(\"stderr:\", err.getvalue().strip())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T3-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe resultado a stdou». Delivered code centers on `from io import StringIO` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "answer": "def read_input(path_or_dash, stdin_text=\"\", file_text=None):",
+      "code": "def read_input(path_or_dash, stdin_text=\"\", file_text=None):\n    if path_or_dash == \"-\":\n        return stdin_text\n    return file_text if file_text is not None else f\"<read {path_or_dash}>\"\nprint(read_input(\"-\", stdin_text=\"hola\"))\nprint(read_input(\"f.txt\", file_text=\"data\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T3-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implementa `read_i». Delivered code centers on `def read_input(path_or_dash, stdin_text=\"\", file_text=None):` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "answer": "from io import StringIO",
+      "code": "from io import StringIO\n\ndef bad_cli():\n    print(\"progreso 50%\")  # contamina stdout\n    print('{\"ok\": true}')\n\ndef good_cli(err: StringIO):\n    err.write(\"progreso 50%\\n\")\n    return '{\"ok\": true}'\nerr = StringIO()\nprint(good_cli(err))\nprint(\"logs→stderr:\", err.getvalue().strip())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T3-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Revisa un CLI que ». Delivered code centers on `from io import StringIO` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "answer": "layers = [\"defaults\", \"file\", \"env\", \"flags\"]",
+      "code": "layers = [\"defaults\", \"file\", \"env\", \"flags\"]\nparts = [f\"{i}:{name}\" for i, name in enumerate(layers, 1)]\nprint(\" | \".join(parts))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T4-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Imprime la tabla de prece». Delivered code centers on `layers = [\"defaults\", \"file\", \"env\", \"flags\"]` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "answer": "def merge(defaults, file_cfg, env_cfg, flags):",
+      "code": "def merge(defaults, file_cfg, env_cfg, flags):\n    out = dict(defaults)\n    for layer in (file_cfg, env_cfg, flags):\n        for k, v in layer.items():\n            if v is not None:\n                out[k] = v\n    return out\nprint(merge({\"log\": \"INFO\", \"n\": 1}, {\"n\": 2}, {\"log\": \"DEBUG\"}, {\"log\": None}))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T4-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implementa `merge(». Delivered code centers on `def merge(defaults, file_cfg, env_cfg, flags):` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "answer": "print(\"result=INFO | razon=el flag CLI tiene mayor precedencia que env\")",
+      "code": "print(\"result=INFO | razon=el flag CLI tiene mayor precedencia que env\")\nprint(\"capas: defaults < file < env < flags\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T4-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Caso conflictivo: ». Delivered code centers on `print(\"result=INFO | razon=el flag CLI tiene mayor precedencia que env\")` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "answer": "for pat in [\".env\", \".env.*\", \"*.pem\", \"secrets/\"]:",
+      "code": "for pat in [\".env\", \".env.*\", \"*.pem\", \"secrets/\"]:\n    print(\"ignore:\", pat)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T4-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Checklist de secretos en ». Delivered code centers on `for pat in [\".env\", \".env.*\", \"*.pem\", \"secrets/\"]:` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "answer": "def validate_config(cfg: dict) -> None:",
+      "code": "def validate_config(cfg: dict) -> None:\n    for key in (\"log_level\", \"data_dir\"):\n        if key not in cfg or cfg[key] in (None, \"\"):\n            raise ValueError(f\"config incompleta: falta {key}\")\nvalidate_config({\"log_level\": \"INFO\", \"data_dir\": \"/data\"})\ntry:\n    validate_config({\"log_level\": \"INFO\"})\nexcept ValueError as e:\n    print(\"err\", e)\nprint(\"ok\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T4-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implementa `valida». Delivered code centers on `def validate_config(cfg: dict) -> None:` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "answer": "inseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}",
+      "code": "inseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}\nseguro = {\"log_level\": \"INFO\", \"echo_sql\": False, \"api_token\": None}\nfor k in inseguro:\n    print(f\"{k}: {inseguro[k]!r} -> {seguro[k]!r}\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "módulos",
+        "CLI",
+        "config"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S10-T4-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Dado un default in». Delivered code centers on `inseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}` matching theory/iDo («Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys»). Concepts: módulos, CLI, config."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q0 «¿Para qué sirve `if __name__ == '__main__'`?» — choose «Ejecutar el CLI/demo solo al correr el módulo, no al importar» because packet theory says «Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys.modules`. **`__name». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "flags > env > file > defaults",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q1 «Precedencia correcta de config…» — choose «flags > env > file > defaults» because packet theory says «Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys.modules`. **`__name». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Error de uso/parseo de argumentos",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q2 «Exit code 2 en CLI argparse suele significar…» — choose «Error de uso/parseo de argumentos» because packet theory says «Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys.modules`. **`__name». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "stderr",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q3 «¿Dónde van los logs de progreso?» — choose «stderr» because packet theory says «Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys.modules`. **`__name». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "minor",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q4 «Añadir un subcomando nuevo compatible es tipicamente…» — choose «minor» because packet theory says «Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys.modules`. **`__name». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "chosen_text": ".env con API_TOKEN",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q5 «¿Qué no debe ir al git del paquete?» — choose «.env con API_TOKEN» because packet theory says «Imports, namespaces y __main__: `import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys.modules`. **`__name». Other options invent speed/compile/legal myths not present in the slim packet."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:16:34.021208+00:00"
+}

@@ -1,0 +1,380 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 11,
+  "packet_sha": "5337c2dfbd6c4bfc",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s11-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "answer": "from dataclasses import dataclass, field",
+      "code": "from dataclasses import dataclass, field\nfrom typing import List\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    names: List[str] = field(default_factory=list)\n\nc = ClientRecord(\"C001\", [\"Ana\"])\nprint(c)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T1-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Completa la dataclass Clien». Delivered code centers on `from dataclasses import dataclass, field` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "answer": "from dataclasses import dataclass",
+      "code": "from dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass(frozen=True)\nclass Transaction:\n    tx_id: str\n    amount: Decimal\n    currency: str = \"PEN\"\n\nprint(Transaction(\"T1\", Decimal(\"10.50\")))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T1-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Define Transaction c». Delivered code centers on `from dataclasses import dataclass` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "answer": "from dataclasses import dataclass",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass PersonInfo:\n    nombres: str\n    apellido_paterno: str\n\nraw = {\"nombres\": \"Ana\", \"apellido_paterno\": \"Quispe\"}\np = PersonInfo(**raw)\nprint(p)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T1-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Migra un dict anónim». Delivered code centers on `from dataclasses import dataclass` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "answer": "from dataclasses import dataclass",
+      "code": "from dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass\nclass Tx:\n    amount: Decimal\n    def __post_init__(self):\n        if self.amount < 0:\n            raise ValueError(\"amount >= 0\")\nprint(Tx(Decimal(\"1\")))\ntry:\n    Tx(Decimal(\"-1\"))\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T1-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Añade invariantes: amount D». Delivered code centers on `from dataclasses import dataclass` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "answer": "from dataclasses import dataclass",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Client:\n    client_id: str\n    nombre: str\n    @classmethod\n    def from_dict(cls, d):\n        if \"client_id\" not in d:\n            raise ValueError(\"missing client_id\")\n        return cls(d[\"client_id\"], d.get(\"nombre\", \"\"))\nprint(Client.from_dict({\"client_id\": \"C1\", \"nombre\": \"Ana\"}))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T1-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Factory from_dict co». Delivered code centers on `from dataclasses import dataclass` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "answer": "invariantes = [",
+      "code": "invariantes = [\n    \"client_id no vacío\",\n    \"amount >= 0 Decimal\",\n    \"email None o con @\",\n    \"signal_score en [0,1]\",\n]\nfor i in invariantes:\n    print(\"-\", i)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T1-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Lista en español 4 i». Delivered code centers on `invariantes = [` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "answer": "from dataclasses import dataclass",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first: str\n    last: str\n    @property\n    def full_name(self):\n        return f\"{self.first} {self.last}\"\nprint(Person(\"Ana\", \"Quispe\").full_name)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T2-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Property full_name desde fi». Delivered code centers on `from dataclasses import dataclass` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "answer": "from dataclasses import dataclass",
+      "code": "from dataclasses import dataclass\nfrom datetime import date\n\n@dataclass\nclass Client:\n    created: date\n    def age_days_since(self, today: date) -> int:\n        return (today - self.created).days\nprint(Client(date(2026, 1, 1)).age_days_since(date(2026, 1, 11)))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T2-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Método age_days_sinc». Delivered code centers on `from dataclasses import dataclass` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "answer": "from dataclasses import dataclass, field",
+      "code": "from dataclasses import dataclass, field\nfrom typing import List\n\n@dataclass\nclass Case:\n    _tags: List[str] = field(default_factory=list)\n    def add_tag(self, t: str) -> None:\n        if t and t not in self._tags:\n            self._tags.append(t)\n    @property\n    def tags(self):\n        return list(self._tags)\nc = Case()\nc.add_tag(\"review\")\nprint(c.tags)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T2-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Encapsula mutación d». Delivered code centers on `from dataclasses import dataclass, field` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "answer": "from dataclasses import dataclass",
+      "code": "from dataclasses import dataclass\nfrom typing import List\n\n@dataclass(frozen=True)\nclass ResolvedEntity:\n    entity_id: str\n    member_ids: tuple\nprint(ResolvedEntity(\"E1\", (\"C1\", \"C2\")))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T2-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Implementa ResolvedEntity f». Delivered code centers on `from dataclasses import dataclass` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "answer": "from dataclasses import dataclass",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Evidence:\n    kind: str\n    signal_score: float\n    def __post_init__(self):\n        if not 0 <= self.signal_score <= 1:\n            raise ValueError(\"score in [0,1]\")\nprint(Evidence(\"email\", 0.8))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T2-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Crea Evidence frozen». Delivered code centers on `from dataclasses import dataclass` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "answer": "from dataclasses import dataclass, field",
+      "code": "from dataclasses import dataclass, field\nfrom typing import List\n\n@dataclass\nclass Good:\n    tags: List[str] = field(default_factory=list)\n\na, b = Good(), Good()\na.tags.append(\"x\")\nprint(\"default_factory aisla\", a.tags, b.tags)\nprint(\"nunca uses = [] compartido entre instancias de dataclass\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T2-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Demuestra el bug de ». Delivered code centers on `from dataclasses import dataclass, field` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "answer": "from dataclasses import dataclass",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass PersonInfo:\n    name: str\n\n@dataclass\nclass Client:\n    info: PersonInfo\n    client_id: str\n\nprint(Client(PersonInfo(\"Ana\"), \"C1\"))\nprint(\"composición > herencia frágil Person→Client\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T3-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Reemplaza herencia innecesa». Delivered code centers on `from dataclasses import dataclass` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "answer": "from dataclasses import dataclass, field",
+      "code": "from dataclasses import dataclass, field\nfrom typing import List\n\n@dataclass\nclass Evidence:\n    kind: str\n    score: float\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidence: List[Evidence] = field(default_factory=list)\n    def add(self, e: Evidence):\n        self.evidence.append(e)\ncf = CaseFile(\"CF1\")\ncf.add(Evidence(\"email\", 0.7))\nprint(cf)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T3-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: CaseFile agrega evid». Delivered code centers on `from dataclasses import dataclass, field` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "answer": "print(\"Client hereda Person es frágil: acopla ciclos de vida y tests\")",
+      "code": "print(\"Client hereda Person es frágil: acopla ciclos de vida y tests\")\nprint(\"composición Client(info=PersonInfo) limita superficie y permite mocks\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T3-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Justifica en 2 línea». Delivered code centers on `print(\"Client hereda Person es frágil: acopla ciclos de vida y tests\")` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "answer": "from typing import Protocol",
+      "code": "from typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, a: str, b: str) -> float: ...\n\nclass ExactScorer:\n    def score(self, a: str, b: str) -> float:\n        return 1.0 if a == b else 0.0\nprint(ExactScorer().score(\"a\", \"a\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T3-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Define Protocol Scorer con ». Delivered code centers on `from typing import Protocol` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "answer": "class Exact:",
+      "code": "class Exact:\n    def score(self, a, b):\n        return 1.0 if a == b else 0.0\nclass AlwaysHalf:\n    def score(self, a, b):\n        return 0.5\ndef run(scorer, a, b):\n    return scorer.score(a, b)\nprint(run(Exact(), \"x\", \"x\"), run(AlwaysHalf(), \"x\", \"y\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T3-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Dos implementaciones». Delivered code centers on `class Exact:` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "answer": "print(\"Protocol permite fakes en tests sin DB real\")",
+      "code": "print(\"Protocol permite fakes en tests sin DB real\")\nprint(\"puerto get/save desacopla dominio de adapters SQL/API\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T3-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Escribe 2 razones pa». Delivered code centers on `print(\"Protocol permite fakes en tests sin DB real\")` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "answer": "from dataclasses import dataclass, asdict",
+      "code": "from dataclasses import dataclass, asdict\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    nombre: str\nprint(asdict(ClientRecord(\"C1\", \"Ana\")))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T4-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: to_dict de ClientRecord sin». Delivered code centers on `from dataclasses import dataclass, asdict` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "answer": "class InMemoryRepo:",
+      "code": "class InMemoryRepo:\n    def __init__(self):\n        self._d = {}\n    def save(self, entity):\n        self._d[entity[\"id\"]] = entity\n    def get(self, id_):\n        return self._d.get(id_)\nr = InMemoryRepo()\nr.save({\"id\": \"C1\", \"n\": \"Ana\"})\nprint(r.get(\"C1\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T4-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Repository save/get ». Delivered code centers on `class InMemoryRepo:` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "answer": "print(\"UI/CLI → application service → domain entities → ports(Repo/Scorer) → adapters\")",
+      "code": "print(\"UI/CLI → application service → domain entities → ports(Repo/Scorer) → adapters\")\nprint(\"dominio no importa requests ni SQL\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T4-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Dibuja en texto la f». Delivered code centers on `print(\"UI/CLI → application service → domain entities → ports(Repo/Scorer) → adapters\")` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "answer": "from dataclasses import dataclass",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    def __post_init__(self):\n        if not self.client_id:\n            raise ValueError(\"client_id required\")\ntry:\n    ClientRecord(\"\")\nexcept ValueError:\n    print(\"invariant PASS\")\nprint(ClientRecord(\"C1\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T4-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Test de invariante ClientRe». Delivered code centers on `from dataclasses import dataclass` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "answer": "class FakeRepo:",
+      "code": "class FakeRepo:\n    def __init__(self):\n        self.data = {}\n    def save(self, e):\n        self.data[e[\"id\"]] = e\n    def get(self, i):\n        return self.data[i]\nr = FakeRepo()\nr.save({\"id\": \"C1\"})\nassert r.get(\"C1\")[\"id\"] == \"C1\"\nassert \"C2\" not in r.data\nr.save({\"id\": \"C2\"})\nassert len(r.data) == 2\nprint(\"3 tests PASS\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T4-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Fake repo en 3 tests». Delivered code centers on `class FakeRepo:` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "answer": "print(\"smell: is_fraud() automático en dominio → eliminar\")",
+      "code": "print(\"smell: is_fraud() automático en dominio → eliminar\")\nprint(\"reemplazar por signal_score + ops status fuera del core\")\nprint(\"dominio expone evidencia, no veredictos legales\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "dataclass",
+        "invariantes",
+        "Protocol"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S11-T4-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Revisa una clase con». Delivered code centers on `print(\"smell: is_fraud() automático en dominio → eliminar\")` matching theory/iDo («Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@data»). Concepts: dataclass, invariantes, Protocol."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Evita el default mutable compartido entre instancias",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q0 «¿Por qué `field(default_factory=list)` y no `= []`?» — choose «Evita el default mutable compartido entre instancias» because packet theory says «Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__ini». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Una señal/dato numérico, no un veredicto de fraude o familia",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q1 «RelationshipEvidence.signal_score representa…» — choose «Una señal/dato numérico, no un veredicto de fraude o familia» because packet theory says «Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__ini». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Definir un puerto get/save implementable por fakes y adapters",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q2 «Un Protocol EntityStore sirve para…» — choose «Definir un puerto get/save implementable por fakes y adapters» because packet theory says «Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__ini». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "En la construcción (__post_init__/validate)",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q3 «Objeto inválido: ¿cuándo fallar?» — choose «En la construcción (__post_init__/validate)» because packet theory says «Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__ini». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q4 «Client hereda de Person…» — choose «A menudo es frágil; composición (Client tiene PersonInfo) suele bastar» because packet theory says «Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__ini». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "chosen_text": "is_fraud() automático",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q5 «¿Qué no debe tener el dominio de familiaridad?» — choose «is_fraud() automático» because packet theory says «Clases, instancias y dataclass: Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__ini». Other options invent speed/compile/legal myths not present in the slim packet."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:17:04.945802+00:00"
+}

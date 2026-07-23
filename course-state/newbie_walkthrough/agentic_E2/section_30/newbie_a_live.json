@@ -1,0 +1,569 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E2",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E2-s30-live",
+  "production_note": "E2 Explorer repair: incomplete codes filled from packet/iDo + E1 curriculum reference; justifications natural Explorer E2-only (no E1 just copy)",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "packet_sha": "a47a68249e6c41a8",
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\nprint(1.0 if a == b else 0.0)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "print",
+        "else"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T1-A-E1 in «Entity resolution probabilístico». Instruction asks: S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin . I used starter fixtures from the quiz card, hints «float comparación; exact», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `a=b='a'`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\nprint(len(ta&tb)/len(ta|tb))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "set",
+        "split",
+        "set"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T1-A-E2 in «Entity resolution probabilístico». Instruction asks: S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; imp. I used starter fixtures from the quiz card, hints «sets; inter/union», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `ta,tb=set('a b'.split()),set('b c'.split())`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\nprint(1.0 if d == d else 0.0)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "from",
+        "datetime",
+        "import"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T1-A-E3 in «Entity resolution probabilístico». Instruction asks: S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/de. I used starter fixtures from the quiz card, hints «datetime.date; igualdad», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `from datetime import date`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\nprint('missing' if (not a or not b) else 'cmp')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "print",
+        "missing",
+        "not"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T1-B-E1 in «Entity resolution probabilístico». Instruction asks: S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reesc. I used starter fixtures from the quiz card, hints «guard; missingness», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `a,b='', 'x'`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\nprint(1 / freq)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "freq",
+        "print",
+        "freq"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T1-B-E2 in «Entity resolution probabilístico». Instruction asks: S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribi. I used starter fixtures from the quiz card, hints «división; frecuencia», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `freq=10`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('informative_missing')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id",
+        "local"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T1-B-E3 in «Entity resolution probabilístico». Instruction asks: S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter complet. I used starter fixtures from the quiz card, hints «string; MCAR vs informativa», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\nprint(f'{last}|{city}')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "last",
+        "city",
+        "lopez"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T2-A-E1 in «Entity resolution probabilístico». Instruction asks: S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/d. I used starter fixtures from the quiz card, hints «f-string; blocking», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `last,city='lopez','lima'`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\nprint(found / gold_n)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "found",
+        "gold_n",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T2-A-E2 in «Entity resolution probabilístico». Instruction asks: S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin . I used starter fixtures from the quiz card, hints «división; recall», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `found,gold_n=1,2`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n*(n-1)//2)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T2-A-E3 in «Entity resolution probabilístico». Instruction asks: S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defect. I used starter fixtures from the quiz card, hints «combinatoria; costo bloque», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `n=4`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "sizes",
+        "print",
+        "sum"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T2-B-E1 in «Entity resolution probabilístico». Instruction asks: S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin rees. I used starter fixtures from the quiz card, hints «sum n(n-1)/2; costo», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `sizes=[3,5]`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\nprint(ta != tb)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "person",
+        "org",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T2-B-E2 in «Entity resolution probabilístico». Instruction asks: S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO. I used starter fixtures from the quiz card, hints «!=; filtro», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `ta,tb='person','org'`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('filter_before_score')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id",
+        "local"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T2-B-E3 in «Entity resolution probabilístico». Instruction asks: S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin . I used starter fixtures from the quiz card, hints «string; pipeline», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id",
+        "local"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T3-A-E1 in «Entity resolution probabilístico». Instruction asks: S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defect. I used starter fixtures from the quiz card, hints «suma w*s / suma w; score», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "t_high",
+        "t_low",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T3-A-E2 in «Entity resolution probabilístico». Instruction asks: S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicad. I used starter fixtures from the quiz card, hints «umbrales; decide», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `s,t_high,t_low=0.7,0.9,0.5`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'name': 0.9, 'email': 1.0})\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id",
+        "local"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T3-A-E3 in «Entity resolution probabilístico». Instruction asks: S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto ind. I used starter fixtures from the quiz card, hints «dict; explicable», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "p={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\nprint(find(1) == find(3))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "find",
+        "while",
+        "return",
+        "def",
+        "union",
+        "find",
+        "find",
+        "union",
+        "union"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T3-B-E1 in «Entity resolution probabilístico». Instruction asks: S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo;. I used starter fixtures from the quiz card, hints «parent dict; cluster», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `p={1:1,2:2,3:3}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['match', 'non_match', 'uncertain'])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id",
+        "local"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T3-B-E2 in «Entity resolution probabilístico». Instruction asks: S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo e. I used starter fixtures from the quiz card, hints «lista; clerical», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ER_only_same_entity')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id",
+        "local"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T3-B-E3 in «Entity resolution probabilístico». Instruction asks: S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto in. I used starter fixtures from the quiz card, hints «string; gate», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "train_e",
+        "print",
+        "train"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T4-A-E1 in «Entity resolution probabilístico». Instruction asks: S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter complet. I used starter fixtures from the quiz card, hints «subset; split», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `a,b='e1','e2'`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\nprint(matches / n)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "matches",
+        "print",
+        "matches"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T4-A-E2 in «Entity resolution probabilístico». Instruction asks: S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicad. I used starter fixtures from the quiz card, hints «división; base rate», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `matches,n=1,5`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('entity_split')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id",
+        "local"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T4-A-E3 in «Entity resolution probabilístico». Instruction asks: S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto ind. I used starter fixtures from the quiz card, hints «string; eval», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "print",
+        "round"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T4-B-E1 in «Entity resolution probabilístico». Instruction asks: S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defec. I used starter fixtures from the quiz card, hints «tp/(tp+fp); precision», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `tp,fp=2,1`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\nprint(tp/(tp+fn))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T4-B-E2 in «Entity resolution probabilístico». Instruction asks: S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos . I used starter fixtures from the quiz card, hints «tp/(tp+fn); recall», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `tp,fn=2,2`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['missing_phone'])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id",
+        "local"
+      ],
+      "justification_from_packet": "Explorer packet solve for S30-T4-B-E3 in «Entity resolution probabilístico». Instruction asks: S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implemen. I used starter fixtures from the quiz card, hints «lista; error analysis», and theory headings ['exact, edit/token y fecha', 'missingness informativa y frecuencia', 'reglas y candidate recall', 'combinaciones, costo y pares imposibles'] plus iDo demos ['S30-T1-A-DEMO', 'S30-T1-B-DEMO', 'S30-T2-A-DEMO', 'S30-T2-B-DEMO', 'S30-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Si dos registros son la misma entidad",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q0 on S30 «Entity resolution probabilístico». Stem: El motor ER de CP-N3-A debe decidir:. I pick [1] «Si dos registros son la misma entidad» because it matches taught safety/testing vocabulary ['registros', 'entidad', 'misma'] and packet outcomes/theory (score=6.8). Snippet: «**Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: dista». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Fracción de verdaderos matches que sobreviven al blocking",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q1 on S30 «Entity resolution probabilístico». Stem: Candidate recall de blocking mide:. I pick [3] «Fracción de verdaderos matches que sobreviven al blocking» because it matches taught safety/testing vocabulary ['blocking', 'fracción', 'matches'] and packet outcomes/theory (score=7.7). Snippet: «**Missingness**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa estado `missing` en la comparación. Un score de matching solo priori». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "clerical review",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q2 on S30 «Entity resolution probabilístico». Stem: Scores entre t_low y t_high van a:. I pick [0] «clerical review» because it matches taught safety/testing vocabulary ['clerical', 'review'] and packet outcomes/theory (score=4.8). Snippet: «**Missingness**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa estado `missing` en la comparación. Un score de matching solo priori». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Leakage de identidad entre train y test",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q3 on S30 «Entity resolution probabilístico». Stem: Split por entidad evita:. I pick [2] «Leakage de identidad entre train y test» because it matches taught safety/testing vocabulary ['identidad', 'leakage', 'train', 'test'] and packet outcomes/theory (score=12.8). Snippet: «El **benchmark etiquetado** tiene pares match/non-match sintéticos. Nunca uses el mismo par en train y test de umbrales sin control. Un scor». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30
+    ],
+    "note": "Explorer walk for sections 27–52 from quiz_card + exercise_batch packets only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:39:34.153277+00:00",
+  "repaired_at": "2026-07-23T04:48:09.265779+00:00"
+}

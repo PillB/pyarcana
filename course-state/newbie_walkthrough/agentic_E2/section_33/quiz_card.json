@@ -1,0 +1,420 @@
+{
+  "section_index": 33,
+  "title": "ML supervisado y baselines responsables",
+  "outcomes": [
+    "Definir unidad, target y horizonte",
+    "Fijar baseline de regla y dummy",
+    "Entrenar modelos lineales regularizados",
+    "Interpretar coeficientes y supuestos",
+    "Entrenar árboles y ensambles",
+    "Controlar overfit y reproducibilidad",
+    "Registrar experimentos mínimos",
+    "Hacer CV y análisis de errores"
+  ],
+  "theory": [
+    {
+      "heading": "unidad, target y horizonte",
+      "paragraphs": [
+        "La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este workbench es un breach de producto. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: unit, target name, horizon_days. Salida: framing válido. Error: target con substring fraud o horizonte vacío. Criterio: needs_review_* con horizonte explícito. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-033`: unit=entity_pair, target=needs_review_7d, horizon=7. Prevalencia de y=[0,1,0,0] se reporta antes de entrenar. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "unit, target, horizon = \"entity_pair\", \"needs_review_7d\", 7\nprint(\"unit\", unit)\nprint(\"target\", target)\nprint(\"horizon\", horizon)\nprint(\"fraud_name\", \"fraud\" in target)"
+    },
+    {
+      "heading": "costos, baseline de regla y dummy estimator",
+      "paragraphs": [
+        "El dummy majority y una regla simple (x>=thr) anclan el valor mínimo. El costo fp*c_fp+fn*c_fn traduce errores a impacto de cola, no a moral de fraude. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: y, regla, costos. Salida: acc dummy/regla y costo total. Error: entrenar modelo sin baseline. Criterio: beats_dummy se calcula después. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-033`: y=[1,1,0] dummy predice 1; regla x>=1 con costo fp*1+fn*5 documentado. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "y = [1, 1, 0]\ndummy = [1, 1, 1]\nacc = sum(a == b for a, b in zip(y, dummy)) / len(y)\ncost = 2 * 1 + 1 * 5\nprint(\"dummy_acc\", round(acc, 3))\nprint(\"cost\", cost)\nprint(\"has_baseline\", True)"
+    },
+    {
+      "heading": "regresión/logística y regularización",
+      "paragraphs": [
+        "La logística con sigmoid y regularización L2 limita coeficientes grandes. Un umbral convierte probabilidad en priorización de cola, no en veredicto. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: w, b, x, thr. Salida: p y pred. Error: modelo sin regularización cuando p>>n features. Criterio: penalty L2 reportada. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-033`: sigmoid(0)=0.5; w=1,b=0,x=0.2 thr=0.5 → pred 0; L2 de w=[1,2] es 5. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "import math\ndef sigmoid(z):\n    return 1 / (1 + math.exp(-z))\nprint(round(sigmoid(0), 3), round(sigmoid(2), 3))\nw, b, x, thr = 1.0, 0.0, 0.2, 0.5\npred = int(sigmoid(w * x + b) >= thr)\nprint(\"pred\", pred)\nprint(\"l2\", sum(v * v for v in [1, 2]))"
+    },
+    {
+      "heading": "coeficientes, supuestos y scaling",
+      "paragraphs": [
+        "Comparar |coef| exige features escaladas. El signo indica dirección de asociación en el modelo, no causalidad social ni fraude probado. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: coefs y scale_flag. Salida: ranking por |w| y signo. Error: interpretar coefs unscaled como importancia. Criterio: scale_flag=True antes de rank. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-033`: shared_phone=0.8 positivo ordena arriba si scaled; se imprime signo sin claim causal. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "coefs = {\"shared_phone\": 0.8, \"amount_z\": -0.2}\nassert True  # scaled\nranked = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True)\nprint(ranked)\nprint(\"sign_shared_phone\", \"pos\" if coefs[\"shared_phone\"] > 0 else \"neg\")\nprint(\"causal\", False)"
+    },
+    {
+      "heading": "decisiones y random forest/boosting",
+      "paragraphs": [
+        "Un stump (árbol profundidad 1) y el voto de varios stumps ilustran ensambles sin APIs pesadas. Profundidad ilimitada overfittea el workbench sintético. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: X, thr stump, lista de preds. Salida: pred stump y majority vote. Error: depth ilimitada sin valid. Criterio: comparar stump vs dummy. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-033`: thr=0.3 sobre [0.1,0.4]; voto de tres stumps; acc stump vs majority dummy. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "X = [0.1, 0.4]\nthr = 0.3\npreds = [int(x >= thr) for x in X]\nvotes = [1, 0, 1]\nmaj = int(sum(votes) >= 2)\nprint(\"stump\", preds)\nprint(\"majority\", maj)\nprint(\"depth_unlimited\", False)"
+    },
+    {
+      "heading": "overfit, profundidad y reproducibilidad",
+      "paragraphs": [
+        "Gap train−valid > umbral señala overfit. Fijar seed hace comparable la corrida. Sin seed, el workbench no puede auditar regresiones. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: train_acc, valid_acc, seed. Salida: overfit flag y secuencia reproducible. Error: elegir depth solo por train. Criterio: best depth por valid. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-033`: depths valids eligen mínimo gap; seed fija tres ints; overfit si gap>0.2. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "train, valid = 0.95, 0.70\ngap = train - valid\nprint(\"overfit\", gap > 0.2)\nimport random\nrandom.seed(42)\nprint([random.randint(0, 9) for _ in range(3)])\nprint(\"seed\", 42)"
+    },
+    {
+      "heading": "pipeline y tracking mínimo",
+      "paragraphs": [
+        "Un run mínimo registra metrics keys, params y si beats_dummy. Sin log, no hay comparación responsable entre experimentos del workbench. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: metrics dict. Salida: keys sorted y beats_dummy. Error: run sin metrics. Criterio: JSON de run con campos mínimos. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-033`: keys accuracy,f1 sorted; campos run_id,params,metrics; beats_dummy True solo si supera baseline. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "metrics = {\"f1\": 0.6, \"accuracy\": 0.7}\nprint(sorted(metrics))\nprint(\"fields\", [\"run_id\", \"params\", \"metrics\"])\nprint(\"beats_dummy\", True)"
+    },
+    {
+      "heading": "validación cruzada apropiada y error analysis",
+      "paragraphs": [
+        "Group CV por entidad evita leakage entre folds. El análisis de errores mira el slice con más FN, no solo la media global de folds. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: fold scores y entity ids. Salida: mean folds y n_groups. Error: random split con misma entidad en train y test. Criterio: n_groups = n unique entities. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-033`: mean de folds; slice con más FN; groups = unique entities del batch sintético. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "folds = [0.6, 0.7, 0.65]\nentities = [\"e1\", \"e1\", \"e2\", \"e3\"]\nprint(\"mean\", round(sum(folds) / len(folds), 3))\nprint(\"n_groups\", len(set(entities)))\nprint(\"random_leak_ok\", False)"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S33-T1-A-DEMO",
+      "description": "Imprime unit, target needs_review_7d y horizon 7 rechazando nombre fraud.",
+      "why": "El framing cierra el problema de scoring de cola sin convertir el target en fraude.",
+      "code": "print('entity_pair', 'needs_review_7d', 7)\nprint('fraud_name', False)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S33-T1-B-DEMO",
+      "description": "Dummy majority y costo total fp*c_fp+fn*c_fn como baseline obligatorio.",
+      "why": "Sin baseline y costo, el ML no demuestra valor incremental en el workbench.",
+      "code": "print('dummy_acc', 0.667)\nprint('cost', 7)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S33-T2-A-DEMO",
+      "description": "sigmoid(0) y predicción umbralada con penalización L2 ilustrativa.",
+      "why": "La logística regularizada da scores interpretables antes de árboles más flexibles.",
+      "code": "print(0.5, 0.881)\nprint('pred', 0)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S33-T2-B-DEMO",
+      "description": "Ranking de |coef| con features scaled y signo sin claim causal.",
+      "why": "Coeficientes comparables exigen scaling; el signo no prueba causa social ni fraude.",
+      "code": "print(['shared_phone', 'amount_z'])\nprint('causal', False)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S33-T3-A-DEMO",
+      "description": "Stump thr=0.3 y majority vote de tres predictores débiles.",
+      "why": "Ensamble simple muestra ganancia sin profundidad ilimitada ni APIs no enseñadas.",
+      "code": "print([0, 1])\nprint('majority', 1)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S33-T3-B-DEMO",
+      "description": "Detecta overfit por gap train-valid y fija seed para tres enteros.",
+      "why": "Reproducibilidad y control de overfit son requisitos de experimentación responsable.",
+      "code": "print('overfit', True)\nprint([1, 0, 4])\nprint('ok', True)"
+    },
+    {
+      "demoId": "S33-T4-A-DEMO",
+      "description": "Keys de metrics sorted y campos mínimos de run con beats_dummy.",
+      "why": "El tracking mínimo permite comparar runs y exigir superación del dummy.",
+      "code": "print(['accuracy', 'f1'])\nprint('beats_dummy', True)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S33-T4-B-DEMO",
+      "description": "Mean de folds y n_groups por entidades únicas en group CV.",
+      "why": "Group CV evita que la misma entidad contamine train y valid del workbench.",
+      "code": "print(0.65)\nprint('n_groups', 3)\nprint('ok', True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El target del workbench debe:",
+      "options": [
+        "Ser needs_review con horizonte",
+        "Llamarse is_fraud",
+        "Omitir unidad",
+        "Ignorar prevalencia"
+      ]
+    },
+    {
+      "question": "Antes del modelo ML conviene:",
+      "options": [
+        "Solo deep learning",
+        "Borrar features",
+        "Dummy/regla y costos",
+        "Cambiar el thr a 0"
+      ]
+    },
+    {
+      "question": "Comparar coeficientes exige:",
+      "options": [
+        "Features sin escala",
+        "SHAP obligatorio",
+        "Depth ilimitada",
+        "Features scaled y causal=False"
+      ]
+    },
+    {
+      "question": "Group CV por entidad evita:",
+      "options": [
+        "Usar métricas",
+        "Leakage de la misma entidad entre folds",
+        "Registrar runs",
+        "Fijar seed"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S33-T1-A-E1",
+      "instruction": "S33-T1-A-E1 · Calcula el contrato de `unidad, target y horizonte` sobre `CASO-LIM-033-1A`. La entrada es el dict completo del starter; la operación debe demostrar target needs_review con horizonte y unit. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S33-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_FRAUD_TARGET` en E2.",
+      "hints": [
+        "Relaciona los campos `unit, target, horizon` con la regla explicada en S33-T1-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva target needs_review con horizonte y unit; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\nmeets_contract = \"fraud\" in record[\"target\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_FRAUD_TARGET\"\nprint(\"S33-T1-A\", status)\n"
+    },
+    {
+      "id": "S33-T1-A-E2",
+      "instruction": "S33-T1-A-E2 · Modela tres rutas de `unidad, target y horizonte`: fixture válido, fixture adverso y registro sin `horizon`. Entrada: dict con case_id, unit, target, horizon. Salidas exactas: `PASS`, `REJECT_FRAUD_TARGET`, `MISSING:horizon`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a horizon debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T1-A: target needs_review con horizonte y unit. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'unit', 'target', 'horizon'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if \"fraud\" in record[\"target\"] else \"REJECT_FRAUD_TARGET\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}\nincomplete = {**valid}\nincomplete.pop(\"horizon\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T1-A-E3",
+      "instruction": "S33-T1-A-E3 · Contrasta fallo cerrado para `unidad, target y horizonte` con tres fixtures distintos. `CASO-LIM-033-1A` debe continuar, el adverso debe devolver `REJECT_FRAUD_TARGET` y la ausencia de `horizon` debe devolver `REQUEST_HORIZON`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_HORIZON` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró target needs_review con horizonte y unit; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'unit', 'target', 'horizon'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if \"fraud\" in record[\"target\"] else \"REJECT_FRAUD_TARGET\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}\nuncertain = {**valid}\nuncertain.pop(\"horizon\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T1-B-E1",
+      "instruction": "S33-T1-B-E1 · Calcula el contrato de `costos, baseline de regla y dummy estimator` sobre `CASO-LIM-033-1B`. La entrada es el dict completo del starter; la operación debe demostrar baseline y costo no nulos. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S33-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_NO_BASELINE` en E2.",
+      "hints": [
+        "Relaciona los campos `dummy_acc, cost, has_baseline` con la regla explicada en S33-T1-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva baseline y costo no nulos; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\nmeets_contract = record[\"has_baseline\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_NO_BASELINE\"\nprint(\"S33-T1-B\", status)\n"
+    },
+    {
+      "id": "S33-T1-B-E2",
+      "instruction": "S33-T1-B-E2 · Modela tres rutas de `costos, baseline de regla y dummy estimator`: fixture válido, fixture adverso y registro sin `cost`. Entrada: dict con case_id, dummy_acc, cost, has_baseline. Salidas exactas: `PASS`, `REJECT_NO_BASELINE`, `MISSING:cost`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a cost debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T1-B: baseline y costo no nulos. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'dummy_acc', 'cost', 'has_baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"has_baseline\"] is False else \"REJECT_NO_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}\nincomplete = {**valid}\nincomplete.pop(\"cost\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T1-B-E3",
+      "instruction": "S33-T1-B-E3 · Contrasta fallo cerrado para `costos, baseline de regla y dummy estimator` con tres fixtures distintos. `CASO-LIM-033-1B` debe continuar, el adverso debe devolver `REJECT_NO_BASELINE` y la ausencia de `cost` debe devolver `REQUEST_COST`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_COST` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró baseline y costo no nulos; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'dummy_acc', 'cost', 'has_baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"has_baseline\"] is False else \"REJECT_NO_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}\nuncertain = {**valid}\nuncertain.pop(\"cost\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T2-A-E1",
+      "instruction": "S33-T2-A-E1 · Calcula el contrato de `regresión/logística y regularización` sobre `CASO-LIM-033-2A`. La entrada es el dict completo del starter; la operación debe demostrar sigmoid p con L2>0 y pred binaria. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S33-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNREGULARIZED` en E2.",
+      "hints": [
+        "Relaciona los campos `p, pred, l2` con la regla explicada en S33-T2-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva sigmoid p con L2>0 y pred binaria; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\nmeets_contract = record[\"l2\"] == 0\nstatus = \"PASS\" if meets_contract else \"REJECT_UNREGULARIZED\"\nprint(\"S33-T2-A\", status)\n"
+    },
+    {
+      "id": "S33-T2-A-E2",
+      "instruction": "S33-T2-A-E2 · Modela tres rutas de `regresión/logística y regularización`: fixture válido, fixture adverso y registro sin `p`. Entrada: dict con case_id, p, pred, l2. Salidas exactas: `PASS`, `REJECT_UNREGULARIZED`, `MISSING:p`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a p debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T2-A: sigmoid p con L2>0 y pred binaria. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'pred', 'l2'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"l2\"] == 0 else \"REJECT_UNREGULARIZED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}\nincomplete = {**valid}\nincomplete.pop(\"p\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T2-A-E3",
+      "instruction": "S33-T2-A-E3 · Contrasta fallo cerrado para `regresión/logística y regularización` con tres fixtures distintos. `CASO-LIM-033-2A` debe continuar, el adverso debe devolver `REJECT_UNREGULARIZED` y la ausencia de `p` debe devolver `REQUEST_SIGMOID`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_SIGMOID` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró sigmoid p con L2>0 y pred binaria; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'p', 'pred', 'l2'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"l2\"] == 0 else \"REJECT_UNREGULARIZED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}\nuncertain = {**valid}\nuncertain.pop(\"p\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T2-B-E1",
+      "instruction": "S33-T2-B-E1 · Calcula el contrato de `coeficientes, supuestos y scaling` sobre `CASO-LIM-033-2B`. La entrada es el dict completo del starter; la operación debe demostrar coefs scaled con causal=False. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S33-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNSCALED_COEF` en E2.",
+      "hints": [
+        "Relaciona los campos `coefs, scaled, causal` con la regla explicada en S33-T2-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva coefs scaled con causal=False; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\nmeets_contract = record[\"scaled\"] is False or record[\"causal\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSCALED_COEF\"\nprint(\"S33-T2-B\", status)\n"
+    },
+    {
+      "id": "S33-T2-B-E2",
+      "instruction": "S33-T2-B-E2 · Modela tres rutas de `coeficientes, supuestos y scaling`: fixture válido, fixture adverso y registro sin `scaled`. Entrada: dict con case_id, coefs, scaled, causal. Salidas exactas: `PASS`, `REJECT_UNSCALED_COEF`, `MISSING:scaled`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a scaled debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T2-B: coefs scaled con causal=False. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'coefs', 'scaled', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"scaled\"] is False or record[\"causal\"] is True else \"REJECT_UNSCALED_COEF\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"scaled\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T2-B-E3",
+      "instruction": "S33-T2-B-E3 · Contrasta fallo cerrado para `coeficientes, supuestos y scaling` con tres fixtures distintos. `CASO-LIM-033-2B` debe continuar, el adverso debe devolver `REJECT_UNSCALED_COEF` y la ausencia de `scaled` debe devolver `REQUEST_SCALE_FLAG`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_SCALE_FLAG` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró coefs scaled con causal=False; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'coefs', 'scaled', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"scaled\"] is False or record[\"causal\"] is True else \"REJECT_UNSCALED_COEF\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}\nuncertain = {**valid}\nuncertain.pop(\"scaled\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T3-A-E1",
+      "instruction": "S33-T3-A-E1 · Calcula el contrato de `decisiones y random forest/boosting` sobre `CASO-LIM-033-3A`. La entrada es el dict completo del starter; la operación debe demostrar stump/vote con depth controlada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S33-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_DEPTH_UNLIMITED` en E2.",
+      "hints": [
+        "Relaciona los campos `stump_preds, majority, depth_unlimited` con la regla explicada en S33-T3-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva stump/vote con depth controlada; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\nmeets_contract = record[\"depth_unlimited\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_DEPTH_UNLIMITED\"\nprint(\"S33-T3-A\", status)\n"
+    },
+    {
+      "id": "S33-T3-A-E2",
+      "instruction": "S33-T3-A-E2 · Modela tres rutas de `decisiones y random forest/boosting`: fixture válido, fixture adverso y registro sin `stump_preds`. Entrada: dict con case_id, stump_preds, majority, depth_unlimited. Salidas exactas: `PASS`, `REJECT_DEPTH_UNLIMITED`, `MISSING:stump_preds`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a stump_preds debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T3-A: stump/vote con depth controlada. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'stump_preds', 'majority', 'depth_unlimited'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"depth_unlimited\"] is True else \"REJECT_DEPTH_UNLIMITED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}\nincomplete = {**valid}\nincomplete.pop(\"stump_preds\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T3-A-E3",
+      "instruction": "S33-T3-A-E3 · Contrasta fallo cerrado para `decisiones y random forest/boosting` con tres fixtures distintos. `CASO-LIM-033-3A` debe continuar, el adverso debe devolver `REJECT_DEPTH_UNLIMITED` y la ausencia de `stump_preds` debe devolver `REQUEST_STUMP`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_STUMP` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró stump/vote con depth controlada; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'stump_preds', 'majority', 'depth_unlimited'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"depth_unlimited\"] is True else \"REJECT_DEPTH_UNLIMITED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}\nuncertain = {**valid}\nuncertain.pop(\"stump_preds\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T3-B-E1",
+      "instruction": "S33-T3-B-E1 · Calcula el contrato de `overfit, profundidad y reproducibilidad` sobre `CASO-LIM-033-3B`. La entrada es el dict completo del starter; la operación debe demostrar gap controlado y seed fija. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S33-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_OVERFIT` en E2.",
+      "hints": [
+        "Relaciona los campos `train_acc, valid_acc, seed` con la regla explicada en S33-T3-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva gap controlado y seed fija; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\nmeets_contract = record[\"train_acc\"] - record[\"valid_acc\"] > 0.2\nstatus = \"PASS\" if meets_contract else \"REJECT_OVERFIT\"\nprint(\"S33-T3-B\", status)\n"
+    },
+    {
+      "id": "S33-T3-B-E2",
+      "instruction": "S33-T3-B-E2 · Modela tres rutas de `overfit, profundidad y reproducibilidad`: fixture válido, fixture adverso y registro sin `seed`. Entrada: dict con case_id, train_acc, valid_acc, seed. Salidas exactas: `PASS`, `REJECT_OVERFIT`, `MISSING:seed`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a seed debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T3-B: gap controlado y seed fija. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'train_acc', 'valid_acc', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"train_acc\"] - record[\"valid_acc\"] > 0.2 else \"REJECT_OVERFIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.99, 'valid_acc': 0.6, 'seed': 42}}\nincomplete = {**valid}\nincomplete.pop(\"seed\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T3-B-E3",
+      "instruction": "S33-T3-B-E3 · Contrasta fallo cerrado para `overfit, profundidad y reproducibilidad` con tres fixtures distintos. `CASO-LIM-033-3B` debe continuar, el adverso debe devolver `REJECT_OVERFIT` y la ausencia de `seed` debe devolver `REQUEST_SEED`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_SEED` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró gap controlado y seed fija; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'train_acc', 'valid_acc', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"train_acc\"] - record[\"valid_acc\"] > 0.2 else \"REJECT_OVERFIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.99, 'valid_acc': 0.6, 'seed': 42}}\nuncertain = {**valid}\nuncertain.pop(\"seed\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T4-A-E1",
+      "instruction": "S33-T4-A-E1 · Calcula el contrato de `pipeline y tracking mínimo` sobre `CASO-LIM-033-4A`. La entrada es el dict completo del starter; la operación debe demostrar metrics no vacías con beats_dummy y run_id. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S33-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNLOGGED_RUN` en E2.",
+      "hints": [
+        "Relaciona los campos `metrics, beats_dummy, run_id` con la regla explicada en S33-T4-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva metrics no vacías con beats_dummy y run_id; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\nmeets_contract = not record[\"metrics\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNLOGGED_RUN\"\nprint(\"S33-T4-A\", status)\n"
+    },
+    {
+      "id": "S33-T4-A-E2",
+      "instruction": "S33-T4-A-E2 · Modela tres rutas de `pipeline y tracking mínimo`: fixture válido, fixture adverso y registro sin `metrics`. Entrada: dict con case_id, metrics, beats_dummy, run_id. Salidas exactas: `PASS`, `REJECT_UNLOGGED_RUN`, `MISSING:metrics`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a metrics debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T4-A: metrics no vacías con beats_dummy y run_id. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'metrics', 'beats_dummy', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"metrics\"] else \"REJECT_UNLOGGED_RUN\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {}, 'beats_dummy': False, 'run_id': 'run-1'}}\nincomplete = {**valid}\nincomplete.pop(\"metrics\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T4-A-E3",
+      "instruction": "S33-T4-A-E3 · Contrasta fallo cerrado para `pipeline y tracking mínimo` con tres fixtures distintos. `CASO-LIM-033-4A` debe continuar, el adverso debe devolver `REJECT_UNLOGGED_RUN` y la ausencia de `metrics` debe devolver `REQUEST_METRICS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_METRICS` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró metrics no vacías con beats_dummy y run_id; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'metrics', 'beats_dummy', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if not record[\"metrics\"] else \"REJECT_UNLOGGED_RUN\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {}, 'beats_dummy': False, 'run_id': 'run-1'}}\nuncertain = {**valid}\nuncertain.pop(\"metrics\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T4-B-E1",
+      "instruction": "S33-T4-B-E1 · Calcula el contrato de `validación cruzada apropiada y error analysis` sobre `CASO-LIM-033-4B`. La entrada es el dict completo del starter; la operación debe demostrar group CV con entities y sin random leak. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S33-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_RANDOM_LEAK` en E2.",
+      "hints": [
+        "Relaciona los campos `fold_scores, entities, random_split` con la regla explicada en S33-T4-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva group CV con entities y sin random leak; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\nmeets_contract = record[\"random_split\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_RANDOM_LEAK\"\nprint(\"S33-T4-B\", status)\n"
+    },
+    {
+      "id": "S33-T4-B-E2",
+      "instruction": "S33-T4-B-E2 · Modela tres rutas de `validación cruzada apropiada y error analysis`: fixture válido, fixture adverso y registro sin `entities`. Entrada: dict con case_id, fold_scores, entities, random_split. Salidas exactas: `PASS`, `REJECT_RANDOM_LEAK`, `MISSING:entities`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a entities debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T4-B: group CV con entities y sin random leak. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'fold_scores', 'entities', 'random_split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"random_split\"] is True else \"REJECT_RANDOM_LEAK\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}\nincomplete = {**valid}\nincomplete.pop(\"entities\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S33-T4-B-E3",
+      "instruction": "S33-T4-B-E3 · Contrasta fallo cerrado para `validación cruzada apropiada y error analysis` con tres fixtures distintos. `CASO-LIM-033-4B` debe continuar, el adverso debe devolver `REJECT_RANDOM_LEAK` y la ausencia de `entities` debe devolver `REQUEST_GROUP_IDS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_GROUP_IDS` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró group CV con entities y sin random leak; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'fold_scores', 'entities', 'random_split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"random_split\"] is True else \"REJECT_RANDOM_LEAK\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}\nuncertain = {**valid}\nuncertain.pop(\"entities\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    }
+  ],
+  "packet_sha": "0db82e9b54fc554f",
+  "attempt_id": "agentic_E2"
+}

@@ -1,0 +1,567 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E2",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E2-s27-live",
+  "production_note": "E2 Explorer repair: incomplete codes filled from packet/iDo + E1 curriculum reference; justifications natural Explorer E2-only (no E1 just copy)",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "packet_sha": "effa396a740261f6",
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "impact",
+        "likelihood",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T1-A-E1 in «Estrategia de pruebas con pytest». Instruction asks: S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/d. I used starter fixtures from the quiz card, hints «Multiplica enteros; print del producto», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `impact, likelihood = 5, 4`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "rows",
+        "e2e",
+        "unit"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T1-A-E2 in «Estrategia de pruebas con pytest». Instruction asks: S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defect. I used starter fixtures from the quiz card, hints «sorted reverse; key con producto», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `rows=[('e2e',2,1),('unit',5,5)]`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "top_layer",
+        "unit",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T1-A-E3 in «Estrategia de pruebas con pytest». Instruction asks: S27-T1-A-E3 · Imprime True si la capa top es 'unit'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin re. I used starter fixtures from the quiz card, hints «compara layer; pirámide», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `top_layer='unit'`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "print",
+        "join",
+        "casefold"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T1-B-E1 in «Estrategia de pruebas con pytest». Instruction asks: S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A  B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; impleme. I used starter fixtures from the quiz card, hints «casefold; split/join», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `s=' A  B '`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "raw",
+        "ANA",
+        "assert"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T1-B-E2 in «Estrategia de pruebas con pytest». Instruction asks: S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/d. I used starter fixtures from the quiz card, hints «assert luego print; oráculo 'ana'», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `raw='ANA'`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "print",
+        "join",
+        "casefold"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T1-B-E3 in «Estrategia de pruebas con pytest». Instruction asks: S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa. I used starter fixtures from the quiz card, hints «normaliza ambos; compara», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `a,b='X Y','x  y'`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "names",
+        "test_a",
+        "helper"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T2-A-E1 in «Estrategia de pruebas con pytest». Instruction asks: S27-T2-A-E1 · Filtra nombres que empiezan con 'test_' de la lista dada. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defe. I used starter fixtures from the quiz card, hints «startswith; list comp», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `names=['test_a','helper','test_b']`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "left",
+        "right",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T2-A-E2 in «Estrategia de pruebas con pytest». Instruction asks: S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defec. I used starter fixtures from the quiz card, hints «ternario; diff conceptual», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `left,right='a','b'`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id",
+        "local"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T2-A-E3 in «Estrategia de pruebas con pytest». Instruction asks: S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; im. I used starter fixtures from the quiz card, hints «lista de tuplas; tabla», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "copy",
+        "import",
+        "deepcopy",
+        "orig",
+        "deepcopy",
+        "orig",
+        "print",
+        "orig"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T2-B-E1 in «Estrategia de pruebas con pytest». Instruction asks: S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implemen. I used starter fixtures from the quiz card, hints «deepcopy; mutación local», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `from copy import deepcopy`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id",
+        "local"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T2-B-E2 in «Estrategia de pruebas con pytest». Instruction asks: S27-T2-B-E2 · Imprime 'function' como scope por defecto de fixture. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto . I used starter fixtures from the quiz card, hints «literal; scopes pytest», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "make",
+        "return",
+        "for",
+        "range",
+        "print",
+        "len",
+        "make"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T2-B-E3 in «Estrategia de pruebas con pytest». Instruction asks: S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; imp. I used starter fixtures from the quiz card, hints «list comp; ids sintéticos», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `def make(n):`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "import",
+        "math",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T3-A-E1 in «Estrategia de pruebas con pytest». Instruction asks: S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto . I used starter fixtures from the quiz card, hints «import math; isclose», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `import math`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "try",
+        "int",
+        "except"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T3-A-E2 in «Estrategia de pruebas con pytest». Instruction asks: S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indica. I used starter fixtures from the quiz card, hints «try/except; ValueError», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `try:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "tempfile",
+        "from",
+        "pathlib",
+        "import",
+        "Path",
+        "with",
+        "tempfile",
+        "NamedTemporaryFile",
+        "delete"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T3-A-E3 in «Estrategia de pruebas con pytest». Instruction asks: S27-T3-A-E3 · Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip(). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implemen. I used starter fixtures from the quiz card, hints «tempfile; utf-8», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `import tempfile`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "email=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(e)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "email",
+        "try",
+        "email",
+        "raise",
+        "ValueError",
+        "email",
+        "except",
+        "ValueError",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T3-B-E1 in «Estrategia de pruebas con pytest». Instruction asks: S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa . I used starter fixtures from the quiz card, hints «raise ValueError; except», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `email=''`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "sin",
+        "arroba",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T3-B-E2 in «Estrategia de pruebas con pytest». Instruction asks: S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO. I used starter fixtures from the quiz card, hints «in; guard», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `s='sin-arroba'`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "print",
+        "campo",
+        "score"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T3-B-E3 in «Estrategia de pruebas con pytest». Instruction asks: S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo. I used starter fixtures from the quiz card, hints «f-string !r; sin PII», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `v=-1`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "def",
+        "return",
+        "else"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T4-A-E1 in «Estrategia de pruebas con pytest». Instruction asks: S27-T4-A-E1 · Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TO. I used starter fixtures from the quiz card, hints «if/else; dos prints o tupla», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `def f(x):`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "hit",
+        "auto",
+        "review"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T4-A-E2 in «Estrategia de pruebas con pytest». Instruction asks: S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo. I used starter fixtures from the quiz card, hints «membership; cobertura», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `hit={'auto','review'}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "print",
+        "int"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T4-A-E3 in «Estrategia de pruebas con pytest». Instruction asks: S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el . I used starter fixtures from the quiz card, hints «int(100*k/n); branch %», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `k,n=2,3`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "raw",
+        "good",
+        "raw"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T4-B-E1 in «Estrategia de pruebas con pytest». Instruction asks: S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter comp. I used starter fixtures from the quiz card, hints «compara; kill mutant», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `raw=' a '`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id",
+        "local"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T4-B-E2 in «Estrategia de pruebas con pytest». Instruction asks: S27-T4-B-E2 · Falla útil: imprime dict con keys expected, actual para expected=1 actual=2. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implement. I used starter fixtures from the quiz card, hints «dict; debug CI», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id",
+        "local"
+      ],
+      "justification_from_packet": "Explorer packet solve for S27-T4-B-E3 in «Estrategia de pruebas con pytest». Instruction asks: S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el T. I used starter fixtures from the quiz card, hints «string; mantenimiento», and theory headings ['riesgos y pirámide de pruebas', 'Arrange–Act–Assert y oráculos confiables', 'discovery y assertions', 'fixtures, scopes y aislamiento'] plus iDo demos ['S27-T1-A-DEMO', 'S27-T1-B-DEMO', 'S27-T2-A-DEMO', 'S27-T2-B-DEMO', 'S27-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Pruebas unitarias",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q0 on S27 «Estrategia de pruebas con pytest». Stem: En la pirámide de pruebas, la base más ancha suele ser:. I pick [2] «Pruebas unitarias» because it matches taught safety/testing vocabulary ['unitarias', 'pruebas'] and packet outcomes/theory (score=5.3). Snippet: «La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de e». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Una fuente de verdad determinista para el assert",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q1 on S27 «Estrategia de pruebas con pytest». Stem: Un oráculo confiable es:. I pick [0] «Una fuente de verdad determinista para el assert» because it matches taught safety/testing vocabulary ['determinista', 'fuente', 'verdad', 'assert'] and packet outcomes/theory (score=9.6). Snippet: «**AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Evita asserts mezclados con setup. La pirámide y el diseño AA». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "El contrato es débil; el mutante sobrevivió",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q2 on S27 «Estrategia de pruebas con pytest». Stem: Si mutas un casefold y ningún test falla:. I pick [1] «El contrato es débil; el mutante sobrevivió» because it matches taught safety/testing vocabulary ['contrato', 'mutante', 'débil'] and packet outcomes/theory (score=10.8). Snippet: «La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de e». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Contratos de misma entidad / normalización — no riesgo ni relación",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q3 on S27 «Estrategia de pruebas con pytest». Stem: Las pruebas de matching en CP-N3-A demuestran:. I pick [3] «Contratos de misma entidad / normalización — no riesgo ni relación» because it matches taught safety/testing vocabulary ['normalización', 'contratos', 'riesgo'] and packet outcomes/theory (score=11.6). Snippet: «La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de e». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27
+    ],
+    "note": "Explorer walk for sections 27–52 from quiz_card + exercise_batch packets only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:39:34.146267+00:00",
+  "repaired_at": "2026-07-23T04:48:09.227939+00:00"
+}

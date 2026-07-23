@@ -24,13 +24,14 @@
 
 ## Suite result (local)
 
-- Node: **43/43 pass**
-- Python: **17/17 pass**
+- Node: **43/43 pass** (prior)
+- Python: **17/17 pass** (prior)
+- **2026-07-23 re-run:** `pytest tests/adversarial/ -q` → **64 passed, 1 skipped**
 - Typecheck: clean (tests/ excluded from tsconfig)
 - Exam pedagogy: p0=p1=0
 - V3 counts: ok
 
 ## Residual (product)
 
-- Full live dual-LLM S02–S52 still sample-based (dual-sim sufficiency covers knowledge gate).
+- Dual-newbie pedagogy gate: **agentic_E1 + agentic_E2 clean_52** (see `course-state/newbie_walkthrough/SUMMARY.md`).
 - Browser geometry Playwright still needs dev server in CI job.

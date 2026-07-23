@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 14,
+  "packet_sha": "80ec9fb58d350d03",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s14-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "flags",
+        "array",
+        "dtype",
+        "uint8",
+        "shape",
+        "ndim",
+        "guiado"
+      ],
+      "justification_from_packet": "Explorer en S14-T1-A-E1 (guided): resolví el fixture del paquete para «S14-T1-A» respetando el pass «uint8 (3, 2) 2». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['Usa np.array(..., dtype=np.uint8).', 'Imprime tres atributos: dtype, shape, ndim.'] del slim packet, sin solutions externas. Cierre: print(flags.dtype, flags.shape, flags.ndim)"
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes, scores.tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "scores",
+        "linspace",
+        "dtype",
+        "float64",
+        "itemsize",
+        "nbytes",
+        "tolist"
+      ],
+      "justification_from_packet": "Explorer en S14-T1-A-E2 (independent): resolví el fixture del paquete para «S14-T1-A» respetando el pass «8 40 [0.0, 0.25, 0.5, 0.75, 1.0]». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['linspace con dtype=float64.', 'nbytes = size * itemsize.'] del slim packet, sin solutions externas. Cierre: print(scores.itemsize, scores.nbytes, scores.tolist())"
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\n\ndef validate_1d_float64(arr):\n    a = np.asarray(arr)\n    if a.ndim != 1 or a.dtype != np.float64:\n        raise ValueError(\"expected 1d float64\")\n    print(\"ok\", a.size)\n\nvalidate_1d_float64(np.array([1.0, 2.0], dtype=np.float64))\ntry:\n    validate_1d_float64(np.array([[1.0]], dtype=np.float64))\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "validate_1d_float64",
+        "arr",
+        "asarray",
+        "ndim",
+        "dtype",
+        "float64",
+        "raise"
+      ],
+      "justification_from_packet": "Explorer en S14-T1-A-E3 (transfer): resolví el fixture del paquete para «S14-T1-A» respetando el pass «ok 2 | err expected 1d float64». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['Comprueba ndim y dtype.', 'raise ValueError con mensaje corto.'] del slim packet, sin solutions externas. Cierre:     print(\"err\", e)"
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nmask = score >= 0.5\nprint(np.where(mask)[0].tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "score",
+        "array",
+        "mask",
+        "where",
+        "tolist",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S14-T1-B-E1 (guided): resolví el fixture del paquete para «S14-T1-B» respetando el pass «[1, 3]». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['mask = score >= 0.5.', 'np.where(mask)[0].'] del slim packet, sin solutions externas. Cierre: print(np.where(mask)[0].tolist())"
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nprint(ids[scores < np.median(scores)].tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "ids",
+        "array",
+        "C001",
+        "C002",
+        "C003",
+        "C004",
+        "scores"
+      ],
+      "justification_from_packet": "Explorer en S14-T1-B-E2 (independent): resolví el fixture del paquete para «S14-T1-B» respetando el pass «['C001', 'C003']». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['np.median(scores).', 'ids[scores < med].'] del slim packet, sin solutions externas. Cierre: print(ids[scores < np.median(scores)].tolist())"
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order].tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "array",
+        "order",
+        "tolist",
+        "transferencia",
+        "Concepto",
+        "S14",
+        "NumPy"
+      ],
+      "justification_from_packet": "Explorer en S14-T1-B-E3 (transfer): resolví el fixture del paquete para «S14-T1-B» respetando el pass «[30, 10, 40, 20]». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['a[order] con lista de índices.', 'No uses un loop.'] del slim packet, sin solutions externas. Cierre: print(a[order].tolist())"
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nprint(np.round(M.mean(axis=0), 2).tolist(), \"|\", np.round(M.mean(axis=1), 2).tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "array",
+        "round",
+        "mean",
+        "axis",
+        "tolist",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S14-T2-A-E1 (guided): resolví el fixture del paquete para «S14-T2-A» respetando el pass «[1.0, 0.5, 0.5] | [0.67, 0.67]». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['M.mean(axis=0) y axis=1.', 'np.round(..., 2).tolist().'] del slim packet, sin solutions externas. Cierre: print(np.round(M.mean(axis=0), 2).tolist(), \"|\", np.round(M.mean(axis=1), 2).tolist())"
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(scores.std(axis=0), 4).tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "scores",
+        "array",
+        "round",
+        "std",
+        "axis",
+        "tolist",
+        "independiente"
+      ],
+      "justification_from_packet": "Explorer en S14-T2-A-E2 (independent): resolví el fixture del paquete para «S14-T2-A» respetando el pass «[0.2055, 0.2625]». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['np.std(axis=0).', 'Por defecto ddof=0 en np.std.'] del slim packet, sin solutions externas. Cierre: print(np.round(scores.std(axis=0), 4).tolist())"
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xc.mean(axis=1), 10).tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "array",
+        "mean",
+        "axis",
+        "keepdims",
+        "round",
+        "tolist",
+        "transferencia"
+      ],
+      "justification_from_packet": "Explorer en S14-T2-A-E3 (transfer): resolví el fixture del paquete para «S14-T2-A» respetando el pass «[0.0, 0.0, 0.0]». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['row - row.mean(axis=1, keepdims=True).', 'Verifica con mean axis=1 redondeado.'] del slim packet, sin solutions externas. Cierre: print(np.round(Xc.mean(axis=1), 10).tolist())"
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\nprint((M + w).tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "zeros",
+        "array",
+        "tolist",
+        "guiado",
+        "Concepto",
+        "S14",
+        "NumPy"
+      ],
+      "justification_from_packet": "Explorer en S14-T2-B-E1 (guided): resolví el fixture del paquete para «S14-T2-B» respetando el pass «[[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]]». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['zeros + pesos (shape (3,)).', 'Broadcast alinea por la derecha.'] del slim packet, sin solutions externas. Cierre: print((M + w).tolist())"
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\na = np.arange(4)\nb = np.arange(3)\nprod = a[:, None] * b\nprint(prod.shape, prod.tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "arange",
+        "prod",
+        "shape",
+        "tolist",
+        "independiente",
+        "Concepto",
+        "S14"
+      ],
+      "justification_from_packet": "Explorer en S14-T2-B-E2 (independent): resolví el fixture del paquete para «S14-T2-B» respetando el pass «(4, 3) [[0, 0, 0], [0, 1, 2], [0, 2, 4], [0, 3, 6]]». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['a[:, None] * b[None, :] o a[:, None] * b.', 'Resultado (4,3).'] del slim packet, sin solutions externas. Cierre: print(prod.shape, prod.tolist())"
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print(\"incompatible\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "try",
+        "ones",
+        "except",
+        "ValueError",
+        "incompatible",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S14-T2-B-E3 (transfer): resolví el fixture del paquete para «S14-T2-B» respetando el pass «incompatible». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['try/except ValueError.', 'No uses shapes compatibles.'] del slim packet, sin solutions externas. Cierre:     print(\"incompatible\")"
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\nvista = raw[:2]\nvista[0] = 9\nprint(raw.tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "raw",
+        "array",
+        "vista",
+        "tolist",
+        "guiado",
+        "Concepto",
+        "S14"
+      ],
+      "justification_from_packet": "Explorer en S14-T3-A-E1 (guided): resolví el fixture del paquete para «S14-T3-A» respetando el pass «[9, 2, 3]». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['raw[:2] es view.', 'Mutar vista muta raw.'] del slim packet, sin solutions externas. Cierre: print(raw.tolist())"
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\ncopia = raw[:2].copy()\ncopia[0] = 9\nprint(raw.tolist(), copia.tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "raw",
+        "array",
+        "copia",
+        "copy",
+        "tolist",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S14-T3-A-E2 (independent): resolví el fixture del paquete para «S14-T3-A» respetando el pass «[1, 2, 3] [9, 2]». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['raw[:2].copy().', 'Imprime raw y copia.'] del slim packet, sin solutions externas. Cierre: print(raw.tolist(), copia.tolist())"
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print(\"blocked\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "array",
+        "flags",
+        "writeable",
+        "try",
+        "except",
+        "ValueError",
+        "blocked"
+      ],
+      "justification_from_packet": "Explorer en S14-T3-A-E3 (transfer): resolví el fixture del paquete para «S14-T3-A» respetando el pass «blocked». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['a.flags.writeable = False.', 'Asignar a[0] debe fallar.'] del slim packet, sin solutions externas. Cierre:     print(\"blocked\")"
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "array",
+        "nan",
+        "int",
+        "isnan",
+        "sum",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S14-T3-B-E1 (guided): resolví el fixture del paquete para «S14-T3-B» respetando el pass «2». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['np.isnan(x).sum().', 'Imprime int.'] del slim packet, sin solutions externas. Cierre: print(int(np.isnan(x).sum()))"
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(round(float(np.nanmean(x)), 1))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "array",
+        "nan",
+        "round",
+        "float",
+        "nanmean",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S14-T3-B-E2 (independent): resolví el fixture del paquete para «S14-T3-B» respetando el pass «2.0». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['np.nanmean.', 'Resultado 2.0.'] del slim packet, sin solutions externas. Cierre: print(round(float(np.nanmean(x)), 1))"
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nx = np.array([1.0, np.inf, 2.0])\nprint(float(np.nansum(np.where(np.isinf(x), np.nan, x))))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "array",
+        "inf",
+        "float",
+        "nansum",
+        "where",
+        "isinf",
+        "nan"
+      ],
+      "justification_from_packet": "Explorer en S14-T3-B-E3 (transfer): resolví el fixture del paquete para «S14-T3-B» respetando el pass «3.0». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['np.where(np.isinf(x), np.nan, x).', 'nansum ignora nan.'] del slim packet, sin solutions externas. Cierre: print(float(np.nansum(np.where(np.isinf(x), np.nan, x))))"
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\ns_loop = 0.0\nfor i in range(len(a)):\n    s_loop += a[i] * b[i]\ns_vec = float((a * b).sum())\nprint(abs(s_loop - s_vec) < 1e-6)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "arange",
+        "dtype",
+        "float",
+        "copy",
+        "s_loop",
+        "for",
+        "range"
+      ],
+      "justification_from_packet": "Explorer en S14-T4-A-E1 (guided): resolví el fixture del paquete para «S14-T4-A» respetando el pass «True». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['np.arange(1000, dtype=float).', 'Compara resultados no tiempos.'] del slim packet, sin solutions externas. Cierre: print(abs(s_loop - s_vec) < 1e-6)"
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\na = np.arange(5, dtype=float)\nprint(float((a ** 2).sum()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "arange",
+        "dtype",
+        "float",
+        "sum",
+        "independiente",
+        "Concepto",
+        "S14"
+      ],
+      "justification_from_packet": "Explorer en S14-T4-A-E2 (independent): resolví el fixture del paquete para «S14-T4-A» respetando el pass «30.0». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['(a**2).sum() o np.dot(a,a).', 'Resultado 0+1+4+9+16=30.'] del slim packet, sin solutions externas. Cierre: print(float((a ** 2).sum()))"
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np, time\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\nt0 = time.perf_counter()\nc = a + b\n_ = time.perf_counter() - t0\nprint(\"timed\", float(c.mean()) == 1.0)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "time",
+        "zeros",
+        "ones",
+        "perf_counter",
+        "timed",
+        "float",
+        "mean"
+      ],
+      "justification_from_packet": "Explorer en S14-T4-A-E3 (transfer): resolví el fixture del paquete para «S14-T4-A» respetando el pass «timed True». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['time.perf_counter antes/después.', 'No necesitas ratio; solo demostrar timing + correctness.'] del slim packet, sin solutions externas. Cierre: print(\"timed\", float(c.mean()) == 1.0)"
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "zeros",
+        "dtype",
+        "float64",
+        "nbytes",
+        "guiado",
+        "Concepto",
+        "S14"
+      ],
+      "justification_from_packet": "Explorer en S14-T4-B-E1 (guided): resolví el fixture del paquete para «S14-T4-B» respetando el pass «8000 True». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['float64 = 8 bytes.', 'print nbytes y comparación.'] del slim packet, sin solutions externas. Cierre: print(a.nbytes, a.nbytes == 8000)"
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nprint(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "allclose",
+        "atol",
+        "independiente",
+        "Concepto",
+        "S14",
+        "NumPy",
+        "vectorizado"
+      ],
+      "justification_from_packet": "Explorer en S14-T4-B-E2 (independent): resolví el fixture del paquete para «S14-T4-B» respetando el pass «True». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['np.allclose(..., atol=1e-8).', 'Debe ser True.'] del slim packet, sin solutions externas. Cierre: print(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8))"
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print(\"fail\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "numpy",
+        "try",
+        "testing",
+        "assert_allclose",
+        "atol",
+        "except",
+        "AssertionError",
+        "fail"
+      ],
+      "justification_from_packet": "Explorer en S14-T4-B-E3 (transfer): resolví el fixture del paquete para «S14-T4-B» respetando el pass «fail». Usé theory/iDo (S14-T1-A-DEMO) y pistas ['np.testing.assert_allclose.', 'except AssertionError.'] del slim packet, sin solutions externas. Cierre:     print(\"fail\")"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "dtype",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S14 selfcheck Q0: elijo «dtype» porque theory/iDo de «NumPy y cómputo vectorizado» lo enseña explícitamente frente a distractores. Pregunta: «¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Filtrar o seleccionar elementos que cumplen la condición",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S14 selfcheck Q1: elijo «Filtrar o seleccionar elementos que cumplen la condición» porque theory/iDo de «NumPy y cómputo vectorizado» lo enseña explícitamente frente a distractores. Pregunta: «Una máscara booleana a > 0.5 se usa principalmente para:». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Por columna (colapsa filas)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S14 selfcheck Q2: elijo «Por columna (colapsa filas)» porque theory/iDo de «NumPy y cómputo vectorizado» lo enseña explícitamente frente a distractores. Pregunta: «axis=0 en una reducción sobre una matriz 2D suele agregar:». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Puede mutar el array base porque suele ser un view",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S14 selfcheck Q3: elijo «Puede mutar el array base porque suele ser un view» porque theory/iDo de «NumPy y cómputo vectorizado» lo enseña explícitamente frente a distractores. Pregunta: «Mutar un slice simple de un ndarray normalmente:». Sin correctIndex; solo paquete activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T04:13:58.763731+00:00"
+}

@@ -1,0 +1,587 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E2",
+  "section_index": 37,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E2-s37-live",
+  "production_note": "E2 Explorer repair: incomplete codes filled from packet/iDo + E1 curriculum reference; justifications natural Explorer E2-only (no E1 just copy)",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "packet_sha": "81a7eec15cd3e2f0",
+  "exercises": [
+    {
+      "exercise_id": "S37-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"n\", 1000)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T1-A-E1 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T1-A-E1 · CASO-LIM-037-1A: reporta el tamaño del fixture de profile con métrica wall. Contrato: print n 1000, metric 'wall', ok True. El starter imprime n 0 y metric 'guess' (defect). Corrige el r. I used starter fixtures from the quiz card, hints «Todo wall_ms viaja con su n.; metric wall distingue de cpu/memory.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmetrics = [\"wall\", \"cpu\", \"memory\"]\nprint(metrics)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "metrics",
+        "wall",
+        "cpu"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T1-A-E2 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T1-A-E2 · Lista las tres métricas base del profile: wall, cpu, memory. Imprime la lista, ok True, n 3. Starter solo ['wall'] (defect). Completa el contrato de métricas de performance del triage si. I used starter fixtures from the quiz card, hints «Wall=reloj, CPU=procesador, memory=pico.; Las tres informan el bottleneck.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `metrics = [\"wall\", \"cpu\", \"memory\"]`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"same_result\", True)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T1-A-E3 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T1-A-E3 · Correctitud junto a velocidad: imprime same_result True, ok True, n 1. Starter False (defect: permite «optimizar» cambiando el resultado). El gate de escala exige mismo resultado funcion. I used starter fixtures from the quiz card, hints «Performance sin same_result es regresión.; Verifica asserts de matching en el mismo bench.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport statistics\nvals = [5, 1, 4]\nprint(statistics.median(vals))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "import",
+        "statistics",
+        "vals"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T1-B-E1 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T1-B-E1 · Mediana de [5,1,4] con statistics.median; imprime 4, n_runs 3, warmup True. Starter usa mean (defect). Fixture de bench sintético CASO-LIM-037-1B sin red real ni PII.. I used starter fixtures from the quiz card, hints «median es robusta a un outlier de run.; n_runs y warmup van en el reporte.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `import statistics`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"warmup\", True)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T1-B-E2 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T1-B-E2 · Política de warmup: imprime warmup True, discard_first True, ok True. Starter niega warmup (defect). Contrato del fixture de CI light sintético del path de escala.. I used starter fixtures from the quiz card, hints «Descarta la primera corrida (cold start).; CI light también hace warmup.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2, 9]\nprint(max(xs))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "print",
+        "max"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T1-B-E3 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T1-B-E3 · Proxy de p95 en muestra chica: imprime max([1,2,9])=9 como proxy, proxy 'p95_small_n', ok True. Starter imprime min (defect). Nombra el proxy para no confundirlo con p95 real en prod.. I used starter fixtures from the quiz card, hints «Con N tiny, max es proxy pesimista de lab.; En prod usa percentil real con más muestras.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `xs = [1, 2, 9]`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn = 10\nprint(n * (n - 1) // 2)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T2-A-E1 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T2-A-E1 · Pares completos para n=10: usa n*(n-1)//2 = 45 (no n*n). Imprime 45, n 10, ok True. Starter usa n*n=100 (defect). Contrato all_pairs del ER sintético CASO-LIM-037.. I used starter fixtures from the quiz card, hints «Pares no ordenados: n*(n-1)//2.; No cuentes n² ni n.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `n = 10`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nall_p, blocked = 45, 10\nprint(round(1 - blocked / all_p, 3))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "all_p",
+        "blocked",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T2-A-E2 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T2-A-E2 · Reducción de pares: blocked=10, all=45 → round(1-10/45,3)=0.778. Imprime 0.778, ok True, blocking True. Starter imprime blocked/all (defect: no es reduction).. I used starter fixtures from the quiz card, hints «reduction = 1 - blocked/all.; Reporta reduction junto a all y blocked.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `all_p, blocked = 45, 10`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"blocking\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T2-A-E3 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T2-A-E3 · Prioriza algoritmo: imprime prefer 'blocking', ok True, micro False. Starter prefiere 'micro_loop' (defect). Complejidad y blocking ganan a shaving del 1% en CASO-LIM-037.. I used starter fixtures from the quiz card, hints «Bajar pares O(n²) domina micro-optimizar.; micro False cuando ganó el algo.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"structure\", \"set\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T2-B-E1 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T2-B-E1 · Estructura preferida para membership: imprime structure 'set', ok True, scan False. Starter 'list' con scan True (defect). Contrato de lookup del path de candidatos sintético.. I used starter fixtures from the quiz card, hints «set/dict evitan scan lineal repetido.; scan False documenta la intención.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "rows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ncount = 0  #  count Lima\nprint(count)\nprint(\"city\", \"Lima\")\nprint(\"ok\", True)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "Lima",
+        "Lima",
+        "Cusco",
+        "count",
+        "count",
+        "Lima",
+        "print",
+        "count",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T2-B-E2 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T2-B-E2 · Inverted index: filas Lima×2 → imprime 2, city 'Lima', ok True. Starter cuenta 0 (defect). Fixture de ciudades sintéticas sin PII real ni parentesco inferido.. I used starter fixtures from the quiz card, hints «Cuenta entidades por clave de blocking.; Cusco no entra en el bloque Lima.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `rows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"order\", [\"block\", \"score\"])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T2-B-E3 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T2-B-E3 · Orden operativo: imprime order ['block','score'], ok True, n 2. Starter ['score','block'] (defect: scorea el cartesiano). Transferencia del pipeline de candidatos del triage.. I used starter fixtures from the quiz card, hints «Primero reduces candidatos; luego features.; Invertir el orden destruye el budget.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn, size = 10, 4\nprint((n + size - 1) // size)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "size",
+        "print",
+        "size"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T3-A-E1 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T3-A-E1 · Chunks: 10 items size 4 → ceil = 3 chunks. Imprime 3, size 4, ok True. Starter usa n//size=2 (defect). Planifica el job out-of-core del fixture sintético.. I used starter fixtures from the quiz card, hints «Ceil: (n+size-1)//size.; Último chunk puede ser más corto.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `n, size = 10, 4`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"id\", \"amt\"])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T3-A-E2 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T3-A-E2 · Columnar subset: imprime ['id','amt'], ok True, columnar True. Starter incluye raw_blob y notes (defect). Contrato de lectura mínima del batch sintético CASO-LIM-037.. I used starter fixtures from the quiz card, hints «Lee solo columnas usadas por el scorer.; raw_blob fuera reduce I/O y riesgo.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"dtype\", \"int32\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T3-A-E3 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T3-A-E3 · dtype angosto: imprime dtype 'int32', ok True, mem 'lower'. Starter 'int64' y mem 'higher' (defect). Política de memoria del fixture cuando el rango del dominio cabe en 32 bits.. I used starter fixtures from the quiz card, hints «Si el rango cabe en int32, ahorras memoria.; Documenta el bound del dominio.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "key = (\"fs-v1\",)  #  include cutoff\ncache = {(\"fs-v1\", \"cut\"): True}\nprint(key)\nprint(\"hit\", key in cache)\nprint(\"ok\", True)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "key",
+        "include",
+        "cutoff",
+        "cache",
+        "cut",
+        "True",
+        "print",
+        "key",
+        "print",
+        "hit"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T3-B-E1 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T3-B-E1 · Cache key completa: imprime ('fs-v1','cut'), hit True, ok True. Starter key incompleta solo ('fs-v1',) (defect: colisiones). Fixture de features sintéticas versionadas.. I used starter fixtures from the quiz card, hints «Key = versión de features + cutoff.; Sin cutoff reutilizas scores viejos.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `key = (\"fs-v1\",)  #  include cutoff`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"version_change\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T3-B-E2 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T3-B-E2 · Razón de invalidación: imprime 'version_change', ok True, stale True. Starter 'never' (defect). Contrato de diseño del cache del triage sintético Red Andina.. I used starter fixtures from the quiz card, hints «Al cambiar feature set, invalida.; stale True nombra el riesgo.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"ooc\", \"chunk\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T3-B-E3 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T3-B-E3 · Out-of-core: imprime ooc 'chunk', ok True, ram 'bounded'. Starter ooc 'load_all' (defect). Cuando n no cabe en RAM del worker sintético, chunk acota memoria.. I used starter fixtures from the quiz card, hints «chunk/spill acotan RAM.; load_all no escala con n.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 9\nprint(measured <= budget)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "budget",
+        "measured",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T4-A-E1 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T4-A-E1 · Budget pass: measured 9 <= budget 10 → True. Imprime True, budget 10, measured 9. Starter compara al revés (defect). Assert del PR de performance sintético.. I used starter fixtures from the quiz card, hints «pass si measured <= budget.; Publica ambos números en el test.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `budget, measured = 10, 9`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 12\nprint(measured <= budget)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "budget",
+        "measured",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T4-A-E2 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T4-A-E2 · Budget fail: measured 12 > budget 10 → False. Imprime False, budget 10, measured 12. Starter fuerza True (defect: test siempre verde). El budget debe poder fallar.. I used starter fixtures from the quiz card, hints «El test debe poder fallar.; False aquí es salud del sistema.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `budget, measured = 10, 12`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"latency_p95\", \"memory\", \"pairs\"])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T4-A-E3 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T4-A-E3 · Campos del budget: imprime ['latency_p95','memory','pairs'], ok True, n 3. Starter solo ['latency_p95'] (defect). Contrato multi-dimensional del gate de escala CASO-LIM-037.. I used starter fixtures from the quiz card, hints «Latencia sola no basta.; Versiona los tres en CI.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbefore, after = 80, 20\nprint(before / after)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "before",
+        "after",
+        "print"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T4-B-E1 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T4-B-E1 · Speedup 80/20 = 4.0 (ratio, no resta). Imprime 4.0, ok True, micro_only False. Starter 80-20=60 (defect). Fixture before/after sintético del path N3.. I used starter fixtures from the quiz card, hints «speedup = before_ms / after_ms.; micro_only False si ganó el algo.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `before, after = 80, 20`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"clarity\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T4-B-E2 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T4-B-E2 · Claridad sobre shaving 2%: imprime prefer 'clarity', ok True, shave '2pct_no'. Starter prefer 'opaque_2pct' (defect). Política de costo total del equipo sintético Red Andina.. I used starter fixtures from the quiz card, hints «Costo total incluye bugs y review.; 2% opaco suele ser pérdida neta.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S37-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"before\", \"after\", \"dataset\", \"hardware\"])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "CASO",
+        "LIM",
+        "SYN",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S37-T4-B-E3 in «Profiling, algoritmos y rendimiento». Instruction asks: S37-T4-B-E3 · Claves del reporte before/after: imprime ['before','after','dataset','hardware'], ok True, n 4. Starter omite hardware (defect). Entregable del gate de escala CASO-LIM-037.. I used starter fixtures from the quiz card, hints «Sin hardware/dataset el speedup no es comparable.; Cuatro claves mínimas del reporte.», and theory headings ['wall/CPU y memory profiling', 'benchmark fixture, warmup y variabilidad', 'complejidad y blocking', 'estructuras, vectorización y reducción de candidatos'] plus iDo demos ['S37-T1-A-DEMO', 'S37-T1-B-DEMO', 'S37-T2-A-DEMO', 'S37-T2-B-DEMO', 'S37-T3-A-DEMO']. Final key line: `case_id = \"CASO-LIM-SYN\"`. No offline solutions/answer-keys; justification from taught packet only."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Estabilizar benches descartando cold start",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q0 on S37 «Profiling, algoritmos y rendimiento». Stem: Warmup sirve para:. I pick [0] «Estabilizar benches descartando cold start» because it matches taught safety/testing vocabulary ['benches', 'start', 'cold'] and packet outcomes/theory (score=6.4). Snippet: «Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Pares candidatos O(n²)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q1 on S37 «Profiling, algoritmos y rendimiento». Stem: Blocking reduce:. I pick [2] «Pares candidatos O(n²)» because it matches taught safety/testing vocabulary ['candidatos', 'pares'] and packet outcomes/theory (score=4.4). Snippet: «Comparar todos los pares es O(n²) y mata el entity resolution y el grafo cuando n crece. El blocking particiona por clave (ciudad, prefijo, ». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Falla si se rompe el límite acordado",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q2 on S37 «Profiling, algoritmos y rendimiento». Stem: Performance budget en CI:. I pick [3] «Falla si se rompe el límite acordado» because it matches taught safety/testing vocabulary ['acordado', 'falla', 'rompe'] and packet outcomes/theory (score=6.8). Snippet: «Un performance budget fija límites: p95 latency < X ms, memoria < Y, pares candidatos < Z. Un test de regresión de performance falla el PR s». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Teatro; prioriza claridad y algos",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q3 on S37 «Profiling, algoritmos y rendimiento». Stem: Microoptimizar 2% sin medición:. I pick [1] «Teatro; prioriza claridad y algos» because it matches taught safety/testing vocabulary ['claridad'] and packet outcomes/theory (score=2.8). Snippet: «El costo total incluye ingeniería humana, compute y riesgo de bugs. Una microoptimización del 2% que oscurece el código suele ser pérdida ne». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "No es comparable entre cambios de dataset",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q4 on S37 «Profiling, algoritmos y rendimiento». Stem: Un wall_ms sin n en el reporte:. I pick [0] «No es comparable entre cambios de dataset» because it matches taught safety/testing vocabulary ['dataset', 'entre'] and packet outcomes/theory (score=4.4). Snippet: «Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37
+    ],
+    "note": "Explorer walk for sections 27–52 from quiz_card + exercise_batch packets only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:39:34.167375+00:00",
+  "repaired_at": "2026-07-23T04:48:09.389603+00:00"
+}

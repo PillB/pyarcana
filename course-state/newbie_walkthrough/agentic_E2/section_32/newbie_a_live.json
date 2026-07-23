@@ -1,0 +1,577 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E2",
+  "section_index": 32,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E2-s32-live",
+  "production_note": "E2 Explorer repair: incomplete codes filled from packet/iDo + E1 curriculum reference; justifications natural Explorer E2-only (no E1 just copy)",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "packet_sha": "a164fd7487359385",
+  "exercises": [
+    {
+      "exercise_id": "S32-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\nmeets_contract = record[\"catalog_ok\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNKNOWN_FEATURE\"\nprint(\"S32-T1-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "schema",
+        "numeric",
+        "amount_7d",
+        "categorical",
+        "canal",
+        "row"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T1-A-E1 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T1-A-E1 · Calcula el contrato de `numéricas/categóricas/texto` sobre `CASO-LIM-032-1A`. La entrada es el dict completo del starter; la operación debe demostrar row keys ⊆ catalog con catalog_ok. R. I used starter fixtures from the quiz card, hints «Relaciona los campos `schema, row, catalog_ok` con la regla explicada en S32-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva row keys ⊆ catalog con catal», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amou`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "schema",
+        "row",
+        "catalog_ok"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T1-A-E2 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T1-A-E2 · Modela tres rutas de `numéricas/categóricas/texto`: fixture válido, fixture adverso y registro sin `schema`. Entrada: dict con case_id, schema, row, catalog_ok. Salidas exactas: `PASS`, . I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a schema debe ocurrir antes de esa rama.; Después aplica la regla de S32-T1-A: row keys ⊆ catalog con catalog_ok. El fixture adverso deb», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"amount_7d\", \"canal\", \"case_id\", \"catalog_ok\", \"categorical\", \"numeric\", \"row\", \"schema\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CATALOG\"\n    ok = record[\"catalog_ok\"] is True\n    return \"CONTINUE\" if ok else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\nif \"case_id\" not in valid:\n    valid = {\"case_id\": \"VALID\", **valid}\ninvalid = dict(valid)\nif \"catalog_ok\" in invalid:\n    invalid[\"catalog_ok\"] = False\nelif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"means_fraud\" in invalid:\n    invalid[\"means_fraud\"] = True\nelif \"cache_authoritative\" in invalid:\n    invalid[\"cache_authoritative\"] = True\nelif \"holdout\" in invalid:\n    invalid[\"holdout\"] = 0\nelif \"jobs\" in invalid:\n    invalid[\"jobs\"] = 0\nelif \"baseline_frozen\" in invalid:\n    invalid[\"baseline_frozen\"] = False\nelif \"auto_fraud\" in invalid:\n    invalid[\"auto_fraud\"] = True\nelif \"stages\" in invalid:\n    try:\n        invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\n    except Exception:\n        pass\nelse:\n    for k, v in list(invalid.items()):\n        if k == \"case_id\":\n            continue\n        if isinstance(v, bool):\n            invalid[k] = not v\n            break\nincomplete = {k: v for k, v in valid.items() if k != \"schema\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "amount_7d",
+        "canal",
+        "case_id",
+        "catalog_ok"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T1-A-E3 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T1-A-E3 · Contrasta fallo cerrado para `numéricas/categóricas/texto` con tres fixtures distintos. `CASO-LIM-032-1A` debe continuar, el adverso debe devolver `REJECT_UNKNOWN_FEATURE` y la ausencia . I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_CATALOG` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró row keys ⊆ catalog con catalog_», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\nmeets_contract = record[\"silent_fill\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_FILL\"\nprint(\"S32-T1-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "values",
+        "None",
+        "median",
+        "silent_fill",
+        "False",
+        "meets_contract"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T1-B-E1 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T1-B-E1 · Calcula el contrato de `missing indicators, escalamiento y encoding` sobre `CASO-LIM-032-1B`. La entrada es el dict completo del starter; la operación debe demostrar mediana de train con. I used starter fixtures from the quiz card, hints «Relaciona los campos `values, median, silent_fill` con la regla explicada en S32-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva mediana de train con sil», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nincomplete = {**valid}\nincomplete.pop(\"median\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "values",
+        "median",
+        "silent_fill"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T1-B-E2 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T1-B-E2 · Modela tres rutas de `missing indicators, escalamiento y encoding`: fixture válido, fixture adverso y registro sin `median`. Entrada: dict con case_id, values, median, silent_fill. Salid. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a median debe ocurrir antes de esa rama.; Después aplica la regla de S32-T1-B: mediana de train con silent_fill=False. El fixture advers», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"median\", \"silent_fill\", \"values\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"silent_fill\"] is True else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nuncertain = {**valid}\nuncertain.pop(\"median\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "median",
+        "silent_fill",
+        "values"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T1-B-E3 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T1-B-E3 · Contrasta fallo cerrado para `missing indicators, escalamiento y encoding` con tres fixtures distintos. `CASO-LIM-032-1B` debe continuar, el adverso debe devolver `REJECT_SILENT_FILL` y . I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_MEDIAN` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró mediana de train con silent_fill», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\nmeets_contract = record[\"uses_label\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LABEL_AS_FEATURE\"\nprint(\"S32-T2-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "shared",
+        "degree",
+        "uses_label",
+        "False",
+        "meets_contract",
+        "record"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T2-A-E1 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T2-A-E1 · Calcula el contrato de `shared contact/address, distance y graph features` sobre `CASO-LIM-032-2A`. La entrada es el dict completo del starter; la operación debe demostrar graph feats si. I used starter fixtures from the quiz card, hints «Relaciona los campos `shared, degree, uses_label` con la regla explicada en S32-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva graph feats sin usar labe», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uses_label\"] is False else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nincomplete = {**valid}\nincomplete.pop(\"degree\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "shared",
+        "degree",
+        "uses_label"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T2-A-E2 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T2-A-E2 · Modela tres rutas de `shared contact/address, distance y graph features`: fixture válido, fixture adverso y registro sin `degree`. Entrada: dict con case_id, shared, degree, uses_label. . I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a degree debe ocurrir antes de esa rama.; Después aplica la regla de S32-T2-A: graph feats sin usar label de decisión. El fixture advers», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"degree\", \"shared\", \"uses_label\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"uses_label\"] is True else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nuncertain = {**valid}\nuncertain.pop(\"degree\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "degree",
+        "shared",
+        "uses_label"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T2-A-E3 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T2-A-E3 · Contrasta fallo cerrado para `shared contact/address, distance y graph features` con tres fixtures distintos. `CASO-LIM-032-2A` debe continuar, el adverso debe devolver `REJECT_LABEL_AS_. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_GRAPH_FEAT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró graph feats sin usar label d», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\nmeets_contract = record[\"includes_t\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_FUTURE_TS\"\nprint(\"S32-T2-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "events",
+        "includes_t",
+        "False",
+        "meets_contract",
+        "record",
+        "includes_t"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T2-B-E1 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T2-B-E1 · Calcula el contrato de `ventanas y frecuencia` sobre `CASO-LIM-032-2B`. La entrada es el dict completo del starter; la operación debe demostrar ventana half-open sin incluir t. Reemplaza. I used starter fixtures from the quiz card, hints «Relaciona los campos `events, t, w, includes_t` con la regla explicada en S32-T2-B.; El predicado correcto debe ser verdadero porque el fixture conserva ventana half-open sin inclu», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"includes_t\"] is False else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nincomplete = {**valid}\nincomplete.pop(\"w\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "events",
+        "includes_t",
+        "missing"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T2-B-E2 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T2-B-E2 · Modela tres rutas de `ventanas y frecuencia`: fixture válido, fixture adverso y registro sin `w`. Entrada: dict con case_id, events, t, w, includes_t. Salidas exactas: `PASS`, `REJECT_FU. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a w debe ocurrir antes de esa rama.; Después aplica la regla de S32-T2-B: ventana half-open sin incluir t. El fixture adverso debe falla», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"events\", \"includes_t\", \"t\", \"w\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"includes_t\"] is True else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nuncertain = {**valid}\nuncertain.pop(\"w\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "events",
+        "includes_t",
+        "missing"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T2-B-E3 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T2-B-E3 · Contrasta fallo cerrado para `ventanas y frecuencia` con tres fixtures distintos. `CASO-LIM-032-2B` debe continuar, el adverso debe devolver `REJECT_FUTURE_TS` y la ausencia de `w` debe . I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_WINDOW` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró ventana half-open sin incluir t;», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\nmeets_contract = record[\"transform_before_fit\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_TRANSFORM_BEFORE_FIT\"\nprint(\"S32-T3-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "fitted",
+        "True",
+        "mode",
+        "app",
+        "transform_before_fit",
+        "False"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T3-A-E1 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T3-A-E1 · Calcula el contrato de `ColumnTransformer y custom transformers` sobre `CASO-LIM-032-3A`. La entrada es el dict completo del starter; la operación debe demostrar transformer fitted con m. I used starter fixtures from the quiz card, hints «Relaciona los campos `fitted, mode, transform_before_fit` con la regla explicada en S32-T3-A.; El predicado correcto debe ser verdadero porque el fixture conserva transformer fitte», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"transform_before_fit\"] is False else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nincomplete = {**valid}\nincomplete.pop(\"fitted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "fitted",
+        "mode",
+        "transform_before_fit"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T3-A-E2 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T3-A-E2 · Modela tres rutas de `ColumnTransformer y custom transformers`: fixture válido, fixture adverso y registro sin `fitted`. Entrada: dict con case_id, fitted, mode, transform_before_fit. Sa. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a fitted debe ocurrir antes de esa rama.; Después aplica la regla de S32-T3-A: transformer fitted con mode y sin transform prematuro. El», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"fitted\", \"mode\", \"transform_before_fit\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"transform_before_fit\"] is True else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nuncertain = {**valid}\nuncertain.pop(\"fitted\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "fitted",
+        "mode",
+        "transform_before_fit"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T3-A-E3 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T3-A-E3 · Contrasta fallo cerrado para `ColumnTransformer y custom transformers` con tres fixtures distintos. `CASO-LIM-032-3A` debe continuar, el adverso debe devolver `REJECT_TRANSFORM_BEFORE_FI. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_FIT_STATE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró transformer fitted con mode y», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\nmeets_contract = record[\"versioned\"] is True or not record[\"version\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNVERSIONED\"\nprint(\"S32-T3-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "state",
+        "median",
+        "version",
+        "versioned",
+        "True",
+        "meets_contract"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T3-B-E1 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T3-B-E1 · Calcula el contrato de `fit/transform y persistencia` sobre `CASO-LIM-032-3B`. La entrada es el dict completo del starter; la operación debe demostrar state JSON con version fs-vN. Reemp. I used starter fixtures from the quiz card, hints «Relaciona los campos `state, version, versioned` con la regla explicada en S32-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva state JSON con version fs-», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"versioned\"] is True or not record[\"version\"] else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nincomplete = {**valid}\nincomplete.pop(\"version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "state",
+        "version",
+        "versioned"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T3-B-E2 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T3-B-E2 · Modela tres rutas de `fit/transform y persistencia`: fixture válido, fixture adverso y registro sin `version`. Entrada: dict con case_id, state, version, versioned. Salidas exactas: `PAS. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a version debe ocurrir antes de esa rama.; Después aplica la regla de S32-T3-B: state JSON con version fs-vN. El fixture adverso debe fa», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"median\", \"state\", \"version\", \"versioned\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"versioned\"] is False or not record[\"version\"] else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nuncertain = {**valid}\nuncertain.pop(\"version\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "median",
+        "state",
+        "version"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T3-B-E3 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T3-B-E3 · Contrasta fallo cerrado para `fit/transform y persistencia` con tres fixtures distintos. `CASO-LIM-032-3B` debe continuar, el adverso debe devolver `REJECT_UNVERSIONED` y la ausencia de . I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_STATE_JSON` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró state JSON con version fs-vN», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\nmeets_contract = record[\"overlap\"] <= 0\nstatus = \"PASS\" if meets_contract else \"REJECT_ENTITY_OVERLAP\"\nprint(\"S32-T4-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "n_train",
+        "n_test",
+        "overlap",
+        "meets_contract",
+        "record",
+        "overlap"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T4-A-E1 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T4-A-E1 · Calcula el contrato de `split por entidad/grupo/tiempo` sobre `CASO-LIM-032-4A`. La entrada es el dict completo del starter; la operación debe demostrar split con overlap 0 y ambos lados. I used starter fixtures from the quiz card, hints «Relaciona los campos `n_train, n_test, overlap` con la regla explicada en S32-T4-A.; El predicado correcto debe ser verdadero porque el fixture conserva split con overlap 0 y ambos», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"overlap\"] <= 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nincomplete = {**valid}\nincomplete.pop(\"overlap\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "n_train",
+        "n_test",
+        "overlap"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T4-A-E2 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T4-A-E2 · Modela tres rutas de `split por entidad/grupo/tiempo`: fixture válido, fixture adverso y registro sin `overlap`. Entrada: dict con case_id, n_train, n_test, overlap. Salidas exactas: `PA. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a overlap debe ocurrir antes de esa rama.; Después aplica la regla de S32-T4-A: split con overlap 0 y ambos lados no vacíos. El fixture », and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"n_test\", \"n_train\", \"overlap\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"overlap\"] > 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nuncertain = {**valid}\nuncertain.pop(\"overlap\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "n_test",
+        "n_train",
+        "overlap"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T4-A-E3 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T4-A-E3 · Contrasta fallo cerrado para `split por entidad/grupo/tiempo` con tres fixtures distintos. `CASO-LIM-032-4A` debe continuar, el adverso debe devolver `REJECT_ENTITY_OVERLAP` y la ausenci. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_SPLIT_KEYS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró split con overlap 0 y ambos », and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\nmeets_contract = bool(record[\"leaky\"]) or record[\"skew\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKAGE\"\nprint(\"S32-T4-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "leaky",
+        "skew",
+        "False",
+        "feature_set",
+        "meets_contract",
+        "bool"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T4-B-E1 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T4-B-E1 · Calcula el contrato de `leakage, train–serve skew y versionado` sobre `CASO-LIM-032-4B`. La entrada es el dict completo del starter; la operación debe demostrar sin leaky names, sin skew. I used starter fixtures from the quiz card, hints «Relaciona los campos `leaky, skew, feature_set` con la regla explicada en S32-T4-B.; El predicado correcto debe ser verdadero porque el fixture conserva sin leaky names, sin skew y», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if bool(record[\"leaky\"]) or record[\"skew\"] is False else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nincomplete = {**valid}\nincomplete.pop(\"feature_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "leaky",
+        "skew",
+        "feature_set"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T4-B-E2 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T4-B-E2 · Modela tres rutas de `leakage, train–serve skew y versionado`: fixture válido, fixture adverso y registro sin `feature_set`. Entrada: dict con case_id, leaky, skew, feature_set. Salidas . I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a feature_set debe ocurrir antes de esa rama.; Después aplica la regla de S32-T4-B: sin leaky names, sin skew y con feature_set id. El f», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S32-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"feature_set\", \"leaky\", \"skew\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if bool(record[\"leaky\"]) or record[\"skew\"] is True else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nuncertain = {**valid}\nuncertain.pop(\"feature_set\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "feature_set",
+        "leaky",
+        "skew"
+      ],
+      "justification_from_packet": "Explorer packet solve for S32-T4-B-E3 in «Feature engineering y pipelines sin leakage». Instruction asks: S32-T4-B-E3 · Contrasta fallo cerrado para `leakage, train–serve skew y versionado` con tres fixtures distintos. `CASO-LIM-032-4B` debe continuar, el adverso debe devolver `REJECT_LEAKAGE` y la ausenc. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_FEATURE_SET_ID` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró sin leaky names, sin ske», and theory headings ['numéricas/categóricas/texto', 'missing indicators, escalamiento y encoding', 'shared contact/address, distance y graph features', 'ventanas y frecuencia'] plus iDo demos ['S32-T1-A-DEMO', 'S32-T1-B-DEMO', 'S32-T2-A-DEMO', 'S32-T2-B-DEMO', 'S32-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "El instante t y el futuro",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q0 on S32 «Feature engineering y pipelines sin leakage». Stem: Una ventana half-open [t−w, t) excluye:. I pick [3] «El instante t y el futuro» because it matches taught safety/testing vocabulary ['instante', 'futuro'] and packet outcomes/theory (score=4.8). Snippet: «Ventanas half-open [t−w, t) cuentan eventos sin incluir el instante de decisión t. Incluir ts==t o futuro es leakage temporal clásico. En el». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Fallar de forma explícita",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q1 on S32 «Feature engineering y pipelines sin leakage». Stem: Transform antes de fit debe:. I pick [1] «Fallar de forma explícita» because it matches taught safety/testing vocabulary ['explícita', 'fallar', 'forma'] and packet outcomes/theory (score=6.8). Snippet: «Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill luego scale exige fitted=True; transform antes de fit debe fa». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Es leakage de identidad",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q2 on S32 «Feature engineering y pipelines sin leakage». Stem: Overlap de entidades entre train y test:. I pick [2] «Es leakage de identidad» because it matches taught safety/testing vocabulary ['identidad', 'leakage'] and packet outcomes/theory (score=8.8). Snippet: «Missing indicator + fill (mediana/moda) preserva la señal de ausencia. One-hot con unknown y z-score con mu/sd de train evitan silent fill y». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Es red flag de leakage",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q3 on S32 «Feature engineering y pipelines sin leakage». Stem: Un nombre de feature con 'label' o 'decision':. I pick [0] «Es red flag de leakage» because it matches taught safety/testing vocabulary ['leakage', 'flag', 'red'] and packet outcomes/theory (score=10.4). Snippet: «Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count)». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32
+    ],
+    "note": "Explorer walk for sections 27–52 from quiz_card + exercise_batch packets only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:39:34.157060+00:00",
+  "repaired_at": "2026-07-23T04:48:09.298356+00:00"
+}

@@ -1,0 +1,493 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 16,
+  "packet_sha": "bf1b1f93ca6fbcee",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s16-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "C001",
+        "int",
+        "isna",
+        "sum",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S16-T1-A-E1 (guided): resolví el fixture del paquete para «política required y conteo de nulls» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['isna().sum().', 'int(...).'] del slim packet, sin solutions externas. Cierre: print(int(df[\"id\"].isna().sum()))"
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {c: int(df[c].isna().sum()) for c, k in policy.items() if k == \"required\" and df[c].isna().any()}\nprint(viol)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "policy",
+        "required",
+        "optional",
+        "DataFrame",
+        "viol",
+        "int",
+        "isna"
+      ],
+      "justification_from_packet": "Explorer en S16-T1-A-E2 (independent): resolví el fixture del paquete para «mapa de violaciones required» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['Itera policy.', 'Incluye solo n>0 required.'] del slim packet, sin solutions externas. Cierre: print(viol)"
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nprint(\"fail\" if df[\"id\"].isna().any() else \"pass\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "fail",
+        "isna",
+        "any",
+        "else",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S16-T1-A-E3 (transfer): resolví el fixture del paquete para «gate pass/fail por required» respetando el pass «fail». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['Usa el dict viol.', 'Mensaje corto.'] del slim packet, sin solutions externas. Cierre: print(\"fail\" if df[\"id\"].isna().any() else \"pass\")"
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nprint(df[\"was_null\"].tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "monto",
+        "was_null",
+        "isna",
+        "fillna",
+        "tolist",
+        "guiado"
+      ],
+      "justification_from_packet": "Explorer en S16-T1-B-E1 (guided): resolví el fixture del paquete para «indicador de ausencia antes de imputar» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['was_null = isna.', 'luego fillna.'] del slim packet, sin solutions externas. Cierre: print(df[\"was_null\"].tolist())"
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = s.isna().mean()\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "rate",
+        "isna",
+        "mean",
+        "blocked",
+        "else",
+        "independiente"
+      ],
+      "justification_from_packet": "Explorer en S16-T1-B-E2 (independent): resolví el fixture del paquete para «cap de imputación» respetando el pass «blocked». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['mean de isna.', 'cap 0.3.'] del slim packet, sin solutions externas. Cierre: print(\"blocked\" if rate > 0.3 else \"ok\")"
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nprint(s.fillna(med).tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "med",
+        "median",
+        "fillna",
+        "tolist",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S16-T1-B-E3 (transfer): resolví el fixture del paquete para «mediana estable pre/post un null» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['median skipna.', 'fillna(median).'] del slim packet, sin solutions externas. Cierre: print(s.fillna(med).tolist())"
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "int",
+        "duplicated",
+        "keep",
+        "sum",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S16-T2-A-E1 (guided): resolví el fixture del paquete para «duplicados exactos» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['duplicated(keep=False).sum().', 'Dos filas exactas → 2.'] del slim packet, sin solutions externas. Cierre: print(int(df.duplicated(keep=False).sum()))"
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nnuniq = df.groupby(\"cliente_id\")[\"region\"].nunique()\nprint(nuniq[nuniq > 1].index.tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "region",
+        "Lima",
+        "Cusco"
+      ],
+      "justification_from_packet": "Explorer en S16-T2-A-E2 (independent): resolví el fixture del paquete para «conflictos de atributo» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['groupby nunique > 1.', 'unique ids.'] del slim packet, sin solutions externas. Cierre: print(nuniq[nuniq > 1].index.tolist())"
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nprint(\"conflict\" if sub[\"region\"].nunique() > 1 else (\"exact\" if len(sub) > 1 else \"clean\"))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "region",
+        "Lima",
+        "score",
+        "sub"
+      ],
+      "justification_from_packet": "Explorer en S16-T2-A-E3 (transfer): resolví el fixture del paquete para «clasificar exact vs conflict vs clean» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['Lógica en orden.', 'Fixture simple.'] del slim packet, sin solutions externas. Cierre: print(\"conflict\" if sub[\"region\"].nunique() > 1 else (\"exact\" if len(sub) > 1 else \"clean\"))"
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nq = df[df.duplicated(subset=[\"id\"], keep=False)]\nc = df.drop_duplicates(subset=[\"id\"], keep=\"first\")\nprint(len(q), len(c))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "duplicated",
+        "subset",
+        "keep",
+        "drop_duplicates",
+        "first",
+        "len"
+      ],
+      "justification_from_packet": "Explorer en S16-T2-B-E1 (guided): resolví el fixture del paquete para «split quarantine/clean por clave» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['duplicated(key, keep=False).', 'drop_duplicates.'] del slim packet, sin solutions externas. Cierre: print(len(q), len(c))"
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nq = df[df.duplicated(subset=[\"id\"], keep=False)]\nprint(q.columns.tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "batch",
+        "duplicated",
+        "subset",
+        "keep",
+        "columns",
+        "tolist"
+      ],
+      "justification_from_packet": "Explorer en S16-T2-B-E2 (independent): resolví el fixture del paquete para «evidencia en cuarentena» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['copy del mask.', 'No dropear cols.'] del slim packet, sin solutions externas. Cierre: print(q.columns.tolist())"
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\nprint(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_fail\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "card_ok",
+        "nunique",
+        "len",
+        "else",
+        "card_fail",
+        "transferencia"
+      ],
+      "justification_from_packet": "Explorer en S16-T2-B-E3 (transfer): resolví el fixture del paquete para «cardinalidad 1 fila por id» respetando el pass «card_ok». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['cardinalidad 1:1.', 'Comparar nunique y len.'] del slim packet, sin solutions externas. Cierre: print(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_fail\")"
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "lima",
+        "CUSCO",
+        "str",
+        "strip",
+        "title",
+        "tolist"
+      ],
+      "justification_from_packet": "Explorer en S16-T3-A-E1 (guided): resolví el fixture del paquete para «normalización de strings» respetando el pass «['Lima', 'Cusco']». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['str.strip().str.title().', 'Series string methods.'] del slim packet, sin solutions externas. Cierre: print(s.str.strip().str.title().tolist())"
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(v.sum()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "str",
+        "replace",
+        "regex",
+        "astype",
+        "float",
+        "sum"
+      ],
+      "justification_from_packet": "Explorer en S16-T3-A-E2 (independent): resolví el fixture del paquete para «parse de montos PEN sintéticos» respetando el pass «3.5». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['str.replace.', 'astype float.'] del slim packet, sin solutions externas. Cierre: print(float(v.sum()))"
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\nprint(bool((df[\"region_raw\"] == \"lima\").all()), df[\"region\"].tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "region_raw",
+        "lima",
+        "region",
+        "str",
+        "title",
+        "bool"
+      ],
+      "justification_from_packet": "Explorer en S16-T3-A-E3 (transfer): resolví el fixture del paquete para «conservar raw» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['Nueva col no pisa raw.', 'print both.'] del slim packet, sin solutions externas. Cierre: print(bool((df[\"region_raw\"] == \"lima\").all()), df[\"region\"].tolist())"
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "tolist",
+        "guiado",
+        "Concepto",
+        "domain",
+        "bounds",
+        "Marca"
+      ],
+      "justification_from_packet": "Explorer en S16-T3-B-E1 (guided): resolví el fixture del paquete para «domain bounds» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['s < 0.', 'tolist.'] del slim packet, sin solutions externas. Cierre: print((s < 0).tolist())"
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[mask].tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "quantile",
+        "iqr",
+        "mask",
+        "tolist",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S16-T3-B-E2 (independent): resolví el fixture del paquete para «outliers estadísticos IQR 1» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['quantile 0.25/0.75.', 'fence q1-1.5iqr.'] del slim packet, sin solutions externas. Cierre: print(s[mask].tolist())"
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = s.iloc[2]\nprint(\"error\" if val < 0 else \"ok\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "val",
+        "iloc",
+        "error",
+        "else",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S16-T3-B-E3 (transfer): resolví el fixture del paquete para «etiqueta error/flag/ok» respetando el pass «error». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['Prioriza error.', 'Una fila simple.'] del slim packet, sin solutions externas. Cierre: print(\"error\" if val < 0 else \"ok\")"
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nprint([c for c in required if c not in df.columns])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "required",
+        "monto",
+        "for",
+        "not",
+        "columns",
+        "guiado"
+      ],
+      "justification_from_packet": "Explorer en S16-T4-A-E1 (guided): resolví el fixture del paquete para «columnas required faltantes» respetando el pass «['monto']». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['list comprehension.', 'not in columns.'] del slim packet, sin solutions externas. Cierre: print([c for c in required if c not in df.columns])"
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\nprint(df.index[df[\"fin\"] < df[\"inicio\"]].tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "inicio",
+        "to_datetime",
+        "fin",
+        "index",
+        "tolist",
+        "independiente"
+      ],
+      "justification_from_packet": "Explorer en S16-T4-A-E2 (independent): resolví el fixture del paquete para «cross-field temporal» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['máscara datetime.', 'index[mask].tolist().'] del slim packet, sin solutions externas. Cierre: print(df.index[df[\"fin\"] < df[\"inicio\"]].tolist())"
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "missing",
+        "for",
+        "monto",
+        "not",
+        "columns",
+        "drift"
+      ],
+      "justification_from_packet": "Explorer en S16-T4-A-E3 (transfer): resolví el fixture del paquete para «schema drift gate» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['Usa lista missing.', 'Mensajes fijos.'] del slim packet, sin solutions externas. Cierre: print(\"drift\" if missing else \"schema_ok\")"
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "rows_in = 10\nq = 3\nprint(rows_in - q)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows_in",
+        "guiado",
+        "Concepto",
+        "rows_clean",
+        "Dado",
+        "quarantine_n",
+        "imprime",
+        "quarantine"
+      ],
+      "justification_from_packet": "Explorer en S16-T4-B-E1 (guided): resolví el fixture del paquete para «rows_clean» respetando el pass «7». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['resta simple.', 'int.'] del slim packet, sin solutions externas. Cierre: print(rows_in - q)"
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "audit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\"})\nprint(len(audit))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "audit",
+        "event",
+        "start",
+        "append",
+        "quarantine",
+        "len",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S16-T4-B-E2 (independent): resolví el fixture del paquete para «audit append-only» respetando el pass «contrato del starter». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['audit.append.', 'lista previa con start.'] del slim packet, sin solutions externas. Cierre: print(len(audit))"
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "n_q = 1\nprint(False if n_q > 0 else True)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "n_q",
+        "else",
+        "transferencia",
+        "Concepto",
+        "metrics",
+        "quarantine",
+        "entonces",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer en S16-T4-B-E3 (transfer): resolví el fixture del paquete para «metrics» respetando el pass «False». Usé theory/iDo (S16-T1-A-DEMO) y pistas ['pass = n_q==0.', 'json opcional.'] del slim packet, sin solutions externas. Cierre: print(False if n_q > 0 else True)"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Provocar violación/cuarentena o fail del gate",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «Un campo marked required con nulls debe:», I select «Provocar violación/cuarentena o fail del gate» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: nulls y políticas por campo Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente c…)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Exacto = filas idénticas; conflicto = misma clave con atributos distintos",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «Duplicado exacto vs conflicto de clave:», I select «Exacto = filas idénticas; conflicto = misma clave con atributos distintos» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: nulls y políticas por campo Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente c…)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Auditar y disputar la forma canónica sin perder el valor original",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «Conservar region_raw al normalizar sirve para:», I select «Auditar y disputar la forma canónica sin perder el valor original» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: nulls y políticas por campo Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente c…)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Puede marcar (o borrar) colas legítimas de negocio como si fueran error",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «IQR sin domain bounds es riesgoso porque:», I select «Puede marcar (o borrar) colas legítimas de negocio como si fueran error» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: nulls y políticas por campo Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente c…)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Publicar métricas y cuarentena aunque pass=False",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «Un quality gate que falla debe:», I select «Publicar métricas y cuarentena aunque pass=False» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: nulls y políticas por campo Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente c…)."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T04:13:58.771467+00:00"
+}

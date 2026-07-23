@@ -1,0 +1,419 @@
+{
+  "section_index": 42,
+  "title": "Schemas, seguridad y privacidad de servicios",
+  "outcomes": [
+    "Define schemas Pydantic/JSON Schema",
+    "Evoluciona schemas con validación de negocio",
+    "Implementa authn/authz RBAC",
+    "Aplica scopes y deny-by-default",
+    "Mitiga injection/SSRF/path traversal",
+    "Gestiona secretos, cifrado y deps",
+    "Minimiza datos y fija retención",
+    "Audita, borra y seudonimiza accesos"
+  ],
+  "theory": [
+    {
+      "heading": "Pydantic y JSON Schema",
+      "paragraphs": [
+        "Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: schema exportado y fixtures válidos/inválidos. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `Pydantic y JSON Schema` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es schema exportado y fixtures válidos/inválidos. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "evolución, discriminated unions y validación de negocio",
+      "paragraphs": [
+        "La evolución segura prefiere campos opcionales aditivos y discriminated unions exhaustivas; renombrar o reinterpretar un campo exige versión/migración.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: lector anterior conserva contrato. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `evolución, discriminated unions y validación de negocio` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es lector anterior conserva contrato. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "authn/authz y RBAC",
+      "paragraphs": [
+        "Authentication identifica; authorization decide una acción sobre un recurso. RBAC parte de roles mínimos y verifica pertenencia del recurso.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: prueba actor A no lee caso B. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `authn/authz y RBAC` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es prueba actor A no lee caso B. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "scopes, service identities y deny-by-default",
+      "paragraphs": [
+        "Scopes expresan capacidades estrechas, cada servicio tiene identidad propia y deny-by-default cubre rutas o acciones no declaradas.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: matriz de scopes con denegaciones explícitas. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `scopes, service identities y deny-by-default` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es matriz de scopes con denegaciones explícitas. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "input limits, injection y SSRF/path traversal",
+      "paragraphs": [
+        "Límites de tamaño y allowlists se aplican antes de procesar; URLs, nombres de archivo y expresiones nunca se convierten directamente en red, ruta o consulta.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: payload/URL/ruta adversarial rechazada. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `input limits, injection y SSRF/path traversal` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es payload/URL/ruta adversarial rechazada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "secretos, cifrado y dependency risk",
+      "paragraphs": [
+        "Secretos llegan por runtime, nunca por código/log; cifrado requiere gestión de claves y dependencias fijadas se revisan por riesgo y provenance.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: scan sin secreto y rotación ensayada. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `secretos, cifrado y dependency risk` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es scan sin secreto y rotación ensayada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "minimización, purpose y retención",
+      "paragraphs": [
+        "Privacidad exige dato mínimo para propósito declarado y retención finita; «podría servir» no es una finalidad válida.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: inventario propósito-campo-retención aprobado. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `minimización, purpose y retención` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es inventario propósito-campo-retención aprobado. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "audit, deletion, pseudonymization y acceso",
+      "paragraphs": [
+        "Audit registra quién/qué/cuándo sin copiar PII; borrado cubre derivados, pseudonimización separa la llave y acceso queda revisable.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: borrado y no-reaparición verificados. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `audit, deletion, pseudonymization y acceso` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es borrado y no-reaparición verificados. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S42-T1-A-DEMO",
+      "description": "Demo: Pydantic y JSON Schema",
+      "why": "Hace observable `Pydantic y JSON Schema` con un caso local pequeño y deja como evidencia schema exportado y fixtures válidos/inválidos; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S42-T1-B-DEMO",
+      "description": "Demo: evolución, discriminated unions y validación de negocio",
+      "why": "Hace observable `evolución, discriminated unions y validación de negocio` con un caso local pequeño y deja como evidencia lector anterior conserva contrato; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S42-T2-A-DEMO",
+      "description": "Demo: authn/authz y RBAC",
+      "why": "Hace observable `authn/authz y RBAC` con un caso local pequeño y deja como evidencia prueba actor A no lee caso B; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S42-T2-B-DEMO",
+      "description": "Demo: scopes, service identities y deny-by-default",
+      "why": "Hace observable `scopes, service identities y deny-by-default` con un caso local pequeño y deja como evidencia matriz de scopes con denegaciones explícitas; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S42-T3-A-DEMO",
+      "description": "Demo: input limits, injection y SSRF/path traversal",
+      "why": "Hace observable `input limits, injection y SSRF/path traversal` con un caso local pequeño y deja como evidencia payload/URL/ruta adversarial rechazada; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S42-T3-B-DEMO",
+      "description": "Demo: secretos, cifrado y dependency risk",
+      "why": "Hace observable `secretos, cifrado y dependency risk` con un caso local pequeño y deja como evidencia scan sin secreto y rotación ensayada; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S42-T4-A-DEMO",
+      "description": "Demo: minimización, purpose y retención",
+      "why": "Hace observable `minimización, purpose y retención` con un caso local pequeño y deja como evidencia inventario propósito-campo-retención aprobado; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S42-T4-B-DEMO",
+      "description": "Demo: audit, deletion, pseudonymization y acceso",
+      "why": "Hace observable `audit, deletion, pseudonymization y acceso` con un caso local pequeño y deja como evidencia borrado y no-reaparición verificados; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué evidencia permite aprobar `Pydantic y JSON Schema` en CASO-CUS-042?",
+      "options": [
+        "un print sin assert ni versión",
+        "schema exportado y fixtures válidos/inválidos",
+        "una captura de pantalla sin fuente",
+        "datos personales reales para que parezca auténtico"
+      ]
+    },
+    {
+      "question": "Si ocurre la condición de error de S42, ¿qué respuesta preserva seguridad y auditabilidad?",
+      "options": [
+        "continuar y ocultar el warning",
+        "inventar evidencia faltante",
+        "borrar el trace para reducir ruido",
+        "emitir DENY y conservar evidencia"
+      ]
+    },
+    {
+      "question": "¿Cuál resultado demuestra el gate `CP-N4-A · control plane seguro y privado`?",
+      "options": [
+        "un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos",
+        "el archivo S42 existe, aunque no pruebe el gate",
+        "el README afirma que funciona",
+        "se usó la herramienta más nueva"
+      ]
+    },
+    {
+      "question": "¿Qué tratamiento de `CASO-CUS-042` respeta el alcance del curso?",
+      "options": [
+        "reemplazarlo por datos reales sin consentimiento",
+        "subir secretos para facilitar la demo",
+        "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+        "inferir fraude o parentesco desde ER"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S42-T1-A-E1",
+      "instruction": "S42-T1-A-E1 · Calcula el contrato de `Pydantic y JSON Schema` sobre `CASO-CUS-042-1A`. La entrada es el dict completo del starter; la operación debe demostrar schema estricto más regla de negocio. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_SCHEMA` en E2.",
+      "hints": [
+        "Relaciona los campos `extra_policy`, `json_schema`, `valid_fixture`, `business_rule` con la regla explicada en S42-T1-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva schema exportado y fixtures válidos/inválidos; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\":\"forbid\",\"json_schema\":True,\"valid_fixture\":True,\"business_rule\":True}}\nmeets_contract = record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_SCHEMA\"\nprint(\"S42-T1-A\", status)\n"
+    },
+    {
+      "id": "S42-T1-A-E2",
+      "instruction": "S42-T1-A-E2 · Modela tres rutas de `Pydantic y JSON Schema`: fixture válido, fixture adverso y registro sin `business_rule`. Entrada: dict con case_id, extra_policy, json_schema, valid_fixture, business_rule. Salidas exactas: `PASS`, `REJECT_SCHEMA`, `MISSING:business_rule`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a business_rule debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S42-T1-A: schema estricto más regla de negocio. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T1-A-E3",
+      "instruction": "S42-T1-A-E3 · Simula fallo cerrado para `Pydantic y JSON Schema` con tres fixtures distintos. `CASO-CUS-042-1A` debe continuar, el adverso debe devolver `REJECT_SCHEMA` y la ausencia de `business_rule` debe devolver `REVIEW_BUSINESS_INVARIANT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró schema estricto más regla de negocio; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T1-B-E1",
+      "instruction": "S42-T1-B-E1 · Compara el contrato de `evolución, discriminated unions y validación de negocio` sobre `CASO-CUS-042-1B`. La entrada es el dict completo del starter; la operación debe demostrar cambio aditivo y union exhaustiva. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `VERSION_SCHEMA` en E2.",
+      "hints": [
+        "Relaciona los campos `change`, `old_reader_passes`, `union_tags`, `handled_tags` con la regla explicada en S42-T1-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva lector anterior conserva contrato; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\":\"add_optional\",\"old_reader_passes\":True,\"union_tags\":{\"email\",\"phone\"},\"handled_tags\":{\"email\",\"phone\"}}}\nmeets_contract = record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"]\nstatus = \"PASS\" if meets_contract else \"VERSION_SCHEMA\"\nprint(\"S42-T1-B\", status)\n"
+    },
+    {
+      "id": "S42-T1-B-E2",
+      "instruction": "S42-T1-B-E2 · Verifica tres rutas de `evolución, discriminated unions y validación de negocio`: fixture válido, fixture adverso y registro sin `handled_tags`. Entrada: dict con case_id, change, old_reader_passes, union_tags, handled_tags. Salidas exactas: `PASS`, `VERSION_SCHEMA`, `MISSING:handled_tags`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a handled_tags debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S42-T1-B: cambio aditivo y union exhaustiva. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T1-B-E3",
+      "instruction": "S42-T1-B-E3 · Extiende fallo cerrado para `evolución, discriminated unions y validación de negocio` con tres fixtures distintos. `CASO-CUS-042-1B` debe continuar, el adverso debe devolver `VERSION_SCHEMA` y la ausencia de `handled_tags` debe devolver `MIGRATE_CONSUMERS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `MIGRATE_CONSUMERS` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró cambio aditivo y union exhaustiva; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T2-A-E1",
+      "instruction": "S42-T2-A-E1 · Filtra el contrato de `authn/authz y RBAC` sobre `CASO-CUS-042-2A`. La entrada es el dict completo del starter; la operación debe demostrar identidad, permiso y pertenencia del recurso. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `DENY_CROSS_TENANT` en E2.",
+      "hints": [
+        "Relaciona los campos `authenticated`, `actor`, `resource_owner`, `roles` con la regla explicada en S42-T2-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva prueba actor A no lee caso B; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\":True,\"actor\":\"user-a\",\"resource_owner\":\"user-a\",\"roles\":{\"case:read\"}}}\nmeets_contract = record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"]\nstatus = \"PASS\" if meets_contract else \"DENY_CROSS_TENANT\"\nprint(\"S42-T2-A\", status)\n"
+    },
+    {
+      "id": "S42-T2-A-E2",
+      "instruction": "S42-T2-A-E2 · Clasifica tres rutas de `authn/authz y RBAC`: fixture válido, fixture adverso y registro sin `roles`. Entrada: dict con case_id, authenticated, actor, resource_owner, roles. Salidas exactas: `PASS`, `DENY_CROSS_TENANT`, `MISSING:roles`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a roles debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S42-T2-A: identidad, permiso y pertenencia del recurso. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T2-A-E3",
+      "instruction": "S42-T2-A-E3 · Defiende fallo cerrado para `authn/authz y RBAC` con tres fixtures distintos. `CASO-CUS-042-2A` debe continuar, el adverso debe devolver `DENY_CROSS_TENANT` y la ausencia de `roles` debe devolver `VERIFY_RESOURCE_OWNER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `VERIFY_RESOURCE_OWNER` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró identidad, permiso y pertenencia del recurso; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T2-B-E1",
+      "instruction": "S42-T2-B-E1 · Modela el contrato de `scopes, service identities y deny-by-default` sobre `CASO-CUS-042-2B`. La entrada es el dict completo del starter; la operación debe demostrar scope estrecho, identidad propia y ruta declarada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `DENY_SCOPE` en E2.",
+      "hints": [
+        "Relaciona los campos `requested_scope`, `granted_scopes`, `service_id`, `route_declared` con la regla explicada en S42-T2-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva matriz de scopes con denegaciones explícitas; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\":\"report:prepare\",\"granted_scopes\":{\"report:prepare\"},\"service_id\":\"svc-reporter\",\"route_declared\":True}}\nmeets_contract = record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"]\nstatus = \"PASS\" if meets_contract else \"DENY_SCOPE\"\nprint(\"S42-T2-B\", status)\n"
+    },
+    {
+      "id": "S42-T2-B-E2",
+      "instruction": "S42-T2-B-E2 · Audita tres rutas de `scopes, service identities y deny-by-default`: fixture válido, fixture adverso y registro sin `route_declared`. Entrada: dict con case_id, requested_scope, granted_scopes, service_id, route_declared. Salidas exactas: `PASS`, `DENY_SCOPE`, `MISSING:route_declared`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a route_declared debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S42-T2-B: scope estrecho, identidad propia y ruta declarada. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T2-B-E3",
+      "instruction": "S42-T2-B-E3 · Recupera fallo cerrado para `scopes, service identities y deny-by-default` con tres fixtures distintos. `CASO-CUS-042-2B` debe continuar, el adverso debe devolver `DENY_SCOPE` y la ausencia de `route_declared` debe devolver `REQUEST_NARROW_GRANT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_NARROW_GRANT` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró scope estrecho, identidad propia y ruta declarada; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T3-A-E1",
+      "instruction": "S42-T3-A-E1 · Verifica el contrato de `input limits, injection y SSRF/path traversal` sobre `CASO-CUS-042-3A`. La entrada es el dict completo del starter; la operación debe demostrar límite, host allowlisted y ruta confinada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNTRUSTED_INPUT` en E2.",
+      "hints": [
+        "Relaciona los campos `bytes`, `max_bytes`, `host`, `allowed_hosts`, `resolved_path`, `root` con la regla explicada en S42-T3-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva payload/URL/ruta adversarial rechazada; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\":2048,\"max_bytes\":4096,\"host\":\"docs.local\",\"allowed_hosts\":{\"docs.local\"},\"resolved_path\":\"/safe/reports/a.txt\",\"root\":\"/safe/reports\"}}\nmeets_contract = record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\")\nstatus = \"PASS\" if meets_contract else \"REJECT_UNTRUSTED_INPUT\"\nprint(\"S42-T3-A\", status)\n"
+    },
+    {
+      "id": "S42-T3-A-E2",
+      "instruction": "S42-T3-A-E2 · Decide tres rutas de `input limits, injection y SSRF/path traversal`: fixture válido, fixture adverso y registro sin `root`. Entrada: dict con case_id, bytes, max_bytes, host, allowed_hosts, resolved_path, root. Salidas exactas: `PASS`, `REJECT_UNTRUSTED_INPUT`, `MISSING:root`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a root debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S42-T3-A: límite, host allowlisted y ruta confinada. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T3-A-E3",
+      "instruction": "S42-T3-A-E3 · Contrasta fallo cerrado para `input limits, injection y SSRF/path traversal` con tres fixtures distintos. `CASO-CUS-042-3A` debe continuar, el adverso debe devolver `REJECT_UNTRUSTED_INPUT` y la ausencia de `root` debe devolver `SECURITY_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `SECURITY_REVIEW` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró límite, host allowlisted y ruta confinada; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T3-B-E1",
+      "instruction": "S42-T3-B-E1 · Clasifica el contrato de `secretos, cifrado y dependency risk` sobre `CASO-CUS-042-3B`. La entrada es el dict completo del starter; la operación debe demostrar secretos fuera del artefacto y dependencias revisadas. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ROTATE_AND_BLOCK` en E2.",
+      "hints": [
+        "Relaciona los campos `secret_in_repo`, `secret_in_log`, `rotation_tested`, `dependency_pinned`, `critical_cves` con la regla explicada en S42-T3-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva scan sin secreto y rotación ensayada; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\":False,\"secret_in_log\":False,\"rotation_tested\":True,\"dependency_pinned\":True,\"critical_cves\":0}}\nmeets_contract = record[\"secret_in_repo\"] or not record[\"dependency_pinned\"]\nstatus = \"PASS\" if meets_contract else \"ROTATE_AND_BLOCK\"\nprint(\"S42-T3-B\", status)\n"
+    },
+    {
+      "id": "S42-T3-B-E2",
+      "instruction": "S42-T3-B-E2 · Calcula tres rutas de `secretos, cifrado y dependency risk`: fixture válido, fixture adverso y registro sin `critical_cves`. Entrada: dict con case_id, secret_in_repo, secret_in_log, rotation_tested, dependency_pinned, critical_cves. Salidas exactas: `PASS`, `ROTATE_AND_BLOCK`, `MISSING:critical_cves`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a critical_cves debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S42-T3-B: secretos fuera del artefacto y dependencias revisadas. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T3-B-E3",
+      "instruction": "S42-T3-B-E3 · Instrumenta fallo cerrado para `secretos, cifrado y dependency risk` con tres fixtures distintos. `CASO-CUS-042-3B` debe continuar, el adverso debe devolver `ROTATE_AND_BLOCK` y la ausencia de `critical_cves` debe devolver `ASSESS_DEPENDENCY_RISK`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `ASSESS_DEPENDENCY_RISK` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró secretos fuera del artefacto y dependencias revisadas; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T4-A-E1",
+      "instruction": "S42-T4-A-E1 · Audita el contrato de `minimización, purpose y retención` sobre `CASO-CUS-042-4A`. La entrada es el dict completo del starter; la operación debe demostrar campos mínimos, propósito y retención finita. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `MINIMIZE_AND_EXPIRE` en E2.",
+      "hints": [
+        "Relaciona los campos `collected`, `needed`, `purpose`, `retention_days`, `max_retention_days` con la regla explicada en S42-T4-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva inventario propósito-campo-retención aprobado; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\":{\"case_id\",\"region\"},\"needed\":{\"case_id\",\"region\"},\"purpose\":\"status-report\",\"retention_days\":30,\"max_retention_days\":30}}\nmeets_contract = record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"]\nstatus = \"PASS\" if meets_contract else \"MINIMIZE_AND_EXPIRE\"\nprint(\"S42-T4-A\", status)\n"
+    },
+    {
+      "id": "S42-T4-A-E2",
+      "instruction": "S42-T4-A-E2 · Compara tres rutas de `minimización, purpose y retención`: fixture válido, fixture adverso y registro sin `max_retention_days`. Entrada: dict con case_id, collected, needed, purpose, retention_days, max_retention_days. Salidas exactas: `PASS`, `MINIMIZE_AND_EXPIRE`, `MISSING:max_retention_days`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a max_retention_days debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S42-T4-A: campos mínimos, propósito y retención finita. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T4-A-E3",
+      "instruction": "S42-T4-A-E3 · Aísla fallo cerrado para `minimización, purpose y retención` con tres fixtures distintos. `CASO-CUS-042-4A` debe continuar, el adverso debe devolver `MINIMIZE_AND_EXPIRE` y la ausencia de `max_retention_days` debe devolver `PRIVACY_OWNER_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `PRIVACY_OWNER_REVIEW` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró campos mínimos, propósito y retención finita; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T4-B-E1",
+      "instruction": "S42-T4-B-E1 · Decide el contrato de `audit, deletion, pseudonymization y acceso` sobre `CASO-CUS-042-4B`. La entrada es el dict completo del starter; la operación debe demostrar audit sin PII, borrado derivado y llave separada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `PURGE_DERIVATIVES` en E2.",
+      "hints": [
+        "Relaciona los campos `audit_fields`, `pii_fields`, `deleted`, `derived_deleted`, `key_separate` con la regla explicada en S42-T4-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva borrado y no-reaparición verificados; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\":{\"actor_id\",\"action\",\"at\",\"case_token\"},\"pii_fields\":{\"full_name\",\"email\"},\"deleted\":True,\"derived_deleted\":True,\"key_separate\":True}}\nmeets_contract = bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"]\nstatus = \"PASS\" if meets_contract else \"PURGE_DERIVATIVES\"\nprint(\"S42-T4-B\", status)\n"
+    },
+    {
+      "id": "S42-T4-B-E2",
+      "instruction": "S42-T4-B-E2 · Filtra tres rutas de `audit, deletion, pseudonymization y acceso`: fixture válido, fixture adverso y registro sin `key_separate`. Entrada: dict con case_id, audit_fields, pii_fields, deleted, derived_deleted, key_separate. Salidas exactas: `PASS`, `PURGE_DERIVATIVES`, `MISSING:key_separate`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a key_separate debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S42-T4-B: audit sin PII, borrado derivado y llave separada. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S42-T4-B-E3",
+      "instruction": "S42-T4-B-E3 · Demuestra fallo cerrado para `audit, deletion, pseudonymization y acceso` con tres fixtures distintos. `CASO-CUS-042-4B` debe continuar, el adverso debe devolver `PURGE_DERIVATIVES` y la ausencia de `key_separate` debe devolver `VERIFY_DELETION_SCOPE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `VERIFY_DELETION_SCOPE` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró audit sin PII, borrado derivado y llave separada; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    }
+  ],
+  "packet_sha": "93b177a844e593bc"
+}

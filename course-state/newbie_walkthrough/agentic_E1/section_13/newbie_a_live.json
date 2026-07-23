@@ -1,0 +1,228 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 13,
+  "packet_sha": "5b62429cf1e55f4a",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s13-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "id": "S13-T1-A-E1",
+      "kind": "guided",
+      "code": "import re\ndef norm_name(n):\n    return re.sub(r\"\\s+\", \" \", n.casefold().strip())\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\nprint(norm_name(\" Ana  QUISPE \"), \"|\", norm_doc(\"D-12.34\"))\n",
+      "justification_from_packet": "entity_resolution_score y relationship_signal_score se mantienen separados en la ficha. norm_name casefold+espacios; norm_doc solo alfanumerico.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T1-A-E2",
+      "kind": "independent",
+      "code": "def blocking_key(rec):\n    toks = rec[\"name\"].casefold().strip().split()\n    ap = toks[1] if len(toks) >= 2 else toks[0]\n    return f\"{ap}|{rec['region'].casefold()}\"\nprint(blocking_key({\"name\": \"Luis Huamán Soto\", \"region\": \"Cusco\"}))\n",
+      "justification_from_packet": "entity_resolution_score y relationship_signal_score se mantienen separados en la ficha. blocking_key usa token[1] como apellido paterno y region en casefold → huamán|cusco.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T1-A-E3",
+      "kind": "transfer",
+      "code": "import re\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\ndef blocking_key(rec):\n    toks = rec[\"name\"].casefold().strip().split()\n    ap = toks[1] if len(toks) >= 2 else toks[0]\n    return f\"{ap}|{rec['region'].casefold()}\"\ndef er_score(a, b):\n    same_doc = norm_doc(a[\"document_id\"]) == norm_doc(b[\"document_id\"])\n    same_block = blocking_key(a) == blocking_key(b)\n    if same_doc and same_block:\n        return 1.0\n    if same_doc or same_block:\n        return 0.5\n    return 0.0\na = {\"name\": \"Ana Quispe\", \"document_id\": \"D-1\", \"region\": \"Lima\"}\nb = {\"name\": \"Ana Quispe\", \"document_id\": \"d1\", \"region\": \"Lima\"}\nprint(er_score(a, b))\nprint(\"criterio: 1.0 doc+block; 0.5 uno solo; 0.0 ninguno\")\n",
+      "justification_from_packet": "entity_resolution_score y relationship_signal_score se mantienen separados en la ficha. er_score 1.0/0.5/0.0 por doc y blocking_key.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T1-B-E1",
+      "kind": "guided",
+      "code": "tp, fp, fn = 8, 2, 2\nprecision = tp / (tp + fp)\nrecall = tp / (tp + fn)\nprint(f\"precision {precision} | recall {recall}\")\n",
+      "justification_from_packet": "FP de ER es error de matching, no veredicto legal de fraude. precision y recall 0.8 con tp=8 fp=2 fn=2.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T1-B-E2",
+      "kind": "independent",
+      "code": "pairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\ndef clerical_queue(pairs, low=0.4, high=0.7):\n    return [p[\"id\"] for p in pairs if low <= p[\"score\"] <= high]\nprint(clerical_queue(pairs))\n",
+      "justification_from_packet": "Zona gris → needs_review o abstain según política, no auto_fraud. Cola clerical scores en [0.4,0.7].",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T1-B-E3",
+      "kind": "transfer",
+      "code": "print(\"fp_not_fraud: False positive de matching no es evidencia de fraude\")\nprint(\"action: encolar review clerical\")\n",
+      "justification_from_packet": "FP de ER es error de matching, no veredicto legal de fraude. FP de ER no es fraude; review.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T2-A-E1",
+      "kind": "guided",
+      "code": "def shared_email(a, b):\n    return bool(a and b and a.casefold() == b.casefold())\nprint(shared_email(\"a@x.com\", \"A@x.com\"), \"|\", shared_email(\"\", \"a@x.com\"), \"|\", shared_email(\"a@x.com\", \"b@x.com\"))\n",
+      "justification_from_packet": "entity_resolution_score y relationship_signal_score se mantienen separados en la ficha. shared_email casefold y no vacios.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T2-A-E2",
+      "kind": "independent",
+      "code": "def rel_score(km, surname_jaccard):\n    return round(0.6 * (1 if km < 2 else 0) + 0.4 * surname_jaccard, 3)\nprint(rel_score(1.2, 0.5), \"|\", rel_score(5.0, 0.5))\n",
+      "justification_from_packet": "entity_resolution_score y relationship_signal_score se mantienen separados en la ficha. rel_score combina geo y jaccard.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T2-A-E3",
+      "kind": "transfer",
+      "code": "print(\"relationship_signal_score no implica parentesco ni colusión\")\n",
+      "justification_from_packet": "entity_resolution_score y relationship_signal_score se mantienen separados en la ficha. Disclaimer exacto del packet: relationship_signal_score no implica parentesco ni colusión.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T2-B-E1",
+      "kind": "guided",
+      "code": "txs = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]\ndef direct_txs(txs, a, b):\n    return [amt for x, y, amt in txs if {x, y} == {a, b}]\nprint(direct_txs(txs, \"A\", \"B\"))\n",
+      "justification_from_packet": "direct_txs montos entre a y b cualquier direccion. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T2-B-E2",
+      "kind": "independent",
+      "code": "txs = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]\ndef neighbors(txs, node):\n    s = set()\n    for x, y, _ in txs:\n        if x == node:\n            s.add(y)\n        elif y == node:\n            s.add(x)\n    return s\ndef common_counterparties(txs, a, c):\n    return sorted(neighbors(txs, a) & neighbors(txs, c))\nprint(common_counterparties(txs, \"A\", \"C\"))\n",
+      "justification_from_packet": "Contrapartes comunes por interseccion de vecinos. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T2-B-E3",
+      "kind": "transfer",
+      "code": "print(\"no_collusion: contraparte comun no prueba acuerdo colusorio\")\nprint(\"no_kinship: contraparte comun no prueba parentesco\")\n",
+      "justification_from_packet": "FP de ER es error de matching, no veredicto legal de fraude. No inferir colusion ni kinship.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T3-A-E1",
+      "kind": "guided",
+      "code": "def explanation_bullets(er, rel, missing):\n    return [\n        f\"entity_resolution_score={er}\",\n        f\"relationship_signal_score={rel}\",\n        f\"missing_fields={missing}\",\n    ]\nprint(explanation_bullets(0.9, 0.4, [\"email\"]))\n",
+      "justification_from_packet": "entity_resolution_score y relationship_signal_score se mantienen separados en la ficha. Tres bullets con scores separados.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T3-A-E2",
+      "kind": "independent",
+      "code": "def uncertainty_band(missing, conflict):\n    if conflict or len(missing) >= 2:\n        return \"high\"\n    if missing:\n        return \"med\"\n    return \"low\"\nprint(uncertainty_band([], False), \"|\", uncertainty_band([\"e\"], False), \"|\", uncertainty_band([\"e\",\"p\"], False), \"|\", uncertainty_band([], True))\n",
+      "justification_from_packet": "Zona gris → needs_review o abstain según política, no auto_fraud. uncertainty high/med/low.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T3-A-E3",
+      "kind": "transfer",
+      "code": "er, rel = 0.9, 0.1\nevidence_score = round(0.6 * er + 0.4 * rel, 2)\nconflict = abs(er - rel) > 0.5\nunc = \"high\" if conflict else \"low\"\nprint(f\"evidence_score {evidence_score} | uncertainty {unc} | note senales conflictivas\")\n",
+      "justification_from_packet": "Zona gris → needs_review o abstain según política, no auto_fraud. Conflicto er vs rel; score 0.58 high.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T3-B-E1",
+      "kind": "guided",
+      "code": "thresholds = {\n    \"accept_min\": 0.8,\n    \"review_low\": 0.4,\n}\nprint(sorted(thresholds.items()))\n",
+      "justification_from_packet": "Zona gris → needs_review o abstain según política, no auto_fraud. thresholds accept_min y review_low.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T3-B-E2",
+      "kind": "independent",
+      "code": "from math import isfinite\nth = {\"accept_min\": 0.8, \"review_low\": 0.4}\ndef decide_ops_status(score, unc, th):\n    if isinstance(score, bool) or not isinstance(score, (int, float)):\n        return \"invalid_input\"\n    if not isfinite(score) or not 0.0 <= score <= 1.0 or unc not in {\"low\", \"med\", \"high\"}:\n        return \"invalid_input\"\n    if unc == \"high\":\n        return \"needs_review\"\n    if score < th[\"review_low\"]:\n        return \"abstain\"\n    if score < th[\"accept_min\"]:\n        return \"needs_review\"\n    return \"accept_pair\"\nfor s, u in [(0.9, \"low\"), (0.5, \"low\"), (0.2, \"low\"), (0.9, \"high\"), (\"x\", \"low\")]:\n    print(s, u, decide_ops_status(s, u, th))\n",
+      "justification_from_packet": "Zona gris → needs_review o abstain según política, no auto_fraud. Matriz ops sin fraud/family.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T3-B-E3",
+      "kind": "transfer",
+      "code": "out = {\"score\": 0.9, \"status\": \"accept_pair\", \"is_family\": True, \"auto_fraud\": False}\nfor k in (\"is_family\", \"auto_fraud\"):\n    out.pop(k, None)\nprint(sorted(out.keys()))\n",
+      "justification_from_packet": "entity_resolution_score y relationship_signal_score se mantienen separados en la ficha. Quitar is_family y auto_fraud.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T4-A-E1",
+      "kind": "guided",
+      "code": "def pseudonymize(name):\n    return \" \".join(p[0] + \"***\" for p in name.split())\nprint(pseudonymize(\"Ana Quispe Rojas\"))\n",
+      "justification_from_packet": "CF-1: privacy sheet, acceso, tests, demo y runbook. Pseudonimo A*** Q*** R***. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T4-A-E2",
+      "kind": "independent",
+      "code": "def case_sheet(er, rel):\n    sheet = {\n        \"entity_resolution_score\": er,\n        \"relationship_signal_score\": rel,\n    }\n    assert list(sheet)[0] != list(sheet)[1]\n    return sheet\nprint(case_sheet(0.9, 0.4))\n",
+      "justification_from_packet": "entity_resolution_score y relationship_signal_score se mantienen separados en la ficha. Ficha con scores etiquetados separados.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T4-A-E3",
+      "kind": "transfer",
+      "code": "def map_tooltip(lat, lon, km, source):\n    return f\"lat={lat},lon={lon},geo_distance_km={km},source={source}\"\nprint(map_tooltip(-12.04, -77.04, 1.2, \"mock\"))\n",
+      "justification_from_packet": "CF-1: privacy sheet, acceso, tests, demo y runbook. Tooltip mapa con source=mock.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T4-B-E1",
+      "kind": "guided",
+      "code": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nprint(sorted(privacy.keys()), \"|\", privacy[\"pii_real\"])\n",
+      "justification_from_packet": "CF-1: privacy sheet, acceso, tests, demo y runbook. Privacy sheet CF-1 minimo. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T4-B-E2",
+      "kind": "independent",
+      "code": "def demo_command():\n    return \"python -m demo_n1_dashboard --synthetic\"\nprint(demo_command())\n",
+      "justification_from_packet": "CF-1: privacy sheet, acceso, tests, demo y runbook. Demo command synthetic. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S13-T4-B-E3",
+      "kind": "transfer",
+      "code": "actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\nprint(\"|\".join(actions), \"| level1_regression: re-check S01-S13 paths\")\n",
+      "justification_from_packet": "Level-1 regression: re-chequear paths críticos S01–S13 en el runbook. Runbook incidente + regression notes.",
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "stem": "entity_resolution_score y relationship_signal_score deben…",
+      "chosen_index": 0,
+      "chosen_text": "Mantenerse separados en la ficha de caso",
+      "justification_from_packet": "entity_resolution_score y relationship_signal_score se mantienen separados en la ficha. Por eso elijo la opción [0] para: entity_resolution_score y relationship_signal_score deben…",
+      "blocked_on": [],
+      "question_index": 0
+    },
+    {
+      "stem": "Un false positive de ER implica…",
+      "chosen_index": 2,
+      "chosen_text": "Error de matching; no es veredicto legal de fraude",
+      "justification_from_packet": "FP de ER es error de matching, no veredicto legal de fraude. Por eso elijo la opción [2] para: Un false positive de ER implica…",
+      "blocked_on": [],
+      "question_index": 1
+    },
+    {
+      "stem": "En zona gris de score el sistema debe…",
+      "chosen_index": 3,
+      "chosen_text": "Encolar needs_review / abstenerse según política",
+      "justification_from_packet": "Zona gris → needs_review o abstain según política, no auto_fraud. Por eso elijo la opción [3] para: En zona gris de score el sistema debe…",
+      "blocked_on": [],
+      "question_index": 2
+    },
+    {
+      "stem": "CF-1 en S13 incluye…",
+      "chosen_index": 1,
+      "chosen_text": "Privacy sheet, acceso, tests, demo y runbook",
+      "justification_from_packet": "CF-1: privacy sheet, acceso, tests, demo y runbook. Por eso elijo la opción [1] para: CF-1 en S13 incluye…",
+      "blocked_on": [],
+      "question_index": 3
+    },
+    {
+      "stem": "Level-1 regression notes en el You Do exigen…",
+      "chosen_index": 0,
+      "chosen_text": "Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)",
+      "justification_from_packet": "Level-1 regression: re-chequear paths críticos S01–S13 en el runbook. Por eso elijo la opción [0] para: Level-1 regression notes en el You Do exigen…",
+      "blocked_on": [],
+      "question_index": 4
+    }
+  ],
+  "recorded_at": "2026-07-23T04:17:47.516962+00:00"
+}

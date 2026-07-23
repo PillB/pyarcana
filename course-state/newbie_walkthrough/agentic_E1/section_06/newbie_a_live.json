@@ -1,0 +1,228 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 6,
+  "packet_sha": "2b7e2c730df3d20b",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s06-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "id": "S06-T1-A-E1",
+      "kind": "guided",
+      "code": "txs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nempty = []\nv0 = empty[-2:]\nprint(ventana)\nprint('len', len(ventana))\nprint('ventana=[]' if v0 == [] else v0, 'len=0' if len(v0)==0 else len(v0))\n",
+      "justification_from_packet": "xs[-2:] toma los últimos dos; funciona con listas cortas sin error. txs[-2:] últimos 2; vacío → [] len 0.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T1-A-E2",
+      "kind": "independent",
+      "code": "headers = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\nprint('KEYS', KEYS)\nprint('more', more, 'KEYS intacto', KEYS)\n",
+      "justification_from_packet": "Tuple inmutable como contrato de headers; + crea otra tupla. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T1-A-E3",
+      "kind": "transfer",
+      "code": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print('diagnóstico:', type(e).__name__, e)\n    ids_list = list(ids)\n    ids_list.append('C003')\n    print(ids_list)\n",
+      "justification_from_packet": "tuple no tiene append → AttributeError; list(ids) para mutar copia. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T1-B-E1",
+      "kind": "guided",
+      "code": "fila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n",
+      "justification_from_packet": "Unpacking posicional de fila de tres campos. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T1-B-E2",
+      "kind": "independent",
+      "code": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint('tras alias', xs, copia)\ncopia.append(4)\nprint('tras copia', xs, copia)\n",
+      "justification_from_packet": "alias = lista comparte objeto; append en alias se ve en la original. alias comparte; copy() no ve append del alias.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T1-B-E3",
+      "kind": "transfer",
+      "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\ndeep = copy.deepcopy(rows)\nshallow[0]['tags'].append('b')\nprint('orig tras shallow mut tags', rows)\ndeep[0]['tags'].append('z')\nprint('orig', rows)\nprint('deep', deep)\n",
+      "justification_from_packet": "alias = lista comparte objeto; append en alias se ve en la original. copy de lista no aísla dicts anidados; deepcopy sí.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T2-A-E1",
+      "kind": "guided",
+      "code": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])\n",
+      "justification_from_packet": "dict desde pares; claves str hashables. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T2-A-E2",
+      "kind": "independent",
+      "code": "idx = {'C001': 'Ana'}\nprint(idx.get('C001', 'N/A'))\nprint(idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)\n",
+      "justification_from_packet": "get con default evita KeyError; acceso duro lo lanza. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T2-A-E3",
+      "kind": "transfer",
+      "code": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nbase = dict(defaults)\nbase.update(override)\nprint('copy update', base, 'defaults intacto', defaults)\n",
+      "justification_from_packet": "Merge con ** no muta defaults; update sobre copia. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T2-B-E1",
+      "kind": "guided",
+      "code": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)\n",
+      "justification_from_packet": "Dedup con conflicts: primera ocurrencia a unique; payload distinto a conflicts sin silenciar. sorted(set(...)) unicos deterministas.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T2-B-E2",
+      "kind": "independent",
+      "code": "a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(a & b))\nprint('sym', sorted(a ^ b))\n",
+      "justification_from_packet": "Intersección & y diferencia simétrica ^ con sorted. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T2-B-E3",
+      "kind": "transfer",
+      "code": "def dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        k = r[key]\n        if k not in seen:\n            seen[k] = r\n            unique.append(r)\n        elif seen[k] != r:\n            conflicts.append({'id': k, 'a': seen[k], 'b': r})\n    return {'unique': unique, 'conflicts': conflicts}\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))\n",
+      "justification_from_packet": "Dedup con conflicts: primera ocurrencia a unique; payload distinto a conflicts sin silenciar. Primera a unique; payload distinto a conflicts.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T3-A-E1",
+      "kind": "guided",
+      "code": "clients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))\n",
+      "justification_from_packet": "len de contacts por cliente. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T3-A-E2",
+      "kind": "independent",
+      "code": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = [\n    {'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']}\n    for c in clients for t in c['txs']\n]\nprint(flat)\n",
+      "justification_from_packet": "Aplanar txs anidadas conservando client_id. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T3-A-E3",
+      "kind": "transfer",
+      "code": "clients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    ok = isinstance(txs, list)\n    print(c['id'], 'ok' if ok else 'review')\n",
+      "justification_from_packet": "Shape inconsistente: txs no list → review. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T3-B-E1",
+      "kind": "guided",
+      "code": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n",
+      "justification_from_packet": "get_nested seguro con default en path faltante. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T3-B-E2",
+      "kind": "independent",
+      "code": "clients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n    print(f\"{c['id']}: {flag}\")\n",
+      "justification_from_packet": "missing solo si ausente o None; '' contaría present. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T3-B-E3",
+      "kind": "transfer",
+      "code": "vals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n",
+      "justification_from_packet": "Solo None es missing de negocio; 0 y '' son falsy pero datos válidos. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T4-A-E1",
+      "kind": "guided",
+      "code": "rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])\n",
+      "justification_from_packet": "list.sort muta in-place y retorna None; sorted devuelve copia nueva. sorted con key monto no muta original.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T4-A-E2",
+      "kind": "independent",
+      "code": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(rows, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])\n",
+      "justification_from_packet": "list.sort muta in-place y retorna None; sorted devuelve copia nueva. key multi-campo región luego nombre.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T4-A-E3",
+      "kind": "transfer",
+      "code": "rows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\ncopy_sorted = sorted(base)\nprint('ret', ret)\nprint('mutated', rows)\nprint('base intact', base, 'copy', copy_sorted)\n",
+      "justification_from_packet": "list.sort muta in-place y retorna None; sorted devuelve copia nueva. sort→None muta; sorted copia sin tocar base.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T4-B-E1",
+      "kind": "guided",
+      "code": "jobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\nstructs = ['list', 'dict', 'set']\nfor job, st in zip(jobs, structs):\n    print(f'{job} → {st}')\n",
+      "justification_from_packet": "list/dict/set según cola, lookup y unicidad. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T4-B-E2",
+      "kind": "independent",
+      "code": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)\n",
+      "justification_from_packet": "json.dumps(sort_keys=True) da salidas deterministas/reproducibles. ids sorted + sort_keys para export determinista.",
+      "blocked_on": []
+    },
+    {
+      "id": "S06-T4-B-E3",
+      "kind": "transfer",
+      "code": "ids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\nprint('list membership: O(n) por chequeo')\nprint('set membership: O(1) promedio')\nprint('C003 in set →', 'C003' in s)\n",
+      "justification_from_packet": "list membership O(n) vs set O(1) promedio; demo con n=5 y C003 in set. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "stem": "¿Qué produce xs[-2:] si xs = [1,2,3,4]?",
+      "chosen_index": 1,
+      "chosen_text": "[3,4]",
+      "justification_from_packet": "xs[-2:] toma los últimos dos; funciona con listas cortas sin error. Por eso elijo la opción [1] para: ¿Qué produce xs[-2:] si xs = [1,2,3,4]?",
+      "blocked_on": [],
+      "question_index": 0
+    },
+    {
+      "stem": "b = a (listas) y mutas b.append(1). ¿Qué pasa con a?",
+      "chosen_index": 3,
+      "chosen_text": "a también ve el append (alias)",
+      "justification_from_packet": "alias = lista comparte objeto; append en alias se ve en la original. Por eso elijo la opción [3] para: b = a (listas) y mutas b.append(1). ¿Qué pasa con a?",
+      "blocked_on": [],
+      "question_index": 1
+    },
+    {
+      "stem": "Para reportar dos filas con mismo id y payload distinto debes…",
+      "chosen_index": 0,
+      "chosen_text": "Listar conflicto en conflicts sin silenciar",
+      "justification_from_packet": "Dedup con conflicts: primera ocurrencia a unique; payload distinto a conflicts sin silenciar. Por eso elijo la opción [0] para: Para reportar dos filas con mismo id y payload distinto debe",
+      "blocked_on": [],
+      "question_index": 2
+    },
+    {
+      "stem": "rows.sort(key=...) retorna…",
+      "chosen_index": 2,
+      "chosen_text": "None (muta in-place)",
+      "justification_from_packet": "list.sort muta in-place y retorna None; sorted devuelve copia nueva. Por eso elijo la opción [2] para: rows.sort(key=...) retorna…",
+      "blocked_on": [],
+      "question_index": 3
+    },
+    {
+      "stem": "json.dumps(..., sort_keys=True) ayuda a…",
+      "chosen_index": 1,
+      "chosen_text": "salidas deterministas/reproducibles",
+      "justification_from_packet": "json.dumps(sort_keys=True) da salidas deterministas/reproducibles. Por eso elijo la opción [1] para: json.dumps(..., sort_keys=True) ayuda a…",
+      "blocked_on": [],
+      "question_index": 4
+    }
+  ],
+  "recorded_at": "2026-07-23T04:17:47.516962+00:00"
+}

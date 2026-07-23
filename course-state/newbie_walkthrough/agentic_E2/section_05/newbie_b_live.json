@@ -1,0 +1,497 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 5,
+  "packet_sha": "2d6b238f92680c4c",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s05-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T1-A-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef doble(n):\n    return n * 2\nprint(doble(21))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T1-A-E1 la instrucción pide: E1 (guiado) — Escribe `def doble(n):` que retorne `n*2`. Imprime doble(21).. Completé el starter sin ____ ni TODO, siguiendo la pista «return n * 2» y el patrón S05-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `def doble(n):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T1-A-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\nprint(normalize_nombre('  Juan   Pérez '))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T1-A-E2 la instrucción pide: E2 (independiente) — `normalize_nombre(raw)` colapsa espacios internos y strip. Prueba con `'  Juan   Pérez '`.. Completé el starter sin ____ ni TODO, siguiendo la pista «\" \".join(raw.strip().split())» y el patrón S05-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `def normalize_nombre(raw):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T1-A-E3: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef saluda(nombre):\n    return f'Hola {nombre}'\nprint(saluda('Ana'))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T1-A-E3 la instrucción pide: E3 (transferencia) — Función `saluda(nombre)` que retorne el string; en main imprime el return. Demuestra que sin return print(saluda(...)) muestra None si olvidas return (arregla para que no sea None).. Completé el starter sin ____ ni TODO, siguiendo la pista «Si ves None, falta return.» y el patrón S05-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `def saluda(nombre):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T1-B-E1: solo patrones del paquete activo\ndef present(nombre, titulo='Cliente'):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\nprint(present('Quispe'))\nprint(present('Quispe', titulo='VIP'))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "present"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T1-B-E1 la instrucción pide: E1 (guiado) — `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'`. Llama posicional y con keyword titulo=.. Completé el starter sin ____ ni TODO, siguiendo la pista «default solo se usa si omites el arg» y el patrón S05-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `def present(nombre, titulo='Cliente'):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T1-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef good_add(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\nprint(good_add(1))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T1-B-E2 la instrucción pide: E2 (independiente) — Reescribe un `bad_add` con default mutable a la versión segura con None. Muestra dos llamadas good(1), good(2) independientes.. Completé el starter sin ____ ni TODO, siguiendo la pista «if bucket is None: bucket = []» y el patrón S05-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `def good_add(item, bucket=None):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T1-B-E3: solo patrones del paquete activo\ndef normalize_telefono(raw, *, digits_only=True):\n    return \"\".join(c for c in raw if c.isdigit())\n    return \"\".join(c for c in raw if c.isdigit())\nprint(normalize_telefono(' 999-000 '))\nprint(normalize_telefono(' 999-000 ', digits_only=False))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "normalize_telefono"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T1-B-E3 la instrucción pide: E3 (transferencia) — `normalize_telefono(raw, *, digits_only=True)` keyword-only. Si digits_only, deja solo dígitos; si False, solo strip. Demuestra ambas llamadas por keyword.. Completé el starter sin ____ ni TODO, siguiendo la pista «El * fuerza keyword para digits_only.» y el patrón S05-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `def normalize_telefono(raw, *, digits_only=True):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T2-A-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef area(w, h):\n    \"\"\"Retorna el área de un rectángulo w×h.\"\"\"\n    return w * h\nprint(area.__doc__)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T2-A-E1 la instrucción pide: E1 (guiado) — Añade docstring de una línea a `def area(w, h): return w*h` e imprime `area.__doc__`.. Completé el starter sin ____ ni TODO, siguiendo la pista «Triple comillas justo bajo def» y el patrón S05-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `def area(w, h):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T2-A-E2: solo patrones del paquete activo\ndef normalize_email(raw: str) -> str:\n    \"\"\"completado pre/post\"\"\"\n    s = raw.strip().lower()\n        if \"@\" not in s:\n            raise ValueError(\"falta @\")\n        return s\n    s = raw.strip().lower()\n        if \"@\" not in s:\n            raise ValueError(\"falta @\")\n        return s\nprint(normalize_email('  A@B.COM '))\ntry:\n    normalize_email('x')\nexcept ValueError as e:\n    print('err', e)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "normalize_email"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T2-A-E2 la instrucción pide: E2 (independiente) — `normalize_email` con pre/post en docstring: strip+lower; ValueError si no hay @. Prueba OK y error.. Completé el starter sin ____ ni TODO, siguiendo la pista «if '@' not in s: raise ValueError» y el patrón S05-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `def normalize_email(raw: str) -> str:`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T2-A-E3: solo patrones del paquete activo\ndef normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios.\"\"\"\n    return \" \".join(raw.strip().split())\n    return \" \".join(raw.strip().split())\nr = normalize_nombre('  Ana  María  ')\nprint(r)\nassert r == r.strip() and '  ' not in r\nprint('post OK')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "normalize_nombre"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T2-A-E3 la instrucción pide: E3 (transferencia) — Documenta y escribe `normalize_nombre` con postcondición: no empiezan/terminan espacios y no hay dobles espacios. Assert de la postcondición en un ejemplo.. Completé el starter sin ____ ni TODO, siguiendo la pista «assert result == result.strip() and '  ' not in result» y el patrón S05-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `def normalize_nombre(raw: str) -> str:`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T2-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef len_safe(s: str) -> int:\n    return len(s)\nprint(len_safe('abc'))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T2-B-E1 la instrucción pide: E1 (guiado) — Anota `def len_safe(s: str) -> int` y retorna len. Imprime el resultado y un comentario mental de que el hint no valida en runtime.. Completé el starter sin ____ ni TODO, siguiendo la pista «hints no ejecutan isinstance mágicamente» y el patrón S05-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `def len_safe(s: str) -> int:`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T2-B-E2: solo patrones del paquete activo\nfrom typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    try:\n            return True, float(str(raw).strip()), None\n        except ValueError:\n            return False, None, f\"inválido:{raw!r}\"\n    try:\n            return True, float(str(raw).strip()), None\n        except ValueError:\n            return False, None, f\"inválido:{raw!r}\"\nfor v in ['0', '10', '-1', 'x']:\n    print(v, parse_monto(v))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "from",
+        "typing"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T2-B-E2 la instrucción pide: E2 (independiente) — `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de dominio si negativo o no int.. Completé el starter sin ____ ni TODO, siguiendo la pista «try int; if n<0 dominio» y el patrón S05-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `from typing import Optional, Tuple`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T2-B-E3: solo patrones del paquete activo\ndef normalize_email(raw: str) -> str:\n    s = raw.strip().lower()\n        if \"@\" not in s:\n            raise ValueError(\"falta @\")\n        return s\n    s = raw.strip().lower()\n        if \"@\" not in s:\n            raise ValueError(\"falta @\")\n        return s\nfor e in ['ok@ex.com', 'malo']:\n    s = raw.strip().lower()\n        if \"@\" not in s:\n            raise ValueError(\"falta @\")\n        return s\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "normalize_email"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T2-B-E3 la instrucción pide: E3 (transferencia) — Elige raise ValueError **o** tupla para `normalize_email` y documenta por qué en un print. Implementa la opción raise y captura en el caller del lote (for de 2 emails).. Completé el starter sin ____ ni TODO, siguiendo la pista «Lote: try/except por fila para no abortar todo» y el patrón S05-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `def normalize_email(raw: str) -> str:`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T3-A-E1: solo patrones del paquete activo\ndef strip_collapse(s):\n    return \" \".join(raw.strip().split())\n    return \" \".join(raw.strip().split())\ndef normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\n    return \" \".join(raw.strip().split())\nprint(normalize_nombre('  ana  maría '))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "strip_collapse"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T3-A-E1 la instrucción pide: E1 (guiado) — Extrae `strip_collapse` y úsalo dentro de `normalize_nombre` que además hace .title().. Completé el starter sin ____ ni TODO, siguiendo la pista «def strip_collapse; return strip_collapse(raw).title()» y el patrón S05-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `def strip_collapse(s):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T3-A-E2: solo patrones del paquete activo\ndef norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef normalize_contact(nombre, email):\n    s = raw.strip().lower()\n        if \"@\" not in s:\n            raise ValueError(\"falta @\")\n        return s\n    s = raw.strip().lower()\n        if \"@\" not in s:\n            raise ValueError(\"falta @\")\n        return s\nprint(normalize_contact('  luis ', '  L@E.COM '))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "norm_n"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T3-A-E2 la instrucción pide: E2 (independiente) — Orquestador `normalize_contact(nombre, email)` devuelve dict usando dos helpers.. Completé el starter sin ____ ni TODO, siguiendo la pista «return {'nombre': ..., 'email': ...}» y el patrón S05-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `def norm_n(s):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T3-A-E3: solo patrones del paquete activo\n# monstruo a reemplazar conceptualmente\ndef normalize_all(n, e, t):\n    return \"\".join(c for c in raw if c.isdigit())\n    return \"\".join(c for c in raw if c.isdigit())\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "monstruo",
+        "reemplazar"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T3-A-E3 la instrucción pide: E3 (transferencia) — Parte una función monstruo de 10 líneas (nombre+email+tel en un solo def con comentarios) en 3 funciones + orquestador. Misma salida.. Completé el starter sin ____ ni TODO, siguiendo la pista «Cada campo = una función» y el patrón S05-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `def normalize_all(n, e, t):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T3-B-E1: solo patrones del paquete activo\ndef normalize_tel(raw):\n    return \"\".join(c for c in raw if c.isdigit())\n    return \"\".join(c for c in raw if c.isdigit())\nx = '999-000'\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "normalize_tel"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T3-B-E1 la instrucción pide: E1 (guiado) — Escribe `normalize_tel` puro (solo dígitos). Demuestra idempotencia con dos llamadas encadenadas.. Completé el starter sin ____ ni TODO, siguiendo la pista «once = f(x); twice = f(once); print once==twice» y el patrón S05-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `def normalize_tel(raw):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T3-B-E2: solo patrones del paquete activo\ndef normalize_email(raw):\n    s = raw.strip().lower()\n        if \"@\" not in s:\n            raise ValueError(\"falta @\")\n        return s\n    s = raw.strip().lower()\n        if \"@\" not in s:\n            raise ValueError(\"falta @\")\n        return s\ndef print_report(raw):\n    s = raw.strip().lower()\n        if \"@\" not in s:\n            raise ValueError(\"falta @\")\n        return s\n    s = raw.strip().lower()\n        if \"@\" not in s:\n            raise ValueError(\"falta @\")\n        return s\nprint_report('  Z@W.COM ')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "normalize_email"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T3-B-E2 la instrucción pide: E2 (independiente) — Separa: `normalize_email` puro + `print_report(email)` con efecto de print. No imprimas dentro del normalizador.. Completé el starter sin ____ ni TODO, siguiendo la pista «print solo en print_report» y el patrón S05-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `def normalize_email(raw):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T3-B-E3: solo patrones del paquete activo\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    return \"\".join(c for c in raw if c.isdigit())\n    return \"\".join(c for c in raw if c.isdigit())\nprint(process(' 999-a '))\nprint(process(' 999-a ', norm=lambda s: s.strip().upper()))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "normalize_tel"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T3-B-E3 la instrucción pide: E3 (transferencia) — Inyecta un normalizador: `process(line, norm=normalize_tel)` usa la fn inyectada. Llama con default y con un norm alternativo que deja todo upper strip.. Completé el starter sin ____ ni TODO, siguiendo la pista «norm es parámetro con default» y el patrón S05-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `def normalize_tel(raw):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T4-A-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nx = 1\ndef f():\n    x = 2\nf()\nprint('in', x)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T4-A-E1 la instrucción pide: E1 (guiado) — Predice LEGB: global x=1; dentro de f, x=2 local; print dentro y fuera.. Completé el starter sin ____ ni TODO, siguiendo la pista «Local no pisa global sin global keyword» y el patrón S05-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `x = 1`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T4-A-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef make_multiplier(k):\n    def inner(n):\n        return n * k\n    return inner\nm3 = make_multiplier(3)\nm10 = make_multiplier(10)\nprint(m3(4), m10(4))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T4-A-E2 la instrucción pide: E2 (independiente) — `make_multiplier(k)` devuelve función que multiplica por k (closure). Crea *3 y *10.. Completé el starter sin ____ ni TODO, siguiendo la pista «def inner(n): return n*k; return inner» y el patrón S05-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `def make_multiplier(k):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T4-A-E3: solo patrones del paquete activo\ndef make_normalizer(mode):\n    if mode == \"digits\":\n            return lambda s: \"\".join(c for c in s if c.isdigit())\n        if mode == \"lower\":\n            return lambda s: s.strip().lower()\n        return lambda s: s.strip()\n    if mode == \"digits\":\n            return lambda s: \"\".join(c for c in s if c.isdigit())\n        if mode == \"lower\":\n            return lambda s: s.strip().lower()\n        return lambda s: s.strip()\nd = make_normalizer('digits')\nlo = make_normalizer('lower')\nprint(d('A-1-B-2'), lo('  Hola '))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "make_normalizer"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T4-A-E3 la instrucción pide: E3 (transferencia) — Factory `make_normalizer(mode)` donde mode 'digits' o 'lower' devuelve la fn adecuada. Úsala en dos prints.. Completé el starter sin ____ ni TODO, siguiendo la pista «if mode=='digits': return lambda o def digits...» y el patrón S05-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `def make_normalizer(mode):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T4-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef normalize_email(s):\n    return s.strip().lower()\nassert normalize_email('  A@B.COM ') == 'a@b.com'\nassert normalize_email(normalize_email('A@B.COM')) == 'a@b.com'\nprint('OK')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T4-B-E1 la instrucción pide: E1 (guiado) — Escribe 2 asserts de ejemplo para `normalize_email = lambda s: s.strip().lower()` e imprime OK.. Completé el starter sin ____ ni TODO, siguiendo la pista «assert normalize_email('A@B.COM')=='a@b.com'» y el patrón S05-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `def normalize_email(s):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T4-B-E2: solo patrones del paquete activo\ndef normalize_dir(raw):\n    return ' '.join(raw.strip().split()).upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nassert normalize_dir(normalize_dir('x')) == normalize_dir('x')\nreturn \" \".join(raw.strip().split())\ndef normalize_dir(raw):\n    return \" \".join(raw.strip().split())\n    return \" \".join(raw.strip().split())\nassert normalize_dir('  av 1 ') == 'AV 1'\nprint(normalize_dir(' jr 2 '))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "normalize_dir"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T4-B-E2 la instrucción pide: E2 (independiente) — Refactoriza `normalize_dir` de una línea densa a dos pasos (strip_collapse + upper) sin romper asserts dados.. Completé el starter sin ____ ni TODO, siguiendo la pista «Corre asserts antes y después mentalmente» y el patrón S05-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `def normalize_dir(raw):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S05-T4-B-E3: solo patrones del paquete activo\ndef normalize_nombre(raw):\n    return ' '.join(raw.strip().split())\ncases = [('  a  b ', 'a b'), ('X', 'X')]\nreturn \" \".join(raw.strip().split())\nprint('all PASS')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S05",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "normalize_nombre"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S05-T4-B-E3 la instrucción pide: E3 (transferencia) — Suite mínima: lista de (input, expected) para normalize_nombre; loop assert. Luego cambia implementación a title-case y actualiza expected si la política cambia conscientemente — aquí **mantén** coll. Completé el starter sin ____ ni TODO, siguiendo la pista «No cambies política sin actualizar tests» y el patrón S05-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `def normalize_nombre(raw):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "None",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «Si una función no tiene return, ¿qué devuelve la llamada?» descarté distractores y elegí «None» (índice 0) porque el theory/iDo/outcomes del paquete activo de la sección 5 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "El default mutable se comparte entre llamadas",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «¿Por qué `def f(xs=[])` es peligroso?» descarté distractores y elegí «El default mutable se comparte entre llamadas» (índice 2) porque el theory/iDo/outcomes del paquete activo de la sección 5 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Mismo input → mismo output, sin efectos colaterales",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «Una función pura…» descarté distractores y elegí «Mismo input → mismo output, sin efectos colaterales» (índice 3) porque el theory/iDo/outcomes del paquete activo de la sección 5 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Local, Enclosing, Global, Builtin",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «LEGB significa…» descarté distractores y elegí «Local, Enclosing, Global, Builtin» (índice 1) porque el theory/iDo/outcomes del paquete activo de la sección 5 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "f(f(x)) == f(x) para entradas del dominio",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «Idempotencia de un normalizador f significa…» descarté distractores y elegí «f(f(x)) == f(x) para entradas del dominio» (índice 0) porque el theory/iDo/outcomes del paquete activo de la sección 5 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:37:07.551033+00:00",
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  }
+}

@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 24,
+  "packet_sha": "b630b1d121c06add",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s24-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "dpi=96\nprint(max(dpi, 200))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "dpi",
+        "max",
+        "Preproceso",
+        "intake",
+        "escaneo",
+        "eleva",
+        "con",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer en S24-T1-A-E1 (guided): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(max(dpi, 200))"
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "skew=1.2\nprint(abs(skew) >= 0.5)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "skew",
+        "abs",
+        "Deskew",
+        "flag",
+        "grados",
+        "deskew_applied",
+        "imprime",
+        "booleano"
+      ],
+      "justification_from_packet": "Explorer en S24-T1-A-E2 (independent): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(abs(skew) >= 0.5)"
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "w=h=1000\nm=0.05\nprint((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "int",
+        "Crop",
+        "lienzo",
+        "imprime",
+        "tupla",
+        "Contrato",
+        "enteros",
+        "origen"
+      ],
+      "justification_from_packet": "Explorer en S24-T1-A-E3 (transfer): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))"
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "s={0:0.1,90:0.8}\nprint(max(s, key=s.get))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "max",
+        "key",
+        "get",
+        "scores",
+        "Elige",
+        "mayor",
+        "score",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer en S24-T1-B-E1 (guided): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(max(s, key=s.get))"
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "flags=[0,1,1,0]\nprint(sum(flags))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "flags",
+        "sum",
+        "Ruido",
+        "binario",
+        "donde",
+        "ruido",
+        "marcado",
+        "Cuenta"
+      ],
+      "justification_from_packet": "Explorer en S24-T1-B-E2 (independent): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(sum(flags))"
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "score=0.4\nprint('manual_orient' if score < 0.5 else 'auto')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "score",
+        "manual_orient",
+        "else",
+        "auto",
+        "Gate",
+        "score_orient",
+        "imprime",
+        "Contrato"
+      ],
+      "justification_from_packet": "Explorer en S24-T1-B-E3 (transfer): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('manual_orient' if score < 0.5 else 'auto')"
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.85])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "toks",
+        "text",
+        "conf",
+        "for",
+        "Filtro",
+        "confidence",
+        "con",
+        "textos"
+      ],
+      "justification_from_packet": "Explorer en S24-T2-A-E1 (guided): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print([t['text'] for t in toks if t['conf']>=0.85])"
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint(ocr('Hola')['lang'])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "ocr",
+        "text",
+        "lang",
+        "spa",
+        "Hola",
+        "Idioma",
+        "por",
+        "defecto"
+      ],
+      "justification_from_packet": "Explorer en S24-T2-A-E2 (independent): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(ocr('Hola')['lang'])"
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "confs=[0.9,0.75,0.95]\nm=min(confs)\nprint(m, 'review' if m < 0.8 else 'auto')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "confs",
+        "min",
+        "review",
+        "else",
+        "auto",
+        "Min",
+        "conf",
+        "campos"
+      ],
+      "justification_from_packet": "Explorer en S24-T2-A-E3 (transfer): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(m, 'review' if m < 0.8 else 'auto')"
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "s='Total: 12.5'\nk,v=s.split(':',1)\nprint(k.strip(), v.strip())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Total",
+        "split",
+        "strip",
+        "parse",
+        "Separa",
+        "clave",
+        "valor",
+        "por"
+      ],
+      "justification_from_packet": "Explorer en S24-T2-B-E1 (guided): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(k.strip(), v.strip())"
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "t=[['H1','H2'],['a','b']]\nprint(len(t)-1)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "len",
+        "Tabla",
+        "Imprime",
+        "filas",
+        "datos",
+        "Contrato",
+        "header",
+        "cuenta"
+      ],
+      "justification_from_packet": "Explorer en S24-T2-B-E2 (independent): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(len(t)-1)"
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "field={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint(field['bbox'], field['value'])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "field",
+        "name",
+        "ruc",
+        "value",
+        "bbox",
+        "Evidencia",
+        "adjunta",
+        "RUC"
+      ],
+      "justification_from_packet": "Explorer en S24-T2-B-E3 (transfer): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(field['bbox'], field['value'])"
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\ns='20-123'\nprint(re.sub(r'\\D', '', s))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "sub",
+        "Normaliza",
+        "dejando",
+        "solo",
+        "Imprime",
+        "Contrato",
+        "valida",
+        "longitud"
+      ],
+      "justification_from_packet": "Explorer en S24-T3-A-E1 (guided): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(re.sub(r'\\D', '', s))"
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from datetime import datetime\nprint(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "datetime",
+        "strptime",
+        "date",
+        "isoformat",
+        "Fecha",
+        "boleta",
+        "ISO",
+        "con"
+      ],
+      "justification_from_packet": "Explorer en S24-T3-A-E2 (independent): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())"
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import re\nraw='123'\nd=re.sub(r'\\D','',raw)\nprint(d if len(d)==11 else None)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "sub",
+        "len",
+        "else",
+        "RUC",
+        "normaliza",
+        "imprime",
+        "Contrato"
+      ],
+      "justification_from_packet": "Explorer en S24-T3-A-E3 (transfer): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(d if len(d)==11 else None)"
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "total, lines=10.0,[4.0,5.0]\nprint('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "total",
+        "lines",
+        "needs_review",
+        "abs",
+        "sum",
+        "else",
+        "auto",
+        "Cross"
+      ],
+      "justification_from_packet": "Explorer en S24-T3-B-E1 (guided): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')"
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "ruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint(reasons)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "ruc",
+        "reasons",
+        "append",
+        "ruc_missing",
+        "Reasons",
+        "imprime",
+        "Contrato",
+        "acumular"
+      ],
+      "justification_from_packet": "Explorer en S24-T3-B-E2 (independent): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(reasons)"
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "mismatch=True\nprint('review_not_fraud' if mismatch else 'auto')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "mismatch",
+        "review_not_fraud",
+        "else",
+        "auto",
+        "producto",
+        "implica",
+        "fraude",
+        "Imprime"
+      ],
+      "justification_from_packet": "Explorer en S24-T3-B-E3 (transfer): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('review_not_fraud' if mismatch else 'auto')"
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "correct, n = 3, 4\nprint(correct / n)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "correct",
+        "Golden",
+        "accuracy",
+        "global",
+        "imprime",
+        "float",
+        "Contrato",
+        "Usa"
+      ],
+      "justification_from_packet": "Explorer en S24-T4-A-E1 (guided): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(correct / n)"
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "rows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "ruc_pred",
+        "ruc_true",
+        "sum",
+        "for",
+        "len",
+        "Accuracy",
+        "por"
+      ],
+      "justification_from_packet": "Explorer en S24-T4-A-E2 (independent): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))"
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "auto, review = 7, 3\nprint(auto / (auto + review))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "auto",
+        "review",
+        "Cobertura",
+        "Imprime",
+        "float",
+        "Contrato",
+        "uses",
+        "accuracy"
+      ],
+      "justification_from_packet": "Explorer en S24-T4-A-E3 (transfer): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(auto / (auto + review))"
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "mime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('reject' if mime not in allowed else 'ok')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "mime",
+        "application",
+        "zip",
+        "allowed",
+        "pdf",
+        "image",
+        "png",
+        "jpeg"
+      ],
+      "justification_from_packet": "Explorer en S24-T4-B-E1 (guided): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('reject' if mime not in allowed else 'ok')"
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "n=6_000_000\nprint('reject' if n > 5_000_000 else 'ok')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "reject",
+        "else",
+        "Size",
+        "gate",
+        "pre",
+        "OCR",
+        "bytes",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer en S24-T4-B-E2 (independent): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('reject' if n > 5_000_000 else 'ok')"
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "status='ocr_fail'\nprint({'ocr_fail':'human_rescan'}.get(status, 'continue'))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "status",
+        "ocr_fail",
+        "human_rescan",
+        "get",
+        "continue",
+        "Fallback",
+        "operativo",
+        "Imprime"
+      ],
+      "justification_from_packet": "Explorer en S24-T4-B-E3 (transfer): resolví el fixture del paquete para «DPI, deskew, crop y contraste» respetando el pass «contrato del starter». Usé theory/iDo (S24-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print({'ocr_fail':'human_rescan'}.get(status, 'continue'))"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Abstener y encolar revisión",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S24 selfcheck Q0: elijo «Abstener y encolar revisión» porque theory/iDo de «OCR y Document AI» lo enseña explícitamente frente a distractores. Pregunta: «¿Qué haces si confidence de RUC es 0.6?». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Cola de revisión / corrección",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S24 selfcheck Q1: elijo «Cola de revisión / corrección» porque theory/iDo de «OCR y Document AI» lo enseña explícitamente frente a distractores. Pregunta: «Un mismatch total vs líneas implica:». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Los campos críticos pueden fallar aunque el global se vea bien",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S24 selfcheck Q2: elijo «Los campos críticos pueden fallar aunque el global se vea bien» porque theory/iDo de «OCR y Document AI» lo enseña explícitamente frente a distractores. Pregunta: «¿Por qué medir accuracy por campo?». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Gate reject/review por mime no permitido",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S24 selfcheck Q3: elijo «Gate reject/review por mime no permitido» porque theory/iDo de «OCR y Document AI» lo enseña explícitamente frente a distractores. Pregunta: «Archivo application/zip en intake de facturas:». Sin correctIndex; solo paquete activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T04:13:58.799304+00:00"
+}

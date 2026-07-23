@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 23,
+  "packet_sha": "ec53a90850587d18",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s23-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "nodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "nodes",
+        "role",
+        "link",
+        "name",
+        "Inicio",
+        "next",
+        "for",
+        "and"
+      ],
+      "justification_from_packet": "Explorer en S23-T1-A-E1 (guided): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))"
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "strats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "strats",
+        "css",
+        "role",
+        "testid",
+        "order",
+        "sorted",
+        "key",
+        "lambda"
+      ],
+      "justification_from_packet": "Explorer en S23-T1-A-E2 (independent): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(sorted(strats, key=lambda s: order[s]))"
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "nodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint(hits[0]['name'] if hits else 'need_testid')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "nodes",
+        "role",
+        "img",
+        "name",
+        "logo",
+        "hits",
+        "for",
+        "button"
+      ],
+      "justification_from_packet": "Explorer en S23-T1-A-E3 (transfer): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(hits[0]['name'] if hits else 'need_testid')"
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "for i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        break\nprint(i)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "for",
+        "range",
+        "ready",
+        "break",
+        "Auto",
+        "wait",
+        "simulado",
+        "vuelve"
+      ],
+      "justification_from_packet": "Explorer en S23-T1-B-E1 (guided): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(i)"
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "ready = False\nfor i in range(3):\n    if ready:\n        break\nelse:\n    print('ok')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "ready",
+        "for",
+        "range",
+        "break",
+        "else",
+        "Timeout",
+        "espera",
+        "fijo"
+      ],
+      "justification_from_packet": "Explorer en S23-T1-B-E2 (independent): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre:     print('ok')"
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "expected, actual = 'Portal demo', 'Portal demo'\nprint('pass' if expected == actual else 'fail')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "expected",
+        "actual",
+        "Portal",
+        "demo",
+        "else",
+        "fail",
+        "Assertion",
+        "Imprime"
+      ],
+      "justification_from_packet": "Explorer en S23-T1-B-E3 (transfer): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('pass' if expected == actual else 'fail')"
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "form = {}\nform['usuario'] = 'ana'\nprint(form)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "form",
+        "usuario",
+        "ana",
+        "Fill",
+        "formulario",
+        "asigna",
+        "imprime",
+        "Contrato"
+      ],
+      "justification_from_packet": "Explorer en S23-T2-A-E1 (guided): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(form)"
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "hashlib",
+        "sha256",
+        "data",
+        "hexdigest",
+        "download",
+        "hex",
+        "primeros",
+        "chars"
+      ],
+      "justification_from_packet": "Explorer en S23-T2-A-E2 (independent): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(hashlib.sha256(b'data').hexdigest()[:8])"
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "state={'token':'t'}\nprint('reuse' if state.get('token') else 'login')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "state",
+        "token",
+        "reuse",
+        "get",
+        "else",
+        "login",
+        "Reuso",
+        "presente"
+      ],
+      "justification_from_packet": "Explorer en S23-T2-A-E3 (transfer): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('reuse' if state.get('token') else 'login')"
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "class LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        if password == \"sandbox\":\n            self.auth = True\n\np = LoginPage()\np.submit(\"demo\", \"sandbox\")\nprint(p.auth)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "LoginPage",
+        "__init__",
+        "self",
+        "auth",
+        "submit",
+        "user",
+        "password",
+        "sandbox"
+      ],
+      "justification_from_packet": "Explorer en S23-T2-B-E1 (guided): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(p.auth)"
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "ctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\nexcept PermissionError:\n    print('ok')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "ctx",
+        "auth",
+        "try",
+        "not",
+        "get",
+        "raise",
+        "PermissionError",
+        "login"
+      ],
+      "justification_from_packet": "Explorer en S23-T2-B-E2 (independent): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre:     print('ok')"
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "state='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint(state)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "state",
+        "anonymous",
+        "login_ok",
+        "authenticated",
+        "estado",
+        "tras",
+        "login",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer en S23-T2-B-E3 (transfer): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(state)"
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "ev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.keys()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "trace",
+        "zip",
+        "screenshot",
+        "png",
+        "error",
+        "sorted",
+        "keys",
+        "Paquete"
+      ],
+      "justification_from_packet": "Explorer en S23-T3-A-E1 (guided): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(sorted(ev.keys()))"
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "logs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "logs",
+        "ERR",
+        "timeout",
+        "nav",
+        "for",
+        "Filtro",
+        "console",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer en S23-T3-A-E2 (independent): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print([l for l in logs if 'ERR' in l])"
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "ok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint(pkg)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pkg",
+        "step",
+        "not",
+        "trace",
+        "traces",
+        "zip",
+        "Adjuntar",
+        "falla"
+      ],
+      "justification_from_packet": "Explorer en S23-T3-A-E3 (transfer): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(pkg)"
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def should_retry(k):\n    return k in (\"timeout\", \"429\")\n\nfor k in [\"timeout\", \"captcha\", \"429\"]:\n    print(k, should_retry(k))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "should_retry",
+        "timeout",
+        "for",
+        "captcha",
+        "solo",
+        "para",
+        "Prueba",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer en S23-T3-B-E1 (guided): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre:     print(k, should_retry(k))"
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "err='stale'\nprint('goto_home' if err=='stale' else 'continue')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "err",
+        "stale",
+        "goto_home",
+        "else",
+        "continue",
+        "Recovery",
+        "DOM",
+        "action"
+      ],
+      "justification_from_packet": "Explorer en S23-T3-B-E2 (independent): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('goto_home' if err=='stale' else 'continue')"
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "errors=['timeout','timeout','timeout']\nfor i,e in enumerate(errors,1):\n    if e!='timeout':\n        break\n    if i==3:\n        print('fail', i)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "errors",
+        "timeout",
+        "for",
+        "enumerate",
+        "break",
+        "timeouts",
+        "lista",
+        "tres"
+      ],
+      "justification_from_packet": "Explorer en S23-T3-B-E3 (transfer): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre:     print('ok', i)"
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "api=True\nprint('api' if api else 'rpa')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "api",
+        "else",
+        "rpa",
+        "API",
+        "first",
+        "gate",
+        "elige",
+        "Imprime"
+      ],
+      "justification_from_packet": "Explorer en S23-T4-A-E1 (guided): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('api' if api else 'rpa')"
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "f={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint(c)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "api",
+        "export",
+        "rpa",
+        "get",
+        "elif",
+        "else",
+        "human",
+        "Orden"
+      ],
+      "justification_from_packet": "Explorer en S23-T4-A-E2 (independent): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(c)"
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "decision={'method':'rpa','reason':'no_api'}\nprint(decision)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "decision",
+        "method",
+        "rpa",
+        "reason",
+        "no_api",
+        "documentada",
+        "cae",
+        "con"
+      ],
+      "justification_from_packet": "Explorer en S23-T4-A-E3 (transfer): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(decision)"
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "captcha=True\nprint('human_handoff' if captcha else 'continue')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "captcha",
+        "human_handoff",
+        "else",
+        "continue",
+        "CAPTCHA",
+        "portal",
+        "demo",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer en S23-T4-B-E1 (guided): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('human_handoff' if captcha else 'continue')"
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "sig={'tos_forbidden':True,'captcha':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "sig",
+        "tos_forbidden",
+        "captcha",
+        "abort",
+        "get",
+        "else",
+        "human_handoff",
+        "ToS"
+      ],
+      "justification_from_packet": "Explorer en S23-T4-B-E2 (independent): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print('abort' if sig.get('tos_forbidden') else 'human_handoff')"
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "payload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "payload",
+        "url",
+        "https",
+        "demo",
+        "test",
+        "app",
+        "step",
+        "export"
+      ],
+      "justification_from_packet": "Explorer en S23-T4-B-E3 (transfer): resolví el fixture del paquete para «DOM y locators orientados a usuario» respetando el pass «contrato del starter». Usé theory/iDo (S23-T1-A-DEMO) y pistas ['contrato I/O en instruction', 'compara output con solution'] del slim packet, sin solutions externas. Cierre: print(sorted(payload.keys()), payload['step'])"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Es más corto de escribir siempre",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S23 selfcheck Q0: elijo «Es más corto de escribir siempre» porque theory/iDo de «Browser RPA con Playwright» lo enseña explícitamente frente a distractores. Pregunta: «¿Por qué preferir get_by_role a CSS nth-child?». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Detenerse y hacer handoff humano",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S23 selfcheck Q1: elijo «Detenerse y hacer handoff humano» porque theory/iDo de «Browser RPA con Playwright» lo enseña explícitamente frente a distractores. Pregunta: «Ante un CAPTCHA el robot debe:». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Buscar integración no-UI antes de automatizar el browser",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S23 selfcheck Q2: elijo «Buscar integración no-UI antes de automatizar el browser» porque theory/iDo de «Browser RPA con Playwright» lo enseña explícitamente frente a distractores. Pregunta: «API/export primero significa:». Sin correctIndex; solo paquete activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Solo fallas transitorias (timeout/red), no captcha/403 de negocio",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer — S23 selfcheck Q3: elijo «Solo fallas transitorias (timeout/red), no captcha/403 de negocio» porque theory/iDo de «Browser RPA con Playwright» lo enseña explícitamente frente a distractores. Pregunta: «Un retry seguro reintenta:». Sin correctIndex; solo paquete activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T04:13:58.796472+00:00"
+}

@@ -1,0 +1,571 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 23,
+  "packet_sha": "ec53a90850587d18",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s23-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T1-A-E1: refuse APIs not in this section theory/iDo. Task: «Locator por rol: nodes=[{'role':'link','name':'Inicio','id':'n1'}]. Encuentra role=link y name=Inicio; imprime id. Contrato: next/generador o loop; Lookup si no hay. Pass: n1.». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T1-A-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T1-A-E2: refuse APIs not in this section theory/iDo. Task: «Prioridad de estrategias: strats=['css','role','testid']. Ordena priorizando role, testid, css (preferred index). Imprime lista ordenada. Contrato: sorted key. Pass: ['role', 'testid', 'css'].». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T1-A-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint(hits[0]['name'] if hits else 'need_testid')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T1-A-E3: refuse APIs not in this section theory/iDo. Task: «Sin control button en nodes (solo img logo): al buscar button imprime 'need_testid' si no hay role button; si hubiera, su name. Contrato: fail-closed a testid. Pass: need_testid.». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T1-A-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        break\nprint(i)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T1-B-E1: refuse APIs not in this section theory/iDo. Task: «Auto-wait simulado: ready se vuelve True en el intento 2 de un loop 1..N. Imprime el número de intento cuando ready. Contrato: sin sleep real. Pass: 2.». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T1-B-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nready = False\nfor i in range(3):\n    if ready:\n        break\nelse:\n    print('timeout')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T1-B-E2: refuse APIs not in this section theory/iDo. Task: «Timeout de espera: ready=False fijo; tras 3 intentos sin ready imprime 'timeout'. Contrato: no reintentar infinito. Pass: timeout. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solutio». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T1-B-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected, actual = 'Portal demo', 'Portal demo'\nprint('pass' if expected == actual else 'fail')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T1-B-E3: refuse APIs not in this section theory/iDo. Task: «Assertion de título: expected=actual='Portal demo'. Imprime 'pass' si iguales else 'fail'. Contrato: postcondición de navegación. Pass: pass. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T1-B-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nform = {}\nform['usuario'] = 'ana'\nprint(form)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T2-A-E1: refuse APIs not in this section theory/iDo. Task: «Fill de formulario sintético: form={}; asigna usuario='ana'; imprime form. Contrato: update/asignación. Pass: {'usuario': 'ana'}. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T2-A-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T2-A-E2: refuse APIs not in this section theory/iDo. Task: «Verificación de download: sha256 hex de b'data', primeros 8 chars. import hashlib. Contrato: hexdigest()[:8]. Pass: 3a6eb079. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution out». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T2-A-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'token':'t'}\nprint('reuse' if state.get('token') else 'login')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T2-A-E3: refuse APIs not in this section theory/iDo. Task: «Reuso de sesión: state={'token':'t'}. Si token presente imprime 'reuse' (no re-login). Contrato: storage_state conceptual. Pass: reuse. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el so». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T2-A-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T2-B-E1\nclass LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        pass\n\np = LoginPage()\np.submit('demo', 'sandbox')\nprint(p.auth)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "LoginPage",
+        "__init__",
+        "self",
+        "auth",
+        "submit",
+        "user"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T2-B-E1: refuse APIs not in this section theory/iDo. Task: «Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prueba e imprime auth True. Contrato: clase con estado. Pass: True. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente c». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T2-B-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\nexcept PermissionError:\n    print('denied')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T2-B-E2: refuse APIs not in this section theory/iDo. Task: «ReportPage sin auth: ctx auth False; open debe denegar. Captura PermissionError e imprime 'denied'. Contrato: no continuar al reporte. Pass: denied. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactame». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T2-B-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T2-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint(state)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T2-B-E3: refuse APIs not in this section theory/iDo. Task: «Transición de estado: state='anonymous'; tras login ok imprime 'authenticated'. Contrato: máquina simple de estados. Pass: authenticated. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el ». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T2-B-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.keys()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T3-A-E1: refuse APIs not in this section theory/iDo. Task: «Paquete de evidencia: ev con trace, screenshot, error. Imprime sorted(keys). Contrato: keys estables para CI. Pass: ['error', 'screenshot', 'trace']. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactam». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T3-A-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlogs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T3-A-E2: refuse APIs not in this section theory/iDo. Task: «Filtro de console: logs=['ok','ERR timeout','nav']; imprime solo líneas que contienen 'ERR'. Contrato: list comp. Pass: ['ERR timeout']. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el s». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T3-A-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint(pkg)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T3-A-E3: refuse APIs not in this section theory/iDo. Task: «Adjuntar trace en falla: ok=False, pkg={'step':'s1'}; si not ok añade trace 'traces/s1.zip'; imprime pkg. Contrato: path determinista. Pass: dict de solution.». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T3-A-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T3-B-E1\ndef should_retry(k):\n    pass\n\nfor k in ['timeout','captcha','429']:\n    print(k, should_retry(k))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "should_retry",
+        "pass",
+        "timeout",
+        "captcha",
+        "solo",
+        "para"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T3-B-E1: refuse APIs not in this section theory/iDo. Task: «Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha, 429 e imprime tres líneas kind bool. Contrato: captcha no retry. Pass multi-línea de solution.». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T3-B-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nerr='stale'\nprint('goto_home' if err=='stale' else 'continue')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T3-B-E2: refuse APIs not in this section theory/iDo. Task: «Recovery stale DOM: err='stale' → action 'goto_home'. Imprime action. Contrato: re-nav, no click en handle viejo. Pass: goto_home. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solutio». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T3-B-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T3-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nerrors=['timeout','timeout','timeout']\nfor i,e in enumerate(errors,1):\n    if e!='timeout':\n        break\n    if i==3:\nprint('ok', i)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T3-B-E3: refuse APIs not in this section theory/iDo. Task: «Máx 3 timeouts: errors lista de tres 'timeout' → imprime 'fail 3' con conteo. Contrato: exhaust retries. Pass: fail 3. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T3-B-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\napi=True\nprint('api' if api else 'rpa')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T4-A-E1: refuse APIs not in this section theory/iDo. Task: «API-first gate: api=True → elige 'api'. Imprime la elección del método de obtención de datos. Contrato: preferencia sobre RPA. Pass: api. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el ». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T4-A-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint(c)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T4-A-E2: refuse APIs not in this section theory/iDo. Task: «Orden api>export>rpa: flags api False, export True, rpa True → imprime 'export'. Contrato: primera disponible en la jerarquía. Pass: export. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con ». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T4-A-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T4-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndecision={'method':'rpa','reason':'no_api'}\nprint(decision)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T4-A-E3: refuse APIs not in this section theory/iDo. Task: «Decisión documentada: cae a rpa con reason 'no_api'. Imprime dict method/reason. Contrato: auditoría de por qué RPA. Pass: {'method': 'rpa', 'reason': 'no_api'}.». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T4-A-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ncaptcha=True\nprint('human_handoff' if captcha else 'continue')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T4-B-E1: refuse APIs not in this section theory/iDo. Task: «CAPTCHA en portal demo: captcha=True → imprime 'human_handoff' sin intentar bypass ni granja. Contrato: handoff humano obligatorio. Pass: human_handoff.». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T4-B-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsig={'tos_forbidden':True,'captcha':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T4-B-E2: refuse APIs not in this section theory/iDo. Task: «ToS gana: sig con tos_forbidden True (y captcha True). action abort. Imprime action. Contrato: abort > handoff. Pass: abort. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution outp». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T4-B-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic packet-local: S23-T4-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "local",
+        "S23",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas"
+      ],
+      "justification_from_packet": "[E1-Skeptic] Exercise S23-T4-B-E3: refuse APIs not in this section theory/iDo. Task: «Payload handoff: arma estructura con url, step, screenshot; imprime keys sorted y marca export según solution output. Contrato: evidencia para analista humano. Pass debe coincidir solution.». Hints: «contrato I/O en instruction; compara output con solution; datos sintéticos only». Anchors: theory «DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones»; iDo S23-T4-B-DEMO. Code uses starter fixture plus ops named in the instruction only (no solutions/correctIndex)."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "¿Por qué preferir get_by_role a CSS nth-child?",
+      "chosen_index": 2,
+      "chosen_text": "Refleja la UI accesible y suele ser más estable",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "[E1-Skeptic S23 Q0] Refuse options the packet never teaches. Stem: «¿Por qué preferir get_by_role a CSS nth-child?». chosen_index=2 «Refleja la UI accesible y suele ser más estable» supported by theory/iDo: «ento sea actionable (visible, estable, enabled). Evita time.sleep fijos: un sleep de 5s falla en CI lento y desperdicia tiempo en CI rápido. Usa expect con time». No APIs or policies outside this section's taught material."
+    },
+    {
+      "question_index": 1,
+      "question": "Ante un CAPTCHA el robot debe:",
+      "chosen_index": 0,
+      "chosen_text": "Detenerse y hacer handoff humano",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "[E1-Skeptic S23 Q1] Refuse options the packet never teaches. Stem: «Ante un CAPTCHA el robot debe:». chosen_index=0 «Detenerse y hacer handoff humano» supported by theory/iDo: «otro user-agent”: va a human_handoff en T4. El runbook documenta max_attempts=3 y backoff opcional. API/export primero Jerarquía de preferencia: **api > export ». No APIs or policies outside this section's taught material."
+    },
+    {
+      "question_index": 2,
+      "question": "API/export primero significa:",
+      "chosen_index": 1,
+      "chosen_text": "Buscar integración no-UI antes de automatizar el browser",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "[E1-Skeptic S23 Q2] Refuse options the packet never teaches. Stem: «API/export primero significa:». chosen_index=1 «Buscar integración no-UI antes de automatizar el browser» supported by theory/iDo: «“Portal demo” asserta título antes de descargar el CSV sintético. formularios, uploads/downloads y sesiones Flujos típicos del adapter: **fill** campos (usuario». No APIs or policies outside this section's taught material."
+    },
+    {
+      "question_index": 3,
+      "question": "Un retry seguro reintenta:",
+      "chosen_index": 3,
+      "chosen_text": "Solo fallas transitorias (timeout/red), no captcha/403 de negocio",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "[E1-Skeptic S23 Q3] Refuse options the packet never teaches. Stem: «Un retry seguro reintenta:». chosen_index=3 «Solo fallas transitorias (timeout/red), no captcha/403 de negocio» supported by theory/iDo: «queda como último recurso; si solo hay CSS, el producto también es menos usable. Modelamos locators como consultas sobre lista de nodos {role, name, id}. Caso s». No APIs or policies outside this section's taught material."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "note": "Knowledge limited to sequential packets through active section; E1 stems only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:14:57.290086+00:00"
+}

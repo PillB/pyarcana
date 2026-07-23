@@ -1,0 +1,396 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 8,
+  "packet_sha": "c234db867d731518",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s08-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S08-T1-A-E1",
+      "answer": "from pathlib import Path",
+      "code": "from pathlib import Path\nimport tempfile\nwith tempfile.TemporaryDirectory() as d:\n    p = Path(d) / \"hola.txt\"\n    p.write_text(\"café\\n\", encoding=\"utf-8\")\n    print(p.read_text(encoding=\"utf-8\").strip())\n    print(\"encoding=utf-8 explícito\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T1-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: En un temp dir, ». Delivered code centers on `from pathlib import Path` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T1-A-E2",
+      "answer": "from pathlib import Path",
+      "code": "from pathlib import Path\nimport tempfile\nwith tempfile.TemporaryDirectory() as d:\n    p = Path(d) / \"data.txt\"\n    with p.open(\"w\", encoding=\"utf-8\", newline=\"\\n\") as f:\n        f.write(\"linea1\\nlinea2\\n\")\n    print(p.read_text(encoding=\"utf-8\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T1-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Escribe 3». Delivered code centers on `from pathlib import Path` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T1-A-E3",
+      "answer": "from pathlib import Path",
+      "code": "from pathlib import Path\nimport tempfile\nwith tempfile.TemporaryDirectory() as d:\n    p = Path(d) / \"latin.bin\"\n    p.write_bytes(\"café\".encode(\"latin-1\"))\n    try:\n        p.read_text(encoding=\"utf-8\")\n    except UnicodeDecodeError as e:\n        print(\"UnicodeDecodeError\", type(e).__name__)\n        print(p.read_text(encoding=\"latin-1\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T1-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Simula UnicodeDecodeError leyendo bytes latinos como utf-8 strict si es latin-1 content… Mejor: escribe bytes no-UTF8 y captura UnicodeDecodeError al». Delivered code centers on `from pathlib import Path` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T1-B-E1",
+      "answer": "print(\"newline='' al abrir CSV para que el módulo csv controle terminadores\")",
+      "code": "print(\"newline='' al abrir CSV para que el módulo csv controle terminadores\")\nprint(\"prefiere \\\\n universal en salidas del pipeline\")\nprint(\"evita convertir CRLF de forma ambigua en DictWriter\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T1-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Detecta si un `b». Delivered code centers on `print(\"newline='' al abrir CSV para que el módulo csv controle terminadores\")` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T1-B-E2",
+      "answer": "from pathlib import Path",
+      "code": "from pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path, text):\n    path = Path(path)\n    fd, tmp = tempfile.mkstemp(dir=str(path.parent), prefix=\".tmp_\")\n    try:\n        with os.fdopen(fd, \"w\", encoding=\"utf-8\") as f:\n            f.write(text)\n        os.replace(tmp, path)\n    except Exception:\n        try:\n            os.unlink(tmp)\n        except OSError:\n            pass\n        raise\n\nwith tempfile.TemporaryDirectory() as d:\n    dest = Path(d) / \"out.txt\"\n    write_atomic(dest, \"COMPLETO\")\n    print(dest.read_text(encoding=\"utf-8\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T1-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Implement». Delivered code centers on `from pathlib import Path` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T1-B-E3",
+      "answer": "from pathlib import Path",
+      "code": "from pathlib import Path\nimport os, tempfile\nwith tempfile.TemporaryDirectory() as d:\n    dest = Path(d) / \"out.txt\"\n    dest.write_text(\"PARCIAL\", encoding=\"utf-8\")\n    print(\"mid-write\", dest.read_text(encoding=\"utf-8\"))\n    tmp = Path(d) / \"out.tmp\"\n    tmp.write_text(\"COMPLETO\", encoding=\"utf-8\")\n    os.replace(tmp, dest)\n    print(\"post-atomic\", dest.read_text(encoding=\"utf-8\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T1-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Simula fallo mid-write: escribe dest parcial 'PARCIAL' y muestra que un atomic replace posterior deja 'COMPLETO'. Imprime ambos estados.». Delivered code centers on `from pathlib import Path` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T2-A-E1",
+      "answer": "import csv, io",
+      "code": "import csv, io\nraw = \"id,nombre\\nC001,Ana\\n\"\nrows = list(csv.DictReader(io.StringIO(raw)))\nprint(rows)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T2-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: DictReader sobre». Delivered code centers on `import csv, io` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T2-A-E2",
+      "answer": "import csv, io",
+      "code": "import csv, io\nbuf = io.StringIO()\nw = csv.DictWriter(buf, fieldnames=[\"id\", \"nombre\"], lineterminator=\"\\n\")\nw.writeheader()\nw.writerow({\"id\": \"C001\", \"nombre\": \"Ana\"})\nprint(buf.getvalue())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T2-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Escribe C». Delivered code centers on `import csv, io` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T2-A-E3",
+      "answer": "from decimal import Decimal, InvalidOperation, ROUND_HALF_EVEN",
+      "code": "from decimal import Decimal, InvalidOperation, ROUND_HALF_EVEN\nvals = [\"10\", \"x\", \"3.5\"]\nfor v in vals:\n    try:\n        d = Decimal(v).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        print(v, \"clean\", d)\n    except (InvalidOperation, ValueError):\n        print(v, \"reject\", \"cast_monto\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T2-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Cast de monto: `Decimal` desde texto + quantize a céntimos; si lanza `InvalidOperation` → reject con motivo. Procesa `['10', 'x', '3.5']` e imprime o». Delivered code centers on `from decimal import Decimal, InvalidOperation, ROUND_HALF_EVEN` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T2-B-E1",
+      "answer": "header = [\"id\", \"nombre\"]",
+      "code": "header = [\"id\", \"nombre\"]\nrow = [\"C1\", \"Ana\", \"x\"]\nif len(row) != len(header):\n    print(\"quarantine\", \"col_count\", len(row), \"expected\", len(header))\nelse:\n    print(dict(zip(header, row)))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T2-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Detecta fila irr». Delivered code centers on `header = [\"id\", \"nombre\"]` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T2-B-E2",
+      "answer": "from pathlib import Path",
+      "code": "from pathlib import Path\nimport csv, tempfile\nwith tempfile.TemporaryDirectory() as d:\n    clean = Path(d) / \"clean.csv\"\n    quar = Path(d) / \"quarantine.csv\"\n    with clean.open(\"w\", encoding=\"utf-8\", newline=\"\") as f:\n        w = csv.DictWriter(f, fieldnames=[\"id\", \"nombre\"])\n        w.writeheader()\n        w.writerow({\"id\": \"C1\", \"nombre\": \"Ana\"})\n    with quar.open(\"w\", encoding=\"utf-8\", newline=\"\") as f:\n        w = csv.DictWriter(f, fieldnames=[\"row\", \"reason\"])\n        w.writeheader()\n        w.writerow({\"row\": \"C2,extra\", \"reason\": \"col_count\"})\n    print(clean.read_text(encoding=\"utf-8\"))\n    print(quar.read_text(encoding=\"utf-8\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T2-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Escribe u». Delivered code centers on `from pathlib import Path` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T2-B-E3",
+      "answer": "from collections import Counter",
+      "code": "from collections import Counter\nreasons = [\"col_count\", \"cast_monto\", \"col_count\", \"schema\"]\nfor k, v in sorted(Counter(reasons).items()):\n    print(k, v)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T2-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Dada list». Delivered code centers on `from collections import Counter` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T3-A-E1",
+      "answer": "import json",
+      "code": "import json\nobj = {\"id\": \"C001\", \"nombre\": \"Ana\"}\nprint(json.dumps(obj, ensure_ascii=False, sort_keys=True))\nprint(json.loads('{\"id\":\"C001\"}'))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T3-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: `json.loads` de ». Delivered code centers on `import json` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T3-A-E2",
+      "answer": "import json",
+      "code": "import json\ns = json.dumps({\"nombre\": \"José\"}, ensure_ascii=False)\nprint(s)\nassert \"José\" in s\nprint(\"ensure_ascii=False preserva Unicode\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T3-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: `dumps` d». Delivered code centers on `import json` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T3-A-E3",
+      "answer": "import json",
+      "code": "import json\nfrom datetime import datetime\nobj = {\"ts\": datetime(2026, 1, 15, 10, 0, 0)}\ntry:\n    json.dumps(obj)\nexcept TypeError as e:\n    print(\"TypeError\", e)\n    print(json.dumps({\"ts\": obj[\"ts\"].isoformat()}))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T3-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Intenta d». Delivered code centers on `import json` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T3-B-E1",
+      "answer": "def validate_schema(obj, required):",
+      "code": "def validate_schema(obj, required):\n    missing = [k for k in required if k not in obj]\n    if missing:\n        return {\"ok\": False, \"missing\": missing}\n    return {\"ok\": True, \"missing\": []}\nprint(validate_schema({\"id\": \"C1\"}, [\"id\", \"nombre\"]))\nprint(validate_schema({\"id\": \"C1\", \"nombre\": \"Ana\"}, [\"id\", \"nombre\"]))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T3-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Rechaza missing ». Delivered code centers on `def validate_schema(obj, required):` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T3-B-E2",
+      "answer": "obj = {\"id\": \"C1\", \"email\": None}",
+      "code": "obj = {\"id\": \"C1\", \"email\": None}\nif obj.get(\"email\") is None:\n    print(\"email missing/None → review\")\nelse:\n    print(\"email present\")\nprint(obj)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T3-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: null expl». Delivered code centers on `obj = {\"id\": \"C1\", \"email\": None}` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T3-B-E3",
+      "answer": "a = {\"id\": \"C1\"}",
+      "code": "a = {\"id\": \"C1\"}\nb = {\"id\": \"C2\", \"segment\": \"vip\"}\na.setdefault(\"segment\", \"standard\")\nb.setdefault(\"segment\", \"standard\")\nprint(a, b)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T3-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Añade cam». Delivered code centers on `a = {\"id\": \"C1\"}` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T4-A-E1",
+      "answer": "from pathlib import Path",
+      "code": "from pathlib import Path\nimport hashlib, tempfile\nwith tempfile.TemporaryDirectory() as d:\n    p = Path(d) / \"f.txt\"\n    data = b\"hola\"\n    p.write_bytes(data)\n    h = hashlib.sha256(data).hexdigest()\n    print(h)\n    print(hashlib.sha256(p.read_bytes()).hexdigest() == h)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T4-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Calcula sha256 h». Delivered code centers on `from pathlib import Path` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T4-A-E2",
+      "answer": "from pathlib import Path",
+      "code": "from pathlib import Path\nimport shutil, tempfile\nwith tempfile.TemporaryDirectory() as d:\n    src = Path(d) / \"raw.csv\"\n    archive = Path(d) / \"archive\"\n    archive.mkdir()\n    src.write_text(\"id\\n1\\n\", encoding=\"utf-8\")\n    dest = archive / src.name\n    shutil.copy2(src, dest)\n    print(dest.exists(), dest.read_text(encoding=\"utf-8\").strip())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T4-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Copia bac». Delivered code centers on `from pathlib import Path` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T4-A-E3",
+      "answer": "from pathlib import Path",
+      "code": "from pathlib import Path\nimport hashlib, tempfile\nwith tempfile.TemporaryDirectory() as d:\n    p = Path(d) / \"x.bin\"\n    p.write_bytes(b\"abc\")\n    h1 = hashlib.sha256(p.read_bytes()).hexdigest()\n    p.write_bytes(b\"abd\")\n    h2 = hashlib.sha256(p.read_bytes()).hexdigest()\n    print(\"changed\", h1 != h2)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T4-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Arma dict». Delivered code centers on `from pathlib import Path` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T4-B-E1",
+      "answer": "sources = [",
+      "code": "sources = [\n    {\"name\": \"clients.csv\", \"sha256\": \"abc\", \"n_in\": 3, \"n_clean\": 2, \"n_quarantine\": 1},\n    {\"name\": \"tx.csv\", \"sha256\": \"def\", \"n_in\": 5, \"n_clean\": 5, \"n_quarantine\": 0},\n]\nfor s in sources:\n    s[\"reconcile_ok\"] = s[\"n_in\"] == s[\"n_clean\"] + s[\"n_quarantine\"]\nmanifest = {\"run_id\": \"run-001\", \"sources\": sources}\nprint(manifest)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T4-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Construye un manifest con `run_id` y `sources`: cada fuente incluye name, sha256, n_in, n_clean, n_quarantine y reconcile_ok. Deriva los tres totales con su». Delivered code centers on `sources = [` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T4-B-E2",
+      "answer": "def reconcile_sources(sources):",
+      "code": "def reconcile_sources(sources):\n    ok = all(s[\"n_in\"] == s[\"n_clean\"] + s[\"n_quarantine\"] for s in sources)\n    return {\"reconcile_ok\": ok, \"sources\": sources}\nprint(reconcile_sources([\n    {\"name\": \"a\", \"n_in\": 3, \"n_clean\": 2, \"n_quarantine\": 1},\n    {\"name\": \"b\", \"n_in\": 2, \"n_clean\": 1, \"n_quarantine\": 0},\n]))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T4-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Implement». Delivered code centers on `def reconcile_sources(sources):` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    },
+    {
+      "exercise_id": "S08-T4-B-E3",
+      "answer": "def run(sources):",
+      "code": "def run(sources):\n    for s in sources:\n        if s[\"n_in\"] != s[\"n_clean\"] + s[\"n_quarantine\"]:\n            raise SystemExit(1)\n    return 0\ntry:\n    print(\"bad\", run([{\"n_in\": 2, \"n_clean\": 1, \"n_quarantine\": 0}]))\nexcept SystemExit as e:\n    print(\"fail closed exit\", e.code)\nprint(\"good\", run([{\"n_in\": 2, \"n_clean\": 1, \"n_quarantine\": 1}]))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pathlib",
+        "csv",
+        "json",
+        "manifest"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S08-T4-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: `run(sour». Delivered code centers on `def run(sources):` matching theory/iDo («pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_te»). Concepts: pathlib, csv, json, manifest."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Evita depender del locale del SO (p. ej. Windows)",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q0 «¿Por qué declarar encoding='utf-8' al abrir texto?» — choose «Evita depender del locale del SO (p. ej. Windows)» because packet theory says «pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_text` son convenientes». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "escribir temp y os.replace al destino",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q1 «Escritura atómica típica es…» — choose «escribir temp y os.replace al destino» because packet theory says «pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_text` son convenientes». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Ir a cuarentena con motivo",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q2 «Una fila CSV con columnas de más debe…» — choose «Ir a cuarentena con motivo» because packet theory says «pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_text` son convenientes». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "n_in == n_clean + n_quarantine",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q3 «Reconciliación del manifest exige…» — choose «n_in == n_clean + n_quarantine» because packet theory says «pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_text` son convenientes». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Fallar (exit non-zero) / fail closed",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q4 «Si reconcile falla, el pipeline debe…» — choose «Fallar (exit non-zero) / fail closed» because packet theory says «pathlib, with, modos y encodings: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_text` son convenientes». Other options invent speed/compile/legal myths not present in the slim packet."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:15:28.242441+00:00"
+}

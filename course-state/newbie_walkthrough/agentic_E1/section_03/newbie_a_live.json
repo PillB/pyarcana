@@ -1,0 +1,228 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 3,
+  "packet_sha": "06e920dd4f6b4cf2",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s03-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "id": "S03-T1-A-E1",
+      "kind": "guided",
+      "code": "edad = 25\nregion = \"Cusco\"\nprint(edad >= 18)\nprint(edad < 65)\nprint(18 <= edad <= 65)\nprint(region == \"Lima\")\nprint(region != \"Piura\")\n",
+      "justification_from_packet": "Guards lineales: if x is None primero; truthiness no para montos (0 es válido). Comparaciones booleanas directas; encadenamiento 18<=edad<=65.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T1-A-E2",
+      "kind": "independent",
+      "code": "TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t in TIPOS_DOC)\n",
+      "justification_from_packet": "Allowlist de documentos como set y operador in; case sensitive. in sobre set; case sensitive: dni≠DNI; RUC fuera de allowlist.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T1-A-E3",
+      "kind": "transfer",
+      "code": "valor = None\nprint(\"valor is None →\", valor is None)\nprint(\"True == 1 →\", True == 1)\nprint(\"True is 1 →\", True is 1)\nprint(\"Nota:\", \"usa is None para ausencia; == para valores de negocio; no uses is con enteros\")\n",
+      "justification_from_packet": "Guards lineales: if x is None primero; truthiness no para montos (0 es válido). is None vs ==; True==1 True pero True is 1 False.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T1-B-E1",
+      "kind": "guided",
+      "code": "vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", bool(v))\n",
+      "justification_from_packet": "or/and devuelven operando: '' or 'default' da 'default' por short-circuit. Truthiness: vacíos/cero/None falsy; [0] y 'x' truthy.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T1-B-E2",
+      "kind": "independent",
+      "code": "print(\"'' or 'default' →\", '' or 'default')\nprint(\"'Lima' or 'default' →\", 'Lima' or 'default')\nprint(\"0 and 99 →\", 0 and 99)\nprint(\"5 and 99 →\", 5 and 99)\nprint(\"None or 0 →\", None or 0)\n",
+      "justification_from_packet": "or/and devuelven operando: '' or 'default' da 'default' por short-circuit. and/or devuelven operando; short-circuit.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T1-B-E3",
+      "kind": "transfer",
+      "code": "def validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))\n",
+      "justification_from_packet": "Guards lineales: if x is None primero; truthiness no para montos (0 es válido). No usar truthiness de monto: 0 es accept; None review; <0 reject.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T2-A-E1",
+      "kind": "guided",
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))\n",
+      "justification_from_packet": "if/elif/else es mutuamente excluyente: la primera rama verdadera se ejecuta y omite el resto. Umbrales: 80 accept, 50 review, else reject con if/elif/else.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T2-A-E2",
+      "kind": "independent",
+      "code": "def bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))\n",
+      "justification_from_packet": "if/elif/else es mutuamente excluyente: la primera rama verdadera se ejecuta y omite el resto. ifs independientes pisan accept; elif excluye ramas.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T2-A-E3",
+      "kind": "transfer",
+      "code": "def band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in [150, 75, 10, 0, -3]:\n    print(n, \"→\", band(n))\n",
+      "justification_from_packet": "if/elif/else es mutuamente excluyente: la primera rama verdadera se ejecuta y omite el resto. Orden de umbrales de mayor a menor; else cubre 0 y negativos.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T2-B-E1",
+      "kind": "guided",
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int) or isinstance(edad, bool):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 18 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 21:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))\n",
+      "justification_from_packet": "Guards lineales: if x is None primero; truthiness no para montos (0 es válido). Guards: None, tipo, rango; camino feliz al final.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T2-B-E2",
+      "kind": "independent",
+      "code": "def validate_monto_nested(m):\n    if m is not None:\n        if isinstance(m, int):\n            if m >= 0:\n                if m <= 10000:\n                    return \"accept\"\n                else:\n                    return \"review\"\n            else:\n                return \"reject\"\n        else:\n            return \"reject\"\n    else:\n        return \"review\"\n\ndef validate_monto_guards(m):\n    if m is None:\n        return \"review\"\n    if not isinstance(m, int) or isinstance(m, bool):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m <= 10000:\n        return \"accept\"\n    return \"review\"\n\nfor v in [None, \"x\", -1, 0, 500, 20000]:\n    a, b = validate_monto_nested(v), validate_monto_guards(v)\n    print(v, a, b, \"ok=\", a == b)\n",
+      "justification_from_packet": "Guards lineales: if x is None primero; truthiness no para montos (0 es válido). Guards lineales misma semántica que la pirámide anidada.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T2-B-E3",
+      "kind": "transfer",
+      "code": "def etiqueta_bug(x):\n    if x != 0:\n        if x > 0:\n            return \"positivo\"\n        return \"negativo\"\n    elif x == 0:  # nunca se alcanza: x==0 cae en if False y no entra al elif del mismo if\n        return \"cero\"\n    return \"???\"\n\nprint(\"bug 0 →\", etiqueta_bug(0))\nprint(\"bug 3 →\", etiqueta_bug(3))\nprint(\"rama muerta: elif x == 0 bajo if x != 0 — cuando x==0 el if es False y el elif tampoco corre de forma útil en anidado; aquí el elif es hermano y SÍ corre para 0, pero el patrón confunde: mejor if/elif/else planos.\")\n\ndef etiqueta_ok(x):\n    if x > 0:\n        return \"positivo\"\n    elif x < 0:\n        return \"negativo\"\n    else:\n        return \"cero\"\n\nprint(\"ok 0 →\", etiqueta_ok(0))\nprint(\"ok 3 →\", etiqueta_ok(3))\nprint(\"ok -2 →\", etiqueta_ok(-2))\n",
+      "justification_from_packet": "if/elif/else es mutuamente excluyente: la primera rama verdadera se ejecuta y omite el resto. Tres ramas vivas: positivo, negativo, cero con orden claro.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T3-A-E1",
+      "kind": "guided",
+      "code": "ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    if r is None:\n        return \"review\"\n    if r not in ALLOWED:\n        return \"review\"\n    return \"accept\"\n\nfor r in [\"Lima\", \"Tacna\", None]:\n    print(r, \"→\", check_region(r))\n",
+      "justification_from_packet": "Allowlist de documentos como set y operador in; case sensitive. Allowlist de regiones; desconocida o None → review.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T3-A-E2",
+      "kind": "independent",
+      "code": "def monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))\n",
+      "justification_from_packet": "Guards lineales: if x is None primero; truthiness no para montos (0 es válido). Orden: ausencia, hard reject, outlier review, accept (incluye 0).",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T3-A-E3",
+      "kind": "transfer",
+      "code": "def gate_cliente(edad, region, tipos_ok):\n    if edad is None or region is None:\n        return \"review\"\n    if not isinstance(edad, int) or edad < 18:\n        return \"reject\"\n    if region not in {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}:\n        return \"review\"\n    if not tipos_ok:\n        return \"reject\"\n    return \"accept\"\n\nprint(gate_cliente(30, \"Lima\", True))\nprint(gate_cliente(None, \"Lima\", True))\nprint(gate_cliente(16, \"Lima\", True))\nprint(gate_cliente(30, \"Tacna\", True))\n",
+      "justification_from_packet": "Guards lineales: if x is None primero; truthiness no para montos (0 es válido). Gate compuesto con guards de ausencia, edad, región y tipo doc.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T3-B-E1",
+      "kind": "guided",
+      "code": "def risk_band(score):\n    # score 0..100\n    if score is None:\n        return \"review\"\n    if score >= 80:\n        return \"low_risk\"\n    if score >= 50:\n        return \"mid_risk\"\n    return \"high_risk\"\n\nfor s in [None, 90, 60, 20]:\n    print(s, \"→\", risk_band(s))\n",
+      "justification_from_packet": "if/elif/else es mutuamente excluyente: la primera rama verdadera se ejecuta y omite el resto. Bandas de riesgo con umbrales y None→review.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T3-B-E2",
+      "kind": "independent",
+      "code": "RULES = [\n    (\"missing_edad\", lambda r: r.get(\"edad\") is None, \"review\"),\n    (\"underage\", lambda r: isinstance(r.get(\"edad\"), int) and r[\"edad\"] < 18, \"reject\"),\n    (\"ok\", lambda r: True, \"accept\"),\n]\n\ndef apply_rules(row):\n    for name, pred, status in RULES:\n        if pred(row):\n            return name, status\n    return \"none\", \"review\"\n\nfor row in [{\"edad\": None}, {\"edad\": 15}, {\"edad\": 40}]:\n    print(row, \"→\", apply_rules(row))\n",
+      "justification_from_packet": "if/elif/else es mutuamente excluyente: la primera rama verdadera se ejecuta y omite el resto. Motor de reglas como lista ordenada (nombre, predicado, status).",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T3-B-E3",
+      "kind": "transfer",
+      "code": "# Matriz de decisión sintética (edad x región allowlist)\n# Filas: edad None / <18 / >=18\n# Cols: region None / not allowed / allowed\n# Política: missing→review; underage→reject; región mala→review; else accept\n\ndef decide(edad, region, allowed={\"Lima\", \"Cusco\"}):\n    if edad is None or region is None:\n        return \"review\"\n    if not isinstance(edad, int) or edad < 18:\n        return \"reject\"\n    if region not in allowed:\n        return \"review\"\n    return \"accept\"\n\nprint(\"tabla:\")\nfor edad in [None, 16, 30]:\n    for region in [None, \"Tacna\", \"Lima\"]:\n        print(edad, region, \"→\", decide(edad, region))\n",
+      "justification_from_packet": "Guards lineales: if x is None primero; truthiness no para montos (0 es válido). Matriz edad×región: missing review, underage reject, allowlist.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T4-A-E1",
+      "kind": "guided",
+      "code": "def label_doc(tipo: str) -> str:\n    match tipo:\n        case \"DNI\":\n            return \"nacional\"\n        case \"CE\" | \"PAS\":\n            return \"extranjero_o_viaje\"\n        case _:\n            return \"desconocido\"\n\nfor t in [\"DNI\", \"CE\", \"RUC\", \"PAS\"]:\n    print(t, \"→\", label_doc(t))\n",
+      "justification_from_packet": "match/case brilla con literales/estados finitos y case _ de fallback. match/case sobre literales de documento con case _.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T4-A-E2",
+      "kind": "independent",
+      "code": "def route_status(code: str) -> str:\n    match code:\n        case \"A\":\n            return \"accept\"\n        case \"R\":\n            return \"review\"\n        case \"X\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in [\"A\", \"R\", \"X\", \"Z\"]:\n    print(c, route_status(c))\n",
+      "justification_from_packet": "match/case brilla con literales/estados finitos y case _ de fallback. Códigos finitos A/R/X y default review.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T4-A-E3",
+      "kind": "transfer",
+      "code": "# if vs match: rangos de monto vs códigos\n# montos: if/elif por umbrales numéricos es más natural\n# códigos de estado finitos: match/case más legible\n\ndef monto_band(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 10000:\n        return \"review\"\n    return \"accept\"\n\ndef code_band(c):\n    match c:\n        case \"OK\":\n            return \"accept\"\n        case \"HOLD\":\n            return \"review\"\n        case _:\n            return \"reject\"\n\nprint(monto_band(0), code_band(\"OK\"))\n",
+      "justification_from_packet": "match/case brilla con literales/estados finitos y case _ de fallback. match para estados finitos; if para rangos numéricos de montos.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T4-B-E1",
+      "kind": "guided",
+      "code": "def validate_row(row: dict) -> dict:\n    errors = []\n    if row.get(\"nombres\") is None or str(row.get(\"nombres\")).strip() == \"\":\n        errors.append(\"nombres missing\")\n    edad = row.get(\"edad\")\n    if edad is None:\n        errors.append(\"edad missing\")\n    elif not isinstance(edad, int) or isinstance(edad, bool):\n        errors.append(\"edad bad type\")\n    elif edad < 18:\n        errors.append(\"edad underage\")\n    status = \"reject\" if any(\"underage\" in e or \"bad\" in e for e in errors) else (\n        \"review\" if errors else \"accept\"\n    )\n    return {\"status\": status, \"errors\": errors}\n\nprint(validate_row({\"nombres\": \"Ana\", \"edad\": 30}))\nprint(validate_row({\"nombres\": \"\", \"edad\": None}))\nprint(validate_row({\"nombres\": \"Luis\", \"edad\": 15}))\n",
+      "justification_from_packet": "Guards lineales: if x is None primero; truthiness no para montos (0 es válido). Validador de fila con lista de errors y status agregado.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T4-B-E2",
+      "kind": "independent",
+      "code": "def batch_validate(rows):\n    out = []\n    for r in rows:\n        if r.get(\"id\") is None:\n            out.append({**r, \"status\": \"review\", \"reason\": \"missing id\"})\n            continue\n        out.append({**r, \"status\": \"accept\", \"reason\": None})\n    return out\n\nprint(batch_validate([{\"id\": \"C1\"}, {\"id\": None}, {\"id\": \"C2\"}]))\n",
+      "justification_from_packet": "Guards lineales: if x is None primero; truthiness no para montos (0 es válido). Batch: continue tras marcar review; no abortar todo el lote.",
+      "blocked_on": []
+    },
+    {
+      "id": "S03-T4-B-E3",
+      "kind": "transfer",
+      "code": "# Política documentada (sintética)\n# 1) None de campos opcionales → review, no reject\n# 2) tipos incorrectos → reject\n# 3) allowlist fallida → review\n# 4) nunca truthiness de montos (0 válido)\n# 5) primera regla que dispara gana (orden explícito)\n\nprint(\"policy_ok\")\n",
+      "justification_from_packet": "Guards lineales: if x is None primero; truthiness no para montos (0 es válido). Documento de política: missing review, tipo reject, allowlist review.",
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "stem": "¿Cuál es la forma correcta de chequear ausencia de un campo opcional en un validador?",
+      "chosen_index": 2,
+      "chosen_text": "if campo is None:",
+      "justification_from_packet": "Guards lineales: if x is None primero; truthiness no para montos (0 es válido). Por eso elijo la opción [2] para: ¿Cuál es la forma correcta de chequear ausencia de un campo",
+      "blocked_on": [],
+      "question_index": 0
+    },
+    {
+      "stem": "En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es verdadera?",
+      "chosen_index": 0,
+      "chosen_text": "Se ejecuta esa rama y se omiten las siguientes",
+      "justification_from_packet": "if/elif/else es mutuamente excluyente: la primera rama verdadera se ejecuta y omite el resto. Por eso elijo la opción [0] para: En una cadena if/elif/else, ¿qué ocurre cuando la primera co",
+      "blocked_on": [],
+      "question_index": 1
+    },
+    {
+      "stem": "¿Qué devuelve la expresión `\"\" or \"default\"` en Python?",
+      "chosen_index": 1,
+      "chosen_text": "\"default\"",
+      "justification_from_packet": "or/and devuelven operando: '' or 'default' da 'default' por short-circuit. Por eso elijo la opción [1] para: ¿Qué devuelve la expresión `\"\" or \"default\"` en Python?",
+      "blocked_on": [],
+      "question_index": 2
+    },
+    {
+      "stem": "Una allowlist de tipos de documento se implementa mejor como…",
+      "chosen_index": 3,
+      "chosen_text": "Un set de literales y el operador in",
+      "justification_from_packet": "Allowlist de documentos como set y operador in; case sensitive. Por eso elijo la opción [3] para: Una allowlist de tipos de documento se implementa mejor como",
+      "blocked_on": [],
+      "question_index": 3
+    },
+    {
+      "stem": "¿Cuándo aporta más claridad `match/case` que `if` en un motor de reglas introductorio?",
+      "chosen_index": 2,
+      "chosen_text": "Cuando el sujeto es un literal/estado finito (códigos) y hay case _",
+      "justification_from_packet": "match/case brilla con literales/estados finitos y case _ de fallback. Por eso elijo la opción [2] para: ¿Cuándo aporta más claridad `match/case` que `if` en un moto",
+      "blocked_on": [],
+      "question_index": 4
+    }
+  ],
+  "recorded_at": "2026-07-23T04:17:47.516962+00:00"
+}

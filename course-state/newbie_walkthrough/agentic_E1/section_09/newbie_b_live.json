@@ -1,0 +1,380 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 9,
+  "packet_sha": "3247f8c2a2673b20",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s09-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S09-T1-A-E1",
+      "answer": "fallos = {",
+      "code": "fallos = {\n    \"int('x')\": \"ValueError\",\n    \"d['missing']\": \"KeyError\",\n    \"open('nope')\": \"FileNotFoundError\",\n    \"1 + 'a'\": \"TypeError\",\n    \"raise RuntimeError('x')\": \"RuntimeError\",\n}\nfor f, t in fallos.items():\n    print(f, \"->\", t)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T1-A-E1 — I only trust the active packet, not prior attempts. Instruction: «Mapea 5 fallos sintéticos al tipo de excepción más adecuado e imprime `fallo -> Tipo`.». Delivered code centers on `fallos = {` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T1-A-E2",
+      "answer": "from decimal import Decimal, InvalidOperation, ROUND_HALF_EVEN",
+      "code": "from decimal import Decimal, InvalidOperation, ROUND_HALF_EVEN\n\ndef parse_monto(raw):\n    t = str(raw).strip().replace(\",\", \".\")\n    try:\n        return Decimal(t).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n    except (InvalidOperation, ValueError) as e:\n        raise ValueError(f\"monto no parseable: {raw!r}\") from e\nprint(parse_monto(\"12,5\"))\ntry:\n    parse_monto(\"abc\")\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T1-A-E2 — I only trust the active packet, not prior attempts. Instruction: «Implementa `parse_monto(raw)` con `Decimal`: normaliza coma decimal, cuantiza a 0.01 y hace raise ValueError con mensaje accionable si no parsea, no es finito o es negati». Delivered code centers on `from decimal import Decimal, InvalidOperation, ROUND_HALF_EVEN` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T1-A-E3",
+      "answer": "class DataLoadError(Exception):",
+      "code": "class DataLoadError(Exception):\n    pass\n\ndef load_text(path_fn):\n    try:\n        return path_fn()\n    except OSError as e:\n        raise DataLoadError(\"no se pudo leer fuente\") from e\n\ndef bad():\n    raise FileNotFoundError(\"missing\")\ntry:\n    load_text(bad)\nexcept DataLoadError as e:\n    print(type(e).__name__, e.__cause__)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T1-A-E3 — I only trust the active packet, not prior attempts. Instruction: «Define `DataLoadError` y `load_text(path_fn)` que captura OSError del lector y re-lanza DataLoadError con `from`.». Delivered code centers on `class DataLoadError(Exception):` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T1-B-E1",
+      "answer": "closed = False",
+      "code": "closed = False\ntry:\n    print(\"trabajo\")\n    raise ValueError(\"boom\")\nexcept ValueError:\n    print(\"handled\")\nfinally:\n    closed = True\nprint(\"closed\", closed)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T1-B-E1 — I only trust the active packet, not prior attempts. Instruction: «Completa el `finally` para marcar el recurso como cerrado aunque haya excepción.». Delivered code centers on `closed = False` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T1-B-E2",
+      "answer": "politicas = {",
+      "code": "politicas = {\n    \"fila_monto_invalido\": \"recover\",\n    \"delimiter_vacio_config\": \"fail-fast\",\n    \"timeout_red\": \"recover\",\n    \"schema_header_ausente\": \"fail-fast\",\n    \"email_malformed_row\": \"recover\",\n    \"permiso_denegado_archivo_entrada\": \"fail-fast\",\n}\nfor n, p in politicas.items():\n    print(f\"{n}: {p}\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T1-B-E2 — I only trust the active packet, not prior attempts. Instruction: «Clasifica 6 errores en recover o fail-fast e imprime `nombre: política`.». Delivered code centers on `politicas = {` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T1-B-E3",
+      "answer": "def handle(row):",
+      "code": "def handle(row):\n    try:\n        int(row[\"edad\"])\n        return \"ok\"\n    except ValueError:\n        return \"quarantine\"\n    # otros errores propagan\nprint(handle({\"edad\": \"x\"}))\nprint(handle({\"edad\": \"10\"}))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T1-B-E3 — I only trust the active packet, not prior attempts. Instruction: «Refactoriza el handler bare: captura ValueError (cuarentena) y deja propagar el resto.». Delivered code centers on `def handle(row):` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T2-A-E1",
+      "answer": "tb = \"\"\"Traceback (most recent call last):",
+      "code": "tb = \"\"\"Traceback (most recent call last):\n  File cli.py, line 1, in main\n  File service.py, line 2, in process\n  File repo.py, line 3, in fetch\nKeyError: 'email'\n\"\"\"\nframes = [\"main\", \"process\", \"fetch\"]\nfor f in frames:\n    print(\"frame\", f)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T2-A-E1 — I only trust the active packet, not prior attempts. Instruction: «Dado un traceback sintético en string, anota 3 frames (nombre de función) de afuera hacia adentro.». Delivered code centers on `tb = \"\"\"Traceback (most recent call last):` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T2-A-E2",
+      "answer": "def normalize(rec):",
+      "code": "def normalize(rec):\n    if \"email\" not in rec:\n        print(\"locals_safe\", {\"id\": rec.get(\"id\")})\n        raise KeyError(\"email\")\n    return rec[\"email\"].strip().lower()\ntry:\n    normalize({\"id\": \"C1\"})\nexcept KeyError as e:\n    print(\"KeyError\", e)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T2-A-E2 — I only trust the active packet, not prior attempts. Instruction: «Simula un 'breakpoint': en normalize, si falta email, imprime locals seguros (solo id) y lanza KeyError.». Delivered code centers on `def normalize(rec):` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T2-A-E3",
+      "answer": "print(\"causa raíz: fetch pidió clave 'email' ausente en el registro\")",
+      "code": "print(\"causa raíz: fetch pidió clave 'email' ausente en el registro\")\nprint(\"función fetch + KeyError email\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T2-A-E3 — I only trust the active packet, not prior attempts. Instruction: «Solo con el traceback, imprime la causa raíz en una frase (función + clave faltante).». Delivered code centers on `print(\"causa raíz: fetch pidió clave 'email' ausente en el registro\")` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T2-B-E1",
+      "answer": "def parse_dni(s):",
+      "code": "def parse_dni(s):\n    if len(s) != 8 or not s.isdigit():\n        raise ValueError(\"dni debe ser 8 dígitos\")\n    return s\nmin_repro = \"123\"\ntry:\n    parse_dni(min_repro)\nexcept ValueError as e:\n    print(\"minimal repro\", min_repro, e)\nprint(\"ok\", parse_dni(\"12345678\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T2-B-E1 — I only trust the active packet, not prior attempts. Instruction: «Recorta la fixture a la fila mínima que hace fallar `parse_dni` (debe ser 8 dígitos).». Delivered code centers on `def parse_dni(s):` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T2-B-E2",
+      "answer": "print(\"H1: se filtró el símbolo + en normalize_phone\")",
+      "code": "print(\"H1: se filtró el símbolo + en normalize_phone\")\nprint(\"exp1: entrada '+51999000111' vs '51999000111' comparar salidas\")\nprint(\"H2: se truncaron dígitos del país\")\nprint(\"exp2: contar len(digits) y prefijo 51\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T2-B-E2 — I only trust the active packet, not prior attempts. Instruction: «Un reporte afirma que `normalize_phone` perdió el código de país +51. Formula 2 hipótesis y experimentos que distingan el símbolo `+` de los dígitos de país `51`, según e». Delivered code centers on `print(\"H1: se filtró el símbolo + en normalize_phone\")` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T2-B-E3",
+      "answer": "def normalize_phone_bug(raw):",
+      "code": "def normalize_phone_bug(raw):\n    return \"\".join(c for c in raw if c.isdigit())  # pierde +\n\ndef normalize_phone_fix(raw):\n    digits = \"\".join(c for c in raw if c.isdigit())\n    if raw.strip().startswith(\"+\") and not digits.startswith(\"51\"):\n        pass\n    return digits if digits.startswith(\"51\") or not raw.strip().startswith(\"+\") else \"51\" + digits\n\n# regresión: con +51 debe conservar 51\nraw = \"+51999000111\"\nassert normalize_phone_bug(raw) == \"51999000111\"\nassert normalize_phone_fix(raw).startswith(\"51\")\nprint(\"regression PASS\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T2-B-E3 — I only trust the active packet, not prior attempts. Instruction: «Añade un test de regresión: falla en rojo con la función bugueada y pasa tras el fix.». Delivered code centers on `def normalize_phone_bug(raw):` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T3-A-E1",
+      "answer": "eventos = {",
+      "code": "eventos = {\n    \"detalle de parse interno\": \"DEBUG\",\n    \"job iniciado\": \"INFO\",\n    \"fila cuarentenada\": \"WARNING\",\n    \"config inválida\": \"ERROR\",\n    \"retry timeout\": \"WARNING\",\n    \"job terminado ok\": \"INFO\",\n}\nfor e, n in eventos.items():\n    print(f\"{e}: {n}\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T3-A-E1 — I only trust the active packet, not prior attempts. Instruction: «Asigna el nivel correcto (DEBUG/INFO/WARNING/ERROR) a 6 eventos e imprime `evento: NIVEL`.». Delivered code centers on `eventos = {` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T3-A-E2",
+      "answer": "import logging",
+      "code": "import logging\nfrom io import StringIO\nbuf = StringIO()\nlog = logging.getLogger(\"s09.demo\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\nlog.addHandler(h)\nlog.info(\"event=start run_id=r1\")\nprint(buf.getvalue().strip())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T3-A-E2 — I only trust the active packet, not prior attempts. Instruction: «Configura un logger de módulo con StreamHandler a un StringIO y emite un INFO estructurado.». Delivered code centers on `import logging` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T3-A-E3",
+      "answer": "import logging",
+      "code": "import logging\nfrom io import StringIO\nerr = StringIO()\nlog = logging.getLogger(\"cli\")\nlog.handlers.clear()\nlog.addHandler(logging.StreamHandler(err))\nlog.setLevel(logging.INFO)\nresult = {\"n\": 3}\nlog.info(\"event=done\")\nprint(result)  # stdout solo datos\nprint(\"stderr:\", err.getvalue().strip())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T3-A-E3 — I only trust the active packet, not prior attempts. Instruction: «Convierte prints de un CLI stub a logs estructurados; stdout final solo con el resultado.». Delivered code centers on `import logging` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T3-B-E1",
+      "answer": "def mask_email(e):",
+      "code": "def mask_email(e):\n    local, _, domain = e.partition(\"@\")\n    if not domain:\n        return \"***\"\n    return (local[:1] + \"***@\" + domain) if local else \"***@\" + domain\ndef mask_phone(p):\n    d = \"\".join(c for c in p if c.isdigit())\n    return \"***\" + d[-3:] if len(d) >= 3 else \"***\"\nprint(mask_email(\"ana@ejemplo.pe\"))\nprint(mask_phone(\"+51999000111\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T3-B-E1 — I only trust the active packet, not prior attempts. Instruction: «Implementa `mask_email` y `mask_phone` y demuéstralos con datos sintéticos peruanos.». Delivered code centers on `def mask_email(e):` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T3-B-E2",
+      "answer": "def cli(cid):",
+      "code": "def cli(cid):\n    print(\"cli\", cid)\n    return service(cid)\ndef service(cid):\n    print(\"service\", cid)\n    return repo(cid)\ndef repo(cid):\n    print(\"repo\", cid)\n    return \"ok\"\nprint(cli(\"corr-123\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T3-B-E2 — I only trust the active packet, not prior attempts. Instruction: «Propaga `correlation_id` por 3 capas (cli → service → repo) e imprime el id en cada una.». Delivered code centers on `def cli(cid):` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T3-B-E3",
+      "answer": "print(\"audit: helper inseguro usaba print(email); reemplazar por mask_email\")",
+      "code": "# auditoría estática: no imprimir PII raw\nprint(\"audit: helper inseguro usaba print(email); reemplazar por mask_email\")\nprint(\"safe_log\", \"email=\", \"a***@ejemplo.pe\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T3-B-E3 — I only trust the active packet, not prior attempts. Instruction: «Audita estáticamente el helper inseguro sin ejecutarlo ni imprimir PII raw; luego emite únicamente el log seguro redactado.». Delivered code centers on `print(\"audit: helper inseguro usaba print(email); reemplazar por mask_email\")` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T4-A-E1",
+      "answer": "fallos = {",
+      "code": "fallos = {\n    \"monto no numérico\": \"data\",\n    \"delimiter vacío\": \"config\",\n    \"HTTP 503\": \"provider\",\n    \"header ausente\": \"data\",\n    \"API token missing\": \"config\",\n    \"timeout geocoder\": \"provider\",\n    \"edad 'abc'\": \"data\",\n    \"retry_max en yaml inválido\": \"config\",\n}\nfor f, c in fallos.items():\n    print(f\"{f}: {c}\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T4-A-E1 — I only trust the active packet, not prior attempts. Instruction: «Clasifica 8 fallos en data|config|provider e imprime `fallo: clase`.». Delivered code centers on `fallos = {` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T4-A-E2",
+      "answer": "def process_batch(rows):",
+      "code": "def process_batch(rows):\n    clean, quarantine = [], []\n    for r in rows:\n        if \"id\" not in r or r[\"id\"] is None:\n            quarantine.append(r)\n        else:\n            clean.append(r)\n    return {\"n_clean\": len(clean), \"n_quarantine\": len(quarantine), \"clean\": clean, \"quarantine\": quarantine}\nprint(process_batch([{\"id\": \"C1\"}, {}, {\"id\": \"C2\"}]))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T4-A-E2 — I only trust the active packet, not prior attempts. Instruction: «Implementa `process_batch` que envía filas sin `id` a quarantine y retorna conteos.». Delivered code centers on `def process_batch(rows):` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T4-A-E3",
+      "answer": "print(\"POLICY: abortar si falla config o schema global del job\")",
+      "code": "print(\"POLICY: abortar si falla config o schema global del job\")\nprint(\"POLICY: no abortar por filas de datos aisladas → quarantine\")\nprint(\"POLICY: provider timeout → retry acotado; si agota intentos, fail-closed del lote\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T4-A-E3 — I only trust the active packet, not prior attempts. Instruction: «Escribe una política en 3 líneas: cuándo abortar el job (imprime POLICY:...).». Delivered code centers on `print(\"POLICY: abortar si falla config o schema global del job\")` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T4-B-E1",
+      "answer": "tabla = {",
+      "code": "tabla = {\n    \"TimeoutError\": \"yes\",\n    \"ConnectionError\": \"yes\",\n    \"ValueError datos\": \"no\",\n    \"KeyError schema fila\": \"no\",\n    \"HTTP 429\": \"yes\",\n}\nfor e, r in tabla.items():\n    print(f\"{e}: {r}\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T4-B-E1 — I only trust the active packet, not prior attempts. Instruction: «Tabla error → retry sí/no para 5 tipos e imprime `error: yes|no`.». Delivered code centers on `tabla = {` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T4-B-E2",
+      "answer": "def retry_call(fn, max_attempts=3):",
+      "code": "def retry_call(fn, max_attempts=3):\n    last = None\n    for i in range(max_attempts):\n        try:\n            return fn()\n        except TimeoutError as e:\n            last = e\n            continue\n    raise last\nn = {\"i\": 0}\ndef flaky():\n    n[\"i\"] += 1\n    if n[\"i\"] < 3:\n        raise TimeoutError(\"t\")\n    return \"ok\"\nprint(retry_call(flaky))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T4-B-E2 — I only trust the active packet, not prior attempts. Instruction: «Implementa `retry_call(fn, max_attempts=3)` que reintenta solo TimeoutError.». Delivered code centers on `def retry_call(fn, max_attempts=3):` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    },
+    {
+      "exercise_id": "S09-T4-B-E3",
+      "answer": "run_id = \"r1\"",
+      "code": "run_id = \"r1\"\nsource = \"clients.csv\"\nsha = \"abc123\"\nkey = f\"{run_id}:{source}:{sha}\"\nprint(\"idempotency_key\", key)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "excepciones",
+        "logging",
+        "retry"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S09-T4-B-E3 — I only trust the active packet, not prior attempts. Instruction: «Diseña la clave de idempotencia para re-ingesta e imprímela para un ejemplo.». Delivered code centers on `run_id = \"r1\"` matching theory/iDo («Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (t»). Concepts: excepciones, logging, retry."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Encadenar la causa en __cause__ sin perder contexto",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q0 «¿Para qué sirve `raise NewError(...) from e`?» — choose «Encadenar la causa en __cause__ sin perder contexto» because packet theory says «Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `Ke». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Fail-fast (abortar el job)",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q1 «Un delimiter vacío en config del job debería…» — choose «Fail-fast (abortar el job)» because packet theory says «Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `Ke». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Solo datos; diagnóstico a stderr",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q2 «¿Qué va a stdout en una CLI bien diseñada?» — choose «Solo datos; diagnóstico a stderr» because packet theory says «Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `Ke». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "a***@ejemplo.pe",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q3 «mask_email('ana@ejemplo.pe') de forma segura podría ser…» — choose «a***@ejemplo.pe» because packet theory says «Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `Ke». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Puede reintentarse con backoff; ValueError de datos no",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q4 «TimeoutError en un fetch remoto típico…» — choose «Puede reintentarse con backoff; ValueError de datos no» because packet theory says «Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `Ke». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 2,
+      "chosen_text": "La entrada más pequeña que reproduce el bug",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q5 «¿Cuál es un buen minimal repro?» — choose «La entrada más pequeña que reproduce el bug» because packet theory says «Tipos específicos, raise y chaining: Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `Ke». Other options invent speed/compile/legal myths not present in the slim packet."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:16:03.021045+00:00"
+}

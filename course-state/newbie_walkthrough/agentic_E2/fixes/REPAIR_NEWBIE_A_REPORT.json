@@ -1,0 +1,369 @@
+{
+  "at": "2026-07-23T04:48:09.681988+00:00",
+  "sections": [
+    {
+      "section": 1,
+      "fixed_code": 2,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 2,
+      "fixed_code": 2,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 3,
+      "fixed_code": 2,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 4,
+      "fixed_code": 3,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 5,
+      "fixed_code": 15,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 6,
+      "fixed_code": 8,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 7,
+      "fixed_code": 1,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 8,
+      "fixed_code": 0,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 9,
+      "fixed_code": 16,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 10,
+      "fixed_code": 2,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 11,
+      "fixed_code": 3,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 12,
+      "fixed_code": 6,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 13,
+      "fixed_code": 3,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 14,
+      "fixed_code": 0,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 15,
+      "fixed_code": 0,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 16,
+      "fixed_code": 1,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 17,
+      "fixed_code": 1,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 18,
+      "fixed_code": 0,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 19,
+      "fixed_code": 0,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 20,
+      "fixed_code": 0,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 21,
+      "fixed_code": 0,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 22,
+      "fixed_code": 0,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 23,
+      "fixed_code": 0,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 24,
+      "fixed_code": 0,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 25,
+      "fixed_code": 3,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 26,
+      "fixed_code": 1,
+      "fixed_just": 24,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 27,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 28,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 29,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 30,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 31,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 32,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 33,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 34,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 35,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 36,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 37,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 38,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 39,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 40,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 41,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 42,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 43,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 44,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 45,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 46,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 47,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 48,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 49,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 50,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 51,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    },
+    {
+      "section": 52,
+      "fixed_code": 0,
+      "fixed_just": 0,
+      "still_inc": [],
+      "still_tpl": []
+    }
+  ]
+}

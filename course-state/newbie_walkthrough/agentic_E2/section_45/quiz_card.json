@@ -1,0 +1,420 @@
+{
+  "section_index": 45,
+  "title": "Cloud, almacenamiento, colas e infraestructura",
+  "outcomes": [
+    "Elige object/relacional/cache",
+    "Define consistencia, lifecycle y backups",
+    "Diseña colas y delivery semantics",
+    "Garantiza dedup, orden y DLQ",
+    "Dimensiona compute y red",
+    "Restringe IAM, paths privados y egress",
+    "Declara infra y environments",
+    "Presupuesta costo y recovery"
+  ],
+  "theory": [
+    {
+      "heading": "object store, relacional y cache",
+      "paragraphs": [
+        "Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache como registro autoritativo.",
+        "Contrato operativo. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida de este subtema: ADR de persistencia con fuente de verdad. Error: mensaje duplicado, cuota, egress no autorizado o restore no probado activa contención. Criterio de éxito: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
+        "Aplicación de `object store, relacional y cache` al caso peruano sintético `CASO-IQU-045`: procesamiento sintético de reportes para una organización ficticia en Iquitos. La evidencia esperada es ADR de persistencia con fuente de verdad. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "consistencia, lifecycle y backups",
+      "paragraphs": [
+        "Consistencia se define por operación; lifecycle expira copias y backup solo cuenta cuando un restore medido cumple RPO/RTO.",
+        "Contrato operativo. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida de este subtema: restore sintético dentro de RPO/RTO. Error: mensaje duplicado, cuota, egress no autorizado o restore no probado activa contención. Criterio de éxito: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
+        "Aplicación de `consistencia, lifecycle y backups` al caso peruano sintético `CASO-IQU-045`: procesamiento sintético de reportes para una organización ficticia en Iquitos. La evidencia esperada es restore sintético dentro de RPO/RTO. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "queue/event y delivery semantics",
+      "paragraphs": [
+        "Queue desacopla productor/consumidor; at-least-once exige ack después del efecto durable, retry con backoff y handlers idempotentes.",
+        "Contrato operativo. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida de este subtema: mensaje reentregado no duplica efecto. Error: mensaje duplicado, cuota, egress no autorizado o restore no probado activa contención. Criterio de éxito: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
+        "Aplicación de `queue/event y delivery semantics` al caso peruano sintético `CASO-IQU-045`: procesamiento sintético de reportes para una organización ficticia en Iquitos. La evidencia esperada es mensaje reentregado no duplica efecto. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "dedup, ordering y dead-letter",
+      "paragraphs": [
+        "Dedup usa clave estable, ordering solo donde importa y DLQ conserva razón/intentos/payload seguro para replay controlado.",
+        "Contrato operativo. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida de este subtema: duplicado, desorden y terminal en DLQ probados. Error: mensaje duplicado, cuota, egress no autorizado o restore no probado activa contención. Criterio de éxito: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
+        "Aplicación de `dedup, ordering y dead-letter` al caso peruano sintético `CASO-IQU-045`: procesamiento sintético de reportes para una organización ficticia en Iquitos. La evidencia esperada es duplicado, desorden y terminal en DLQ probados. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "compute, autoscaling y networking",
+      "paragraphs": [
+        "Autoscaling usa una señal vinculada al backlog/SLO, networking segmenta y capacidad máxima considera cuotas, warm-up y backpressure.",
+        "Contrato operativo. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida de este subtema: carga sintética respeta SLO y cuota. Error: mensaje duplicado, cuota, egress no autorizado o restore no probado activa contención. Criterio de éxito: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
+        "Aplicación de `compute, autoscaling y networking` al caso peruano sintético `CASO-IQU-045`: procesamiento sintético de reportes para una organización ficticia en Iquitos. La evidencia esperada es carga sintética respeta SLO y cuota. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "IAM, private paths y egress",
+      "paragraphs": [
+        "IAM concede acción/recurso mínimos, paths privados evitan internet y egress se allowlistea y registra para impedir exfiltración.",
+        "Contrato operativo. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida de este subtema: policy negativa y egress bloqueado probados. Error: mensaje duplicado, cuota, egress no autorizado o restore no probado activa contención. Criterio de éxito: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
+        "Aplicación de `IAM, private paths y egress` al caso peruano sintético `CASO-IQU-045`: procesamiento sintético de reportes para una organización ficticia en Iquitos. La evidencia esperada es policy negativa y egress bloqueado probados. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "configuración declarativa y environments",
+      "paragraphs": [
+        "IaC declara el estado deseado, parametriza entornos sin copiar secretos y un plan revisado precede apply.",
+        "Contrato operativo. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida de este subtema: plan sin drift destructivo inesperado. Error: mensaje duplicado, cuota, egress no autorizado o restore no probado activa contención. Criterio de éxito: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
+        "Aplicación de `configuración declarativa y environments` al caso peruano sintético `CASO-IQU-045`: procesamiento sintético de reportes para una organización ficticia en Iquitos. La evidencia esperada es plan sin drift destructivo inesperado. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "costos, quotas, recovery y portability",
+      "paragraphs": [
+        "Presupuesto y quotas son controles operativos; recovery y portability se ensayan con exportaciones/formatos abiertos, no se prometen.",
+        "Contrato operativo. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida de este subtema: alarma de costo y recuperación documentadas. Error: mensaje duplicado, cuota, egress no autorizado o restore no probado activa contención. Criterio de éxito: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
+        "Aplicación de `costos, quotas, recovery y portability` al caso peruano sintético `CASO-IQU-045`: procesamiento sintético de reportes para una organización ficticia en Iquitos. La evidencia esperada es alarma de costo y recuperación documentadas. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S45-T1-A-DEMO",
+      "description": "Demo: object store, relacional y cache",
+      "why": "Hace observable `object store, relacional y cache` con un caso local pequeño y deja como evidencia ADR de persistencia con fuente de verdad; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S45-T1-B-DEMO",
+      "description": "Demo: consistencia, lifecycle y backups",
+      "why": "Hace observable `consistencia, lifecycle y backups` con un caso local pequeño y deja como evidencia restore sintético dentro de RPO/RTO; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S45-T2-A-DEMO",
+      "description": "Demo: queue/event y delivery semantics",
+      "why": "Hace observable `queue/event y delivery semantics` con un caso local pequeño y deja como evidencia mensaje reentregado no duplica efecto; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S45-T2-B-DEMO",
+      "description": "Demo: dedup, ordering y dead-letter",
+      "why": "Hace observable `dedup, ordering y dead-letter` con un caso local pequeño y deja como evidencia duplicado, desorden y terminal en DLQ probados; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S45-T3-A-DEMO",
+      "description": "Demo: compute, autoscaling y networking",
+      "why": "Hace observable `compute, autoscaling y networking` con un caso local pequeño y deja como evidencia carga sintética respeta SLO y cuota; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S45-T3-B-DEMO",
+      "description": "Demo: IAM, private paths y egress",
+      "why": "Hace observable `IAM, private paths y egress` con un caso local pequeño y deja como evidencia policy negativa y egress bloqueado probados; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S45-T4-A-DEMO",
+      "description": "Demo: configuración declarativa y environments",
+      "why": "Hace observable `configuración declarativa y environments` con un caso local pequeño y deja como evidencia plan sin drift destructivo inesperado; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S45-T4-B-DEMO",
+      "description": "Demo: costos, quotas, recovery y portability",
+      "why": "Hace observable `costos, quotas, recovery y portability` con un caso local pequeño y deja como evidencia alarma de costo y recuperación documentadas; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué evidencia permite aprobar `object store, relacional y cache` en CASO-IQU-045?",
+      "options": [
+        "ADR de persistencia con fuente de verdad",
+        "un print sin assert ni versión",
+        "una captura de pantalla sin fuente",
+        "datos personales reales para que parezca auténtico"
+      ]
+    },
+    {
+      "question": "Si ocurre la condición de error de S45, ¿qué respuesta preserva seguridad y auditabilidad?",
+      "options": [
+        "continuar y ocultar el warning",
+        "inventar evidencia faltante",
+        "emitir SEND_TO_DLQ y conservar evidencia",
+        "borrar el trace para reducir ruido"
+      ]
+    },
+    {
+      "question": "¿Cuál resultado demuestra el gate `CP-N4-B · job asíncrono resiliente`?",
+      "options": [
+        "el archivo S45 existe, aunque no pruebe el gate",
+        "el README afirma que funciona",
+        "se usó la herramienta más nueva",
+        "reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos"
+      ]
+    },
+    {
+      "question": "¿Qué tratamiento de `CASO-IQU-045` respeta el alcance del curso?",
+      "options": [
+        "reemplazarlo por datos reales sin consentimiento",
+        "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+        "subir secretos para facilitar la demo",
+        "inferir fraude o parentesco desde ER"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S45-T1-A-E1",
+      "instruction": "S45-T1-A-E1 · Calcula el contrato de `object store, relacional y cache` sobre `CASO-IQU-045-1A`. La entrada es el dict completo del starter; la operación debe demostrar object/relational por semántica y cache descartable. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S45-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REDESIGN_PERSISTENCE` en E2.",
+      "hints": [
+        "Relaciona los campos `blob_store`, `transactions`, `cache_authoritative`, `cache_ttl_s` con la regla explicada en S45-T1-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva ADR de persistencia con fuente de verdad; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"object\",\"transactions\":\"relational\",\"cache_authoritative\":False,\"cache_ttl_s\":300}}\nmeets_contract = record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\"\nstatus = \"PASS\" if meets_contract else \"REDESIGN_PERSISTENCE\"\nprint(\"S45-T1-A\", status)\n"
+    },
+    {
+      "id": "S45-T1-A-E2",
+      "instruction": "S45-T1-A-E2 · Modela tres rutas de `object store, relacional y cache`: fixture válido, fixture adverso y registro sin `cache_ttl_s`. Entrada: dict con case_id, blob_store, transactions, cache_authoritative, cache_ttl_s. Salidas exactas: `PASS`, `REDESIGN_PERSISTENCE`, `MISSING:cache_ttl_s`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a cache_ttl_s debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S45-T1-A: object/relational por semántica y cache descartable. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T1-A-E3",
+      "instruction": "S45-T1-A-E3 · Simula fallo cerrado para `object store, relacional y cache` con tres fixtures distintos. `CASO-IQU-045-1A` debe continuar, el adverso debe devolver `REDESIGN_PERSISTENCE` y la ausencia de `cache_ttl_s` debe devolver `WRITE_STORE_ADR`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `WRITE_STORE_ADR` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró object/relational por semántica y cache descartable; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T1-B-E1",
+      "instruction": "S45-T1-B-E1 · Compara el contrato de `consistencia, lifecycle y backups` sobre `CASO-IQU-045-1B`. La entrada es el dict completo del starter; la operación debe demostrar consistencia explícita y restore dentro de RPO/RTO. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S45-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `DECLARE_DATA_LOSS_RISK` en E2.",
+      "hints": [
+        "Relaciona los campos `operation`, `consistency`, `backup_age_h`, `rpo_h`, `restore_minutes`, `rto_minutes` con la regla explicada en S45-T1-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva restore sintético dentro de RPO/RTO; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"read-after-write\",\"backup_age_h\":4,\"rpo_h\":6,\"restore_minutes\":25,\"rto_minutes\":30}}\nmeets_contract = record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_LOSS_RISK\"\nprint(\"S45-T1-B\", status)\n"
+    },
+    {
+      "id": "S45-T1-B-E2",
+      "instruction": "S45-T1-B-E2 · Verifica tres rutas de `consistencia, lifecycle y backups`: fixture válido, fixture adverso y registro sin `rto_minutes`. Entrada: dict con case_id, operation, consistency, backup_age_h, rpo_h, restore_minutes, rto_minutes. Salidas exactas: `PASS`, `DECLARE_DATA_LOSS_RISK`, `MISSING:rto_minutes`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S45-T1-B: consistencia explícita y restore dentro de RPO/RTO. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T1-B-E3",
+      "instruction": "S45-T1-B-E3 · Extiende fallo cerrado para `consistencia, lifecycle y backups` con tres fixtures distintos. `CASO-IQU-045-1B` debe continuar, el adverso debe devolver `DECLARE_DATA_LOSS_RISK` y la ausencia de `rto_minutes` debe devolver `RUN_RESTORE_DRILL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `RUN_RESTORE_DRILL` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró consistencia explícita y restore dentro de RPO/RTO; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T2-A-E1",
+      "instruction": "S45-T2-A-E1 · Filtra el contrato de `queue/event y delivery semantics` sobre `CASO-IQU-045-2A`. La entrada es el dict completo del starter; la operación debe demostrar ack posterior al efecto, key idempotente y backoff. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S45-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `NACK_AND_RETRY` en E2.",
+      "hints": [
+        "Relaciona los campos `delivery`, `effect_durable`, `acked_after_effect`, `idempotency_key`, `backoff` con la regla explicada en S45-T2-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva mensaje reentregado no duplica efecto; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_after_effect\":True,\"idempotency_key\":\"job-iqu-1\",\"backoff\":True}}\nmeets_contract = not record[\"acked_after_effect\"] or not record[\"idempotency_key\"]\nstatus = \"PASS\" if meets_contract else \"NACK_AND_RETRY\"\nprint(\"S45-T2-A\", status)\n"
+    },
+    {
+      "id": "S45-T2-A-E2",
+      "instruction": "S45-T2-A-E2 · Clasifica tres rutas de `queue/event y delivery semantics`: fixture válido, fixture adverso y registro sin `backoff`. Entrada: dict con case_id, delivery, effect_durable, acked_after_effect, idempotency_key, backoff. Salidas exactas: `PASS`, `NACK_AND_RETRY`, `MISSING:backoff`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a backoff debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S45-T2-A: ack posterior al efecto, key idempotente y backoff. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T2-A-E3",
+      "instruction": "S45-T2-A-E3 · Defiende fallo cerrado para `queue/event y delivery semantics` con tres fixtures distintos. `CASO-IQU-045-2A` debe continuar, el adverso debe devolver `NACK_AND_RETRY` y la ausencia de `backoff` debe devolver `VERIFY_DELIVERY_SEMANTICS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `VERIFY_DELIVERY_SEMANTICS` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró ack posterior al efecto, key idempotente y backoff; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T2-B-E1",
+      "instruction": "S45-T2-B-E1 · Modela el contrato de `dedup, ordering y dead-letter` sobre `CASO-IQU-045-2B`. La entrada es el dict completo del starter; la operación debe demostrar deduplicación, ordering acotado y terminal en DLQ. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S45-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `DEDUP_OR_DLQ` en E2.",
+      "hints": [
+        "Relaciona los campos `message_ids`, `processed_ids`, `ordered_partition`, `terminal_in_dlq` con la regla explicada en S45-T2-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva duplicado, desorden y terminal en DLQ probados; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"},\"ordered_partition\":True,\"terminal_in_dlq\":True}}\nmeets_contract = len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"]\nstatus = \"PASS\" if meets_contract else \"DEDUP_OR_DLQ\"\nprint(\"S45-T2-B\", status)\n"
+    },
+    {
+      "id": "S45-T2-B-E2",
+      "instruction": "S45-T2-B-E2 · Audita tres rutas de `dedup, ordering y dead-letter`: fixture válido, fixture adverso y registro sin `terminal_in_dlq`. Entrada: dict con case_id, message_ids, processed_ids, ordered_partition, terminal_in_dlq. Salidas exactas: `PASS`, `DEDUP_OR_DLQ`, `MISSING:terminal_in_dlq`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a terminal_in_dlq debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S45-T2-B: deduplicación, ordering acotado y terminal en DLQ. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T2-B-E3",
+      "instruction": "S45-T2-B-E3 · Recupera fallo cerrado para `dedup, ordering y dead-letter` con tres fixtures distintos. `CASO-IQU-045-2B` debe continuar, el adverso debe devolver `DEDUP_OR_DLQ` y la ausencia de `terminal_in_dlq` debe devolver `INSPECT_MESSAGE_ORDER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `INSPECT_MESSAGE_ORDER` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró deduplicación, ordering acotado y terminal en DLQ; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T3-A-E1",
+      "instruction": "S45-T3-A-E1 · Verifica el contrato de `compute, autoscaling y networking` sobre `CASO-IQU-045-3A`. La entrada es el dict completo del starter; la operación debe demostrar workers dentro de cuota y backlog por worker bajo objetivo. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S45-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `APPLY_BACKPRESSURE` en E2.",
+      "hints": [
+        "Relaciona los campos `backlog`, `workers`, `target_per_worker`, `quota_workers`, `private_network`, `backpressure` con la regla explicada en S45-T3-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva carga sintética respeta SLO y cuota; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":80,\"workers\":4,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":True,\"backpressure\":True}}\nmeets_contract = record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"]\nstatus = \"PASS\" if meets_contract else \"APPLY_BACKPRESSURE\"\nprint(\"S45-T3-A\", status)\n"
+    },
+    {
+      "id": "S45-T3-A-E2",
+      "instruction": "S45-T3-A-E2 · Decide tres rutas de `compute, autoscaling y networking`: fixture válido, fixture adverso y registro sin `backpressure`. Entrada: dict con case_id, backlog, workers, target_per_worker, quota_workers, private_network, backpressure. Salidas exactas: `PASS`, `APPLY_BACKPRESSURE`, `MISSING:backpressure`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a backpressure debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S45-T3-A: workers dentro de cuota y backlog por worker bajo objetivo. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T3-A-E3",
+      "instruction": "S45-T3-A-E3 · Contrasta fallo cerrado para `compute, autoscaling y networking` con tres fixtures distintos. `CASO-IQU-045-3A` debe continuar, el adverso debe devolver `APPLY_BACKPRESSURE` y la ausencia de `backpressure` debe devolver `REQUEST_CAPACITY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_CAPACITY` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró workers dentro de cuota y backlog por worker bajo objetivo; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T3-B-E1",
+      "instruction": "S45-T3-B-E1 · Clasifica el contrato de `IAM, private paths y egress` sobre `CASO-IQU-045-3B`. La entrada es el dict completo del starter; la operación debe demostrar acción IAM mínima, path privado y egress allowlisted. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S45-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `DENY_IAM_OR_EGRESS` en E2.",
+      "hints": [
+        "Relaciona los campos `allowed_actions`, `requested_action`, `private_path`, `egress_host`, `egress_allow` con la regla explicada en S45-T3-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva policy negativa y egress bloqueado probados; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\",\"queue:ack\"},\"requested_action\":\"object:get\",\"private_path\":True,\"egress_host\":\"api.internal\",\"egress_allow\":{\"api.internal\"}}}\nmeets_contract = record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"]\nstatus = \"PASS\" if meets_contract else \"DENY_IAM_OR_EGRESS\"\nprint(\"S45-T3-B\", status)\n"
+    },
+    {
+      "id": "S45-T3-B-E2",
+      "instruction": "S45-T3-B-E2 · Calcula tres rutas de `IAM, private paths y egress`: fixture válido, fixture adverso y registro sin `egress_allow`. Entrada: dict con case_id, allowed_actions, requested_action, private_path, egress_host, egress_allow. Salidas exactas: `PASS`, `DENY_IAM_OR_EGRESS`, `MISSING:egress_allow`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a egress_allow debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S45-T3-B: acción IAM mínima, path privado y egress allowlisted. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T3-B-E3",
+      "instruction": "S45-T3-B-E3 · Instrumenta fallo cerrado para `IAM, private paths y egress` con tres fixtures distintos. `CASO-IQU-045-3B` debe continuar, el adverso debe devolver `DENY_IAM_OR_EGRESS` y la ausencia de `egress_allow` debe devolver `REQUEST_SCOPED_POLICY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_SCOPED_POLICY` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró acción IAM mínima, path privado y egress allowlisted; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T4-A-E1",
+      "instruction": "S45-T4-A-E1 · Audita el contrato de `configuración declarativa y environments` sobre `CASO-IQU-045-4A`. La entrada es el dict completo del starter; la operación debe demostrar plan coincide, entorno válido, sin secretos ni destrucción. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S45-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_IAC_PLAN` en E2.",
+      "hints": [
+        "Relaciona los campos `declared_resources`, `planned_resources`, `environment`, `secret_values_in_plan`, `destructive_changes` con la regla explicada en S45-T4-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva plan sin drift destructivo inesperado; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"queue\",\"bucket\"},\"environment\":\"staging\",\"secret_values_in_plan\":False,\"destructive_changes\":0}}\nmeets_contract = record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0\nstatus = \"PASS\" if meets_contract else \"REJECT_IAC_PLAN\"\nprint(\"S45-T4-A\", status)\n"
+    },
+    {
+      "id": "S45-T4-A-E2",
+      "instruction": "S45-T4-A-E2 · Compara tres rutas de `configuración declarativa y environments`: fixture válido, fixture adverso y registro sin `destructive_changes`. Entrada: dict con case_id, declared_resources, planned_resources, environment, secret_values_in_plan, destructive_changes. Salidas exactas: `PASS`, `REJECT_IAC_PLAN`, `MISSING:destructive_changes`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a destructive_changes debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S45-T4-A: plan coincide, entorno válido, sin secretos ni destrucción. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T4-A-E3",
+      "instruction": "S45-T4-A-E3 · Aísla fallo cerrado para `configuración declarativa y environments` con tres fixtures distintos. `CASO-IQU-045-4A` debe continuar, el adverso debe devolver `REJECT_IAC_PLAN` y la ausencia de `destructive_changes` debe devolver `REVIEW_DRIFT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REVIEW_DRIFT` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró plan coincide, entorno válido, sin secretos ni destrucción; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T4-B-E1",
+      "instruction": "S45-T4-B-E1 · Decide el contrato de `costos, quotas, recovery y portability` sobre `CASO-IQU-045-4B`. La entrada es el dict completo del starter; la operación debe demostrar costo/cuota bajo límite y recovery/portability ensayados. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S45-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `FREEZE_SCALE_OUT` en E2.",
+      "hints": [
+        "Relaciona los campos `forecast_pen`, `budget_pen`, `quota_used`, `quota_limit`, `restore_tested`, `portable_export` con la regla explicada en S45-T4-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva alarma de costo y recuperación documentadas; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":820,\"budget_pen\":1000,\"quota_used\":72,\"quota_limit\":100,\"restore_tested\":True,\"portable_export\":True}}\nmeets_contract = record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"]\nstatus = \"PASS\" if meets_contract else \"FREEZE_SCALE_OUT\"\nprint(\"S45-T4-B\", status)\n"
+    },
+    {
+      "id": "S45-T4-B-E2",
+      "instruction": "S45-T4-B-E2 · Filtra tres rutas de `costos, quotas, recovery y portability`: fixture válido, fixture adverso y registro sin `portable_export`. Entrada: dict con case_id, forecast_pen, budget_pen, quota_used, quota_limit, restore_tested, portable_export. Salidas exactas: `PASS`, `FREEZE_SCALE_OUT`, `MISSING:portable_export`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a portable_export debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S45-T4-B: costo/cuota bajo límite y recovery/portability ensayados. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S45-T4-B-E3",
+      "instruction": "S45-T4-B-E3 · Demuestra fallo cerrado para `costos, quotas, recovery y portability` con tres fixtures distintos. `CASO-IQU-045-4B` debe continuar, el adverso debe devolver `FREEZE_SCALE_OUT` y la ausencia de `portable_export` debe devolver `COST_OWNER_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `COST_OWNER_REVIEW` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró costo/cuota bajo límite y recovery/portability ensayados; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    }
+  ],
+  "packet_sha": "c95d2786702fb237",
+  "attempt_id": "agentic_E2"
+}

@@ -1,0 +1,228 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 12,
+  "packet_sha": "f7618f33608a851f",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s12-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "id": "S12-T1-A-E1",
+      "kind": "guided",
+      "code": "class MockResponse:\n    def __init__(self, status_code, payload):\n        self.status_code = status_code\n        self._payload = payload\n    def json(self):\n        return self._payload\n\nSIGNALS = [\n    {\"id\": \"S1\", \"entity_id\": \"C001\", \"kind\": \"shared_phone\"},\n    {\"id\": \"S2\", \"entity_id\": \"C002\", \"kind\": \"geo\"},\n]\n\ndef list_signals():\n    return MockResponse(200, {\"items\": SIGNALS, \"count\": len(SIGNALS)})\n\nr = list_signals()\nprint(r.status_code, r.json()[\"count\"])\n",
+      "justification_from_packet": "HTTP 400 es error de cliente: no reintentar a ciegas como 5xx. Mock HTTP 200 con items de señales sintéticas.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T1-A-E2",
+      "kind": "independent",
+      "code": "def parse_entity(payload):\n    if not isinstance(payload, dict):\n        raise ValueError(\"payload no dict\")\n    if \"id\" not in payload or \"region\" not in payload:\n        raise ValueError(\"faltan id/region\")\n    return {\"id\": payload[\"id\"], \"region\": payload[\"region\"]}\nprint(parse_entity({\"id\": \"C001\", \"region\": \"Lima\", \"extra\": 1}))\ntry:\n    parse_entity({\"id\": \"C001\"})\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "justification_from_packet": "parse_entity exige claves id y region del contrato JSON. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T1-A-E3",
+      "kind": "transfer",
+      "code": "STATUS_ACTION = {\n    200: \"use_body\",\n    404: \"missing\",\n    429: \"retry\",\n    500: \"retry\",\n    400: \"fix_client\",\n}\nfor code in [200, 400, 404, 429, 500]:\n    print(code, STATUS_ACTION[code])\n",
+      "justification_from_packet": "HTTP 400 es error de cliente: no reintentar a ciegas como 5xx. 400 fix_client sin retry ciego; 429/500 retry.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T1-B-E1",
+      "kind": "guided",
+      "code": "API = {\n    1: {\"items\": [1, 2], \"next\": 2},\n    2: {\"items\": [3], \"next\": 3},\n    3: {\"items\": [4, 5], \"next\": None},\n}\nitems = []\npage = 1\npauses = 0\nwhile page is not None:\n    chunk = API[page]\n    items.extend(chunk[\"items\"])\n    page = chunk[\"next\"]\n    if page is not None:\n        pauses += 1\nprint(\"items\", items)\nprint(\"pages_fetched\", 3, \"rate_limit_pauses\", pauses)\n",
+      "justification_from_packet": "Paginación con next y pausas conceptuales de rate limit. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T1-B-E2",
+      "kind": "independent",
+      "code": "def paginate(pages):\n    items = []\n    for p in pages:\n        items.extend(p)\n    return items\nprint(paginate([['a'], ['b', 'c']]))\n",
+      "justification_from_packet": "Concatena páginas de items en orden. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T1-B-E3",
+      "kind": "transfer",
+      "code": "def should_retry(status):\n    return status in {429, 503} or status >= 500\nfor s in [400, 404, 429, 503, 200]:\n    print(s, should_retry(s))\n",
+      "justification_from_packet": "HTTP 400 es error de cliente: no reintentar a ciegas como 5xx. Retry en 429/5xx; no en 400/404/200.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T2-A-E1",
+      "kind": "guided",
+      "code": "import os\ndef require_token(name=\"API_TOKEN\"):\n    tok = os.environ.get(name)\n    if not tok:\n        raise KeyError(f\"{name} missing\")\n    return tok\nos.environ[\"API_TOKEN\"] = \"abc\"\nprint(require_token())\ntry:\n    del os.environ[\"API_TOKEN\"]\n    require_token()\nexcept KeyError as e:\n    print(e)\n",
+      "justification_from_packet": "Token de API en env/secret store, nunca hardcode ni en logs de provenance. Token desde env; KeyError si falta.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T2-A-E2",
+      "kind": "independent",
+      "code": "def parse_json_body(text):\n    import json\n    try:\n        return json.loads(text), True\n    except json.JSONDecodeError:\n        return None, False\nprint(parse_json_body('{\"ok\": true}'))\nprint(parse_json_body('nope'))\n",
+      "justification_from_packet": "parse body JSON -> (obj, True) o (None, False). Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T2-A-E3",
+      "kind": "transfer",
+      "code": "def min_provenance(url, status, cache_hit):\n    return {\n        \"source_url\": url,\n        \"fetched_at\": \"2026-07-20T00:00:00Z\",\n        \"status_code\": status,\n        \"cache_hit\": cache_hit,\n    }\nprint(min_provenance(\"https://api.example.com/x\", 200, False))\n",
+      "justification_from_packet": "Token de API en env/secret store, nunca hardcode ni en logs de provenance. Provenance minima sin secretos.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T2-B-E1",
+      "kind": "guided",
+      "code": "REQUIRED = {\"lat\", \"lon\", \"provider\"}\ndef assert_geo_contract(d):\n    missing = sorted(REQUIRED - set(d.keys()))\n    if missing:\n        return f\"missing keys: {missing}\"\n    return \"ok\"\nprint(assert_geo_contract({\"lat\": 1, \"lon\": 2, \"provider\": \"mock\"}))\nprint(assert_geo_contract({\"lat\": 1, \"provider\": \"mock\"}))\n",
+      "justification_from_packet": "Contrato geo exige lat/lon/provider. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T2-B-E2",
+      "kind": "independent",
+      "code": "def fetch_with_fallback(status, local_body):\n    if status >= 500:\n        return (local_body, \"offline\")\n    if status == 200:\n        return ({\"online\": True}, \"online\")\n    return (local_body, \"offline\")\nprint(fetch_with_fallback(500, {\"cached\": 1}))\nprint(fetch_with_fallback(200, {\"cached\": 1}))\n",
+      "justification_from_packet": "Fallback offline en 5xx; online en 200. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T2-B-E3",
+      "kind": "transfer",
+      "code": "def mode_label(ok_online):\n    return \"live_api\" if ok_online else \"local_file\"\nprint(True, mode_label(True))\nprint(False, mode_label(False))\n",
+      "justification_from_packet": "Etiqueta live_api vs local_file. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T3-A-E1",
+      "kind": "guided",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)\")\ncon.execute(\"INSERT INTO evidence VALUES ('E1','C001','geo')\")\nprint(con.execute(\"SELECT COUNT(*) FROM evidence\").fetchone()[0])\n",
+      "justification_from_packet": "SQL con f-string e input es inyección; usar placeholders ?. Tabla evidence en memory con insert y count.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T3-A-E2",
+      "kind": "independent",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\nrow = con.execute(\"SELECT name FROM clients WHERE id=?\", (\"C001\",)).fetchone()\nprint(row[0])\n",
+      "justification_from_packet": "SQL con f-string e input es inyección; usar placeholders ?. SELECT con placeholder ? no f-string.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T3-A-E3",
+      "kind": "transfer",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY)\")\ncon.execute(\"CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT, amount REAL)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001')\")\ncon.execute(\"INSERT INTO transactions VALUES ('T1','C001',10)\")\nprint(con.execute(\"SELECT amount FROM transactions WHERE client_id=?\", (\"C001\",)).fetchone()[0])\n",
+      "justification_from_packet": "SQL con f-string e input es inyección; usar placeholders ?. Schema clients/transactions con placeholder.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T3-B-E1",
+      "kind": "guided",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT UNIQUE)\")\ntry:\n    con.execute(\"INSERT INTO clients VALUES ('C001','DOC1')\")\n    con.execute(\"INSERT INTO clients VALUES ('C002','DOC1')\")\n    con.commit()\nexcept sqlite3.IntegrityError:\n    con.rollback()\n    print(None)\n",
+      "justification_from_packet": "SQL con f-string e input es inyección; usar placeholders ?. UNIQUE document_id; IntegrityError rollback.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T3-B-E2",
+      "kind": "independent",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT UNIQUE)\")\nbatch = [(\"C001\", \"DOC1\"), (\"C001\", \"DOC2\")]\ntry:\n    con.execute(\"BEGIN\")\n    con.executemany(\"INSERT INTO clients VALUES (?,?)\", batch)\n    con.commit()\nexcept sqlite3.IntegrityError:\n    con.rollback()\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\n",
+      "justification_from_packet": "SQL con f-string e input es inyección; usar placeholders ?. Transaccion atomica: fallo deja count 0.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T3-B-E3",
+      "kind": "transfer",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT UNIQUE)\")\ncon.execute(\"CREATE INDEX idx_document_id ON clients(document_id)\")\nnames = [r[1] for r in con.execute(\"PRAGMA index_list('clients')\")]\nprint(sorted(names))\n",
+      "justification_from_packet": "SQL con f-string e input es inyección; usar placeholders ?. Indices via PRAGMA index_list.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T4-A-E1",
+      "kind": "guided",
+      "code": "def normalize_address(s):\n    return \" \".join(s.strip().split())\nprint(normalize_address(\"  Jr.  de  la  Unión   100  \"))\n",
+      "justification_from_packet": "1.2 km es geoseñal de relación, no parentesco ni fraude. normalize_address colapsa espacios; saluda 'Jr. de la Unión 100'.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T4-A-E2",
+      "kind": "independent",
+      "code": "class MockGeocoder:\n    DB = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}\n    def geocode(self, city):\n        if city not in self.DB:\n            return None\n        lat, lon = self.DB[city]\n        return {\"city\": city, \"lat\": lat, \"lon\": lon, \"provider\": \"authorized_mock\"}\ng = MockGeocoder()\nprint(g.geocode(\"Lima\")[\"lat\"])\nprint(g.geocode(\"Iquitos\"))\n",
+      "justification_from_packet": "1.2 km es geoseñal de relación, no parentesco ni fraude. MockGeocoder Lima lat; Iquitos None.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T4-A-E3",
+      "kind": "transfer",
+      "code": "ALLOWED = {\"address\", \"city\", \"country\"}\ndef allowed_for_public_geocoder(payload):\n    return set(payload.keys()) <= ALLOWED\nprint(allowed_for_public_geocoder({\"address\": \"x\", \"city\": \"Lima\"}))\nprint(allowed_for_public_geocoder({\"address\": \"x\", \"document_id\": \"DNI\"}))\n",
+      "justification_from_packet": "No enviar document_id bancario a geocoder público (política egress). Egress solo address/city/country.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T4-B-E1",
+      "kind": "guided",
+      "code": "def valid_lat_lon(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\nprint(valid_lat_lon(-12.04, -77.04), valid_lat_lon(100, 0))\n",
+      "justification_from_packet": "1.2 km es geoseñal de relación, no parentesco ni fraude. Rangos validos de lat/lon.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T4-B-E2",
+      "kind": "independent",
+      "code": "import math\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\nkm = haversine_km((0, 0), (1, 0))\nprint(round(km, 2))\nprint(\"tolerance_ok\" if 110 < km < 112 else \"bad\")\n",
+      "justification_from_packet": "1.2 km es geoseñal de relación, no parentesco ni fraude. Haversine ~111 km por 1 grado lat.",
+      "blocked_on": []
+    },
+    {
+      "id": "S12-T4-B-E3",
+      "kind": "transfer",
+      "code": "def as_relationship_signal(km):\n    return {\"type\": \"geo_distance_km\", \"value\": km, \"not_a_verdict\": True}\nprint(as_relationship_signal(1.2))\n",
+      "justification_from_packet": "1.2 km es geoseñal de relación, no parentesco ni fraude. 1.2 km es senal, no parentesco ni fraude.",
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "stem": "Un 400 Bad Request del proveedor debe…",
+      "chosen_index": 3,
+      "chosen_text": "Tratarse como error de cliente (no retry ciego)",
+      "justification_from_packet": "HTTP 400 es error de cliente: no reintentar a ciegas como 5xx. Por eso elijo la opción [3] para: Un 400 Bad Request del proveedor debe…",
+      "blocked_on": [],
+      "question_index": 0
+    },
+    {
+      "stem": "¿Dónde debe vivir el token de API?",
+      "chosen_index": 1,
+      "chosen_text": "En variable de entorno / secret store",
+      "justification_from_packet": "Token de API en env/secret store, nunca hardcode ni en logs de provenance. Por eso elijo la opción [1] para: ¿Dónde debe vivir el token de API?",
+      "blocked_on": [],
+      "question_index": 1
+    },
+    {
+      "stem": "SQL con f-string e input de usuario es…",
+      "chosen_index": 2,
+      "chosen_text": "Inyección / inseguro; usar placeholders `?`",
+      "justification_from_packet": "SQL con f-string e input es inyección; usar placeholders ?. Por eso elijo la opción [2] para: SQL con f-string e input de usuario es…",
+      "blocked_on": [],
+      "question_index": 2
+    },
+    {
+      "stem": "Enviar document_id bancario a un geocoder público…",
+      "chosen_index": 0,
+      "chosen_text": "Viola la política de egress de CP-N1-C",
+      "justification_from_packet": "No enviar document_id bancario a geocoder público (política egress). Por eso elijo la opción [0] para: Enviar document_id bancario a un geocoder público…",
+      "blocked_on": [],
+      "question_index": 3
+    },
+    {
+      "stem": "1.2 km entre dos entidades sintéticas implica…",
+      "chosen_index": 3,
+      "chosen_text": "Una geoseñal de relación, no un veredicto",
+      "justification_from_packet": "1.2 km es geoseñal de relación, no parentesco ni fraude. Por eso elijo la opción [3] para: 1.2 km entre dos entidades sintéticas implica…",
+      "blocked_on": [],
+      "question_index": 4
+    }
+  ],
+  "recorded_at": "2026-07-23T04:17:47.516962+00:00"
+}

@@ -1,0 +1,228 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 4,
+  "packet_sha": "b6cbd4f5cc46ffab",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s04-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "id": "S04-T1-A-E1",
+      "kind": "guided",
+      "code": "print(list(range(3)))\nprint(list(range(1, 4)))\nprint(list(range(0, 10, 2)))\n",
+      "justification_from_packet": "range(n) produce 0..n-1; list(range(3)) es [0,1,2]. range(stop), range(start,stop), range(start,stop,step).",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T1-A-E2",
+      "kind": "independent",
+      "code": "total = 0\nfor n in range(1, 6):\n    total += n\nprint(total)\n",
+      "justification_from_packet": "range(n) produce 0..n-1; list(range(3)) es [0,1,2]. Acumulador con for sobre range(1,6) → 15.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T1-A-E3",
+      "kind": "transfer",
+      "code": "# off-by-one: range(len(xs)) vs range(1, len(xs)+1)\nxs = [\"a\", \"b\", \"c\"]\nprint(\"indices 0-based:\", list(range(len(xs))))\nprint(\"human 1-based labels:\", list(range(1, len(xs) + 1)))\nfor i, v in enumerate(xs, start=1):\n    print(i, v)\n",
+      "justification_from_packet": "range(n) produce 0..n-1; list(range(3)) es [0,1,2]. enumerate(start=1) evita off-by-one en etiquetas humanas.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T1-B-E1",
+      "kind": "guided",
+      "code": "nombres = [\"Ana\", \"Luis\", \"María\"]\nfor i, n in enumerate(nombres):\n    print(i, n)\n",
+      "justification_from_packet": "range(n) produce 0..n-1; list(range(3)) es [0,1,2]. enumerate da índice y valor sin range(len).",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T1-B-E2",
+      "kind": "independent",
+      "code": "ids = [\"C001\", \"C002\", \"C003\"]\nscores = [10, 20]\nprint(\"sin strict:\", list(zip(ids, scores)))\ntry:\n    list(zip(ids, scores, strict=True))\nexcept ValueError as e:\n    print(\"strict ValueError:\", type(e).__name__)\n",
+      "justification_from_packet": "zip sin strict recorta al más corto; el resto se pierde en silencio. zip recorta; strict=True lanza ValueError si longitudes difieren.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T1-B-E3",
+      "kind": "transfer",
+      "code": "headers = [\"id\", \"monto\"]\nrow = [\"C001\", \"10.5\", \"extra\"]\n# columnas de más → cuarentena\nif len(row) != len(headers):\n    print(\"quarantine: shape\", len(row), \"vs\", len(headers))\nelse:\n    print(dict(zip(headers, row)))\n",
+      "justification_from_packet": "zip sin strict recorta al más corto; el resto se pierde en silencio. Shape roto no se zippea en silencio; cuarentena con motivo.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T2-A-E1",
+      "kind": "guided",
+      "code": "xs = [1, 2, 3, 4, 5]\nprint(xs[0], xs[-1], xs[1:4], xs[::2])\n",
+      "justification_from_packet": "range(n) produce 0..n-1; list(range(3)) es [0,1,2]. Indexing y slicing: primero, último, rebanada, step 2.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T2-A-E2",
+      "kind": "independent",
+      "code": "line = \"id,nombre,monto\"\nparts = line.split(\",\")\nprint(parts)\nprint(\"|\".join(parts))\n",
+      "justification_from_packet": "split/join simétricos para CSV simple de una línea. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T2-A-E3",
+      "kind": "transfer",
+      "code": "text = \"  hola mundo  \"\nprint(text.strip())\nprint(text.replace(\"mundo\", \"intake\"))\nprint(\"hola\" in text)\n",
+      "justification_from_packet": "strip/replace/in para limpieza y pertenencia de substrings. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T2-B-E1",
+      "kind": "guided",
+      "code": "rows = [{\"id\": \"C1\", \"ok\": True}, {\"id\": \"C2\", \"ok\": False}, {\"id\": \"C3\", \"ok\": True}]\nkept = []\nfor r in rows:\n    if not r[\"ok\"]:\n        continue\n    kept.append(r[\"id\"])\nprint(kept)\n",
+      "justification_from_packet": "continue salta al siguiente ciclo del for; break sale del bucle. continue salta filas no ok y sigue el for.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T2-B-E2",
+      "kind": "independent",
+      "code": "for n in range(10):\n    if n == 5:\n        break\n    print(n)\nprint(\"done\")\n",
+      "justification_from_packet": "continue salta al siguiente ciclo del for; break sale del bucle. break termina el bucle al hallar n==5.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T2-B-E3",
+      "kind": "transfer",
+      "code": "# else de for: se ejecuta si no hubo break\nfor n in [1, 2, 3]:\n    if n < 0:\n        break\nelse:\n    print(\"sin break: todos no negativos\")\n",
+      "justification_from_packet": "continue salta al siguiente ciclo del for; break sale del bucle. for-else corre solo si el bucle no se cortó con break.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T3-A-E1",
+      "kind": "guided",
+      "code": "n_total, n_reject = 100, 7\nrate = n_reject / n_total\nprint(round(rate, 4))\n",
+      "justification_from_packet": "Tasa de reject = n_reject / n_total de registros procesados, no solo accepts. Tasa reject = n_reject/n_total de procesados.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T3-A-E2",
+      "kind": "independent",
+      "code": "def gate_rate(n_accept, n_review, n_reject):\n    n_total = n_accept + n_review + n_reject\n    if n_total == 0:\n        return None\n    return {\n        \"reject_rate\": n_reject / n_total,\n        \"review_rate\": n_review / n_total,\n        \"accept_rate\": n_accept / n_total,\n        \"n_total\": n_total,\n    }\nprint(gate_rate(80, 15, 5))\n",
+      "justification_from_packet": "Tasa de reject = n_reject / n_total de registros procesados, no solo accepts. Denominador es n_total = accept+review+reject.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T3-A-E3",
+      "kind": "transfer",
+      "code": "# Error: usar solo n_accept como denominador infla/deflacta mal la tasa\nn_accept, n_reject = 50, 10\nbad = n_reject / n_accept\ngood = n_reject / (n_accept + 30 + n_reject)  # + reviews\nprint(\"bad\", bad, \"good\", round(good, 4))\n",
+      "justification_from_packet": "Tasa de reject = n_reject / n_total de registros procesados, no solo accepts. Denominador debe ser n_total, no solo accepts.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T3-B-E1",
+      "kind": "guided",
+      "code": "from collections import Counter\nstatuses = [\"accept\", \"reject\", \"accept\", \"review\", \"reject\"]\nc = Counter(statuses)\nprint(dict(c))\n",
+      "justification_from_packet": "Counter agrega frecuencias de estados del gate. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T3-B-E2",
+      "kind": "independent",
+      "code": "rows = [\n    {\"region\": \"Lima\", \"status\": \"accept\"},\n    {\"region\": \"Lima\", \"status\": \"reject\"},\n    {\"region\": \"Cusco\", \"status\": \"accept\"},\n]\nfrom collections import defaultdict\nagg = defaultdict(lambda: {\"n\": 0, \"reject\": 0})\nfor r in rows:\n    a = agg[r[\"region\"]]\n    a[\"n\"] += 1\n    if r[\"status\"] == \"reject\":\n        a[\"reject\"] += 1\nfor reg, a in sorted(agg.items()):\n    print(reg, a[\"reject\"] / a[\"n\"])\n",
+      "justification_from_packet": "Tasa de reject = n_reject / n_total de registros procesados, no solo accepts. Reject rate por región con agregación.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T3-B-E3",
+      "kind": "transfer",
+      "code": "# KPI del gate: no optimizar solo accept_rate sin mirar review y datos missing\nprint(\"kpis: accept_rate, review_rate, reject_rate, missing_rate\")\nprint(\"alerta si reject_rate > 0.2 o missing_rate > 0.1\")\n",
+      "justification_from_packet": "Tasa de reject = n_reject / n_total de registros procesados, no solo accepts. KPIs balanceados; umbrales de alerta operativos.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T4-A-E1",
+      "kind": "guided",
+      "code": "# O(1) lookup dict vs O(n) scan list\nids = [f\"C{i:03d}\" for i in range(5)]\nprint(\"list membership conceptual O(n)\")\nprint(\"set membership conceptual O(1)\", \"C003\" in set(ids))\n",
+      "justification_from_packet": "Doble for anidado sobre n es O(n²) aproximado. Contraste O(n) list vs O(1) set para membership.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T4-A-E2",
+      "kind": "independent",
+      "code": "# doble for → O(n²)\nn = 4\ncount = 0\nfor i in range(n):\n    for j in range(n):\n        count += 1\nprint(\"ops\", count, \"≈ n²\", n * n)\n",
+      "justification_from_packet": "Doble for anidado sobre n es O(n²) aproximado. Doble for anidado produce n² operaciones.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T4-A-E3",
+      "kind": "transfer",
+      "code": "# Evitar O(n²): indexar por id una vez\nrows = [{\"id\": \"C1\", \"v\": 1}, {\"id\": \"C2\", \"v\": 2}]\nidx = {r[\"id\"]: r for r in rows}\nprint(idx[\"C2\"])\n",
+      "justification_from_packet": "Doble for anidado sobre n es O(n²) aproximado. Dict por id evita búsquedas anidadas O(n²).",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T4-B-E1",
+      "kind": "guided",
+      "code": "# Pipeline mental: read → validate → gate → metrics\nprint(\"stages: parse, validate, decide, aggregate\")\n",
+      "justification_from_packet": "Pipeline por etapas desacopladas facilita medir tasas del gate. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T4-B-E2",
+      "kind": "independent",
+      "code": "def run_gate(rows):\n    out = []\n    for r in rows:\n        if r.get(\"edad\") is None:\n            out.append(\"review\")\n        elif r[\"edad\"] < 18:\n            out.append(\"reject\")\n        else:\n            out.append(\"accept\")\n    return out\nprint(run_gate([{\"edad\": 20}, {\"edad\": None}, {\"edad\": 10}]))\n",
+      "justification_from_packet": "Tasa de reject = n_reject / n_total de registros procesados, no solo accepts. Mini-gate produce estados para métricas posteriores.",
+      "blocked_on": []
+    },
+    {
+      "id": "S04-T4-B-E3",
+      "kind": "transfer",
+      "code": "# Retrospectiva: cuellos de botella\n# - validación O(n) OK; joins naive O(n²) mal\n# - loguear tasas por lote; fallar si reconcile de conteos no cierra\nprint(\"retro_ok\")\n",
+      "justification_from_packet": "Doble for anidado sobre n es O(n²) aproximado. Identificar joins naive y cerrar conteos del lote.",
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "stem": "¿Qué produce list(range(3))?",
+      "chosen_index": 3,
+      "chosen_text": "[0,1,2]",
+      "justification_from_packet": "range(n) produce 0..n-1; list(range(3)) es [0,1,2]. Por eso elijo la opción [3] para: ¿Qué produce list(range(3))?",
+      "blocked_on": [],
+      "question_index": 0
+    },
+    {
+      "stem": "zip([1,2,3],[10,20]) sin strict…",
+      "chosen_index": 1,
+      "chosen_text": "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio",
+      "justification_from_packet": "zip sin strict recorta al más corto; el resto se pierde en silencio. Por eso elijo la opción [1] para: zip([1,2,3],[10,20]) sin strict…",
+      "blocked_on": [],
+      "question_index": 1
+    },
+    {
+      "stem": "Para la tasa de reject del gate, el denominador debe ser…",
+      "chosen_index": 2,
+      "chosen_text": "n_total de registros procesados (intentados)",
+      "justification_from_packet": "Tasa de reject = n_reject / n_total de registros procesados, no solo accepts. Por eso elijo la opción [2] para: Para la tasa de reject del gate, el denominador debe ser…",
+      "blocked_on": [],
+      "question_index": 2
+    },
+    {
+      "stem": "¿Qué hace continue en un for de líneas de intake?",
+      "chosen_index": 0,
+      "chosen_text": "Salta al siguiente ciclo del bucle",
+      "justification_from_packet": "continue salta al siguiente ciclo del for; break sale del bucle. Por eso elijo la opción [0] para: ¿Qué hace continue en un for de líneas de intake?",
+      "blocked_on": [],
+      "question_index": 3
+    },
+    {
+      "stem": "Un doble for anidado sobre n elementos es aproximadamente…",
+      "chosen_index": 3,
+      "chosen_text": "O(n²)",
+      "justification_from_packet": "Doble for anidado sobre n es O(n²) aproximado. Por eso elijo la opción [3] para: Un doble for anidado sobre n elementos es aproximadamente…",
+      "blocked_on": [],
+      "question_index": 4
+    }
+  ],
+  "recorded_at": "2026-07-23T04:17:47.516962+00:00"
+}

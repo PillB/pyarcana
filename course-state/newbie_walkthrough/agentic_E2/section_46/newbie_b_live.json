@@ -1,0 +1,490 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 46,
+  "packet_sha": "7545b9e7cdaa742a",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s46-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S46-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S46-T1-A-E1\nrecord = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\":110,\"window_end\":120,\"watermark\":115,\"allowed_lateness\":10}}\nmeets_contract = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\nstatus = \"PASS\" if meets_contract else \"SIDE_OUTPUT_LATE_EVENT\"\nprint(\"S46-T1-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "ventanas",
+        "entrada",
+        "event",
+        "event_time",
+        "status",
+        "print",
+        "dentro",
+        "watermarks"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T1-A-E1 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T1-A-E1 · Calcula el contrato de `ventanas, event time y watermarks` sobre `CASO-HYO-046-1A`. La entrada es el dict completo del starter; la operación debe demostrar event_time dentro de ventana y…». Hints: Relaciona los campos `event_time`, `window_end`, `watermark`, `allowed_lateness` con la regla explicada en S46-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva fixtures en hora/desorden/tardío con resultado esperado; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\":110,\"window_end\":120,\"wa…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S46-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {'window_end', 'watermark', 'event_time', 'allowed_lateness', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\n    except Exception:\n        return 'SIDE_OUTPUT_LATE_EVENT'\n    return 'PASS' if ok else 'SIDE_OUTPUT_LATE_EVENT'\n\nrecord = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\":110,\"window_end\":120,\"watermark\":115,\"allowed_lateness\":10}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'allowed_lateness'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "ventanas",
+        "event_time",
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T1-A-E2 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T1-A-E2 · Modela tres rutas de `ventanas, event time y watermarks`: fixture válido, fixture adverso y registro sin `allowed_lateness`. Entrada: dict con case_id, event_time, window_end, watermark,…». Hints: Primero se calcula `missing`; ningún acceso a allowed_lateness debe ocurrir antes de esa rama.; Después aplica la regla de S46-T1-A: event_time dentro de ventana y lateness permitido. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S46-T1-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"allowed_lateness\"\n    try:\n        ok = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\":110,\"window_end\":120,\"watermark\":115,\"allowed_lateness\":10}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "ventanas",
+        "event_time",
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "get",
+        "ausencia"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T1-A-E3 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T1-A-E3 · Simula fallo cerrado para `ventanas, event time y watermarks` con tres fixtures distintos. `CASO-HYO-046-1A` debe continuar, el adverso debe devolver `SIDE_OUTPUT_LATE_EVENT` y la ausenc…». Hints: Una ausencia no equivale a breach: enrútala a `WAIT_FOR_WATERMARK` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró event_time dentro de ventana y lateness permitido; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S46-T1-B-E1\nrecord = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\":[\"e1\",\"e1\",\"e2\"],\"sink_ids\":{\"e1\",\"e2\"},\"checkpoint\":2,\"late_policy\":\"update\"}}\nmeets_contract = not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])\nstatus = \"PASS\" if meets_contract else \"REPLAY_IDEMPOTENTLY\"\nprint(\"S46-T1-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "propiedad",
+        "status",
+        "print",
+        "exactly",
+        "salida",
+        "case_id",
+        "contrato"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T1-B-E1 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T1-B-E1 · Compara el contrato de `late data y exactly-once como propiedad compuesta` sobre `CASO-HYO-046-1B`. La entrada es el dict completo del starter; la operación debe demostrar dedup sink, ch…». Hints: Relaciona los campos `event_ids`, `sink_ids`, `checkpoint`, `late_policy` con la regla explicada en S46-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva retry y late event no duplican agregado; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\":[\"e1\",\"e1\",\"e2\"],\"sink_id…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S46-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {'checkpoint', 'sink_ids', 'late_policy', 'case_id', 'event_ids'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])\n    except Exception:\n        return 'REPLAY_IDEMPOTENTLY'\n    return 'PASS' if ok else 'REPLAY_IDEMPOTENTLY'\n\nrecord = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\":[\"e1\",\"e1\",\"e2\"],\"sink_ids\":{\"e1\",\"e2\"},\"checkpoint\":2,\"late_policy\":\"update\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'late_policy'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "propiedad",
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get",
+        "starter"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T1-B-E2 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T1-B-E2 · Verifica tres rutas de `late data y exactly-once como propiedad compuesta`: fixture válido, fixture adverso y registro sin `late_policy`. Entrada: dict con case_id, event_ids, sink_ids, …». Hints: Primero se calcula `missing`; ningún acceso a late_policy debe ocurrir antes de esa rama.; Después aplica la regla de S46-T1-B: dedup sink, checkpoint y política de dato tardío. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S46-T1-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"late_policy\"\n    try:\n        ok = not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\":[\"e1\",\"e1\",\"e2\"],\"sink_ids\":{\"e1\",\"e2\"},\"checkpoint\":2,\"late_policy\":\"update\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "propiedad",
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "get",
+        "ausencia",
+        "starter"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T1-B-E3 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T1-B-E3 · Extiende fallo cerrado para `late data y exactly-once como propiedad compuesta` con tres fixtures distintos. `CASO-HYO-046-1B` debe continuar, el adverso debe devolver `REPLAY_IDEMPOTENT…». Hints: Una ausencia no equivale a breach: enrútala a `CHOOSE_LATE_POLICY` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró dedup sink, checkpoint y política de dato tardío; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S46-T2-A-E1\nrecord = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\nmeets_contract = record[\"typed_io\"] is True and not any(a == b for a,b in record[\"edges\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_DAG\"\nprint(\"S46-T2-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "raw",
+        "status",
+        "print",
+        "typed_io",
+        "clean",
+        "nodos",
+        "declarados"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T2-A-E1 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T2-A-E1 · Filtra el contrato de `DAG/assets y dependency` sobre `CASO-HYO-046-2A`. La entrada es el dict completo del starter; la operación debe demostrar grafo sin self-loop y todos los nodos dec…». Hints: Relaciona los campos `nodes`, `edges`, `typed_io` con la regla explicada en S46-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva grafo acíclico con inputs/outputs tipados; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edg…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S46-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"nodes\", \"edges\", \"typed_io\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = record[\"typed_io\"] is True and not any(a == b for a,b in record[\"edges\"])\n    return \"PASS\" if ok else \"REJECT_DAG\"\n\nvalid = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\ninvalid = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\"},\"edges\":{(\"raw\",\"raw\"),(\"clean\",\"report\")},\"typed_io\":False}}\nincomplete = {**valid}\nincomplete.pop(\"typed_io\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "decisión",
+        "results",
+        "rutas",
+        "invertido",
+        "raw",
+        "print",
+        "required"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T2-A-E2 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T2-A-E2 · Clasifica tres rutas de `DAG/assets y dependency`: fixture válido, fixture adverso y registro sin `typed_io`. Entrada: dict con case_id, nodes, edges, typed_io. Salidas exactas: `PASS`, …». Hints: Primero se calcula `missing`; ningún acceso a typed_io debe ocurrir antes de esa rama.; Después aplica la regla de S46-T2-A: grafo sin self-loop y todos los nodos declarados. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S46-T2-A-E3\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"nodes\", \"edges\", \"typed_io\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"typed_io\"\n    return \"CONTINUE\" if not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"])) else \"REJECT_DAG\"\n\nvalid = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\ninvalid = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\"},\"edges\":{(\"raw\",\"raw\"),(\"clean\",\"report\")},\"typed_io\":False}}\nincomplete = {**valid}\nincomplete.pop(\"typed_io\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "results",
+        "fallo",
+        "raw",
+        "print",
+        "required",
+        "typed_io",
+        "clean",
+        "fixtures"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T2-A-E3 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T2-A-E3 · Defiende fallo cerrado para `DAG/assets y dependency` con tres fixtures distintos. `CASO-HYO-046-2A` debe continuar, el adverso debe devolver `REJECT_DAG` y la ausencia de `typed_io` deb…». Hints: Una ausencia no equivale a breach: enrútala a `DECLARE_ASSET_DEPENDENCY` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró grafo sin self-loop y todos los nodos declarados; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S46-T2-B-E1\nrecord = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\":[[1,3],[4,6]],\"overlap\":False,\"checkpoint\":\"2026-07-01\",\"resume_from\":\"2026-07-01\"}}\nmeets_contract = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\nstatus = \"PASS\" if meets_contract else \"STOP_OVERLAPPING_BACKFILL\"\nprint(\"S46-T2-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "overlap",
+        "status",
+        "print",
+        "solape",
+        "schedules",
+        "salida",
+        "case_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T2-B-E1 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T2-B-E1 · Modela el contrato de `schedules, backfills y state recovery` sobre `CASO-HYO-046-2B`. La entrada es el dict completo del starter; la operación debe demostrar intervalos sin solape y rea…». Hints: Relaciona los campos `intervals`, `overlap`, `checkpoint`, `resume_from` con la regla explicada en S46-T2-B.; El predicado correcto debe ser verdadero porque el fixture conserva backfill acotado y reanudación ensayada; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\":[[1,3],[4,6]],\"overlap\":F…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S46-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {'overlap', 'resume_from', 'intervals', 'checkpoint', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\n    except Exception:\n        return 'STOP_OVERLAPPING_BACKFILL'\n    return 'PASS' if ok else 'STOP_OVERLAPPING_BACKFILL'\n\nrecord = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\":[[1,3],[4,6]],\"overlap\":False,\"checkpoint\":\"2026-07-01\",\"resume_from\":\"2026-07-01\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'resume_from'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get",
+        "starter",
+        "tres"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T2-B-E2 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T2-B-E2 · Audita tres rutas de `schedules, backfills y state recovery`: fixture válido, fixture adverso y registro sin `resume_from`. Entrada: dict con case_id, intervals, overlap, checkpoint, res…». Hints: Primero se calcula `missing`; ningún acceso a resume_from debe ocurrir antes de esa rama.; Después aplica la regla de S46-T2-B: intervalos sin solape y reanudación desde checkpoint. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S46-T2-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"resume_from\"\n    try:\n        ok = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\":[[1,3],[4,6]],\"overlap\":False,\"checkpoint\":\"2026-07-01\",\"resume_from\":\"2026-07-01\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "get",
+        "ausencia",
+        "starter",
+        "tres"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T2-B-E3 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T2-B-E3 · Recupera fallo cerrado para `schedules, backfills y state recovery` con tres fixtures distintos. `CASO-HYO-046-2B` debe continuar, el adverso debe devolver `STOP_OVERLAPPING_BACKFILL` y …». Hints: Una ausencia no equivale a breach: enrútala a `RECOVER_CHECKPOINT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró intervalos sin solape y reanudación desde checkpoint; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S46-T3-A-E1\nrecord = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"observed_schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"freshness_min\":8,\"slo_min\":15,\"owner\":\"data-ops\"}}\nmeets_contract = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_DATASET\"\nprint(\"S46-T3-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "event_time",
+        "status",
+        "freshness_min",
+        "print",
+        "int",
+        "salida",
+        "case_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T3-A-E1 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T3-A-E1 · Verifica el contrato de `contracts y freshness` sobre `CASO-HYO-046-3A`. La entrada es el dict completo del starter; la operación debe demostrar schema exacto, freshness bajo SLO y owner…». Hints: Relaciona los campos `schema`, `observed_schema`, `freshness_min`, `slo_min`, `owner` con la regla explicada en S46-T3-A.; El predicado correcto debe ser verdadero porque el fixture conserva schema break y stale data alertan; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\":{\"case_id\":\"str\",\"event_time…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S46-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {'observed_schema', 'schema', 'slo_min', 'owner', 'freshness_min', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\n    except Exception:\n        return 'QUARANTINE_DATASET'\n    return 'PASS' if ok else 'QUARANTINE_DATASET'\n\nrecord = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"observed_schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"freshness_min\":8,\"slo_min\":15,\"owner\":\"data-ops\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'owner'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "event_time",
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get",
+        "starter"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T3-A-E2 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T3-A-E2 · Decide tres rutas de `contracts y freshness`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, schema, observed_schema, freshness_min, slo_min, owner. S…». Hints: Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.; Después aplica la regla de S46-T3-A: schema exacto, freshness bajo SLO y owner. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S46-T3-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"owner\"\n    try:\n        ok = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"observed_schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"freshness_min\":8,\"slo_min\":15,\"owner\":\"data-ops\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "event_time",
+        "print",
+        "stages",
+        "infrastructure",
+        "contrasta",
+        "true",
+        "page_data_owner",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T3-A-E3 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T3-A-E3 · Contrasta fallo cerrado para `contracts y freshness` con tres fixtures distintos. `CASO-HYO-046-3A` debe continuar, el adverso debe devolver `QUARANTINE_DATASET` y la ausencia de `owner`…». Hints: Una ausencia no equivale a breach: enrútala a `PAGE_DATA_OWNER` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró schema exacto, freshness bajo SLO y owner; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S46-T3-B-E1\nrecord = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\":\"run-hyo-46\",\"inputs\":{\"raw-v2\"},\"outputs\":{\"clean-v3\"},\"metrics\":{\"rows\":120,\"null_rate\":0.01},\"owner\":\"analytics\"}}\nmeets_contract = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\nstatus = \"PASS\" if meets_contract else \"OPEN_QUALITY_INCIDENT\"\nprint(\"S46-T3-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "raw",
+        "status",
+        "print",
+        "run_id",
+        "clasifica",
+        "clean",
+        "métricas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T3-B-E1 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T3-B-E1 · Clasifica el contrato de `lineage, observability y ownership` sobre `CASO-HYO-046-3B`. La entrada es el dict completo del starter; la operación debe demostrar run conecta inputs/outputs/…». Hints: Relaciona los campos `run_id`, `inputs`, `outputs`, `metrics`, `owner` con la regla explicada en S46-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva incidente reconstruible por lineage; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\":\"run-hyo-46\",\"inputs\":{\"raw-…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S46-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {'metrics', 'owner', 'run_id', 'inputs', 'outputs', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\n    except Exception:\n        return 'OPEN_QUALITY_INCIDENT'\n    return 'PASS' if ok else 'OPEN_QUALITY_INCIDENT'\n\nrecord = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\":\"run-hyo-46\",\"inputs\":{\"raw-v2\"},\"outputs\":{\"clean-v3\"},\"metrics\":{\"rows\":120,\"null_rate\":0.01},\"owner\":\"analytics\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'owner'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "clean",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get",
+        "starter"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T3-B-E2 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T3-B-E2 · Calcula tres rutas de `lineage, observability y ownership`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, run_id, inputs, outputs, metrics, owner. Sa…». Hints: Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.; Después aplica la regla de S46-T3-B: run conecta inputs/outputs/métricas/owner. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S46-T3-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"owner\"\n    try:\n        ok = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\":\"run-hyo-46\",\"inputs\":{\"raw-v2\"},\"outputs\":{\"clean-v3\"},\"metrics\":{\"rows\":120,\"null_rate\":0.01},\"owner\":\"analytics\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "clean",
+        "stages",
+        "infrastructure",
+        "true",
+        "get",
+        "ausencia",
+        "starter"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T3-B-E3 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T3-B-E3 · Instrumenta fallo cerrado para `lineage, observability y ownership` con tres fixtures distintos. `CASO-HYO-046-3B` debe continuar, el adverso debe devolver `OPEN_QUALITY_INCIDENT` y la a…». Hints: Una ausencia no equivale a breach: enrútala a `TRACE_LINEAGE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró run conecta inputs/outputs/métricas/owner; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S46-T4-A-E1\nrecord = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\":\"2026-07-22\",\"source_keys\":{\"a\",\"b\",\"c\"},\"target_keys\":{\"a\",\"b\",\"c\"},\"second_run_changes\":0,\"small_files\":2,\"max_small_files\":5}}\nmeets_contract = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REBUILD_PARTITION\"\nprint(\"S46-T4-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "status",
+        "print",
+        "source_keys",
+        "second_run_changes",
+        "salida",
+        "max_small_files",
+        "target_keys"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T4-A-E1 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T4-A-E1 · Audita el contrato de `partitions e incremental loads` sobre `CASO-HYO-046-4A`. La entrada es el dict completo del starter; la operación debe demostrar merge idempotente y small files ba…». Hints: Relaciona los campos `partition`, `source_keys`, `target_keys`, `second_run_changes`, `small_files`, `max_small_files` con la regla explicada en S46-T4-A.; El predicado correcto debe ser verdadero porque el fixture conserva segunda ejecución cambia cero filas; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\":\"2026-07-22\",\"source_keys…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S46-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {'small_files', 'source_keys', 'second_run_changes', 'partition', 'max_small_files', 'target_keys', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\n    except Exception:\n        return 'REBUILD_PARTITION'\n    return 'PASS' if ok else 'REBUILD_PARTITION'\n\nrecord = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\":\"2026-07-22\",\"source_keys\":{\"a\",\"b\",\"c\"},\"target_keys\":{\"a\",\"b\",\"c\"},\"second_run_changes\":0,\"small_files\":2,\"max_small_files\":5}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'max_small_files'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get",
+        "starter",
+        "tres"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T4-A-E2 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T4-A-E2 · Compara tres rutas de `partitions e incremental loads`: fixture válido, fixture adverso y registro sin `max_small_files`. Entrada: dict con case_id, partition, source_keys, target_keys, …». Hints: Primero se calcula `missing`; ningún acceso a max_small_files debe ocurrir antes de esa rama.; Después aplica la regla de S46-T4-A: merge idempotente y small files bajo límite. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S46-T4-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"max_small_files\"\n    try:\n        ok = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\":\"2026-07-22\",\"source_keys\":{\"a\",\"b\",\"c\"},\"target_keys\":{\"a\",\"b\",\"c\"},\"second_run_changes\":0,\"small_files\":2,\"max_small_files\":5}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "get",
+        "ausencia",
+        "starter",
+        "tres"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T4-A-E3 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T4-A-E3 · Aísla fallo cerrado para `partitions e incremental loads` con tres fixtures distintos. `CASO-HYO-046-4A` debe continuar, el adverso debe devolver `REBUILD_PARTITION` y la ausencia de `ma…». Hints: Una ausencia no equivale a breach: enrútala a `REVIEW_INCREMENTAL_KEY` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró merge idempotente y small files bajo límite; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S46-T4-B-E1\nrecord = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\":0.995,\"freshness_slo\":0.99,\"rto_minutes\":25,\"target_rto_minutes\":30,\"postmortem_actions\":3,\"owner\":\"data-oncall\"}}\nmeets_contract = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_INCIDENT\"\nprint(\"S46-T4-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "status",
+        "rto_minutes",
+        "print",
+        "acciones",
+        "recovery",
+        "salida",
+        "case_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T4-B-E1 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T4-B-E1 · Decide el contrato de `SLO, incidentes y data recovery` sobre `CASO-HYO-046-4B`. La entrada es el dict completo del starter; la operación debe demostrar SLI/SLO, RTO, owner y acciones de…». Hints: Relaciona los campos `freshness_sli`, `freshness_slo`, `rto_minutes`, `target_rto_minutes`, `postmortem_actions`, `owner` con la regla explicada en S46-T4-B.; El predicado correcto debe ser verdadero porque el fixture conserva simulacro cumple RTO y postmortem tiene acciones; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\":0.995,\"freshness_slo\"…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S46-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {'freshness_slo', 'owner', 'freshness_sli', 'rto_minutes', 'postmortem_actions', 'target_rto_minutes', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\n    except Exception:\n        return 'DECLARE_DATA_INCIDENT'\n    return 'PASS' if ok else 'DECLARE_DATA_INCIDENT'\n\nrecord = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\":0.995,\"freshness_slo\":0.99,\"rto_minutes\":25,\"target_rto_minutes\":30,\"postmortem_actions\":3,\"owner\":\"data-oncall\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'owner'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "get",
+        "starter",
+        "tres"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T4-B-E2 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T4-B-E2 · Filtra tres rutas de `SLO, incidentes y data recovery`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, freshness_sli, freshness_slo, rto_minutes, targ…». Hints: Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.; Después aplica la regla de S46-T4-B: SLI/SLO, RTO, owner y acciones de postmortem. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S46-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S46-T4-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"owner\"\n    try:\n        ok = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\":0.995,\"freshness_slo\":0.99,\"rto_minutes\":25,\"target_rto_minutes\":30,\"postmortem_actions\":3,\"owner\":\"data-oncall\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "get",
+        "ausencia",
+        "starter",
+        "tres"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S46-T4-B-E3 solo con el paquete activo S46 (Ingeniería de datos y orquestación de producción). Instruction: «S46-T4-B-E3 · Demuestra fallo cerrado para `SLO, incidentes y data recovery` con tres fixtures distintos. `CASO-HYO-046-4B` debe continuar, el adverso debe devolver `DECLARE_DATA_INCIDENT` y la ausenc…». Hints: Una ausencia no equivale a breach: enrútala a `ACTIVATE_RECOVERY_RUNBOOK` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró SLI/SLO, RTO, owner y acciones de postmortem; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «ventanas, event time y watermarks Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. …». Demos: S46-T1-A-DEMO | S46-T1-B-DEMO | S46-T2-A-DEMO | S46-T2-B-DEMO | S46-T3-A-DEMO | S46-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "fixtures en hora/desorden/tardío con resultado esperado",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 1 «fixtures en hora/desorden/tardío con resultado esperado» para la pregunta «¿Qué evidencia permite aprobar `ventanas, event time y watermarks` en CASO-HYO-046?» porque el paquete activo S46 (Ingeniería de datos y orquestación de producción) enseña: «Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío.». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "emitir QUARANTINE_PARTITION y conservar evidencia",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 3 «emitir QUARANTINE_PARTITION y conservar evidencia» para la pregunta «Si ocurre la condición de error de S46, ¿qué respuesta preserva seguridad y auditabilidad?» porque el paquete activo S46 (Ingeniería de datos y orquestación de producción) enseña: «Aplicación de `ventanas, event time y watermarks` al caso peruano sintético `CASO-HYO-046`: eventos sintéticos de atención para una entidad ficticia en Huancayo. La evidencia esper…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 0 «backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness» para la pregunta «¿Cuál resultado demuestra el gate `CP-N4-B · pipeline incremental y backfillable`?» porque el paquete activo S46 (Ingeniería de datos y orquestación de producción) enseña: «Contrato operativo. Entrada: eventos con event_time, clave estable, schema y partición. Salida de este subtema: fixtures en hora/desorden/tardío con resultado esperado. Error: cont…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 2 «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» para la pregunta «¿Qué tratamiento de `CASO-HYO-046` respeta el alcance del curso?» porque el paquete activo S46 (Ingeniería de datos y orquestación de producción) enseña: «Aplicación de `ventanas, event time y watermarks` al caso peruano sintético `CASO-HYO-046`: eventos sintéticos de atención para una entidad ficticia en Huancayo. La evidencia esper…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    }
+  ],
+  "confusion_points": [],
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:40:26.060289+00:00"
+}

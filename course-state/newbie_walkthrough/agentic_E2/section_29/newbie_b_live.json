@@ -1,0 +1,490 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 29,
+  "packet_sha": "298a66f05c46a228",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s29-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T1-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\nprint(c.execute('select count(*) from entities').fetchone()[0])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "tabla",
+        "create",
+        "solution",
+        "select"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T1-A-E1 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T1-A-E1 · Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; i…». Hints: sqlite3; PRIMARY KEY. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `import sqlite3`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T1-A-E2\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\ntry:\n    c.execute('insert into p values (1.5)')\nexcept Exception:\n    print('bad_score')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "between",
+        "print",
+        "defecto",
+        "run_id",
+        "create",
+        "solution",
+        "score"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T1-A-E2 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T1-A-E2 · CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa s…». Hints: try/except; CHECK. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `import sqlite3`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T1-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('e1' < 'e2')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T1-A-E3 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T1-A-E3 · Imprime True si 'e1'<'e2' (orden canónico de par). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto in…». Hints: comparación strings; a<b. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\nprint(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "review",
+        "entrada",
+        "label",
+        "print",
+        "defecto",
+        "run_id",
+        "create",
+        "solution"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T1-B-E1 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T1-B-E1 · Inserta dos labels para pair p1; imprime número de filas de historia. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo…». Hints: append-only; count. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `import sqlite3`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T1-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'source': 'crm_synth', 'record': 'r9'})\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "provenance",
+        "print",
+        "defecto",
+        "run_id",
+        "source",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T1-B-E2 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T1-B-E2 · Imprime provenance dict source='crm_synth' record='r9'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defec…». Hints: dict; provenance. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\nprint('open' if valid_to is None else 'closed')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "valid_to",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T1-B-E3 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T1-B-E3 · valid_to NULL significa vigente: imprime 'open' si valid_to is None. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo …». Hints: None; temporal. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `valid_to=None`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T2-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nids=[r[0] for r in c.execute('select id from pairs where id not in (select pair_id from dec)')]\nprint(ids)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "decisión",
+        "pair_id",
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "create",
+        "solution"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T2-A-E1 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T2-A-E1 · Con pairs p1,p2 y decision solo p1, lista ids sin decisión. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/d…». Hints: NOT IN o left join; anti-join. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `import sqlite3`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "scores",
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T2-A-E2 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T2-A-E2 · Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo…». Hints: sorted; rank 1. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `scores=[0.2,0.9,0.5]`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T2-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ranked')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T2-A-E3 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T2-A-E3 · Imprime el nombre de la CTE de ejemplo: ranked. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indic…». Hints: literal; WITH. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\nprint(n*(n-1)//2)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T2-B-E1 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T2-B-E1 · C(n,2) para n=5 → 10. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos n…». Hints: combinatoria; pares. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `n=5`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T2-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(None is None)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T2-B-E2 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T2-B-E2 · Imprime True si None is None (recuerda NULL SQL ≠ Python en joins). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo e…». Hints: is; NULL. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T2-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('SCAN')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "prefijo",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T2-B-E3 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T2-B-E3 · Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáctico). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es …». Hints: string; planes. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T3-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('rollback')\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "create",
+        "solution",
+        "begin",
+        "select"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T3-A-E1 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T3-A-E1 · Tras BEGIN insert y ROLLBACK, count debe ser 0. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indic…». Hints: rollback; atomic. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `import sqlite3`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T3-A-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A,C,I,D')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "coma",
+        "print",
+        "defecto",
+        "run_id",
+        "espacios",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T3-A-E2 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T3-A-E2 · Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter comp…». Hints: string; ACID. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\nprint('abort' if not evidence_ok else 'commit')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T3-A-E3 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T3-A-E3 · Si evidence_ok es False no hagas commit conceptual: imprime 'abort'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo …». Hints: guard; transacción. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `evidence_ok=False`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T3-B-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nc.execute(\"insert into e values ('1','B') on conflict(id) do update set name=excluded.name\")\nprint(c.execute(\"select name from e where id='1'\").fetchone()[0])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "excluded",
+        "set",
+        "print",
+        "defecto",
+        "run_id",
+        "create",
+        "solution"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T3-B-E1 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T3-B-E1 · Upsert: segunda insert con mismo id actualiza; imprime name final 'B'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa sol…». Hints: ON CONFLICT; DO UPDATE. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `import sqlite3`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T3-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'job': 'er_block', 'status': 'pending'}['status'])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "status",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T3-B-E2 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T3-B-E2 · Recuperación: job status 'pending' tras crash; imprime status. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TOD…». Hints: literal/dict; resume. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T3-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\nprint('retry' if conflict else 'ok')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "duplicado",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T3-B-E3 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T3-B-E3 · Conflicto de par duplicado → imprime 'retry'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicad…». Hints: política; concurrencia. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `conflict=True`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T4-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nc.execute(\"insert into schema_migrations values (2,'add_index')\")\nprint(c.execute('select max(v) from schema_migrations').fetchone()[0])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "create",
+        "solution",
+        "name",
+        "init"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T4-A-E1 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T4-A-E1 · Registra migration version 2 name 'add_index'; imprime max version. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo e…». Hints: schema_migrations; insert. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `import sqlite3`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T4-A-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('idx_pairs_block_key')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "sugerido",
+        "sintético",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T4-A-E2 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T4-A-E2 · Imprime nombre de índice sugerido idx_pairs_block_key. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defect…». Hints: convención; índices. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T4-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('no_drop_without_backup')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T4-A-E3 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T4-A-E3 · Política: imprime 'no_drop_without_backup'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado …». Hints: string; migrations. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\nprint(store.get('e1'))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "repo",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T4-B-E1 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T4-B-E1 · Repo.get: dict store {'e1':'Ana'}; imprime get e1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto in…». Hints: dict; repository. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `store={'e1':'Ana'}`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T4-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'pool_size': 5}['pool_size'])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T4-B-E2 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T4-B-E2 · Pool size conceptual 5; imprime pool_size. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado s…». Hints: dict; pooling. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S29-T4-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\nprint(pending_count)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "test",
+        "entrada",
+        "repo",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S29-T4-B-E3 solo con el paquete activo S29 (SQL avanzado y modelado relacional). Instruction: «S29-T4-B-E3 · Test de repo: pending count 1; imprime 1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado si…». Hints: assert blando; memoria. Teoría/iDo: «claves, constraints y normalización **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_i…». Demos: S29-T1-A-DEMO | S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `pending_count=1`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Evitar duplicar el mismo par en orden invertido",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 0 «Evitar duplicar el mismo par en orden invertido» para la pregunta «entity_a < entity_b en el par sirve para:» porque el paquete activo S29 (SQL avanzado y modelado relacional) enseña: «**PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_id). El modelo relacional es el contrato entre fuentes, c…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Nueva fila por cambio de decisión",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 2 «Nueva fila por cambio de decisión» para la pregunta «Append-only en decisions significa:» porque el paquete activo S29 (SQL avanzado y modelado relacional) enseña: «**Temporalidad**: valid_from/valid_to o tablas de eventos. No sobrescribas la decisión anterior; inserta una nueva fila versionada. El modelo relacional es el contrato entre fuente…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Ser atómicas en la misma transacción lógica",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 3 «Ser atómicas en la misma transacción lógica» para la pregunta «Decisión y evidencia deben:» porque el paquete activo S29 (SQL avanzado y modelado relacional) enseña: «Normaliza a **3NF** para hechos: no repitas atributos de entidad en cada par; la evidencia puede ser tabla hija. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (r…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Encapsula acceso a datos y facilita tests con :memory:",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 1 «Encapsula acceso a datos y facilita tests con :memory:» para la pregunta «El repository pattern:» porque el paquete activo S29 (SQL avanzado y modelado relacional) enseña: «Ids sintéticos estables (`ent_…`, `pair_…`) facilitan tests. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidato…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    }
+  ],
+  "confusion_points": [],
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:37:09.429517+00:00"
+}

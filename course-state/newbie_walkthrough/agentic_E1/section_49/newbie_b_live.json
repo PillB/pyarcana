@@ -1,0 +1,260 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 49,
+  "packet_sha": "2864233a4f8e529b",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s49-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S49-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"tool_choice_uncertain\":False,\"baseline_success\":0.96,\"agent_success\":0.9}}\nmeets_contract = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_DETERMINISTIC_WORKFLOW\"\nprint(\"S49-T1-A\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T1-A-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «workflow vs agente», «CASO-AYA-049-1A», «S49-T1-A PASS», «KEEP_DETERMINISTIC_WORKFLOW». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "workflow vs agente"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'agent_success', 'baseline_success', 'branch_count', 'case_id', 'known_steps', 'tool_choice_uncertain'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])) else \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"tool_choice_uncertain\":False,\"baseline_success\":0.96,\"agent_success\":0.9}}\ninvalid = {'case_id':'CASO-AYA-049-1A','known_steps':False,'branch_count':2,'tool_choice_uncertain':False,'baseline_success':0.96,'agent_success':0.9}\nincomplete = {**valid}\nincomplete.pop('agent_success')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T1-A-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «workflow vs agente», «agent_success», «PASS», «KEEP_DETERMINISTIC_WORKFLOW». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "workflow vs agente"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'agent_success', 'baseline_success', 'branch_count', 'case_id', 'known_steps', 'tool_choice_uncertain'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RUN_AGENT_BASELINE\"\n    return \"CONTINUE\" if (not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])) else \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"tool_choice_uncertain\":False,\"baseline_success\":0.96,\"agent_success\":0.9}}\ninvalid = {'case_id':'CASO-AYA-049-1A','known_steps':False,'branch_count':2,'tool_choice_uncertain':False,'baseline_success':0.96,'agent_success':0.9}\nuncertain = {**valid}\nuncertain.pop('agent_success')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T1-A-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «workflow vs agente», «CASO-AYA-049-1A», «KEEP_DETERMINISTIC_WORKFLOW», «agent_success». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "workflow vs agente"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_steps\":5,\"worker_outputs\":3,\"evaluator_pass\":True}}\nmeets_contract = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\nstatus = \"PASS\" if meets_contract else \"STOP_AGENT_LOOP\"\nprint(\"S49-T1-B\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T1-B-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «routing, planner/worker y evaluator–optimizer», «CASO-AYA-049-1B», «S49-T1-B PASS», «STOP_AGENT_LOOP». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "routing, planner/worker y evaluator–optimizer"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'evaluator_pass', 'max_steps', 'plan_steps', 'route', 'worker_outputs'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])) else \"STOP_AGENT_LOOP\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_steps\":5,\"worker_outputs\":3,\"evaluator_pass\":True}}\ninvalid = {'case_id':'CASO-AYA-049-1B','route':'report','plan_steps':1003,'max_steps':5,'worker_outputs':3,'evaluator_pass':True}\nincomplete = {**valid}\nincomplete.pop('evaluator_pass')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T1-B-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «routing, planner/worker y evaluator–optimizer», «evaluator_pass», «PASS», «STOP_AGENT_LOOP». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "routing, planner/worker y evaluator–optimizer"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'evaluator_pass', 'max_steps', 'plan_steps', 'route', 'worker_outputs'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REPLAN_WITH_BOUNDS\"\n    return \"CONTINUE\" if (not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])) else \"STOP_AGENT_LOOP\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_steps\":5,\"worker_outputs\":3,\"evaluator_pass\":True}}\ninvalid = {'case_id':'CASO-AYA-049-1B','route':'report','plan_steps':1003,'max_steps':5,'worker_outputs':3,'evaluator_pass':True}\nuncertain = {**valid}\nuncertain.pop('evaluator_pass')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T1-B-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «routing, planner/worker y evaluator–optimizer», «CASO-AYA-049-1B», «STOP_AGENT_LOOP», «evaluator_pass». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "routing, planner/worker y evaluator–optimizer"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibilities\":1,\"schema_fields\":{\"case_id\"},\"side_effect\":False,\"typed_errors\":True}}\nmeets_contract = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_OVERBROAD_TOOL\"\nprint(\"S49-T2-A\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T2-A-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «funciones de responsabilidad única», «CASO-AYA-049-2A», «S49-T2-A PASS», «DISABLE_OVERBROAD_TOOL». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "funciones de responsabilidad única"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'responsibilities', 'schema_fields', 'side_effect', 'tool', 'typed_errors'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])) else \"DISABLE_OVERBROAD_TOOL\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibilities\":1,\"schema_fields\":{\"case_id\"},\"side_effect\":False,\"typed_errors\":True}}\ninvalid = {'case_id':'CASO-AYA-049-2A','tool':'get_case_status','responsibilities':1001,'schema_fields':{'case_id'},'side_effect':False,'typed_errors':True}\nincomplete = {**valid}\nincomplete.pop('typed_errors')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T2-A-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «funciones de responsabilidad única», «typed_errors», «PASS», «DISABLE_OVERBROAD_TOOL». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "funciones de responsabilidad única"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'responsibilities', 'schema_fields', 'side_effect', 'tool', 'typed_errors'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SPLIT_TOOL_CONTRACT\"\n    return \"CONTINUE\" if (not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])) else \"DISABLE_OVERBROAD_TOOL\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibilities\":1,\"schema_fields\":{\"case_id\"},\"side_effect\":False,\"typed_errors\":True}}\ninvalid = {'case_id':'CASO-AYA-049-2A','tool':'get_case_status','responsibilities':1001,'schema_fields':{'case_id'},'side_effect':False,'typed_errors':True}\nuncertain = {**valid}\nuncertain.pop('typed_errors')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T2-A-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «funciones de responsabilidad única», «CASO-AYA-049-2A», «DISABLE_OVERBROAD_TOOL», «typed_errors». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "funciones de responsabilidad única"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:prepare\",\"granted\":{\"report:prepare\"},\"idempotency_key\":\"tool-1\",\"attempts\":2,\"effects\":1,\"error_kind\":\"retryable\"}}\nmeets_contract = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\nstatus = \"PASS\" if meets_contract else \"DENY_TOOL_CALL\"\nprint(\"S49-T2-B\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T2-B-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «schema, permisos, idempotencia y errores», «CASO-AYA-049-2B», «S49-T2-B PASS», «DENY_TOOL_CALL». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "schema, permisos, idempotencia y errores"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'attempts', 'case_id', 'effects', 'error_kind', 'granted', 'idempotency_key', 'schema_valid', 'scope'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)) else \"DENY_TOOL_CALL\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:prepare\",\"granted\":{\"report:prepare\"},\"idempotency_key\":\"tool-1\",\"attempts\":2,\"effects\":1,\"error_kind\":\"retryable\"}}\ninvalid = {'case_id':'CASO-AYA-049-2B','schema_valid':True,'scope':'BAD','granted':{'report:prepare'},'idempotency_key':'tool-1','attempts':2,'effects':1,'error_kind':'retryable'}\nincomplete = {**valid}\nincomplete.pop('error_kind')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T2-B-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «schema, permisos, idempotencia y errores», «error_kind», «PASS», «DENY_TOOL_CALL». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "schema, permisos, idempotencia y errores"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'attempts', 'case_id', 'effects', 'error_kind', 'granted', 'idempotency_key', 'schema_valid', 'scope'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CLASSIFY_TOOL_ERROR\"\n    return \"CONTINUE\" if (not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)) else \"DENY_TOOL_CALL\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:prepare\",\"granted\":{\"report:prepare\"},\"idempotency_key\":\"tool-1\",\"attempts\":2,\"effects\":1,\"error_kind\":\"retryable\"}}\ninvalid = {'case_id':'CASO-AYA-049-2B','schema_valid':True,'scope':'BAD','granted':{'report:prepare'},'idempotency_key':'tool-1','attempts':2,'effects':1,'error_kind':'retryable'}\nuncertain = {**valid}\nuncertain.pop('error_kind')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T2-B-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «schema, permisos, idempotencia y errores», «CASO-AYA-049-2B», «DENY_TOOL_CALL», «error_kind». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "schema, permisos, idempotencia y errores"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_tokens\":2000,\"retrieved_just_in_time\":True,\"checkpoint_after_effect\":True,\"provenance\":True}}\nmeets_contract = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\nstatus = \"PASS\" if meets_contract else \"COMPACT_AND_CHECKPOINT\"\nprint(\"S49-T3-A\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T3-A-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «contexto mínimo, retrieval JIT y checkpoints», «CASO-AYA-049-3A», «S49-T3-A PASS», «COMPACT_AND_CHECKPOINT». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "contexto mínimo, retrieval JIT y checkpoints"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'checkpoint_after_effect', 'context_tokens', 'max_context_tokens', 'provenance', 'retrieved_just_in_time'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])) else \"COMPACT_AND_CHECKPOINT\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_tokens\":2000,\"retrieved_just_in_time\":True,\"checkpoint_after_effect\":True,\"provenance\":True}}\ninvalid = {'case_id':'CASO-AYA-049-3A','context_tokens':2200,'max_context_tokens':2000,'retrieved_just_in_time':True,'checkpoint_after_effect':True,'provenance':True}\nincomplete = {**valid}\nincomplete.pop('provenance')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T3-A-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «contexto mínimo, retrieval JIT y checkpoints», «provenance», «PASS», «COMPACT_AND_CHECKPOINT». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "contexto mínimo, retrieval JIT y checkpoints"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'checkpoint_after_effect', 'context_tokens', 'max_context_tokens', 'provenance', 'retrieved_just_in_time'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RETRIEVE_MINIMUM_CONTEXT\"\n    return \"CONTINUE\" if (not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])) else \"COMPACT_AND_CHECKPOINT\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_tokens\":2000,\"retrieved_just_in_time\":True,\"checkpoint_after_effect\":True,\"provenance\":True}}\ninvalid = {'case_id':'CASO-AYA-049-3A','context_tokens':2200,'max_context_tokens':2000,'retrieved_just_in_time':True,'checkpoint_after_effect':True,'provenance':True}\nuncertain = {**valid}\nuncertain.pop('provenance')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T3-A-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «contexto mínimo, retrieval JIT y checkpoints», «CASO-AYA-049-3A», «COMPACT_AND_CHECKPOINT», «provenance». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "contexto mínimo, retrieval JIT y checkpoints"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"no_prod_write\"},\"facts_after\":{\"case_id\",\"budget\",\"no_prod_write\"},\"memory_retention_days\":7,\"last_known_good\":\"cp-7\"}}\nmeets_contract = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\nstatus = \"PASS\" if meets_contract else \"RESTORE_LAST_KNOWN_GOOD\"\nprint(\"S49-T3-B\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T3-B-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «memoria, compaction y last-known-good», «CASO-AYA-049-3B», «S49-T3-B PASS», «RESTORE_LAST_KNOWN_GOOD». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "memoria, compaction y last-known-good"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'facts_after', 'facts_before', 'last_known_good', 'memory_retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])) else \"RESTORE_LAST_KNOWN_GOOD\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"no_prod_write\"},\"facts_after\":{\"case_id\",\"budget\",\"no_prod_write\"},\"memory_retention_days\":7,\"last_known_good\":\"cp-7\"}}\ninvalid = {'case_id':'CASO-AYA-049-3B','facts_before':{'budget','case_id','no_prod_write'},'facts_after':set(),'memory_retention_days':7,'last_known_good':'cp-7'}\nincomplete = {**valid}\nincomplete.pop('last_known_good')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T3-B-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «memoria, compaction y last-known-good», «last_known_good», «PASS», «RESTORE_LAST_KNOWN_GOOD». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "memoria, compaction y last-known-good"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'facts_after', 'facts_before', 'last_known_good', 'memory_retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_COMPACTION_LOSS\"\n    return \"CONTINUE\" if (not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])) else \"RESTORE_LAST_KNOWN_GOOD\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"no_prod_write\"},\"facts_after\":{\"case_id\",\"budget\",\"no_prod_write\"},\"memory_retention_days\":7,\"last_known_good\":\"cp-7\"}}\ninvalid = {'case_id':'CASO-AYA-049-3B','facts_before':{'budget','case_id','no_prod_write'},'facts_after':set(),'memory_retention_days':7,'last_known_good':'cp-7'}\nuncertain = {**valid}\nuncertain.pop('last_known_good')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T3-B-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «memoria, compaction y last-known-good», «CASO-AYA-049-3B», «RESTORE_LAST_KNOWN_GOOD», «last_known_good». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "memoria, compaction y last-known-good"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\":6,\"tokens\":3200,\"max_tokens\":5000,\"cost_pen\":0.04,\"max_cost_pen\":0.06}}\nmeets_contract = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\nstatus = \"PASS\" if meets_contract else \"STOP_BUDGET_EXHAUSTED\"\nprint(\"S49-T4-A\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T4-A-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «stopping conditions y budgets», «CASO-AYA-049-4A», «S49-T4-A PASS», «STOP_BUDGET_EXHAUSTED». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "stopping conditions y budgets"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'cost_pen', 'goal_met', 'max_cost_pen', 'max_steps', 'max_tokens', 'steps', 'tokens'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])) else \"STOP_BUDGET_EXHAUSTED\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\":6,\"tokens\":3200,\"max_tokens\":5000,\"cost_pen\":0.04,\"max_cost_pen\":0.06}}\ninvalid = {'case_id':'CASO-AYA-049-4A','goal_met':True,'steps':1004,'max_steps':6,'tokens':3200,'max_tokens':5000,'cost_pen':0.04,'max_cost_pen':0.06}\nincomplete = {**valid}\nincomplete.pop('max_cost_pen')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T4-A-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «stopping conditions y budgets», «max_cost_pen», «PASS», «STOP_BUDGET_EXHAUSTED». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "stopping conditions y budgets"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'cost_pen', 'goal_met', 'max_cost_pen', 'max_steps', 'max_tokens', 'steps', 'tokens'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ASK_FOR_SCOPE_REDUCTION\"\n    return \"CONTINUE\" if (not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])) else \"STOP_BUDGET_EXHAUSTED\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\":6,\"tokens\":3200,\"max_tokens\":5000,\"cost_pen\":0.04,\"max_cost_pen\":0.06}}\ninvalid = {'case_id':'CASO-AYA-049-4A','goal_met':True,'steps':1004,'max_steps':6,'tokens':3200,'max_tokens':5000,'cost_pen':0.04,'max_cost_pen':0.06}\nuncertain = {**valid}\nuncertain.pop('max_cost_pen')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T4-A-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «stopping conditions y budgets», «CASO-AYA-049-4A», «STOP_BUDGET_EXHAUSTED», «max_cost_pen». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "stopping conditions y budgets"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"workspace-read\",\"sensitive_action\":\"prepare-draft\",\"approval_required\":True,\"approval_present\":True,\"checkpoint\":\"cp-9\",\"replayed_effects\":0}}\nmeets_contract = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\nstatus = \"PASS\" if meets_contract else \"SANDBOX_AND_STOP\"\nprint(\"S49-T4-B\", status)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T4-B-E1: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «sandbox, human approval y recuperación», «CASO-AYA-049-4B», «S49-T4-B PASS», «SANDBOX_AND_STOP». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "sandbox, human approval y recuperación"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'approval_present', 'approval_required', 'case_id', 'checkpoint', 'filesystem', 'network', 'replayed_effects', 'sensitive_action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)) else \"SANDBOX_AND_STOP\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"workspace-read\",\"sensitive_action\":\"prepare-draft\",\"approval_required\":True,\"approval_present\":True,\"checkpoint\":\"cp-9\",\"replayed_effects\":0}}\ninvalid = {'case_id':'CASO-AYA-049-4B','network':'none','filesystem':'workspace-read','sensitive_action':'prepare-draft','approval_required':True,'approval_present':False,'checkpoint':'cp-9','replayed_effects':0}\nincomplete = {**valid}\nincomplete.pop('replayed_effects')\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T4-B-E2: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «sandbox, human approval y recuperación», «replayed_effects», «PASS», «SANDBOX_AND_STOP». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "sandbox, human approval y recuperación"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S49-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'approval_present', 'approval_required', 'case_id', 'checkpoint', 'filesystem', 'network', 'replayed_effects', 'sensitive_action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_HUMAN_APPROVAL\"\n    return \"CONTINUE\" if (not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)) else \"SANDBOX_AND_STOP\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"workspace-read\",\"sensitive_action\":\"prepare-draft\",\"approval_required\":True,\"approval_present\":True,\"checkpoint\":\"cp-9\",\"replayed_effects\":0}}\ninvalid = {'case_id':'CASO-AYA-049-4B','network':'none','filesystem':'workspace-read','sensitive_action':'prepare-draft','approval_required':True,'approval_present':False,'checkpoint':'cp-9','replayed_effects':0}\nuncertain = {**valid}\nuncertain.pop('replayed_effects')\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "E1-Skeptic en S49-T4-B-E3: desconfío del booleano del starter (el paquete lo marca defectuoso/invertido). Reemplazo solo la decisión de dominio, valido missing antes de leer el campo crítico y conservo fixtures. Anclas: «sandbox, human approval y recuperación», «CASO-AYA-049-4B», «SANDBOX_AND_STOP», «replayed_effects». Código completo sin TODO; rutas PASS/REJECT/MISSING o CONTINUE según instrucción.",
+      "concepts_used": [
+        "sandbox, human approval y recuperación"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "E1-Skeptic: leo la pregunta «¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049?» con desconfianza y contrasto cada opción contra el contrato operativo del paquete activo (salida de subtema / criterio de éxito / error). Descarto ruido (print sin assert, capturas, PII real, ocultar warnings). Me quedo con índice 0 porque el paquete sostiene: «ADR workflow/agente con baseline». No invento literales fuera del slim_packet/batch.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "E1-Skeptic: leo la pregunta «Si ocurre la condición de error de S49, ¿qué respuesta preserva seguridad y audi» con desconfianza y contrasto cada opción contra el contrato operativo del paquete activo (salida de subtema / criterio de éxito / error). Descarto ruido (print sin assert, capturas, PII real, ocultar warnings). Me quedo con índice 2 porque el paquete sostiene: «emitir STOP_AGENT y conservar evidencia». No invento literales fuera del slim_packet/batch.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "E1-Skeptic: leo la pregunta «¿Cuál resultado demuestra el gate `CP-N4-C · agente acotado con aprobación human» con desconfianza y contrasto cada opción contra el contrato operativo del paquete activo (salida de subtema / criterio de éxito / error). Descarto ruido (print sin assert, capturas, PII real, ocultar warnings). Me quedo con índice 3 porque el paquete sostiene: «cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible». No invento literales fuera del slim_packet/batch.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "E1-Skeptic: leo la pregunta «¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso?» con desconfianza y contrasto cada opción contra el contrato operativo del paquete activo (salida de subtema / criterio de éxito / error). Descarto ruido (print sin assert, capturas, PII real, ocultar warnings). Me quedo con índice 1 porque el paquete sostiene: «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana». No invento literales fuera del slim_packet/batch.",
+      "blocked_on": []
+    }
+  ],
+  "recorded_at": "2026-07-23T04:18:04.344627+00:00"
+}

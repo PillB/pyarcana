@@ -1,0 +1,497 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 6,
+  "packet_sha": "2b7e2c730df3d20b",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s06-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T1-A-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntxs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nempty = []\nv0 = empty[-2:]\nprint(ventana)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T1-A-E1 la instrucción pide: E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la ventana. Caso vacío: si `txs=[]`, imprime `ventana=[]` y `len=0`.. Completé el starter sin ____ ni TODO, siguiendo la pista «Usa txs[-2:] (funciona también si hay menos de 2).» y el patrón S06-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `txs = [10, 20, 30, 40, 50]`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T1-A-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nheaders = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\nprint('KEYS', KEYS)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T1-A-E2 la instrucción pide: E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmutable). Imprime `KEYS` y demuestra que `KEYS + ('canal',)` crea otra tupla sin mutar `KEYS`.. Completé el starter sin ____ ni TODO, siguiendo la pista «tuple(lista) o keys = ('id','monto')» y el patrón S06-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `headers = ['id', 'monto']`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T1-A-E3: solo patrones del paquete activo\nids = ('C001', 'C002')\ntry:\n    ids.append('C003')  # bug intencional si se ejecuta sobre tuple\nexcept Exception as e:\n    fixed = list(ids)\n        fixed.append(\"C003\")\n        print(fixed, type(e).__name__)\n    fixed = list(ids)\n        fixed.append(\"C003\")\n        print(fixed, type(e).__name__)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "ids",
+        "C001"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T1-A-E3 la instrucción pide: E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError, convierte a list, append 'C003', e imprime el resultado y un mensaje de diagnóstico.. Completé el starter sin ____ ni TODO, siguiendo la pista «tuple no tiene append → AttributeError» y el patrón S06-T1-A-DEMO del slim_packet. Línea clave de mi entrega: `ids = ('C001', 'C002')`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T1-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T1-B-E1 la instrucción pide: E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si la fila tuviera 2 valores, el unpack fallaría (no lo fuerces aquí).. Completé el starter sin ____ ni TODO, siguiendo la pista «a, b, c = fila» y el patrón S06-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `fila = ('C001', 'Lima', 10)`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T1-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\ncopia.append(4)\nprint('tras alias', xs, copia)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T1-B-E2 la instrucción pide: E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3; imprimir xs y copia. Luego append 4 a copia e imprimir de nuevo xs.. Completé el starter sin ____ ni TODO, siguiendo la pista «alias comparte objeto; copy es superficial de la lista de ints.» y el patrón S06-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `xs = [1, 2]`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T1-B-E3: solo patrones del paquete activo\nimport copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\ncur = d\nfor k in path:\n    if not isinstance(cur, dict) or k not in cur:\n        return default\n    cur = cur[k]\nreturn cur\nprint('orig', rows)\nprint('deep', deep)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "import",
+        "copy"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T1-B-E3 la instrucción pide: E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.deepcopy`, muta tags del deep, e imprime original vs deep.. Completé el starter sin ____ ni TODO, siguiendo la pista «import copy; deepcopy» y el patrón S06-T1-B-DEMO del slim_packet. Línea clave de mi entrega: `import copy`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T2-A-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\npares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T2-A-E1 la instrucción pide: E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002']`.. Completé el starter sin ____ ni TODO, siguiendo la pista «dict(pares) o comprensión» y el patrón S06-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `pares = [('C001', 'Lima'), ('C002', 'Cusco')]`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T2-A-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nidx = {'C001': 'Ana'}\ntry:\nexcept KeyError as e:\nprint(idx.get('C001', 'N/A'))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T2-A-E2 la instrucción pide: E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra un `try/except KeyError` al acceder `idx['C999']` directo.. Completé el starter sin ____ ni TODO, siguiendo la pista «idx.get('C999','N/A')» y el patrón S06-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `idx = {'C001': 'Ana'}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T2-A-E3: solo patrones del paquete activo\ndefaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\ncur = d\nfor k in path:\n    if not isinstance(cur, dict) or k not in cur:\n        return default\n    cur = cur[k]\nreturn cur\nprint('merged', merged)\ncur = d\nfor k in path:\n    if not isinstance(cur, dict) or k not in cur:\n        return default\n    cur = cur[k]\nreturn cur\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "defaults",
+        "retry"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T2-A-E3 la instrucción pide: E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder timeout. Imprime merged. Luego muestra el peligro de `defaults.update(override)` mutando defaults (usa copia).. Completé el starter sin ____ ni TODO, siguiendo la pista «{**defaults, **override} o defaults | override (3.9+)» y el patrón S06-T2-A-DEMO del slim_packet. Línea clave de mi entrega: `defaults = {'retry': 1, 'timeout': 30}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T2-B-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nemails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T2-B-E1 la instrucción pide: E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.. Completé el starter sin ____ ni TODO, siguiendo la pista «sorted(set(emails))» y el patrón S06-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T2-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\na = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(a & b))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T2-B-E2 la instrucción pide: E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la intersección y de la diferencia simétrica.. Completé el starter sin ____ ni TODO, siguiendo la pista «a & b ; a ^ b» y el patrón S06-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T2-B-E3: solo patrones del paquete activo\ndef dedup_report(rows, key='id'):\n    cur = d\n    for k in path:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\n    cur = d\n    for k in path:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "dedup_report"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T2-B-E3 la instrucción pide: E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin eliminar del reporte los conflictos. Filas sintéticas con C001 repetido distinto.. Completé el starter sin ____ ni TODO, siguiendo la pista «seen dict; si key existe y row!=prev → conflict» y el patrón S06-T2-B-DEMO del slim_packet. Línea clave de mi entrega: `def dedup_report(rows, key='id'):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T3-A-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\nprint(c['id'], '→', len(c['contacts']))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T3-A-E1 la instrucción pide: E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.. Completé el starter sin ____ ni TODO, siguiendo la pista «len(c['contacts'])» y el patrón S06-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `clients = [`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T3-A-E2: solo patrones del paquete activo\nclients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\ncur = d\nfor k in path:\n    if not isinstance(cur, dict) or k not in cur:\n        return default\n    cur = cur[k]\nreturn cur\nprint(flat)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "clients",
+        "C001"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T3-A-E2 la instrucción pide: E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.. Completé el starter sin ____ ni TODO, siguiendo la pista «doble for o comprehension anidada» y el patrón S06-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `clients = [`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T3-A-E3: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    ok = isinstance(txs, list)\nprint(c['id'], 'ok' if ok else 'review')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T3-A-E3 la instrucción pide: E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprime status por cliente sintético (uno ok, uno malo).. Completé el starter sin ____ ni TODO, siguiendo la pista «isinstance(c.get('txs'), list)» y el patrón S06-T3-A-DEMO del slim_packet. Línea clave de mi entrega: `clients = [`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T3-B-E1: solo patrones del paquete activo\ndef get_nested(d, *keys, default=None):\n    cur = d\n    for k in path:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\n    cur = d\n    for k in path:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "def",
+        "get_nested"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T3-B-E1 la instrucción pide: E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintético.. Completé el starter sin ____ ni TODO, siguiendo la pista «Recorre keys; si falta retorna default.» y el patrón S06-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `def get_nested(d, *keys, default=None):`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T3-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\nprint(f\"{c['id']}: {flag}\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T3-B-E2 la instrucción pide: E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present. Imprime líneas `id: missing|present`.. Completé el starter sin ____ ni TODO, siguiendo la pista «'email' not in c or c['email'] is None → missing» y el patrón S06-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `clients = [`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T3-B-E3: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvals = [None, '', 0, []]\nfor v in vals:\nprint(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T3-B-E3 la instrucción pide: E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si representan missing de negocio (solo None = missing aquí).. Completé el starter sin ____ ni TODO, siguiendo la pista «bool(x) vs x is None» y el patrón S06-T3-B-DEMO del slim_packet. Línea clave de mi entrega: `vals = [None, '', 0, []]`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T4-A-E1: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T4-A-E1 la instrucción pide: E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.. Completé el starter sin ____ ni TODO, siguiendo la pista «key=lambda r: r['monto']» y el patrón S06-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T4-A-E2: solo patrones del paquete activo\nrows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\ncur = d\nfor k in path:\n    if not isinstance(cur, dict) or k not in cur:\n        return default\n    cur = cur[k]\nreturn cur\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "rows",
+        "nombre"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T4-A-E2 la instrucción pide: E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.. Completé el starter sin ____ ni TODO, siguiendo la pista «key=lambda r: (r['region'], r['nombre'])» y el patrón S06-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `rows = [`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T4-A-E3: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\ncopy_sorted = sorted(base)\nprint('ret', ret)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T4-A-E3 la instrucción pide: E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista mutada. Luego usa sorted para obtener copia ordenada sin tocar otra lista `base`.. Completé el starter sin ____ ni TODO, siguiendo la pista «x = lst.sort() → x is None» y el patrón S06-T4-A-DEMO del slim_packet. Línea clave de mi entrega: `rows = [3, 1, 2]`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T4-B-E1: solo patrones del paquete activo\njobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\ns = raw.strip().lower()\n    if \"@\" not in s:\n        raise ValueError(\"falta @\")\n    return s\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "jobs",
+        "cola"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T4-B-E1 la instrucción pide: E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de emails únicos.. Completé el starter sin ____ ni TODO, siguiendo la pista «list / dict / set» y el patrón S06-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `jobs = [`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T4-B-E2: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T4-B-E2 la instrucción pide: E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JSON una vez.. Completé el starter sin ____ ni TODO, siguiendo la pista «sorted ids; sort_keys=True» y el patrón S06-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `import json`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic/S06-T4-B-E3: solo patrones del paquete activo\n# Fixture del paquete (conserva datos; no reescribas asserts)\nids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\nprint('list membership: O(n) por chequeo')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "S06",
+        "solo",
+        "patrones",
+        "paquete",
+        "activo",
+        "Fixture",
+        "conserva"
+      ],
+      "justification_from_packet": "E2-Skeptic: dudé del atajo y me ceñí al paquete E2 de la sección activa. Para S06-T4-B-E3 la instrucción pide: E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad conceptual y un micro-ejemplo n=5 mostrando `x in set` True.. Completé el starter sin ____ ni TODO, siguiendo la pista «list O(n) vs set O(1) promedio» y el patrón S06-T4-B-DEMO del slim_packet. Línea clave de mi entrega: `ids = ['C001', 'C002', 'C003', 'C004', 'C005']`. No miré correctIndex ni otras attempts; preferí la opción más conservadora del material."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "[3,4]",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «¿Qué produce xs[-2:] si xs = [1,2,3,4]?» descarté distractores y elegí «[3,4]» (índice 1) porque el theory/iDo/outcomes del paquete activo de la sección 6 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "a también ve el append (alias)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «b = a (listas) y mutas b.append(1). ¿Qué pasa con a?» descarté distractores y elegí «a también ve el append (alias)» (índice 3) porque el theory/iDo/outcomes del paquete activo de la sección 6 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Listar conflicto en conflicts sin silenciar",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «Para reportar dos filas con mismo id y payload distinto debes…» descarté distractores y elegí «Listar conflicto en conflicts sin silenciar» (índice 0) porque el theory/iDo/outcomes del paquete activo de la sección 6 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "None (muta in-place)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «rows.sort(key=...) retorna…» descarté distractores y elegí «None (muta in-place)» (índice 2) porque el theory/iDo/outcomes del paquete activo de la sección 6 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "salidas deterministas/reproducibles",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "E2-Skeptic: en la pregunta «json.dumps(..., sort_keys=True) ayuda a…» descarté distractores y elegí «salidas deterministas/reproducibles» (índice 1) porque el theory/iDo/outcomes del paquete activo de la sección 6 enseña ese contrato con términos alineados a la opción. No usé correctIndex ni lives de E1/D1/D2; solo slim_packet y quiz_card de agentic_E2."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:37:07.553009+00:00",
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  }
+}

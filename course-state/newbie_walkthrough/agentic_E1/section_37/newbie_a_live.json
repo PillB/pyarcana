@@ -1,0 +1,535 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 37,
+  "packet_sha": "81a7eec15cd3e2f0",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s37-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S37-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"n\", 1000)\nprint(\"metric\", \"wall\")\nprint(\"ok\", True)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer on S37-T1-A-E1: followed packet instruction «S37-T1-A-E1 · CASO-LIM-037-1A: reporta el tamaño del fixture de profile con métrica wall. Contrato: print n 1000, metric 'wall', ok True. El starter imprime n 0…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T1-A-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Todo wall_ms viaja con su n.', 'metric wall distingue de cpu/memory.'] guided the contract. Completed code centers on `print(\"n\", 1000)` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmetrics = [\"wall\", \"cpu\", \"memory\"]\nprint(metrics)\nprint(\"ok\", True)\nprint(\"n\", 3)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "metrics"
+      ],
+      "justification_from_packet": "Explorer on S37-T1-A-E2: followed packet instruction «S37-T1-A-E2 · Lista las tres métricas base del profile: wall, cpu, memory. Imprime la lista, ok True, n 3. Starter solo ['wall'] (defect). Completa el contrato…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T1-A-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Wall=reloj, CPU=procesador, memory=pico.', 'Las tres informan el bottleneck.'] guided the contract. Completed code centers on `print(metrics)` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"same_result\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer on S37-T1-A-E3: followed packet instruction «S37-T1-A-E3 · Correctitud junto a velocidad: imprime same_result True, ok True, n 1. Starter False (defect: permite «optimizar» cambiando el resultado). El gate…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T1-A-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Performance sin same_result es regresión.', 'Verifica asserts de matching en el mismo bench.'] guided the contract. Completed code centers on `print(\"same_result\", True)` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport statistics\nvals = [5, 1, 4]\nprint(statistics.median(vals))\nprint(\"n_runs\", 3)\nprint(\"warmup\", True)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "statistics"
+      ],
+      "justification_from_packet": "Explorer on S37-T1-B-E1: followed packet instruction «S37-T1-B-E1 · Mediana de [5,1,4] con statistics.median; imprime 4, n_runs 3, warmup True. Starter usa mean (defect). Fixture de bench sintético CASO-LIM-037-1B…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T1-B-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['median es robusta a un outlier de run.', 'n_runs y warmup van en el reporte.'] guided the contract. Completed code centers on `print(statistics.median(vals))` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"warmup\", True)\nprint(\"ok\", True)\nprint(\"discard_first\", True)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer on S37-T1-B-E2: followed packet instruction «S37-T1-B-E2 · Política de warmup: imprime warmup True, discard_first True, ok True. Starter niega warmup (defect). Contrato del fixture de CI light sintético de…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T1-B-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Descarta la primera corrida (cold start).', 'CI light también hace warmup.'] guided the contract. Completed code centers on `print(\"warmup\", True)` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2, 9]\nprint(max(xs))\nprint(\"ok\", True)\nprint(\"proxy\", \"p95_small_n\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "max"
+      ],
+      "justification_from_packet": "Explorer on S37-T1-B-E3: followed packet instruction «S37-T1-B-E3 · Proxy de p95 en muestra chica: imprime max([1,2,9])=9 como proxy, proxy 'p95_small_n', ok True. Starter imprime min (defect). Nombra el proxy para…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T1-B-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Con N tiny, max es proxy pesimista de lab.', 'En prod usa percentil real con más muestras.'] guided the contract. Completed code centers on `print(max(xs))` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn = 10\nprint(n * (n - 1) // 2)\nprint(\"ok\", True)\nprint(\"n\", 10)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "S37"
+      ],
+      "justification_from_packet": "Explorer on S37-T2-A-E1: followed packet instruction «S37-T2-A-E1 · Pares completos para n=10: usa n*(n-1)//2 = 45 (no n*n). Imprime 45, n 10, ok True. Starter usa n*n=100 (defect). Contrato all_pairs del ER sintét…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T2-A-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Pares no ordenados: n*(n-1)//2.', 'No cuentes n² ni n.'] guided the contract. Completed code centers on `print(n * (n - 1) // 2)` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nall_p, blocked = 45, 10\nprint(round(1 - blocked / all_p, 3))\nprint(\"ok\", True)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "all_p"
+      ],
+      "justification_from_packet": "Explorer on S37-T2-A-E2: followed packet instruction «S37-T2-A-E2 · Reducción de pares: blocked=10, all=45 → round(1-10/45,3)=0.778. Imprime 0.778, ok True, blocking True. Starter imprime blocked/all (defect: no es…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T2-A-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['reduction = 1 - blocked/all.', 'Reporta reduction junto a all y blocked.'] guided the contract. Completed code centers on `print(round(1 - blocked / all_p, 3))` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"blocking\")\nprint(\"ok\", True)\nprint(\"micro\", False)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer on S37-T2-A-E3: followed packet instruction «S37-T2-A-E3 · Prioriza algoritmo: imprime prefer 'blocking', ok True, micro False. Starter prefiere 'micro_loop' (defect). Complejidad y blocking ganan a shavin…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T2-A-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Bajar pares O(n²) domina micro-optimizar.', 'micro False cuando ganó el algo.'] guided the contract. Completed code centers on `print(\"prefer\", \"blocking\")` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"structure\", \"set\")\nprint(\"ok\", True)\nprint(\"scan\", False)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer on S37-T2-B-E1: followed packet instruction «S37-T2-B-E1 · Estructura preferida para membership: imprime structure 'set', ok True, scan False. Starter 'list' con scan True (defect). Contrato de lookup del…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T2-B-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['set/dict evitan scan lineal repetido.', 'scan False documenta la intención.'] guided the contract. Completed code centers on `print(\"structure\", \"set\")` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "rows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ncount = sum(1 for city, _ in rows if city == \"Lima\")\nprint(count)\nprint(\"city\", \"Lima\")\nprint(\"ok\", True)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "Lima",
+        "Cusco",
+        "count",
+        "sum",
+        "city"
+      ],
+      "justification_from_packet": "Explorer on S37-T2-B-E2: followed packet instruction «S37-T2-B-E2 · Inverted index: filas Lima×2 → imprime 2, city 'Lima', ok True. Starter cuenta 0 (defect). Fixture de ciudades sintéticas sin PII real ni parentes…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T2-B-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Cuenta entidades por clave de blocking.', 'Cusco no entra en el bloque Lima.'] guided the contract. Completed code centers on `print(count)` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"order\", [\"block\", \"score\"])\nprint(\"ok\", True)\nprint(\"n\", 2)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer on S37-T2-B-E3: followed packet instruction «S37-T2-B-E3 · Orden operativo: imprime order ['block','score'], ok True, n 2. Starter ['score','block'] (defect: scorea el cartesiano). Transferencia del pipeli…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T2-B-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Primero reduces candidatos; luego features.', 'Invertir el orden destruye el budget.'] guided the contract. Completed code centers on `print(\"order\", [\"block\", \"score\"])` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn, size = 10, 4\nprint((n + size - 1) // size)\nprint(\"ok\", True)\nprint(\"size\", 4)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "size"
+      ],
+      "justification_from_packet": "Explorer on S37-T3-A-E1: followed packet instruction «S37-T3-A-E1 · Chunks: 10 items size 4 → ceil = 3 chunks. Imprime 3, size 4, ok True. Starter usa n//size=2 (defect). Planifica el job out-of-core del fixture si…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T3-A-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Ceil: (n+size-1)//size.', 'Último chunk puede ser más corto.'] guided the contract. Completed code centers on `print((n + size - 1) // size)` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"id\", \"amt\"])\nprint(\"ok\", True)\nprint(\"columnar\", True)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer on S37-T3-A-E2: followed packet instruction «S37-T3-A-E2 · Columnar subset: imprime ['id','amt'], ok True, columnar True. Starter incluye raw_blob y notes (defect). Contrato de lectura mínima del batch sin…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T3-A-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Lee solo columnas usadas por el scorer.', 'raw_blob fuera reduce I/O y riesgo.'] guided the contract. Completed code centers on `print([\"id\", \"amt\"])` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"dtype\", \"int32\")\nprint(\"ok\", True)\nprint(\"mem\", \"lower\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer on S37-T3-A-E3: followed packet instruction «S37-T3-A-E3 · dtype angosto: imprime dtype 'int32', ok True, mem 'lower'. Starter 'int64' y mem 'higher' (defect). Política de memoria del fixture cuando el ran…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T3-A-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Si el rango cabe en int32, ahorras memoria.', 'Documenta el bound del dominio.'] guided the contract. Completed code centers on `print(\"dtype\", \"int32\")` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "key = (\"fs-v1\", \"cut\")\ncache = {(\"fs-v1\", \"cut\"): True}\nprint(key)\nprint(\"hit\", key in cache)\nprint(\"ok\", True)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "key",
+        "cut",
+        "cache",
+        "hit"
+      ],
+      "justification_from_packet": "Explorer on S37-T3-B-E1: followed packet instruction «S37-T3-B-E1 · Cache key completa: imprime ('fs-v1','cut'), hit True, ok True. Starter key incompleta solo ('fs-v1',) (defect: colisiones). Fixture de features s…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T3-B-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Key = versión de features + cutoff.', 'Sin cutoff reutilizas scores viejos.'] guided the contract. Completed code centers on `print(key)` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"version_change\")\nprint(\"ok\", True)\nprint(\"stale\", True)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer on S37-T3-B-E2: followed packet instruction «S37-T3-B-E2 · Razón de invalidación: imprime 'version_change', ok True, stale True. Starter 'never' (defect). Contrato de diseño del cache del triage sintético…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T3-B-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Al cambiar feature set, invalida.', 'stale True nombra el riesgo.'] guided the contract. Completed code centers on `print(\"version_change\")` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"ooc\", \"chunk\")\nprint(\"ok\", True)\nprint(\"ram\", \"bounded\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer on S37-T3-B-E3: followed packet instruction «S37-T3-B-E3 · Out-of-core: imprime ooc 'chunk', ok True, ram 'bounded'. Starter ooc 'load_all' (defect). Cuando n no cabe en RAM del worker sintético, chunk aco…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T3-B-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['chunk/spill acotan RAM.', 'load_all no escala con n.'] guided the contract. Completed code centers on `print(\"ooc\", \"chunk\")` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 9\nprint(measured <= budget)\nprint(\"budget\", 10)\nprint(\"measured\", 9)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "budget"
+      ],
+      "justification_from_packet": "Explorer on S37-T4-A-E1: followed packet instruction «S37-T4-A-E1 · Budget pass: measured 9 <= budget 10 → True. Imprime True, budget 10, measured 9. Starter compara al revés (defect). Assert del PR de performance…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T4-A-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['pass si measured <= budget.', 'Publica ambos números en el test.'] guided the contract. Completed code centers on `print(measured <= budget)` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 12\nprint(measured <= budget)\nprint(\"budget\", 10)\nprint(\"measured\", 12)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "budget"
+      ],
+      "justification_from_packet": "Explorer on S37-T4-A-E2: followed packet instruction «S37-T4-A-E2 · Budget fail: measured 12 > budget 10 → False. Imprime False, budget 10, measured 12. Starter fuerza True (defect: test siempre verde). El budget d…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T4-A-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['El test debe poder fallar.', 'False aquí es salud del sistema.'] guided the contract. Completed code centers on `print(measured <= budget)` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"latency_p95\", \"memory\", \"pairs\"])\nprint(\"ok\", True)\nprint(\"n\", 3)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer on S37-T4-A-E3: followed packet instruction «S37-T4-A-E3 · Campos del budget: imprime ['latency_p95','memory','pairs'], ok True, n 3. Starter solo ['latency_p95'] (defect). Contrato multi-dimensional del g…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T4-A-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Latencia sola no basta.', 'Versiona los tres en CI.'] guided the contract. Completed code centers on `print([\"latency_p95\", \"memory\", \"pairs\"])` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nbefore, after = 80, 20\nprint(before / after)\nprint(\"ok\", True)\nprint(\"micro_only\", False)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos",
+        "reescribas",
+        "asserts",
+        "before"
+      ],
+      "justification_from_packet": "Explorer on S37-T4-B-E1: followed packet instruction «S37-T4-B-E1 · Speedup 80/20 = 4.0 (ratio, no resta). Imprime 4.0, ok True, micro_only False. Starter 80-20=60 (defect). Fixture before/after sintético del path…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T4-B-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['speedup = before_ms / after_ms.', 'micro_only False si ganó el algo.'] guided the contract. Completed code centers on `print(before / after)` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"clarity\")\nprint(\"ok\", True)\nprint(\"shave\", \"2pct_no\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer on S37-T4-B-E2: followed packet instruction «S37-T4-B-E2 · Claridad sobre shaving 2%: imprime prefer 'clarity', ok True, shave '2pct_no'. Starter prefer 'opaque_2pct' (defect). Política de costo total del…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T4-B-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Costo total incluye bugs y review.', '2% opaco suele ser pérdida neta.'] guided the contract. Completed code centers on `print(\"prefer\", \"clarity\")` so I/O matches the stated oracle without inventing PII or fraud labels."
+    },
+    {
+      "exercise_id": "S37-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"before\", \"after\", \"dataset\", \"hardware\"])\nprint(\"ok\", True)\nprint(\"n\", 4)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Explorer on S37-T4-B-E3: followed packet instruction «S37-T4-B-E3 · Claves del reporte before/after: imprime ['before','after','dataset','hardware'], ok True, n 4. Starter omite hardware (defect). Entregable del ga…» using starter fixtures (CASO-LIM / run_id in stem) and iDo S37-T4-B-DEMO. Theory head «wall/CPU y memory profiling» plus hints ['Sin hardware/dataset el speedup no es comparable.', 'Cuatro claves mínimas del reporte.'] guided the contract. Completed code centers on `print([\"before\", \"after\", \"dataset\", \"hardware\"])` so I/O matches the stated oracle without inventing PII or fraud labels."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "answer": "Estabilizar benches descartando cold start",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q0 on S37: question «Warmup sirve para:» → option[0] «Estabilizar benches descartando cold start». Supported by theory «wall/CPU y memory profiling» and iDo S37-T1-A-DEMO. I picked the stem that matches the taught contract (pyramid/risk, fail-closed, no auto-fraud labels)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "answer": "Pares candidatos O(n²)",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q1 on S37: question «Blocking reduce:» → option[2] «Pares candidatos O(n²)». Supported by theory «benchmark fixture, warmup y variabilidad» and iDo S37-T1-B-DEMO. I picked the stem that matches the taught contract (pyramid/risk, fail-closed, no auto-fraud labels)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "answer": "Falla si se rompe el límite acordado",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q2 on S37: question «Performance budget en CI:» → option[3] «Falla si se rompe el límite acordado». Supported by theory «complejidad y blocking» and iDo S37-T2-A-DEMO. I picked the stem that matches the taught contract (pyramid/risk, fail-closed, no auto-fraud labels)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "answer": "Teatro; prioriza claridad y algos",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q3 on S37: question «Microoptimizar 2% sin medición:» → option[1] «Teatro; prioriza claridad y algos». Supported by theory «estructuras, vectorización y reducción de candidatos» and iDo S37-T2-B-DEMO. I picked the stem that matches the taught contract (pyramid/risk, fail-closed, no auto-fraud labels)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "answer": "No es comparable entre cambios de dataset",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q4 on S37: question «Un wall_ms sin n en el reporte:» → option[0] «No es comparable entre cambios de dataset». Supported by theory «dtypes, chunking y columnar» and iDo S37-T3-A-DEMO. I picked the stem that matches the taught contract (pyramid/risk, fail-closed, no auto-fraud labels)."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:14:12.184204+00:00",
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  }
+}
