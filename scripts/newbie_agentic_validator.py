@@ -789,6 +789,170 @@ def attempt_level_gates(attempt_id: str) -> list[dict]:
             "detail": f"files_with_identity_stamps={stamp_hits}",
         })
 
+
+    # === RECEIPT BINDING (sealed path) ===
+    # Every live must have a matching receipt whose exercises_sha256/selfcheck_sha256
+    # equal the hashes recomputed from the live JSON on disk.
+    receipts_path = root / "llm_call_receipts.jsonl"
+    receipt_rows = []
+    if receipts_path.exists():
+        for line in receipts_path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line:
+                try:
+                    receipt_rows.append(json.loads(line))
+                except Exception:
+                    pass
+    by_receipt: dict[tuple, dict] = {}
+    receipt_session_ids: list[str] = []
+    for r in receipt_rows:
+        key = (int(r.get("section", -1)), str(r.get("agent") or ""))
+        by_receipt[key] = r  # last write wins
+        if r.get("session_id"):
+            receipt_session_ids.append(str(r["session_id"]))
+
+    # Receipt session overuse (wave-level reuse)
+    if receipt_session_ids:
+        from collections import Counter as _C
+        rc = _C(receipt_session_ids)
+        multi = [(k, v) for k, v in rc.items() if v > 2]
+        if multi:
+            issues.append({
+                "tag": "RECEIPT_SESSION_OVERUSE",
+                "severity": "P0",
+                "detail": f"receipt session_id on >2 sections: {multi[:5]}",
+            })
+
+    ex_mismatch = 0
+    sc_mismatch = 0
+    missing_receipt = 0
+    resp_mismatch = 0
+    live_n = 0
+    for i in range(1, 53):
+        for agent, lab in (("newbie_a", "newbie_a_live.json"), ("newbie_b", "newbie_b_live.json")):
+            lp = root / f"section_{i:02d}" / lab
+            if not lp.exists():
+                continue
+            live_n += 1
+            try:
+                live = json.loads(lp.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            ex = live.get("exercises") or []
+            sc = live.get("selfcheck") or []
+            live_ex_sha = hashlib.sha256(
+                json.dumps(ex, ensure_ascii=False, sort_keys=True).encode()
+            ).hexdigest()
+            live_sc_sha = hashlib.sha256(
+                json.dumps(sc, ensure_ascii=False, sort_keys=True).encode()
+            ).hexdigest()
+            ans_blob = json.dumps(
+                {
+                    "exercises": [
+                        {
+                            "id": e.get("exercise_id") or e.get("id"),
+                            "code": e.get("code"),
+                            "just": e.get("justification_from_packet"),
+                        }
+                        for e in ex
+                    ],
+                    "selfcheck": [
+                        {
+                            "qi": a.get("question_index"),
+                            "ci": a.get("chosen_index"),
+                            "just": a.get("justification_from_packet"),
+                        }
+                        for a in sc
+                    ],
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+            )
+            live_resp_sha = hashlib.sha256(ans_blob.encode()).hexdigest()
+            r = by_receipt.get((i, agent))
+            if not r:
+                missing_receipt += 1
+                continue
+            if r.get("exercises_sha256") != live_ex_sha:
+                ex_mismatch += 1
+            if r.get("selfcheck_sha256") != live_sc_sha:
+                sc_mismatch += 1
+            if r.get("response_sha256") and r.get("response_sha256") != live_resp_sha:
+                resp_mismatch += 1
+
+    # Sealed attempts (J*/K*) or any attempt with receipts must fully bind
+    is_sealed = attempt_id.startswith("agentic_J") or attempt_id.startswith("agentic_K")
+    has_receipts = live_n > 0 and len(receipt_rows) > 0
+    if is_sealed or has_receipts:
+        if missing_receipt:
+            issues.append({
+                "tag": "RECEIPT_MISSING",
+                "severity": "P0",
+                "detail": f"lives_without_receipt={missing_receipt}/{live_n}",
+            })
+        if ex_mismatch:
+            issues.append({
+                "tag": "RECEIPT_EXERCISES_MISMATCH",
+                "severity": "P0",
+                "detail": f"exercises_sha256 != live exercises hash for {ex_mismatch}/{live_n} lives",
+            })
+        if sc_mismatch:
+            issues.append({
+                "tag": "RECEIPT_SELFCHECK_MISMATCH",
+                "severity": "P0",
+                "detail": f"selfcheck_sha256 != live selfcheck hash for {sc_mismatch}/{live_n} lives",
+            })
+        if resp_mismatch:
+            issues.append({
+                "tag": "RECEIPT_RESPONSE_MISMATCH",
+                "severity": "P0",
+                "detail": f"response_sha256 != live ans_blob hash for {resp_mismatch}/{live_n} lives",
+            })
+
+    # === SYNTHETIC DURATION STAIRCASE ===
+    # Detect uniform integer-second staircase (e.g. 15 copies each of 9.0..15.0s)
+    live_durs: list[float] = []
+    for i in range(1, 53):
+        for lab in ("newbie_a_live.json", "newbie_b_live.json"):
+            lp = root / f"section_{i:02d}" / lab
+            if not lp.exists():
+                continue
+            try:
+                live = json.loads(lp.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            sa, ea = live.get("session_started_at"), live.get("session_ended_at")
+            if not sa or not ea:
+                continue
+            try:
+                from datetime import datetime as _dt
+                def _p(ts: str):
+                    return _dt.fromisoformat(str(ts).replace("Z", "+00:00"))
+                live_durs.append(round((_p(ea) - _p(sa)).total_seconds(), 1))
+            except Exception:
+                pass
+    if live_durs and len(live_durs) >= 50:
+        from collections import Counter as _C2
+        dc = _C2(live_durs)
+        n_unique = len(dc)
+        # staircase: few unique values, nearly equal mass, small max-min
+        masses = sorted(dc.values(), reverse=True)
+        top = masses[0]
+        if n_unique <= 12 and top >= max(10, int(0.12 * len(live_durs))):
+            # equal-mass staircase: top few counts nearly equal
+            if len(masses) >= 5 and masses[4] >= max(8, int(0.08 * len(live_durs))):
+                spread = max(live_durs) - min(live_durs)
+                if spread <= 20.0:
+                    issues.append({
+                        "tag": "SYNTHETIC_DURATION_STAIRCASE",
+                        "severity": "P0",
+                        "detail": (
+                            f"unique={n_unique} top_mass={top} spread={spread:.1f}s "
+                            f"pattern={dc.most_common(8)}"
+                        ),
+                    })
+
+
     # Independence vs prior_clean if declared
     prior = meta.get("prior_clean") or meta.get("independence_baseline")
     if prior and (root.parent / prior).exists():

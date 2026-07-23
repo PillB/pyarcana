@@ -1,0 +1,492 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 17,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-exp-s17-12337fac77c7",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "id": "S17-T1-A-E1",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nprint(len(cli.merge(tx, on=\"cliente_id\", how=\"left\")))",
+      "justification_from_packet": "Como explorador en S17-T1-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: left join clientes–transacciones. Fixture `FIX-S17-T1A-E1`: cli={C001,C002}, tx={C001:. Aplico el hint «merge how='left'.» y.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "left",
+        "join",
+        "clientes",
+        "transacciones",
+        "Fixture",
+        "FIX"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "id": "S17-T1-A-E2",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\nprint(bool(cli[\"cliente_id\"].is_unique))",
+      "justification_from_packet": "Como explorador en S17-T1-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: unicidad de clave 1:1. Fixture `FIX-S17-T1A-E2`: cli con `cliente_id` duplicado. Aplico el hint «is_unique.» y dejo el.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "unicidad",
+        "clave",
+        "Fixture",
+        "FIX",
+        "cli",
+        "con"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "id": "S17-T1-A-E3",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"] * 3, \"monto\": [1.0, 2.0, 3.0]})\nprint(len(cli.merge(tx, on=\"cliente_id\", how=\"inner\")))",
+      "justification_from_packet": "Como explorador en S17-T1-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: fan-out 1:m. Fixture: 1 cliente C001 y 3 filas de tx con el mismo id. `inner` m. Aplico el hint «merge inner.» y dejo el.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "fan",
+        "out",
+        "Fixture",
+        "cliente",
+        "filas",
+        "con"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "id": "S17-T1-B-E1",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].tolist())",
+      "justification_from_packet": "Como explorador en S17-T1-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: anti-join con `indicator=True`. Fixture cli={C001,C002}, tx solo C001. Left merge + fi. Aplico el hint «merge left indicator.».",
+      "confidence": 0.81,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "anti",
+        "join",
+        "con",
+        "indicator",
+        "True",
+        "Fixture"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "id": "S17-T1-B-E2",
+      "code": "import pandas as pd\na = pd.DataFrame({\"id\": [1]})\nb = pd.DataFrame({\"id\": [1, 1]})\ntry:\n    a.merge(b, on=\"id\", validate=\"one_to_one\")\nexcept Exception:\n    print(\"fail\")",
+      "justification_from_packet": "Como explorador en S17-T1-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: `validate='one_to_one'` como gate. Fixture a={id:1}, b={id:1,1}. Intenta merge . Aplico el hint «try MergeError o.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "validate",
+        "one_to_one",
+        "como",
+        "gate",
+        "Fixture",
+        "Intenta"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "id": "S17-T1-B-E3",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(int((m[\"_merge\"] == \"left_only\").sum()))",
+      "justification_from_packet": "Como explorador en S17-T1-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: conteo de huérfanos (anti-join). Fixture cli 3 ids, tx solo C001. Cuenta filas . Aplico el hint «left_only count.» y.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "conteo",
+        "anti",
+        "join",
+        "Fixture",
+        "cli",
+        "ids"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "id": "S17-T2-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [3, 4]})\nprint(len(df.melt(id_vars=\"id\", value_vars=[\"a\", \"b\"])))",
+      "justification_from_packet": "Como explorador en S17-T2-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: melt wide→long. Fixture 2 filas × columnas a,b (`id` 1..2). `melt(id_vars='id', value_. Aplico el hint «melt.» y dejo el.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "melt",
+        "wide",
+        "long",
+        "Fixture",
+        "filas",
+        "columnas"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "id": "S17-T2-A-E2",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [1.0, 2.0]})\nw = long.pivot_table(index=\"id\", columns=\"k\", values=\"v\", aggfunc=\"sum\").reset_index()\nprint(w.columns.tolist())",
+      "justification_from_packet": "Como explorador en S17-T2-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: pivot_table long→wide. Fixture long id=1, k∈{a,b}, v={1.0,2.0}. `pivot_table` c. Aplico el hint «aggfunc sum.» y dejo el.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "pivot_table",
+        "long",
+        "wide",
+        "Fixture",
+        "long",
+        "pivot_table"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "id": "S17-T2-A-E3",
+      "code": "import pandas as pd\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\nprint(len(pd.concat([a, b], ignore_index=True)))",
+      "justification_from_packet": "Como explorador en S17-T2-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: concat vertical. Fixture dos DF de una fila cada uno (columna x). `pd.concat(... Aplico el hint «pd.concat(...,.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "concat",
+        "vertical",
+        "Fixture",
+        "dos",
+        "una",
+        "fila"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "id": "S17-T2-B-E1",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"mes\": [\"e\", \"f\"], \"monto\": [1.0, 2.0]})\nw = long.pivot(index=\"id\", columns=\"mes\", values=\"monto\")\nw.columns = [f\"monto_{c}\" for c in w.columns]\nprint(list(w.columns))",
+      "justification_from_packet": "Como explorador en S17-T2-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: nombres estables post-pivot. Fixture long id/mes/monto con meses e,f. Pivot y renombra. Aplico el hint «map join o f-string.» y.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "nombres",
+        "estables",
+        "post",
+        "pivot",
+        "Fixture",
+        "long"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "id": "S17-T2-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame(columns=[\"cliente_id\", \"monto_ene\"])\nexpected = {\"cliente_id\", \"monto_ene\"}\nprint(set(df.columns) == expected)",
+      "justification_from_packet": "Como explorador en S17-T2-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: validación de schema de columnas. DF con columns cliente_id, monto_ene; expecte. Aplico el hint «set igualdad.» y dejo.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "schema",
+        "columnas",
+        "con",
+        "columns",
+        "cliente_id",
+        "monto_ene"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "id": "S17-T2-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\nprint(df.rename(columns={\"a\": \"monto\"}).columns.tolist())",
+      "justification_from_packet": "Como explorador en S17-T2-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: rename explícito. Fixture DF columna `a`. `rename(columns={'a':'monto'})` e imp. Aplico el hint «rename(columns=...).» y.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "rename",
+        "Fixture",
+        "columna",
+        "rename",
+        "columns",
+        "monto"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "id": "S17-T3-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0, 3.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())",
+      "justification_from_packet": "Como explorador en S17-T3-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: groupby + sum. Fixture region Lima×2 y Cusco×1 con montos 1,2,3. Imprime `groupby('reg. Aplico el hint «groupby sum.» y dejo el.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "groupby",
+        "sum",
+        "Fixture",
+        "region",
+        "Lima",
+        "Cusco"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "id": "S17-T3-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 3.0, 2.0]})\nprint(df.groupby(\"region\")[\"monto\"].transform(\"mean\").tolist())",
+      "justification_from_packet": "Como explorador en S17-T3-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: transform mean al shape original. Fixture Lima 1.0/3.0 y Cusco 2.0. Imprime lis. Aplico el hint «groupby transform.» y.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "transform",
+        "mean",
+        "shape",
+        "original",
+        "Fixture",
+        "Lima"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "id": "S17-T3-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0]})\nout = df.groupby(\"region\", as_index=False).agg(total=(\"monto\", \"sum\"), n=(\"monto\", \"count\"))\nprint(out.columns.tolist())",
+      "justification_from_packet": "Como explorador en S17-T3-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: named agg + as_index=False. Fixture region Lima/Cusco. `agg(total=('monto','sum. Aplico el hint «named agg.» y dejo el.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "named",
+        "agg",
+        "as_index",
+        "False",
+        "Fixture",
+        "region"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "id": "S17-T3-B-E1",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\nprint([None if pd.isna(x) else float(x) for x in s])",
+      "justification_from_packet": "Como explorador en S17-T3-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: rolling mean. Serie [1,2,3], window=2. Imprime lista con el primer NaN como `None` y e. Aplico el hint «rolling mean.» y dejo.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "rolling",
+        "mean",
+        "Serie",
+        "window",
+        "Imprime",
+        "lista"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "id": "S17-T3-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-05\", \"2024-03-01\", \"2024-02-10\"]),\n})\ndf[\"cohort\"] = df.groupby(\"cliente_id\")[\"fecha\"].transform(\"min\").dt.to_period(\"M\").astype(str)\nprint(df.drop_duplicates(\"cliente_id\").set_index(\"cliente_id\")[\"cohort\"].to_dict())",
+      "justification_from_packet": "Como explorador en S17-T3-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: cohorte mensual por primera fecha. Fixture C001 (ene y mar), C002 (feb). Asigna. Aplico el hint «groupby transform min.».",
+      "confidence": 0.78,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "cohorte",
+        "mensual",
+        "por",
+        "primera",
+        "fecha",
+        "Fixture"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "id": "S17-T3-B-E3",
+      "code": "import pandas as pd\ns = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime([\"2024-01-03\", \"2024-01-01\", \"2024-01-02\"]))\ns = s.sort_index()\nprint(float(s.rolling(2).mean().iloc[-1]))",
+      "justification_from_packet": "Como explorador en S17-T3-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: orden temporal antes de rolling. Serie desordenada por fecha con valores 3,1,2;. Aplico el hint «sort_index.» y dejo el.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "orden",
+        "temporal",
+        "antes",
+        "rolling",
+        "Serie",
+        "desordenada"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "id": "S17-T4-A-E1",
+      "code": "parts = [10.0, 20.0, 70.0]\ntotal = 100.0\nprint(abs(sum(parts) - total) < 1e-9)",
+      "justification_from_packet": "Como explorador en S17-T4-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: reconciliación de totales. parts=[10,20,70], total=100. Imprime `abs(sum(parts)-total). Aplico el hint «sum y abs.» y dejo el.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "totales",
+        "parts",
+        "total",
+        "Imprime",
+        "abs",
+        "sum"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "id": "S17-T4-A-E2",
+      "code": "activos = 40\npagados = 10\nprint(pagados / activos)",
+      "justification_from_packet": "Como explorador en S17-T4-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: tasa con denominador correcto. activos=40, pagados=10. Imprime pagados/activos.. Aplico el hint «división float.» y dejo.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "tasa",
+        "con",
+        "denominador",
+        "correcto",
+        "activos",
+        "pagados"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "id": "S17-T4-A-E3",
+      "code": "total = 100.0\nlima = 60.0\nprint(total - lima)",
+      "justification_from_packet": "Como explorador en S17-T4-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: bridge residual. total=100, lima=60; imprime residual del resto (total-lima). P. Aplico el hint «total - lima.» y dejo.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "bridge",
+        "residual",
+        "total",
+        "lima",
+        "imprime",
+        "residual"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "id": "S17-T4-B-E1",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-02-01\"]), \"monto\": [1.0, 9.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].tolist())",
+      "justification_from_packet": "Como explorador en S17-T4-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: filtro pre-cutoff. Fixture fechas 2024-01-01 y 2024-02-01 con montos 1.0 y 9.0; cutoff. Aplico el hint «Timestamp cutoff.» y.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "filtro",
+        "pre",
+        "cutoff",
+        "Fixture",
+        "fechas",
+        "con"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "id": "S17-T4-B-E2",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-03-01\"]), \"monto\": [10.0, 5.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\npre = tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].sum()\nprint(float(tx[\"monto\"].sum() - pre))",
+      "justification_from_packet": "Como explorador en S17-T4-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: delta de leakage. Fixture montos 10 (ene) y 5 (mar); cutoff fin de enero. Impri. Aplico el hint «total - pre.» y dejo el.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "delta",
+        "leakage",
+        "Fixture",
+        "montos",
+        "ene",
+        "mar"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "id": "S17-T4-B-E3",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"monto\": [3.0, 10.0],\n})\ncutoff = pd.Timestamp(\"2024-02-01\")\nfeat = tx[tx[\"fecha\"] <= cutoff].groupby(\"cliente_id\")[\"monto\"].max()\nprint(feat.to_dict())",
+      "justification_from_packet": "Como explorador en S17-T4-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: feature as-of max. C001 con montos 3 (ene) y 10 (may); cutoff 2024-02-01. max m. Aplico el hint «filter then groupby.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "feature",
+        "max",
+        "con",
+        "montos",
+        "ene",
+        "may"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "En selfcheck Q0 elijo «Fallar si la cardinalidad no es 1:1» porque la teoría «claves y cardinalidad en joins» del paquete dice: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La.",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "En selfcheck Q1 elijo «Filas del left sin match en right» porque la teoría «validate, duplicación accidental y anti-join» del paquete dice: El parámetro `validate='one_to_one'|'one_to_many'|...` hace que pandas **falle.",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "En selfcheck Q2 elijo «Reinyecta el agregado al shape original» porque la teoría «concat, melt y pivot» del paquete dice: `concat` apila filas (`axis=0`) o alinea columnas (`axis=1`). `melt` lleva **wide→long** (ideal.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "En selfcheck Q3 elijo «Incluyes datos posteriores al cutoff en features/métricas del pasado» porque la teoría «long/wide y nombres estables» del paquete dice: Tras un pivot, las columnas pueden ser MultiIndex o nombres.",
+      "confidence": 0.87,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "En selfcheck Q4 elijo «Documentar diff con tolerancia eps o corregir el corte» porque la teoría «groupby / agg / transform» del paquete dice: `groupby` + `agg` **colapsa** grupos a una fila por clave (resúmenes.",
+      "confidence": 0.9,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:19:12.030689+00:00",
+  "session_started_at": "2026-07-23T15:18:16.720744Z",
+  "session_ended_at": "2026-07-23T15:19:12.029205Z",
+  "receipt_response_sha256": "474833dfbcca46d12fa08d80e33343ce710d679ad1dc9bad1a892d6b1985cf22",
+  "receipt_exercises_sha256": "6be7df779a8a38e75e0a23833afb37b31849e6915abfdec0ff1a386fc9165343",
+  "receipt_selfcheck_sha256": "b3d96bc9c5d7af09a4a40f103512e77f2ddbc6334a8eb6a49ef0487fcf661890"
+}

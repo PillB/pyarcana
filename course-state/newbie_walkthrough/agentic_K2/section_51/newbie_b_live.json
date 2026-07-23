@@ -1,0 +1,245 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 51,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s51-841334fbe6",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S51-T1-A-E1",
+      "code": "record = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': 'tr-moq-51', 'spans': {'answer', 'prompt', 'retrieval', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': False}\nmeets_contract = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\nstatus = \"PASS\" if meets_contract else \"REDACT_AND_QUARANTINE_TRACE\"\nprint(\"S51-T1-A\", status)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T1-A-E1: no confío en demos sin assert; la regla «trace completo, bundle versionado y cero PII» del instruction exige fixtures y etiqueta de breach REDACT_AND_QUARANTINE_TRACE. Theory/outcome de anclaje: Incidente contiene, revierte y comunica; postmortem sin culpa identifica condiciones sistémicas y acciones con. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T1-A-E1 · Calcula el contrato de `traces de prompts/retrieval/tools` sobre `CASO-MOQ-051-1A`. La",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'pii_in_trace', 'spans', 'trace_id', 'versions'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\n    return \"PASS\" if ok else \"REDACT_AND_QUARANTINE_TRACE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': 'tr-moq-51', 'spans': {'answer', 'prompt', 'retrieval', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': False}\ninvalid = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': '', 'spans': {'answer', 'prompt', 'retrieval', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': False}\nincomplete = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': 'tr-moq-51', 'spans': {'answer', 'prompt', 'retrieval', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T1-A-E2: no confío en demos sin assert; la regla «S51-T1-A-E2 · Modela tres rutas de `traces de prompts/retrieval/tools`: fixture válido, fixture adverso y registro sin `» del instruction exige fixtures y etiqueta de breach REDACT_AND_QUARANTINE_TRACE. Theory/outcome de anclaje: Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de expor. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T1-A-E2 · Modela tres rutas de `traces de prompts/retrieval/tools`: fixture válido, fixture adve",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T1-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'pii_in_trace' not in record or record.get('pii_in_trace') in (None, \"\", [], set(), {}):\n        return \"RESTORE_TRACE_CONTEXT\"\n    ok = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\n    return \"CONTINUE\" if ok else \"REDACT_AND_QUARANTINE_TRACE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': 'tr-moq-51', 'spans': {'answer', 'prompt', 'retrieval', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': False}\ninvalid = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': '', 'spans': {'answer', 'prompt', 'retrieval', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': False}\nincomplete = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': 'tr-moq-51', 'spans': {'answer', 'prompt', 'retrieval', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S51/S51-T1-A-E3: no confío en demos sin assert; la regla «S51-T1-A-E3 · Simula fallo cerrado para `traces de prompts/retrieval/tools` con tres fixtures distintos. `CASO-MOQ-051-1» del instruction exige fixtures y etiqueta de breach REDACT_AND_QUARANTINE_TRACE. Theory/outcome de anclaje: Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de expor. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T1-A-E3 · Simula fallo cerrado para `traces de prompts/retrieval/tools` con tres fixtures distin",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T1-B-E1",
+      "code": "record = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200, 'redacted_fields': 4}\nmeets_contract = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\nstatus = \"PASS\" if meets_contract else \"ALERT_COST_LATENCY\"\nprint(\"S51-T1-B\", status)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T1-B-E1: no confío en demos sin assert; la regla «tokens cuadran, p95 bajo SLO y campos redactados» del instruction exige fixtures y etiqueta de breach ALERT_COST_LATENCY. Theory/outcome de anclaje: accesibilidad, corrección y contestabilidad. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T1-B-E1 · Compara el contrato de `tokens, costo, latency y redacción` sobre `CASO-MOQ-051-1B`. L",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'answer_tokens', 'case_id', 'p95_ms', 'prompt_tokens', 'redacted_fields', 'retrieval_tokens', 'slo_ms', 'total_tokens'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\n    return \"PASS\" if ok else \"ALERT_COST_LATENCY\"\n\nvalid = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200, 'redacted_fields': 4}\ninvalid = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 1000900, 'slo_ms': 1200, 'redacted_fields': 4}\nincomplete = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T1-B-E2: no confío en demos sin assert; la regla «S51-T1-B-E2 · Verifica tres rutas de `tokens, costo, latency y redacción`: fixture válido, fixture adverso y registro si» del instruction exige fixtures y etiqueta de breach ALERT_COST_LATENCY. Theory/outcome de anclaje: Tokens, costo y latencia se miden por etapa y percentil; redacción aplica a atributos, eventos, payloads y err. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T1-B-E2 · Verifica tres rutas de `tokens, costo, latency y redacción`: fixture válido, fixture a",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T1-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'redacted_fields' not in record or record.get('redacted_fields') in (None, \"\", [], set(), {}):\n        return \"FIX_REDACTION_PIPELINE\"\n    ok = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\n    return \"CONTINUE\" if ok else \"ALERT_COST_LATENCY\"\n\nvalid = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200, 'redacted_fields': 4}\ninvalid = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 1000900, 'slo_ms': 1200, 'redacted_fields': 4}\nincomplete = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S51/S51-T1-B-E3: no confío en demos sin assert; la regla «S51-T1-B-E3 · Extiende fallo cerrado para `tokens, costo, latency y redacción` con tres fixtures distintos. `CASO-MOQ-05» del instruction exige fixtures y etiqueta de breach ALERT_COST_LATENCY. Theory/outcome de anclaje: Registra modelo/prompt/dataset. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T1-B-E3 · Extiende fallo cerrado para `tokens, costo, latency y redacción` con tres fixtures dis",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T2-A-E1",
+      "code": "record = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': True}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"FREEZE_RELEASE_BUNDLE\"\nprint(\"S51-T2-A\", status)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T2-A-E1: no confío en demos sin assert; la regla «seis versiones explícitas y bundle inmutable» del instruction exige fixtures y etiqueta de breach FREEZE_RELEASE_BUNDLE. Theory/outcome de anclaje: Opera SLO, feedback y drift. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T2-A-E1 · Filtra el contrato de `registro de modelo/prompt/dataset` sobre `CASO-MOQ-051-2A`. La ",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'dataset', 'evaluator', 'immutable', 'index', 'model', 'prompt', 'release'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"FREEZE_RELEASE_BUNDLE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': True}\ninvalid = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T2-A-E2: no confío en demos sin assert; la regla «S51-T2-A-E2 · Clasifica tres rutas de `registro de modelo/prompt/dataset`: fixture válido, fixture adverso y registro si» del instruction exige fixtures y etiqueta de breach FREEZE_RELEASE_BUNDLE. Theory/outcome de anclaje: accesibilidad, corrección y contestabilidad. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T2-A-E2 · Clasifica tres rutas de `registro de modelo/prompt/dataset`: fixture válido, fixture a",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T2-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'immutable' not in record or record.get('immutable') in (None, \"\", [], set(), {}):\n        return \"REGISTER_MISSING_VERSION\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"FREEZE_RELEASE_BUNDLE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': True}\ninvalid = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2'}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S51/S51-T2-A-E3: no confío en demos sin assert; la regla «S51-T2-A-E3 · Defiende fallo cerrado para `registro de modelo/prompt/dataset` con tres fixtures distintos. `CASO-MOQ-051» del instruction exige fixtures y etiqueta de breach FREEZE_RELEASE_BUNDLE. Theory/outcome de anclaje: SLO combina disponibilidad/calidad/latencia; feedback es señal sesgada y drift exige slices, baseline y dueño . Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T2-A-E3 · Defiende fallo cerrado para `registro de modelo/prompt/dataset` con tres fixtures dist",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T2-B-E1",
+      "code": "record = {'case_id': 'CASO-MOQ-051-2B', 'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': True}\nmeets_contract = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGOVERNED_CHANGE\"\nprint(\"S51-T2-B\", status)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T2-B-E1: no confío en demos sin assert; la regla «separación de funciones, scope read, retención y audit» del instruction exige fixtures y etiqueta de breach REJECT_UNGOVERNED_CHANGE. Theory/outcome de anclaje: SLO combina disponibilidad/calidad/latencia; feedback es señal sesgada y drift exige slices, baseline y dueño . Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T2-B-E1 · Modela el contrato de `cambio, acceso, retención y auditoría` sobre `CASO-MOQ-051-2B`.",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'access_scope', 'approver', 'audit_append_only', 'author', 'case_id', 'retention_days', 'risk'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\n    return \"PASS\" if ok else \"REJECT_UNGOVERNED_CHANGE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-2B', 'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': True}\ninvalid = {'case_id': 'ADVERSE', 'author': 'BAD', 'approver': 'BAD', 'risk': 'BAD', 'access_scope': 'BAD', 'retention_days': -1, 'audit_append_only': False}\nincomplete = {'case_id': 'CASO-MOQ-051-2B', 'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T2-B-E2: no confío en demos sin assert; la regla «S51-T2-B-E2 · Audita tres rutas de `cambio, acceso, retención y auditoría`: fixture válido, fixture adverso y registro s» del instruction exige fixtures y etiqueta de breach REJECT_UNGOVERNED_CHANGE. Theory/outcome de anclaje: accesibilidad, corrección y contestabilidad. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T2-B-E2 · Audita tres rutas de `cambio, acceso, retención y auditoría`: fixture válido, fixture ",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T2-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'audit_append_only' not in record or record.get('audit_append_only') in (None, \"\", [], set(), {}):\n        return \"REQUEST_INDEPENDENT_APPROVAL\"\n    ok = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\n    return \"CONTINUE\" if ok else \"REJECT_UNGOVERNED_CHANGE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-2B', 'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': True}\ninvalid = {'case_id': 'ADVERSE', 'author': 'BAD', 'approver': 'BAD', 'risk': 'BAD', 'access_scope': 'BAD', 'retention_days': -1, 'audit_append_only': False}\nincomplete = {'case_id': 'CASO-MOQ-051-2B', 'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S51/S51-T2-B-E3: no confío en demos sin assert; la regla «S51-T2-B-E3 · Recupera fallo cerrado para `cambio, acceso, retención y auditoría` con tres fixtures distintos. `CASO-MOQ» del instruction exige fixtures y etiqueta de breach REJECT_UNGOVERNED_CHANGE. Theory/outcome de anclaje: Muestra incertidumbre, citas y confirmaciones. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T2-B-E3 · Recupera fallo cerrado para `cambio, acceso, retención y auditoría` con tres fixtures ",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T3-A-E1",
+      "code": "record = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}\nmeets_contract = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\nstatus = \"PASS\" if meets_contract else \"OPEN_COPILOT_INCIDENT\"\nprint(\"S51-T3-A\", status)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T3-A-E1: no confío en demos sin assert; la regla «availability/faithfulness/drift bajo SLO con owner» del instruction exige fixtures y etiqueta de breach OPEN_COPILOT_INCIDENT. Theory/outcome de anclaje: incidents, rollback y postmortem. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T3-A-E1 · Verifica el contrato de `SLO, feedback y drift` sobre `CASO-MOQ-051-3A`. La entrada es",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'availability', 'availability_slo', 'case_id', 'drift', 'faithfulness', 'faithfulness_slo', 'max_drift', 'owner'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\n    return \"PASS\" if ok else \"OPEN_COPILOT_INCIDENT\"\n\nvalid = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}\ninvalid = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 99.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}\nincomplete = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T3-A-E2: no confío en demos sin assert; la regla «S51-T3-A-E2 · Decide tres rutas de `SLO, feedback y drift`: fixture válido, fixture adverso y registro sin `owner`. Entr» del instruction exige fixtures y etiqueta de breach OPEN_COPILOT_INCIDENT. Theory/outcome de anclaje: SLO, feedback y drift. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T3-A-E2 · Decide tres rutas de `SLO, feedback y drift`: fixture válido, fixture adverso y regist",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T3-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'owner' not in record or record.get('owner') in (None, \"\", [], set(), {}):\n        return \"OPEN_COPILOT_INCIDENT\"\n    ok = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\n    return \"CONTINUE\" if ok else \"OPEN_COPILOT_INCIDENT\"\n\nvalid = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}\ninvalid = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 99.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}\nincomplete = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S51/S51-T3-A-E3: no confío en demos sin assert; la regla «S51-T3-A-E3 · Contrasta fallo cerrado para `SLO, feedback y drift` con tres fixtures distintos. `CASO-MOQ-051-3A` debe c» del instruction exige fixtures y etiqueta de breach TRIAGE_DRIFT_SLICE. Theory/outcome de anclaje: Opera SLO, feedback y drift. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T3-A-E3 · Contrasta fallo cerrado para `SLO, feedback y drift` con tres fixtures distintos. `CAS",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T3-B-E1",
+      "code": "record = {'case_id': 'CASO-MOQ-051-3B', 'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}\nmeets_contract = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AND_CONTAIN\"\nprint(\"S51-T3-B\", status)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T3-B-E1: no confío en demos sin assert; la regla «contención, last-good, RTO y acciones con dueño» del instruction exige fixtures y etiqueta de breach ROLLBACK_AND_CONTAIN. Theory/outcome de anclaje: cambio, acceso, retención y auditoría. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T3-B-E1 · Clasifica el contrato de `incidents, rollback y postmortem` sobre `CASO-MOQ-051-3B`. L",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'contained', 'owners_assigned', 'postmortem_actions', 'rollback_minutes', 'rolled_back_to', 'rto_minutes'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if ok else \"ROLLBACK_AND_CONTAIN\"\n\nvalid = {'case_id': 'CASO-MOQ-051-3B', 'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}\ninvalid = {'case_id': 'CASO-MOQ-051-3B', 'contained': False, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}\nincomplete = {'case_id': 'CASO-MOQ-051-3B', 'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T3-B-E2: no confío en demos sin assert; la regla «S51-T3-B-E2 · Calcula tres rutas de `incidents, rollback y postmortem`: fixture válido, fixture adverso y registro sin `» del instruction exige fixtures y etiqueta de breach ROLLBACK_AND_CONTAIN. Theory/outcome de anclaje: Muestra incertidumbre, citas y confirmaciones. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T3-B-E2 · Calcula tres rutas de `incidents, rollback y postmortem`: fixture válido, fixture adve",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T3-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'owners_assigned' not in record or record.get('owners_assigned') in (None, \"\", [], set(), {}):\n        return \"CONVENE_INCIDENT_REVIEW\"\n    ok = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"CONTINUE\" if ok else \"ROLLBACK_AND_CONTAIN\"\n\nvalid = {'case_id': 'CASO-MOQ-051-3B', 'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}\ninvalid = {'case_id': 'CASO-MOQ-051-3B', 'contained': False, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}\nincomplete = {'case_id': 'CASO-MOQ-051-3B', 'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S51/S51-T3-B-E3: no confío en demos sin assert; la regla «S51-T3-B-E3 · Instrumenta fallo cerrado para `incidents, rollback y postmortem` con tres fixtures distintos. `CASO-MOQ-0» del instruction exige fixtures y etiqueta de breach ROLLBACK_AND_CONTAIN. Theory/outcome de anclaje: Traza prompts, retrieval y tools. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T3-B-E3 · Instrumenta fallo cerrado para `incidents, rollback y postmortem` con tres fixtures di",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T4-A-E1",
+      "code": "record = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}\nmeets_contract = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNCONFIRMED_ACTION\"\nprint(\"S51-T4-A\", status)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T4-A-E1: no confío en demos sin assert; la regla «incertidumbre/citas visibles y efecto confirmado» del instruction exige fixtures y etiqueta de breach BLOCK_UNCONFIRMED_ACTION. Theory/outcome de anclaje: Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de expor. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T4-A-E1 · Audita el contrato de `incertidumbre, citas y confirmaciones` sobre `CASO-MOQ-051-4A`.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'citations_resolve', 'confirmation_required', 'confirmed', 'effect_summary', 'uncertainty_shown'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\n    return \"PASS\" if ok else \"BLOCK_UNCONFIRMED_ACTION\"\n\nvalid = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}\ninvalid = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': False, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}\nincomplete = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T4-A-E2: no confío en demos sin assert; la regla «S51-T4-A-E2 · Compara tres rutas de `incertidumbre, citas y confirmaciones`: fixture válido, fixture adverso y registro » del instruction exige fixtures y etiqueta de breach BLOCK_UNCONFIRMED_ACTION. Theory/outcome de anclaje: Change control registra autor/aprobador/riesgo; acceso y retención son mínimos, audit es append-only y también. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T4-A-E2 · Compara tres rutas de `incertidumbre, citas y confirmaciones`: fixture válido, fixture",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T4-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'confirmed' not in record or record.get('confirmed') in (None, \"\", [], set(), {}):\n        return \"ASK_USER_TO_CONFIRM\"\n    ok = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\n    return \"CONTINUE\" if ok else \"BLOCK_UNCONFIRMED_ACTION\"\n\nvalid = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}\ninvalid = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': False, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}\nincomplete = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S51/S51-T4-A-E3: no confío en demos sin assert; la regla «S51-T4-A-E3 · Aísla fallo cerrado para `incertidumbre, citas y confirmaciones` con tres fixtures distintos. `CASO-MOQ-05» del instruction exige fixtures y etiqueta de breach BLOCK_UNCONFIRMED_ACTION. Theory/outcome de anclaje: Muestra incertidumbre, citas y confirmaciones. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T4-A-E3 · Aísla fallo cerrado para `incertidumbre, citas y confirmaciones` con tres fixtures dis",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T4-B-E1",
+      "code": "record = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}\nmeets_contract = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\nstatus = \"PASS\" if meets_contract else \"FAIL_ACCESSIBILITY_GATE\"\nprint(\"S51-T4-B\", status)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T4-B-E1: no confío en demos sin assert; la regla «teclado/lector/contraste y corrección/apelación» del instruction exige fixtures y etiqueta de breach FAIL_ACCESSIBILITY_GATE. Theory/outcome de anclaje: accesibilidad, corrección y contestabilidad. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T4-B-E1 · Decide el contrato de `accesibilidad, corrección y contestabilidad` sobre `CASO-MOQ-05",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'appeal_to_human', 'case_id', 'contrast_ratio', 'correction_available', 'keyboard_complete', 'min_contrast', 'screen_reader_labels'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\n    return \"PASS\" if ok else \"FAIL_ACCESSIBILITY_GATE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}\ninvalid = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': False, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}\nincomplete = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S51/S51-T4-B-E2: no confío en demos sin assert; la regla «S51-T4-B-E2 · Filtra tres rutas de `accesibilidad, corrección y contestabilidad`: fixture válido, fixture adverso y regi» del instruction exige fixtures y etiqueta de breach FAIL_ACCESSIBILITY_GATE. Theory/outcome de anclaje: accesibilidad, corrección y contestabilidad. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T4-B-E2 · Filtra tres rutas de `accesibilidad, corrección y contestabilidad`: fixture válido, fi",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S51-T4-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'appeal_to_human' not in record or record.get('appeal_to_human') in (None, \"\", [], set(), {}):\n        return \"FAIL_ACCESSIBILITY_GATE\"\n    ok = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\n    return \"CONTINUE\" if ok else \"FAIL_ACCESSIBILITY_GATE\"\n\nvalid = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}\ninvalid = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': False, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}\nincomplete = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S51/S51-T4-B-E3: no confío en demos sin assert; la regla «S51-T4-B-E3 · Demuestra fallo cerrado para `accesibilidad, corrección y contestabilidad` con tres fixtures distintos. `C» del instruction exige fixtures y etiqueta de breach ROUTE_CONTESTATION. Theory/outcome de anclaje: Opera SLO, feedback y drift. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S51-T4-B-E3 · Demuestra fallo cerrado para `accesibilidad, corrección y contestabilidad` con tres fi",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "S51 self-check Q0: escojo «trace reconstruible sin PII» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué evidencia permite aprobar `traces de prompts/retrieval/tools` en CASO-MOQ-051?. Ancla: traces de prompts/retrieval/tools. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.7,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "S51 self-check Q1: escojo «emitir ROLLBACK_COPILOT y conservar evidencia» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: Si ocurre la condición de error de S51, ¿qué respuesta preserva seguridad y auditabilidad?. Ancla: Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de expor. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.75,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "S51 self-check Q2: escojo «se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-C + CF-5 · copiloto observable y contestable`?. Ancla: tokens, costo, latency y redacción. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.8,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "S51 self-check Q3: escojo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué tratamiento de `CASO-MOQ-051` respeta el alcance del curso?. Ancla: Tokens, costo y latencia se miden por etapa y percentil; redacción aplica a atributos, eventos, payloads y err. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.85,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:45:56.973775+00:00",
+  "session_started_at": "2026-07-23T15:45:56.943904+00:00",
+  "session_ended_at": "2026-07-23T15:46:40.743904+00:00",
+  "receipt_response_sha256": "bd2edac9d2754ad603abc900118d829f6bf96d11324ad482b36956d407a64931",
+  "receipt_exercises_sha256": "d21e7300b924cb848c8a8c4bd36509c605e38d6aa94409e05ff0c9fd79c3d843",
+  "receipt_selfcheck_sha256": "38c5a3185b354632b7b41eb20913714f772555588221d4a4b1b6915bcd482357"
+}

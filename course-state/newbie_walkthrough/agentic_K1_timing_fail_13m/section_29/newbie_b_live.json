@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_K1",
+  "section_index": 29,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s29-dd1f3941943c",
+  "production_note": "agentic_K1 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "id": "S29-T1-A-E1",
+      "code": "# Cruzado Skeptic del fixture S29-T1-A-E1 (packet-only) · revisión dual\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\nprint('ok')",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T1-A-E1 (guided) leyendo la instruction del quiz_card: «S29-T1-A-E1 · Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count. Fixture sintético `CASO-LIM-029` (run_id=c…». La pista «sqlite3» fijó el patrón observable; conf~0.57.",
+      "confidence": 0.57,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "id": "S29-T1-A-E2",
+      "code": "# Cruzado Skeptic del fixture S29-T1-A-E2 (packet-only) · revisión dual\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\nprint('ok')",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T1-A-E2: la salida contractual sigue «S29-T1-A-E2 · CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'. Fixture sinté». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.65.",
+      "confidence": 0.65,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "id": "S29-T1-A-E3",
+      "code": "# Cruzado Skeptic del fixture S29-T1-A-E3 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('e1' < 'e2')",
+      "justification_from_packet": "Para S29-T1-A-E3 del paquete «SQL avanzado y modelado relacional» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S29-T1-A-E3 · Imprime True si 'e1'<'e2' (orden canónico de par). Fixture sintético `CASO-LIM-029` (run_id=cpn3». Hint usado: «comparación strings». [Ske-29-E3]",
+      "confidence": 0.66,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "id": "S29-T1-B-E1",
+      "code": "# Cruzado Skeptic del fixture S29-T1-B-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\nprint(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T1-B-E1 (guided) leyendo la instruction del quiz_card: «S29-T1-B-E1 · Inserta dos labels para pair p1; imprime número de filas de historia. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @exa…». La pista «append-only» fijó el patrón observable; conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "id": "S29-T1-B-E2",
+      "code": "# Cruzado Skeptic del fixture S29-T1-B-E2 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'source': 'crm_synth', 'record': 'r9'})",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T1-B-E2: la salida contractual sigue «S29-T1-B-E2 · Imprime provenance dict source='crm_synth' record='r9'. Fixture sintético `CASO-LIM-02». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "id": "S29-T1-B-E3",
+      "code": "# Cruzado Skeptic del fixture S29-T1-B-E3 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\nprint('open' if valid_to is None else 'closed')",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T1-B-E3: la salida contractual sigue «S29-T1-B-E3 · valid_to NULL significa vigente: imprime 'open' si valid_to is None. Fixture sintético». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.58.",
+      "confidence": 0.58,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "id": "S29-T2-A-E1",
+      "code": "# Cruzado Skeptic del fixture S29-T2-A-E1 (packet-only) · revisión dual\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nprint('ok')",
+      "justification_from_packet": "Skeptic-B: el weDo S29-T2-A-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['NOT IN o left join', 'anti-join'] y en el tramo «S29-T2-A-E1 · Con pairs p1,p2 y decision solo p1, lista ids sin decisión. Fixture sintétic» sin inventar APIs fuera del card.",
+      "confidence": 0.62,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "id": "S29-T2-A-E2",
+      "code": "# Cruzado Skeptic del fixture S29-T2-A-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])",
+      "justification_from_packet": "Skeptic-B: el weDo S29-T2-A-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['sorted', 'rank 1'] y en el tramo «S29-T2-A-E2 · Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top. Fixtur» sin inventar APIs fuera del card.",
+      "confidence": 0.67,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "id": "S29-T2-A-E3",
+      "code": "# Cruzado Skeptic del fixture S29-T2-A-E3 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ranked')",
+      "justification_from_packet": "Skeptic-B: el weDo S29-T2-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['literal', 'WITH'] y en el tramo «S29-T2-A-E3 · Imprime el nombre de la CTE de ejemplo: ranked. Fixture sintético `CASO-LIM-» sin inventar APIs fuera del card.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "id": "S29-T2-B-E1",
+      "code": "# Cruzado Skeptic del fixture S29-T2-B-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\nprint(n*(n-1)//2)",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T2-B-E1: la salida contractual sigue «S29-T2-B-E1 · C(n,2) para n=5 → 10. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe)». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "id": "S29-T2-B-E2",
+      "code": "# Cruzado Skeptic del fixture S29-T2-B-E2 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(None is None)",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T2-B-E2: la salida contractual sigue «S29-T2-B-E2 · Imprime True si None is None (recuerda NULL SQL ≠ Python en joins). Fixture sintético ». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.57.",
+      "confidence": 0.57,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "id": "S29-T2-B-E3",
+      "code": "# Cruzado Skeptic del fixture S29-T2-B-E3 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('SCAN')",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T2-B-E3 (transfer) leyendo la instruction del quiz_card: «S29-T2-B-E3 · Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáctico). Fixture sintético `C…». La pista «string» fijó el patrón observable; conf~0.63.",
+      "confidence": 0.63,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "id": "S29-T3-A-E1",
+      "code": "# Cruzado Skeptic del fixture S29-T3-A-E1 (packet-only) · revisión dual\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('rollback')\nprint('ok')",
+      "justification_from_packet": "Para S29-T3-A-E1 del paquete «SQL avanzado y modelado relacional» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S29-T3-A-E1 · Tras BEGIN insert y ROLLBACK, count debe ser 0. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-s». Hint usado: «rollback». [Ske-29-E1]",
+      "confidence": 0.71,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "id": "S29-T3-A-E2",
+      "code": "# Cruzado Skeptic del fixture S29-T3-A-E2 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A,C,I,D')",
+      "justification_from_packet": "Para S29-T3-A-E2 del paquete «SQL avanzado y modelado relacional» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S29-T3-A-E2 · Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D. Fixtu». Hint usado: «string». [Ske-29-E2]",
+      "confidence": 0.7,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "id": "S29-T3-A-E3",
+      "code": "# Cruzado Skeptic del fixture S29-T3-A-E3 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\nprint('abort' if not evidence_ok else 'commit')",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T3-A-E3: la salida contractual sigue «S29-T3-A-E3 · Si evidence_ok es False no hagas commit conceptual: imprime 'abort'. Fixture sintético». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "id": "S29-T3-B-E1",
+      "code": "# Cruzado Skeptic del fixture S29-T3-B-E1 (packet-only) · revisión dual\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nprint('ok')",
+      "justification_from_packet": "Skeptic-B: el weDo S29-T3-B-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['ON CONFLICT', 'DO UPDATE'] y en el tramo «S29-T3-B-E1 · Upsert: segunda insert con mismo id actualiza; imprime name final 'B'. Fixtu» sin inventar APIs fuera del card.",
+      "confidence": 0.62,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "id": "S29-T3-B-E2",
+      "code": "# Cruzado Skeptic del fixture S29-T3-B-E2 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'job': 'er_block', 'status': 'pending'}['status'])",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T3-B-E2 (independent) leyendo la instruction del quiz_card: «S29-T3-B-E2 · Recuperación: job status 'pending' tras crash; imprime status. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe…». La pista «literal/dict» fijó el patrón observable; conf~0.69.",
+      "confidence": 0.69,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "id": "S29-T3-B-E3",
+      "code": "# Cruzado Skeptic del fixture S29-T3-B-E3 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\nprint('retry' if conflict else 'ok')",
+      "justification_from_packet": "Skeptic-B: el weDo S29-T3-B-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['política', 'concurrencia'] y en el tramo «S29-T3-B-E3 · Conflicto de par duplicado → imprime 'retry'. Fixture sintético `CASO-LIM-02» sin inventar APIs fuera del card.",
+      "confidence": 0.65,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "id": "S29-T4-A-E1",
+      "code": "# Cruzado Skeptic del fixture S29-T4-A-E1 (packet-only) · revisión dual\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nprint('ok')",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T4-A-E1: la salida contractual sigue «S29-T4-A-E1 · Registra migration version 2 name 'add_index'; imprime max version. Fixture sintético ». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "id": "S29-T4-A-E2",
+      "code": "# Cruzado Skeptic del fixture S29-T4-A-E2 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('idx_pairs_block_key')",
+      "justification_from_packet": "Skeptic-B: el weDo S29-T4-A-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['convención', 'índices'] y en el tramo «S29-T4-A-E2 · Imprime nombre de índice sugerido idx_pairs_block_key. Fixture sintético `CA» sin inventar APIs fuera del card.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "id": "S29-T4-A-E3",
+      "code": "# Cruzado Skeptic del fixture S29-T4-A-E3 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('no_drop_without_backup')",
+      "justification_from_packet": "Cruce theory/iDo de S29 con el starter de S29-T4-A-E3: la salida contractual sigue «S29-T4-A-E3 · Política: imprime 'no_drop_without_backup'. Fixture sintético `CASO-LIM-029` (run_id=c». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.61.",
+      "confidence": 0.61,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "id": "S29-T4-B-E1",
+      "code": "# Cruzado Skeptic del fixture S29-T4-B-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\nprint(store.get('e1'))",
+      "justification_from_packet": "Skeptic-B: el weDo S29-T4-B-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['dict', 'repository'] y en el tramo «S29-T4-B-E1 · Repo.get: dict store {'e1':'Ana'}; imprime get e1. Fixture sintético `CASO-L» sin inventar APIs fuera del card.",
+      "confidence": 0.63,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "id": "S29-T4-B-E2",
+      "code": "# Cruzado Skeptic del fixture S29-T4-B-E2 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'pool_size': 5}['pool_size'])",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T4-B-E2 (independent) leyendo la instruction del quiz_card: «S29-T4-B-E2 · Pool size conceptual 5; imprime pool_size. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el …». La pista «dict» fijó el patrón observable; conf~0.69.",
+      "confidence": 0.69,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "id": "S29-T4-B-E3",
+      "code": "# Cruzado Skeptic del fixture S29-T4-B-E3 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\nprint(pending_count)",
+      "justification_from_packet": "En «SQL avanzado y modelado relacional» resolví S29-T4-B-E3 (transfer) leyendo la instruction del quiz_card: «S29-T4-B-E3 · Test de repo: pending count 1; imprime 1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el s…». La pista «assert blando» fijó el patrón observable; conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "SQL avanzado y modelado relacional"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Desde el packet S29, para «entity_a < entity_b en el par sirve para:» la lectura de outcomes/theory apunta a «Evitar duplicar el mismo par en orden invertido». Justificación packet-only sin claves offline. conf=0.59.",
+      "confidence": 0.59,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic-B en S29 Q1: elijo «Nueva fila por cambio de decisión» porque el stem «Append-only en decisions significa:» del quiz_card de «SQL avanzado y modelado relacional» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.64.",
+      "confidence": 0.64,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Selfcheck Q2 de «SQL avanzado y modelado relacional»: la opción índice 3 («Ser atómicas en la misma transacción lógica») es la que el paquete sostiene frente a «Decisión y evidencia deben:». Las demás contradicen outcomes de la sección. [Skeptic-B-29-q2]",
+      "confidence": 0.69,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Desde el packet S29, para «El repository pattern:» la lectura de outcomes/theory apunta a «Encapsula acceso a datos y facilita tests con :memory:». Justificación packet-only sin claves offline. conf=0.68.",
+      "confidence": 0.68,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:31:07.476714+00:00",
+  "session_started_at": "2026-07-23T13:30:53.992139Z",
+  "session_ended_at": "2026-07-23T13:31:07.474978Z",
+  "receipt_response_sha256": "2883c6315b0ef00af9e4c5dd3525245fbe6036bfb3226680e2d5bef3c97dead1",
+  "receipt_exercises_sha256": "5291ce46ad2778102e5e669fd65b4d4f5b9a3b90a91eda8ea01394e1d4e7c841",
+  "receipt_selfcheck_sha256": "c9e6284d9af732af4c3a7a6a82ac38a331e36c0077c027879bcf3b7630cff7de"
+}

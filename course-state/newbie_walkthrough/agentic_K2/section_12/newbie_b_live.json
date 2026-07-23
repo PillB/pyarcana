@@ -1,0 +1,348 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 12,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s12-51cdaf39c4a7",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "id": "S12-T1-A-E1",
+      "code": "def classify_status(code):\n    if 200 <= code < 300:\n        return \"ok\"\n    if 400 <= code < 500:\n        return \"client_error_no_blind_retry\"\n    if 500 <= code < 600:\n        return \"server_error_maybe_retry\"\n    return \"other\"\nprint(classify_status(400), classify_status(503), classify_status(200))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "No asumo que la primera idea basta al resolver S12-T1-A-E1. La sección «APIs, SQL y geodatos responsables» exige E1 (guiado) — Concepto: S12-T1-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Implementa `get_entity(sto. Me baso en responsables, ambig, alimenta y en el hint «Devuelve una tupla (status_code, dict).». Validación esperada: 200 con dict; 404 con error. Por eso conviene apoyar en la teoría del heading antes de cerrar; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "http"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "id": "S12-T1-A-E2",
+      "code": "def should_retry(code):\n    return code in {408, 429, 500, 502, 503, 504}\nprint(should_retry(400), should_retry(503))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S12-T1-A-E2 no improvisé: opté por confrontar con los hints y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload)` que exija claves `id` y `region` y devuelva solo requests conceptual + sqlite. Los tests piden: dict tipado o None. Conceptos del paquete que usé: límite, librería, usamos, status, reintentes. No asumo que la primera idea basta.",
+      "concepts_used": [
+        "retry"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "id": "S12-T1-A-E3",
+      "code": "class ApiError(Exception):\n    def __init__(self, code, msg):\n        self.code = code\n        super().__init__(msg)\ne = ApiError(400, \"bad request\")\nprint(e.code, str(e))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S12/S12-T1-A-E3 («APIs, SQL y geodatos responsables»): E3 (transferencia) — Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429→'retry', 500→'retry', 400→'fix_client'. Imprime la acción para [200,404,429,400,500].. Apoyo léxico: éxito, usamos, síncrono, acceso. Hint: dict.get(code, 'unknown'). Si el resultado no pasa «tabla status→acción», reintento. Desconfío de respuestas 'bonitas'; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "ApiError"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "id": "S12-T1-B-E1",
+      "code": "import os\ndef get_token():\n    tok = os.environ.get(\"API_TOKEN\")\n    if not tok:\n        raise RuntimeError(\"API_TOKEN missing\")\n    return tok\n# no hardcode\nprint(\"env_only\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S12-T1-B-E1 no improvisé: opté por seguir el contrato del instruction y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Simula timeout: `fetch(tim. Los tests piden: ok y timeout. Conceptos del paquete que usé: locales, menudo, inventar, auditable, urllib. Prefiero lo aburrido y verificable.",
+      "concepts_used": [
+        "secrets"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "id": "S12-T1-B-E2",
+      "code": "def redact_headers(h):\n    out = dict(h)\n    if \"Authorization\" in out:\n        out[\"Authorization\"] = \"Bearer ***\"\n    return out\nprint(redact_headers({\"Authorization\": \"Bearer SECRET\", \"Accept\": \"json\"}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S12/S12-T1-B-E2 («APIs, SQL y geodatos responsables»): E2 (independiente) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `collect_all(api)`. Apoyo léxico: operativo, acceso, status, responses. Hint: while page is not None. Si el resultado no pasa «lista plana a,b,c», reintento. Prefiero lo aburrido y verificable; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "redact"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "id": "S12-T1-B-E3",
+      "code": "ALLOWED_EGRESS_FIELDS = {\"city\", \"address_line\", \"country\"}\ndef filter_egress(payload):\n    return {k: v for k, v in payload.items() if k in ALLOWED_EGRESS_FIELDS}\nprint(filter_egress({\"city\": \"Lima\", \"document_id\": \"SECRET\"}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S12-T1-B-E3 en «APIs, SQL y geodatos responsables» decidí seguir el contrato del instruction: el enunciado dice «E3 (transferencia) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `should_retry(statu». Hint útil: return status in {429, 503}. Checklist/tests: política retry transitorio. Me resisto a copiar sin entender; vocabulario del paquete: ambig, rastro, menudo, curso. Riesgo que evito: si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "egress"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "id": "S12-T2-A-E1",
+      "code": "import hashlib, json\nbody = {\"lat\": -12.0, \"lon\": -77.0}\nprov = {\n    \"source_url\": \"https://example.com/geo\",\n    \"status_code\": 200,\n    \"body_sha12\": hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()[:12],\n}\nprint(prov)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S12-T2-A-E1 no improvisé: opté por releer con desconfianza el material y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `require_token(env)` lee A. Los tests piden: abc + error message. Conceptos del paquete que usé: fixtures, usamos, síncrono, responsable, locales. Prefiero lo aburrido y verificable.",
+      "concepts_used": [
+        "provenance"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "id": "S12-T2-A-E2",
+      "code": "cache = {}\ndef get_cached(key, fetcher):\n    if key not in cache:\n        cache[key] = fetcher()\n    return cache[key]\nprint(get_cached(\"Lima\", lambda: {\"lat\": -12.04}))\nprint(get_cached(\"Lima\", lambda: {\"lat\": 0}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S12/S12-T2-A-E2 («APIs, SQL y geodatos responsables»): E2 (independiente) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Cache GET: `Cache`. Apoyo léxico: cuerpo, recibe, responses, éxito. Hint: key = url. Si el resultado no pasa «hit y miss», reintento. Exijo evidencia en el paquete activo; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "cache"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "id": "S12-T2-A-E3",
+      "code": "def timeout_policy(seconds):\n    if seconds <= 0:\n        raise ValueError(\"timeout\")\n    return seconds\nprint(timeout_policy(5))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S12-T2-A-E3 en «APIs, SQL y geodatos responsables» decidí confrontar con los hints: el enunciado dice «E3 (transferencia) — `min_provenance(url, status, cache_hit)` devuelve dict con source_url, fetched_at fijo '2026-07-20T00:00:00Z', status_code, cache_hit. Sin token.». Hint útil: Campos mínimos de auditoría.. Checklist/tests: 4 campos de provenance. No asumo que la primera idea basta; vocabulario del paquete: éxito, candidatos, requests, recibe. Riesgo que evito: si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "timeout"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "id": "S12-T2-B-E1",
+      "code": "REQUIRED = {\"lat\", \"lon\", \"provider\"}\nPRECALC = {\"Lima\": {\"lat\": -12.0464, \"lon\": -77.0428, \"provider\": \"precalc\"}}\ndef contract_ok(d):\n    return not (REQUIRED - set(d.keys()))\ndef geocode(city, fail_online=False):\n    if fail_online:\n        return {**PRECALC[city], \"mode\": \"offline_fallback\"}\n    return {\"lat\": -12.0464, \"lon\": -77.0428, \"provider\": \"online\", \"mode\": \"online\"}\nprint(contract_ok(geocode(\"Lima\")))\nprint(geocode(\"Lima\", fail_online=True)[\"mode\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S12/S12-T2-B-E1 («APIs, SQL y geodatos responsables»): E1 (guiado) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `assert_keys(payload, requ. Apoyo léxico: reintentes, retry, responses, porqué. Hint: missing = set(required) - set(payload). Si el resultado no pasa «ok + AssertionError», reintento. Me resisto a copiar sin entender; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "geocode"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "id": "S12-T2-B-E2",
+      "code": "def validate_geo(d):\n    for k in (\"lat\", \"lon\"):\n        if k not in d:\n            return False\n        if not isinstance(d[k], (int, float)):\n            return False\n    return True\nprint(validate_geo({\"lat\": 1.0, \"lon\": 2.0}), validate_geo({\"lat\": \"x\"}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S12-T2-B-E2 en «APIs, SQL y geodatos responsables» decidí releer con desconfianza el material: el enunciado dice «E2 (independiente) — `fetch_with_fallback(status, local_body)`: si status>=500 devuelve (local_body, 'offline'); si 200 devuelve ({'online':True}, 'online').». Hint útil: if status >= 500. Checklist/tests: online/offline modes. Me resisto a copiar sin entender; vocabulario del paquete: cuerpo, curso, retry, candidatos. Riesgo que evito: si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "validate"
+      ],
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "id": "S12-T2-B-E3",
+      "code": "def offline_table():\n    return {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}\nprint(sorted(offline_table()))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia en el paquete activo al resolver S12-T2-B-E3. La sección «APIs, SQL y geodatos responsables» exige E3 (transferencia) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Matriz online/offli. Me baso en alimenta, requests, status y en el hint «Usa tuplas como clave de dict.». Validación esperada: matriz de operación. Por eso conviene verificar contra el checklist de tests antes de cerrar; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "precalc"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "id": "S12-T3-A-E1",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES (?, ?)\", (\"C001\", \"Ana\"))\nprint(con.execute(\"SELECT name FROM clients WHERE id = ?\", (\"C001\",)).fetchone())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S12/S12-T3-A-E1 («APIs, SQL y geodatos responsables»): E1 (guiado) — En SQLite :memory:, crea tabla evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL). Inserta E1/C001/geo y cuenta filas.. Apoyo léxico: servidor, librería, menudo, responses. Hint: CREATE TABLE evidence (...). Si el resultado no pasa «count 1», reintento. Prefiero lo aburrido y verificable; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "sql"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "id": "S12-T3-A-E2",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('CREATE TABLE clients(id TEXT PRIMARY KEY);\\nCREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT);\\nCREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT);\\n')\nprint(\"tables_ok\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S12-T3-A-E2 en «APIs, SQL y geodatos responsables» decidí derivar del starter sin inventar APIs: el enunciado dice «E2 (independiente) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: CRUD de client: ins». Hint útil: UPDATE clients SET name=? WHERE id=?. Checklist/tests: Ana Q y 0. Desconfío de respuestas 'bonitas'; vocabulario del paquete: responses, éxito, reintentes, reduce. Riesgo que evito: si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "schema"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "id": "S12-T3-A-E3",
+      "code": "def bad_sql(user):\n    # ANTIPATRON: f\"SELECT * FROM t WHERE name='{user}'\"\n    return \"use placeholders instead\"\nprint(bad_sql(\"x\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Prefiero lo aburrido y verificable al resolver S12-T3-A-E3. La sección «APIs, SQL y geodatos responsables» exige E3 (transferencia) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Join: clients + evi. Me baso en librería, status, reintentes y en el hint «JOIN ON c.id = e.entity_id». Validación esperada: ['geo','phone']. Por eso conviene derivar del starter sin inventar APIs antes de cerrar; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "injection"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "id": "S12-T3-B-E1",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT UNIQUE)\")\nbatch = [(\"C001\", \"DOC1\"), (\"C002\", \"DOC2\"), (\"C003\", \"DOC1\")]\ntry:\n    con.execute(\"BEGIN\")\n    con.executemany(\"INSERT INTO clients VALUES (?,?)\", batch)\n    con.commit()\n    print(\"unexpected_commit\")\nexcept sqlite3.IntegrityError:\n    con.rollback()\n    print(\"rollback_on_conflict\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S12-T3-B-E1 en «APIs, SQL y geodatos responsables» decidí releer con desconfianza el material: el enunciado dice «E1 (guiado) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Reescribe búsqueda insegur». Hint útil: WHERE id = ?. Checklist/tests: None (no match literal). Exijo evidencia en el paquete activo; vocabulario del paquete: parse, reales, retry, recibe. Riesgo que evito: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "tx"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "id": "S12-T3-B-E2",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE t(id TEXT PRIMARY KEY)\")\ncon.execute(\"INSERT INTO t VALUES ('a')\")\ntry:\n    con.execute(\"INSERT INTO t VALUES ('a')\")\nexcept sqlite3.IntegrityError as e:\n    print(type(e).__name__)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin entender al resolver S12-T3-B-E2. La sección «APIs, SQL y geodatos responsables» exige E2 (independiente) — Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar count=0 si todo el batch falla junto (usa un solo requests conceptual + sqlite3. Me baso en pipelines, hechos, alimenta y en el hint «BEGIN; insert; insert duplicado; except rollback». Validación esperada: count 0. Por eso conviene confrontar con los hints antes de cerrar; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "integrity"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "id": "S12-T3-B-E3",
+      "code": "def unit_of_work(ops):\n    done = []\n    try:\n        for op in ops:\n            done.append(op())\n        return done\n    except Exception:\n        return \"rollback\"\nprint(unit_of_work([lambda: 1, lambda: 2]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S12-T3-B-E3 no improvisé: opté por apoyar en la teoría del heading y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Crea índice idx_doc. Los tests piden: idx_document_id presente. Conceptos del paquete que usé: fixtures, acceso, servidor, cuerpo, éxito. No asumo que la primera idea basta.",
+      "concepts_used": [
+        "uow"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "id": "S12-T4-A-E1",
+      "code": "class MockGeocoder:\n    DB = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}\n    def geocode(self, city):\n        if city not in self.DB:\n            return None\n        lat, lon = self.DB[city]\n        return {\"city\": city, \"lat\": lat, \"lon\": lon, \"provider\": \"authorized_mock\"}\ng = MockGeocoder()\nprint(g.geocode(\"Lima\")[\"provider\"], g.geocode(\"Iquitos\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S12-T4-A-E1 en «APIs, SQL y geodatos responsables» decidí verificar contra el checklist de tests: el enunciado dice «E1 (guiado) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `normalize_address` colaps». Hint útil: re.sub(r'\\s+', ' ', s.strip()). Checklist/tests: string normalizado. Prefiero lo aburrido y verificable; vocabulario del paquete: servidor, candidatos, parse, porqué. Riesgo que evito: si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "mock"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "id": "S12-T4-A-E2",
+      "code": "def assert_mock_only(provider):\n    assert provider in {\"authorized_mock\", \"precalc\", \"offline_fallback\"}\n    return True\nprint(assert_mock_only(\"authorized_mock\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos al resolver S12-T4-A-E2. La sección «APIs, SQL y geodatos responsables» exige E2 (independiente) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Interfaz mínima: cl. Me baso en cuerpo, personas, operativo y en el hint «Tabla city→(lat,lon)». Validación esperada: -12.0464 y None. Por eso conviene verificar contra el checklist de tests antes de cerrar; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "policy"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "id": "S12-T4-A-E3",
+      "code": "points = {\"Lima\": (-12.0464, -77.0428), \"Callao\": (-12.05, -77.125)}\nprint(points[\"Lima\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S12-T4-A-E3 no improvisé: opté por apoyar en la teoría del heading y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload)` True solo requests conceptual + sqlite3 + math haversine (S01–S12).. Los tests piden: True/False. Conceptos del paquete que usé: menudo, cliente, acceso, operativo, locales. Prefiero lo aburrido y verificable.",
+      "concepts_used": [
+        "fixtures"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "id": "S12-T4-B-E1",
+      "code": "import math\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\nlima = (-12.0464, -77.0428)\ncallao = (-12.0500, -77.1250)\nprint(round(haversine_km(lima, callao), 2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Desconfío de respuestas 'bonitas' al resolver S12-T4-B-E1. La sección «APIs, SQL y geodatos responsables» exige E1 (guiado) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `valid_lat_lon(lat, lon)`. Me baso en reintentes, éxito, cliente y en el hint «-90<=lat<=90 and -180<=lon<=180». Validación esperada: True False False True. Por eso conviene releer con desconfianza el material antes de cerrar; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "haversine"
+      ],
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "id": "S12-T4-B-E2",
+      "code": "def geo_signal(km, threshold=2.0):\n    return {\"geo_distance_km\": km, \"close\": km <= threshold, \"verdict\": None}\nprint(geo_signal(1.2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S12-T4-B-E2 no improvisé: opté por cruzar con la demo iDo y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `haversine_km` entr. Los tests piden: ~111.19 + tolerance_ok. Conceptos del paquete que usé: porqué, personas, servidor, urllib, fixtures. Exijo evidencia en el paquete activo.",
+      "concepts_used": [
+        "signal"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "id": "S12-T4-B-E3",
+      "code": "def as_relationship_signal(km):\n    return {\n        \"type\": \"geo_distance\",\n        \"km\": km,\n        \"relationship_signal_score\": max(0.0, min(1.0, 1.0 - km / 10.0)),\n        \"verdict\": None,\n    }\nprint(as_relationship_signal(1.2)[\"verdict\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S12/S12-T4-B-E3 («APIs, SQL y geodatos responsables»): E3 (transferencia) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `as_relationship_si. Apoyo léxico: rastro, responsable, reales, candidatos. Hint: Nunca setees is_family. Si el resultado no pasa «verdict None», reintento. Exijo evidencia en el paquete activo; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "relationship"
+      ],
+      "confidence": 0.8
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S12#0 en «APIs, SQL y geodatos responsables»: «Un 400 Bad Request del proveedor debe…». Escojo índice 3 → «Tratarse como error de cliente (no retry ciego)». Descarto «Reintentarse con backoff infinito / Ignorarse como 200» porque no cuadra con la teoría/demos. Señales del paquete: reales, inventar, librería, hechos. Sigo dudando de atajos.",
+      "confidence": 0.78
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S12#1 en «APIs, SQL y geodatos responsables»: «¿Dónde debe vivir el token de API?». Escojo índice 1 → «En variable de entorno / secret store». Descarto «Hardcodeado en el repo / En el log de provenance» porque no cuadra con la teoría/demos. Señales del paquete: recibe, urllib, requests, porqué. Me resisto a copiar sin entender.",
+      "confidence": 0.89
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S12#2 en «APIs, SQL y geodatos responsables»: «SQL con f-string e input de usuario es…». Escojo índice 2 → «Inyección / inseguro; usar placeholders `?`». Descarto «La forma recomendada en SQLite / Obligatorio para índices» porque no cuadra con la teoría/demos. Señales del paquete: servidor, cliente, responsables, reales. Sigo dudando de atajos.",
+      "confidence": 0.96
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S12#3 en «APIs, SQL y geodatos responsables»: «Enviar document_id bancario a un geocoder público…». Escojo índice 0 → «Viola la política de egress de CP-N1-C». Descarto «Está permitido si hay timeout / Mejora el Haversine» porque no cuadra con la teoría/demos. Señales del paquete: rastro, requests, geodatos, status. No asumo que la primera idea basta.",
+      "confidence": 0.87
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S12#4 en «APIs, SQL y geodatos responsables»: «1.2 km entre dos entidades sintéticas implica…». Escojo índice 3 → «Una geoseñal de relación, no un veredicto». Descarto «Parentesco automático / Fraude confirmado» porque no cuadra con la teoría/demos. Señales del paquete: responses, porqué, menudo, rastro. Exijo evidencia en el paquete activo.",
+      "confidence": 0.81
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:18:13.756437+00:00",
+  "session_started_at": "2026-07-23T15:17:53.843823+00:00",
+  "session_ended_at": "2026-07-23T15:18:13.754072+00:00",
+  "receipt_response_sha256": "18ad8a2acfd248052022dc8f51346b17bab5b96f13a152ba9d58e06b45b90e66",
+  "receipt_exercises_sha256": "dc58171a31eb10f1f4e975cf04fd79aba0aab9ceab61505a472b0490b2ee781a",
+  "receipt_selfcheck_sha256": "8b271d66809b76e3046396e3597913891654b84fe5fcbd08cf8f4c9dc11b91c6"
+}

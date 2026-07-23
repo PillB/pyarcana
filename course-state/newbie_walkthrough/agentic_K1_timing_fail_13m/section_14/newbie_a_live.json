@@ -1,0 +1,337 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_a-s14-fbe79d590e24",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "id": "S14-T1-A-E1",
+      "code": "# packet solve S14-T1-A-E1\nimport numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n",
+      "justification_from_packet": "Para S14-T1-A-E1 seguí hints + instruction del quiz_card de «NumPy y cómputo vectorizado». Concepto ancla del packet: creación, indexación y máscaras. Resultado implementado con `import numpy as np` respondiendo a: «E1 (guiado) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Crea un…». Estimación de acierto 0.822. Traza local: sección-activa/explorer/S14-T1-A-E1.",
+      "confidence": 0.822,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "id": "S14-T1-A-E2",
+      "code": "# packet solve S14-T1-A-E2\nimport numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes, scores.tolist())\n",
+      "justification_from_packet": "Como Explorer en «NumPy y cómputo vectorizado», resolví S14-T1-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Me apoyé en el subtema/paquete («ndarray, dtype y shape») y en el demo/theory para completar el starter; la línea clave quedó: `import numpy as np`. Confianza ~0.612 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S14-T1-A-E2.",
+      "confidence": 0.612,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "id": "S14-T1-A-E3",
+      "code": "# packet solve S14-T1-A-E3\nimport numpy as np\n\ndef validate_1d_f64(arr):\n    a = np.asarray(arr)\n    if a.ndim != 1 or a.dtype != np.float64:\n        raise ValueError(\"expected 1d float64\")\n    print(\"ok\", a.size)\n\nvalidate_1d_f64(np.array([1.0, 2.0], dtype=np.float64))\ntry:\n    validate_1d_f64(np.array([[1.0]]))\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "justification_from_packet": "Para S14-T1-A-E3 seguí hints + instruction del quiz_card de «NumPy y cómputo vectorizado». Concepto ancla del packet: ufuncs y reducciones. Resultado implementado con `import numpy as np` respondiendo a: «E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Estimación de acierto 0.642. Traza local: sección-activa/explorer/S14-T1-A-E3.",
+      "confidence": 0.642,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "id": "S14-T1-B-E1",
+      "code": "# packet solve S14-T1-B-E1\nimport numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nmask = score >= 0.5\nprint(np.where(mask)[0].tolist())\n",
+      "justification_from_packet": "Para S14-T1-B-E1 seguí hints + instruction del quiz_card de «NumPy y cómputo vectorizado». Concepto ancla del packet: `np.array`, `arange`, `linspace` `zeros`/`ones`/`full` crean arrays.. Resultado implementado con `import numpy as np` respondiendo a: «E1 (guiado) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Dado sc…». Estimación de acierto 0.586. Traza local: sección-activa/explorer/S14-T1-B-E1.",
+      "confidence": 0.586,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "id": "S14-T1-B-E2",
+      "code": "# packet solve S14-T1-B-E2\nimport numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nmed = np.median(scores)\nprint(ids[scores < med].tolist())\n",
+      "justification_from_packet": "Para S14-T1-B-E2 seguí hints + instruction del quiz_card de «NumPy y cómputo vectorizado». Concepto ancla del packet: creación, indexación y máscaras. Resultado implementado con `import numpy as np` respondiendo a: «E2 (independiente) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Estimación de acierto 0.899. Traza local: sección-activa/explorer/S14-T1-B-E2.",
+      "confidence": 0.899,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "id": "S14-T1-B-E3",
+      "code": "# packet solve S14-T1-B-E3\nimport numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order].tolist())\n",
+      "justification_from_packet": "Como Explorer en «NumPy y cómputo vectorizado», resolví S14-T1-B-E3 leyendo la instruction: «E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Me apoyé en el subtema/paquete («ufuncs (`np.add`, `np.sqrt`, operadores aplican elemento») y en el demo/theory para completar el starter; la línea clave quedó: `import numpy as np`. Confianza ~0.808 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S14-T1-B-E3.",
+      "confidence": 0.808,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "id": "S14-T2-A-E1",
+      "code": "# packet solve S14-T2-A-E1\nimport numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nc0 = np.round(M.mean(axis=0), 2).tolist()\nc1 = np.round(M.mean(axis=1), 2).tolist()\nprint(c0, \"|\", c1)\n",
+      "justification_from_packet": "Para S14-T2-A-E1 seguí hints + instruction del quiz_card de «NumPy y cómputo vectorizado». Concepto ancla del packet: creación, indexación y máscaras. Resultado implementado con `import numpy as np` respondiendo a: «E1 (guiado) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Matriz …». Estimación de acierto 0.895. Traza local: sección-activa/explorer/S14-T2-A-E1.",
+      "confidence": 0.895,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "id": "S14-T2-A-E2",
+      "code": "# packet solve S14-T2-A-E2\nimport numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(scores.std(axis=0), 4).tolist())\n",
+      "justification_from_packet": "Exploración de S14-T2-A-E2 en NumPy y cómputo vectorizado: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Enlacé con «ufuncs y reducciones» del theory y escribí `import numpy as np`. No usé claves offline; solo packet activo (conf 0.799). Traza local: sección-activa/explorer/S14-T2-A-E2.",
+      "confidence": 0.799,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "id": "S14-T2-A-E3",
+      "code": "# packet solve S14-T2-A-E3\nimport numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xc.mean(axis=1), 1).tolist())\n",
+      "justification_from_packet": "Como Explorer en «NumPy y cómputo vectorizado», resolví S14-T2-A-E3 leyendo la instruction: «E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Me apoyé en el subtema/paquete («ufuncs (`np.add`, `np.sqrt`, operadores aplican elemento») y en el demo/theory para completar el starter; la línea clave quedó: `import numpy as np`. Confianza ~0.866 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S14-T2-A-E3.",
+      "confidence": 0.866,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "id": "S14-T2-B-E1",
+      "code": "# packet solve S14-T2-B-E1\nimport numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\nout = M + w\nprint(out.tolist())\n",
+      "justification_from_packet": "Exploración de S14-T2-B-E1 en NumPy y cómputo vectorizado: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E1 (guiado) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Suma el…». Enlacé con «ndarray, dtype y shape» del theory y escribí `import numpy as np`. No usé claves offline; solo packet activo (conf 0.710). Traza local: sección-activa/explorer/S14-T2-B-E1.",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "id": "S14-T2-B-E2",
+      "code": "# packet solve S14-T2-B-E2\nimport numpy as np\na = np.arange(4)\nb = np.arange(3)\nprod = a[:, None] * b\nprint(prod.shape, prod.tolist())\n",
+      "justification_from_packet": "Para S14-T2-B-E2 seguí hints + instruction del quiz_card de «NumPy y cómputo vectorizado». Concepto ancla del packet: creación, indexación y máscaras. Resultado implementado con `import numpy as np` respondiendo a: «E2 (independiente) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Estimación de acierto 0.637. Traza local: sección-activa/explorer/S14-T2-B-E2.",
+      "confidence": 0.637,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "id": "S14-T2-B-E3",
+      "code": "# packet solve S14-T2-B-E3\nimport numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print('incompatible')\n",
+      "justification_from_packet": "Como Explorer en «NumPy y cómputo vectorizado», resolví S14-T2-B-E3 leyendo la instruction: «E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Me apoyé en el subtema/paquete («ufuncs (`np.add`, `np.sqrt`, operadores aplican elemento») y en el demo/theory para completar el starter; la línea clave quedó: `import numpy as np`. Confianza ~0.959 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S14-T2-B-E3.",
+      "confidence": 0.959,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "id": "S14-T3-A-E1",
+      "code": "# packet solve S14-T3-A-E1\nimport numpy as np\nraw = np.array([1, 2, 3])\nvista = raw[:2]\nvista[0] = 9\nprint(raw.tolist())\n",
+      "justification_from_packet": "Exploración de S14-T3-A-E1 en NumPy y cómputo vectorizado: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E1 (guiado) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Toma ra…». Enlacé con «ufuncs y reducciones» del theory y escribí `import numpy as np`. No usé claves offline; solo packet activo (conf 0.763). Traza local: sección-activa/explorer/S14-T3-A-E1.",
+      "confidence": 0.763,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "id": "S14-T3-A-E2",
+      "code": "# packet solve S14-T3-A-E2\nimport numpy as np\nraw = np.array([1, 2, 3])\ncopia = raw[:2].copy()\ncopia[0] = 9\nprint(raw.tolist(), copia.tolist())\n",
+      "justification_from_packet": "Exploración de S14-T3-A-E2 en NumPy y cómputo vectorizado: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Enlacé con «`np.array`, `arange`, `linspace` `zeros`/`ones`/`full` crean arrays.» del theory y escribí `import numpy as np`. No usé claves offline; solo packet activo (conf 0.608). Traza local: sección-activa/explorer/S14-T3-A-E2.",
+      "confidence": 0.608,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "id": "S14-T3-A-E3",
+      "code": "# packet solve S14-T3-A-E3\nimport numpy as np\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print('blocked')\n",
+      "justification_from_packet": "Exploración de S14-T3-A-E3 en NumPy y cómputo vectorizado: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Enlacé con «ndarray, dtype y shape» del theory y escribí `import numpy as np`. No usé claves offline; solo packet activo (conf 0.815). Traza local: sección-activa/explorer/S14-T3-A-E3.",
+      "confidence": 0.815,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "id": "S14-T3-B-E1",
+      "code": "# packet solve S14-T3-B-E1\nimport numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n",
+      "justification_from_packet": "Como Explorer en «NumPy y cómputo vectorizado», resolví S14-T3-B-E1 leyendo la instruction: «E1 (guiado) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Cuenta …». Me apoyé en el subtema/paquete («ndarray, dtype y shape») y en el demo/theory para completar el starter; la línea clave quedó: `import numpy as np`. Confianza ~0.726 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S14-T3-B-E1.",
+      "confidence": 0.726,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "id": "S14-T3-B-E2",
+      "code": "# packet solve S14-T3-B-E2\nimport numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(float(np.nanmean(x)))\n",
+      "justification_from_packet": "Exploración de S14-T3-B-E2 en NumPy y cómputo vectorizado: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Enlacé con «creación, indexación y máscaras» del theory y escribí `import numpy as np`. No usé claves offline; solo packet activo (conf 0.708). Traza local: sección-activa/explorer/S14-T3-B-E2.",
+      "confidence": 0.708,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "id": "S14-T3-B-E3",
+      "code": "# packet solve S14-T3-B-E3\nimport numpy as np\nx = np.array([1.0, np.inf, 2.0])\ny = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(y)))\n",
+      "justification_from_packet": "Exploración de S14-T3-B-E3 en NumPy y cómputo vectorizado: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Enlacé con «ufuncs (`np.add`, `np.sqrt`, operadores aplican elemento» del theory y escribí `import numpy as np`. No usé claves offline; solo packet activo (conf 0.943). Traza local: sección-activa/explorer/S14-T3-B-E3.",
+      "confidence": 0.943,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "id": "S14-T4-A-E1",
+      "code": "# packet solve S14-T4-A-E1\nimport numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\nloop_sum = 0.0\nfor i in range(len(a)):\n    loop_sum += a[i] * b[i]\nvec_sum = float((a * b).sum())\nprint(abs(loop_sum - vec_sum) < 1e-6)\n",
+      "justification_from_packet": "Como Explorer en «NumPy y cómputo vectorizado», resolví S14-T4-A-E1 leyendo la instruction: «E1 (guiado) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Suma a*…». Me apoyé en el subtema/paquete («creación, indexación y máscaras») y en el demo/theory para completar el starter; la línea clave quedó: `import numpy as np`. Confianza ~0.856 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S14-T4-A-E1.",
+      "confidence": 0.856,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "id": "S14-T4-A-E2",
+      "code": "# packet solve S14-T4-A-E2\nimport numpy as np\na = np.arange(5, dtype=float)\nprint(float((a ** 2).sum()))\n",
+      "justification_from_packet": "Como Explorer en «NumPy y cómputo vectorizado», resolví S14-T4-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Me apoyé en el subtema/paquete («ndarray bloque contiguo strided) datos homogéneos.») y en el demo/theory para completar el starter; la línea clave quedó: `import numpy as np`. Confianza ~0.845 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S14-T4-A-E2.",
+      "confidence": 0.845,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "id": "S14-T4-A-E3",
+      "code": "# packet solve S14-T4-A-E3\nimport numpy as np, time\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\nt0 = time.perf_counter()\nc = a + b\n_ = time.perf_counter() - t0\nprint(\"timed\", bool(abs(c.mean() - 1.0) < 1e-9))\n",
+      "justification_from_packet": "Exploración de S14-T4-A-E3 en NumPy y cómputo vectorizado: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Enlacé con «`np.array`, `arange`, `linspace` `zeros`/`ones`/`full` crean arrays.» del theory y escribí `import numpy as np, time`. No usé claves offline; solo packet activo (conf 0.869). Traza local: sección-activa/explorer/S14-T4-A-E3.",
+      "confidence": 0.869,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "id": "S14-T4-B-E1",
+      "code": "# packet solve S14-T4-B-E1\nimport numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n",
+      "justification_from_packet": "Para S14-T4-B-E1 seguí hints + instruction del quiz_card de «NumPy y cómputo vectorizado». Concepto ancla del packet: ufuncs (`np.add`, `np.sqrt`, operadores aplican elemento. Resultado implementado con `import numpy as np` respondiendo a: «E1 (guiado) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Imprime…». Estimación de acierto 0.690. Traza local: sección-activa/explorer/S14-T4-B-E1.",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "id": "S14-T4-B-E2",
+      "code": "# packet solve S14-T4-B-E2\nimport numpy as np\nprint(bool(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8)))\n",
+      "justification_from_packet": "Como Explorer en «NumPy y cómputo vectorizado», resolví S14-T4-B-E2 leyendo la instruction: «E2 (independiente) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Me apoyé en el subtema/paquete («ndarray, dtype y shape») y en el demo/theory para completar el starter; la línea clave quedó: `import numpy as np`. Confianza ~0.649 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S14-T4-B-E2.",
+      "confidence": 0.649,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "id": "S14-T4-B-E3",
+      "code": "# packet solve S14-T4-B-E3\nimport numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print('fail')\n",
+      "justification_from_packet": "Para S14-T4-B-E3 seguí hints + instruction del quiz_card de «NumPy y cómputo vectorizado». Concepto ancla del packet: ndarray bloque contiguo strided) datos homogéneos.. Resultado implementado con `import numpy as np` respondiendo a: «E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: …». Estimación de acierto 0.758. Traza local: sección-activa/explorer/S14-T4-B-E3.",
+      "confidence": 0.758,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #0 de «NumPy y cómputo vectorizado»: pregunta «¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?». Elegí índice 1 → «dtype» porque el theory/outcomes del packet («ufuncs y reducciones», «ndarray, dtype y shape») describen ese matiz de forma directa. Explorer conf~0.635.",
+      "confidence": 0.635
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #1 de «NumPy y cómputo vectorizado»: pregunta «Una máscara booleana a > 0.5 se usa principalmente para:». Elegí índice 3 → «Filtrar o seleccionar elementos que cumplen la condición» porque el theory/outcomes del packet («ufuncs y reducciones», «creación, indexación y máscaras») describen ese matiz de forma directa. Explorer conf~0.927.",
+      "confidence": 0.927
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #2 de «NumPy y cómputo vectorizado»: pregunta «axis=0 en una reducción sobre una matriz 2D suele agregar:». Elegí índice 0 → «Por columna (colapsa filas)» porque el theory/outcomes del packet («ufuncs y reducciones», «ufuncs y reducciones») describen ese matiz de forma directa. Explorer conf~0.931.",
+      "confidence": 0.931
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #3 de «NumPy y cómputo vectorizado»: pregunta «Mutar un slice simple de un ndarray normalmente:». Elegí índice 2 → «Puede mutar el array base porque suele ser un view» porque el theory/outcomes del packet («ufuncs (`np.add`, `np.sqrt`, operadores aplican elemento», «ndarray, dtype y shape») describen ese matiz de forma directa. Explorer conf~0.856.",
+      "confidence": 0.856
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:30:06.769820+00:00",
+  "session_started_at": "2026-07-23T13:29:30.733129+00:00",
+  "session_ended_at": "2026-07-23T13:30:06.768470+00:00",
+  "receipt_response_sha256": "73885de4c3f50991cccaf436376278cc00dca0149d3f0254c54227463ebecfe3",
+  "receipt_exercises_sha256": "fc4d7165d7b8b44cee3adb86a8f2117af1d53d2b28cfd23bf0a816230b63160a",
+  "receipt_selfcheck_sha256": "182e0453f6dc4ba482ef2b4430becb94c7fd14916675cfeb45802dbb3f024ef9"
+}

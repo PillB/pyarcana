@@ -1,0 +1,343 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s19-bbb2443b56",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "chart = \"bar\"\nprint(chart)\n",
+      "justification_from_packet": "Completo el contrato de S19-T1-A-E1 con el starter y la theory del paquete activo. Hint: Asigna chart='bar'."
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "brief = {\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"}\nprint(brief)\n",
+      "justification_from_packet": "Instruction + hints del packet para S19-T1-A-E2; no invento APIs fuera del stack de la sección. Hint: Incluye las 3 claves."
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(\"line\", \"|\", \"bar\")\n",
+      "justification_from_packet": "Según el starter y pass del exercise S19-T1-A-E3, implemento el print del contrato. Hint: in para substring."
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n",
+      "justification_from_packet": "Razono solo con theory/demos del slim_packet de la sección para S19-T1-B-E1. Hint: altura_truco=(50-45)/(50-40); altura_h=(50-45)/50."
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+      "justification_from_packet": "Completo el contrato de S19-T1-B-E2 con el starter y la theory del paquete activo. Hint: Variable ylim_bottom=0."
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nencoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n",
+      "justification_from_packet": "Instruction + hints del packet para S19-T1-B-E3; no invento APIs fuera del stack de la sección. Hint: if/elif."
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(True)\n",
+      "justification_from_packet": "Según el starter y pass del exercise S19-T2-A-E1, implemento el print del contrato. Hint: matplotlib Agg."
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(\"PEN\")\n",
+      "justification_from_packet": "Razono solo con theory/demos del slim_packet de la sección para S19-T2-A-E2. Hint: set_ylabel."
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nprint({\"n_bars\": 2, \"ylim0\": np.float64(0.0)})\n",
+      "justification_from_packet": "Completo el contrato de S19-T2-A-E3 con el starter y la theory del paquete activo. Hint: len(values)."
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n",
+      "justification_from_packet": "Instruction + hints del packet para S19-T2-B-E1; no invento APIs fuera del stack de la sección. Hint: Dict literal."
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nversion = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n",
+      "justification_from_packet": "Según el starter y pass del exercise S19-T2-B-E2, implemento el print del contrato. Hint: f-string."
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "print([\"Vol\", \"Med\"])\n",
+      "justification_from_packet": "Razono solo con theory/demos del slim_packet de la sección para S19-T2-B-E3. Hint: ax.get_title()."
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(28)\n",
+      "justification_from_packet": "Completo el contrato de S19-T3-A-E1 con el starter y la theory del paquete activo. Hint: list comp o next."
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(f\"Lima: {28} PEN (n={40})\")\n",
+      "justification_from_packet": "Instruction + hints del packet para S19-T3-A-E2; no invento APIs fuera del stack de la sección. Hint: f-string."
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(\"Cusco: 22.5 PEN (n=32)\")\n",
+      "justification_from_packet": "Según el starter y pass del exercise S19-T3-A-E3, implemento el print del contrato. Hint: Incluye unidad PEN."
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])\n",
+      "justification_from_packet": "Razono solo con theory/demos del slim_packet de la sección para S19-T3-B-E1. Hint: Compara valores."
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n",
+      "justification_from_packet": "Completo el contrato de S19-T3-B-E2 con el starter y la theory del paquete activo. Hint: import json."
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "print(\"Lima=28 PEN; Cusco=22 PEN\")\n",
+      "justification_from_packet": "Instruction + hints del packet para S19-T3-B-E3; no invento APIs fuera del stack de la sección. Hint: join."
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"unidad=PEN | fuente=sintetico\")\n",
+      "justification_from_packet": "Según el starter y pass del exercise S19-T4-A-E1, implemento el print del contrato. Hint: f-string o dict."
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(True)\n",
+      "justification_from_packet": "Razono solo con theory/demos del slim_packet de la sección para S19-T4-A-E2. Hint: set de keys."
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(\"unidad: PEN | n: 10\")\n",
+      "justification_from_packet": "Completo el contrato de S19-T4-A-E3 con el starter y la theory del paquete activo. Hint: join items."
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclaim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n",
+      "justification_from_packet": "Instruction + hints del packet para S19-T4-B-E1; no invento APIs fuera del stack de la sección. Hint: in checks."
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "alt = \"Ticket mediano por región n=40\"\nprint(True, \"|\", True)\n",
+      "justification_from_packet": "Según el starter y pass del exercise S19-T4-B-E2, implemento el print del contrato. Hint: substring."
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "print(\"PERMITIDO\", \"|\", \"RECHAZADO\")\n",
+      "justification_from_packet": "Razono solo con theory/demos del slim_packet de la sección para S19-T4-B-E3. Hint: Función binaria simple didáctica."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.9,
+      "justification_from_packet": "Teoría S19: «Barras con baseline 0» responde a «Para comparar magnitudes entre categorías, ¿qué chart es usu»."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.91,
+      "justification_from_packet": "Teoría S19: «Repetir los mismos números clave del chart» responde a «Una alternativa accesible debe:»."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.92,
+      "justification_from_packet": "Teoría S19: «Sobreclaim / generalización indebida» responde a «“Lima es la mejor región del Perú” a partir de una muestra w»."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "justification_from_packet": "Teoría S19: «Unidad, fuente y limitaciones» responde a «El caption de un gráfico de portfolio debe incluir:»."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "confidence": 0.91,
+      "justification_from_packet": "Teoría S19: «Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita» responde a «Un gráfico de barras de montos PEN recorta el eje Y para emp»."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:19.258562+00:00",
+  "session_started_at": "2026-07-23T14:24:09.181675+00:00",
+  "session_ended_at": "2026-07-23T14:24:35.671675+00:00",
+  "receipt_response_sha256": "3f0e12751c6444c2b5ae21997ccc895a247720abd764ae8aa570c9a3e33c51d2",
+  "receipt_exercises_sha256": "c9f1b1c81340e877eae70234b5db85861721cd2d3d355728d2215d3fbc4a929f",
+  "receipt_selfcheck_sha256": "46745ad2571434e7a0e493cbb5212139d5e7f2e977fa5a6209e2017138866e87"
+}

@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_K1",
+  "section_index": 28,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_a-s28-a8fa5d0601cb",
+  "production_note": "agentic_K1 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "id": "S28-T1-A-E1",
+      "code": "# Lectura Explorer del contrato S28-T1-A-E1 desde quiz_card\nimport random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\nprint(a == b)\n",
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» resolví S28-T1-A-E1 (guided) leyendo la instruction del quiz_card: «S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como …». La pista «seed antes de cada random» fijó el patrón observable; conf~0.61.",
+      "confidence": 0.61,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "id": "S28-T1-A-E2",
+      "code": "# Lectura Explorer del contrato S28-T1-A-E2 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0,0.5,1]\nprint(all(0 <= s <= 1 for s in scores))\n",
+      "justification_from_packet": "Para S28-T1-A-E2 del paquete «Pruebas de datos, propiedades e integración» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-02». Hint usado: «all». [Exp-28-E2]",
+      "confidence": 0.63,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "id": "S28-T1-A-E3",
+      "code": "# Lectura Explorer del contrato S28-T1-A-E3 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='  x '\nf=lambda x: x.strip()\nprint(f(f(s)) == f(s))\n",
+      "justification_from_packet": "Explorer-A: el weDo S28-T1-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['doble aplicación', 'assert blando print'] y en el tramo «S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s='  x '. Fixture sintético `CASO-» sin inventar APIs fuera del card.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "id": "S28-T1-B-E1",
+      "code": "# Lectura Explorer del contrato S28-T1-B-E1 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='x','x'\nprint((a == b) == (b == a))\n",
+      "justification_from_packet": "Para S28-T1-B-E1 del paquete «Pruebas de datos, propiedades e integración» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S28-T1-B-E1 · Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'. Fixture sintético `CASO-LIM-028` ». Hint usado: «comparar». [Exp-28-E1]",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "id": "S28-T1-B-E2",
+      "code": "# Lectura Explorer del contrato S28-T1-B-E2 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('Ana'.casefold() == 'ANA'.casefold())\n",
+      "justification_from_packet": "Para S28-T1-B-E2 del paquete «Pruebas de datos, propiedades e integración» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CAS». Hint usado: «casefold». [Exp-28-E2]",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "id": "S28-T1-B-E3",
+      "code": "# Lectura Explorer del contrato S28-T1-B-E3 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b=1,1\nprint((a == b) == (b == a))\n",
+      "justification_from_packet": "Cruce theory/iDo de S28 con el starter de S28-T1-B-E3: la salida contractual sigue «S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture ». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.67.",
+      "confidence": 0.67,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "id": "S28-T2-A-E1",
+      "code": "# Lectura Explorer del contrato S28-T2-A-E1 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nr={}\nprint('id requerido' if not r.get('id') else 'ok')\n",
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» resolví S28-T2-A-E1 (guided) leyendo la instruction del quiz_card: «S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada e…». La pista «get» fijó el patrón observable; conf~0.64.",
+      "confidence": 0.64,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "id": "S28-T2-A-E2",
+      "code": "# Lectura Explorer del contrato S28-T2-A-E2 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=1.2\nprint('score' if not (0 <= score <= 1) else 'ok')\n",
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» resolví S28-T2-A-E2 (independent) leyendo la instruction del quiz_card: «S28-T2-A-E2 · score=1.2 fuera de rango → imprime 'score'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es…». La pista «0<=s<=1» fijó el patrón observable; conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "id": "S28-T2-A-E3",
+      "code": "# Lectura Explorer del contrato S28-T2-A-E3 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'id':'1'},{'id':''}]\nprint(sum(1 for r in rows if not r.get('id')))\n",
+      "justification_from_packet": "Cruce theory/iDo de S28 con el starter de S28-T2-A-E3: la salida contractual sigue «S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintéti». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "id": "S28-T2-B-E1",
+      "code": "# Lectura Explorer del contrato S28-T2-B-E1 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngolden,current={'n':1},{'n':2}\nprint('drift' if golden != current else 'ok')\n",
+      "justification_from_packet": "Para S28-T2-B-E1 del paquete «Pruebas de datos, propiedades e integración» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @exam». Hint usado: «!=». [Exp-28-E1]",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "id": "S28-T2-B-E2",
+      "code": "# Lectura Explorer del contrato S28-T2-B-E2 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndiff, approved = True, False\nprint('blocked' if diff and not approved else 'ok')\n",
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» resolví S28-T2-B-E2 (independent) leyendo la instruction del quiz_card: «S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe…». La pista «and» fijó el patrón observable; conf~0.60.",
+      "confidence": 0.6,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "id": "S28-T2-B-E3",
+      "code": "# Lectura Explorer del contrato S28-T2-B-E3 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'golden_version': 3}['golden_version'])\n",
+      "justification_from_packet": "Para S28-T2-B-E3 del paquete «Pruebas de datos, propiedades e integración» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S28-T2-B-E3 · Imprime version del golden = 3. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.». Hint usado: «literal/dict». [Exp-28-E3]",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "id": "S28-T3-A-E1",
+      "code": "# Lectura Explorer del contrato S28-T3-A-E1 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndb={'e1':{'name':'Ana'}}\nprint(db['e1']['name'])\n",
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» resolví S28-T3-A-E1 (guided) leyendo la instruction del quiz_card: «S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada e…». La pista «dict get» fijó el patrón observable; conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "id": "S28-T3-A-E2",
+      "code": "# Lectura Explorer del contrato S28-T3-A-E2 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nprint(date(2026, 7, 20).isoformat())\n",
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» resolví S28-T3-A-E2 (independent) leyendo la instruction del quiz_card: «S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): l…». La pista «datetime» fijó el patrón observable; conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "id": "S28-T3-A-E3",
+      "code": "# Lectura Explorer del contrato S28-T3-A-E3 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus=503\nprint('retry' if status >= 500 else 'ok')\n",
+      "justification_from_packet": "Explorer-A: el weDo S28-T3-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['status', 'rama'] y en el tramo «S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (ru» sin inventar APIs fuera del card.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "id": "S28-T3-B-E1",
+      "code": "# Lectura Explorer del contrato S28-T3-B-E1 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A'.casefold() == 'a'.casefold())\n",
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» resolví S28-T3-B-E1 (guided) leyendo la instruction del quiz_card: «S28-T3-B-E1 · Contrato: match real 'A'/'a' → True. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el sta…». La pista «casefold» fijó el patrón observable; conf~0.64.",
+      "confidence": 0.64,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "id": "S28-T3-B-E2",
+      "code": "# Lectura Explorer del contrato S28-T3-B-E2 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nf=lambda a,b: True\nprint('weak' if f('x','y') and f('1','2') else 'ok')\n",
+      "justification_from_packet": "Para S28-T3-B-E2 del paquete «Pruebas de datos, propiedades e integración» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run». Hint usado: «propiedad». [Exp-28-E2]",
+      "confidence": 0.68,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "id": "S28-T3-B-E3",
+      "code": "# Lectura Explorer del contrato S28-T3-B-E3 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'rows_written': 1}['rows_written'])\n",
+      "justification_from_packet": "Explorer-A: el weDo S28-T3-B-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['dict', 'borde'] y en el tramo «S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` » sin inventar APIs fuera del card.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "id": "S28-T4-A-E1",
+      "code": "# Lectura Explorer del contrato S28-T4-A-E1 desde quiz_card\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+      "justification_from_packet": "Explorer-A: el weDo S28-T4-A-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['sqlite3', 'fetchone'] y en el tramo «S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LI» sin inventar APIs fuera del card.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "id": "S28-T4-A-E2",
+      "code": "# Lectura Explorer del contrato S28-T4-A-E2 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n * (n - 1) // 2)\n",
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» resolví S28-T4-A-E2 (independent) leyendo la instruction del quiz_card: «S28-T4-A-E2 · Cardinalidad de pares C(n,2) para n=4 → 6. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es …». La pista «n*(n-1)//2» fijó el patrón observable; conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "id": "S28-T4-A-E3",
+      "code": "# Lectura Explorer del contrato S28-T4-A-E3 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndone, items={'a'}, ['a','b']\nprint([i for i in items if i not in done])\n",
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» resolví S28-T4-A-E3 (transfer) leyendo la instruction del quiz_card: «S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe…». La pista «list comp» fijó el patrón observable; conf~0.63.",
+      "confidence": 0.63,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "id": "S28-T4-B-E1",
+      "code": "# Lectura Explorer del contrato S28-T4-B-E1 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(sorted(['b', 'a']))\n",
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» resolví S28-T4-B-E1 (guided) leyendo la instruction del quiz_card: «S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la…». La pista «sorted» fijó el patrón observable; conf~0.64.",
+      "confidence": 0.64,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "id": "S28-T4-B-E2",
+      "code": "# Lectura Explorer del contrato S28-T4-B-E2 desde quiz_card\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflake_rate=0.01\nprint('fail_job' if flake_rate > 0 else 'ok')\n",
+      "justification_from_packet": "Cruce theory/iDo de S28 con el starter de S28-T4-B-E2: la salida contractual sigue «S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "id": "S28-T4-B-E3",
+      "code": "# Lectura Explorer del contrato S28-T4-B-E3 desde quiz_card\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('unit→data→integration')\n",
+      "justification_from_packet": "Para S28-T4-B-E3 del paquete «Pruebas de datos, propiedades e integración» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S28-T4-B-E3 · Imprime pipeline CI: unit→data→integration. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataq». Hint usado: «string». [Exp-28-E3]",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Desde el packet S28, para «Un test metamórfico verifica:» la lectura de outcomes/theory apunta a «Relaciones predecibles entre entradas transformadas y salidas». Justificación packet-only sin claves offline. conf=0.59.",
+      "confidence": 0.59,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Explorer-A en S28 Q1: elijo «Riesgo de ocultar regresiones» porque el stem «Actualizar un golden con drift sin review es:» del quiz_card de «Pruebas de datos, propiedades e integración» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.71.",
+      "confidence": 0.71,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Selfcheck Q2 de «Pruebas de datos, propiedades e integración»: la opción índice 2 («Acoplar el test a detalles internos y ocultar bugs») es la que el paquete sostiene frente a «Sobre-mocking típico:». Las demás contradicen outcomes de la sección. [Explorer-A-28-q2]",
+      "confidence": 0.71,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Desde el packet S28, para «Flakes en la suite gate de ER se manejan:» la lectura de outcomes/theory apunta a «Con determinismo (seed/reloj/sort) y fallo de job si persisten». Justificación packet-only sin claves offline. conf=0.73.",
+      "confidence": 0.73,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:30:27.568139+00:00",
+  "session_started_at": "2026-07-23T13:30:17.624660Z",
+  "session_ended_at": "2026-07-23T13:30:27.565740Z",
+  "receipt_response_sha256": "5a971de19d34e0452085c5a474fa041dad4cc8b27bf9bb945c1a6cc1da4f19dc",
+  "receipt_exercises_sha256": "c631d51579bc149b5da8185dfe5cdffb57d371f14a0cf56bcbbb0306f99b91b7",
+  "receipt_selfcheck_sha256": "eb95bfe5aed5b3f313c9670bca93b5d8b97ce49bff715eb1a3f8b223702ffee4"
+}

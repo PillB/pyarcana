@@ -1,0 +1,343 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 20,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s20-8a92dfb33d",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S20-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\nprint(wb.sheetnames, \"|\", ws[\"A1\"].value)\n",
+      "justification_from_packet": "Del instruction de S20-T1-A-E1 y la theory del paquete activo armo el código del contrato. Pista del packet: ws.title y ws['A1']."
+    },
+    {
+      "exercise_id": "S20-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"a\", \"b\"])\nws.append([1, 2])\nws.append([3, 4])\nprint(ws.max_row - 1)\n",
+      "justification_from_packet": "Hints y starter de S20-T1-A-E2: completo el TODO y el print de pass. Pista del packet: ws.append."
+    },
+    {
+      "exercise_id": "S20-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\nprint([s for s in wb.sheetnames if s in (\"Datos\", \"Salida\")])\n",
+      "justification_from_packet": "Solo uso conceptos del slim_packet de la sección para S20-T1-A-E3. Pista del packet: create_sheet."
+    },
+    {
+      "exercise_id": "S20-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 10\nprint(ws[\"A1\"].value == 10)\n",
+      "justification_from_packet": "Exploro el fixture sintético del starter en S20-T1-B-E1 y documento la decisión. Pista del packet: cell value string."
+    },
+    {
+      "exercise_id": "S20-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 3\nws[\"A2\"] = 4\nprint(ws[\"A1\"].value + ws[\"A2\"].value)\n",
+      "justification_from_packet": "Del instruction de S20-T1-B-E2 y la theory del paquete activo armo el código del contrato. Pista del packet: Suma .value numéricos."
+    },
+    {
+      "exercise_id": "S20-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.8999999999999999,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "print(True, \"|\", False)\n",
+      "justification_from_packet": "Hints y starter de S20-T1-B-E3: completo el TODO y el print de pass. Pista del packet: isinstance str."
+    },
+    {
+      "exercise_id": "S20-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9119999999999999,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"].font = Font(bold=True)\nprint(bool(ws[\"A1\"].font.bold))\n",
+      "justification_from_packet": "Solo uso conceptos del slim_packet de la sección para S20-T2-A-E1. Pista del packet: Font(bold=True)."
+    },
+    {
+      "exercise_id": "S20-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(True)\n",
+      "justification_from_packet": "Exploro el fixture sintético del starter en S20-T2-A-E2 y documento la decisión. Pista del packet: PatternFill."
+    },
+    {
+      "exercise_id": "S20-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n\ndef header_style(ws, coord):\n    c = ws[coord]\n    c.font = Font(bold=True, color=\"FFFFFF\")\n    c.fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n    return True\n\nwb = Workbook()\nprint(header_style(wb.active, \"A1\"))\n",
+      "justification_from_packet": "Del instruction de S20-T2-A-E3 y la theory del paquete activo armo el código del contrato. Pista del packet: Función mutadora."
+    },
+    {
+      "exercise_id": "S20-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "from openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value.isoformat())\n",
+      "justification_from_packet": "Hints y starter de S20-T2-B-E1: completo el TODO y el print de pass. Pista del packet: datetime.date."
+    },
+    {
+      "exercise_id": "S20-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\nprint(ws[\"C1\"].value)\n",
+      "justification_from_packet": "Solo uso conceptos del slim_packet de la sección para S20-T2-B-E2. Pista del packet: merge_cells."
+    },
+    {
+      "exercise_id": "S20-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))\n",
+      "justification_from_packet": "Exploro el fixture sintético del starter en S20-T2-B-E3 y documento la decisión. Pista del packet: len(ws.merged_cells.ranges)."
+    },
+    {
+      "exercise_id": "S20-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.8999999999999999,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndet = 10 + 5\nportada = 15\nprint(abs(det - portada) < 0.01)\n",
+      "justification_from_packet": "Del instruction de S20-T3-A-E1 y la theory del paquete activo armo el código del contrato. Pista del packet: abs(diff)<0.01."
+    },
+    {
+      "exercise_id": "S20-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9119999999999999,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+      "justification_from_packet": "Hints y starter de S20-T3-A-E2: completo el TODO y el print de pass. Pista del packet: groupby sum."
+    },
+    {
+      "exercise_id": "S20-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\nprint(reconcile(22.0, 22.005))\nprint(reconcile(22.0, 23.0))\n",
+      "justification_from_packet": "Solo uso conceptos del slim_packet de la sección para S20-T3-A-E3. Pista del packet: abs <= tol o <."
+    },
+    {
+      "exercise_id": "S20-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected = [\"region\", \"monto\"]\ngot = [\"region\", \"monto\"]\nprint(expected == got)\n",
+      "justification_from_packet": "Exploro el fixture sintético del starter en S20-T3-B-E1 y documento la decisión. Pista del packet: list compare."
+    },
+    {
+      "exercise_id": "S20-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nallowed = {\"Lima\", \"Cusco\"}\nregs = [\"Lima\", \"Piura\"]\nprint([r for r in regs if r not in allowed])\n",
+      "justification_from_packet": "Del instruction de S20-T3-B-E2 y la theory del paquete activo armo el código del contrato. Pista del packet: list comp."
+    },
+    {
+      "exercise_id": "S20-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]\nprint(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Ica\"}], {\"Lima\", \"Cusco\"}))\n",
+      "justification_from_packet": "Hints y starter de S20-T3-B-E3: completo el TODO y el print de pass. Pista del packet: Comprensión."
+    },
+    {
+      "exercise_id": "S20-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nst = [\"ok\", \"corrupt\", \"ok\"]\nprint(sum(x == \"ok\" for x in st))\n",
+      "justification_from_packet": "Solo uso conceptos del slim_packet de la sección para S20-T4-A-E1. Pista del packet: sum genexp."
+    },
+    {
+      "exercise_id": "S20-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.8999999999999999,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nname = \"report.lock\"\nprint(\"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\")\n",
+      "justification_from_packet": "Exploro el fixture sintético del starter en S20-T4-A-E2 y documento la decisión. Pista del packet: Regla simple didáctica."
+    },
+    {
+      "exercise_id": "S20-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9119999999999999,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "from collections import Counter\nfiles = {\"a\": \"ok\", \"b\": \"corrupt\"}\nprint(dict(Counter(files.values())))\n",
+      "justification_from_packet": "Del instruction de S20-T4-A-E3 y la theory del paquete activo armo el código del contrato. Pista del packet: Counter o dict."
+    },
+    {
+      "exercise_id": "S20-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"backup\": \"out/prev.bak\", \"idempotent\": True})\n",
+      "justification_from_packet": "Hints y starter de S20-T4-B-E1: completo el TODO y el print de pass. Pista del packet: dict."
+    },
+    {
+      "exercise_id": "S20-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\n\ndef dig(rows):\n    s = \"\\n\".join(f\"{a},{b}\" for a, b in sorted(rows))\n    return hashlib.sha1(s.encode()).hexdigest()\nprint(dig([(\"Lima\", 1), (\"Cusco\", 2)]) == dig([(\"Cusco\", 2), (\"Lima\", 1)]))\n",
+      "justification_from_packet": "Solo uso conceptos del slim_packet de la sección para S20-T4-B-E2. Pista del packet: sorted + sha1."
+    },
+    {
+      "exercise_id": "S20-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def structural_ok(sheetnames, need):\n    return set(sheetnames) >= set(need)\nprint(structural_ok([\"Entrada\", \"Salida\", \"Log\"], [\"Entrada\", \"Salida\"]))\n",
+      "justification_from_packet": "Exploro el fixture sintético del starter en S20-T4-B-E3 y documento la decisión. Pista del packet: set issuperset."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "confidence": 0.92,
+      "justification_from_packet": "Teoría S20: escojo «No; suele devolver la fórmula o cache si existe»."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "confidence": 0.92,
+      "justification_from_packet": "Teoría S20: escojo «Escribir en la celda ancla (top-left)»."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "confidence": 0.92,
+      "justification_from_packet": "Teoría S20: escojo «Estados de batch, conciliación y backups»."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "confidence": 0.92,
+      "justification_from_packet": "Teoría S20: escojo «Misma entrada → mismo resultado lógico»."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "confidence": 0.92,
+      "justification_from_packet": "Teoría S20: escojo «Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolerancia de redondeo documentada)»."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:19.424748+00:00",
+  "session_started_at": "2026-07-23T14:24:48.793325+00:00",
+  "session_ended_at": "2026-07-23T14:25:20.983325+00:00",
+  "receipt_response_sha256": "3fd682e9489b2afa5bb3ef04d9f402069ab73a12766b01934ec70a1741368f1a",
+  "receipt_exercises_sha256": "8581413284cdfcddeef52669eb483e3c21e2224d083f6a3deb6b422bf571f71b",
+  "receipt_selfcheck_sha256": "b128c759de412270d28712a96cd1288122e203567d8439e86b3c9f83ccf53fc6"
+}

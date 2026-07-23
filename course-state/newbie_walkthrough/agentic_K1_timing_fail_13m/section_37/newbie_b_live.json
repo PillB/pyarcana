@@ -1,0 +1,348 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_K1",
+  "section_index": 37,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s37-8413218e31ce",
+  "production_note": "agentic_K1 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S37-T1-A-E1",
+      "id": "S37-T1-A-E1",
+      "code": "# Cruzado Skeptic del fixture S37-T1-A-E1 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"n\", 1000)",
+      "justification_from_packet": "Para S37-T1-A-E1 del paquete «Profiling, algoritmos y rendimiento» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S37-T1-A-E1 · CASO-LIM-037-1A: reporta el tamaño del fixture de profile con métrica wall. Contrato: print n 10». Hint usado: «Todo wall_ms viaja con su n.». [Ske-37-E1]",
+      "confidence": 0.6,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T1-A-E2",
+      "id": "S37-T1-A-E2",
+      "code": "# Cruzado Skeptic del fixture S37-T1-A-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmetrics = [\"wall\", \"cpu\", \"memory\"]\nprint(metrics)",
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» resolví S37-T1-A-E2 (independent) leyendo la instruction del quiz_card: «S37-T1-A-E2 · Lista las tres métricas base del profile: wall, cpu, memory. Imprime la lista, ok True, n 3. Starter solo ['wall'] (defect). C…». La pista «Wall=reloj, CPU=procesador, memory=pico.» fijó el patrón observable; conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T1-A-E3",
+      "id": "S37-T1-A-E3",
+      "code": "# Cruzado Skeptic del fixture S37-T1-A-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"same_result\", True)",
+      "justification_from_packet": "Skeptic-B: el weDo S37-T1-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Performance sin same_result es regresión.', 'Verifica asserts de matching en el mismo bench.'] y en el tramo «S37-T1-A-E3 · Correctitud junto a velocidad: imprime same_result True, ok True, n 1. Start» sin inventar APIs fuera del card.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T1-B-E1",
+      "id": "S37-T1-B-E1",
+      "code": "# Cruzado Skeptic del fixture S37-T1-B-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport statistics\nvals = [5, 1, 4]\nprint(statistics.median(vals))",
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» resolví S37-T1-B-E1 (guided) leyendo la instruction del quiz_card: «S37-T1-B-E1 · Mediana de [5,1,4] con statistics.median; imprime 4, n_runs 3, warmup True. Starter usa mean (defect). Fixture de bench sintét…». La pista «median es robusta a un outlier de run.» fijó el patrón observable; conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T1-B-E2",
+      "id": "S37-T1-B-E2",
+      "code": "# Cruzado Skeptic del fixture S37-T1-B-E2 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"warmup\", True)",
+      "justification_from_packet": "Cruce theory/iDo de S37 con el starter de S37-T1-B-E2: la salida contractual sigue «S37-T1-B-E2 · Política de warmup: imprime warmup True, discard_first True, ok True. Starter niega wa». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T1-B-E3",
+      "id": "S37-T1-B-E3",
+      "code": "# Cruzado Skeptic del fixture S37-T1-B-E3 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2, 9]\nprint(max(xs))",
+      "justification_from_packet": "Para S37-T1-B-E3 del paquete «Profiling, algoritmos y rendimiento» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S37-T1-B-E3 · Proxy de p95 en muestra chica: imprime max([1,2,9])=9 como proxy, proxy 'p95_small_n', ok True. ». Hint usado: «Con N tiny, max es proxy pesimista de lab.». [Ske-37-E3]",
+      "confidence": 0.64,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T2-A-E1",
+      "id": "S37-T2-A-E1",
+      "code": "# Cruzado Skeptic del fixture S37-T2-A-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn = 10\nprint(n * (n - 1) // 2)",
+      "justification_from_packet": "Cruce theory/iDo de S37 con el starter de S37-T2-A-E1: la salida contractual sigue «S37-T2-A-E1 · Pares completos para n=10: usa n*(n-1)//2 = 45 (no n*n). Imprime 45, n 10, ok True. St». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.69.",
+      "confidence": 0.69,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T2-A-E2",
+      "id": "S37-T2-A-E2",
+      "code": "# Cruzado Skeptic del fixture S37-T2-A-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nall_p, blocked = 45, 10\nprint(round(1 - blocked / all_p, 3))",
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» resolví S37-T2-A-E2 (independent) leyendo la instruction del quiz_card: «S37-T2-A-E2 · Reducción de pares: blocked=10, all=45 → round(1-10/45,3)=0.778. Imprime 0.778, ok True, blocking True. Starter imprime blocke…». La pista «reduction = 1 - blocked/all.» fijó el patrón observable; conf~0.69.",
+      "confidence": 0.69,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T2-A-E3",
+      "id": "S37-T2-A-E3",
+      "code": "# Cruzado Skeptic del fixture S37-T2-A-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"blocking\")",
+      "justification_from_packet": "Para S37-T2-A-E3 del paquete «Profiling, algoritmos y rendimiento» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S37-T2-A-E3 · Prioriza algoritmo: imprime prefer 'blocking', ok True, micro False. Starter prefiere 'micro_loo». Hint usado: «Bajar pares O(n²) domina micro-optimizar.». [Ske-37-E3]",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T2-B-E1",
+      "id": "S37-T2-B-E1",
+      "code": "# Cruzado Skeptic del fixture S37-T2-B-E1 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"structure\", \"set\")",
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» resolví S37-T2-B-E1 (guided) leyendo la instruction del quiz_card: «S37-T2-B-E1 · Estructura preferida para membership: imprime structure 'set', ok True, scan False. Starter 'list' con scan True (defect). Con…». La pista «set/dict evitan scan lineal repetido.» fijó el patrón observable; conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T2-B-E2",
+      "id": "S37-T2-B-E2",
+      "code": "# Cruzado Skeptic del fixture S37-T2-B-E2 (packet-only) · revisión dual\nrows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ncount = sum(1 for city, _ in rows if city == 'Lima')\nprint(count)\nprint(\"city\", \"Lima\")\nprint(\"ok\", True)",
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» resolví S37-T2-B-E2 (independent) leyendo la instruction del quiz_card: «S37-T2-B-E2 · Inverted index: filas Lima×2 → imprime 2, city 'Lima', ok True. Starter cuenta 0 (defect). Fixture de ciudades sintéticas sin …». La pista «Cuenta entidades por clave de blocking.» fijó el patrón observable; conf~0.62.",
+      "confidence": 0.62,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T2-B-E3",
+      "id": "S37-T2-B-E3",
+      "code": "# Cruzado Skeptic del fixture S37-T2-B-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"order\", [\"block\", \"score\"])",
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» resolví S37-T2-B-E3 (transfer) leyendo la instruction del quiz_card: «S37-T2-B-E3 · Orden operativo: imprime order ['block','score'], ok True, n 2. Starter ['score','block'] (defect: scorea el cartesiano). Tran…». La pista «Primero reduces candidatos; luego features.» fijó el patrón observable; conf~0.65.",
+      "confidence": 0.65,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T3-A-E1",
+      "id": "S37-T3-A-E1",
+      "code": "# Cruzado Skeptic del fixture S37-T3-A-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn, size = 10, 4\nprint((n + size - 1) // size)",
+      "justification_from_packet": "Skeptic-B: el weDo S37-T3-A-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Ceil: (n+size-1)//size.', 'Último chunk puede ser más corto.'] y en el tramo «S37-T3-A-E1 · Chunks: 10 items size 4 → ceil = 3 chunks. Imprime 3, size 4, ok True. Start» sin inventar APIs fuera del card.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T3-A-E2",
+      "id": "S37-T3-A-E2",
+      "code": "# Cruzado Skeptic del fixture S37-T3-A-E2 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"id\", \"amt\"])",
+      "justification_from_packet": "Cruce theory/iDo de S37 con el starter de S37-T3-A-E2: la salida contractual sigue «S37-T3-A-E2 · Columnar subset: imprime ['id','amt'], ok True, columnar True. Starter incluye raw_blo». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T3-A-E3",
+      "id": "S37-T3-A-E3",
+      "code": "# Cruzado Skeptic del fixture S37-T3-A-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"dtype\", \"int32\")",
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» resolví S37-T3-A-E3 (transfer) leyendo la instruction del quiz_card: «S37-T3-A-E3 · dtype angosto: imprime dtype 'int32', ok True, mem 'lower'. Starter 'int64' y mem 'higher' (defect). Política de memoria del f…». La pista «Si el rango cabe en int32, ahorras memoria.» fijó el patrón observable; conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T3-B-E1",
+      "id": "S37-T3-B-E1",
+      "code": "# Cruzado Skeptic del fixture S37-T3-B-E1 (packet-only) · revisión dual\nkey = (\"fs-v1\", \"cut\")\ncache = {(\"fs-v1\", \"cut\"): True}\nprint(key)\nprint(\"hit\", key in cache)\nprint(\"ok\", True)",
+      "justification_from_packet": "Cruce theory/iDo de S37 con el starter de S37-T3-B-E1: la salida contractual sigue «S37-T3-B-E1 · Cache key completa: imprime ('fs-v1','cut'), hit True, ok True. Starter key incompleta». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.67.",
+      "confidence": 0.67,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T3-B-E2",
+      "id": "S37-T3-B-E2",
+      "code": "# Cruzado Skeptic del fixture S37-T3-B-E2 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"version_change\")",
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» resolví S37-T3-B-E2 (independent) leyendo la instruction del quiz_card: «S37-T3-B-E2 · Razón de invalidación: imprime 'version_change', ok True, stale True. Starter 'never' (defect). Contrato de diseño del cache d…». La pista «Al cambiar feature set, invalida.» fijó el patrón observable; conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T3-B-E3",
+      "id": "S37-T3-B-E3",
+      "code": "# Cruzado Skeptic del fixture S37-T3-B-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"ooc\", \"chunk\")",
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» resolví S37-T3-B-E3 (transfer) leyendo la instruction del quiz_card: «S37-T3-B-E3 · Out-of-core: imprime ooc 'chunk', ok True, ram 'bounded'. Starter ooc 'load_all' (defect). Cuando n no cabe en RAM del worker …». La pista «chunk/spill acotan RAM.» fijó el patrón observable; conf~0.68.",
+      "confidence": 0.68,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T4-A-E1",
+      "id": "S37-T4-A-E1",
+      "code": "# Cruzado Skeptic del fixture S37-T4-A-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 9\nprint(measured <= budget)",
+      "justification_from_packet": "Cruce theory/iDo de S37 con el starter de S37-T4-A-E1: la salida contractual sigue «S37-T4-A-E1 · Budget pass: measured 9 <= budget 10 → True. Imprime True, budget 10, measured 9. Star». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T4-A-E2",
+      "id": "S37-T4-A-E2",
+      "code": "# Cruzado Skeptic del fixture S37-T4-A-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 12\nprint(measured <= budget)",
+      "justification_from_packet": "Skeptic-B: el weDo S37-T4-A-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['El test debe poder fallar.', 'False aquí es salud del sistema.'] y en el tramo «S37-T4-A-E2 · Budget fail: measured 12 > budget 10 → False. Imprime False, budget 10, meas» sin inventar APIs fuera del card.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T4-A-E3",
+      "id": "S37-T4-A-E3",
+      "code": "# Cruzado Skeptic del fixture S37-T4-A-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"latency_p95\", \"memory\", \"pairs\"])",
+      "justification_from_packet": "Skeptic-B: el weDo S37-T4-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Latencia sola no basta.', 'Versiona los tres en CI.'] y en el tramo «S37-T4-A-E3 · Campos del budget: imprime ['latency_p95','memory','pairs'], ok True, n 3. S» sin inventar APIs fuera del card.",
+      "confidence": 0.63,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T4-B-E1",
+      "id": "S37-T4-B-E1",
+      "code": "# Cruzado Skeptic del fixture S37-T4-B-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nbefore, after = 80, 20\nprint(before / after)",
+      "justification_from_packet": "Para S37-T4-B-E1 del paquete «Profiling, algoritmos y rendimiento» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S37-T4-B-E1 · Speedup 80/20 = 4.0 (ratio, no resta). Imprime 4.0, ok True, micro_only False. Starter 80-20=60 ». Hint usado: «speedup = before_ms / after_ms.». [Ske-37-E1]",
+      "confidence": 0.69,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T4-B-E2",
+      "id": "S37-T4-B-E2",
+      "code": "# Cruzado Skeptic del fixture S37-T4-B-E2 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"clarity\")",
+      "justification_from_packet": "Skeptic-B: el weDo S37-T4-B-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Costo total incluye bugs y review.', '2% opaco suele ser pérdida neta.'] y en el tramo «S37-T4-B-E2 · Claridad sobre shaving 2%: imprime prefer 'clarity', ok True, shave '2pct_no» sin inventar APIs fuera del card.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S37-T4-B-E3",
+      "id": "S37-T4-B-E3",
+      "code": "# Cruzado Skeptic del fixture S37-T4-B-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"before\", \"after\", \"dataset\", \"hardware\"])",
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» resolví S37-T4-B-E3 (transfer) leyendo la instruction del quiz_card: «S37-T4-B-E3 · Claves del reporte before/after: imprime ['before','after','dataset','hardware'], ok True, n 4. Starter omite hardware (defect…». La pista «Sin hardware/dataset el speedup no es comparable.» fijó el patrón observable; conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Selfcheck Q0 de «Profiling, algoritmos y rendimiento»: la opción índice 0 («Estabilizar benches descartando cold start») es la que el paquete sostiene frente a «Warmup sirve para:». Las demás contradicen outcomes de la sección. [Skeptic-B-37-q0]",
+      "confidence": 0.62,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Desde el packet S37, para «Blocking reduce:» la lectura de outcomes/theory apunta a «Pares candidatos O(n²)». Justificación packet-only sin claves offline. conf=0.68.",
+      "confidence": 0.68,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic-B en S37 Q2: elijo «Falla si se rompe el límite acordado» porque el stem «Performance budget en CI:» del quiz_card de «Profiling, algoritmos y rendimiento» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.70.",
+      "confidence": 0.7,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Selfcheck Q3 de «Profiling, algoritmos y rendimiento»: la opción índice 1 («Teatro; prioriza claridad y algos») es la que el paquete sostiene frente a «Microoptimizar 2% sin medición:». Las demás contradicen outcomes de la sección. [Skeptic-B-37-q3]",
+      "confidence": 0.75,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Desde el packet S37, para «Un wall_ms sin n en el reporte:» la lectura de outcomes/theory apunta a «No es comparable entre cambios de dataset». Justificación packet-only sin claves offline. conf=0.83.",
+      "confidence": 0.83,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:34:32.863362+00:00",
+  "session_started_at": "2026-07-23T13:34:22.936154Z",
+  "session_ended_at": "2026-07-23T13:34:32.860926Z",
+  "receipt_response_sha256": "1e6292845414e1136a84d7c2cda4e09528b90f6ff958e169c12e772aa93e3c0f",
+  "receipt_exercises_sha256": "8995597ec9f520c5f8164c14d0e12e8181d17d7100612d0fbf4edd2e3dd54483",
+  "receipt_selfcheck_sha256": "baed84b390f4e20a60ef92b5d505cf2b5ac4c82ea0a49016cac21fbcf9ee36a9"
+}

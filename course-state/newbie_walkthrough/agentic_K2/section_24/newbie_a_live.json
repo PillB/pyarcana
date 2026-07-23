@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-exp-s24-932eaef4c34b",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "id": "S24-T1-A-E1",
+      "code": "dpi=96\nprint(max(dpi, 200))",
+      "justification_from_packet": "Como explorador en S24-T1-A-E1, sigo la instrucción del quiz_card: Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el entero resulta. Aplico el hint «contrato I/O en.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Preproceso",
+        "intake",
+        "dpi",
+        "escaneo",
+        "dpi",
+        "eleva",
+        "con",
+        "max"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "id": "S24-T1-A-E2",
+      "code": "skew=1.2\nprint(abs(skew) >= 0.5)",
+      "justification_from_packet": "Como explorador en S24-T1-A-E2, sigo la instrucción del quiz_card: Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral didáctico. Aplico el hint «contrato I/O en.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Deskew",
+        "flag",
+        "skew",
+        "grados",
+        "deskew_applied",
+        "abs",
+        "skew",
+        "imprime"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "id": "S24-T1-A-E3",
+      "code": "w=h=1000\nm=0.05\nprint((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))",
+      "justification_from_packet": "Como explorador en S24-T1-A-E3, sigo la instrucción del quiz_card: Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen es. Aplico el hint «contrato I/O en.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Crop",
+        "lienzo",
+        "imprime",
+        "tupla",
+        "Contrato",
+        "enteros",
+        "origen",
+        "esquina"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "id": "S24-T1-B-E1",
+      "code": "s={0:0.1,90:0.8}\nprint(max(s, key=s.get))",
+      "justification_from_packet": "Como explorador en S24-T1-B-E1, sigo la instrucción del quiz_card: Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de grados. Co. Aplico el hint «contrato I/O en.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "scores",
+        "Elige",
+        "key",
+        "mayor",
+        "score",
+        "imprime",
+        "entero",
+        "grados"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "id": "S24-T1-B-E2",
+      "code": "flags=[0,1,1,0]\nprint(sum(flags))",
+      "justification_from_packet": "Como explorador en S24-T1-B-E2, sigo la instrucción del quiz_card: Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(flags) o co. Aplico el hint «contrato I/O en.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Ruido",
+        "binario",
+        "flags",
+        "donde",
+        "ruido",
+        "marcado",
+        "Cuenta",
+        "unos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "id": "S24-T1-B-E3",
+      "code": "score=0.4\nprint('manual_orient' if score < 0.5 else 'auto')",
+      "justification_from_packet": "Como explorador en S24-T1-B-E3, sigo la instrucción del quiz_card: Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed. Aplico el hint «contrato I/O en.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Gate",
+        "score",
+        "score_orient",
+        "imprime",
+        "manual_orient",
+        "else",
+        "auto",
+        "Contrato"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "id": "S24-T2-A-E1",
+      "code": "toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.85])",
+      "justification_from_packet": "Como explorador en S24-T2-A-E1, sigo la instrucción del quiz_card: Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de text. Contr. Aplico el hint «contrato I/O en.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Filtro",
+        "confidence",
+        "toks",
+        "con",
+        "conf",
+        "textos",
+        "con",
+        "conf"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "id": "S24-T2-A-E2",
+      "code": "def ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint(ocr('Hola')['lang'])",
+      "justification_from_packet": "Como explorador en S24-T2-A-E2, sigo la instrucción del quiz_card: Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e imprime lang. Contrato: s. Aplico el hint «contrato I/O en.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Idioma",
+        "por",
+        "defecto",
+        "del",
+        "adapter",
+        "construye",
+        "resultado",
+        "OCR"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "id": "S24-T2-A-E3",
+      "code": "confs=[0.9,0.75,0.95]\nm=min(confs)\nprint(m, 'review' if m < 0.8 else 'auto')",
+      "justification_from_packet": "Como explorador en S24-T2-A-E3, sigo la instrucción del quiz_card: Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución). . Aplico el hint «contrato I/O en.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Min",
+        "conf",
+        "campos",
+        "confs",
+        "Imprime",
+        "min",
+        "status",
+        "review"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "id": "S24-T2-B-E1",
+      "code": "s='Total: 12.5'\nk,v=s.split(':',1)\nprint(k.strip(), v.strip())",
+      "justification_from_packet": "Como explorador en S24-T2-B-E1, sigo la instrucción del quiz_card: KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Contrato: str. Aplico el hint «contrato I/O en.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "parse",
+        "Total",
+        "Separa",
+        "clave",
+        "valor",
+        "por",
+        "imprime",
+        "Total"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "id": "S24-T2-B-E2",
+      "code": "t=[['H1','H2'],['a','b']]\nprint(len(t)-1)",
+      "justification_from_packet": "Como explorador en S24-T2-B-E2, sigo la instrucción del quiz_card: Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: header no cuent. Aplico el hint «contrato I/O en.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Tabla",
+        "Imprime",
+        "filas",
+        "datos",
+        "len",
+        "Contrato",
+        "header",
+        "cuenta"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "id": "S24-T2-B-E3",
+      "code": "field={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint(field['bbox'], field['value'])",
+      "justification_from_packet": "Como explorador en S24-T2-B-E3, sigo la instrucción del quiz_card: Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Con. Aplico el hint «contrato I/O en.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Evidencia",
+        "adjunta",
+        "bbox",
+        "field",
+        "RUC",
+        "valor",
+        "imprime",
+        "bbox"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "id": "S24-T3-A-E1",
+      "code": "import re\ns='20-123'\nprint(re.sub(r'\\D', '', s))",
+      "justification_from_packet": "Como explorador en S24-T3-A-E1, sigo la instrucción del quiz_card: Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valida longitud. Aplico el hint «contrato I/O en.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Normaliza",
+        "dejando",
+        "solo",
+        "sub",
+        "Imprime",
+        "Contrato",
+        "valida",
+        "longitud"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "id": "S24-T3-A-E2",
+      "code": "from datetime import datetime\nprint(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())",
+      "justification_from_packet": "Como explorador en S24-T3-A-E2, sigo la instrucción del quiz_card: Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY. Pass: 2026-01-15.. Aplico el hint «contrato I/O en.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Fecha",
+        "boleta",
+        "ISO",
+        "con",
+        "datetime",
+        "Contrato",
+        "dayfirst",
+        "YYYY"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "id": "S24-T3-A-E3",
+      "code": "import re\nraw='123'\nd=re.sub(r'\\D','',raw)\nprint(d if len(d)==11 else None)",
+      "justification_from_packet": "Como explorador en S24-T3-A-E3, sigo la instrucción del quiz_card: RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa. Aplico el hint «contrato I/O en.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "RUC",
+        "raw",
+        "normaliza",
+        "len",
+        "imprime",
+        "None",
+        "Contrato",
+        "pad"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "id": "S24-T3-B-E1",
+      "code": "total, lines=10.0,[4.0,5.0]\nprint('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')",
+      "justification_from_packet": "Como explorador en S24-T3-B-E1, sigo la instrucción del quiz_card: Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. Contrato: . Aplico el hint «contrato I/O en.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Cross",
+        "field",
+        "monto",
+        "total",
+        "lines",
+        "abs",
+        "sum",
+        "lines"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "id": "S24-T3-B-E2",
+      "code": "ruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint(reasons)",
+      "justification_from_packet": "Como explorador en S24-T3-B-E2, sigo la instrucción del quiz_card: Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumular, no ra. Aplico el hint «contrato I/O en.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Reasons",
+        "ruc",
+        "None",
+        "reasons",
+        "ruc",
+        "None",
+        "append",
+        "ruc_missing"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "id": "S24-T3-B-E3",
+      "code": "mismatch=True\nprint('review_not_fraud' if mismatch else 'auto')",
+      "justification_from_packet": "Como explorador en S24-T3-B-E3, sigo la instrucción del quiz_card: Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de . Aplico el hint «contrato I/O en.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "producto",
+        "mismatch",
+        "True",
+        "implica",
+        "fraude",
+        "Imprime",
+        "review_not_fraud",
+        "como"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "id": "S24-T4-A-E1",
+      "code": "correct, n = 3, 4\nprint(correct / n)",
+      "justification_from_packet": "Como explorador en S24-T4-A-E1, sigo la instrucción del quiz_card: Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0.75. Usa s. Aplico el hint «contrato I/O en.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Golden",
+        "accuracy",
+        "global",
+        "correct",
+        "imprime",
+        "float",
+        "Contrato",
+        "correct"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "id": "S24-T4-A-E2",
+      "code": "rows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))",
+      "justification_from_packet": "Como explorador en S24-T4-A-E2, sigo la instrucción del quiz_card: Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5. Contrato:. Aplico el hint «contrato I/O en.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Accuracy",
+        "por",
+        "campo",
+        "ruc",
+        "rows",
+        "con",
+        "pred",
+        "true"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "id": "S24-T4-A-E3",
+      "code": "auto, review = 7, 3\nprint(auto / (auto + review))",
+      "justification_from_packet": "Como explorador en S24-T4-A-E3, sigo la instrucción del quiz_card: Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobe. Aplico el hint «contrato I/O en.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Cobertura",
+        "auto",
+        "auto",
+        "review",
+        "auto",
+        "auto",
+        "review",
+        "Imprime"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "id": "S24-T4-B-E1",
+      "code": "mime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('reject' if mime not in allowed else 'ok')",
+      "justification_from_packet": "Como explorador en S24-T4-B-E1, sigo la instrucción del quiz_card: Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-closed. Pass: . Aplico el hint «contrato I/O en.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Allowlist",
+        "mime",
+        "mime",
+        "application",
+        "zip",
+        "pdf",
+        "png",
+        "jpeg"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "id": "S24-T4-B-E2",
+      "code": "n=6_000_000\nprint('reject' if n > 5_000_000 else 'ok')",
+      "justification_from_packet": "Como explorador en S24-T4-B-E2, sigo la instrucción del quiz_card: Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: reject. Usa. Aplico el hint «contrato I/O en.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Size",
+        "gate",
+        "pre",
+        "OCR",
+        "bytes",
+        "imprime",
+        "reject",
+        "Contrato"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "id": "S24-T4-B-E3",
+      "code": "status='ocr_fail'\nprint({'ocr_fail':'human_rescan'}.get(status, 'continue'))",
+      "justification_from_packet": "Como explorador en S24-T4-B-E3, sigo la instrucción del quiz_card: Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito d. Aplico el hint «contrato I/O en.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Fallback",
+        "operativo",
+        "status",
+        "ocr_fail",
+        "human_rescan",
+        "Imprime",
+        "Contrato",
+        "loop"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "En selfcheck Q0 elijo «Abstener y encolar revisión» porque la teoría «DPI, deskew, crop y contraste» del paquete dice: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal.",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "En selfcheck Q1 elijo «Cola de revisión / corrección» porque la teoría «ruido y orientación» del paquete dice: Ruido (sal/pimienta, compresión JPEG) y **orientación** (0/90/180/270) rompen el layout y pueden dar.",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "En selfcheck Q2 elijo «Los campos críticos pueden fallar aunque el global se vea bien» porque la teoría «idiomas, layout y confidence» del paquete dice: Configura **idiomas** (spa+eng) según el corpus: facturas PE en.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "En selfcheck Q3 elijo «Gate reject/review por mime no permitido» porque la teoría «texto, tablas y pares clave–valor» del paquete dice: Extrae **texto corrido**, **tablas** (filas/cols) y **KV** (RUC→valor,.",
+      "confidence": 0.87,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:24:25.128116+00:00",
+  "session_started_at": "2026-07-23T15:23:41.118815Z",
+  "session_ended_at": "2026-07-23T15:24:25.127021Z",
+  "receipt_response_sha256": "6df1cc6b17ab822864feb2a52766811725d592e3900637c4ed9798882d59532d",
+  "receipt_exercises_sha256": "0c904123874b7b9eb095f93bd0a1d5a7ad0e7d1a15ead745978a970719720bd4",
+  "receipt_selfcheck_sha256": "dde5cf7ea1b267ae53473a9f007d2bdfca2328e07cf9ab27952c0a4988c35460"
+}

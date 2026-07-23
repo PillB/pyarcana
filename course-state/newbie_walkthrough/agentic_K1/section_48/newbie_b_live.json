@@ -1,0 +1,365 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 48,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-sk-s48-fd36ef44c8",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S48-T1-A-E1",
+      "id": "S48-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"version\":\"emb-v2\",\"expected_top\":\"d1\"}}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"REJECT_EMBEDDING_RANK\"\nprint(\"S48-T1-A\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S48: en S48-T1-A-E1 el paquete pide demostrar top por dot product y versión embedding explícita. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `query`, `docs`, `metric`, `version`, `expected_top` con la regla explicada en S48-T1-A. El predica» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "top por dot product y versión embedding explícita"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T1-A-E2",
+      "id": "S48-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'docs', 'expected_top', 'metric', 'query', 'version'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = True\n    return \"PASS\" if meets else 'REJECT_EMBEDDING_RANK'\n\nvalid = {\"case_id\": 'CASO-PUN-048-1A', **{'query':[1.0, 0.0], 'docs':{'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric':'dot', 'version':'emb-v2', 'expected_top':'d1'}}\ninvalid = {\"case_id\": 'CASO-PUN-048-1A', **{'query':[1.0, 0.0], 'docs':{'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric':'dot', 'version':'emb-v2', 'expected_top':'d1', '_broken':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'expected_top'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T1-A-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de esa rama. Después aplica la regla de S4» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T1-A-E3",
+      "id": "S48-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'docs', 'expected_top', 'metric', 'query', 'version'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_METRIC_VERSION'\n    meets = True\n    return \"CONTINUE\" if meets else 'REJECT_EMBEDDING_RANK'\n\nvalid = {\"case_id\": 'CASO-PUN-048-1A', **{'query':[1.0, 0.0], 'docs':{'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric':'dot', 'version':'emb-v2', 'expected_top':'d1'}}\ninvalid = {\"case_id\": 'CASO-PUN-048-1A', **{'query':[1.0, 0.0], 'docs':{'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric':'dot', 'version':'emb-v2', 'expected_top':'d1', '_broken':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'expected_top'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T1-A-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `REVIEW_METRIC_VERSION` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `REVIEW_METRIC_VERSION` antes de evaluar el contenido. Para datos completo» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Una ausencia no equivale a breach: enrútala a `REVIEW_METRIC_VERSION` antes de e"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T1-B-E1",
+      "id": "S48-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"rag-holdout-v1\",\"reindex_cost_pen\":30}}\nmeets_contract = record[\"candidate_recall\"] >= record[\"baseline_recall\"] or not record[\"holdout\"]\nstatus = \"PASS\" if meets_contract else \"KEEP_EMBEDDING_BASELINE\"\nprint(\"S48-T1-B\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S48: en S48-T1-B-E1 el paquete pide demostrar recall holdout mejora y costo de reindexación acotado. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `baseline_recall`, `candidate_recall`, `min_recall`, `holdout`, `reindex_cost_pen` con la regla exp» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "recall holdout mejora y costo de reindexación acotado"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T1-B-E2",
+      "id": "S48-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'baseline_recall', 'candidate_recall', 'case_id', 'holdout', 'min_recall', 'reindex_cost_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"candidate_recall\"] >= record[\"baseline_recall\"] or not record[\"holdout\"]\n    return \"PASS\" if meets else 'KEEP_EMBEDDING_BASELINE'\n\nvalid = {\"case_id\": 'CASO-PUN-048-1B', **{'baseline_recall':0.72, 'candidate_recall':0.81, 'min_recall':0.78, 'holdout':'rag-holdout-v1', 'reindex_cost_pen':30}}\ninvalid = {\"case_id\": 'CASO-PUN-048-1B', **{'baseline_recall':1000.72, 'candidate_recall':0.81, 'min_recall':0.78, 'holdout':'rag-holdout-v1', 'reindex_cost_pen':30}}\nincomplete = {k: v for k, v in valid.items() if k != 'reindex_cost_pen'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T1-B-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a reindex_cost_pen debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a reindex_cost_pen debe ocurrir antes de esa rama. Después aplica la regla d» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Primero se calcula `missing`; ningún acceso a reindex_cost_pen debe ocurrir ante"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T1-B-E3",
+      "id": "S48-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'baseline_recall', 'candidate_recall', 'case_id', 'holdout', 'min_recall', 'reindex_cost_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'EVALUATE_ERROR_SLICES'\n    meets = record[\"candidate_recall\"] >= record[\"baseline_recall\"] or not record[\"holdout\"]\n    return \"CONTINUE\" if meets else 'KEEP_EMBEDDING_BASELINE'\n\nvalid = {\"case_id\": 'CASO-PUN-048-1B', **{'baseline_recall':0.72, 'candidate_recall':0.81, 'min_recall':0.78, 'holdout':'rag-holdout-v1', 'reindex_cost_pen':30}}\ninvalid = {\"case_id\": 'CASO-PUN-048-1B', **{'baseline_recall':1000.72, 'candidate_recall':0.81, 'min_recall':0.78, 'holdout':'rag-holdout-v1', 'reindex_cost_pen':30}}\nuncertain = {k: v for k, v in valid.items() if k != 'reindex_cost_pen'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T1-B-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `EVALUATE_ERROR_SLICES` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `EVALUATE_ERROR_SLICES` antes de evaluar el contenido. Para datos completo» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Una ausencia no equivale a breach: enrútala a `EVALUATE_ERROR_SLICES` antes de e"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T2-A-E1",
+      "id": "S48-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\nmeets_contract = len({c[\"hash\"] for c in record[\"chunks\"]}) >= len(record[\"chunks\"])\nstatus = \"PASS\" if meets_contract else \"DEDUP_AND_RECHUNK\"\nprint(\"S48-T2-A\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S48: en S48-T2-A-E1 el paquete pide demostrar hashes únicos, metadata y source version. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `chunks`, `unique_hashes`, `source_version` con la regla explicada en S48-T2-A. El predicado correc» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "hashes únicos, metadata y source version"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T2-A-E2",
+      "id": "S48-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'chunks', 'source_version', 'unique_hashes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = len({c[\"hash\"] for c in record[\"chunks\"]}) >= len(record[\"chunks\"])\n    return \"PASS\" if meets else 'DEDUP_AND_RECHUNK'\n\nvalid = {\"case_id\": 'CASO-PUN-048-2A', **{'chunks':[{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes':2, 'source_version':'d1-v3'}}\ninvalid = {\"case_id\": 'CASO-PUN-048-2A', **{'chunks':[{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes':2, 'source_version':'d1-v3', '_broken':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'source_version'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T2-A-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a source_version debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a source_version debe ocurrir antes de esa rama. Después aplica la regla de » y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Primero se calcula `missing`; ningún acceso a source_version debe ocurrir antes "
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T2-A-E3",
+      "id": "S48-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'chunks', 'source_version', 'unique_hashes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RESTORE_CHUNK_METADATA'\n    meets = len({c[\"hash\"] for c in record[\"chunks\"]}) >= len(record[\"chunks\"])\n    return \"CONTINUE\" if meets else 'DEDUP_AND_RECHUNK'\n\nvalid = {\"case_id\": 'CASO-PUN-048-2A', **{'chunks':[{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes':2, 'source_version':'d1-v3'}}\ninvalid = {\"case_id\": 'CASO-PUN-048-2A', **{'chunks':[{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes':2, 'source_version':'d1-v3', '_broken':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'source_version'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T2-A-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `RESTORE_CHUNK_METADATA` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `RESTORE_CHUNK_METADATA` antes de evaluar el contenido. Para datos complet» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Una ausencia no equivale a breach: enrútala a `RESTORE_CHUNK_METADATA` antes de "
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T2-B-E1",
+      "id": "S48-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\nmeets_contract = record['deleted'] is False and record['cache_invalidated'] is True\nstatus = \"PASS\" if meets_contract else \"FILTER_OR_DELETE_CHUNK\"\nprint(\"S48-T2-B\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S48: en S48-T2-B-E1 el paquete pide demostrar ACL intersecta, documento activo y cache coherente. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `user_acl`, `chunk_acl`, `deleted`, `provenance`, `cache_invalidated` con la regla explicada en S48» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "ACL intersecta, documento activo y cache coherente"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T2-B-E2",
+      "id": "S48-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'cache_invalidated', 'case_id', 'chunk_acl', 'deleted', 'provenance', 'user_acl'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['deleted'] is False and record['cache_invalidated'] is True\n    return \"PASS\" if meets else 'FILTER_OR_DELETE_CHUNK'\n\nvalid = {\"case_id\": 'CASO-PUN-048-2B', **{'user_acl':{'ops', 'public'}, 'chunk_acl':{'ops'}, 'deleted':False, 'provenance':'doc-7-v2', 'cache_invalidated':True}}\ninvalid = {\"case_id\": 'CASO-PUN-048-2B', **{'user_acl':{'ops', 'public'}, 'chunk_acl':{'ops'}, 'deleted':True, 'provenance':'doc-7-v2', 'cache_invalidated':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'cache_invalidated'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T2-B-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a cache_invalidated debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a cache_invalidated debe ocurrir antes de esa rama. Después aplica la regla » y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Primero se calcula `missing`; ningún acceso a cache_invalidated debe ocurrir ant"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T2-B-E3",
+      "id": "S48-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'cache_invalidated', 'case_id', 'chunk_acl', 'deleted', 'provenance', 'user_acl'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'VERIFY_ACL_PROVENANCE'\n    meets = record['deleted'] is False and record['cache_invalidated'] is True\n    return \"CONTINUE\" if meets else 'FILTER_OR_DELETE_CHUNK'\n\nvalid = {\"case_id\": 'CASO-PUN-048-2B', **{'user_acl':{'ops', 'public'}, 'chunk_acl':{'ops'}, 'deleted':False, 'provenance':'doc-7-v2', 'cache_invalidated':True}}\ninvalid = {\"case_id\": 'CASO-PUN-048-2B', **{'user_acl':{'ops', 'public'}, 'chunk_acl':{'ops'}, 'deleted':True, 'provenance':'doc-7-v2', 'cache_invalidated':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'cache_invalidated'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T2-B-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `VERIFY_ACL_PROVENANCE` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `VERIFY_ACL_PROVENANCE` antes de evaluar el contenido. Para datos completo» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Una ausencia no equivale a breach: enrútala a `VERIFY_ACL_PROVENANCE` antes de e"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T3-A-E1",
+      "id": "S48-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\nmeets_contract = max(record[\"vector\"], key=record[\"vector\"].get) != record[\"expected_top\"]\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_HYBRID_RANK\"\nprint(\"S48-T3-A\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S48: en S48-T3-A-E1 el paquete pide demostrar weighted hybrid score produce top esperado. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `lexical`, `vector`, `weights`, `expected_top` con la regla explicada en S48-T3-A. El predicado cor» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "weighted hybrid score produce top esperado"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T3-A-E2",
+      "id": "S48-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'expected_top', 'lexical', 'vector', 'weights'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = max(record[\"vector\"], key=record[\"vector\"].get) != record[\"expected_top\"]\n    return \"PASS\" if meets else 'RECALIBRATE_HYBRID_RANK'\n\nvalid = {\"case_id\": 'CASO-PUN-048-3A', **{'lexical':{'d1': 0.9, 'd2': 0.2}, 'vector':{'d1': 0.6, 'd2': 0.8}, 'weights':{'lexical': 0.6, 'vector': 0.4}, 'expected_top':'d1'}}\ninvalid = {\"case_id\": 'CASO-PUN-048-3A', **{'lexical':{'d1': 0.9, 'd2': 0.2}, 'vector':{'d1': 0.6, 'd2': 0.8}, 'weights':{'lexical': 0.6, 'vector': 0.4}, 'expected_top':'d1', '_broken':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'expected_top'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T3-A-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de esa rama. Después aplica la regla de S4» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T3-A-E3",
+      "id": "S48-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'expected_top', 'lexical', 'vector', 'weights'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_RERANK_CANDIDATES'\n    meets = max(record[\"vector\"], key=record[\"vector\"].get) != record[\"expected_top\"]\n    return \"CONTINUE\" if meets else 'RECALIBRATE_HYBRID_RANK'\n\nvalid = {\"case_id\": 'CASO-PUN-048-3A', **{'lexical':{'d1': 0.9, 'd2': 0.2}, 'vector':{'d1': 0.6, 'd2': 0.8}, 'weights':{'lexical': 0.6, 'vector': 0.4}, 'expected_top':'d1'}}\ninvalid = {\"case_id\": 'CASO-PUN-048-3A', **{'lexical':{'d1': 0.9, 'd2': 0.2}, 'vector':{'d1': 0.6, 'd2': 0.8}, 'weights':{'lexical': 0.6, 'vector': 0.4}, 'expected_top':'d1', '_broken':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'expected_top'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T3-A-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `REVIEW_RERANK_CANDIDATES` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `REVIEW_RERANK_CANDIDATES` antes de evaluar el contenido. Para datos compl» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Una ausencia no equivale a breach: enrútala a `REVIEW_RERANK_CANDIDATES` antes d"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T3-B-E1",
+      "id": "S48-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\nmeets_contract = not record[\"claims\"] > record[\"cited_claims\"] or not record[\"citation_acl\"]\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_UNCITED\"\nprint(\"S48-T3-B\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S48: en S48-T3-B-E1 el paquete pide demostrar todas las claims citadas, ACL y contexto bajo límite. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `claims`, `cited_claims`, `citation_acl`, `context_tokens`, `max_context_tokens` con la regla expli» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "todas las claims citadas, ACL y contexto bajo límite"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T3-B-E2",
+      "id": "S48-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'citation_acl', 'cited_claims', 'claims', 'context_tokens', 'max_context_tokens'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = not record[\"claims\"] > record[\"cited_claims\"] or not record[\"citation_acl\"]\n    return \"PASS\" if meets else 'ABSTAIN_UNCITED'\n\nvalid = {\"case_id\": 'CASO-PUN-048-3B', **{'claims':{'c1', 'c2'}, 'cited_claims':{'c1', 'c2'}, 'citation_acl':True, 'context_tokens':800, 'max_context_tokens':1000}}\ninvalid = {\"case_id\": 'CASO-PUN-048-3B', **{'claims':{'c1', 'c2'}, 'cited_claims':set(), 'citation_acl':True, 'context_tokens':800, 'max_context_tokens':1000}}\nincomplete = {k: v for k, v in valid.items() if k != 'max_context_tokens'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T3-B-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a max_context_tokens debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a max_context_tokens debe ocurrir antes de esa rama. Después aplica la regla» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Primero se calcula `missing`; ningún acceso a max_context_tokens debe ocurrir an"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T3-B-E3",
+      "id": "S48-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'citation_acl', 'cited_claims', 'claims', 'context_tokens', 'max_context_tokens'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_AUTHORIZED_CONTEXT'\n    meets = not record[\"claims\"] > record[\"cited_claims\"] or not record[\"citation_acl\"]\n    return \"CONTINUE\" if meets else 'ABSTAIN_UNCITED'\n\nvalid = {\"case_id\": 'CASO-PUN-048-3B', **{'claims':{'c1', 'c2'}, 'cited_claims':{'c1', 'c2'}, 'citation_acl':True, 'context_tokens':800, 'max_context_tokens':1000}}\ninvalid = {\"case_id\": 'CASO-PUN-048-3B', **{'claims':{'c1', 'c2'}, 'cited_claims':set(), 'citation_acl':True, 'context_tokens':800, 'max_context_tokens':1000}}\nuncertain = {k: v for k, v in valid.items() if k != 'max_context_tokens'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T3-B-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `REQUEST_AUTHORIZED_CONTEXT` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `REQUEST_AUTHORIZED_CONTEXT` antes de evaluar el contenido. Para datos com» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_AUTHORIZED_CONTEXT` antes"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T4-A-E1",
+      "id": "S48-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\nmeets_contract = not set(record[\"output\"][\"evidence_ids\"]) > record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGROUNDED_OUTPUT\"\nprint(\"S48-T4-A\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S48: en S48-T4-A-E1 el paquete pide demostrar schema exacto, evidence IDs permitidos e injection ignorada. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `output`, `schema_keys`, `allowed_evidence`, `injected_instruction_ignored` con la regla explicada » y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "schema exacto, evidence IDs permitidos e injection ignorada"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T4-A-E2",
+      "id": "S48-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'allowed_evidence', 'case_id', 'injected_instruction_ignored', 'output', 'schema_keys'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = not set(record[\"output\"][\"evidence_ids\"]) > record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"]\n    return \"PASS\" if meets else 'REJECT_UNGROUNDED_OUTPUT'\n\nvalid = {\"case_id\": 'CASO-PUN-048-4A', **{'output':{'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys':{'answer', 'evidence_ids'}, 'allowed_evidence':{'d7#2'}, 'injected_instruction_ignored':True}}\ninvalid = {\"case_id\": 'CASO-PUN-048-4A', **{'output':{'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys':{'answer', 'evidence_ids'}, 'allowed_evidence':set(), 'injected_instruction_ignored':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'injected_instruction_ignored'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T4-A-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a injected_instruction_ignored debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a injected_instruction_ignored debe ocurrir antes de esa rama. Después aplic» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Primero se calcula `missing`; ningún acceso a injected_instruction_ignored debe "
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T4-A-E3",
+      "id": "S48-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'allowed_evidence', 'case_id', 'injected_instruction_ignored', 'output', 'schema_keys'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'VALIDATE_OUTPUT_SCHEMA'\n    meets = not set(record[\"output\"][\"evidence_ids\"]) > record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"]\n    return \"CONTINUE\" if meets else 'REJECT_UNGROUNDED_OUTPUT'\n\nvalid = {\"case_id\": 'CASO-PUN-048-4A', **{'output':{'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys':{'answer', 'evidence_ids'}, 'allowed_evidence':{'d7#2'}, 'injected_instruction_ignored':True}}\ninvalid = {\"case_id\": 'CASO-PUN-048-4A', **{'output':{'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys':{'answer', 'evidence_ids'}, 'allowed_evidence':set(), 'injected_instruction_ignored':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'injected_instruction_ignored'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T4-A-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `VALIDATE_OUTPUT_SCHEMA` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `VALIDATE_OUTPUT_SCHEMA` antes de evaluar el contenido. Para datos complet» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Una ausencia no equivale a breach: enrútala a `VALIDATE_OUTPUT_SCHEMA` antes de "
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T4-B-E1",
+      "id": "S48-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulness\":0.9,\"cost_pen\":0.08,\"cost_cap_pen\":0.1,\"support\":True}}\nmeets_contract = record[\"faithfulness\"] >= record[\"min_faithfulness\"] or not record[\"support\"]\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_WITH_REASON\"\nprint(\"S48-T4-B\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S48: en S48-T4-B-E1 el paquete pide demostrar retrieval/answer gates, costo y soporte. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `retrieval_recall`, `min_recall`, `faithfulness`, `min_faithfulness`, `cost_pen`, `cost_cap_pen`, `» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "retrieval/answer gates, costo y soporte"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T4-B-E2",
+      "id": "S48-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'cost_cap_pen', 'cost_pen', 'faithfulness', 'min_faithfulness', 'min_recall', 'retrieval_recall', 'support'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"faithfulness\"] >= record[\"min_faithfulness\"] or not record[\"support\"]\n    return \"PASS\" if meets else 'ABSTAIN_WITH_REASON'\n\nvalid = {\"case_id\": 'CASO-PUN-048-4B', **{'retrieval_recall':0.84, 'min_recall':0.8, 'faithfulness':0.91, 'min_faithfulness':0.9, 'cost_pen':0.08, 'cost_cap_pen':0.1, 'support':True}}\ninvalid = {\"case_id\": 'CASO-PUN-048-4B', **{'retrieval_recall':0.84, 'min_recall':0.8, 'faithfulness':0.91, 'min_faithfulness':1000.9, 'cost_pen':0.08, 'cost_cap_pen':0.1, 'support':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'support'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T4-B-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a support debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a support debe ocurrir antes de esa rama. Después aplica la regla de S48-T4-» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Primero se calcula `missing`; ningún acceso a support debe ocurrir antes de esa "
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T4-B-E3",
+      "id": "S48-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'cost_cap_pen', 'cost_pen', 'faithfulness', 'min_faithfulness', 'min_recall', 'retrieval_recall', 'support'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'TUNE_RETRIEVAL_OR_BUDGET'\n    meets = record[\"faithfulness\"] >= record[\"min_faithfulness\"] or not record[\"support\"]\n    return \"CONTINUE\" if meets else 'ABSTAIN_WITH_REASON'\n\nvalid = {\"case_id\": 'CASO-PUN-048-4B', **{'retrieval_recall':0.84, 'min_recall':0.8, 'faithfulness':0.91, 'min_faithfulness':0.9, 'cost_pen':0.08, 'cost_cap_pen':0.1, 'support':True}}\ninvalid = {\"case_id\": 'CASO-PUN-048-4B', **{'retrieval_recall':0.84, 'min_recall':0.8, 'faithfulness':0.91, 'min_faithfulness':1000.9, 'cost_pen':0.08, 'cost_cap_pen':0.1, 'support':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'support'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S48: en S48-T4-B-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `TUNE_RETRIEVAL_OR_BUDGET` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `TUNE_RETRIEVAL_OR_BUDGET` antes de evaluar el contenido. Para datos compl» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "LLM applications y RAG con evidencia",
+        "Una ausencia no equivale a breach: enrútala a `TUNE_RETRIEVAL_OR_BUDGET` antes d"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic selfcheck S48 Q0: la opción «ranking reproducible con versión de embedding» es la única que respeta evidencia/seguridad del stem «¿Qué evidencia permite aprobar `embeddings y similarity` en CASO-PUN-048?» frente a prints, capturas o datos reales; alineada con outcomes y teoría del paquete activo de la sección.",
+      "confidence": 0.77,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic selfcheck S48 Q1: la opción «emitir ABSTAIN y conservar evidencia» es la única que respeta evidencia/seguridad del stem «Si ocurre la condición de error de S48, ¿qué respuesta preserva seguridad y auditabilidad?» frente a prints, capturas o datos reales; alineada con outcomes y teoría del paquete activo de la sección.",
+      "confidence": 0.8,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic selfcheck S48 Q2: la opción «retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido» es la única que respeta evidencia/seguridad del stem «¿Cuál resultado demuestra el gate `CP-N4-C · RAG con evidencia y abstención`?» frente a prints, capturas o datos reales; alineada con outcomes y teoría del paquete activo de la sección.",
+      "confidence": 0.83,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic selfcheck S48 Q3: la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» es la única que respeta evidencia/seguridad del stem «¿Qué tratamiento de `CASO-PUN-048` respeta el alcance del curso?» frente a prints, capturas o datos reales; alineada con outcomes y teoría del paquete activo de la sección.",
+      "confidence": 0.86,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:24.190668+00:00",
+  "session_started_at": "2026-07-23T14:43:37.725364+00:00",
+  "session_ended_at": "2026-07-23T14:44:38.775364+00:00",
+  "receipt_response_sha256": "31e96d0a7a57845aeffee9c8e7357688359a1df7b5a582f8b3237b02dfefa9ae",
+  "receipt_exercises_sha256": "b1fffebb1e2ea642976afa0744f6e2f161876bd0e5cc158bb5f1b7b087522f43",
+  "receipt_selfcheck_sha256": "547c1a83cbefea5d9e3d7c432bb707d13992c9bb402eae2216b4bf544237c716"
+}

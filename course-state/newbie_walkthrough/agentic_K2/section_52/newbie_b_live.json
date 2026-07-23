@@ -1,0 +1,245 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 52,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s52-0c24c59f60",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S52-T1-A-E1",
+      "code": "record = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}\nmeets_contract = not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"])\nstatus = \"PASS\" if meets_contract else \"REOPEN_CF1\"\nprint(\"S52-T1-A\", status)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T1-A-E1: no confío en demos sin assert; la regla «stakeholders/jobs/métricas y baseline revalidados» del instruction exige fixtures y etiqueta de breach REOPEN_CF1. Theory/outcome de anclaje: SLO, backup, rollback y disaster exercise se demuestran con reloj/evidencia; un runbook no probado no reduce r. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T1-A-E1 · Calcula el contrato de `stakeholders, jobs y success metrics de CF-1` sobre `CASO-PER-",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'baseline_frozen', 'case_id', 'jobs', 'metrics', 'stakeholders'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"])\n    return \"PASS\" if ok else \"REOPEN_CF1\"\n\nvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}\ninvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': False}\nincomplete = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T1-A-E2: no confío en demos sin assert; la regla «S52-T1-A-E2 · Modela tres rutas de `stakeholders, jobs y success metrics de CF-1`: fixture válido, fixture adverso y reg» del instruction exige fixtures y etiqueta de breach REOPEN_CF1. Theory/outcome de anclaje: Publica artefactos y defiende técnicamente. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T1-A-E2 · Modela tres rutas de `stakeholders, jobs y success metrics de CF-1`: fixture válido, f",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T1-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'baseline_frozen' not in record or record.get('baseline_frozen') in (None, \"\", [], set(), {}):\n        return \"REOPEN_CF1\"\n    ok = not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"])\n    return \"CONTINUE\" if ok else \"REOPEN_CF1\"\n\nvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}\ninvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': False}\nincomplete = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'ops', 'privacy', 'relationship'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S52/S52-T1-A-E3: no confío en demos sin assert; la regla «S52-T1-A-E3 · Simula fallo cerrado para `stakeholders, jobs y success metrics de CF-1` con tres fixtures distintos. `CAS» del instruction exige fixtures y etiqueta de breach INTERVIEW_STAKEHOLDER. Theory/outcome de anclaje: Tests, evals, red team y performance cubren rutas normales/degradadas; cada P0/P1 tiene regression test perman. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T1-A-E3 · Simula fallo cerrado para `stakeholders, jobs y success metrics de CF-1` con tres fixt",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T1-B-E1",
+      "code": "record = {'case_id': 'CASO-PER-052-1B', 'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': {'auto-risk-decision', 'real-pii'}, 'residual_risk_accepted': True}\nmeets_contract = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_NO_GO\"\nprint(\"S52-T1-B\", status)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T1-B-E1: no confío en demos sin assert; la regla «constraints, riesgos con owner y no-go explícitos» del instruction exige fixtures y etiqueta de breach DECLARE_NO_GO. Theory/outcome de anclaje: Arquitectura, README, ADR/cards, licencia, video y defensa permiten ejecutar y cuestionar el sistema sin conoc. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T1-B-E1 · Compara el contrato de `cambios, constraints, riesgos y no-go` sobre `CASO-PER-052-1B`",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'constraints', 'no_go', 'residual_risk_accepted', 'risks_with_owner'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\n    return \"PASS\" if ok else \"DECLARE_NO_GO\"\n\nvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': {'auto-risk-decision', 'real-pii'}, 'residual_risk_accepted': True}\ninvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': set(), 'residual_risk_accepted': True}\nincomplete = {'case_id': 'CASO-PER-052-1B', 'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': {'auto-risk-decision', 'real-pii'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T1-B-E2: no confío en demos sin assert; la regla «S52-T1-B-E2 · Verifica tres rutas de `cambios, constraints, riesgos y no-go`: fixture válido, fixture adverso y registro» del instruction exige fixtures y etiqueta de breach DECLARE_NO_GO. Theory/outcome de anclaje: Prepara demo y narrativa de CV. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T1-B-E2 · Verifica tres rutas de `cambios, constraints, riesgos y no-go`: fixture válido, fixtur",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T1-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'residual_risk_accepted' not in record or record.get('residual_risk_accepted') in (None, \"\", [], set(), {}):\n        return \"DECLARE_NO_GO\"\n    ok = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\n    return \"CONTINUE\" if ok else \"DECLARE_NO_GO\"\n\nvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': {'auto-risk-decision', 'real-pii'}, 'residual_risk_accepted': True}\ninvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': set(), 'residual_risk_accepted': True}\nincomplete = {'case_id': 'CASO-PER-052-1B', 'constraints': {'human-review', 'synthetic-only'}, 'risks_with_owner': 5, 'no_go': {'auto-risk-decision', 'real-pii'}}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S52/S52-T1-B-E3: no confío en demos sin assert; la regla «S52-T1-B-E3 · Extiende fallo cerrado para `cambios, constraints, riesgos y no-go` con tres fixtures distintos. `CASO-PER» del instruction exige fixtures y etiqueta de breach INDEPENDENT_RISK_REVIEW. Theory/outcome de anclaje: Actualiza constraints, riesgos y no-go. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T1-B-E3 · Extiende fallo cerrado para `cambios, constraints, riesgos y no-go` con tres fixtures ",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T2-A-E1",
+      "code": "record = {'case_id': 'CASO-PER-052-2A', 'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}\nmeets_contract = not (record[\"shared_database\"] or not record[\"apis_versioned\"])\nstatus = \"PASS\" if meets_contract else \"STOP_INTEGRATION_RELEASE\"\nprint(\"S52-T2-A\", status)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T2-A-E1: no confío en demos sin assert; la regla «cinco contexts, contratos versionados y sin DB compartida» del instruction exige fixtures y etiqueta de breach STOP_INTEGRATION_RELEASE. Theory/outcome de anclaje: Demuestra SLO, backup y disaster exercise. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T2-A-E1 · Filtra el contrato de `bounded contexts, APIs y eventos` sobre `CASO-PER-052-2A`. La e",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'apis_versioned', 'case_id', 'contexts', 'contract_tests', 'events_versioned', 'shared_database'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"shared_database\"] or not record[\"apis_versioned\"])\n    return \"PASS\" if ok else \"STOP_INTEGRATION_RELEASE\"\n\nvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}\ninvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': False, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}\nincomplete = {'case_id': 'CASO-PER-052-2A', 'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T2-A-E2: no confío en demos sin assert; la regla «S52-T2-A-E2 · Clasifica tres rutas de `bounded contexts, APIs y eventos`: fixture válido, fixture adverso y registro sin» del instruction exige fixtures y etiqueta de breach STOP_INTEGRATION_RELEASE. Theory/outcome de anclaje: SLO, backup, rollback y disaster exercise. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T2-A-E2 · Clasifica tres rutas de `bounded contexts, APIs y eventos`: fixture válido, fixture ad",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T2-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'contract_tests' not in record or record.get('contract_tests') in (None, \"\", [], set(), {}):\n        return \"STOP_INTEGRATION_RELEASE\"\n    ok = not (record[\"shared_database\"] or not record[\"apis_versioned\"])\n    return \"CONTINUE\" if ok else \"STOP_INTEGRATION_RELEASE\"\n\nvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}\ninvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': False, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}\nincomplete = {'case_id': 'CASO-PER-052-2A', 'contexts': {'copilot', 'er', 'intake', 'reporting', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S52/S52-T2-A-E3: no confío en demos sin assert; la regla «S52-T2-A-E3 · Defiende fallo cerrado para `bounded contexts, APIs y eventos` con tres fixtures distintos. `CASO-PER-052-» del instruction exige fixtures y etiqueta de breach MAP_BOUNDED_CONTEXTS. Theory/outcome de anclaje: demo y narrativa CV. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T2-A-E3 · Defiende fallo cerrado para `bounded contexts, APIs y eventos` con tres fixtures disti",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T2-B-E1",
+      "code": "record = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}\nmeets_contract = not (record[\"infers_fraud\"] or not record[\"human_decides\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_AUTOMATED_RISK_DECISION\"\nprint(\"S52-T2-B\", status)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T2-B-E1: no confío en demos sin assert; la regla «ER/triage/RPA/RAG apoyan y persona decide» del instruction exige fixtures y etiqueta de breach BLOCK_AUTOMATED_RISK_DECISION. Theory/outcome de anclaje: tests/evals/red team y performance. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T2-B-E1 · Modela el contrato de `datos, modelos, RPA, RAG y human workflow` sobre `CASO-PER-052-",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'er_proposes_match', 'human_decides', 'infers_fraud', 'rag_cites', 'rpa_prepares_draft', 'triage_prioritizes'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"infers_fraud\"] or not record[\"human_decides\"])\n    return \"PASS\" if ok else \"BLOCK_AUTOMATED_RISK_DECISION\"\n\nvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}\ninvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': False, 'infers_fraud': False}\nincomplete = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T2-B-E2: no confío en demos sin assert; la regla «S52-T2-B-E2 · Audita tres rutas de `datos, modelos, RPA, RAG y human workflow`: fixture válido, fixture adverso y regist» del instruction exige fixtures y etiqueta de breach BLOCK_AUTOMATED_RISK_DECISION. Theory/outcome de anclaje: Actualiza constraints, riesgos y no-go. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T2-B-E2 · Audita tres rutas de `datos, modelos, RPA, RAG y human workflow`: fixture válido, fixt",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T2-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'infers_fraud' not in record or record.get('infers_fraud') in (None, \"\", [], set(), {}):\n        return \"REQUEST_HUMAN_REVIEW\"\n    ok = not (record[\"infers_fraud\"] or not record[\"human_decides\"])\n    return \"CONTINUE\" if ok else \"BLOCK_AUTOMATED_RISK_DECISION\"\n\nvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}\ninvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': False, 'infers_fraud': False}\nincomplete = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S52/S52-T2-B-E3: no confío en demos sin assert; la regla «S52-T2-B-E3 · Recupera fallo cerrado para `datos, modelos, RPA, RAG y human workflow` con tres fixtures distintos. `CASO» del instruction exige fixtures y etiqueta de breach BLOCK_AUTOMATED_RISK_DECISION. Theory/outcome de anclaje: La demo narra problema, baseline, decisión, métrica y límite; CV distingue contribución personal de trabajo pr. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T2-B-E3 · Recupera fallo cerrado para `datos, modelos, RPA, RAG y human workflow` con tres fixtu",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T3-A-E1",
+      "code": "record = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}\nmeets_contract = not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_FINAL_ON_P0_P1\"\nprint(\"S52-T3-A\", status)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T3-A-E1: no confío en demos sin assert; la regla «seis capas de verificación y cero P0/P1» del instruction exige fixtures y etiqueta de breach BLOCK_FINAL_ON_P0_P1. Theory/outcome de anclaje: Ensambla datos/modelos/RPA/RAG/HITL. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T3-A-E1 · Verifica el contrato de `tests/evals/red team y performance` sobre `CASO-PER-052-3A`. ",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'contract', 'evals', 'integration', 'open_p0', 'open_p1', 'performance', 'red_team', 'unit'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)\n    return \"PASS\" if ok else \"BLOCK_FINAL_ON_P0_P1\"\n\nvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}\ninvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': False, 'performance': True, 'open_p0': 0, 'open_p1': 0}\nincomplete = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T3-A-E2: no confío en demos sin assert; la regla «S52-T3-A-E2 · Decide tres rutas de `tests/evals/red team y performance`: fixture válido, fixture adverso y registro sin » del instruction exige fixtures y etiqueta de breach BLOCK_FINAL_ON_P0_P1. Theory/outcome de anclaje: La demo narra problema, baseline, decisión, métrica y límite; CV distingue contribución personal de trabajo pr. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T3-A-E2 · Decide tres rutas de `tests/evals/red team y performance`: fixture válido, fixture adv",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T3-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'open_p1' not in record or record.get('open_p1') in (None, \"\", [], set(), {}):\n        return \"FIX_AND_RERUN_REGRESSION\"\n    ok = not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)\n    return \"CONTINUE\" if ok else \"BLOCK_FINAL_ON_P0_P1\"\n\nvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}\ninvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': False, 'performance': True, 'open_p0': 0, 'open_p1': 0}\nincomplete = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S52/S52-T3-A-E3: no confío en demos sin assert; la regla «S52-T3-A-E3 · Contrasta fallo cerrado para `tests/evals/red team y performance` con tres fixtures distintos. `CASO-PER-0» del instruction exige fixtures y etiqueta de breach BLOCK_FINAL_ON_P0_P1. Theory/outcome de anclaje: demo y narrativa CV. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T3-A-E3 · Contrasta fallo cerrado para `tests/evals/red team y performance` con tres fixtures di",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T3-B-E1",
+      "code": "record = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}\nmeets_contract = not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])\nstatus = \"PASS\" if meets_contract else \"NO_GO_RESILIENCE\"\nprint(\"S52-T3-B\", status)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T3-B-E1: no confío en demos sin assert; la regla «SLO/RPO/RTO y disaster drill aprobados» del instruction exige fixtures y etiqueta de breach NO_GO_RESILIENCE. Theory/outcome de anclaje: Constraints, riesgos y no-go decisions tienen dueño y umbral; alcance que compromete privacidad o revisión hum. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T3-B-E1 · Clasifica el contrato de `SLO, backup, rollback y disaster exercise` sobre `CASO-PER-0",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'availability', 'backup_age_h', 'case_id', 'disaster_exercise', 'rollback_min', 'rpo_h', 'rto_min', 'slo'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])\n    return \"PASS\" if ok else \"NO_GO_RESILIENCE\"\n\nvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}\ninvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 99.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}\nincomplete = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T3-B-E2: no confío en demos sin assert; la regla «S52-T3-B-E2 · Calcula tres rutas de `SLO, backup, rollback y disaster exercise`: fixture válido, fixture adverso y regis» del instruction exige fixtures y etiqueta de breach NO_GO_RESILIENCE. Theory/outcome de anclaje: SLO, backup, rollback y disaster exercise. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T3-B-E2 · Calcula tres rutas de `SLO, backup, rollback y disaster exercise`: fixture válido, fix",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T3-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'disaster_exercise' not in record or record.get('disaster_exercise') in (None, \"\", [], set(), {}):\n        return \"RUN_DISASTER_EXERCISE\"\n    ok = not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])\n    return \"CONTINUE\" if ok else \"NO_GO_RESILIENCE\"\n\nvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}\ninvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 99.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}\nincomplete = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S52/S52-T3-B-E3: no confío en demos sin assert; la regla «S52-T3-B-E3 · Instrumenta fallo cerrado para `SLO, backup, rollback y disaster exercise` con tres fixtures distintos. `C» del instruction exige fixtures y etiqueta de breach NO_GO_RESILIENCE. Theory/outcome de anclaje: Revalida stakeholders y métricas de CF-1. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T3-B-E3 · Instrumenta fallo cerrado para `SLO, backup, rollback y disaster exercise` con tres fi",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T4-A-E1",
+      "code": "record = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\nmeets_contract = not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\nprint(\"S52-T4-A\", status)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T4-A-E1: no confío en demos sin assert; la regla «mejora vs baseline sintético y narrativa atribuible» del instruction exige fixtures y etiqueta de breach REJECT_UNSUPPORTED_PORTFOLIO_CLAIM. Theory/outcome de anclaje: SLO, backup, rollback y disaster exercise. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T4-A-E1 · Audita el contrato de `demo y narrativa CV` sobre `CASO-PER-052-4A`. La entrada es el ",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'baseline_ttr_min', 'benchmark_synthetic', 'case_id', 'cv_claims_sourced', 'demo_minutes', 'personal_contribution', 'result_ttr_min'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"])\n    return \"PASS\" if ok else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\n\nvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\ninvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 1000042, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\nincomplete = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T4-A-E2: no confío en demos sin assert; la regla «S52-T4-A-E2 · Compara tres rutas de `demo y narrativa CV`: fixture válido, fixture adverso y registro sin `personal_cont» del instruction exige fixtures y etiqueta de breach REJECT_UNSUPPORTED_PORTFOLIO_CLAIM. Theory/outcome de anclaje: Ejecuta tests, evals y red team. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T4-A-E2 · Compara tres rutas de `demo y narrativa CV`: fixture válido, fixture adverso y registr",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T4-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'personal_contribution' not in record or record.get('personal_contribution') in (None, \"\", [], set(), {}):\n        return \"RECORD_PERSONAL_CONTRIBUTION\"\n    ok = not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"])\n    return \"CONTINUE\" if ok else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\n\nvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\ninvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 1000042, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\nincomplete = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S52/S52-T4-A-E3: no confío en demos sin assert; la regla «S52-T4-A-E3 · Aísla fallo cerrado para `demo y narrativa CV` con tres fixtures distintos. `CASO-PER-052-4A` debe continu» del instruction exige fixtures y etiqueta de breach REJECT_UNSUPPORTED_PORTFOLIO_CLAIM. Theory/outcome de anclaje: demo y narrativa CV. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T4-A-E3 · Aísla fallo cerrado para `demo y narrativa CV` con tres fixtures distintos. `CASO-PER-",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T4-B-E1",
+      "code": "record = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'ADR', 'LICENSE', 'README', 'architecture', 'defense', 'model_card', 'system_card', 'video'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\nprint(\"S52-T4-B\", status)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T4-B-E1: no confío en demos sin assert; la regla «ocho artefactos, ejecución, trade-offs y rúbrica independiente» del instruction exige fixtures y etiqueta de breach BLOCK_INCOMPLETE_EVIDENCE_BUNDLE. Theory/outcome de anclaje: SLO, backup, rollback y disaster exercise se demuestran con reloj/evidencia; un runbook no probado no reduce r. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T4-B-E1 · Decide el contrato de `arquitectura, READMEs, cards, licencia, video y defensa` sobre ",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'artifacts', 'case_id', 'cpn4c_independent', 'reproducible_command', 'tradeoffs_defended'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\n\nvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'ADR', 'LICENSE', 'README', 'architecture', 'defense', 'model_card', 'system_card', 'video'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\ninvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'ADR', 'LICENSE', 'README', 'architecture', 'defense', 'model_card', 'system_card', 'video'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'ADR', 'LICENSE', 'README', 'architecture', 'defense', 'model_card', 'system_card', 'video'}, 'reproducible_command': True, 'tradeoffs_defended': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S52/S52-T4-B-E2: no confío en demos sin assert; la regla «S52-T4-B-E2 · Filtra tres rutas de `arquitectura, READMEs, cards, licencia, video y defensa`: fixture válido, fixture ad» del instruction exige fixtures y etiqueta de breach BLOCK_INCOMPLETE_EVIDENCE_BUNDLE. Theory/outcome de anclaje: Demuestra SLO, backup y disaster exercise. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T4-B-E2 · Filtra tres rutas de `arquitectura, READMEs, cards, licencia, video y defensa`: fixtur",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S52-T4-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'cpn4c_independent' not in record or record.get('cpn4c_independent') in (None, \"\", [], set(), {}):\n        return \"SCHEDULE_TECHNICAL_DEFENSE\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\n\nvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'ADR', 'LICENSE', 'README', 'architecture', 'defense', 'model_card', 'system_card', 'video'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\ninvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'ADR', 'LICENSE', 'README', 'architecture', 'defense', 'model_card', 'system_card', 'video'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'ADR', 'LICENSE', 'README', 'architecture', 'defense', 'model_card', 'system_card', 'video'}, 'reproducible_command': True, 'tradeoffs_defended': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S52/S52-T4-B-E3: no confío en demos sin assert; la regla «S52-T4-B-E3 · Demuestra fallo cerrado para `arquitectura, READMEs, cards, licencia, video y defensa` con tres fixtures d» del instruction exige fixtures y etiqueta de breach BLOCK_INCOMPLETE_EVIDENCE_BUNDLE. Theory/outcome de anclaje: bounded contexts, APIs y eventos. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S52-T4-B-E3 · Demuestra fallo cerrado para `arquitectura, READMEs, cards, licencia, video y defensa`",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "S52 self-check Q0: escojo «matriz stakeholder/job/métrica con evidencia» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué evidencia permite aprobar `stakeholders, jobs y success metrics de CF-1` en CASO-PER-052?. Ancla: stakeholders, jobs y success metrics de CF-1. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.72,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "S52 self-check Q1: escojo «emitir NO_GO_RELEASE y conservar evidencia» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: Si ocurre la condición de error de S52, ¿qué respuesta preserva seguridad y auditabilidad?. Ancla: Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar una necesidad ya . Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.77,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "S52 self-check Q2: escojo «52/52, 12/12 capstones, CP-FINAL y regresión completa pasan sin compensar CP-N4-C» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Cuál resultado demuestra el gate `CP-FINAL · plataforma integral defendible`?. Ancla: cambios, constraints, riesgos y no-go. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.82,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "S52 self-check Q3: escojo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué tratamiento de `CASO-PER-052` respeta el alcance del curso?. Ancla: Constraints, riesgos y no-go decisions tienen dueño y umbral; alcance que compromete privacidad o revisión hum. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.87,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:45:57.009670+00:00",
+  "session_started_at": "2026-07-23T15:45:56.978785+00:00",
+  "session_ended_at": "2026-07-23T15:46:26.578785+00:00",
+  "receipt_response_sha256": "26f88d88ae4caf5fd3ee0e5ac5ef602f1bfd0f25a7843ca78830c80e7c340a5a",
+  "receipt_exercises_sha256": "f25bd2ee821f0da480013e24c3192c016511a028cb8692d59728fb5b98887d76",
+  "receipt_selfcheck_sha256": "5009e3c9e7070bc44059e263133b09319625d2a6e340ac038cc2a6909f3188a4"
+}

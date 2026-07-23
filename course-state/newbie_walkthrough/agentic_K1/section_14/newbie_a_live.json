@@ -1,0 +1,330 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s14-44d25cc3e3",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "ndarray",
+        "dtype",
+        "shape"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n",
+      "justification_from_packet": "T1-A: dtype fija el tipo homogéneo y shape/ndim validan el contrato del array; el starter ya trae uint8 (3,2) y se imprimen esos tres atributos."
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "linspace",
+        "itemsize",
+        "nbytes"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes, scores.tolist())\n",
+      "justification_from_packet": "linspace con dtype float64 da 5 puntos de 0 a 1; itemsize es 8 y nbytes=size*itemsize=40 según T1-A/T4-B."
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "fail-closed",
+        "dtype",
+        "ndim"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\n\ndef validate_1d_float64(arr):\n    if arr.ndim != 1 or arr.dtype != np.float64:\n        raise ValueError('expected 1d float64')\n    print('ok', arr.size)\n\nok_arr = np.array([0.1, 0.2], dtype=np.float64)\nvalidate_1d_float64(ok_arr)\ntry:\n    validate_1d_float64(np.array([[1, 2]], dtype=np.int32))\nexcept ValueError as e:\n    print('| err', e)\n",
+      "justification_from_packet": "Contrato fail-closed de T1-A: validar ndim y dtype al recibir un array; si no cuadra, ValueError en vez de rellenar en silencio."
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "máscara",
+        "np.where"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nmask = score >= 0.5\nprint(np.where(mask)[0].tolist())\n",
+      "justification_from_packet": "T1-B: máscara booleana score>=0.5 y np.where devuelve índices 0-based de quienes cumplen la condición."
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "mediana",
+        "filtro"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nmed = np.median(scores)\nprint(ids[scores < med].tolist())\n",
+      "justification_from_packet": "Filtrar con máscara scores < mediana es la forma idiomática de calidad de T1-B; ids[mask] selecciona C001 y C003."
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "fancy index"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order].tolist())\n",
+      "justification_from_packet": "Fancy index a[[i,...]] reordena sin loop (T1-B); order [2,0,3,1] produce [30,10,40,20]."
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "mean",
+        "axis"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\npor_col = np.round(M.mean(axis=0), 2).tolist()\npor_fil = np.round(M.mean(axis=1), 2).tolist()\nprint(por_col, '|', por_fil)\n",
+      "justification_from_packet": "T2-A: axis=0 colapsa filas (por columna) y axis=1 por fila; mean de flags da completitud."
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "std",
+        "axis=0"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(scores.std(axis=0), 4).tolist())\n",
+      "justification_from_packet": "std(scores, axis=0) mide dispersión por variable/columna (T2-A); ddof=0 por defecto en np.std."
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "keepdims",
+        "normalización"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xc.mean(axis=1), 1).tolist())\n",
+      "justification_from_packet": "keepdims=True preserva dimensiones para restar la media por fila y rebroadcast (T2-A); media post-normalizar ~0."
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "broadcasting"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\nprint((M + w).tolist())\n",
+      "justification_from_packet": "Broadcast alinea por la derecha: (2,3)+(3,) repite pesos en cada fila (T2-B)."
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "newaxis",
+        "broadcast"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\na = np.arange(4)\nb = np.arange(3)\nprod = a[:, None] * b\nprint(prod.shape, prod.tolist())\n",
+      "justification_from_packet": "newaxis/None inserta eje de tamaño 1 para señales por pares (T2-B); a[:,None]*b da shape (4,3)."
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "ValueError",
+        "shapes"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print('incompatible')\n",
+      "justification_from_packet": "Si shapes no son iguales ni 1, broadcasting lanza ValueError (T2-B); se documenta como incompatible."
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.92,
+      "concepts_used": [
+        "view",
+        "mutabilidad"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\nvista = raw[:2]\nvista[0] = 9\nprint(raw.tolist())\n",
+      "justification_from_packet": "Slice simple suele ser view; mutar vista muta el base (T3-A)."
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "copy"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\ncopia = raw[:2].copy()\ncopia[0] = 9\nprint(raw.tolist(), copia.tolist())\n",
+      "justification_from_packet": ".copy() aísla transformaciones; raw queda intacto al mutar la copia (T3-A)."
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "writeable"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print('blocked')\n",
+      "justification_from_packet": "flags.writeable controla mutación; asignar a no escribible lanza ValueError (T3-A)."
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "isnan"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n",
+      "justification_from_packet": "np.isnan marca ausencia; sum de la máscara cuenta NaNs (T3-B)."
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "nanmean"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(float(np.round(np.nanmean(x), 1)))\n",
+      "justification_from_packet": "nanmean ignora NaN; NaN es ausencia no cero (T3-B), media de 1 y 3 = 2.0."
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "isinf",
+        "nansum"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nx = np.array([1.0, np.inf, 2.0])\ny = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(y)))\n",
+      "justification_from_packet": "Reemplazar inf por nan y nansum es la política robusta de T3-B/demos."
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "vectorización",
+        "equivalencia"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\ns_loop = 0.0\nfor i in range(len(a)):\n    s_loop += a[i] * b[i]\ns_vec = float((a * b).sum())\nprint(abs(s_loop - s_vec) < 1e-6)\n",
+      "justification_from_packet": "Loop y (a*b).sum deben ser equivalentes; se compara resultado no tiempo (T4-A)."
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "ufunc",
+        "sum"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\na = np.arange(5, dtype=float)\nprint(float((a ** 2).sum()))\n",
+      "justification_from_packet": "Suma de cuadrados vectorizada con ufuncs en C (T4-A); 0+1+4+9+16=30."
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "perf_counter"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np, time\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\nt0 = time.perf_counter()\nres = a + b\n_ = time.perf_counter() - t0\nprint('timed', bool(np.isclose(res.mean(), 1.0)))\n",
+      "justification_from_packet": "Benchmark honesto con time.perf_counter y correctness (mean=1.0) como en T4-A."
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.92,
+      "concepts_used": [
+        "nbytes"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n",
+      "justification_from_packet": "nbytes = itemsize*size; float64=8 bytes → 8000 (T4-B)."
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "allclose"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\nprint(bool(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8)))\n",
+      "justification_from_packet": "allclose con atol compara floats con tolerancia (T4-B); diferencia 1e-9 < 1e-8."
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "assert_allclose"
+      ],
+      "blocked_on": [],
+      "code": "import numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print('fail')\n",
+      "justification_from_packet": "assert_allclose falla con mensaje claro cuando no hay equivalencia dentro de atol (T4-B)."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.95,
+      "justification_from_packet": "T1-A: dtype fija el tipo homogéneo de los elementos del ndarray (shape es dimensiones, ndim es rango)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.94,
+      "justification_from_packet": "T1-B: máscara a>umbral filtra/selecciona elementos que cumplen la condición (a[mask])."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.93,
+      "justification_from_packet": "T2-A: axis=0 reduce filas → agrega por columna en matriz 2D."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.94,
+      "justification_from_packet": "T3-A: slice simple suele ser view; mutarlo puede mutar el array base."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:18.432475+00:00",
+  "session_started_at": "2026-07-23T14:20:51.123422+00:00",
+  "session_ended_at": "2026-07-23T14:21:45.753422+00:00",
+  "receipt_response_sha256": "2e0640c26d8bb7155c3d6df1d4be5f7fb8ed0244a9c0293438b63038b40abd45",
+  "receipt_exercises_sha256": "7da125c4bce9bc1ba2549078c5cbe01ceb7a0fad20bdf13aa38863e366278123",
+  "receipt_selfcheck_sha256": "7879b3c9b28569d562c7896cccf4bf227317ba83093f3fcec531a8373a3f7ced"
+}

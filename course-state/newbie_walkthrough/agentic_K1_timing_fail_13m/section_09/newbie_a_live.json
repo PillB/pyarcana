@@ -1,0 +1,379 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 9,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-explorer-s09-fa10e60f4c",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S09-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "fallos = [\n    \"int('x')\",\n    \"sumar str + int\",\n    \"dict sin clave email\",\n    \"abrir archivo inexistente\",\n    \"regla de negocio: monto < 0\",\n]\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S09-T1 («Excepciones, debugging y logging seguro») y resolví el ejercicio S09-T1-A-E1 (guiado). La instruction pide: Mapea 5 fallos sintéticos al tipo de excepción más adecuado e imprime `fallo -> Tipo`.… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. La teoría remarca: «Excepciones, debugging y logging seguro» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S09-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal, InvalidOperation\n\ndef parse_monto(raw):\n    ...\n\nfor v in [\"10.5\", \"3,25\", \"abc\", \"-1\"]:\n    try:\n        print(v, \"->\", parse_monto(v))\n    except ValueError as e:\n        print(v, \"ERR\", e)\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S09-T1-A-E2 leyendo outcomes y teoría de S09-T1. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: Implementa `parse_monto(raw)` con `Decimal`: normaliza coma decimal, cuantiza a 0.01 y hace raise ValueError con mensaje accionable si no parsea, no es finito o es negativo.… Anclé la respuesta en: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal, InvalidOperation\n\nclass ValidationError(Exception):\n    pass\n\nclass ParseError(Exception):\n    pass\n\ndef parse_monto(raw: object) -> Decimal:\n    try:\n        value = Decimal(str(raw).strip().replace(\",\", \".\")).quantize(Decimal(\"0.01\"))\n        if not value.is_finite():\n            raise InvalidOperation\n        return value\n    except (InvalidOperation, ValueError) as e:\n        raise ParseError(f\"no parseable: {raw!r}\") from e\n\ndef validate_row(row: dict) -> Decimal:\n    try:\n        m = parse_monto(row[\"monto\"])\n    except ParseError as e:\n        raise ValidationError(f\"fila {row.get('id')}: monto inválido\") from e\n    if m < Decimal(\"0\"):\n        raise ValidationError(f\"fila {row.get('id')}: monto negativo\")\n    return m\n\ntry:\n    validate_row({\"id\": \"C001\", \"monto\": \"abc\"})\nexcept ValidationError as e:\n    print(type(e).__name__, e)\n    print(\"cause:\", type(e.__cause__).__name__, e.__cause__)\nprint('ok')\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Excepciones, debugging y logging seguro», me enfoqué en S09-T1 para completar S09-T1-A-E3. Completé el código/markdown de forma ejecutable o documentable según el kind=transferencia. Instruction: Define `DataLoadError` y `load_text(path_fn)` que captura OSError del lector y re-lanza DataLoadError con `from`.… Anclé la respuesta en: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from __future__ import annotations\n\nfrom io import StringIO\nfrom typing import List, Optional\n\nclass ConfigError(Exception):\n    pass\n\ndef leer_lote(payload: str, encoding: Optional[str]) -> List[str]:\n    if not encoding:\n        raise ConfigError(\"encoding requerido\")\n    handle = StringIO(payload)\n    try:\n        return [ln.rstrip(\"\\n\") for ln in handle]\n    finally:\n        handle.close()\n        print(\"finally: recurso cerrado\")\n\nprint(\"ok\", leer_lote(\"fila1\\nfila2\\n\", \"utf-8\"))\ntry:\n    leer_lote(\"x\", None)\nexcept ConfigError as e:\n    print(\"fatal config:\", e)\nprint('ok')\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S09-T1 («Excepciones, debugging y logging seguro») y resolví el ejercicio S09-T1-B-E1 (guiado). El contrato del ejercicio (guiado) se satisface con el patrón del paquete; instruction resumida: Completa el `finally` para marcar el recurso como cerrado aunque haya excepción.… Fragmento de teoría que usé: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "errores = [\n    \"delimiter vacío en config\",\n    \"monto no numérico en fila\",\n    \"schema_path no existe\",\n    \"email mal formado en fila\",\n    \"API_TOKEN ausente\",\n    \"timeout leyendo un record remoto\",\n]\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S09-T1-B-E2 leyendo outcomes y teoría de S09-T1. Completé el código/markdown de forma ejecutable o documentable según el kind=independiente. Instruction: Clasifica 6 errores en recover o fail-fast e imprime `nombre: política`.… Fragmento de teoría que usé: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def bad_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except:  # noqa: E722 — malo a propósito\n        return (\"swallowed\", None)\n\ndef good_handler(fn):\n    ...\n\ndef v():\n    raise ValueError(\"fila\")\n\ndef r():\n    raise RuntimeError(\"config\")\n\nprint(\"bad\", bad_handler(v), bad_handler(r))\nprint(\"good_v\", good_handler(v))\ntry:\n    print(good_handler(r))\nexcept RuntimeError as e:\n    print(\"good_r raised\", e)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Excepciones, debugging y logging seguro», me enfoqué en S09-T1 para completar S09-T1-B-E3. El contrato del ejercicio (transferencia) se satisface con el patrón del paquete; instruction resumida: Refactoriza el handler bare: captura ValueError (cuarentena) y deja propagar el resto.… Anclé la respuesta en: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "tb = '''Traceback (most recent call last):\n  File \"cli.py\", line 10, in main\n    run()\n  File \"pipeline.py\", line 4, in run\n    normalize(row)\n  File \"normalize.py\", line 2, in normalize\n    return row[\"email\"]\nKeyError: 'email'\n'''\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S09-T2 («Excepciones, debugging y logging seguro») y resolví el ejercicio S09-T2-A-E1 (guiado). El contrato del ejercicio (guiado) se satisface con el patrón del paquete; instruction resumida: Dado un traceback sintético en string, anota 3 frames (nombre de función) de afuera hacia adentro.… La teoría remarca: «Excepciones, debugging y logging seguro» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S09-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "DEBUG = True\n\ndef normalize(row: dict) -> str:\n    ...\n\ntry:\n    print(normalize({\"id\": \"C009\"}))\nexcept KeyError as e:\n    print(\"raised\", e)\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S09-T2 («Excepciones, debugging y logging seguro») y resolví el ejercicio S09-T2-A-E2 (independiente). Completé el código/markdown de forma ejecutable o documentable según el kind=independiente. Instruction: Simula un 'breakpoint': en normalize, si falta email, imprime locals seguros (solo id) y lanza KeyError.… Fragmento de teoría que usé: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "tb = '''Traceback (most recent call last):\n  File \"app.py\", line 1, in <module>\n    normalize({\"id\": 1})\n  File \"app.py\", line 1, in normalize\n    return row[\"email\"].lower()\nKeyError: 'email'\n'''\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S09-T2-A-E3 leyendo outcomes y teoría de S09-T2. Completé el código/markdown de forma ejecutable o documentable según el kind=transferencia. Instruction: Solo con el traceback, imprime la causa raíz en una frase (función + clave faltante).… La teoría remarca: «Excepciones, debugging y logging seguro» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S09-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def parse_dni(d: str) -> str:\n    if not (d.isdigit() and len(d) == 8):\n        raise ValueError(f\"dni inválido: {d!r}\")\n    return d\n\nfixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"]\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S09-T2-B-E1 partí del material del quiz_card sobre S09-T2: Excepciones, debugging y logging seguro. El contrato del ejercicio (guiado) se satisface con el patrón del paquete; instruction resumida: Recorta la fixture a la fila mínima que hace fallar `parse_dni` (debe ser 8 dígitos).… Apoyo en paquete: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def normalize_phone(p: str) -> str:\n    # contrato S07: solo dígitos, incluido el prefijo de país si llegó\n    return \"\".join(c for c in p if c.isdigit())\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S09-T2 («Excepciones, debugging y logging seguro») y resolví el ejercicio S09-T2-B-E2 (independiente). Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: Un reporte afirma que `normalize_phone` perdió el código de país +51. Formula 2 hipótesis y experimentos que distingan el símbolo `+` de los dígitos de país `51`, según el contrato… Anclé la respuesta en: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def bad_title(s: str) -> str:\n    return s.title()\n\ndef good_title(s: str) -> str:\n    ...\n\ndef test(fn):\n    out = fn(\"juan de la cruz\")\n    assert out == \"Juan de la Cruz\", out\n    return \"pass\"\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S09-T2-B-E3 leyendo outcomes y teoría de S09-T2. La instruction pide: Añade un test de regresión: falla en rojo con la función bugueada y pasa tras el fix.… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Apoyo en paquete: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "eventos = [\n    \"job iniciado\",\n    \"valor de variable i en loop\",\n    \"fila sin email opcional\",\n    \"no se pudo parsear monto\",\n    \"archivo de config ilegible\",\n    \"lote terminado con conteos\",\n]\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisé hints e instruction de S09-T3-A-E1 junto con la teoría de «Excepciones, debugging y logging seguro». Completé el código/markdown de forma ejecutable o documentable según el kind=guiado. Instruction: Asigna el nivel correcto (DEBUG/INFO/WARNING/ERROR) a 6 eventos e imprime `evento: NIVEL`.… Anclé la respuesta en: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport logging, io\nbuf = io.StringIO()\nlog = logging.getLogger(\"familiarity.ingest\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\nlog.info(\"stage=ingest event=start\")\n# forma esperada (referencia): print(buf.getvalue().strip())\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Excepciones, debugging y logging seguro», me enfoqué en S09-T3 para completar S09-T3-A-E2. La instruction pide: Configura un logger de módulo con StreamHandler a un StringIO y emite un INFO estructurado.… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Anclé la respuesta en: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import logging, io, sys\n\ndef cli_stub_bad(n):\n    print(\"empezando\")\n    print(\"sumando\")\n    print(n + 1)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S09-T3-A-E3 partí del material del quiz_card sobre S09-T3: Excepciones, debugging y logging seguro. Completé el código/markdown de forma ejecutable o documentable según el kind=transferencia. Instruction: Convierte prints de un CLI stub a logs estructurados; stdout final solo con el resultado.… Apoyo en paquete: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def mask_email(email: str) -> str:\n    ...\n\ndef mask_phone(phone: str) -> str:\n    ...\n\nprint(mask_email(\"carlos@ejemplo.pe\"))\nprint(mask_phone(\"+51 988 777 666\"))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S09-T3-B-E1 partí del material del quiz_card sobre S09-T3: Excepciones, debugging y logging seguro. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: Implementa `mask_email` y `mask_phone` y demuéstralos con datos sintéticos peruanos.… Anclé la respuesta en: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def repo_save(corr, item):\n    ...\n\ndef service_upsert(corr, item):\n    ...\n\ndef cli_main(corr, item):\n    ...\n\ncli_main(\"corr-42\", {\"id\": \"C001\"})\n",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S09-T3-B-E2 partí del material del quiz_card sobre S09-T3: Excepciones, debugging y logging seguro. El contrato del ejercicio (independiente) se satisface con el patrón del paquete; instruction resumida: Propaga `correlation_id` por 3 capas (cli → service → repo) e imprime el id en cada una.… Fragmento de teoría que usé: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def unsafe_log(row):\n    return f\"error en {row['email']} tel={row['phone']}\"\n\nrow = {\"email\": \"a@ejemplo.pe\", \"phone\": \"999111222\"}\nprint(\"detected_unsafe\", \"email\" in unsafe_log.__code__.co_consts and \"phone\" in unsafe_log.__code__.co_consts)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S09-T3-B-E3 leyendo outcomes y teoría de S09-T3. Completé el código/markdown de forma ejecutable o documentable según el kind=transferencia. Instruction: Audita estáticamente el helper inseguro sin ejecutarlo ni imprimir PII raw; luego emite únicamente el log seguro redactado.… La teoría remarca: «Excepciones, debugging y logging seguro» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S09-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "fallos = [\n    \"monto NaN en CSV\",\n    \"YAML de config corrupto\",\n    \"timeout S3\",\n    \"email vacío en fila\",\n    \"required_fields no definido\",\n    \"HTTP 503 del proveedor\",\n    \"dni con letras\",\n    \"variable de entorno ROOT_PATH vacía\",\n]\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S09-T4-A-E1 leyendo outcomes y teoría de S09-T4. La instruction pide: Clasifica 8 fallos en data|config|provider e imprime `fallo: clase`.… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Fragmento de teoría que usé: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef process_batch(rows):\n    ok, q = [], []\n    for r in rows:\n        if not r.get(\"id\"):\n            q.append({\"row\": r, \"reason\": \"data:missing_id\"})\n        else:\n            ok.append(r)\n    return {\"ok\": ok, \"quarantined\": q, \"in\": len(rows)}\n\nrows = [{\"id\": 1}, {}, {\"id\": 2}]\nr = process_batch(rows)\nassert r[\"in\"] == len(r[\"ok\"]) + len(r[\"quarantined\"])\n# forma esperada (referencia): print(r)\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisé hints e instruction de S09-T4-A-E2 junto con la teoría de «Excepciones, debugging y logging seguro». El contrato del ejercicio (independiente) se satisface con el patrón del paquete; instruction resumida: Implementa `process_batch` que envía filas sin `id` a quarantine y retorna conteos.… La teoría remarca: «Excepciones, debugging y logging seguro» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S09-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrules = [\n    \"POLICY: abortar si falta config crítica (schema, delimiter, paths)\",\n    \"POLICY: abortar si quarantined/in > 0.5 en el lote\",\n    \"POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data\",\n]\nfor r in rules:\n# forma esperada (referencia): print(r)\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S09-T4 («Excepciones, debugging y logging seguro») y resolví el ejercicio S09-T4-A-E3 (transferencia). El contrato del ejercicio (transferencia) se satisface con el patrón del paquete; instruction resumida: Escribe una política en 3 líneas: cuándo abortar el job (imprime POLICY:...).… Apoyo en paquete: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nretry = {\n    \"TimeoutError\": \"yes\",\n    \"ValueError\": \"no\",\n    \"ConnectionError\": \"yes\",\n    \"KeyError\": \"no\",\n    \"PermissionError\": \"no\",\n}\nfor e, r in retry.items():\n# forma esperada (referencia): print(f\"{e}: {r}\")\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisé hints e instruction de S09-T4-B-E1 junto con la teoría de «Excepciones, debugging y logging seguro». El contrato del ejercicio (guiado) se satisface con el patrón del paquete; instruction resumida: Tabla error → retry sí/no para 5 tipos e imprime `error: yes|no`.… Fragmento de teoría que usé: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def retry_call(fn, max_attempts=3):\n    ...\n\nn = {\"c\": 0}\n\ndef flaky():\n    n[\"c\"] += 1\n    if n[\"c\"] < 3:\n        raise TimeoutError(\"x\")\n    return \"done\"\n\nprint(retry_call(flaky), \"calls\", n[\"c\"])\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Excepciones, debugging y logging seguro», me enfoqué en S09-T4 para completar S09-T4-B-E2. El contrato del ejercicio (independiente) se satisface con el patrón del paquete; instruction resumida: Implementa `retry_call(fn, max_attempts=3)` que reintenta solo TimeoutError.… Fragmento de teoría que usé: «Excepciones, debugging y logging seguro»"
+    },
+    {
+      "exercise_id": "S09-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib, json\nrecord = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"m\": 1}}\npayload_hash = hashlib.sha256(\n    json.dumps(record[\"payload\"], sort_keys=True).encode()\n).hexdigest()[:12]\nkey = f\"{record['source']}:{record['id']}:v{record['version']}:{payload_hash}\"\n# forma esperada (referencia): print(\"idem_key=\" + key)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "S09-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Excepciones, debugging y logging seguro», me enfoqué en S09-T4 para completar S09-T4-B-E3. Completé el código/markdown de forma ejecutable o documentable según el kind=transferencia. Instruction: Diseña la clave de idempotencia para re-ingesta e imprímela para un ejemplo.… La teoría remarca: «Excepciones, debugging y logging seguro» — eso orientó la solución."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check #0: «¿Para qué sirve `raise NewError(...) from e`?». Elegí el índice 0: «Encadenar la causa en __cause__ sin perder contexto». La teoría de la sección respalda esa lectura y descarta las distracciones."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.91,
+      "blocked_on": [],
+      "justification_from_packet": "Para la pregunta 1 («Un delimiter vacío en config del job debería…») la opción correcta es 2 — «Fail-fast (abortar el job)» — porque el paquete define ese contrato y no las alternativas."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "confidence": 0.75,
+      "blocked_on": [],
+      "justification_from_packet": "En autoevaluación, pregunta 2: me quedo con la opción 3 («Solo datos; diagnóstico a stderr»). Las otras no coinciden con el vocabulario del theory/iDo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta 3 del self-check: «mask_email('ana@ejemplo.pe') de forma segura podría ser…» → respuesta 1 «a***@ejemplo.pe», alineada a outcomes y párrafos de la sección activa."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "confidence": 0.83,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check #4: «TimeoutError en un fetch remoto típico…». Elegí el índice 0: «Puede reintentarse con backoff; ValueError de datos no». La teoría de la sección respalda esa lectura y descarta las distracciones."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 2,
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "Para la pregunta 5 («¿Cuál es un buen minimal repro?») la opción correcta es 2 — «La entrada más pequeña que reproduce el bug» — porque el paquete define ese contrato y no las alternativas."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:31:29.898210+00:00",
+  "session_started_at": "2026-07-23T13:31:14.527566+00:00",
+  "session_ended_at": "2026-07-23T13:31:29.896667+00:00",
+  "receipt_response_sha256": "6290d752b9708eb8e7f1d2dffb9069ea92c6c3b6fac0829ee1154e766fff5989",
+  "receipt_exercises_sha256": "6a29ea2f84d33b77061b511cc9b38595b348e1c270c6827a88ec701c5107fbd8",
+  "receipt_selfcheck_sha256": "3b265f3566cef3bd648836e9bc58a4999f8136e0803388c1807724bcd81cf5c1"
+}

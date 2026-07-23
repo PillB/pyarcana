@@ -91,7 +91,7 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
           <div className="mb-4 flex items-center gap-3">
             <Image
               src={siteAsset('/logo.svg')}
-              alt=""
+              alt="PyArcana"
               width={48}
               height={48}
               className="h-12 w-12 rounded-2xl shadow-glow"

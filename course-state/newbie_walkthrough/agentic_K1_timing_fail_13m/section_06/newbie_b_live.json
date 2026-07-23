@@ -1,0 +1,372 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-skeptic-s06-832fd6685b",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T1-A-E1)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntxs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nempty = []\nv0 = empty[-2:]\n# forma esperada (referencia): print(ventana)\n\n",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Auditoría skeptic de S06-T1-A-E1 (guiado) bajo el heading «Colecciones y estructuras de datos». Según tests «[40, 50] y []…», la solución es form-complete y sin marcas incompletas. Base textual del paquete: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T1-A-E2)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\nheaders = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\n# forma esperada (referencia): print('KEYS', KEYS)\n\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Cruce skeptic en S06-T1: el código de S06-T1-A-E2 debe cumplir tests y no dejar placeholders. Checklist: KEYS estable + more… Si pide script, hay entrypoint; si pide REPL/protocolo, documenté el diálogo. El paquete insiste en: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T1-A-E3)\n# skeptic check s06\nids = ('C001', 'C002')\ntry:\n    ids.append('C003')  # bug intencional si se ejecuta sobre tuple\nexcept Exception as e:\n    ...\n\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisión escéptica de S06-T1-A-E3: contrasté la entrega con rúbrica/tests y el subtema S06-T1. Tests del paquete: AttributeError + lista mutada… Confirmé main/__name__/sys.version cuando aplica (p. ej. hello_sys). Base textual del paquete: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T1-B-E1)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfila = ('C001', 'Lima', 10)\ncid, region, monto = fila\n# forma esperada (referencia): print(cid, region, monto)\n\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Auditoría skeptic de S06-T1-B-E1 (guiado) bajo el heading «Colecciones y estructuras de datos». Tests del paquete: C001 Lima 10… Confirmé main/__name__/sys.version cuando aplica (p. ej. hello_sys). Teoría de apoyo: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T1-B-E2)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\ncopia.append(4)\n# forma esperada (referencia): print('tras alias', xs, copia)\n\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como skeptic verifiqué S06-T1-B-E2 contra «Colecciones y estructuras de datos» y el checklist del quiz_card. Rúbrica: xs crece con alias; no con copia tras divergencia… Eliminé ____/TODO y comprobé forma (print, def, markdown de protocolo). El paquete insiste en: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\nprint('orig', rows)\nprint('deep', deep)\n\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Dudé del primer borrador de S06-T1-B-E3; revalidé con hints y teoría de S06-T1. Checklist: deep no contamina original en el append 'd'… Si pide script, hay entrypoint; si pide REPL/protocolo, documenté el diálogo. Teoría de apoyo: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T2-A-E1)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\npares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\n# forma esperada (referencia): print(d)\n\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Dudé del primer borrador de S06-T2-A-E1; revalidé con hints y teoría de S06-T2. Según tests «Cusco…», la solución es form-complete y sin marcas incompletas. Teoría de apoyo: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T2-A-E2)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\nidx = {'C001': 'Ana'}\ntry:\nexcept KeyError as e:\n# forma esperada (referencia): print(idx.get('C001', 'N/A'))\n\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como skeptic verifiqué S06-T2-A-E2 contra «Colecciones y estructuras de datos» y el checklist del quiz_card. Checklist: Ana / N/A / KeyError… Si pide script, hay entrypoint; si pide REPL/protocolo, documenté el diálogo. Teoría de apoyo: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T2-A-E3)\n# skeptic check s06\ndefaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nprint('merged', merged)\n\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Dudé del primer borrador de S06-T2-A-E3; revalidé con hints y teoría de S06-T2. Rúbrica: retry 5 timeout 30; defaults original intacto… Eliminé ____/TODO y comprobé forma (print, def, markdown de protocolo). El paquete insiste en: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T2-B-E1)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\nemails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\n# forma esperada (referencia): print(unicos)\n\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Cruce skeptic en S06-T2: el código de S06-T2-B-E1 debe cumplir tests y no dejar placeholders. Según tests «['a@ex.com', 'b@ex.com']…», la solución es form-complete y sin marcas incompletas. Base textual del paquete: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T2-B-E2)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\na = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\n# forma esperada (referencia): print('inter', sorted(a & b))\n\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como skeptic verifiqué S06-T2-B-E2 contra «Colecciones y estructuras de datos» y el checklist del quiz_card. Según tests «inter b,c ; symdiff a,d…», la solución es form-complete y sin marcas incompletas. Referencia teórica: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T2-B-E3)\n# skeptic check s06\ndef dedup_report(rows, key='id'):\n    ...\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))\n\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Dudé del primer borrador de S06-T2-B-E3; revalidé con hints y teoría de S06-T2. Rúbrica: 1 conflict C001… Eliminé ____/TODO y comprobé forma (print, def, markdown de protocolo). Teoría de apoyo: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T3-A-E1)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n# forma esperada (referencia): print(c['id'], '→', len(c['contacts']))\n\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Cruce skeptic en S06-T3: el código de S06-T3-A-E1 debe cumplir tests y no dejar placeholders. Tests del paquete: C001 → 2 ; C002 → 0… Confirmé main/__name__/sys.version cuando aplica (p. ej. hello_sys). El paquete insiste en: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T3-A-E2)\n# skeptic check s06\nclients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nprint(flat)\n\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisión escéptica de S06-T3-A-E2: contrasté la entrega con rúbrica/tests y el subtema S06-T3. Tests del paquete: 3 filas flat… Confirmé main/__name__/sys.version cuando aplica (p. ej. hello_sys). Referencia teórica: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T3-A-E3)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    ok = isinstance(txs, list)\n# forma esperada (referencia): print(c['id'], 'ok' if ok else 'review')\n\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisión escéptica de S06-T3-A-E3: contrasté la entrega con rúbrica/tests y el subtema S06-T3. Tests del paquete: ok / review / review… Confirmé main/__name__/sys.version cuando aplica (p. ej. hello_sys). Referencia teórica: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T3-B-E1)\n# skeptic check s06\ndef get_nested(d, *keys, default=None):\n    ...\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisión escéptica de S06-T3-B-E1: contrasté la entrega con rúbrica/tests y el subtema S06-T3. Tests del paquete: 999 y N/A… Confirmé main/__name__/sys.version cuando aplica (p. ej. hello_sys). El paquete insiste en: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T3-B-E2)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n# forma esperada (referencia): print(f\"{c['id']}: {flag}\")\n\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Dudé del primer borrador de S06-T3-B-E2; revalidé con hints y teoría de S06-T3. Según tests «present/missing/missing…», la solución es form-complete y sin marcas incompletas. El paquete insiste en: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T3-B-E3)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvals = [None, '', 0, []]\nfor v in vals:\n# forma esperada (referencia): print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Auditoría skeptic de S06-T3-B-E3 (transferencia) bajo el heading «Colecciones y estructuras de datos». Tests del paquete: solo None missing=True… Confirmé main/__name__/sys.version cuando aplica (p. ej. hello_sys). Base textual del paquete: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T4-A-E1)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\n# forma esperada (referencia): print([r['id'] for r in ordered])\n\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Dudé del primer borrador de S06-T4-A-E1; revalidé con hints y teoría de S06-T4. Según tests «T1 luego T2…», la solución es form-complete y sin marcas incompletas. Teoría de apoyo: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T4-A-E2)\n# skeptic check s06\nrows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\n\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Auditoría skeptic de S06-T4-A-E2 (independiente) bajo el heading «Colecciones y estructuras de datos». Tests del paquete: Cusco Bob; Lima Ana; Lima Zed… Confirmé main/__name__/sys.version cuando aplica (p. ej. hello_sys). Teoría de apoyo: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T4-A-E3)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\ncopy_sorted = sorted(base)\n# forma esperada (referencia): print('ret', ret)\n\n",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Dudé del primer borrador de S06-T4-A-E3; revalidé con hints y teoría de S06-T4. Tests del paquete: None + base intacta… Confirmé main/__name__/sys.version cuando aplica (p. ej. hello_sys). Referencia teórica: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T4-B-E1)\n# skeptic check s06\njobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\n\n",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como skeptic verifiqué S06-T4-B-E1 contra «Colecciones y estructuras de datos» y el checklist del quiz_card. Tests del paquete: list/dict/set… Confirmé main/__name__/sys.version cuando aplica (p. ej. hello_sys). El paquete insiste en: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T4-B-E2)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\n# forma esperada (referencia): print(s)\n\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Cruce skeptic en S06-T4: el código de S06-T4-B-E2 debe cumplir tests y no dejar placeholders. Rúbrica: {\"a\": 2, \"ids\": [\"C001\", \"C002\"], \"z\": 1}… Eliminé ____/TODO y comprobé forma (print, def, markdown de protocolo). El paquete insiste en: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# revisado skeptic (S06-T4-B-E3)\n# skeptic check s06\n# Fixture del paquete (conserva datos; no reescribas asserts)\nids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\n# forma esperada (referencia): print('list membership: O(n) por chequeo')\n\n",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Cruce skeptic en S06-T4: el código de S06-T4-B-E3 debe cumplir tests y no dejar placeholders. Checklist: O(n) vs O(1) + True… Si pide script, hay entrypoint; si pide REPL/protocolo, documenté el diálogo. Base textual del paquete: «Colecciones y estructuras de datos»"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.7,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic self-check 0: re-leí «¿Qué produce xs[-2:] si xs = [1,2,3,4]?» y mantuve índice 1 («[3,4]»). Las otras opciones chocan con la definición del paquete."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.79,
+      "blocked_on": [],
+      "justification_from_packet": "Contrasté opciones de la Q1. Solo 3 («a también ve el append (alias)») resiste la rúbrica implícita del material activo sobre «b = a (listas) y mutas b.append(1). ¿Qué pasa con a?»."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Verificación cruzada Q2: descarte de distractores; me quedo con 0: «Listar conflicto en conflicts sin silenciar» para «Para reportar dos filas con mismo id y payload distinto debes…»."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.8,
+      "blocked_on": [],
+      "justification_from_packet": "Auditoría de autoevaluación ítem 3: la evidencia del theory apunta a «None (muta in-place)» (índice 2), no a atajos incorrectos."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic self-check 4: re-leí «json.dumps(..., sort_keys=True) ayuda a…» y mantuve índice 1 («salidas deterministas/reproducibles»). Las otras opciones chocan con la definición del paquete."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:30:18.059527+00:00",
+  "session_started_at": "2026-07-23T13:30:05.342068+00:00",
+  "session_ended_at": "2026-07-23T13:30:18.058301+00:00",
+  "receipt_response_sha256": "b3534851262569e1a6d9d6a07154fc62790955349a5ea17aa3b009a41b88b98c",
+  "receipt_exercises_sha256": "0d933686a128183a0e274e3e710eb154c707f2d906c8d2cd91db84b2ab2f6ebb",
+  "receipt_selfcheck_sha256": "13c5ee34bb1da923cc224250ad8508e3ddb585d2246f7b33a625f088a8ab702c"
+}

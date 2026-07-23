@@ -1,0 +1,337 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_a-s24-e7dd7f05b20d",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "id": "S24-T1-A-E1",
+      "code": "# packet solve S24-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndpi=96\nprint(max(dpi, 200))\n",
+      "justification_from_packet": "Exploración de S24-T1-A-E1 en OCR y Document AI: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el entero resultante. Contrato: no inventa detalle óptico; solo …». Enlacé con «degrada tipografía pequeña facturas sintéticas; eleva» del theory y escribí `dpi=96`. No usé claves offline; solo packet activo (conf 0.729). Traza local: sección-activa/explorer/S24-T1-A-E1.",
+      "confidence": 0.729,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "id": "S24-T1-A-E2",
+      "code": "# packet solve S24-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nskew=1.2\nprint(abs(skew) >= 0.5)\n",
+      "justification_from_packet": "Para S24-T1-A-E2 seguí hints + instruction del quiz_card de «OCR y Document AI». Concepto ancla del packet: DPI, deskew, crop y contraste. Resultado implementado con `skew=1.2` respondiendo a: «Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral didáctico 0.5°. Pass: True. Usa solo fixtures sintéticos…». Estimación de acierto 0.711. Traza local: sección-activa/explorer/S24-T1-A-E2.",
+      "confidence": 0.711,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "id": "S24-T1-A-E3",
+      "code": "# packet solve S24-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nw=h=1000\nm=0.05\nprint((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n",
+      "justification_from_packet": "Como Explorer en «OCR y Document AI», resolví S24-T1-A-E3 leyendo la instruction: «Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen esquina superior izquierda. Pass: (50, 50, 950, 9…». Me apoyé en el subtema/paquete («degrada tipografía pequeña facturas sintéticas; eleva») y en el demo/theory para completar el starter; la línea clave quedó: `w=h=1000`. Confianza ~0.607 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S24-T1-A-E3.",
+      "confidence": 0.607,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "id": "S24-T1-B-E1",
+      "code": "# packet solve S24-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns={0:0.1,90:0.8}\nprint(max(s, key=s.get))\n",
+      "justification_from_packet": "Para S24-T1-B-E1 seguí hints + instruction del quiz_card de «OCR y Document AI». Concepto ancla del packet: degrada tipografía pequeña facturas sintéticas; eleva. Resultado implementado con `s={0:0.1,90:0.8}` respondiendo a: «Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de grados. Contrato: max(s, key=s.get). Pass: 90. Usa solo f…». Estimación de acierto 0.906. Traza local: sección-activa/explorer/S24-T1-B-E1.",
+      "confidence": 0.906,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "id": "S24-T1-B-E2",
+      "code": "# packet solve S24-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflags=[0,1,1,0]\nprint(sum(flags))\n",
+      "justification_from_packet": "Exploración de S24-T1-B-E2 en OCR y Document AI: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(flags) o count. Pass: 2. Usa solo fixtures sintéticos del …». Enlacé con «degrada tipografía pequeña facturas sintéticas; eleva» del theory y escribí `flags=[0,1,1,0]`. No usé claves offline; solo packet activo (conf 0.764). Traza local: sección-activa/explorer/S24-T1-B-E2.",
+      "confidence": 0.764,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "id": "S24-T1-B-E3",
+      "code": "# packet solve S24-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=0.4\nprint('manual_orient' if score < 0.5 else 'auto')\n",
+      "justification_from_packet": "Para S24-T1-B-E3 seguí hints + instruction del quiz_card de «OCR y Document AI». Concepto ancla del packet: DPI, deskew, crop y contraste. Resultado implementado con `score=0.4` respondiendo a: «Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed a humano. Pass: manual_orient. Usa solo fixtur…». Estimación de acierto 0.780. Traza local: sección-activa/explorer/S24-T1-B-E3.",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "id": "S24-T2-A-E1",
+      "code": "# packet solve S24-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.85])\n",
+      "justification_from_packet": "Para S24-T2-A-E1 seguí hints + instruction del quiz_card de «OCR y Document AI». Concepto ancla del packet: ruido y orientación. Resultado implementado con `toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]` respondiendo a: «Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de text. Contrato: no mutar conf. Pass: ['A']. Usa solo fixtu…». Estimación de acierto 0.668. Traza local: sección-activa/explorer/S24-T2-A-E1.",
+      "confidence": 0.668,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "id": "S24-T2-A-E2",
+      "code": "# packet solve S24-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint(ocr('Hola')['lang'])\n",
+      "justification_from_packet": "Para S24-T2-A-E2 seguí hints + instruction del quiz_card de «OCR y Document AI». Concepto ancla del packet: Ruido (sal/pimienta, compresión JPEG) orientación (0/90/180/270). Resultado implementado con `def ocr(text, lang='spa'):` respondiendo a: «Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e imprime lang. Contrato: string fijo didáctico. Pass: spa. Usa solo fixtu…». Estimación de acierto 0.717. Traza local: sección-activa/explorer/S24-T2-A-E2.",
+      "confidence": 0.717,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "id": "S24-T2-A-E3",
+      "code": "# packet solve S24-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nconfs=[0.9,0.75,0.95]\nm=min(confs)\nprint(m, 'review' if m < 0.8 else 'auto')\n",
+      "justification_from_packet": "Como Explorer en «OCR y Document AI», resolví S24-T2-A-E3 leyendo la instruction: «Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución). Contrato: campo débil tumba auto-accept. Pass: …». Me apoyé en el subtema/paquete («Ruido (sal/pimienta, compresión JPEG) orientación (0/90/180/270)») y en el demo/theory para completar el starter; la línea clave quedó: `confs=[0.9,0.75,0.95]`. Confianza ~0.703 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S24-T2-A-E3.",
+      "confidence": 0.703,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "id": "S24-T2-B-E1",
+      "code": "# packet solve S24-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='Total: 12.5'\nk,v=s.split(':',1)\nprint(k.strip(), v.strip())\n",
+      "justification_from_packet": "Como Explorer en «OCR y Document AI», resolví S24-T2-B-E1 leyendo la instruction: «KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Contrato: strip ambos lados. Pass: Total 12.5. Usa solo fixt…». Me apoyé en el subtema/paquete («Configura idiomas (spa+eng) según corpus: facturas») y en el demo/theory para completar el starter; la línea clave quedó: `s='Total: 12.5'`. Confianza ~0.657 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S24-T2-B-E1.",
+      "confidence": 0.657,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "id": "S24-T2-B-E2",
+      "code": "# packet solve S24-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nt=[['H1','H2'],['a','b']]\nprint(len(t)-1)\n",
+      "justification_from_packet": "Como Explorer en «OCR y Document AI», resolví S24-T2-B-E2 leyendo la instruction: «Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: header no cuenta. Pass: 1. Usa solo fixtures sintéticos del la…». Me apoyé en el subtema/paquete («Configura idiomas (spa+eng) según corpus: facturas») y en el demo/theory para completar el starter; la línea clave quedó: `t=[['H1','H2'],['a','b']]`. Confianza ~0.873 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S24-T2-B-E2.",
+      "confidence": 0.873,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "id": "S24-T2-B-E3",
+      "code": "# packet solve S24-T2-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfield={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint(field['bbox'], field['value'])\n",
+      "justification_from_packet": "Para S24-T2-B-E3 seguí hints + instruction del quiz_card de «OCR y Document AI». Concepto ancla del packet: degrada tipografía pequeña facturas sintéticas; eleva. Resultado implementado con `field={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}` respondiendo a: «Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Contrato: bbox del valor. Pass: [0, 0, 10, 10] 201…». Estimación de acierto 0.628. Traza local: sección-activa/explorer/S24-T2-B-E3.",
+      "confidence": 0.628,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "id": "S24-T3-A-E1",
+      "code": "# packet solve S24-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\ns='20-123'\nprint(re.sub(r'\\D', '', s))\n",
+      "justification_from_packet": "Como Explorer en «OCR y Document AI», resolví S24-T3-A-E1 leyendo la instruction: «Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valida longitud aquí. Pass: 20123. Usa solo fixtures sintético…». Me apoyé en el subtema/paquete («degrada tipografía pequeña facturas sintéticas; eleva») y en el demo/theory para completar el starter; la línea clave quedó: `import re`. Confianza ~0.939 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S24-T3-A-E1.",
+      "confidence": 0.939,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "id": "S24-T3-A-E2",
+      "code": "# packet solve S24-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import datetime\nprint(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n",
+      "justification_from_packet": "Como Explorer en «OCR y Document AI», resolví S24-T3-A-E2 leyendo la instruction: «Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY. Pass: 2026-01-15. Usa solo fixtures sintéticos del lab; la salid…». Me apoyé en el subtema/paquete («DPI, deskew, crop y contraste») y en el demo/theory para completar el starter; la línea clave quedó: `from datetime import datetime`. Confianza ~0.918 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S24-T3-A-E2.",
+      "confidence": 0.918,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "id": "S24-T3-A-E3",
+      "code": "# packet solve S24-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\nraw='123'\nd=re.sub(r'\\D','',raw)\nprint(d if len(d)==11 else None)\n",
+      "justification_from_packet": "Como Explorer en «OCR y Document AI», resolví S24-T3-A-E3 leyendo la instruction: «RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa solo fixtures sintéticos del lab; la salida de…». Me apoyé en el subtema/paquete («ruido y orientación») y en el demo/theory para completar el starter; la línea clave quedó: `import re`. Confianza ~0.665 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S24-T3-A-E3.",
+      "confidence": 0.665,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "id": "S24-T3-B-E1",
+      "code": "# packet solve S24-T3-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntotal, lines=10.0,[4.0,5.0]\nprint('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n",
+      "justification_from_packet": "Como Explorer en «OCR y Document AI», resolví S24-T3-B-E1 leyendo la instruction: «Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. Contrato: tolerancia 0.01. Pass: needs_review. Usa solo f…». Me apoyé en el subtema/paquete («DPI, deskew, crop y contraste») y en el demo/theory para completar el starter; la línea clave quedó: `total, lines=10.0,[4.0,5.0]`. Confianza ~0.861 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S24-T3-B-E1.",
+      "confidence": 0.861,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "id": "S24-T3-B-E2",
+      "code": "# packet solve S24-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint(reasons)\n",
+      "justification_from_packet": "Como Explorer en «OCR y Document AI», resolví S24-T3-B-E2 leyendo la instruction: «Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumular, no raise. Pass: ['ruc_missing']. Usa solo fixtures s…». Me apoyé en el subtema/paquete («idiomas, layout y confidence») y en el demo/theory para completar el starter; la línea clave quedó: `ruc=None`. Confianza ~0.909 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S24-T3-B-E2.",
+      "confidence": 0.909,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "id": "S24-T3-B-E3",
+      "code": "# packet solve S24-T3-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmismatch=True\nprint('review_not_fraud' if mismatch else 'auto')\n",
+      "justification_from_packet": "Para S24-T3-B-E3 seguí hints + instruction del quiz_card de «OCR y Document AI». Concepto ancla del packet: degrada tipografía pequeña facturas sintéticas; eleva. Resultado implementado con `mismatch=True` respondiendo a: «Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de política del curso. Pass: review_not_fraud.». Estimación de acierto 0.602. Traza local: sección-activa/explorer/S24-T3-B-E3.",
+      "confidence": 0.602,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "id": "S24-T4-A-E1",
+      "code": "# packet solve S24-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ncorrect, n = 3, 4\nprint(correct / n)\n",
+      "justification_from_packet": "Como Explorer en «OCR y Document AI», resolví S24-T4-A-E1 leyendo la instruction: «Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0.75. Usa solo fixtures sintéticos del lab; la salida debe…». Me apoyé en el subtema/paquete («Ruido (sal/pimienta, compresión JPEG) orientación (0/90/180/270)») y en el demo/theory para completar el starter; la línea clave quedó: `correct, n = 3, 4`. Confianza ~0.821 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S24-T4-A-E1.",
+      "confidence": 0.821,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "id": "S24-T4-A-E2",
+      "code": "# packet solve S24-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n",
+      "justification_from_packet": "Exploración de S24-T4-A-E2 en OCR y Document AI: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5. Contrato: solo campo ruc. Pass: 0.5. Usa solo fixtures s…». Enlacé con «Ruido (sal/pimienta, compresión JPEG) orientación (0/90/180/270)» del theory y escribí `rows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]`. No usé claves offline; solo packet activo (conf 0.784). Traza local: sección-activa/explorer/S24-T4-A-E2.",
+      "confidence": 0.784,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "id": "S24-T4-A-E3",
+      "code": "# packet solve S24-T4-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nauto, review = 7, 3\nprint(auto / (auto + review))\n",
+      "justification_from_packet": "Para S24-T4-A-E3 seguí hints + instruction del quiz_card de «OCR y Document AI». Concepto ancla del packet: Ruido (sal/pimienta, compresión JPEG) orientación (0/90/180/270). Resultado implementado con `auto, review = 7, 3` respondiendo a: «Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobertura. Pass: 0.7. Usa solo fixtures sintéticos …». Estimación de acierto 0.932. Traza local: sección-activa/explorer/S24-T4-A-E3.",
+      "confidence": 0.932,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "id": "S24-T4-B-E1",
+      "code": "# packet solve S24-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('reject' if mime not in allowed else 'ok')\n",
+      "justification_from_packet": "Exploración de S24-T4-B-E1 en OCR y Document AI: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-closed. Pass: reject. Usa solo fixtures sintéticos del lab; l…». Enlacé con «DPI, deskew, crop y contraste» del theory y escribí `mime='application/zip'`. No usé claves offline; solo packet activo (conf 0.646). Traza local: sección-activa/explorer/S24-T4-B-E1.",
+      "confidence": 0.646,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "id": "S24-T4-B-E2",
+      "code": "# packet solve S24-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=6_000_000\nprint('reject' if n > 5_000_000 else 'ok')\n",
+      "justification_from_packet": "Exploración de S24-T4-B-E2 en OCR y Document AI: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: reject. Usa solo fixtures sintéticos del lab; la salida de…». Enlacé con «Configura idiomas (spa+eng) según corpus: facturas» del theory y escribí `n=6_000_000`. No usé claves offline; solo packet activo (conf 0.848). Traza local: sección-activa/explorer/S24-T4-B-E2.",
+      "confidence": 0.848,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "id": "S24-T4-B-E3",
+      "code": "# packet solve S24-T4-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus='ocr_fail'\nprint({'ocr_fail':'human_rescan'}.get(status, 'continue'))\n",
+      "justification_from_packet": "Exploración de S24-T4-B-E3 en OCR y Document AI: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito de OCR. Pass: human_rescan. Usa solo fixtures si…». Enlacé con «Configura idiomas (spa+eng) según corpus: facturas» del theory y escribí `status='ocr_fail'`. No usé claves offline; solo packet activo (conf 0.823). Traza local: sección-activa/explorer/S24-T4-B-E3.",
+      "confidence": 0.823,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #0 de «OCR y Document AI»: pregunta «¿Qué haces si confidence de RUC es 0.6?». Elegí índice 3 → «Abstener y encolar revisión» porque el theory/outcomes del packet («ruido y orientación», «DPI, deskew, crop y contraste») describen ese matiz de forma directa. Explorer conf~0.791.",
+      "confidence": 0.791
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #1 de «OCR y Document AI»: pregunta «Un mismatch total vs líneas implica:». Elegí índice 1 → «Cola de revisión / corrección» porque el theory/outcomes del packet («DPI, deskew, crop y contraste», «DPI, deskew, crop y contraste») describen ese matiz de forma directa. Explorer conf~0.792.",
+      "confidence": 0.792
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #2 de «OCR y Document AI»: pregunta «¿Por qué medir accuracy por campo?». Elegí índice 2 → «Los campos críticos pueden fallar aunque el global se vea bien» porque el theory/outcomes del packet («idiomas, layout y confidence», «ruido y orientación») describen ese matiz de forma directa. Explorer conf~0.741.",
+      "confidence": 0.741
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #3 de «OCR y Document AI»: pregunta «Archivo application/zip en intake de facturas:». Elegí índice 0 → «Gate reject/review por mime no permitido» porque el theory/outcomes del packet («idiomas, layout y confidence», «Configura idiomas (spa+eng) según corpus: facturas») describen ese matiz de forma directa. Explorer conf~0.814.",
+      "confidence": 0.814
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:39:31.783858+00:00",
+  "session_started_at": "2026-07-23T13:39:16.091222+00:00",
+  "session_ended_at": "2026-07-23T13:39:31.782363+00:00",
+  "receipt_response_sha256": "2f269a3dbd0f8df0fa7408279b15dc25ee023d70615ed66ae6b959f0b8a1f488",
+  "receipt_exercises_sha256": "002c73865901bce289cb1971197efb16888b5b54c016e59b58c38de7c3c64421",
+  "receipt_selfcheck_sha256": "cb93dba17d8a91b179be4c3a959658193425ec7f73425ff91ba05f368c5ee81e"
+}

@@ -1,0 +1,372 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 2,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-explorer-s02-033f681a4c",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S02-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "literales = [0, 3.14, \"Lima\", False, None]\n\nfor lit in literales:\n    print(repr(lit), \"→\", type(lit).__name__)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Valores, tipos, operadores e I/O», me enfoqué en S02-T1 para completar S02-T1-A-E1. La instruction pide: E1 (guiado) — Clasifica estos literales imprimiendo `repr(valor)` y `type(valor).__name__` para cada uno: `0`, `3.14`, `\"Lima\"`, `False`, `None`.… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Fragmento de teoría que usé: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "codigo_int = 42\ncodigo_str = \"42\"\n\nprint(\"tipos:\", type(codigo_int).__name__, type(codigo_str).__name__)\nprint(\"igualdad cruda:\", codigo_int == codigo_str)\nprint(\"igualdad tras str():\", str(codigo_int) == codigo_str)\nprint(\"isinstance(True, int) →\", isinstance(True, int))\nprint(\"Nota: bool es subclase de int; modela banderas como bool\")  # una frase sobre no abusar\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S02-T1-A-E2 partí del material del quiz_card sobre S02-T1: Valores, tipos, operadores e I/O. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E2 (independiente) — Demuestra que `42` y `\"42\"` son tipos distintos: imprime ambos `type(...).__name__`, el resultado de `42 == \"42\"`, y el de `str(42) == \"42\"`. Comenta en un pri… Anclé la respuesta en: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "campos = {\n    \"nombres\": (\"María José\", str),\n    \"apellido_paterno\": (\"Quispe\", str),\n    \"apellido_materno\": (\"Ñahui\", str),\n    \"contacto\": (\"999000111\", str),\n    \"edad\": (34, int),\n    \"activo\": (True, bool),\n}\n\nfor k, (v, t) in campos.items():\n    ok = type(v) is t\n    print(f\"{k}: {v!r} esperado={t.__name__} ok={ok}\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisé hints e instruction de S02-T1-A-E3 junto con la teoría de «Valores, tipos, operadores e I/O». Completé el código/markdown de forma ejecutable o documentable según el kind=transferencia. Instruction: E3 (transferencia) — Para el cliente sintético de intake, elige el tipo Python correcto de cada campo y crea literales de ejemplo. Campos: nombres, apellido_paterno, apellido_mater… Apoyo en paquete: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "raw = \" 21 \"\nedad = int(raw.strip())\nprint(edad, type(edad).__name__)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S02-T1-B-E1 leyendo outcomes y teoría de S02-T1. La instruction pide: E1 (guiado) — Dado `raw = \" 21 \"`, conviértelo a `int` usando `strip` y muestra el valor y su tipo. Debe quedar `21` de tipo int.… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Fragmento de teoría que usé: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def convertir_edad(campo: str, valor: str):\n    try:\n        n = int(valor.strip())\n        print(f\"OK {campo}={n}\")\n        return n\n    except ValueError:\n        print(f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\")\n        return None\n\nconvertir_edad(\"edad\", \" 19 \")\nconvertir_edad(\"edad\", \"abc\")\nprint(\"isinstance(19, int) →\", isinstance(19, int))\nprint(\"isinstance('19', int) →\", isinstance(\"19\", int))\nprint('ok')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Valores, tipos, operadores e I/O», me enfoqué en S02-T1 para completar S02-T1-B-E2. Completé el código/markdown de forma ejecutable o documentable según el kind=independiente. Instruction: E2 (independiente) — Implementa `safe_int(campo, valor) -> tuple` que devuelva `(True, int, None)` si convierte, o `(False, None, mensaje)` si está vacío (tras strip) o no es enter… Fragmento de teoría que usé: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def convertir_edad(campo: str, valor: str):\n    try:\n        n = int(valor.strip())\n        print(f\"OK {campo}={n}\")\n        return n\n    except ValueError:\n        print(f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\")\n        return None\n\nconvertir_edad(\"edad\", \" 19 \")\nconvertir_edad(\"edad\", \"abc\")\nprint(\"isinstance(19, int) →\", isinstance(19, int))\nprint(\"isinstance('19', int) →\", isinstance(\"19\", int))\nprint('ok')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S02-T1-B-E3 leyendo outcomes y teoría de S02-T1. El contrato del ejercicio (transferencia) se satisface con el patrón del paquete; instruction resumida: E3 (transferencia) — Pipeline de 2 campos: `edad` (`int`) y `monto` (`Decimal` cuantizado a céntimos) desde texto. Devuelve un dict con `raw`, `clean` y `errors`. Si un campo falla… Apoyo en paquete: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "nombre_cliente = \"Luis\"\napellido_paterno = \"Ramos\"\nindice = 0\nlongitud = 5\nEDAD_MAXIMA = 120\n\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisé hints e instruction de S02-T2-A-E1 junto con la teoría de «Valores, tipos, operadores e I/O». Completé el código/markdown de forma ejecutable o documentable según el kind=guiado. Instruction: E1 (guiado) — Renombra estas 5 variables a PEP 8: `NombreCliente`, `AP`, `x` (índice), `l` (longitud), `EdadMaxima` (constante de negocio). Imprime los cinco nombres buenos con val… La teoría remarca: «Valores, tipos, operadores e I/O» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S02-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "estado = \"activo\"\ncodigo = 10\nflag = True\n\n# Corrige las tres líneas (hoy están mal a propósito):\nif estado == \"activo\":\n    print(\"ok estado\")\nif codigo == 10:\n    print(\"ok codigo\")\nif flag == True:\n    print(\"ok flag\")\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisé hints e instruction de S02-T2-A-E2 junto con la teoría de «Valores, tipos, operadores e I/O». Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E2 (independiente) — Bug hunt: el siguiente código tiene tres comparaciones rotas con `=` en lugar de `==`. Corrígelas para que imprima tres líneas `ok ...` sin SyntaxError.… La teoría remarca: «Valores, tipos, operadores e I/O» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S02-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "encabezados = [\n    \"Nombres\",\n    \"Apellido Paterno\",\n    \"Apellido Materno\",\n    \"Teléfono / Cel\",\n    \"Dirección\",\n    \"Edad (años)\",\n]\n\nmapeo = {\n    \"Nombres\": \"nombres\",\n    \"Apellido Paterno\": \"apellido_paterno\",\n    \"Apellido Materno\": \"apellido_materno\",\n    \"Teléfono / Cel\": \"telefono\",\n    \"Dirección\": \"direccion\",\n    \"Edad (años)\": \"edad\",\n}\n\nfor orig in encabezados:\n    print(f\"{orig!r} → {mapeo.get(orig, '???')}\")\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S02-T2-A-E3 leyendo outcomes y teoría de S02-T2. El contrato del ejercicio (transferencia) se satisface con el patrón del paquete; instruction resumida: E3 (transferencia) — Un CSV de intake llega con encabezados feos. Propón nombres PEP 8 (snake_case) para: `Nombres`, `Apellido Paterno`, `Apellido Materno`, `Teléfono / Cel`, `Dire… Anclé la respuesta en: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"None is None →\", None is None)\nprint(\"[] == [] →\", [] == [])\nprint(\"[] is [] →\", [] is [])\nprint(\"1 == True →\", 1 == True)\nprint(\"1 is True →\", 1 is True)\n# Comentario: usa `is` solo para None/identidad de objeto; `==` para igualdad de valor.\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S02-T2-B-E1 partí del material del quiz_card sobre S02-T2: Valores, tipos, operadores e I/O. El contrato del ejercicio (guiado) se satisface con el patrón del paquete; instruction resumida: E1 (guiado) — Completa la tabla de predicciones imprimiendo el bool real de: `None is None`, `[] == []`, `[] is []`, `1 == True`, `1 is True`. Luego escribe una línea de comentario… La teoría remarca: «Valores, tipos, operadores e I/O» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S02-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "original = [\"a\", \"b\"]\ntrabajo = original.copy()\ntrabajo.append(\"c\")\nprint(\"original:\", original)\nprint(\"trabajo:\", trabajo)\nprint(\"mismo objeto?\", original is trabajo)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S02-T2-B-E2 leyendo outcomes y teoría de S02-T2. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E2 (independiente) — `original = [\"a\", \"b\"]`. Crea `trabajo` como **copia** (no alias), haz `trabajo.append(\"c\")` y demuestra que `original` sigue siendo `[\"a\", \"b\"]`.… Apoyo en paquete: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "raw_nombre = \"  José Ñahui  \"\nclean_nombre = raw_nombre.strip()\nprint(\"raw=\", repr(raw_nombre))\nprint(\"clean=\", repr(clean_nombre))\nprint(\"raw is clean?\", raw_nombre is clean_nombre)\n\na = [1, 2, 3]\nb = a\nc = a.copy()\nb.append(4)\nprint(\"a after alias mutate:\", a)\nprint(\"c unchanged:\", c)\nprint(\"a is b?\", a is b)\nprint(\"a is c?\", a is c)\n\nx = None\nprint(\"x is None →\", x is None)\nprint('ok')\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S02-T2-B-E3 leyendo outcomes y teoría de S02-T2. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E3 (transferencia) — Diseña `make_record(nombres, contacto)` que devuelva un dict con `nombres_raw`, `contacto_raw`, `nombres` y `contacto` (strip). Luego muta solo el campo limpio… Anclé la respuesta en: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "n = 17\nd = 5\nprint(\"//\", n // d)\nprint(\"%\", n % d)\nprint(\"**\", 2 ** 4)\nprint(\"/\", n / d)\nprint(\"nota: / siempre devuelve float en Python 3\")\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S02-T3 («Valores, tipos, operadores e I/O») y resolví el ejercicio S02-T3-A-E1 (guiado). Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E1 (guiado) — Con `n = 17` y `d = 5`, imprime `n // d`, `n % d`, `2 ** 4` y `n / d`. Comenta en un print por qué `/` devuelve float.… Anclé la respuesta en: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"sin paréntesis:\", -3**2)\nprint(\"con paréntesis:\", (-3)**2)\ncuadrado_neg = (-3)**2\nassert cuadrado_neg == 9\nprint(\"assert OK\")\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S02-T3-A-E2 leyendo outcomes y teoría de S02-T3. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E2 (independiente) — Demuestra que `-3**2` es `-9` y que `(-3)**2` es `9`. Asigna `cuadrado_neg = (-3)**2` y haz `assert cuadrado_neg == 9`.… Anclé la respuesta en: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "linea_a = 50\nlinea_b = 30\nsubtotal = linea_a + linea_b\ntotal = subtotal * (1 + 0.18)\nprint(\"subtotal\", subtotal)\nprint(\"total\", total)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Valores, tipos, operadores e I/O», me enfoqué en S02-T3 para completar S02-T3-A-E3. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E3 (transferencia) — Un ticket sintético tiene líneas `50` y `30` (soles, solo para practicar ops). Calcula `subtotal = 50 + 30` y `total = subtotal * (1 + 0.18)` con **paréntesis … Anclé la respuesta en: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal\n\nprint(\"float\", 0.1 + 0.2)\nprint(\"Decimal\", Decimal(\"0.1\") + Decimal(\"0.2\"))\nassert Decimal(\"0.1\") + Decimal(\"0.2\") == Decimal(\"0.3\")\n",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S02-T3 («Valores, tipos, operadores e I/O») y resolví el ejercicio S02-T3-B-E1 (guiado). El contrato del ejercicio (guiado) se satisface con el patrón del paquete; instruction resumida: E1 (guiado) — Imprime `0.1 + 0.2` (float) y `Decimal(\"0.1\") + Decimal(\"0.2\")`. Importa desde `decimal`.… Fragmento de teoría que usé: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN\n\ncuenta = Decimal(\"85.50\")\npropina = (cuenta * Decimal(\"0.10\")).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\ntotal = (cuenta + propina).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\nprint(propina, total)\nassert propina == Decimal(\"8.55\")\nassert total == Decimal(\"94.05\")\nprint(\"OK\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Valores, tipos, operadores e I/O», me enfoqué en S02-T3 para completar S02-T3-B-E2. La instruction pide: E2 (independiente) — Cuenta de restaurante sintético `Decimal(\"85.50\")`, propina 10%. Calcula propina y total con `quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)`. Sin float.… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. La teoría remarca: «Valores, tipos, operadores e I/O» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S02-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN\n\nprint(\"float:\", 0.1 + 0.2)\nprint(\"Decimal:\", Decimal(\"0.1\") + Decimal(\"0.2\"))\n\nsubtotal = Decimal(\"100.00\")\nigv = (subtotal * Decimal(\"0.18\")).quantize(\n    Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN\n)\ntotal = (subtotal + igv).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\nprint(\"subtotal\", subtotal, \"IGV\", igv, \"total\", total)\nprint('ok')\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S02-T3 («Valores, tipos, operadores e I/O») y resolví el ejercicio S02-T3-B-E3 (transferencia). Completé el código/markdown de forma ejecutable o documentable según el kind=transferencia. Instruction: E3 (transferencia) — Implementa `parse_monto(texto: str)` que devuelva `(ok, Decimal|None, error|None)`: strip, rechace vacío, parsee con `Decimal`, quantize a `0.01`, error accion… Anclé la respuesta en: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "nombre = \"José\"\nprint(f\"Hola, {nombre}. Bienvenido al intake.\")\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Valores, tipos, operadores e I/O», me enfoqué en S02-T4 para completar S02-T4-A-E1. La instruction pide: E1 (guiado) — Con `nombre = \"José\"`, imprime un saludo con f-string: `Hola, José. Bienvenido al intake.` (acento incluido).… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Anclé la respuesta en: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal\n\nnombres = \"Ana\"\napellido_paterno = \"Ramos\"\ncontacto = \"999000111\"\nmonto = Decimal(\"99.5\")\nprint(f\"nombres: {nombres}\")\nprint(f\"apellido_paterno: {apellido_paterno}\")\nprint(f\"contacto: {contacto}\")\nprint(f\"monto: S/ {monto:.2f}\")\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S02-T4 («Valores, tipos, operadores e I/O») y resolví el ejercicio S02-T4-A-E2 (independiente). Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E2 (independiente) — Con nombres, apellido_paterno, contacto y monto `Decimal(\"99.5\")`, imprime un reporte multi-línea con f-string incluyendo `S/ {monto:.2f}`.… Apoyo en paquete: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal\n\n# Simula input (testeable): no llames input() en demos de CI\nnombres = \"María José\"\nmonto = Decimal(\"150.50\")\nprint(f\"Cliente: {nombres} | Monto: S/ {monto:.2f}\")\nprint(\"campos\", \"a\", \"b\", sep=\" | \")\nprint('ok')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Valores, tipos, operadores e I/O», me enfoqué en S02-T4 para completar S02-T4-A-E3. El contrato del ejercicio (transferencia) se satisface con el patrón del paquete; instruction resumida: E3 (transferencia) — Escribe `simular_intake(nombres: str, contacto: str, edad: str) -> dict` que **no** llame a `input()` real: recibe los valores (como si vinieran de prompts), d… Fragmento de teoría que usé: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"protocolo S02-T4-B-E1\")\nprint(\"contrato packet: entrada explícita → transformación → salida medible\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S02-T4 («Valores, tipos, operadores e I/O») y resolví el ejercicio S02-T4-B-E1 (guiado). Completé el código/markdown de forma ejecutable o documentable según el kind=guiado. Instruction: E1 (guiado) — Completa `parse_nombres(valor: str) -> dict` con claves `nombres_raw`, `nombres` (strip o None si vacío) y `errors` (lista). Si vacío tras strip, agrega error acciona… La teoría remarca: «Valores, tipos, operadores e I/O» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S02-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "original = \"  Ñahui  \"\nraw = original\nclean = original.strip()\nprint(repr(raw), \"→\", repr(clean))\nassert raw == original\nassert clean == \"Ñahui\"\nprint(\"Unicode OK\")\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S02-T4-B-E2 leyendo outcomes y teoría de S02-T4. Completé el código/markdown de forma ejecutable o documentable según el kind=independiente. Instruction: E2 (independiente) — Parsea `apellido_materno = \"  Ñahui  \"` conservando raw con espacios y clean strip. Assert de round-trip Unicode: clean == \"Ñahui\" y raw original intacto.… Anclé la respuesta en: «Valores, tipos, operadores e I/O»"
+    },
+    {
+      "exercise_id": "S02-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def safe_int(campo: str, valor: str):\n    try:\n        return True, int(valor.strip()), None\n    except ValueError:\n        msg = f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n        return False, None, msg\n\nok, n, err = safe_int(\"edad\", \"abc\")\nprint(ok, n, err)\nraw = \"  Ñahui  \"\nprint(\"raw\", repr(raw), \"clean\", repr(raw.strip()))\nprint('ok')\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S02-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Valores, tipos, operadores e I/O», me enfoqué en S02-T4 para completar S02-T4-B-E3. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E3 (transferencia) — Implementa `parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None)` con `*_raw`, limpios, `errors`, y `safe_int` para edad. … Apoyo en paquete: «Valores, tipos, operadores e I/O»"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check #0: «¿Cuál es el tipo de None en Python?». Elegí el índice 1: «NoneType». La teoría de la sección respalda esa lectura y descarta las distracciones."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.91,
+      "blocked_on": [],
+      "justification_from_packet": "Para la pregunta 1 («¿Qué imprime type(\"42\").__name__ y la comparación 42 == \"42\"?») la opción correcta es 3 — «str y False» — porque el paquete define ese contrato y no las alternativas."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.75,
+      "blocked_on": [],
+      "justification_from_packet": "En autoevaluación, pregunta 2: me quedo con la opción 0 («Porque no es una cantidad aritmética y puede necesitar ceros o formato»). Las otras no coinciden con el vocabulario del theory/iDo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta 3 del self-check: «Tras `b = a` con `a = [1, 2]` y `b.append(3)`, ¿qué vale `a`?» → respuesta 2 «[1, 2, 3]», alineada a outcomes y párrafos de la sección activa."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "confidence": 0.83,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check #4: «¿Cuál es el idioma correcto para comprobar ausencia de valor?». Elegí el índice 1: «if x is None:». La teoría de la sección respalda esa lectura y descarta las distracciones."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:28:09.201353+00:00",
+  "session_started_at": "2026-07-23T13:27:59.605841+00:00",
+  "session_ended_at": "2026-07-23T13:28:09.200162+00:00",
+  "receipt_response_sha256": "7c2c6a3b3e894860fc9d4423c5db2f7fb667bdfb0648f588268d93cc23932fbb",
+  "receipt_exercises_sha256": "3384c9eea301ac53cb4547d325f432795b943bde9dbec77f97618d080b344433",
+  "receipt_selfcheck_sha256": "fc68c7feda0ae81802b6b063d6e756bd840583414d34b5fb20e3f91f7a2a909d"
+}

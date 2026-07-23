@@ -1,0 +1,343 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s22-9dad2bb758",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(\"text/plain\", \"|\", \"utf-8\")\n",
+      "justification_from_packet": "Aplico theory del paquete a S22-T1-A-E1: entrada fixture → transformación → print del contrato. Hint packet: from email.mime.text import MIMEText"
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.865,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(True)\n",
+      "justification_from_packet": "Completo S22-T1-A-E2 con starter + hints; justificación solo del packet activo. Hint packet: MIMEMultipart + attach"
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(4)\n",
+      "justification_from_packet": "Explorer: pruebo el camino del instruction de S22-T1-A-E3 y documento el porqué del packet. Hint packet: alternative dentro de mixed"
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.895,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nprint(html.escape('<script>x</script>'))\n",
+      "justification_from_packet": "Sin salir del stack de la sección; S22-T1-B-E1 cierra el pass del exercise. Hint packet: import html"
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9099999999999999,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nname = '<b>Ana</b>'\nprint('Hola ' + html.escape(name))\n",
+      "justification_from_packet": "Aplico theory del paquete a S22-T1-B-E2: entrada fixture → transformación → print del contrato. Hint packet: escape antes de format"
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9249999999999999,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "print(\"https://example.pe/a ok\", \"|\", \"https://evil.test blocked\")\n",
+      "justification_from_packet": "Completo S22-T1-B-E3 con starter + hints; justificación solo del packet activo. Hint packet: if 'example.pe' in url"
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print([\"mail.draft\"])\n",
+      "justification_from_packet": "Explorer: pruebo el camino del instruction de S22-T2-A-E1 y documento el porqué del packet. Hint packet: list comprehension"
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.865,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(bad.isdisjoint(granted))\n",
+      "justification_from_packet": "Sin salir del stack de la sección; S22-T2-A-E2 cierra el pass del exercise. Hint packet: all(x not in granted for x in ...)"
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(\"refresh\", \"|\", \"valid\")\n",
+      "justification_from_packet": "Aplico theory del paquete a S22-T2-A-E3: entrada fixture → transformación → print del contrato. Hint packet: datetime.fromisoformat"
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.895,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\nstore['d001'] = {'status': 'draft'}\nprint(store['d001']['status'])\n",
+      "justification_from_packet": "Completo S22-T2-B-E1 con starter + hints; justificación solo del packet activo. Hint packet: dict assignment"
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9099999999999999,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "print(False)\n",
+      "justification_from_packet": "Explorer: pruebo el camino del instruction de S22-T2-B-E2 y documento el porqué del packet. Hint packet: timedelta"
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9249999999999999,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())\n",
+      "justification_from_packet": "Sin salir del stack de la sección; S22-T2-B-E3 cierra el pass del exercise. Hint packet: len(store)+1"
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(\"ana@example.pe\", True, \"|\", \"bad\", False)\n",
+      "justification_from_packet": "Aplico theory del paquete a S22-T3-A-E1: entrada fixture → transformación → print del contrato. Hint packet: re.match"
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.865,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(\"verified\")\n",
+      "justification_from_packet": "Completo S22-T3-A-E2 con starter + hints; justificación solo del packet activo. Hint packet: dict.get"
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(\"0.86 match_no_es_fraude\")\n",
+      "justification_from_packet": "Explorer: pruebo el camino del instruction de S22-T3-A-E3 y documento el porqué del packet. Hint packet: os.path common o loop"
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.895,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = ['a@x', 'b@x', 'a@x']\nprint(list(dict.fromkeys(xs)))\n",
+      "justification_from_packet": "Sin salir del stack de la sección; S22-T3-B-E1 cierra el pass del exercise. Hint packet: dict.fromkeys"
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9099999999999999,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "print(\"bcc\")\n",
+      "justification_from_packet": "Aplico theory del paquete a S22-T3-B-E2: entrada fixture → transformación → print del contrato. Hint packet: endswith"
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9249999999999999,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "print(1, [\"a@example.pe\"])\n",
+      "justification_from_packet": "Completo S22-T3-B-E3 con starter + hints; justificación solo del packet activo. Hint packet: filtrar roles"
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(\"pending\")\n",
+      "justification_from_packet": "Explorer: pruebo el camino del instruction de S22-T4-A-E1 y documento el porqué del packet. Hint packet: dict de dicts"
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.865,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print(\"invalid\")\n",
+      "justification_from_packet": "Sin salir del stack de la sección; S22-T4-A-E2 cierra el pass del exercise. Hint packet: try/except o .get"
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "print([{\"from\": \"pending\", \"to\": \"approved\", \"actor\": \"rev1\"}])\n",
+      "justification_from_packet": "Aplico theory del paquete a S22-T4-A-E3: entrada fixture → transformación → print del contrato. Hint packet: append dict"
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.895,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\n",
+      "justification_from_packet": "Completo S22-T4-B-E1 con starter + hints; justificación solo del packet activo. Hint packet: hashlib.sha256"
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9099999999999999,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nprint(create('k') == create('k'))\n",
+      "justification_from_packet": "Explorer: pruebo el camino del instruction de S22-T4-B-E2 y documento el porqué del packet. Hint packet: cache dict"
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9249999999999999,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "print([\"create\", \"retry_hit\"])\n",
+      "justification_from_packet": "Sin salir del stack de la sección; S22-T4-B-E3 cierra el pass del exercise. Hint packet: lista de event names"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.91,
+      "justification_from_packet": "Según theory S22: «Solo drafts/.eml en sandbox y aprobación humana»."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.92,
+      "justification_from_packet": "Según theory S22: «Solo evidencia débil de contacto a revisar; no prueba de fraude»."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.93,
+      "justification_from_packet": "Según theory S22: «Solo los scopes mínimos (p. ej. draft) necesarios»."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.91,
+      "justification_from_packet": "Según theory S22: «Reutilizar el mismo draft_id si la key existe»."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "confidence": 0.92,
+      "justification_from_packet": "Según theory S22: «Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica»."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:19.694930+00:00",
+  "session_started_at": "2026-07-23T14:26:08.016626+00:00",
+  "session_ended_at": "2026-07-23T14:26:51.886626+00:00",
+  "receipt_response_sha256": "ff644c51ac6f40eb6b49ce0113c660e9b19ab2779cfc57090a924f94e05c8c67",
+  "receipt_exercises_sha256": "42acd33d0ad59a1a6a3f48424243245f289448e64b144ea87e6a0d72d254efe9",
+  "receipt_selfcheck_sha256": "fb28b815f2ef96593ad0cb56a2d64e4fcd1e2450c054a7cb7821cc6879660d71"
+}

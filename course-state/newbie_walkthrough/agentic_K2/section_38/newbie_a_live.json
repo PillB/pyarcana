@@ -1,0 +1,175 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 38,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s38-626725dcec84",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S38-T1-A-E1",
+      "code": "# k2 explorer · S38-T1-A-E1\nbound = \"cpu\"\nchoice = \"processes\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Concurrencia, observabilidad y workflows resilientes»: S38-T1-A-E1. Enunciado: «S38-T1-A-E1 · CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Contrato: entrada bound='cpu'; salida exacta tres». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S38, bound, cpu. Salida: ['print(choice)', 'print(\"bound\", bound)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T1-A-E2",
+      "code": "# k2 explorer · S38-T1-A-E2\nbound = \"io\"\nchoice = \"async_or_threads\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Concurrencia, observabilidad y workflows resilientes»: S38-T1-A-E2. Enunciado: «S38-T1-A-E2 · CASO-LIM-038-1A2: el tramo de normalización espera red mock (I/O-bound). Contrato: entrada bound='io'; imprime async_or_threads, bound i». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S38, bound, choice. Salida: ['print(choice)', 'print(\"bound\", bound)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T1-A-E3",
+      "code": "# k2 explorer · S38-T1-A-E3\nmeasure_first = True\nprint(measure_first)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Como explorer en S38 leí el paquete activo: S38-T1-A-E3. Enunciado: «S38-T1-A-E3 · CASO-LIM-038-1A3 (transfer): antes de fijar arquitectura, el contrato exige measure_first=True. Entrada: flag de política; salida: True,». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S38, measure_first, CASO. Salida: ['print(measure_first)', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T1-B-E1",
+      "code": "# k2 explorer · S38-T1-B-E1\nimport json\npayload = {\"x\": 2}\nprint(len(json.dumps(payload).encode()))\nprint(\"ok\", True)\nprint(\"compact\", True)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Concurrencia, observabilidad y workflows resilientes»: S38-T1-B-E1. Enunciado: «S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json y reporta len en bytes UTF-8. Contrato: print del tamaño (8), ok True,». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S38, json, payload. Salida: ['print(len(json.dumps(payload).encode()))', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T1-B-E2",
+      "code": "# k2 explorer · S38-T1-B-E2\nprint(\"limited\")\nprint(\"ok\", True)\nprint(\"cpu_threads\", True)\n",
+      "justification_from_packet": "Desde el starter de S38-T1-B-E2 en K2: S38-T1-B-E2. Enunciado: «S38-T1-B-E2 · Documenta el efecto del GIL en threads CPU: imprime 'limited', ok True, cpu_threads True. Contrato de etiqueta operativa para el runbook». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S38, limited, cpu_threads. Salida: ['print(\"limited\")', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T1-B-E3",
+      "code": "# k2 explorer · S38-T1-B-E3\nprint(\"compact_payload\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Concurrencia, observabilidad y workflows resilientes»: S38-T1-B-E3. Enunciado: «S38-T1-B-E3 · Política de payload entre workers: imprime preferencia compact_payload, ok True, n 1. El starter prefiere full_record (defect: arrastra». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S38, compact_payload, Pol. Salida: ['print(\"compact_payload\")', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T2-A-E1",
+      "code": "# k2 explorer · S38-T2-A-E1\nclass TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(2)\nallows = [b.allow() for _ in range(3)]\nprint(sum(1 for a in allows if a))\nprint(\"third\", allows[2])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Exploré «Concurrencia, observabilidad y workflows resilientes» en el quiz_card K2: S38-T2-A-E1. Enunciado: «S38-T2-A-E1 · Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, third False, ok True. Starter usa rate=3 (defect) o c». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S38, TokenBucket, __init__. Salida: ['print(sum(1 for a in allows if a))', 'print(\"third\", allows[2])']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T2-A-E2",
+      "code": "# k2 explorer · S38-T2-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nk2_out = \"backpressure\"\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S38-T2-A-E2 en K2: S38-T2-A-E2. Enunciado: «S38-T2-A-E2 · Rol de queue maxsize=50: imprime 'backpressure', ok True, maxsize 50. Contrato: la cola acotada es la política de backpressure del worke». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S38, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T2-A-E3",
+      "code": "# k2 explorer · S38-T2-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nk2_out = \"provider\"\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Concurrencia, observabilidad y workflows resilientes»: S38-T2-A-E3. Enunciado: «S38-T2-A-E3 · ¿A quién protege el rate limit? Imprime 'provider', ok True, ban_risk True. El starter dice 'only_cpu' (defect). El contrato de transfer». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S38, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T2-B-E1",
+      "code": "# k2 explorer · S38-T2-B-E1\npolicy = {\"seconds\": 5, \"on_fail\": \"retry_or_dlq\"}\nprint(policy[\"seconds\"])\nprint(\"on_fail\", policy[\"on_fail\"])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Exploré «Concurrencia, observabilidad y workflows resilientes» en el quiz_card K2: S38-T2-B-E1. Enunciado: «S38-T2-B-E1 · Política de timeout: imprime seconds=5, on_fail='retry_or_dlq', ok True. Fixture CASO-LIM-038-2B. Starter usa seconds=0 y on_fail='ignor». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S38, policy, seconds. Salida: ['print(policy[\"seconds\"])', 'print(\"on_fail\", policy[\"on_fail\"])']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T2-B-E2",
+      "code": "# k2 explorer · S38-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclose_in_finally = True\nk2_out = close_in_finally\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S38-T2-B-E2 en K2: S38-T2-B-E2. Enunciado: «S38-T2-B-E2 · Cierre de recurso en finally: imprime True (close_in_finally), resource 'conn', ok True. Starter deja False (defect: leak). No abras soc». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S38, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T2-B-E3",
+      "code": "# k2 explorer · S38-T2-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"incident\", True)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Concurrencia, observabilidad y workflows resilientes»: S38-T2-B-E3. Enunciado: «S38-T2-B-E3 · Transferencia: sin timeout el incidente es real. Imprime incident True, ok True, n 1. Starter niega el incidente (False). Corrige para r». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S38, Fixture, sint. Salida: ['print(\"incident\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T3-A-E1",
+      "code": "# k2 explorer · S38-T3-A-E1\nevent = {\"event\": \"scored\", \"corr\": \"corr-1\"}\nprint(bool(event.get(\"corr\")))\nprint(\"event\", event[\"event\"])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Desde el starter de S38-T3-A-E1 en K2: S38-T3-A-E1. Enunciado: «S38-T3-A-E1 · Evento scored con correlation id: imprime True (corr presente), event 'scored', ok True. Fixture dict con corr='corr-1'. Starter omite c». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S38, event, scored. Salida: ['print(bool(event.get(\"corr\")))', 'print(\"event\", event[\"event\"])']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T3-A-E2",
+      "code": "# k2 explorer · S38-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\npillars = [\"logs\", \"metrics\", \"traces\"]\nk2_out = pillars\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S38-T3-A-E2 en K2: S38-T3-A-E2. Enunciado: «S38-T3-A-E2 · Tres pilares de o11y: imprime la lista ['logs','metrics','traces'], ok True, n 3. Starter lista solo ['logs'] (defect). Completa el cont». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S38, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T3-A-E3",
+      "code": "# k2 explorer · S38-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\npii_raw = False\nk2_out = pii_raw\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Concurrencia, observabilidad y workflows resilientes» en el quiz_card K2: S38-T3-A-E3. Enunciado: «S38-T3-A-E3 · pii_raw debe ser False en logs de prod sintéticos. Imprime False, ok True, redact True. Starter imprime True (defect: permite PII). Cont». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S38, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T3-B-E1",
+      "code": "# k2 explorer · S38-T3-B-E1\nphone = \"90000001\"\nredacted = phone[:2] + \"****\" + phone[-2:]\nprint(redacted)\nprint(\"ok\", True)\nprint(\"pii\", False)\n",
+      "justification_from_packet": "Como explorer en S38 leí el paquete activo: S38-T3-B-E1. Enunciado: «S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos si len>=4). Imprime el redactado, ok». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S38, phone, redacted. Salida: ['print(redacted)', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T3-B-E2",
+      "code": "# k2 explorer · S38-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\np95, limit = 100, 200\nslo_ok = p95 <= limit\nk2_out = slo_ok\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Concurrencia, observabilidad y workflows resilientes» en el quiz_card K2: S38-T3-B-E2. Enunciado: «S38-T3-B-E2 · SLI p95=100 vs SLO limit=200: imprime True (slo_ok), p95 100, limit 200. Starter compara al revés (p95 >= limit) (defect). Corrige el pr». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S38, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T3-B-E3",
+      "code": "# k2 explorer · S38-T3-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nk2_out = \"error_budget\"\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S38-T3-B-E3 en K2: S38-T3-B-E3. Enunciado: «S38-T3-B-E3 · Concepto de error budget: imprime 'error_budget', ok True, n 1. Starter imprime 'infinite_sla' (defect). El contrato de transferencia no». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S38, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T4-A-E1",
+      "code": "# k2 explorer · S38-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstates = [\"pending\", \"running\", \"done\", \"failed\"]\nk2_out = states\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Concurrencia, observabilidad y workflows resilientes» en el quiz_card K2: S38-T4-A-E1. Enunciado: «S38-T4-A-E1 · Estados del workflow: imprime ['pending','running','done','failed'], ok True, n 4. Starter omite 'failed' (defect). Completa la máquina». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S38, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T4-A-E2",
+      "code": "# k2 explorer · S38-T4-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nk2_out = \"case:step:ver\"\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Concurrencia, observabilidad y workflows resilientes» en el quiz_card K2: S38-T4-A-E2. Enunciado: «S38-T4-A-E2 · Formato de idempotency key: imprime 'case:step:ver', ok True, dup False. Starter usa solo 'case' (defect: colisiones entre pasos). Fija». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S38, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T4-A-E3",
+      "code": "# k2 explorer · S38-T4-A-E3\nstate = {\"step\": \"features\", \"status\": \"done\"}\nprint(state[\"step\"])\nprint(\"ok\", True)\nprint(\"checkpoint\", True)\n",
+      "justification_from_packet": "Como explorer en S38 leí el paquete activo: S38-T4-A-E3. Enunciado: «S38-T4-A-E3 · Resume desde último checkpoint: imprime 'features', ok True, checkpoint True. Fixture state step=features done. Starter resume desde 'in». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S38, state, step. Salida: ['print(state[\"step\"])', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T4-B-E1",
+      "code": "# k2 explorer · S38-T4-B-E1\ndef backoff(attempt, base=0.1):\n    return base * (2 ** attempt)\nprint(backoff(3))\nprint(\"ok\", True)\nprint(\"attempt\", 3)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Concurrencia, observabilidad y workflows resilientes»: S38-T4-B-E1. Enunciado: «S38-T4-B-E1 · Backoff attempt=3 base=0.1 → 0.1*2**3 = 0.8. Imprime 0.8, ok True, attempt 3. Starter usa multiplicación lineal attempt*base (defect). I». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S38, backoff, attempt. Salida: ['print(backoff(3))', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T4-B-E2",
+      "code": "# k2 explorer · S38-T4-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nk2_out = \"poison\"\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Concurrencia, observabilidad y workflows resilientes» en el quiz_card K2: S38-T4-B-E2. Enunciado: «S38-T4-B-E2 · Propósito de la DLQ: imprime 'poison', ok True, replay 'controlled'. Starter dice 'delete_always' (defect). Contrato: DLQ aísla veneno;». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S38, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    },
+    {
+      "exercise_id": "S38-T4-B-E3",
+      "code": "# k2 explorer · S38-T4-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nk2_out = True\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Concurrencia, observabilidad y workflows resilientes» en el quiz_card K2: S38-T4-B-E3. Enunciado: «S38-T4-B-E3 · Runbook de on-call existe: imprime True, oncall True, ok True. Starter imprime False (defect: operar sin runbook). Transferencia: el dri». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S38, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Procesos",
+      "justification_from_packet": "Self-check explorer S38 Q0: «Para CPU bound en CPython suele preferirse:». Elijo índice 1 («Procesos») porque la teoría del slim/quiz_card («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr) alinea ese concepto; descarto p.ej. ['Miles de threads CPU', 'Quitar timeouts']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Colas infinitas y OOM",
+      "justification_from_packet": "Revisando stem y opciones del paquete K2 S38: «Backpressure evita:». Elijo índice 3 («Colas infinitas y OOM») porque la teoría del slim/quiz_card («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr) alinea ese concepto; descarto p.ej. ['Solo tests', 'Checkpoints']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Reejecutar sin side effects duplicados",
+      "justification_from_packet": "Self-check explorer S38 Q2: «Idempotencia permite:». Elijo índice 0 («Reejecutar sin side effects duplicados») porque la teoría del slim/quiz_card («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr) alinea ese concepto; descarto p.ej. ['Duplicar cobros', 'Borrar DLQ siempre']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Redactar PII y correlacionar",
+      "justification_from_packet": "Revisando stem y opciones del paquete K2 S38: «En logs de prod debes:». Elijo índice 2 («Redactar PII y correlacionar») porque la teoría del slim/quiz_card («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr) alinea ese concepto; descarto p.ej. ['PII completa', 'Desactivar métricas']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "Hang de workers y cola bloqueada",
+      "justification_from_packet": "En el selfCheck de «Concurrencia, observabilidad y workflows resilientes» ítem 4: «Un proveedor sin timeout en el worker suele causar:». Elijo índice 1 («Hang de workers y cola bloqueada») porque la teoría del slim/quiz_card («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Pr) alinea ese concepto; descarto p.ej. ['Mejor p95 mágico', 'Idempotencia automática']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:28:25.965857+00:00",
+  "session_started_at": "2026-07-23T15:28:03.856713+00:00",
+  "session_ended_at": "2026-07-23T15:28:25.963680+00:00",
+  "receipt_response_sha256": "3f7b5a7aa48d26e156766efd2bc2a89b23f698854c0191e55ed12a34ae04b3bd",
+  "receipt_exercises_sha256": "41b37c7e2b23808beae5c7699d93ac232f156516c2a1d0ea642330dfe9213019",
+  "receipt_selfcheck_sha256": "f05ddbd2a0c3acd9db920b9b31d67d623d8b18279293b8c78305a45ee5191dcf"
+}

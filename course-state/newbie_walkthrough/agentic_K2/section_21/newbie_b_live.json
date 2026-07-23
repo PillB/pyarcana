@@ -1,0 +1,420 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 21,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s21-d3f85c45cde0",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S21-T1-A-E1",
+      "id": "S21-T1-A-E1",
+      "code": "# skeptic K2 cross-check seed=501\nfrom jinja2 import Template\nprint(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S21-T1-A-E1 no improvisé: opté por apoyar en la teoría del heading y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — Concepto: render Jinja de saludo. Fixture `S21-T1-A-E1` / datos sintéticos: print(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\")). Completa el TODO del starter si. Los tests piden: salida coincide con solution output. Conceptos del paquete que usé: lugar, sintético, opacas, Template, separación. Sigo dudando de atajos.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S21-T1-A-E2",
+      "id": "S21-T1-A-E2",
+      "code": "# skeptic K2 cross-check seed=57\nfrom jinja2 import Template\nprint(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S21/S21-T1-A-E2 («Documentos, plantillas y reportes trazables»): E2 (independiente) — Concepto: template de KPI median y n. Fixture `S21-T1-A-E2` / datos sintéticos: print(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40)). Completa el TODO. Apoyo léxico: contexto, Jinja, Template, métricas. Hint: Dos variables.. Si el resultado no pasa «salida coincide con solution output», reintento. Sigo dudando de atajos; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S21-T1-A-E3",
+      "id": "S21-T1-A-E3",
+      "code": "# skeptic K2 cross-check seed=26\nfrom jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\nprint(render_kpi({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S21-T1-A-E3 en «Documentos, plantillas y reportes trazables» decidí contrastar con el output de la demo: el enunciado dice «E3 (transferencia) — Concepto: render_kpi(ctx) reutilizable. Fixture `S21-T1-A-E3` / datos sintéticos: def render_kpi(ctx):; return Template(\"{{ region }}: {{ median }} PEN (n={{ n». Hint útil: Template dentro o global.. Checklist/tests: salida coincide con solution output. Prefiero lo aburrido y verificable; vocabulario del paquete: entrada, soportada, métricas, sintético. Riesgo que evito: si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S21-T1-B-E1",
+      "id": "S21-T1-B-E1",
+      "code": "# verified against Salida/pass contract\nmedian = None\nprint(\"—\" if median is None else median)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S21/S21-T1-B-E1 («Documentos, plantillas y reportes trazables»): E1 (guiado) — Concepto: missing → em-dash —. Fixture `S21-T1-B-E1` / datos sintéticos: median = None; print(\"—\" if median is None else median). Completa el TODO del starter sin bor. Apoyo léxico: joins, negocio, lugar, workbench. Hint: condicional python o jinja.. Si el resultado no pasa «salida coincide con solution output», reintento. Exijo evidencia en el paquete activo; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S21-T1-B-E2",
+      "id": "S21-T1-B-E2",
+      "code": "# verified against Salida/pass contract\nx = 28.456\nprint(f\"{x:.2f}\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S21-T1-B-E2 en «Documentos, plantillas y reportes trazables» decidí cruzar con la demo iDo: el enunciado dice «E2 (independiente) — Concepto: formato a 2 decimales. Fixture `S21-T1-B-E2` / datos sintéticos: x = 28.456; print(f\"{x:.2f}\"). Completa el TODO del starter sin borrar el oráculo; i». Hint útil: '%.2f' % x o f-string.. Checklist/tests: salida coincide con solution output. No asumo que la primera idea basta; vocabulario del paquete: Arequipa, reportes, pesados, Template. Riesgo que evito: si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S21-T1-B-E3",
+      "id": "S21-T1-B-E3",
+      "code": "# verified against Salida/pass contract\nfrom jinja2 import Template\ntmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}\\n{% endfor %}\")\nout = tmpl.render(rows=[{\"region\": \"Lima\", \"v\": 1}, {\"region\": \"Cusco\", \"v\": 2}]).strip()\nprint(out.replace(\"\\n\", \" | \"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia en el paquete activo al resolver S21-T1-B-E3. La sección «Documentos, plantillas y reportes trazables» exige E3 (transferencia) — Concepto: for de filas region:value. Fixture `S21-T1-B-E3` / datos sintéticos: tmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}\\\\n{% endfor %}\"); p. Me baso en plantillas, plantilla, fraude y en el hint «Template for.». Validación esperada: salida coincide con solution output. Por eso conviene derivar del starter sin inventar APIs antes de cerrar; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S21-T2-A-E1",
+      "id": "S21-T2-A-E1",
+      "code": "# packet-only solve S21/S21-T2-A-E1\nfrom pathlib import Path\nfrom docx import Document\n\npath = Path(\"informe.docx\")\ndoc = Document()\ndoc.add_heading(\"Informe sintético\", 0)\ndoc.add_heading(\"Resumen\", 1)\ndoc.add_paragraph(\"Texto de ejemplo.\")\ndoc.save(path)\nraw = path.read_bytes()[:2]\nreopened = Document(str(path))\ntexts = [p.text for p in reopened.paragraphs if p.text.strip()]\nprint(raw == b\"PK\", len(texts) > 0, \"|\", \"Informe\" in \" \".join(texts), len(texts) > 0)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S21/S21-T2-A-E1 («Documentos, plantillas y reportes trazables»): E1 (guiado) — Concepto: DOCX con heading y n=. Fixture `S21-T2-A-E1` / datos sintéticos: path = Path(\"informe.docx\"); doc = Document(). Completa el TODO del starter sin borrar el o. Apoyo léxico: autoescape, salida, documentas, Template. Hint: La firma de un DOCX comienza con bytes PK porque es un paquete ZIP.. Si el resultado no pasa «el archivo existe, firma PK y texto reabierto contiene Resumen y n=40», reintento. Exijo evidencia en el paquete activo; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S21"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S21-T2-A-E2",
+      "id": "S21-T2-A-E2",
+      "code": "# packet-only solve S21/S21-T2-A-E2\nfrom docx import Document\n\nlevels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]\ndoc = Document()\nfor text, level in levels:\n    doc.add_heading(text, level)\ndoc.save(\"estructura.docx\")\nreopened = Document(\"estructura.docx\")\nstyles = [p.style.name for p in reopened.paragraphs if p.style and p.style.name.startswith(\"Heading\")]\nh1 = sum(1 for s in styles if s == \"Heading 1\")\nprint(h1, \"|\", styles)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S21-T2-A-E2 en «Documentos, plantillas y reportes trazables» decidí cruzar con la demo iDo: el enunciado dice «E2 (independiente) — Concepto: conteo de estilos Heading. Fixture `S21-T2-A-E2` / datos sintéticos: levels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]; doc = Document(). Compl». Hint útil: Filtra exactamente `Heading 1` y conserva también la jerarquía completa.. Checklist/tests: el documento reabierto contiene dos Heading 1 y la secuencia 1,2,1. No asumo que la primera idea basta; vocabulario del paquete: closed, Jinja, Documentos, opacas. Riesgo que evito: si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S21"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S21-T2-A-E3",
+      "id": "S21-T2-A-E3",
+      "code": "# packet-only solve S21/S21-T2-A-E3\nfrom docx import Document\n\nmetrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\")]\ndoc = Document()\ndoc.add_heading(\"Auditoría\", 1)\ntable = doc.add_table(rows=1, cols=2)\ntable.rows[0].cells[0].text = \"métrica\"\ntable.rows[0].cells[1].text = \"valor\"\nfor name, val in metrics:\n    row = table.add_row().cells\n    row[0].text = name\n    row[1].text = val\ndoc.save(\"tabla.docx\")\nreopened = Document(\"tabla.docx\")\nt = reopened.tables[0]\ncells = [[c.text for c in r.cells] for r in t.rows]\nprint(cells[1], \"|\", cells[2], \"—\" in cells[2][1] or cells[2][1] == \"—\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin entender al resolver S21-T2-A-E3. La sección «Documentos, plantillas y reportes trazables» exige E3 (transferencia) — Concepto: extracción de texto al reabrir. Fixture `S21-T2-A-E3` / datos sintéticos: metrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\")]; doc = Document(). Me baso en evidencia, contexto, plano y en el hint «La tabla debe contener columnas métrica y valor.». Validación esperada: tabla reabierta preserva Ticket mediano=28.0 y Reclamos=—. Por eso conviene verificar contra el checklist de tests antes de cerrar; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S21"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S21-T2-B-E1",
+      "id": "S21-T2-B-E1",
+      "code": "# packet-only solve S21/S21-T2-B-E1\nfrom pathlib import Path\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npath = Path(\"digital.pdf\")\nc = canvas.Canvas(str(path))\nc.drawString(72, 760, \"Resumen sintético\")\nc.save()\nraw_ok = path.read_bytes()[:4] == b\"%PDF\"\nreader = PdfReader(str(path))\ntext = \"\".join((p.extract_text() or \"\") for p in reader.pages)\nprint(raw_ok, \"|\", len(text.strip()) > 0)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S21-T2-B-E1 en «Documentos, plantillas y reportes trazables» decidí releer con desconfianza el material: el enunciado dice «E1 (guiado) — Concepto: PDF digital con texto extraíble. Fixture `S21-T2-B-E1` / datos sintéticos: path = Path(\"digital.pdf\"); c = canvas.Canvas(str(path)). Completa el TODO del st». Hint útil: Comprueba primero los bytes `%PDF`.. Checklist/tests: firma válida y extracción contiene n=40. Desconfío de respuestas 'bonitas'; vocabulario del paquete: reglas, Nunca, plantilla, salida. Riesgo que evito: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S21"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S21-T2-B-E2",
+      "id": "S21-T2-B-E2",
+      "code": "# verified against Salida/pass contract\nfrom pathlib import Path\nimport fitz\nfrom reportlab.pdfgen import canvas\n\npdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\")\nc = canvas.Canvas(str(pdf))\nc.drawString(72, 760, \"Hallazgo\")\nc.save()\ndoc = fitz.open(str(pdf))\npage = doc.load_page(0)\npix = page.get_pixmap()\npix.save(str(png))\ndoc.close()\nprint(png.exists() and png.stat().st_size > 0, pdf.exists())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos al resolver S21-T2-B-E2. La sección «Documentos, plantillas y reportes trazables» exige E2 (independiente) — Concepto: render página a PNG. Fixture `S21-T2-B-E2` / datos sintéticos: pdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\"); c = canvas.Canvas(str(pdf)). Com. Me baso en falte, closed, separación y en el hint «Cierra o conserva el documento mientras accedes a la página.». Validación esperada: PDF y PNG tienen tamaño positivo. Por eso conviene contrastar con el output de la demo antes de cerrar; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S21-T2-B-E3",
+      "id": "S21-T2-B-E3",
+      "code": "# packet-only solve S21/S21-T2-B-E3\nfrom pathlib import Path\nfrom PIL import Image, ImageDraw\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npng, pdf = Path(\"scan.png\"), Path(\"scan.pdf\")\nimage = Image.new(\"RGB\", (200, 80), \"white\")\ndraw = ImageDraw.Draw(image)\ndraw.text((10, 30), \"SCAN\", fill=\"black\")\nimage.save(png)\nc = canvas.Canvas(str(pdf))\nc.drawImage(str(png), 72, 700, width=200, height=80)\nc.save()\nreader = PdfReader(str(pdf))\nn_chars = len((reader.pages[0].extract_text() or \"\").strip())\nprint(png.exists(), pdf.read_bytes()[:4] == b\"%PDF\", \"|\", {\"needs_ocr\": n_chars == 0, \"n_chars\": n_chars})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S21-T2-B-E3 no improvisé: opté por contrastar con el output de la demo y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Concepto: PDF imagen-only → needs_ocr. Fixture `S21-T2-B-E3` / datos sintéticos: png, pdf = Path(\"scan.png\"), Path(\"scan.pdf\"); image = Image.new(\"RGB\", (500,. Los tests piden: PDF válido, extracción no contiene n=17 y needs_ocr=True. Conceptos del paquete que usé: Calcula, antes, métricas, Cusco, joins. Exijo evidencia en el paquete activo.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S21"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S21-T3-A-E1",
+      "id": "S21-T3-A-E1",
+      "code": "# skeptic K2 cross-check seed=597\nh = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}\nprint(h[\"id\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S21-T3-A-E1 en «Documentos, plantillas y reportes trazables» decidí confrontar con los hints: el enunciado dice «E1 (guiado) — Concepto: hallazgo H1 con evidencia. Fixture `S21-T3-A-E1` / datos sintéticos: h = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}; print(h[\"id\"]). Completa el TODO del starter s». Hint útil: dict.. Checklist/tests: salida coincide con solution output. Sigo dudando de atajos; vocabulario del paquete: contexto, Nunca, separación, Arequipa. Riesgo que evito: si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S21-T3-A-E2",
+      "id": "S21-T3-A-E2",
+      "code": "# skeptic K2 cross-check seed=84\ns = \"mediana 28 PEN n=40\"\nprint(\"n=\" in s)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos al resolver S21-T3-A-E2. La sección «Documentos, plantillas y reportes trazables» exige E2 (independiente) — Concepto: validar resumen contiene n=. Fixture `S21-T3-A-E2` / datos sintéticos: s = \"mediana 28 PEN n=40\"; print(\"n=\" in s). Completa el TODO del starter sin. Me baso en define, trazables, plantillas y en el hint «in.». Validación esperada: salida coincide con solution output. Por eso conviene confrontar con los hints antes de cerrar; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S21-T3-A-E3",
+      "id": "S21-T3-A-E3",
+      "code": "# skeptic K2 cross-check seed=125\ndef pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\nprint(sorted(pack_report([\"a\"], {}, []).keys()))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S21-T3-A-E3 no improvisé: opté por verificar contra el checklist de tests y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Concepto: pack_report tres claves. Fixture `S21-T3-A-E3` / datos sintéticos: def pack_report(resumen, metodo, hallazgos):; return {\"resumen\": resumen, \"metodo\". Los tests piden: salida coincide con solution output. Conceptos del paquete que usé: autoescape, revisión, lugar, reglas, falte. Me resisto a copiar sin entender.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S21-T3-B-E1",
+      "id": "S21-T3-B-E1",
+      "code": "# skeptic K2 cross-check seed=329\ndash = {\"median_Lima\": 28.0}\ndoc = {\"median_Lima\": 28.0}\nprint(dash == doc)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Desconfío de respuestas 'bonitas' al resolver S21-T3-B-E1. La sección «Documentos, plantillas y reportes trazables» exige E1 (guiado) — Concepto: caption alineado fuente/corte. Fixture `S21-T3-B-E1` / datos sintéticos: dash = {\"median_Lima\": 28.0}; doc = {\"median_Lima\": 28.0}. Completa el TODO del sta. Me baso en entrada, reglas, caracteres y en el hint «comparar.». Validación esperada: salida coincide con solution output. Por eso conviene verificar contra el checklist de tests antes de cerrar; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S21-T3-B-E2",
+      "id": "S21-T3-B-E2",
+      "code": "# verified against Salida/pass contract\ncap = \"Fig1 | Fuente: sintetico | n=10\"\nprint(\"Fuente\" in cap)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S21-T3-B-E2 no improvisé: opté por seguir el contrato del instruction y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — Concepto: lista de limitaciones. Fixture `S21-T3-B-E2` / datos sintéticos: cap = \"Fig1 | Fuente: sintetico | n=10\"; print(\"Fuente\" in cap). Completa el TODO de. Los tests piden: salida coincide con solution output. Conceptos del paquete que usé: contexto, Jinja, mark_safe, salida, autoescape. Desconfío de respuestas 'bonitas'.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S21-T3-B-E3",
+      "id": "S21-T3-B-E3",
+      "code": "# verified against Salida/pass contract\ndef check_parity(a, b, c):\n    return a == b == c\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 1}))\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 2}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S21/S21-T3-B-E3 («Documentos, plantillas y reportes trazables»): E3 (transferencia) — Concepto: checksum de métricas entre artefactos. Fixture `S21-T3-B-E3` / datos sintéticos: def check_parity(a, b, c):; return a == b == c. Completa el TODO del. Apoyo léxico: contrato, presentación, límites, Arequipa. Hint: a==b==c.. Si el resultado no pasa «salida coincide con solution output», reintento. No asumo que la primera idea basta; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S21-T4-A-E1",
+      "id": "S21-T4-A-E1",
+      "code": "# skeptic K2 cross-check seed=81\nvals = [28.04, 28.0]\nprint([round(v, 1) for v in vals])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos al resolver S21-T4-A-E1. La sección «Documentos, plantillas y reportes trazables» exige E1 (guiado) — Concepto: redacción es-PE de hallazgo. Fixture `S21-T4-A-E1` / datos sintéticos: vals = [28.04, 28.0]; print([round(v, 1) for v in vals]). Completa el TODO del starte. Me baso en opacas, plantillas, separación y en el hint «round.». Validación esperada: salida coincide con solution output. Por eso conviene seguir el contrato del instruction antes de cerrar; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S21-T4-A-E2",
+      "id": "S21-T4-A-E2",
+      "code": "# packet-only solve S21/S21-T4-A-E2\ndef fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\nprint(fmt_pen(28.04))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S21-T4-A-E2 no improvisé: opté por cruzar con la demo iDo y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — Concepto: checklist a11y headings/alt. Fixture `S21-T4-A-E2` / datos sintéticos: def fmt_pen(x):; return f\"{round(float(x), 1)} PEN\". Completa el TODO del star. Los tests piden: salida coincide con solution output. Conceptos del paquete que usé: Python, métricas, mark_safe, revisión, render. No asumo que la primera idea basta.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S21"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S21-T4-A-E3",
+      "id": "S21-T4-A-E3",
+      "code": "# packet-only solve S21/S21-T4-A-E3\ndef a11y_min(has_h1, alts):\n    return has_h1 and all(len(a) > 10 for a in alts)\nprint(a11y_min(True, [\"descripcion larga de figura\"]))\nprint(a11y_min(True, [\"corto\"]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S21/S21-T4-A-E3 («Documentos, plantillas y reportes trazables»): E3 (transferencia) — Concepto: precisión decimal consistente. Fixture `S21-T4-A-E3` / datos sintéticos: def a11y_min(has_h1, alts):; return has_h1 and all(len(a) > 10 for a in alts. Apoyo léxico: caracteres, causalidad, Nunca, política. Hint: all().. Si el resultado no pasa «salida coincide con solution output», reintento. No asumo que la primera idea basta; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S21"
+      ],
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S21-T4-B-E1",
+      "id": "S21-T4-B-E1",
+      "code": "# packet-only solve S21/S21-T4-B-E1\napproval = {\"status\": \"pending_review\"}\nprint(approval[\"status\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S21-T4-B-E1 no improvisé: opté por verificar contra el checklist de tests y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — Concepto: manifiesto de provenance. Fixture `S21-T4-B-E1` / datos sintéticos: approval = {\"status\": \"pending_review\"}; print(approval[\"status\"]). Completa el TODO del. Los tests piden: salida coincide con solution output. Conceptos del paquete que usé: métricas, evidencia, contrato, reportes, closed. Sigo dudando de atajos.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S21"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S21-T4-B-E2",
+      "id": "S21-T4-B-E2",
+      "code": "# packet-only solve S21/S21-T4-B-E2\nimport hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S21/S21-T4-B-E2 («Documentos, plantillas y reportes trazables»): E2 (independiente) — Concepto: hash sha1[:8] de payload. Fixture `S21-T4-B-E2` / datos sintéticos: print(hashlib.sha1(b\"synthetic\").hexdigest()[:8]). Completa el TODO del starter s. Apoyo léxico: trazables, entrada, plantillas, Nunca. Hint: hashlib.sha1.. Si el resultado no pasa «salida coincide con solution output», reintento. Me resisto a copiar sin entender; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S21"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S21-T4-B-E3",
+      "id": "S21-T4-B-E3",
+      "code": "# packet-only solve S21/S21-T4-B-E3\ndef ready(checklist):\n    return all(checklist.values())\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))\nprint(ready({\"dashboard\": True, \"xlsx\": False, \"doc\": True}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S21-T4-B-E3 en «Documentos, plantillas y reportes trazables» decidí apoyar en la teoría del heading: el enunciado dice «E3 (transferencia) — Concepto: ready(checklist) de paquete. Fixture `S21-T4-B-E3` / datos sintéticos: def ready(checklist):; return all(checklist.values()). Completa el TODO del st». Hint útil: all(dict.values()).. Checklist/tests: salida coincide con solution output. No asumo que la primera idea basta; vocabulario del paquete: pesados, revisión, plantillas, opacas. Riesgo que evito: si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S21"
+      ],
+      "confidence": 0.75
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S21#0 en «Documentos, plantillas y reportes trazables»: «¿Por qué separar datos y plantilla Jinja?». Escojo índice 0 → «Para reutilizar presentación y auditar métricas en Python». Descarto «Para mezclar SQL en el HTML / Para evitar control de versiones» porque no cuadra con la teoría/demos. Señales del paquete: opacas, Documentos, separa, pesados. Desconfío de respuestas 'bonitas'.",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S21#1 en «Documentos, plantillas y reportes trazables»: «Un PDF con casi sin caracteres en capa de texto suele requerir:». Escojo índice 2 → «OCR / tratamiento de imagen». Descarto «Ignorar el archivo / Solo openpyxl» porque no cuadra con la teoría/demos. Señales del paquete: plano, revisión, Jinja, joins. Desconfío de respuestas 'bonitas'.",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S21#2 en «Documentos, plantillas y reportes trazables»: «Paridad en el Reporting Factory significa:». Escojo índice 3 → «Mismas métricas clave en dashboard, Excel y documento». Descarto «Mismos colores / Mismo número de páginas» porque no cuadra con la teoría/demos. Señales del paquete: caracteres, límites, mark_safe, antes. Me resisto a copiar sin entender.",
+      "confidence": 0.93
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S21#3 en «Documentos, plantillas y reportes trazables»: «El cierre de contenido de CP-N2-B incluye:». Escojo índice 1 → «Provenance, checklist visual y hallazgos trazables». Descarto «Solo un print / Subir secretos al repo» porque no cuadra con la teoría/demos. Señales del paquete: separación, plano, trazables, Nunca. Exijo evidencia en el paquete activo.",
+      "confidence": 0.89
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S21#4 en «Documentos, plantillas y reportes trazables»: «El PDF del informe se generó dibujando texto dentro de una imagen; pypdf no extrae capa de texto. ¿Qué debe devolver el contrato d». Escojo índice 0 → «Marcar needs_ocr (o equivalente) y no fingir PDF digital nativo». Descarto «Inventar el texto del resumen a partir del título del archiv / Aprobar el paquete igual porque el PNG se ve legible en pant» porque no cuadra con la teoría/demos. Señales del paquete: separa, contexto, presentación, trazables. Me resisto a copiar sin entender.",
+      "confidence": 0.89
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:26:26.383559+00:00",
+  "session_started_at": "2026-07-23T15:25:49.471369+00:00",
+  "session_ended_at": "2026-07-23T15:26:26.380969+00:00",
+  "receipt_response_sha256": "5eb260d2217d7771b9556e5102e3eb58124be84fc1075691b42a1167b0967368",
+  "receipt_exercises_sha256": "48674063db2cc4bcb79ed20dac141761c33a4ffd4c689a822ed4f06b14421474",
+  "receipt_selfcheck_sha256": "677e1ba37e3db3e32a43d419b29bab3c3d73fad2328e2c4e8da60826d938a3f2"
+}

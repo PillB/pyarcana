@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 35,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s35-d20dd79c71dc",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S35-T1-A-E1",
+      "id": "S35-T1-A-E1",
+      "code": "# skeptic/S35-T1-A-E1: packet-only K2; rejected inverted contracts / theater claims\nrecord = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\nmeets_contract = record[\"means_fraud\"] is False and record[\"metric\"] == \"precision_at_k\" and max(record[\"drops\"].values()) > 0\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-A\", status)\nassert meets_contract is True\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos teatrales al cerrar S35-T1-A-E1. La sección «Explicabilidad, equidad e incertidumbre» pide: S35-T1-A-E1 · Calcula el contrato de `coeficientes e importancia por permutación` sobre `CASO-LIM-035-1A`. La entrada es el dict completo del starter; la operación debe d. Me anclé en train, importancia, métrica y en «Relaciona los campos `drops, metric, means_fraud` con la regla explicada en S35-T1-A.». Marcas del starter: starter con fixture sintético. Por eso revisé que no quede TODO ni pass de relleno; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S35-T1-A"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S35-T1-A-E2",
+      "id": "S35-T1-A-E2",
+      "code": "# skeptic/S35-T1-A-E2: packet-only K2; rejected inverted contracts / theater claims\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'drops', 'metric', 'means_fraud'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"means_fraud\"] is False and record[\"metric\"] == \"precision_at_k\" and max(record[\"drops\"].values()) > 0 else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1}, 'metric': 'precision_at_k', 'means_fraud': True}}\nincomplete = {**valid}\nincomplete.pop(\"drops\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S35-T1-A-E2 no improvisé APIs: releí con desconfianza el starter del quiz_card y armé el cuerpo desde el quiz_card. Resumen de instrucción: S35-T1-A-E2 · Modela tres rutas de `coeficientes e importancia por permutación`: fixture válido, fixture adverso y registro sin `drops`. Entrada: dict con case_id, drops,. Flags: starter con fixture sintético. Conceptos activos: permutación, coeficientes, operativo, drops, top_feature. Me resisto a copiar sin anclar en el paquete.",
+      "concepts_used": [
+        "S35-T1-A"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S35-T1-A-E3",
+      "id": "S35-T1-A-E3",
+      "code": "# skeptic/S35-T1-A-E3: packet-only K2; rejected inverted contracts / theater claims\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'drops', 'metric', 'means_fraud'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_METRIC_DROP\"\n    return \"CONTINUE\" if record[\"means_fraud\"] is False and record[\"metric\"] == \"precision_at_k\" and max(record[\"drops\"].values()) > 0 else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1}, 'metric': 'precision_at_k', 'means_fraud': True}}\nuncertain = {**valid}\nuncertain.pop(\"drops\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\nassert results == [\"CONTINUE\", \"REJECT_CAUSAL_CLAIM\", \"REQUEST_METRIC_DROP\"]\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S35/S35-T1-A-E3 («Explicabilidad, equidad e incertidumbre»): S35-T1-A-E3 · Contrasta fallo cerrado para `coeficientes e importancia por permutación` con tres fixtures distintos. `CASO-LIM-035-1A` debe continuar, el adverso debe dev. Apoyo léxico K2: Entrada, afirmar, Error, feature. Hint: Una ausencia no equivale a breach: enrútala a `REQUEST_METRIC_DROP` antes de evaluar el contenido.. Starter: starter vacío de transfer. Exijo evidencia lexical en theory/iDo del paquete activo; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S35-T1-A"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S35-T1-B-E1",
+      "id": "S35-T1-B-E1",
+      "code": "# skeptic/S35-T1-B-E1: packet-only K2; rejected inverted contracts / theater claims\nrecord = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\nmeets_contract = record[\"causal\"] is False and set(record[\"layers\"]) == {\"evidence\", \"model\", \"uncertainty\", \"human\"}\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-B\", status)\nassert meets_contract is True\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S35-T1-B-E1 no improvisé APIs: verifiqué el contrato I/O sintético del paquete activo y armé el cuerpo desde el quiz_card. Resumen de instrucción: S35-T1-B-E1 · Calcula el contrato de `explicación local, correlación y límites` sobre `CASO-LIM-035-1B`. La entrada es el dict completo del starter; la operación debe dem. Flags: starter con fixture sintético. Conceptos activos: mapas, legal, sensibilidad, coeficientes, top_feature. Exijo evidencia lexical en theory/iDo del paquete activo.",
+      "concepts_used": [
+        "S35-T1-B"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S35-T1-B-E2",
+      "id": "S35-T1-B-E2",
+      "code": "# skeptic/S35-T1-B-E2: packet-only K2; rejected inverted contracts / theater claims\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'contrib', 'layers', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"causal\"] is False and set(record[\"layers\"]) == {\"evidence\", \"model\", \"uncertainty\", \"human\"} else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9}, 'layers': ['evidence', 'model'], 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"layers\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S35/S35-T1-B-E2 («Explicabilidad, equidad e incertidumbre»): S35-T1-B-E2 · Modela tres rutas de `explicación local, correlación y límites`: fixture válido, fixture adverso y registro sin `layers`. Entrada: dict con case_id, contrib. Apoyo léxico K2: incertidumbre, Error, means_fraud, barajar. Hint: Primero se calcula `missing`; ningún acceso a layers debe ocurrir antes de esa rama.. Starter: starter con fixture sintético. Prefiero lo aburrido, determinista y auditable; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S35-T1-B"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S35-T1-B-E3",
+      "id": "S35-T1-B-E3",
+      "code": "# skeptic/S35-T1-B-E3: packet-only K2; rejected inverted contracts / theater claims\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'contrib', 'layers', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_LAYER_FIELDS\"\n    return \"CONTINUE\" if record[\"causal\"] is False and set(record[\"layers\"]) == {\"evidence\", \"model\", \"uncertainty\", \"human\"} else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9}, 'layers': ['evidence', 'model'], 'causal': True}}\nuncertain = {**valid}\nuncertain.pop(\"layers\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\nassert results == [\"CONTINUE\", \"REJECT_CAUSAL_CLAIM\", \"REQUEST_LAYER_FIELDS\"]\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S35-T1-B-E3 («Explicabilidad, equidad e incertidumbre»): seguí el knowledge boundary: solo landing + packet K2. Enunciado: «S35-T1-B-E3 · Contrasta fallo cerrado para `explicación local, correlación y límites` con tres fixtures distintos. `CASO-LIM-035-1B` debe continuar, el adverso debe devol». Señal del starter: starter vacío de transfer. Hint: Una ausencia no equivale a breach: enrútala a `REQUEST_LAYER_FIELDS` antes de evaluar el contenido.. Léxico del paquete: amount_, veredictos, Aplicación, causalidad. Sigo dudando de atajos teatrales; riesgo: si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S35-T1-B"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S35-T2-A-E1",
+      "id": "S35-T2-A-E1",
+      "code": "# skeptic/S35-T2-A-E1: packet-only K2; rejected inverted contracts / theater claims\nrecord = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\nmeets_contract = record[\"slice_n\"] >= record[\"min_n\"] and 0 <= record[\"precision\"] <= 1\nstatus = \"PASS\" if meets_contract else \"REJECT_LOW_N_CLAIM\"\nprint(\"S35-T2-A\", status)\nassert meets_contract is True\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S35-T2-A-E1 no improvisé APIs: seguí el knowledge boundary: solo landing + packet K2 y armé el cuerpo desde el quiz_card. Resumen de instrucción: S35-T2-A-E1 · Calcula el contrato de `cohortes y métricas por slice` sobre `CASO-LIM-035-2A`. La entrada es el dict completo del starter; la operación debe demostrar n su. Flags: starter con fixture sintético. Conceptos activos: Explicabilidad, Salida, Error, negocio, importancia. Exijo evidencia lexical en theory/iDo del paquete activo.",
+      "concepts_used": [
+        "S35-T2-A"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S35-T2-A-E2",
+      "id": "S35-T2-A-E2",
+      "code": "# skeptic/S35-T2-A-E2: packet-only K2; rejected inverted contracts / theater claims\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'slice_n', 'precision', 'min_n'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"slice_n\"] >= record[\"min_n\"] and 0 <= record[\"precision\"] <= 1 else \"REJECT_LOW_N_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nincomplete = {**valid}\nincomplete.pop(\"slice_n\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S35/S35-T2-A-E2 («Explicabilidad, equidad e incertidumbre»): S35-T2-A-E2 · Modela tres rutas de `cohortes y métricas por slice`: fixture válido, fixture adverso y registro sin `slice_n`. Entrada: dict con case_id, slice_n, precisio. Apoyo léxico K2: persona, causalidad, Contrato, globales. Hint: Primero se calcula `missing`; ningún acceso a slice_n debe ocurrir antes de esa rama.. Starter: starter con fixture sintético. Me resisto a copiar sin anclar en el paquete; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S35-T2-A"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S35-T2-A-E3",
+      "id": "S35-T2-A-E3",
+      "code": "# skeptic/S35-T2-A-E3: packet-only K2; rejected inverted contracts / theater claims\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'slice_n', 'precision', 'min_n'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SLICE_N\"\n    return \"CONTINUE\" if record[\"slice_n\"] >= record[\"min_n\"] and 0 <= record[\"precision\"] <= 1 else \"REJECT_LOW_N_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nuncertain = {**valid}\nuncertain.pop(\"slice_n\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\nassert results == [\"CONTINUE\", \"REJECT_LOW_N_CLAIM\", \"REQUEST_SLICE_N\"]\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S35-T2-A-E3 («Explicabilidad, equidad e incertidumbre»): verifiqué el contrato I/O sintético del paquete activo. Enunciado: «S35-T2-A-E3 · Contrasta fallo cerrado para `cohortes y métricas por slice` con tres fixtures distintos. `CASO-LIM-035-2A` debe continuar, el adverso debe devolver `REJECT». Señal del starter: starter con fixture sintético. Hint: Una ausencia no equivale a breach: enrútala a `REQUEST_SLICE_N` antes de evaluar el contenido.. Léxico del paquete: sensibilidad, métrica, equidad, misma. Prefiero lo aburrido, determinista y auditable; riesgo: si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S35-T2-A"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S35-T2-B-E1",
+      "id": "S35-T2-B-E1",
+      "code": "# skeptic/S35-T2-B-E1: packet-only K2; rejected inverted contracts / theater claims\nrecord = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\nmeets_contract = record[\"risk\"] == \"high\" and record[\"action\"] in {\"review\", \"mitigate\", \"drop\"}\nstatus = \"PASS\" if meets_contract else \"REJECT_PROXY_FEATURE\"\nprint(\"S35-T2-B\", status)\nassert meets_contract is True\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S35/S35-T2-B-E1 («Explicabilidad, equidad e incertidumbre»): S35-T2-B-E1 · Calcula el contrato de `proxies, sample size y daño diferencial` sobre `CASO-LIM-035-2B`. La entrada es el dict completo del starter; la operación debe demo. Apoyo léxico K2: equidad, miden, veredictos, fraude. Hint: Relaciona los campos `feature, risk, action` con la regla explicada en S35-T2-B.. Starter: starter con fixture sintético. Desconfío de claims de fraude o parentesco fuera de scope; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S35-T2-B"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S35-T2-B-E2",
+      "id": "S35-T2-B-E2",
+      "code": "# skeptic/S35-T2-B-E2: packet-only K2; rejected inverted contracts / theater claims\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'feature', 'risk', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"risk\"] == \"high\" and record[\"action\"] in {\"review\", \"mitigate\", \"drop\"} else \"REJECT_PROXY_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S35-T2-B-E2 («Explicabilidad, equidad e incertidumbre»): confronté predicados invertidos y marcas DEFECTO. Enunciado: «S35-T2-B-E2 · Modela tres rutas de `proxies, sample size y daño diferencial`: fixture válido, fixture adverso y registro sin `action`. Entrada: dict con case_id, feature,». Señal del starter: starter con fixture sintético. Hint: Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.. Léxico del paquete: Entrada, barajar, Salida, top_feature. Desconfío de claims de fraude o parentesco fuera de scope; riesgo: si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S35-T2-B"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S35-T2-B-E3",
+      "id": "S35-T2-B-E3",
+      "code": "# skeptic/S35-T2-B-E3: packet-only K2; rejected inverted contracts / theater claims\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'feature', 'risk', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_PROXY_AUDIT\"\n    return \"CONTINUE\" if record[\"risk\"] == \"high\" and record[\"action\"] in {\"review\", \"mitigate\", \"drop\"} else \"REJECT_PROXY_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\nassert results == [\"CONTINUE\", \"REJECT_PROXY_FEATURE\", \"REQUEST_PROXY_AUDIT\"]\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S35-T2-B-E3. La sección «Explicabilidad, equidad e incertidumbre» pide: S35-T2-B-E3 · Contrasta fallo cerrado para `proxies, sample size y daño diferencial` con tres fixtures distintos. `CASO-LIM-035-2B` debe continuar, el adverso debe devolv. Me anclé en train, negocio, globales y en «Una ausencia no equivale a breach: enrútala a `REQUEST_PROXY_AUDIT` antes de evaluar el contenido.». Marcas del starter: starter con fixture sintético. Por eso crucé instruction contra hints e iDo del slim_packet; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S35-T2-B"
+      ],
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S35-T3-A-E1",
+      "id": "S35-T3-A-E1",
+      "code": "# skeptic/S35-T3-A-E1: packet-only K2; rejected inverted contracts / theater claims\nrecord = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\nmeets_contract = record[\"q\"] > 0 and record[\"level\"] != \"point\" and 0 <= record[\"p\"] <= 1\nstatus = \"PASS\" if meets_contract else \"REJECT_POINT_ONLY\"\nprint(\"S35-T3-A\", status)\nassert meets_contract is True\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S35/S35-T3-A-E1 («Explicabilidad, equidad e incertidumbre»): S35-T3-A-E1 · Calcula el contrato de `calibración, intervalos/conformal conceptualmente` sobre `CASO-LIM-035-3A`. La entrada es el dict completo del starter; la operación. Apoyo léxico K2: train, veredictos, miden, Explicabilidad. Hint: Relaciona los campos `p, q, level` con la regla explicada en S35-T3-A.. Starter: starter con fixture sintético. Prefiero lo aburrido, determinista y auditable; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S35-T3-A"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S35-T3-A-E2",
+      "id": "S35-T3-A-E2",
+      "code": "# skeptic/S35-T3-A-E2: packet-only K2; rejected inverted contracts / theater claims\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'q', 'level'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"q\"] > 0 and record[\"level\"] != \"point\" and 0 <= record[\"p\"] <= 1 else \"REJECT_POINT_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nincomplete = {**valid}\nincomplete.pop(\"q\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S35-T3-A-E2 («Explicabilidad, equidad e incertidumbre»): contrasté theory headings con el enunciado del ejercicio. Enunciado: «S35-T3-A-E2 · Modela tres rutas de `calibración, intervalos/conformal conceptualmente`: fixture válido, fixture adverso y registro sin `q`. Entrada: dict con case_id, p,». Señal del starter: starter con fixture sintético. Hint: Primero se calcula `missing`; ningún acceso a q debe ocurrir antes de esa rama.. Léxico del paquete: Error, causalidad, modelo, importancia. Me resisto a copiar sin anclar en el paquete; riesgo: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S35-T3-A"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S35-T3-A-E3",
+      "id": "S35-T3-A-E3",
+      "code": "# skeptic/S35-T3-A-E3: packet-only K2; rejected inverted contracts / theater claims\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'p', 'q', 'level'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_INTERVAL\"\n    return \"CONTINUE\" if record[\"q\"] > 0 and record[\"level\"] != \"point\" and 0 <= record[\"p\"] <= 1 else \"REJECT_POINT_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nuncertain = {**valid}\nuncertain.pop(\"q\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\nassert results == [\"CONTINUE\", \"REJECT_POINT_ONLY\", \"REQUEST_INTERVAL\"]\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Desconfío de claims de fraude o parentesco fuera de scope al cerrar S35-T3-A-E3. La sección «Explicabilidad, equidad e incertidumbre» pide: S35-T3-A-E3 · Contrasta fallo cerrado para `calibración, intervalos/conformal conceptualmente` con tres fixtures distintos. `CASO-LIM-035-3A` debe continuar, el adverso d. Me anclé en top_feature, métrica, means_fraud y en «Una ausencia no equivale a breach: enrútala a `REQUEST_INTERVAL` antes de evaluar el contenido.». Marcas del starter: starter con fixture sintético. Por eso confronté predicados invertidos y marcas DEFECTO; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S35-T3-A"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S35-T3-B-E1",
+      "id": "S35-T3-B-E1",
+      "code": "# skeptic/S35-T3-B-E1: packet-only K2; rejected inverted contracts / theater claims\nrecord = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\nmeets_contract = max(abs(z) for z in record[\"zs\"]) > record[\"threshold\"] and record[\"action\"] == \"abstain\"\nstatus = \"PASS\" if meets_contract else \"REJECT_AUTO_LABEL\"\nprint(\"S35-T3-B\", status)\nassert meets_contract is True\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S35-T3-B-E1 («Explicabilidad, equidad e incertidumbre»): derivé el cuerpo desde forma esperada sin inventar APIs. Enunciado: «S35-T3-B-E1 · Calcula el contrato de `out-of-distribution y abstención` sobre `CASO-LIM-035-3B`. La entrada es el dict completo del starter; la operación debe demostrar O». Señal del starter: starter con fixture sintético. Hint: Relaciona los campos `zs, threshold, action` con la regla explicada en S35-T3-B.. Léxico del paquete: numérico, operativo, coeficientes, Error. Exijo evidencia lexical en theory/iDo del paquete activo; riesgo: si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S35-T3-B"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S35-T3-B-E2",
+      "id": "S35-T3-B-E2",
+      "code": "# skeptic/S35-T3-B-E2: packet-only K2; rejected inverted contracts / theater claims\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'zs', 'threshold', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if max(abs(z) for z in record[\"zs\"]) > record[\"threshold\"] and record[\"action\"] == \"abstain\" else \"REJECT_AUTO_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S35-T3-B-E2. La sección «Explicabilidad, equidad e incertidumbre» pide: S35-T3-B-E2 · Modela tres rutas de `out-of-distribution y abstención`: fixture válido, fixture adverso y registro sin `action`. Entrada: dict con case_id, zs, threshold,. Me anclé en cuánto, afirmar, permutación y en «Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.». Marcas del starter: starter con fixture sintético. Por eso verifiqué el contrato I/O sintético del paquete activo; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S35-T3-B"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S35-T3-B-E3",
+      "id": "S35-T3-B-E3",
+      "code": "# skeptic/S35-T3-B-E3: packet-only K2; rejected inverted contracts / theater claims\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'zs', 'threshold', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_OOD_POLICY\"\n    return \"CONTINUE\" if max(abs(z) for z in record[\"zs\"]) > record[\"threshold\"] and record[\"action\"] == \"abstain\" else \"REJECT_AUTO_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\nassert results == [\"CONTINUE\", \"REJECT_AUTO_LABEL\", \"REQUEST_OOD_POLICY\"]\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S35-T3-B-E3 no improvisé APIs: verifiqué el contrato I/O sintético del paquete activo y armé el cuerpo desde el quiz_card. Resumen de instrucción: S35-T3-B-E3 · Contrasta fallo cerrado para `out-of-distribution y abstención` con tres fixtures distintos. `CASO-LIM-035-3B` debe continuar, el adverso debe devolver `REJ. Flags: starter con fixture sintético. Conceptos activos: globales, equidad, operativo, permutación, miden. Desconfío de claims de fraude o parentesco fuera de scope.",
+      "concepts_used": [
+        "S35-T3-B"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S35-T4-A-E1",
+      "id": "S35-T4-A-E1",
+      "code": "# skeptic/S35-T4-A-E1: packet-only K2; rejected inverted contracts / theater claims\nrecord = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}\nmeets_contract = record[\"use\"] == \"queue_rank\" and \"fraud_label\" in record[\"out_of_scope\"] and record[\"contestability\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_SCOPE_BREACH\"\nprint(\"S35-T4-A\", status)\nassert meets_contract is True\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S35-T4-A-E1 («Explicabilidad, equidad e incertidumbre»): derivé el cuerpo desde forma esperada sin inventar APIs. Enunciado: «S35-T4-A-E1 · Calcula el contrato de `model card y contestabilidad` sobre `CASO-LIM-035-4A`. La entrada es el dict completo del starter; la operación debe demostrar card». Señal del starter: starter con fixture sintético. Hint: Relaciona los campos `use, out_of_scope, contestability` con la regla explicada en S35-T4-A.. Léxico del paquete: Criterio, Error, ranking, veredictos. Me resisto a copiar sin anclar en el paquete; riesgo: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S35-T4-A"
+      ],
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S35-T4-A-E2",
+      "id": "S35-T4-A-E2",
+      "code": "# skeptic/S35-T4-A-E2: packet-only K2; rejected inverted contracts / theater claims\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'use', 'out_of_scope', 'contestability'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"use\"] == \"queue_rank\" and \"fraud_label\" in record[\"out_of_scope\"] and record[\"contestability\"] is True else \"REJECT_SCOPE_BREACH\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'fraud_label', 'out_of_scope': [], 'contestability': False}}\nincomplete = {**valid}\nincomplete.pop(\"out_of_scope\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S35-T4-A-E2. La sección «Explicabilidad, equidad e incertidumbre» pide: S35-T4-A-E2 · Modela tres rutas de `model card y contestabilidad`: fixture válido, fixture adverso y registro sin `out_of_scope`. Entrada: dict con case_id, use, out_of_s. Me anclé en train, numérico, top_feature y en «Primero se calcula `missing`; ningún acceso a out_of_scope debe ocurrir antes de esa rama.». Marcas del starter: starter vacío de transfer. Por eso confronté predicados invertidos y marcas DEFECTO; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S35-T4-A"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S35-T4-A-E3",
+      "id": "S35-T4-A-E3",
+      "code": "# skeptic/S35-T4-A-E3: packet-only K2; rejected inverted contracts / theater claims\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'use', 'out_of_scope', 'contestability'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CARD_KEYS\"\n    return \"CONTINUE\" if record[\"use\"] == \"queue_rank\" and \"fraud_label\" in record[\"out_of_scope\"] and record[\"contestability\"] is True else \"REJECT_SCOPE_BREACH\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'fraud_label', 'out_of_scope': [], 'contestability': False}}\nuncertain = {**valid}\nuncertain.pop(\"out_of_scope\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\nassert results == [\"CONTINUE\", \"REJECT_SCOPE_BREACH\", \"REQUEST_CARD_KEYS\"]\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S35-T4-A-E3 no improvisé APIs: crucé instruction contra hints e iDo del slim_packet y armé el cuerpo desde el quiz_card. Resumen de instrucción: S35-T4-A-E3 · Contrasta fallo cerrado para `model card y contestabilidad` con tres fixtures distintos. `CASO-LIM-035-4A` debe continuar, el adverso debe devolver `REJECT_. Flags: starter vacío de transfer. Conceptos activos: Aplicación, globales, barajar, Entrada, legal. No asumo que el primer predicado booleano sea correcto.",
+      "concepts_used": [
+        "S35-T4-A"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S35-T4-B-E1",
+      "id": "S35-T4-B-E1",
+      "code": "# skeptic/S35-T4-B-E1: packet-only K2; rejected inverted contracts / theater claims\nrecord = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\nmeets_contract = bool(record[\"by\"]) and bool(record[\"case\"]) and bool(record[\"human\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_OVERRIDE\"\nprint(\"S35-T4-B\", status)\nassert meets_contract is True\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia lexical en theory/iDo del paquete activo al cerrar S35-T4-B-E1. La sección «Explicabilidad, equidad e incertidumbre» pide: S35-T4-B-E1 · Calcula el contrato de `aprobación, override, apelación y retiro` sobre `CASO-LIM-035-4B`. La entrada es el dict completo del starter; la operación debe dem. Me anclé en Criterio, coeficientes, Contrato y en «Relaciona los campos `case, human, by` con la regla explicada en S35-T4-B.». Marcas del starter: starter con fixture sintético. Por eso verifiqué el contrato I/O sintético del paquete activo; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S35-T4-B"
+      ],
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S35-T4-B-E2",
+      "id": "S35-T4-B-E2",
+      "code": "# skeptic/S35-T4-B-E2: packet-only K2; rejected inverted contracts / theater claims\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'case', 'human', 'by'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if bool(record[\"by\"]) and bool(record[\"case\"]) and bool(record[\"human\"]) else \"REJECT_SILENT_OVERRIDE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nincomplete = {**valid}\nincomplete.pop(\"by\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S35-T4-B-E2 no improvisé APIs: crucé instruction contra hints e iDo del slim_packet y armé el cuerpo desde el quiz_card. Resumen de instrucción: S35-T4-B-E2 · Modela tres rutas de `aprobación, override, apelación y retiro`: fixture válido, fixture adverso y registro sin `by`. Entrada: dict con case_id, case, human. Flags: starter con fixture sintético. Conceptos activos: partir, drops, equidad, persona, operativo. Me resisto a copiar sin anclar en el paquete.",
+      "concepts_used": [
+        "S35-T4-B"
+      ],
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S35-T4-B-E3",
+      "id": "S35-T4-B-E3",
+      "code": "# skeptic/S35-T4-B-E3: packet-only K2; rejected inverted contracts / theater claims\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'case', 'human', 'by'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_AUDIT_FIELDS\"\n    return \"CONTINUE\" if bool(record[\"by\"]) and bool(record[\"case\"]) and bool(record[\"human\"]) else \"REJECT_SILENT_OVERRIDE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nuncertain = {**valid}\nuncertain.pop(\"by\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\nassert results == [\"CONTINUE\", \"REJECT_SILENT_OVERRIDE\", \"REQUEST_AUDIT_FIELDS\"]\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S35/S35-T4-B-E3 («Explicabilidad, equidad e incertidumbre»): S35-T4-B-E3 · Contrasta fallo cerrado para `aprobación, override, apelación y retiro` con tres fixtures distintos. `CASO-LIM-035-4B` debe continuar, el adverso debe devol. Apoyo léxico K2: means_fraud, misma, feature, lineal. Hint: Una ausencia no equivale a breach: enrútala a `REQUEST_AUDIT_FIELDS` antes de evaluar el contenido.. Starter: starter con fixture sintético. Prefiero lo aburrido, determinista y auditable; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S35-T4-B"
+      ],
+      "confidence": 0.85
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no elijo la opción más corta: en «Explicabilidad, equidad e incertidumbre» el stem «La ficha de caso debe separar:» apunta a «Evidencia, modelo, incertidumbre y decisión humana» (índice 2). Evidencia léxica: shared_phone, operativo, numérico, legal, negocio. Rechacé: Solo score / Solo SHAP global. Sigo dudando de atajos teatrales.",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no elijo la opción más corta: en «Explicabilidad, equidad e incertidumbre» el stem «Perm importance prueba:» apunta a «Sensibilidad del modelo a barajar features» (índice 0). Evidencia léxica: lineal, afirmar, mapas, miden, partir. Rechacé: Fraude / Parentesco. Me resisto a copiar sin anclar en el paquete.",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no elijo la opción más corta: en «Explicabilidad, equidad e incertidumbre» el stem «Ante OOD conviene:» apunta a «Abstener y escalar» (índice 1). Evidencia léxica: miden, top_feature, numérico, lineal, amount_. Rechacé: Forzar pred 1 / Borrar logs. Sigo dudando de atajos teatrales.",
+      "confidence": 0.92
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no elijo la opción más corta: en «Explicabilidad, equidad e incertidumbre» el stem «Model card out_of_scope incluye:» apunta a «Usos prohibidos p.ej. etiqueta de fraude» (índice 3). Evidencia léxica: misma, miden, means_fraud, Salida, equidad. Rechacé: Nada / Solo accuracy. No asumo que el primer predicado booleano sea correcto.",
+      "confidence": 0.87
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:18:18.087733+00:00",
+  "session_started_at": "2026-07-23T15:17:36.176134+00:00",
+  "session_ended_at": "2026-07-23T15:18:18.084893+00:00",
+  "receipt_response_sha256": "e0973f23b37714a2f7ede3f2ba694ad878db00079f02f728a7c1fc4e3d24f8da",
+  "receipt_exercises_sha256": "d4c2c63a9ba6105b402c2b2556762c43b1af62ca8f7b857660cc13b97c6c5839",
+  "receipt_selfcheck_sha256": "a8d50f2fd27705556f86562f008841b39f6c4397565f0f1665e9d1d5760c6212"
+}

@@ -1,0 +1,508 @@
+{
+  "section_index": 1,
+  "title": "Entorno reproducible y trabajo seguro",
+  "outcomes": [
+    "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+    "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+    "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+    "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+    "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+    "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+    "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+  ],
+  "theory": [
+    {
+      "subtopicId": "S01-T1-A",
+      "heading": "El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación)",
+      "paragraphs": [
+        "Cuando instalas Python, lo que realmente instalas es un **intérprete**: un programa que lee tu código y lo ejecuta. En la terminal, ese programa suele llamarse `python` o `python3`. La primera habilidad profesional no es escribir un algoritmo: es **verificar qué intérprete estás usando**. En Windows a veces el comando `python` no está en el PATH (la lista de carpetas donde el sistema busca programas). En macOS/Linux es común tener `python3` como comando principal. Por eso siempre empiezas con `python --version` (o `python3 --version`) y anotas la respuesta. Para este curso apuntamos a **Python 3.12 o superior**.",
+        "El **REPL** (Read–Eval–Print Loop) es el modo interactivo del intérprete. Lo abres escribiendo solo `python` (o `python3`) y Enter. Verás el prompt `>>>`. Ahí puedes escribir una expresión, presionar Enter, y Python la evalúa al instante: `2 + 2` devuelve `4`, `type(\"hola\")` devuelve `<class 'str'>`. Es ideal para probar una idea en 10 segundos sin crear un archivo. Para salir: `quit()` o `exit()`, o el carácter de fin de archivo (Ctrl-D en macOS/Linux, Ctrl-Z y Enter en Windows). Salir del REPL **no cierra** tu terminal: vuelves al prompt de la shell (`$` o `PS>`).",
+        "Hay una diferencia crítica entre **sesión REPL** y **script `.py`**. En el REPL cada línea se ejecuta al presionar Enter. En un script, escribes el programa completo en un archivo y lo lanzas con `python hello.py`. El script es lo que subes a GitHub y lo que corre en producción o en un pipeline. El REPL es tu laboratorio de bolsillo. Cuando un colega dice \"ábrelo en el intérprete y mira el tipo\", te está pidiendo el REPL. Cuando dice \"corre el entrypoint\", te está pidiendo un archivo. Confundir ambos genera la sensación de que \"a mí me funciona\" en la laptop y falla en el servidor.",
+        "Tu primer script usa tres piezas mínimas: (1) **`print(...)`** escribe texto a la salida estándar (lo ves en la terminal). (2) **`def nombre():`** define una función — un bloque indentado que puedes reutilizar; por convención el entrypoint se llama `main`. (3) el guardián **`if __name__ == \"__main__\":`** solo corre `main()` cuando ejecutas el archivo con `python archivo.py` (no cuando alguien lo importa como módulo). Para la versión de Python dentro del script: `import sys` y `sys.version.split()[0]`. Un **f-string** formatea texto con variables: `print(f\"Hola {nombre}\")` — la `f` delante de las comillas permite `{expresiones}` dentro.",
+        "**Anotaciones de tipo opcionales (pistas):** `def main() -> None:` dice “esta función no devuelve un valor útil”. `-> None` y `: str` en parámetros son **anotaciones** (type hints): documentan el contrato y ayudan a Ruff/editores; en S01 Python **no** las exige en runtime. Si el starter trae `-> None`, puedes dejarlo o copiarlo; no cambia la lógica del script.",
+        "Además del script, sigue verificando el intérprete desde la shell antes de crear venvs o instalar paquetes."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S01-T1-B",
+      "heading": "Terminal, rutas y códigos de salida · cwd, PATH y códigos de salida en la shell",
+      "paragraphs": [
+        "La **terminal** (bash, zsh o PowerShell) es el lugar donde lanzas procesos: `python`, `git`, `mkdir`. Cada comando que escribes es un **proceso** hijo de la shell. Cuando termina, devuelve un **código de salida** (exit status): por convención, **0 significa éxito** y **cualquier valor distinto de 0 significa fallo**. En bash/zsh lo lees con `echo $?`. En PowerShell, con `echo $LASTEXITCODE`. CI, scripts y pipelines usan ese número para decidir si continúan o se detienen. Un mensaje de error en pantalla y un código 0 (o al revés) son cosas distintas: siempre mira el código cuando automatizas.",
+        "No confundas el **directorio de trabajo actual** (cwd: dónde “estás” con `cd` y `pwd` / `Get-Location`) con el **PATH** (lista de carpetas donde el sistema busca ejecutables como `python`). Puedes estar en `~/proyectos/python-ds-journey` y aun así fallar `python` si ese ejecutable no está en el PATH. Al revés: puedes tener Python en el PATH y fallar al abrir un archivo si tu cwd no es la carpeta del proyecto. `mkdir` y `cd` mueven o crean rutas relativas al cwd; no “instalan” Python en el PATH.",
+        "En Python, `sys.exit(n)` termina el proceso con código `n`. Es la forma limpia de señalizar éxito o error a la shell y a herramientas externas. Ejemplo: un script de validación sale con `0` si los argumentos son correctos y con `1` si faltan. En data ops verás el mismo contrato: un job ETL “failed” casi siempre es exit code distinto de cero, no solo un print rojo. Practica leer `$?` / `$LASTEXITCODE` después de cada comando crítico antes de culpar a la librería.",
+        "**Argumentos de línea de comandos:** `sys.argv` es una lista de strings. `sys.argv[0]` es el nombre del script; los argumentos del usuario empiezan en `sys.argv[1]`. **`len(sys.argv)`** cuenta cuántos elementos hay (incluye el nombre del script). Ejemplo: `python check_arg.py ok` → `sys.argv == [\"check_arg.py\", \"ok\"]` y `len(sys.argv) == 2`. **Rebanado (slice):** `sys.argv[1:]` es la sublista desde el índice 1 hasta el final (todos los args del usuario, sin el nombre del script). La forma general es `lista[inicio:fin]` (fin excluido); omitir `fin` llega al final. Para errores al usuario usa `print(\"uso: ...\", file=sys.stderr)` y luego `sys.exit(1)`.",
+        "**Qué intérprete es este proceso:** `sys.executable` es la ruta absoluta del binario Python que está corriendo tu script (ej. `.../.venv/bin/python`). Si `import requests` falla, compara `sys.executable` con el `pip` que usaste: la regla de oro es instalar con `python -m pip install ...` usando **el mismo** ejecutable. Así evitas el clásico \"lo instalé pero ModuleNotFoundError\".",
+        "Desde la shell, confirma cwd, PATH conceptual y códigos de salida con los mismos números 0/1 que usa `sys.exit`."
+      ],
+      "code": "import sys\n\ndef main() -> None:\n    # sys.argv[0] = script; usuario desde [1]\n    if len(sys.argv) != 2:\n        print(\"uso: python check_arg.py <arg>\", file=sys.stderr)\n        sys.exit(1)\n    print(\"OK:\" + sys.argv[1])\n    print(\"executable:\", sys.executable)\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()",
+      "code_output": "OK:hola\nexecutable: /ruta/a/python"
+    },
+    {
+      "subtopicId": "S01-T2-A",
+      "heading": "Entornos virtuales con venv",
+      "paragraphs": [
+        "Un **entorno virtual** es una carpeta autocontenida con su propio intérprete Python y su propio directorio de paquetes. La herramienta estándar de la biblioteca es el módulo **`venv`**: `python -m venv .venv`. La regla de oro no cambia: **un proyecto = un entorno = un conjunto de dependencias**. Así evitas que el pandas 2.x de un cliente rompa el notebook legacy de otro. Instalar paquetes “en el Python global” del sistema es la vía rápida al caos en tres meses.",
+        "**Nombre de la carpeta:** la documentación oficial de Python recomienda **`.venv`** (con punto): queda semi-oculto en listados Unix y se distingue de archivos `.env` de secretos. El nombre `venv` (sin punto) también es válido y lo verás en muchos tutoriales; en este curso el canónico es **`.venv`**, y tratamos `venv` como alias aceptado si ya lo usas. Ambos deben ir en `.gitignore` — nunca subas el entorno a GitHub (pesa decenas o cientos de MB y se regenera).",
+        "**Activación** engancha la shell al Python del entorno: en macOS/Linux, `source .venv/bin/activate`; en Windows PowerShell, `.venv\\Scripts\\Activate.ps1`. El prompt suele mostrar `(.venv)`. **`deactivate`** vuelve al Python anterior. Si rompes el entorno, no “reparas a mano” el site-packages: borras la carpeta `.venv` y la recreas con el mismo comando. `conda` sigue siendo alternativa en investigación o GPU, pero **no es el default** de este curso. Herramientas más nuevas como `uv` son tendencia; aquí dominas `venv` porque es lo que encontrarás en la mayoría de onboarding corporativos."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S01-T2-B",
+      "heading": "pip, freeze y requirements.txt",
+      "paragraphs": [
+        "Con el `.venv` activado, instalas dependencias de **terceros** con **`python -m pip`**. El prefijo `python -m` ata pip al mismo intérprete que acabas de verificar: evita el clásico “pip instaló en un Python y `import` usa otro”. Comandos del día a día: `python -m pip install paquete`, pin con `paquete==1.2.3`, listar con `python -m pip list`, y exportar un snapshot con `python -m pip freeze > requirements.txt`. Para restaurar en otra máquina o en un entorno limpio: `python -m pip install -r requirements.txt`. La biblioteca estándar (`sys`, `datetime`, `pathlib`, `csv`, `json`…) **no** va a requirements: se importa sin `pip install`.",
+        "**`pip freeze`** escribe *todo* lo instalado en el entorno activo, incluidas **dependencias transitivas** (si instalas `requests`, también aparecen `urllib3`, `certifi`, etc.). Eso es un **snapshot reproducible** muy útil para clonar el entorno de un analista. No es un lockfile moderno con hashes y resolución completa (Poetry, PDM, `uv lock` van más allá). En S01 usamos freeze + `==` porque es el mínimo que encontrarás en onboarding corporativo y en muchos repos de data. Entiende el límite: freeze captura *lo que hay hoy* en *tu* venv; no resuelve conflictos multiplataforma ni firma paquetes.",
+        "Flujo profesional: (1) activar `.venv`, (2) instalar lo necesario, (3) `python -m pip freeze > requirements.txt`, (4) commitear el archivo (no la carpeta `.venv/`). Si un colega clona y hace `install -r`, debería obtener las mismas versiones pinneadas. Si ves `ModuleNotFoundError`, primero pregunta: ¿estoy en el venv correcto? ¿usé `python -m pip`? ¿el paquete es stdlib o de terceros? Diagnosticar en ese orden ahorra horas de “a mí me funciona”."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S01-T3-A",
+      "heading": "Git: commits y lectura de diffs",
+      "paragraphs": [
+        "Git es un **sistema de control de versiones**: registra *quién cambió qué y por qué*, no solo “guardar en la nube”. Flujo local mínimo: `git init` (una vez por repo), editas archivos, `git status` (¿qué cambió?), `git add` (staging), `git commit -m \"...\"` (punto de retorno con mensaje). Cada commit es un snapshot recuperable. GitHub/GitLab son **remotos** donde publicas esos commits; el historial útil empieza en tu máquina con mensajes claros.",
+        "La convención **Conventional Commits** usa un prefijo + descripción en **imperativo** y en minúsculas tras el prefijo: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`. Ejemplos: `feat: agregar script hello_env`, `docs: documentar instalación del venv`, `fix: corregir ruta en README`. Evita “cambios”, “wip”, “arreglé algo”: en seis meses nadie (ni tú) sabrá qué mirar. Equipos de datos en bancos y fintech en Perú suelen pedir este estilo en code review.",
+        "Leer un **diff** es tan importante como escribir el commit. `git diff` muestra cambios *sin* stage; `git diff --staged` lo ya agregado; `git show` el último commit (o un hash). Líneas con `+` se añadieron; con `-` se quitaron. Un archivo nuevo aparece como todo `+`. Antes de `commit`, lee el diff: es tu última revisión de calidad y la misma habilidad que usarás al revisar un Pull Request de un colega."
+      ],
+      "code": "git init\n# identidad solo la primera vez en la máquina (global):\n# git config --global user.name \"Tu Nombre\"\n# git config --global user.email \"tu@correo.com\"\n\necho \"# Mi proyecto\" > README.md\ngit add README.md\ngit status\ngit commit -m \"docs: agregar README inicial\"\n\necho \"\" >> README.md\necho \"Setup con venv.\" >> README.md\ngit add README.md\ngit commit -m \"docs: documentar setup con venv\"\n\ngit log --oneline\ngit show HEAD   # mira +/- del último commit",
+      "code_output": "docs: documentar setup con venv\ndocs: agregar README inicial\n# git show: líneas + con el texto nuevo del README"
+    },
+    {
+      "subtopicId": "S01-T3-B",
+      "heading": "Ramas, Pull Requests y recuperación segura",
+      "paragraphs": [
+        "Trabajar siempre en `main` es el atajo del principiante y el riesgo del equipo. El flujo profesional: crea una **rama de feature** con `git switch -c feat/nombre-corto`, haz commits ahí, publica con `git push -u origin feat/nombre-corto`, y abre un **Pull Request (PR)** en GitHub para revisar antes de integrar a `main`. El PR no es burocracia: es el lugar donde un colega lee el diff, comenta y aprueba. Nombres útiles: `feat/hello-env`, `docs/readme-install`, `fix/gitignore-env`.",
+        "Un **conflicto** aparece cuando dos ramas editaron las mismas líneas. Git marca el archivo; tú eliges el contenido final, `git add` y un commit de merge o de resolución. En S01 no necesitas ser experto en merges complejos: sí necesitas no paniquear y no “arreglar” con historial destructivo. La regla de oro de este curso: **no hagas `git push --force` a `main`**. Reescribe historial solo en ramas tuyas no compartidas y con permiso del equipo; en onboarding, ni eso.",
+        "Recuperación **no destructiva** del día a día: `git restore archivo` descarta cambios *sin commitear* en el working tree (vuelve a la última versión commiteada o staged, según el caso). `git stash` guarda cambios temporales y deja el árbol limpio; `git stash pop` los recupera. Prefiere restore/stash a `reset --hard` como primer reflejo: hard borra trabajo no commiteado de forma fácil de lamentar. Aprende primero a no perder trabajo; después, a reescribir con cuidado."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S01-T4-A",
+      "heading": "VS Code y Ruff como calidad mínima",
+      "paragraphs": [
+        "El editor recomendado en este curso es **VS Code** con la extensión de **Python** (Pylance para tipos e IntelliSense) y **Ruff** (linter/formateador ultra rápido escrito en Rust). No sustituyen pensar: atrapan errores baratos antes del code review — imports sin usar, errores de sintaxis obvios, imports desordenados. En equipos de datos, un linter en el repo es el primer “CI humano” que corre en tu laptop.",
+        "La configuración mínima vive en **`pyproject.toml`** en la raíz del proyecto, sección `[tool.ruff]` y opcionalmente `[tool.ruff.lint]`. Valores sensatos para empezar: `line-length = 88`, `target-version` acorde a tu Python, y `select = [\"E\", \"F\", \"I\"]` (pycodestyle errores, pyflakes, isort). Instala el CLI en el venv: `python -m pip install ruff`. Ejecuta: `python -m ruff check ruta/` o un archivo. `ruff format` formatea; en S01 el foco es **`ruff check`**.",
+        "Flujo: escribes código → `ruff check` reporta (ej. **F401** import sin usar) → corriges o, en casos justificados avanzados, documentas un `noqa` (en S01 prefiere corregir). No habilites `select = [\"ALL\"]` el primer día: el ruido abruma y nadie arregla 200 reglas a la vez. Un mínimo que el equipo respeta vale más que un máximo que todos ignoran."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S01-T4-B",
+      "heading": "Archivos de calidad: ignore, secretos y README",
+      "paragraphs": [
+        "**.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env`, `.ipynb_checkpoints/`, y a menudo `data/raw/` o dumps grandes si tu política es no versionar datos pesados. Incluye **ambos** nombres de entorno (`.venv/` y `venv/`) porque el ecosistema usa los dos. Plantilla base: https://github.com/github/gitignore (Python.gitignore). Ojo: si un archivo **ya** está trackeado, agregarlo al ignore no lo saca del historial: necesitas `git rm --cached archivo` y un commit.",
+        "**.env** guarda secretos y variables locales (API keys, contraseñas). **Nunca** va al repo. **`.env.example`** sí: lista las *claves* con valores vacíos o ficticios para que un colega sepa qué copiar a su `.env` privado. Ejemplo: `DATABASE_URL=` y `API_TOKEN=` sin valores reales. Si subiste un secreto por error, rotarlo (cambiar la clave en el proveedor) es más importante que solo borrar el archivo del commit siguiente: el historial puede conservarlo.",
+        "**README.md** es el onboarding del clon limpio: título, qué hace el repo, mención al **esqueleto CP-N1-A** (Client Intake & Data Quality), instalación (`python -m venv .venv`, activate, `python -m pip install -r requirements.txt`), uso (`python scripts/hello_env.py`), y una nota de seguridad (no commitear `.env`, datos sintéticos). Para S01 agrega `data/clients_synthetic.csv` (PII falsa) y `data/data_dictionary.md` describiendo columnas. Un repo sin README ni diccionario de datos no se puede auditar ni reutilizar en S02–S04."
+      ],
+      "code": "# Fragmento mínimo de .gitignore\n# .venv/\n# venv/\n# __pycache__/\n# *.pyc\n# .env\n# .ipynb_checkpoints/\n\n# Verificar que .env queda ignorado (tras git init y .gitignore commiteable)\ngit check-ignore -v .env\n# .gitignore:N:.env    .env\n\n# .env.example SÍ se trackea (claves sin secretos)\n# SECRET_KEY=\n# API_URL=https://example.com",
+      "code_output": ".gitignore:5:.env    .env"
+    }
+  ],
+  "iDo": {
+    "steps": [
+      {
+        "demoId": "S01-T1-A-DEMO",
+        "subtopicId": "S01-T1-A",
+        "environment": "local-python",
+        "description": "Verificar el intérprete y abrir una sesión REPL mínima",
+        "why": "Si no sabes qué intérprete responde, todo lo demás (venv, pip, scripts) puede apuntar a otro Python y generar errores fantasma. El REPL confirma que el intérprete evalúa código; `quit()` demuestra que sales del REPL sin cerrar la terminal. Usar `python -m pip` evita instalar paquetes en un Python distinto al que ejecutas.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S01-T1-B-DEMO",
+        "subtopicId": "S01-T1-B",
+        "environment": "local-python",
+        "description": "Observar códigos de salida 0 y no-cero con sys.exit",
+        "why": "El código de salida es el contrato entre tu script y todo lo que lo invoca (shell, CI, orquestadores). 0 = sigamos; no-cero = detente o reintenta. Separar cwd (dónde estoy) de PATH (qué ejecutables existen) evita el clásico \"en mi máquina funciona\" cuando solo cambió la carpeta o el PATH del job.",
+        "code": "# Éxito: el proceso Python termina con 0\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"exit_ok=$?\"\n# PowerShell:\n# python -c \"import sys; print('ok'); sys.exit(0)\"; echo \"exit_ok=$LASTEXITCODE\"\n\n# Fallo controlado: termina con 1 (la shell sigue viva)\npython3 -c \"import sys; print('fallo controlado'); sys.exit(1)\"\necho \"exit_fail=$?\"\n\n# Comando inexistente → también no-cero (mensaje distinto, mismo tipo de señal a CI)\nfalse\necho \"exit_false=$?\"\n\n# Rutas: cwd vs carpeta\npwd\nmkdir -p /tmp/s01_t1b_demo && cd /tmp/s01_t1b_demo\npwd\n# Estar en /tmp/s01_t1b_demo NO \"arregla\" un Python ausente del PATH",
+        "language": "bash",
+        "output": "ok\nexit_ok=0\nfallo controlado\nexit_fail=1\nexit_false=1\n/Users/...\n/tmp/s01_t1b_demo"
+      },
+      {
+        "demoId": "S01-T2-A-DEMO",
+        "subtopicId": "S01-T2-A",
+        "environment": "local-python",
+        "description": "Crear y activar entorno virtual con .venv",
+        "why": "El entorno virtual aísla las dependencias por proyecto. `python -m venv` usa el mismo intérprete que acabas de verificar. Si rompes paquetes, borras `.venv/` y la recreas — no reinstalas el sistema. Activar no es opcional en el flujo diario: sin activar, `pip` puede caer en el Python global.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S01-T2-B-DEMO",
+        "subtopicId": "S01-T2-B",
+        "environment": "local-python",
+        "description": "Instalar con python -m pip, freeze y reinstall -r",
+        "why": "python -m pip ata el instalador al intérprete del venv. freeze genera el contrato reproducible; install -r lo aplica en un entorno limpio. Eso es lo que un colega hará el día 1 al clonar tu repo.",
+        "code": "# .venv activado (prompt (.venv))\npython -m pip install requests==2.32.3\n\n# Snapshot (incluye transitivas: urllib3, certifi, ...)\npython -m pip freeze > requirements.txt\nhead -5 requirements.txt\n\n# Replicar en entorno limpio (demo rápida):\ndeactivate\npython3 -m venv .venv_clean\nsource .venv_clean/bin/activate   # Windows: .venv_clean\\Scripts\\Activate.ps1\npython -m pip install -r requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n# 2.32.3\n\n# Stdlib no necesita pip:\npython -c \"import sys; print(sys.version.split()[0])\"\n\n# En el proyecto real del curso también instalarás pandas/numpy/etc.\n# y dejarás un solo requirements.txt pinneado en la raíz.",
+        "language": "bash",
+        "output": "requests==2.32.3\n...\n2.32.3\n3.12.3"
+      },
+      {
+        "demoId": "S01-T3-A-DEMO",
+        "subtopicId": "S01-T3-A",
+        "environment": "local-python",
+        "description": "Primer commit Conventional Commits y lectura de git show",
+        "why": "Un commit con prefijo docs:/feat: es legible en el historial y en el PR. git show es la misma habilidad de lectura de diff que usarás al revisar código ajeno.",
+        "code": "git init\n# git config --global user.name \"Tu Nombre\"   # solo 1ª vez\n# git config --global user.email \"tu@correo.com\"\n\necho \"# python-ds-journey\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README inicial\"\n\necho \"\" >> README.md\necho \"Esqueleto CP-N1-A.\" >> README.md\ngit add README.md\ngit commit -m \"docs: mencionar esqueleto CP-N1-A\"\n\ngit log --oneline\ngit show HEAD --stat\n# Lee las líneas +/− : qué se agregó o quitó en el último commit",
+        "language": "bash",
+        "output": "docs: mencionar esqueleto CP-N1-A\ndocs: agregar README inicial\n README.md | 2 ++\n 1 file changed, 2 insertions(+)"
+      },
+      {
+        "demoId": "S01-T3-B-DEMO",
+        "subtopicId": "S01-T3-B",
+        "environment": "local-python",
+        "description": "Rama feature, push -u y plan de PR (sin force-push)",
+        "why": "La rama + PR es el flujo de equipo. restore/stash recuperan sin reescribir historial compartido. force-push a main está prohibido en este curso.",
+        "code": "# Asegura estar en main con working tree limpio\ngit switch main\n\ngit switch -c feat/hello-env\n# ... edita o crea scripts/hello_env.py ...\ngit add scripts/hello_env.py\ngit commit -m \"feat: agregar smoke hello_env\"\n\n# Publicar rama (requiere remote origin ya configurado)\ngit push -u origin feat/hello-env\n\n# Abrir PR en GitHub (UI) o con GitHub CLI:\n# gh pr create --title \"feat: smoke hello_env\" --body \"- Agrega scripts/hello_env.py\\n- Smoke del entorno\"\n\n# Recuperación local (demo):\n# echo \"temp\" >> README.md\n# git restore README.md          # descarta cambio no commiteado\n# git stash push -m \"wip\"        # guarda a medias\n# NUNCA: git push --force origin main",
+        "language": "bash",
+        "output": "branch 'feat/hello-env' set up to track 'origin/feat/hello-env'\n# PR abierto en la UI de GitHub"
+      },
+      {
+        "demoId": "S01-T4-A-DEMO",
+        "subtopicId": "S01-T4-A",
+        "environment": "local-python",
+        "description": "Ruff check sobre un archivo con import sin usar",
+        "why": "Ruff atrapa basura barata (imports muertos, errores F/E) antes del review. La config en pyproject.toml es el contrato del repo, no solo del editor.",
+        "code": "# pyproject.toml en la raíz (mínimo):\n# [tool.ruff]\n# line-length = 88\n# target-version = \"py312\"\n# [tool.ruff.lint]\n# select = [\"E\", \"F\", \"I\"]\n\npython -m pip install ruff\n# hello_bad.py con: import sys  (sin usar) + print(\"hola\")\npython -m ruff check hello_bad.py\n# F401 [*] `sys` imported but unused\n\n# Tras quitar el import:\npython -m ruff check hello_bad.py\n# All checks passed!",
+        "language": "bash",
+        "output": "F401 [*] `sys` imported but unused\nAll checks passed!"
+      },
+      {
+        "demoId": "S01-T4-B-DEMO",
+        "subtopicId": "S01-T4-B",
+        "environment": "local-python",
+        "description": ".gitignore, .env.example y README de instalación",
+        "why": ".env se ignora; .env.example se versiona sin secretos. El README cierra el circuito: un clon limpio debe poder instalar y correr el smoke sin adivinar.",
+        "code": "# .gitignore mínimo (incluye .venv/ Y venv/)\n# .venv/\n# venv/\n# __pycache__/\n# *.pyc\n# .env\n# .ipynb_checkpoints/\n\necho \"API_TOKEN=supersecreto\" > .env\necho \"API_TOKEN=\" > .env.example\ngit add .gitignore .env.example README.md\ngit status --short\n# .env NO debe aparecer como staged\ngit check-ignore -v .env\n# .gitignore:N:.env    .env\n\n# README debe documentar:\n# python -m venv .venv\n# source .venv/bin/activate\n# python -m pip install -r requirements.txt\n# python scripts/hello_env.py",
+        "language": "bash",
+        "output": "A  .env.example\nA  .gitignore\nA  README.md\n.gitignore:5:.env    .env"
+      }
+    ]
+  },
+  "selfCheck_stems": [
+    {
+      "question": "¿Para qué sirve un entorno virtual (venv) en Python?",
+      "options": [
+        "Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones",
+        "Para acelerar la ejecución del código Python",
+        "Para conectarse a internet más rápido al instalar paquetes",
+        "Para compilar Python a código de máquina más eficiente"
+      ]
+    },
+    {
+      "question": "¿Cuál de los siguientes archivos SÍ debería estar en tu .gitignore?",
+      "options": [
+        "requirements.txt",
+        "README.md",
+        ".venv/ (o venv/)",
+        "hello.py"
+      ]
+    },
+    {
+      "question": "¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?",
+      "options": [
+        "\"cambios\"",
+        "\"wip\"",
+        "\"arreglé el bug de ayer\"",
+        "\"feat: agregar cálculo de churn por segmento\""
+      ]
+    },
+    {
+      "question": "¿Qué comando te permite replicar el entorno de otro desarrollador?",
+      "options": [
+        "pip install pandas numpy",
+        "pip install -r requirements.txt",
+        "python -m venv venv",
+        "git clone https://github.com/usuario/repo.git"
+      ]
+    },
+    {
+      "question": "¿Por qué NO debes subir el archivo .env a GitHub?",
+      "options": [
+        "Porque suele contener credenciales (API keys, passwords, tokens) que son secretos",
+        "Porque pesa demasiado y ralentiza el git push",
+        "Porque GitHub no soporta archivos sin extensión",
+        "Porque entra en conflicto con requirements.txt"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S01-T1-A-E1",
+      "instruction": "E1 (guiado) — Completa el transcript de una sesión REPL: suma, type() e import de sys. No crees un archivo .py; simula el diálogo en comentarios y luego pruébalo en tu terminal real.",
+      "hints": [
+        "En el REPL el prompt es >>>. Tras import sys, usa sys.version.split()[0] para la versión corta.",
+        "Para salir usa quit() o exit(). Eso no cierra la terminal: vuelves al prompt de bash/PowerShell/zsh."
+      ],
+      "kind": "guided",
+      "tests": "Checklist: (1) 2+2 → 4; (2) type(\"x\") es str; (3) sys.version.split()[0] es string tipo 3.x.y; (4) quit() regresa a la shell.",
+      "starterCode": "# Completa las líneas marcadas con ____\n# Esto NO se ejecuta como script: cópialo al REPL línea por línea.\n\n# >>> ____ + ____\n# 4\n\n# >>> type(\"____\")\n# <class 'str'>\n\n# >>> import ____\n# >>> sys.version.____()[0]\n# '3.x.y'\n\n# >>> ____()   # salir del REPL"
+    },
+    {
+      "id": "S01-T1-A-E2",
+      "instruction": "E2 (independiente) — Crea `hello_sys.py` que imprima tu nombre sintético y la versión de Python con sys. Debe usar `if __name__ == \"__main__\":` y salir con código 0 al correrse como script (no en el REPL).",
+      "hints": [
+        "Importa sys. La versión corta es sys.version.split()[0]. Envuelve la lógica en main().",
+        "El bloque if __name__ == \"__main__\": llama a main(). Así el archivo es un entrypoint claro cuando haces: python hello_sys.py"
+      ],
+      "kind": "independent",
+      "tests": "python hello_sys.py → exit 0; stdout contiene una versión 3.x y un nombre; no requiere pip install.",
+      "starterCode": "import sys\n\ndef main() -> None:\n    nombre = \"____\"  # usa un nombre sintético, no datos reales de terceros\n    version = sys.____.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\n# Completa el entrypoint profesional (no dejes el script sin if __name__)\nif ____ == \"____\":\n    ____()"
+    },
+    {
+      "id": "S01-T1-A-E3",
+      "instruction": "E3 (transferencia) — Diagnóstico: en una laptop Windows el usuario escribe `python --version` y obtiene \"no se reconoce como comando\". En macOS, `python` falla pero `python3 --version` muestra 3.12.1. Escribe un procedimiento de 4–6 pasos numerados (como comentarios en un .txt o .md) para dejar un intérprete usable y verificable. No inventes instalaciones pirata ni descargas no oficiales.",
+      "hints": [
+        "En Windows el culpable típico es el PATH o el alias de la Microsoft Store. En macOS/Linux suele bastar usar python3 de forma consistente.",
+        "Cierra y reabre la terminal después de cambiar PATH. Verifica siempre con --version antes de pip install. Fuente oficial: https://www.python.org/downloads/"
+      ],
+      "kind": "transfer",
+      "tests": "Rúbrica: menciona fuente oficial; verifica --version; distingue Windows vs Unix; no recomienda force-push ni desactivar seguridad del SO; 4–6 pasos claros.",
+      "starterCode": "# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. ____\n2. ____\n3. ____\n4. ____\n5. ____ (opcional)\n6. ____ (opcional)\n\n## Verificación final\n- Comando: ____\n- Resultado esperado: Python 3.12+ (o 3.x del curso)"
+    },
+    {
+      "id": "S01-T1-B-E1",
+      "instruction": "E1 (guiado) — Completa el transcript de terminal: ejecuta un Python que sale con 0, otro con 1, y anota `$?` (bash/zsh) o `$LASTEXITCODE` (PowerShell). No subas secretos ni rutas de usuario reales en la entrega.",
+      "hints": [
+        "Tras cada comando, imprime el código de salida. En bash: echo $?. En PowerShell: echo $LASTEXITCODE.",
+        "python3 -c \"import sys; sys.exit(0)\" debe dejar 0; sys.exit(1) debe dejar 1. El mensaje print y el código son independientes."
+      ],
+      "kind": "guided",
+      "tests": "Checklist: (1) exit 0 documentado; (2) exit 1 documentado; (3) shell nombrada (bash/zsh/PowerShell); (4) sin PII en rutas.",
+      "starterCode": "# Completa los ____ y ejecuta en tu shell\n\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(____)\"\necho \"codigo_ok=$____\"    # bash/zsh: $?  |  PowerShell: $LASTEXITCODE\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(____)\"\necho \"codigo_fail=$____\"\n\n# 3) Anota tu shell: bash | zsh | powershell\n# SHELL_USADA=____"
+    },
+    {
+      "id": "S01-T1-B-E2",
+      "instruction": "E2 (independiente) — Escribe `check_arg.py`: si recibe exactamente un argumento de línea de comandos, imprime `OK:<arg>` y termina con código 0; si no hay argumentos (o hay más de uno), imprime un mensaje de uso en stderr y termina con código 1. Usa `sys.argv` y `sys.exit`.",
+      "hints": [
+        "sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en sys.argv[1].",
+        "print(..., file=sys.stderr) para el mensaje de error. sys.exit(0) vs sys.exit(1). Prueba: python check_arg.py ok  y  python check_arg.py"
+      ],
+      "kind": "independent",
+      "tests": "python check_arg.py hola → exit 0 y stdout contiene OK:hola; python check_arg.py → exit 1; python check_arg.py a b → exit 1.",
+      "starterCode": "import sys\n\ndef main() -> None:\n    # sys.argv: [script, arg1, arg2, ...]\n    args = sys.argv[1:]\n    if ____(args) != ____:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.____)\n        sys.exit(____)\n    print(f\"OK:{args[0]}\")\n    sys.exit(____)\n\nif __name__ == \"__main__\":\n    main()"
+    },
+    {
+      "id": "S01-T1-B-E3",
+      "instruction": "E3 (transferencia) — Caso: un colega corre `pip install pandas` y ve error. En un escenario el mensaje es \"pip no se reconoce como comando\"; en otro, pip corre pero `python -c \"import pandas\"` falla con ModuleNotFoundError. Clasifica cada escenario (PATH/ejecutable vs intérprete distinto / paquete en otro env) y escribe 3 pasos de verificación por escenario. Entrega en markdown.",
+      "hints": [
+        "Pregunta siempre: ¿qué ejecutable falló? ¿qué python usa import? Preferir python -m pip para atar pip al mismo intérprete.",
+        "Escenario A: el shell no encuentra pip → PATH o nombre de comando. Escenario B: pip y python no son la misma instalación → wrong interpreter / venv no activado."
+      ],
+      "kind": "transfer",
+      "tests": "Rúbrica: clasifica A vs B; propone python -m pip; verifica --version de python y pip; no inventa reinstalls de SO innecesarios; sin secretos.",
+      "starterCode": null
+    },
+    {
+      "id": "S01-T2-A-E1",
+      "instruction": "E1 (guiado) — En una carpeta de práctica, crea un entorno `.venv` con `python -m venv`, actívalo y verifica que `sys.prefix` apunta a esa carpeta. Luego ejecuta `deactivate`.",
+      "hints": [
+        "Comando de creación: python3 -m venv .venv. Activación Unix: source .venv/bin/activate. Windows: .venv\\Scripts\\Activate.ps1",
+        "Verifica con: python -c \"import sys; print(sys.prefix)\" — debe terminar en .venv. which/where python también ayuda."
+      ],
+      "kind": "guided",
+      "tests": "Checklist: existe carpeta .venv; tras activate, sys.prefix contiene .venv; tras deactivate, el prefijo ya no es el del proyecto (o el prompt pierde (.venv)).",
+      "starterCode": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\n\n# 1) Crear\npython3 -m venv ____\n\n# 2) Activar (Unix)\nsource ____/bin/activate\n# Windows: .venv\\Scripts\\Activate.ps1\n\n# 3) Verificar\npython -c \"import sys; print(sys.____)\"\n\n# 4) Salir\n____"
+    },
+    {
+      "id": "S01-T2-A-E2",
+      "instruction": "E2 (independiente) — Simula un entorno “roto”: con `.venv` ya creado, borra la carpeta del entorno (o renómbrala) y recrea un `.venv` limpio sin tocar tu código fuente. Documenta los comandos en orden. No uses conda ni reinstales el Python del sistema.",
+      "hints": [
+        "El código (.py, README) vive fuera de .venv. Borrar .venv no borra tus scripts si están en la raíz del proyecto.",
+        "rm -rf .venv  (Unix) o Remove-Item -Recurse -Force .venv (PowerShell), luego python3 -m venv .venv y volver a activar."
+      ],
+      "kind": "independent",
+      "tests": "Tras recrear: activate funciona; sys.prefix apunta al nuevo .venv; archivos .py del proyecto siguen existiendo.",
+      "starterCode": "# Supón que ya tienes hello.py en el proyecto y un .venv roto.\n# Completa:\n\n# 0) Asegúrate de no estar usando el venv viejo\n____ 2>/dev/null || true\n\n# 1) Eliminar entorno roto\n____ .venv\n\n# 2) Recrear\npython3 -m venv ____\n\n# 3) Activar y verificar\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py u otros .py NO se borran"
+    },
+    {
+      "id": "S01-T2-A-E3",
+      "instruction": "E3 (transferencia) — Un colega propone instalar pandas con `pip install pandas` en el Python global “para no perder tiempo con venv”. Escribe un párrafo (5–8 oraciones) o un markdown corto que: (1) explique el riesgo con dos proyectos que necesitan versiones distintas; (2) proponga el flujo con `.venv`; (3) mencione que `venv` es stdlib y no requiere descarga extra. Sin afirmaciones salariales.",
+      "hints": [
+        "Usa el escenario: Proyecto A necesita pandas 1.x; Proyecto B necesita 2.x. Un solo site-packages global no puede satisfacer ambos.",
+        "Cierra con el flujo: python -m venv .venv → activate → python -m pip install ... por proyecto."
+      ],
+      "kind": "transfer",
+      "tests": "Rúbrica: menciona conflicto de versiones; propone .venv o venv por proyecto; no recomienda install global ni sudo; tono profesional en español.",
+      "starterCode": "# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\n____\n\n## Flujo recomendado (este curso)\n1. ____\n2. ____\n3. ____\n\n## Nota sobre la herramienta\n- venv es ____ (stdlib / terceros)\n- Nombre canónico de carpeta: ____"
+    },
+    {
+      "id": "S01-T2-B-E1",
+      "instruction": "E1 (guiado) — Con `.venv` activado, instala un paquete de terceros pinneado (ej. `requests==2.32.3`), genera `requirements.txt` con freeze y verifica que el archivo contiene `paquete==versión`. No uses el Python global.",
+      "hints": [
+        "Siempre: python -m pip install ... y python -m pip freeze > requirements.txt",
+        "Si freeze lista paquetes del sistema y no del proyecto, no activaste el venv. Revisa sys.prefix antes de freeze."
+      ],
+      "kind": "guided",
+      "tests": "requirements.txt existe; contiene al menos una línea name==version del paquete instalado; no incluye secretos ni rutas absolutas de usuario.",
+      "starterCode": "source .venv/bin/activate   # o Activate.ps1 en Windows\n\npython -m pip install requests==____\npython -m ____ freeze > ____.txt\n\n# Verifica:\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.____)\""
+    },
+    {
+      "id": "S01-T2-B-E2",
+      "instruction": "E2 (independiente) — Dado un `requirements.txt` de plantilla (puede ser el de E1), crea un **segundo** entorno limpio (`.venv_replica` o borra y recrea `.venv`), actívalo e instala con `python -m pip install -r requirements.txt`. Confirma con `pip list` o un import que el paquete está presente.",
+      "hints": [
+        "No copies site-packages a mano. El contrato es el archivo -r.",
+        "python3 -m venv .venv_replica && source .venv_replica/bin/activate && python -m pip install -r requirements.txt"
+      ],
+      "kind": "independent",
+      "tests": "En el env limpio: import del paquete pinneado exitoso; versión alineada con requirements.txt.",
+      "starterCode": "# Parte de un requirements.txt existente en la raíz\npython3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r ____\npython -m pip list | head\npython -c \"import requests; print('ok', requests.__version__)\""
+    },
+    {
+      "id": "S01-T2-B-E3",
+      "instruction": "E3 (transferencia) — Forense ModuleNotFoundError: el usuario corre `python -c \"import requests\"` y falla. En un caso, nunca instaló el paquete; en otro, lo instaló con un `pip` de otro Python. Escribe un protocolo de 5 pasos en markdown que use `sys.executable`, `python -m pip`, y distinga stdlib vs terceros. Sin reinstalls de SO innecesarios.",
+      "hints": [
+        "Primero identifica el intérprete; luego pregunta si el módulo es stdlib; luego instala con python -m pip en ese intérprete/venv.",
+        "requests es de terceros; sys/datetime no. Si pip list muestra el paquete pero import falla, casi seguro hay dos Pythons."
+      ],
+      "kind": "transfer",
+      "tests": "Rúbrica: usa sys.executable; recomienda python -m pip; clasifica stdlib vs terceros; contempla wrong interpreter; sin secretos.",
+      "starterCode": "# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\n____\n\n## Hipótesis B — instalado en otro intérprete\n____\n\n## Protocolo (5 pasos)\n1. ____\n2. ____\n3. ____\n4. ____\n5. ____\n\n## ¿stdlib o terceros?\n- requests: ____\n- datetime: ____"
+    },
+    {
+      "id": "S01-T3-A-E1",
+      "instruction": "E1 (guiado) — En una carpeta de práctica: `git init`, crea un archivo, haz un commit con mensaje Conventional Commits (`docs:` o `feat:`). Verifica con `git log -1`. No uses mensajes vacíos ni “wip”.",
+      "hints": [
+        "git add <archivo> && git commit -m \"docs: ...\" — el prefijo va en minúsculas seguido de dos puntos y espacio.",
+        "Si Git pide identidad: git config user.email y user.name (en el repo con --local si no quieres global)."
+      ],
+      "kind": "guided",
+      "tests": "git log -1 --pretty=%s coincide con patrón ^(feat|fix|docs|chore|refactor|test): .+",
+      "starterCode": "mkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit ____ README.md\ngit commit -m \"____: agregar README de practica\"\ngit log -1 --oneline"
+    },
+    {
+      "id": "S01-T3-A-E2",
+      "instruction": "E2 (independiente) — Modifica un README ya commiteado (agrega una línea), haz commit, y responde en un markdown corto: (1) qué muestra `git show HEAD` en líneas `+`; (2) diferencia entre archivo nuevo vs modificado; (3) una frase de qué cambió el commit.",
+      "hints": [
+        "Tras el segundo commit, git show HEAD sin pager: GIT_PAGER=cat git show HEAD",
+        "Archivo nuevo: todo el contenido aparece con +. Modificado: solo las líneas tocadas con +/−."
+      ],
+      "kind": "independent",
+      "tests": "Markdown responde las 3 preguntas; menciona +/−; commit existe en log.",
+      "starterCode": "# Lectura de diff\n\n## Comandos usados\n____\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\n____\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\n____\n\n## 3) Resumen en una frase\n____"
+    },
+    {
+      "id": "S01-T3-A-E3",
+      "instruction": "E3 (transferencia) — Te entregan tres mensajes candidatos para el mismo cambio (añadir `scripts/hello_env.py` que imprime la versión de Python): (A) `wip`, (B) `feat: agregar smoke hello_env`, (C) `Actualicé cosas del setup`. Elige el mejor, justifica en 3–5 oraciones y reescribe los otros dos al estilo Conventional Commits si fueran otros cambios plausibles.",
+      "hints": [
+        "El mejor es claro, con prefijo de tipo y descripción imperativa del *porqué/qué* observable.",
+        "wip no es aceptable en main; “Actualicé cosas” no dice qué archivo ni qué valor aporta."
+      ],
+      "kind": "transfer",
+      "tests": "Elige B; justificación menciona legibilidad/historial; reescrituras usan feat/docs/fix/chore válidos.",
+      "starterCode": "# Mejor mensaje de commit\n\nCandidatos:\n- A: `wip`\n- B: `feat: agregar smoke hello_env`\n- C: `Actualicé cosas del setup`\n\n## Elección\n____\n\n## Justificación\n____\n\n## Reescritura de A (si fuera un commit temporal local que luego se limpia)\n____\n\n## Reescritura de C\n____"
+    },
+    {
+      "id": "S01-T3-B-E1",
+      "instruction": "E1 (guiado) — Desde un repo con al menos un commit en `main`, crea la rama `feat/practica-s01`, añade un archivo pequeño, commit con `feat:` y lista las ramas. No hagas force-push. Si no tienes remote, basta el flujo local.",
+      "hints": [
+        "git switch -c feat/practica-s01  (equivalente moderno a checkout -b)",
+        "git branch debe mostrar * feat/practica-s01. El commit debe vivir en esa rama, no solo en main."
+      ],
+      "kind": "guided",
+      "tests": "branch feat/practica-s01 existe; HEAD en esa rama; log -1 con prefijo feat:",
+      "starterCode": "git switch main\ngit switch -c ____/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"____: agregar nota de practica\"\ngit branch"
+    },
+    {
+      "id": "S01-T3-B-E2",
+      "instruction": "E2 (independiente) — Redacta la descripción de un Pull Request (markdown) para una rama que agrega `scripts/hello_env.py` y actualiza el README de instalación. Incluye: título, resumen (3 bullets), plan de prueba, y checklist de seguridad (sin secretos). No hace falta abrir el PR real si no tienes remote; entrega el archivo.",
+      "hints": [
+        "Título al estilo Conventional Commits; cuerpo orientado al revisor, no a ti.",
+        "Plan de prueba: comandos concretos (venv, install -r, python scripts/hello_env.py)."
+      ],
+      "kind": "independent",
+      "tests": "Archivo con título, ≥3 bullets, pasos de prueba, mención de .env/secretos; sin PII real.",
+      "starterCode": "# Título del PR\n____\n\n## Resumen\n- ____\n- ____\n- ____\n\n## Plan de prueba\n1. ____\n2. ____\n3. ____\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] ____"
+    },
+    {
+      "id": "S01-T3-B-E3",
+      "instruction": "E3 (transferencia) — Escenario: editaste `README.md` sin commit y el cambio está mal. Un colega te dice “usa `reset --hard`” y otro “`push --force` a main”. Escribe el procedimiento correcto con `git restore` (y cuándo usarías `stash` en su lugar). Explica por qué force-push a main no es opción. Entrega en markdown.",
+      "hints": [
+        "restore descarta cambios no deseados en working tree; stash guarda para después. Ninguno reescribe main remoto.",
+        "reset --hard borra trabajo no commiteado sin red de seguridad; no es el default de este curso."
+      ],
+      "kind": "transfer",
+      "tests": "Menciona git restore; menciona stash como alternativa de guardado; prohíbe force-push a main; no recomienda reset --hard como primera opción.",
+      "starterCode": "# Recuperación no destructiva\n\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. ____\n2. ____\n\n## ¿Cuándo stash en su lugar?\n____\n\n## Por qué NO force-push a main\n____\n\n## Por qué no reset --hard como default\n____"
+    },
+    {
+      "id": "S01-T4-A-E1",
+      "instruction": "E1 (guiado) — Completa un `pyproject.toml` mínimo con `[tool.ruff]` (line-length 88, target-version) y `[tool.ruff.lint] select = [\"E\", \"F\", \"I\"]`. No hace falta publicar en PyPI; solo config local.",
+      "hints": [
+        "TOML usa secciones entre corchetes y listas con corchetes para select.",
+        "target-version como \"py312\" (string). line-length es número sin comillas."
+      ],
+      "kind": "guided",
+      "tests": "Archivo contiene [tool.ruff], line-length = 88, select con E F I.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\n[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n"
+    },
+    {
+      "id": "S01-T4-A-E2",
+      "instruction": "E2 (independiente) — Dado un script con imports sin usar, instala `ruff` en el venv, corre `python -m ruff check` y corrige hasta exit 0. Entrega el script limpio (sin imports muertos).",
+      "hints": [
+        "F401 = imported but unused. La corrección habitual es borrar el import.",
+        "python -m pip install ruff && python -m ruff check archivo.py"
+      ],
+      "kind": "independent",
+      "tests": "ruff check sobre el archivo final exit 0; el script sigue siendo válido Python.",
+      "starterCode": "import sys\nimport os\nfrom datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n\n# Tarea del estudiante: ruff check → quitar imports sin usar (sys, os)"
+    },
+    {
+      "id": "S01-T4-A-E3",
+      "instruction": "E3 (transferencia) — Un lead propone `select = [\"ALL\"]` el día 1 en un repo de analytics con notebooks. Justifica por escrito un `select` mínimo (E/F/I u otro set pequeño) para S01: qué ganas, qué ruido evitas, y cuándo ampliarías reglas. 1 página corta en markdown.",
+      "hints": [
+        "ALL genera cientos de hallazgos; el equipo deja de mirar el linter. Empieza por errores reales (F) y estilo básico (E/I).",
+        "Ampliar cuando el check limpio en E/F/I ya es hábito y hay acuerdo de equipo."
+      ],
+      "kind": "transfer",
+      "tests": "Propone set acotado; argumenta ruido vs señal; plan de ampliación; tono profesional.",
+      "starterCode": "# Select mínimo para repo de datos (S01)\n\n## Propuesta\n`select = [____]`\n\n## Por qué no ALL el día 1\n____\n\n## Qué cubren E, F, I\n____\n\n## Cuándo ampliar\n____"
+    },
+    {
+      "id": "S01-T4-B-E1",
+      "instruction": "E1 (guiado) — Completa un `.gitignore` mínimo de Python/data que incluya `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env` e ipynb checkpoints. Verifica con `git check-ignore -v .env` en un repo de prueba.",
+      "hints": [
+        "Una entrada por línea. Las barras finales marcan directorios.",
+        "Incluye AMBOS: .venv/ y venv/. Si .env ya estaba trackeado, git rm --cached .env tras el ignore."
+      ],
+      "kind": "guided",
+      "tests": "git check-ignore -v .env exit 0; check-ignore aplica a .venv o ruta de entorno.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\n# Entornos\n.venv/\nvenv/\n\n# Bytecode\n__pycache__/\n*.pyc\n\n# Secretos\n.env\n\n# Jupyter\n.ipynb_checkpoints/\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n"
+    },
+    {
+      "id": "S01-T4-B-E2",
+      "instruction": "E2 (independiente) — Crea `.env.example` con al menos 3 claves de un proyecto de intake (ej. `API_URL`, `DB_HOST`, `LOG_LEVEL`) con valores vacíos o ficticios no sensibles. Confirma que `.env` real no se commitea. Nunca copies tokens reales.",
+      "hints": [
+        "Clave=valor; el valor en example es placeholder. El .env local puede tener secretos pero queda ignorado.",
+        "Patrones prohibidos en example: sk-..., passwords reales, connection strings con password."
+      ],
+      "kind": "independent",
+      "tests": "Archivo tiene ≥3 KEY=; sin patrones obvios de secreto; .env en gitignore.",
+      "starterCode": "# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=\nDB_HOST=\nLOG_LEVEL=\n# TODO: añade solo placeholders"
+    },
+    {
+      "id": "S01-T4-B-E3",
+      "instruction": "E3 (transferencia) — Checklist de “máquina limpia” para el esqueleto CP-N1-A: escribe 5 ítems verificables (clon → venv → install -r → smoke → ignore de .env) que un revisor pueda tildar. Incluye mención a data dictionary + dataset sintético. Markdown.",
+      "hints": [
+        "Cada ítem debe ser observable (comando + resultado esperado), no “que se vea bonito”.",
+        "Incluye: git check-ignore .env; python scripts/hello_env.py exit 0; existencia de data/data_dictionary.md."
+      ],
+      "kind": "transfer",
+      "tests": "≥5 ítems; comandos concretos; menciona datos sintéticos/diccionario; sin secretos.",
+      "starterCode": "# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. ____\n- [ ] 2. ____\n- [ ] 3. ____\n- [ ] 4. ____\n- [ ] 5. ____\n\n## Datos\n- [ ] data/clients_synthetic.csv es sintético\n- [ ] data/data_dictionary.md describe columnas\n"
+    }
+  ],
+  "packet_sha": "41803cdc808967bc",
+  "attempt_id": "agentic_K2"
+}

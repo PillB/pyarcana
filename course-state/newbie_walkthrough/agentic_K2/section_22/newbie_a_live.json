@@ -1,0 +1,491 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-exp-s22-70fbc123b8fc",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "id": "S22-T1-A-E1",
+      "code": "from email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\nprint(msg.get_content_type())\nprint(str(msg.get_charset()))",
+      "justification_from_packet": "Como explorador en S22-T1-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola',. Aplico el hint «from email.mime.text.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "MIMEText",
+        "plain",
+        "utf",
+        "Fixture",
+        "datos",
+        "msg"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "id": "S22-T1-A-E2",
+      "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt['Content-Disposition'] = 'attachment; filename=\"a.txt\"'\nmsg.attach(att)\nprint('a.txt' in msg.as_string())",
+      "justification_from_packet": "Como explorador en S22-T1-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg = . Aplico el hint «MIMEMultipart + attach».",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "MIMEMultipart",
+        "mixed",
+        "adjunto",
+        "Fixture",
+        "datos",
+        "msg"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "id": "S22-T1-A-E3",
+      "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\nprint(msg.as_string().count('Content-Type:'))",
+      "justification_from_packet": "Como explorador en S22-T1-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = . Aplico el hint «alternative dentro de.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "alternative",
+        "text",
+        "html",
+        "anidado",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "id": "S22-T1-B-E1",
+      "code": "import html\nprint(html.escape('<script>x</script>'))",
+      "justification_from_packet": "Como explorador en S22-T1-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<s. Aplico el hint «import html» y dejo el.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "html",
+        "escape",
+        "script",
+        "Fixture",
+        "datos",
+        "print"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "id": "S22-T1-B-E2",
+      "code": "import html\nname = '<b>Ana</b>'\nprint('Hola ' + html.escape(name))",
+      "justification_from_packet": "Como explorador en S22-T1-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>. Aplico el hint «escape antes de format».",
+      "confidence": 0.84,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "con",
+        "escape",
+        "Fixture",
+        "datos",
+        "name",
+        "Ana"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "id": "S22-T1-B-E3",
+      "code": "urls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n    print(u, 'ok' if 'example.pe' in u else 'blocked')",
+      "justification_from_packet": "Como explorador en S22-T1-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = . Aplico el hint «if 'example.pe' in url».",
+      "confidence": 0.87,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "allowlist",
+        "dominios",
+        "URL",
+        "Fixture",
+        "datos",
+        "urls"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "id": "S22-T2-A-E1",
+      "code": "requested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\nprint([s for s in requested if s in allowed])",
+      "justification_from_packet": "Como explorador en S22-T2-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail. Aplico el hint «list comprehension» y.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "filtrar",
+        "scopes",
+        "allowed",
+        "Fixture",
+        "datos",
+        "requested"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "id": "S22-T2-A-E2",
+      "code": "granted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(bad.isdisjoint(granted))",
+      "justification_from_packet": "Como explorador en S22-T2-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = [. Aplico el hint «all(x not in granted.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "denied",
+        "scopes",
+        "peligrosos",
+        "Fixture",
+        "datos",
+        "granted"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "id": "S22-T2-A-E3",
+      "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n    print('refresh' if exp < now else 'valid')",
+      "justification_from_packet": "Como explorador en S22-T2-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = dat. Aplico el hint «datetime.fromisoformat».",
+      "confidence": 0.75,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "expires_at",
+        "refresh",
+        "valid",
+        "Fixture",
+        "datos",
+        "now"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "id": "S22-T2-B-E1",
+      "code": "store = {}\nstore['d001'] = {'status': 'draft'}\nprint(store['d001']['status'])",
+      "justification_from_packet": "Como explorador en S22-T2-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d00. Aplico el hint «dict assignment» y dejo.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "crear",
+        "draft",
+        "store",
+        "Fixture",
+        "datos",
+        "store"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "id": "S22-T2-B-E2",
+      "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nprint(now < expires_at)",
+      "justification_from_packet": "Como explorador en S22-T2-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datet. Aplico el hint «timedelta» y dejo el.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "is_usable",
+        "por",
+        "Fixture",
+        "datos",
+        "now",
+        "datetime"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "id": "S22-T2-B-E3",
+      "code": "store = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())",
+      "justification_from_packet": "Como explorador en S22-T2-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}. Aplico el hint «len(store)+1» y dejo el.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "ids",
+        "draft",
+        "secuenciales",
+        "Fixture",
+        "datos",
+        "store"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "id": "S22-T3-A-E1",
+      "code": "import re\npat = r'^[^@]+@[^@]+\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n    print(e, bool(re.match(pat, e)))",
+      "justification_from_packet": "Como explorador en S22-T3-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\. Aplico el hint «re.match» y dejo el.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "regex",
+        "simple",
+        "email",
+        "Fixture",
+        "datos",
+        "pat"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "id": "S22-T3-A-E2",
+      "code": "DIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\nprint('verified' if em and em.endswith('@example.pe') else 'rejected')",
+      "justification_from_packet": "Como explorador en S22-T3-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY = . Aplico el hint «dict.get» y dejo el.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "resolver",
+        "dominio",
+        "Fixture",
+        "datos",
+        "DIRECTORY"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "id": "S22-T3-A-E3",
+      "code": "a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), 'match_no_es_fraude')",
+      "justification_from_packet": "Como explorador en S22-T3-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b. Aplico el hint «os.path common o loop».",
+      "confidence": 0.72,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "score",
+        "nota",
+        "match_no_es_fraude",
+        "Fixture",
+        "datos",
+        "ana"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "id": "S22-T3-B-E1",
+      "code": "xs = ['a@x', 'b@x', 'a@x']\nprint(list(dict.fromkeys(xs)))",
+      "justification_from_packet": "Como explorador en S22-T3-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@. Aplico el hint «dict.fromkeys» y dejo.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "dedupe",
+        "lista",
+        "preservando",
+        "orden",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "id": "S22-T3-B-E2",
+      "code": "rows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\nprint(rows[0]['role'])",
+      "justification_from_packet": "Como explorador en S22-T3-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{. Aplico el hint «endswith» y dejo el.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "forzar",
+        "role",
+        "bcc",
+        "externos",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "id": "S22-T3-B-E3",
+      "code": "rows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\nprint(len(vis), vis)",
+      "justification_from_packet": "Como explorador en S22-T3-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a. Aplico el hint «filtrar roles» y dejo.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "conteo",
+        "visibles",
+        "Fixture",
+        "datos",
+        "rows",
+        "example"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "id": "S22-T4-A-E1",
+      "code": "T = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\nprint(state)",
+      "justification_from_packet": "Como explorador en S22-T4-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft. Aplico el hint «dict de dicts» y dejo.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "submit",
+        "draft",
+        "pending",
+        "Fixture",
+        "datos",
+        "draft"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "id": "S22-T4-A-E2",
+      "code": "T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\nprint(nxt if nxt else 'invalid')",
+      "justification_from_packet": "Como explorador en S22-T4-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'d. Aplico el hint «try/except o .get» y.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "approve",
+        "desde",
+        "draft",
+        "Fixture",
+        "datos",
+        "draft"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "id": "S22-T4-A-E3",
+      "code": "log = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\nprint(log)",
+      "justification_from_packet": "Como explorador en S22-T4-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []. Aplico el hint «append dict» y dejo el.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "log",
+        "con",
+        "actor",
+        "Fixture",
+        "datos",
+        "log"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "id": "S22-T4-B-E1",
+      "code": "import hashlib\nprint(hashlib.sha256(b'run|to|v1').hexdigest()[:8])",
+      "justification_from_packet": "Como explorador en S22-T4-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sh. Aplico el hint «hashlib.sha256» y dejo.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "idempotency",
+        "key",
+        "Fixture",
+        "datos",
+        "print",
+        "hashlib"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "id": "S22-T4-B-E2",
+      "code": "store = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nprint(create('k') == create('k'))",
+      "justification_from_packet": "Como explorador en S22-T4-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {. Aplico el hint «cache dict» y dejo el.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "create",
+        "idempotente",
+        "por",
+        "key",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "id": "S22-T4-B-E3",
+      "code": "audit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\nprint(audit)",
+      "justification_from_packet": "Como explorador en S22-T4-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = [];. Aplico el hint «lista de event names» y.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "audit",
+        "create",
+        "retry_hit",
+        "Fixture",
+        "datos",
+        "audit"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "En selfcheck Q0 elijo «Solo drafts/.eml en sandbox y aprobación humana» porque la teoría «MIME, encoding, HTML/text y attachments» del paquete dice: **MIME** (`email.mime`) arma mensajes multiparte: text/plain +.",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "En selfcheck Q1 elijo «Solo evidencia débil de contacto a revisar; no prueba de fraude» porque la teoría «templates y sanitización» del paquete dice: Los **templates** interpolan variables (nombre, run_id, montos)..",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "En selfcheck Q2 elijo «Solo los scopes mínimos (p. ej. draft) necesarios» porque la teoría «OAuth/service account y scopes» del paquete dice: OAuth / service accounts operan con **scopes mínimos** (`mail.draft`, no.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "En selfcheck Q3 elijo «Reutilizar el mismo draft_id si la key existe» porque la teoría «drafts, expiración y adaptadores» del paquete dice: Un **adaptador** (`GmailAdapter`, `SmtpFileAdapter`) expone `create_draft` /.",
+      "confidence": 0.87,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "En selfcheck Q4 elijo «Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica» porque la teoría «resolución y verificación» del paquete dice: Resolución de destinatarios:.",
+      "confidence": 0.9,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:23:24.310804+00:00",
+  "session_started_at": "2026-07-23T15:22:24.926098Z",
+  "session_ended_at": "2026-07-23T15:23:24.309584Z",
+  "receipt_response_sha256": "6d8b971b0917b5352172792b53f5c21b75269bd6dbb75a2eb2fe159cba8d95bb",
+  "receipt_exercises_sha256": "7a6c18bdc79e38457e8978eddee54290c08c5e2b3b2ca90bdf14b0dceb04d33d",
+  "receipt_selfcheck_sha256": "c689199692a1f73c8e978684a34b3456ab353a687825e3f78d5289b81e5970e7"
+}

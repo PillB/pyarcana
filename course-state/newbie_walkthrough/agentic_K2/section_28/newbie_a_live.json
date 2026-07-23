@@ -1,0 +1,169 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 28,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s28-a830d1e3f61a",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "code": "# k2 explorer · S28-T1-A-E1\nimport random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\nk2_out = a == b\nprint(k2_out)\n",
+      "justification_from_packet": "Como explorer en S28 leí el paquete activo: S28-T1-A-E1. Enunciado: «S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como True). Fix». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S28, random, seed. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "code": "# k2 explorer · S28-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0,0.5,1]\nprint(all(0 <= s <= 1 for s in scores))\n",
+      "justification_from_packet": "Exploré «Pruebas de datos, propiedades e integración» en el quiz_card K2: S28-T1-A-E2. Enunciado: «S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): l». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print(all(0 <= s <= 1 for s in scores))']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "code": "# k2 explorer · S28-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='  x '\nf=lambda x: x.strip()\nk2_out = f(f(s)) == f(s)\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Pruebas de datos, propiedades e integración» en el quiz_card K2: S28-T1-A-E3. Enunciado: «S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s=' x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es e». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "code": "# k2 explorer · S28-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='x','x'\nk2_out = (a == b) == (b == a)\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S28-T1-B-E1 en K2: S28-T1-B-E1. Enunciado: «S28-T1-B-E1 · Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la e». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "code": "# k2 explorer · S28-T1-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'Ana'.casefold() == 'ANA'.casefold()\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Pruebas de datos, propiedades e integración»: S28-T1-B-E2. Enunciado: «S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @exampl». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S28, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "code": "# k2 explorer · S28-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b=1,1\nk2_out = (a == b) == (b == a)\nprint(k2_out)\n",
+      "justification_from_packet": "Como explorer en S28 leí el paquete activo: S28-T1-B-E3. Enunciado: «S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @ex». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "code": "# k2 explorer · S28-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nr={}\nk2_out = 'id requerido' if not r.get('id') else 'ok'\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Pruebas de datos, propiedades e integración» en el quiz_card K2: S28-T2-A-E1. Enunciado: «S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el start». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "code": "# k2 explorer · S28-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=1.2\nk2_out = 'score' if not (0 <= score <= 1) else 'ok'\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Pruebas de datos, propiedades e integración»: S28-T2-A-E2. Enunciado: «S28-T2-A-E2 · score=1.2 fuera de rango → imprime 'score'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starte». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "code": "# k2 explorer · S28-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'id':'1'},{'id':''}]\nprint(sum(1 for r in rows if not r.get('id')))\n",
+      "justification_from_packet": "Como explorer en S28 leí el paquete activo: S28-T2-A-E3. Enunciado: «S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.p». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S28, Fixture, del. Salida: [\"print(sum(1 for r in rows if not r.get('id')))\"]. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "code": "# k2 explorer · S28-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngolden,current={'n':1},{'n':2}\nk2_out = 'drift' if golden != current else 'ok'\nprint(k2_out)\n",
+      "justification_from_packet": "Como explorer en S28 leí el paquete activo: S28-T2-B-E1. Enunciado: «S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter comple». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "code": "# k2 explorer · S28-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndiff, approved = True, False\nk2_out = 'blocked' if diff and not approved else 'ok'\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S28-T2-B-E2 en K2: S28-T2-B-E2. Enunciado: «S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entr». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "code": "# k2 explorer · S28-T2-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = {'golden_version': 3}['golden_version']\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Pruebas de datos, propiedades e integración»: S28-T2-B-E3. Enunciado: «S28-T2-B-E3 · Imprime version del golden = 3. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo;». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S28, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "code": "# k2 explorer · S28-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndb={'e1':{'name':'Ana'}}\nk2_out = db['e1']['name']\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Pruebas de datos, propiedades e integración»: S28-T3-A-E1. Enunciado: «S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el start». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "code": "# k2 explorer · S28-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nprint(date(2026, 7, 20).isoformat())\n",
+      "justification_from_packet": "Desde el starter de S28-T3-A-E2 en K2: S28-T3-A-E2. Enunciado: «S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print(date(2026, 7, 20).isoformat())']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "code": "# k2 explorer · S28-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus=503\nk2_out = 'retry' if status >= 500 else 'ok'\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Pruebas de datos, propiedades e integración»: S28-T3-A-E3. Enunciado: «S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter co». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "code": "# k2 explorer · S28-T3-B-E1\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'A'.casefold() == 'a'.casefold()\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Pruebas de datos, propiedades e integración»: S28-T3-B-E1. Enunciado: «S28-T3-B-E1 · Contrato: match real 'A'/'a' → True. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter compl». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S28, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "code": "# k2 explorer · S28-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nf=lambda a,b: True\nprint('weak' if f('x','y') and f('1','2') else 'ok')\n",
+      "justification_from_packet": "Desde el starter de S28-T3-B-E2 en K2: S28-T3-B-E2. Enunciado: «S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entra». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S28, Fixture, del. Salida: [\"print('weak' if f('x','y') and f('1','2') else 'ok')\"]. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "code": "# k2 explorer · S28-T3-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = {'rows_written': 1}['rows_written']\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Pruebas de datos, propiedades e integración»: S28-T3-B-E3. Enunciado: «S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S28, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "code": "# k2 explorer · S28-T4-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\nk2_out = c.execute('select count(*) from t').fetchone()[0]\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Pruebas de datos, propiedades e integración» en el quiz_card K2: S28-T4-A-E1. Enunciado: «S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S28, sqlite3, connect. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "code": "# k2 explorer · S28-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nk2_out = n * (n - 1) // 2\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S28-T4-A-E2 en K2: S28-T4-A-E2. Enunciado: «S28-T4-A-E2 · Cardinalidad de pares C(n,2) para n=4 → 6. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "code": "# k2 explorer · S28-T4-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndone, items={'a'}, ['a','b']\nprint([i for i in items if i not in done])\n",
+      "justification_from_packet": "Seguí el slim_packet de «Pruebas de datos, propiedades e integración»: S28-T4-A-E3. Enunciado: «S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entr». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print([i for i in items if i not in done])']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "code": "# k2 explorer · S28-T4-B-E1\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(sorted(['b', 'a']))\n",
+      "justification_from_packet": "Como explorer en S28 leí el paquete activo: S28-T4-B-E1. Enunciado: «S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada e». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S28, Fixture, sint. Salida: [\"print(sorted(['b', 'a']))\"]. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "code": "# k2 explorer · S28-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflake_rate=0.01\nk2_out = 'fail_job' if flake_rate > 0 else 'ok'\nprint(k2_out)\n",
+      "justification_from_packet": "Como explorer en S28 leí el paquete activo: S28-T4-B-E2. Enunciado: «S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el s». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S28, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "code": "# k2 explorer · S28-T4-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'unit→data→integration'\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Pruebas de datos, propiedades e integración»: S28-T4-B-E3. Enunciado: «S28-T4-B-E3 · Imprime pipeline CI: unit→data→integration. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starte». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S28, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Relaciones predecibles entre entradas transformadas y salidas",
+      "justification_from_packet": "Self-check explorer S28 Q0: «Un test metamórfico verifica:». Elijo índice 3 («Relaciones predecibles entre entradas transformadas y salidas») porque la teoría del slim/quiz_card («invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0) alinea ese concepto; descarto p.ej. ['Solo un número mágico', 'Que la red esté caída']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Riesgo de ocultar regresiones",
+      "justification_from_packet": "Self-check explorer S28 Q1: «Actualizar un golden con drift sin review es:». Elijo índice 1 («Riesgo de ocultar regresiones») porque la teoría del slim/quiz_card («invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0) alinea ese concepto; descarto p.ej. ['Buena práctica', 'Obligatorio en CI']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Acoplar el test a detalles internos y ocultar bugs",
+      "justification_from_packet": "En el selfCheck de «Pruebas de datos, propiedades e integración» ítem 2: «Sobre-mocking típico:». Elijo índice 2 («Acoplar el test a detalles internos y ocultar bugs») porque la teoría del slim/quiz_card («invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0) alinea ese concepto; descarto p.ej. ['Probar lógica pura real', 'Usar sqlite memoria']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Con determinismo (seed/reloj/sort) y fallo de job si persisten",
+      "justification_from_packet": "En el selfCheck de «Pruebas de datos, propiedades e integración» ítem 3: «Flakes en la suite gate de ER se manejan:». Elijo índice 0 («Con determinismo (seed/reloj/sort) y fallo de job si persisten») porque la teoría del slim/quiz_card («invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0) alinea ese concepto; descarto p.ej. ['Ignorándolos', 'Subiendo retries a 100']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:20:23.551549+00:00",
+  "session_started_at": "2026-07-23T15:20:03.840450+00:00",
+  "session_ended_at": "2026-07-23T15:20:23.549696+00:00",
+  "receipt_response_sha256": "d425acb230dc1b7cb7fb01e41b550c747b27eb9197902418d4f5d6bd3daf585c",
+  "receipt_exercises_sha256": "1a3262f41c8e661ab046502ee73f47be302853a80086bd4c3def72439307c39e",
+  "receipt_selfcheck_sha256": "b5109ff1d6cc22a8e351f0e1ad45c75163b0aa05c30f1ab416265fc4a1c817f2"
+}

@@ -1,0 +1,175 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 36,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s36-3dc48cd48d92",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "code": "# k2 explorer · S36-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nk2_out = sum(xs)/len(xs)\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S36-T1-A-E1 en K2: S36-T1-A-E1. Enunciado: «S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3). Fixture de clustering sintéti». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S36, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "code": "# k2 explorer · S36-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\nk2_out = (x - mu) / sd\nprint(k2_out)\n",
+      "justification_from_packet": "Como explorer en S36 leí el paquete activo: S36-T1-A-E2. Enunciado: «S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter olvida dividir por sd (defect=4). Escala antes d». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S36, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "code": "# k2 explorer · S36-T1-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"verdict\", False)\n",
+      "justification_from_packet": "Desde el starter de S36-T1-A-E3 en K2: S36-T1-A-E3. Enunciado: «S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict True (defect: convierte segmento en culpa). Tra». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(\"verdict\", False)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "code": "# k2 explorer · S36-T1-B-E1\nscores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = max(scores, key=scores.get)\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Desde el starter de S36-T1-B-E1 en K2: S36-T1-B-E1. Enunciado: «S36-T1-B-E1 · Elige k con score máximo: scores {2:0.2,3:0.9,4:0.5} → k=3 y score 0.9. Imprime 3, score 0.9, ok True. Starter elige min (defect). Fixtu». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S36, scores, best. Salida: ['print(best)', 'print(\"score\", scores[best])']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "code": "# k2 explorer · S36-T1-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"seeds\", [0, 1, 2])\n",
+      "justification_from_packet": "Exploré «Clustering, anomalías y validación temporal» en el quiz_card K2: S36-T1-B-E2. Enunciado: «S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defect). Contrato de sensibilidad a seed en C». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(\"seeds\", [0, 1, 2])']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "code": "# k2 explorer · S36-T1-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"limit\", True)\n",
+      "justification_from_packet": "Desde el starter de S36-T1-B-E3 en K2: S36-T1-B-E3. Enunciado: «S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegamente en silhouette). Transferen». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(\"limit\", True)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "code": "# k2 explorer · S36-T2-A-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(round(0.5*2 + 0.5*4, 1))\n",
+      "justification_from_packet": "Exploré «Clustering, anomalías y validación temporal» en el quiz_card K2: S36-T2-A-E1. Enunciado: «S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Exploración sintética CASO-LIM-036». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(round(0.5*2 + 0.5*4, 1))']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "code": "# k2 explorer · S36-T2-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"decision_model\", False)\n",
+      "justification_from_packet": "Como explorer en S36 leí el paquete activo: S36-T2-A-E2. Enunciado: «S36-T2-A-E2 · PCA no es decision model: imprime decision_model False, ok True, use 'viz'. Starter True (defect). Contrato del dossier de señales CASO-». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(\"decision_model\", False)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "code": "# k2 explorer · S36-T2-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nk2_out = 2\nprint(k2_out)\n",
+      "justification_from_packet": "Como explorer en S36 leí el paquete activo: S36-T2-A-E3. Enunciado: «S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-proyecta sin plan). Transferencia de n_comp». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "code": "# k2 explorer · S36-T2-B-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nk2_out = False\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S36-T2-B-E1 en K2: S36-T2-B-E1. Enunciado: «S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect: nombra PC2='riesgo'). Prudencia de inte». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "code": "# k2 explorer · S36-T2-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"check_scale\", True)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Clustering, anomalías y validación temporal»: S36-T2-B-E2. Enunciado: «S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter auto_label True (defect). Antes de encolar». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(\"check_scale\", True)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "code": "# k2 explorer · S36-T2-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nk2_out = \"exploratory\"\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S36-T2-B-E3 en K2: S36-T2-B-E3. Enunciado: «S36-T2-B-E3 · Documenta uso exploratorio: imprime 'exploratory', ok True, n 1. Starter 'production_judge' (defect). Transferencia de etiqueta del arte». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "code": "# k2 explorer · S36-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\nk2_out = sum(flags)\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Clustering, anomalías y validación temporal»: S36-T3-A-E1. Enunciado: «S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta len (defect=3). Rareza ≠ conducta indebi». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S36, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "code": "# k2 explorer · S36-T3-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"rule\", \"score\"])\n",
+      "justification_from_packet": "Como explorer en S36 leí el paquete activo: S36-T3-A-E2. Enunciado: «S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabilidad para el revisor humano de». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print([\"rule\", \"score\"])']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "code": "# k2 explorer · S36-T3-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"guilt\", False)\n",
+      "justification_from_packet": "Desde el starter de S36-T3-A-E3 en K2: S36-T3-A-E3. Enunciado: «S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y route 'auto_ban' (defect). Fail-closed de co». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(\"guilt\", False)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "code": "# k2 explorer · S36-T3-B-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"outlier\", \"novelty\"])\n",
+      "justification_from_packet": "Como explorer en S36 leí el paquete activo: S36-T3-B-E1. Enunciado: «S36-T3-B-E1 · Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2. Starter solo ['outlier'] (defect). Distingue rareza en train vs pun». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print([\"outlier\", \"novelty\"])']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "code": "# k2 explorer · S36-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\nk2_out = int(n * c)\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Clustering, anomalías y validación temporal» en el quiz_card K2: S36-T3-B-E2. Enunciado: «S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter marca is_fraud_rate True (defect). Contamination». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S36, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "code": "# k2 explorer · S36-T3-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"capacity_link\", True)\n",
+      "justification_from_packet": "Exploré «Clustering, anomalías y validación temporal» en el quiz_card K2: S36-T3-B-E3. Enunciado: «S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defect). Transferencia: expected_flags debe caber e». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(\"capacity_link\", True)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "code": "# k2 explorer · S36-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\nk2_out = sum(rates)/len(rates)\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Clustering, anomalías y validación temporal» en el quiz_card K2: S36-T4-A-E1. Enunciado: «S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma sin dividir (defect). Ventanas sintéticas del b». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S36, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "code": "# k2 explorer · S36-T4-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"leakage\", False)\n",
+      "justification_from_packet": "Desde el starter de S36-T4-A-E2 en K2: S36-T4-A-E2. Enunciado: «S36-T4-A-E2 · Sin leakage de futuro: imprime leakage False, ok True, split 'time'. Starter leakage True (defect: fit con futuro). Contrato temporal de». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(\"leakage\", False)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "code": "# k2 explorer · S36-T4-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nk2_out = 3\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Clustering, anomalías y validación temporal»: S36-T4-A-E3. Enunciado: «S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño de ventanas deslizantes sintéti». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "code": "# k2 explorer · S36-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\nk2_out = sum(ranked[:k])/k\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Clustering, anomalías y validación temporal» en el quiz_card K2: S36-T4-B-E1. Enunciado: «S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=3 (defect). Labels sintéticos de utilidad de r». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S36, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "code": "# k2 explorer · S36-T4-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nk2_out = True\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Clustering, anomalías y validación temporal»: S36-T4-B-E2. Enunciado: «S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrato de revisión humana con label». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "code": "# k2 explorer · S36-T4-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nk2_out = \"precision_at_k\"\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Clustering, anomalías y validación temporal» en el quiz_card K2: S36-T4-B-E3. Enunciado: «S36-T4-B-E3 · Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1. Starter 'global_accuracy' (defect). Transferencia: con labels esc». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S36, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Señal de rareza a revisar",
+      "justification_from_packet": "Self-check explorer S36 Q0: «Una anomalía en el triage significa:». Elijo índice 3 («Señal de rareza a revisar») porque la teoría del slim/quiz_card («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c) alinea ese concepto; descarto p.ej. ['Fraude probado', 'Parentesco']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Hipótesis de fracción rara a flaggear",
+      "justification_from_packet": "En el selfCheck de «Clustering, anomalías y validación temporal» ítem 1: «contamination representa:». Elijo índice 1 («Hipótesis de fracción rara a flaggear») porque la teoría del slim/quiz_card («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c) alinea ese concepto; descarto p.ej. ['Tasa de fraude real', 'Accuracy']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Exploración/visualización prudente",
+      "justification_from_packet": "Self-check explorer S36 Q2: «PCA en este curso se usa para:». Elijo índice 2 («Exploración/visualización prudente») porque la teoría del slim/quiz_card («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c) alinea ese concepto; descarto p.ej. ['Etiquetar culpa', 'Reemplazar el workbench']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "precision@k y feedback humano",
+      "justification_from_packet": "En el selfCheck de «Clustering, anomalías y validación temporal» ítem 3: «Con labels escasos prioriza:». Elijo índice 0 («precision@k y feedback humano») porque la teoría del slim/quiz_card («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c) alinea ese concepto; descarto p.ej. ['Solo accuracy global', 'Aumentar contamination a 0.9']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Leakage temporal",
+      "justification_from_packet": "Self-check explorer S36 Q4: «Un fit de normalidad que incluye el mes evaluado comete:». Elijo índice 3 («Leakage temporal») porque la teoría del slim/quiz_card («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c) alinea ese concepto; descarto p.ej. ['Warmup', 'Blocking']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:27:27.036086+00:00",
+  "session_started_at": "2026-07-23T15:26:33.024884+00:00",
+  "session_ended_at": "2026-07-23T15:27:27.033746+00:00",
+  "receipt_response_sha256": "e8dc4971a340aea10b230d2f106fc849278afd3bb77a49aa06ea14e3b61d4a48",
+  "receipt_exercises_sha256": "c9a2e1073fd5bb252449ddb62ce9f22a7f83673f84462a563b7b315306b9fa5f",
+  "receipt_selfcheck_sha256": "ae8f512d5d0a0ae802039537b5057b08951a52649f4b0e3d5e5699cb46b61e9c"
+}

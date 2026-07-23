@@ -1,0 +1,325 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 10,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s10-95123427b7",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "import"
+      ],
+      "blocked_on": [],
+      "code": "import math\nprint(math.sqrt(16))\n",
+      "justification_from_packet": "Importar un módulo stdlib y usar un símbolo exportado (T1-A packaging intro)."
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "from import as"
+      ],
+      "blocked_on": [],
+      "code": "from math import sqrt as raiz\nprint(raiz(9))\n",
+      "justification_from_packet": "from ... import ... as alias para un nombre más legible en el call site."
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "__main__"
+      ],
+      "blocked_on": [],
+      "code": "def main():\n    print('CLI entry')\nif __name__ == '__main__':\n    main()\n",
+      "justification_from_packet": "if __name__ == '__main__' corre el CLI solo al ejecutar el módulo, no al importarlo."
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "__all__"
+      ],
+      "blocked_on": [],
+      "code": "__all__ = ['normalize_email', 'parse_monto']\ndef normalize_email(s):\n    return s.strip().lower()\ndef parse_monto(s):\n    return int(s)\ndef _private():\n    return 1\nprint(__all__)\n",
+      "justification_from_packet": "__all__ documenta la API pública del paquete; _private queda fuera."
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.8,
+      "concepts_used": [
+        "package layout"
+      ],
+      "blocked_on": [],
+      "code": "# layout\n# src/familiarity/__init__.py\n# src/familiarity/normalize.py\nprint('paquete con __init__ exporta API estable')\n",
+      "justification_from_packet": "Estructura de paquete con __init__ y módulos internos (T1-B)."
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "_private"
+      ],
+      "blocked_on": [],
+      "code": "def public_api(x):\n    return _helper(x)\ndef _helper(x):\n    return x.strip()\nprint(public_api('  a  '))\n",
+      "justification_from_packet": "Convención _nombre para helpers internos no exportados en __all__."
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "config merge"
+      ],
+      "blocked_on": [],
+      "code": "defaults = {'timeout': 30, 'retries': 1}\nenv = {'timeout': 10}\nflags = {'retries': 5}\ncfg = {**defaults, **env, **flags}\nprint(cfg)\n",
+      "justification_from_packet": "Precedencia flags > env > file > defaults (aquí flags pisan env y defaults)."
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "env config"
+      ],
+      "blocked_on": [],
+      "code": "import os\ndef load_config():\n    return {\n        'token': os.environ.get('API_TOKEN'),\n        'timeout': int(os.environ.get('TIMEOUT', '30')),\n    }\nprint('token from env, never hardcode')\n",
+      "justification_from_packet": "Secrets y overrides viven en variables de entorno, no en el repo."
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "precedence"
+      ],
+      "blocked_on": [],
+      "code": "def resolve(defaults, file_cfg, env, flags):\n    cfg = dict(defaults)\n    cfg.update(file_cfg or {})\n    cfg.update(env or {})\n    cfg.update(flags or {})\n    return cfg\nprint(resolve({'a':1,'b':2}, {'b':3}, {'a':9}, {'a':4}))\n",
+      "justification_from_packet": "Orden de merge: defaults < file < env < flags (última gana)."
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "argparse"
+      ],
+      "blocked_on": [],
+      "code": "import argparse\np = argparse.ArgumentParser()\np.add_argument('--input', required=True)\np.add_argument('--verbose', action='store_true')\nargs = p.parse_args(['--input', 'data.csv'])\nprint(args.input, args.verbose)\n",
+      "justification_from_packet": "argparse define flags del CLI profesional; required y store_true (T2-B)."
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "concepts_used": [
+        "subcommands"
+      ],
+      "blocked_on": [],
+      "code": "import argparse, sys\ndef build_parser():\n    p = argparse.ArgumentParser(prog='familiarity')\n    p.add_argument('command', choices=['ingest', 'report'])\n    return p\nprint(build_parser().parse_args(['ingest']))\n",
+      "justification_from_packet": "Subcomandos como choices/subparsers: extensión compatible = minor."
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "exit codes"
+      ],
+      "blocked_on": [],
+      "code": "import argparse, sys\ndef main(argv=None):\n    p = argparse.ArgumentParser()\n    p.add_argument('--n', type=int, required=True)\n    try:\n        args = p.parse_args(argv)\n    except SystemExit as e:\n        return 2 if e.code else 0\n    print(args.n)\n    return 0\nprint('exit_on_bad_usage=2')\n",
+      "justification_from_packet": "Exit code 2 en argparse suele ser error de uso/parseo de argumentos."
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "stderr stdout"
+      ],
+      "blocked_on": [],
+      "code": "import sys\ndef log_progress(msg):\n    print(msg, file=sys.stderr)\ndef emit_data(obj):\n    print(obj)\nlog_progress('stage=start')\nemit_data('{\"ok\": true}')\n",
+      "justification_from_packet": "Logs de progreso a stderr; datos/JSON a stdout (T3-A)."
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "CLI channels"
+      ],
+      "blocked_on": [],
+      "code": "import sys\ndef cli_main():\n    print('INFO working', file=sys.stderr)\n    print('{\"result\": 3}')\n    return 0\nsys.exit(cli_main()) if False else print(cli_main())\n",
+      "justification_from_packet": "Separar canal de diagnóstico del canal de datos del CLI."
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "exit 0/1"
+      ],
+      "blocked_on": [],
+      "code": "def run(ok: bool) -> int:\n    if not ok:\n        print('error de negocio', file=__import__('sys').stderr)\n        return 1\n    print('{\"status\": \"ok\"}')\n    return 0\nprint('codes', run(True), run(False))\n",
+      "justification_from_packet": "Exit 0 éxito; non-zero error de negocio o uso (contrato CLI)."
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "concepts_used": [
+        "pyproject"
+      ],
+      "blocked_on": [],
+      "code": "# pyproject.toml fragment\nprint('[project]\\nname = \"familiarity\"\\nversion = \"0.1.0\"')\n",
+      "justification_from_packet": "Metadatos mínimos del proyecto en pyproject.toml (T3-B packaging)."
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.81,
+      "concepts_used": [
+        "src layout"
+      ],
+      "blocked_on": [],
+      "code": "print('src layout: src/pkg/ + tests/ + README + pyproject.toml')\nprint('no commitear .venv ni .env')\n",
+      "justification_from_packet": "Layout de distribución: src, tests, README; secretos fuera de git."
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        ".env git"
+      ],
+      "blocked_on": [],
+      "code": "print('.env con API_TOKEN no debe ir al git del paquete')\nprint('README.md y pyproject.toml si')\n",
+      "justification_from_packet": ".env con secretos no va al repo; README y pyproject sí se versionan."
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "semver"
+      ],
+      "blocked_on": [],
+      "code": "print('semver: 1.2.3 → major.minor.patch')\nprint('breaking change de API publica → major')\n",
+      "justification_from_packet": "SemVer: major rompe API; minor añade; patch arregla (T4-A)."
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "minor bump"
+      ],
+      "blocked_on": [],
+      "code": "print('añadir subcomando compatible → minor')\nprint('fix de bug sin romper flags → patch')\n",
+      "justification_from_packet": "Nuevo subcomando compatible es tipicamente minor, no major."
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.8,
+      "concepts_used": [
+        "changelog"
+      ],
+      "blocked_on": [],
+      "code": "changelog = ['0.2.0: add report subcommand', '0.1.1: fix parse exit code']\nfor line in changelog:\n    print(line)\n",
+      "justification_from_packet": "Changelog breve alineado a bumps semver del CLI."
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "concepts_used": [
+        "smoke"
+      ],
+      "blocked_on": [],
+      "code": "def smoke_cli():\n    # simula: python -m familiarity --help exit 0\n    return 0\nprint('smoke', smoke_cli())\n",
+      "justification_from_packet": "Smoke del entrypoint: --help o versión sale 0 en entorno limpio."
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.81,
+      "concepts_used": [
+        "release"
+      ],
+      "blocked_on": [],
+      "code": "print('checklist release: tests, version bump, tag, no secrets in wheel')\n",
+      "justification_from_packet": "Release checklist del paquete: tests, versión, sin secretos."
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "concepts_used": [
+        "install -e"
+      ],
+      "blocked_on": [],
+      "code": "print('repro: python -m venv .venv && pip install -e . && familiarity ingest --help')\n",
+      "justification_from_packet": "Repro de install editable para onboarding del CLI profesional."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.94,
+      "justification_from_packet": "if __name__ == '__main__' ejecuta el CLI/demo solo al correr el módulo, no al importarlo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "justification_from_packet": "Precedencia correcta: flags > env > file > defaults (última capa gana)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.92,
+      "justification_from_packet": "Exit code 2 en CLI argparse suele significar error de uso/parseo de argumentos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.93,
+      "justification_from_packet": "Los logs de progreso van a stderr, no mezclados con el JSON de stdout."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "confidence": 0.88,
+      "justification_from_packet": "Añadir un subcomando nuevo compatible es típicamente minor en SemVer."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "confidence": 0.95,
+      "justification_from_packet": ".env con API_TOKEN no debe ir al git del paquete; README y pyproject sí."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:17.768968+00:00",
+  "session_started_at": "2026-07-23T14:18:12.676820+00:00",
+  "session_ended_at": "2026-07-23T14:18:50.826820+00:00",
+  "receipt_response_sha256": "3d1ea9f59d560f309c508e37341969e7102d4be46deb3c2b1547d64432457f2c",
+  "receipt_exercises_sha256": "7c3f4c522f3bf7ea83f4d29caf2510bd730f0c94e890bd8d1bfea503b5a31c43",
+  "receipt_selfcheck_sha256": "df195d097b8c19d0628549b124dac065864cef55b4b3c430167862f7da252f86"
+}

@@ -1,0 +1,245 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 43,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s43-1d2a10de4d",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S43-T1-A-E1",
+      "code": "record = {'case_id': 'CASO-TRU-043-1A', 'lock_copied_before_source': True, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True}\nmeets_contract = not (not record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] > 3)\nstatus = \"PASS\" if meets_contract else \"REORDER_DOCKERFILE\"\nprint(\"S43-T1-A\", status)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T1-A-E1: no confío en demos sin assert; la regla «layer de dependencias reutilizable y digest estable» del instruction exige fixtures y etiqueta de breach REORDER_DOCKERFILE. Theory/outcome de anclaje: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el b. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T1-A-E1 · Calcula el contrato de `Dockerfile, layers y cache` sobre `CASO-TRU-043-1A`. La entrad",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'dependency_layer_reused', 'digest_stable', 'lock_copied_before_source', 'source_change_rebuilds'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (not (not record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] > 3)) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"REORDER_DOCKERFILE\"\n\nvalid = {'case_id': 'CASO-TRU-043-1A', 'lock_copied_before_source': True, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True}\ninvalid = {'case_id': 'CASO-TRU-043-1A', 'lock_copied_before_source': True, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-TRU-043-1A', 'lock_copied_before_source': True, 'dependency_layer_reused': True, 'source_change_rebuilds': 1}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T1-A-E2: no confío en demos sin assert; la regla «S43-T1-A-E2 · Modela tres rutas de `Dockerfile, layers y cache`: fixture válido, fixture adverso y registro sin `digest_» del instruction exige fixtures y etiqueta de breach REORDER_DOCKERFILE. Theory/outcome de anclaje: Locks fijan resolución completa y multi-stage separa toolchain de runtime; el artefacto final contiene solo lo. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T1-A-E2 · Modela tres rutas de `Dockerfile, layers y cache`: fixture válido, fixture adverso y r",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T1-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'digest_stable' not in record or record.get('digest_stable') in (None, \"\", [], set(), {}):\n        return \"INSPECT_CACHE_INVALIDATION\"\n    ok = (not (not record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] > 3)) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"REORDER_DOCKERFILE\"\n\nvalid = {'case_id': 'CASO-TRU-043-1A', 'lock_copied_before_source': True, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True}\ninvalid = {'case_id': 'CASO-TRU-043-1A', 'lock_copied_before_source': True, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-TRU-043-1A', 'lock_copied_before_source': True, 'dependency_layer_reused': True, 'source_change_rebuilds': 1}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S43/S43-T1-A-E3: no confío en demos sin assert; la regla «S43-T1-A-E3 · Simula fallo cerrado para `Dockerfile, layers y cache` con tres fixtures distintos. `CASO-TRU-043-1A` debe» del instruction exige fixtures y etiqueta de breach REORDER_DOCKERFILE. Theory/outcome de anclaje: Dockerfile, layers y cache. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T1-A-E3 · Simula fallo cerrado para `Dockerfile, layers y cache` con tres fixtures distintos. `C",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T1-B-E1",
+      "code": "record = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"REBUILD_NONROOT\"\nprint(\"S43-T1-B\", status)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T1-B-E1: no confío en demos sin assert; la regla «base fijada, UID non-root, cero capabilities y tamaño límite» del instruction exige fixtures y etiqueta de breach REBUILD_NONROOT. Theory/outcome de anclaje: Config no secreta puede declararse; secretos se inyectan, rotan y no se hornean. Volumes distinguen estado dur. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T1-B-E1 · Compara el contrato de `bases, usuarios no root y tamaño` sobre `CASO-TRU-043-1B`. La ",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'base_pinned', 'capabilities', 'case_id', 'max_mb', 'runtime_mb', 'uid'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"REBUILD_NONROOT\"\n\nvalid = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}\ninvalid = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150, '__adverse__': True}\nincomplete = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T1-B-E2: no confío en demos sin assert; la regla «S43-T1-B-E2 · Verifica tres rutas de `bases, usuarios no root y tamaño`: fixture válido, fixture adverso y registro sin » del instruction exige fixtures y etiqueta de breach REBUILD_NONROOT. Theory/outcome de anclaje: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el b. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T1-B-E2 · Verifica tres rutas de `bases, usuarios no root y tamaño`: fixture válido, fixture adv",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T1-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'max_mb' not in record or record.get('max_mb') in (None, \"\", [], set(), {}):\n        return \"SELECT_PATCHABLE_BASE\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"REBUILD_NONROOT\"\n\nvalid = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}\ninvalid = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150, '__adverse__': True}\nincomplete = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S43/S43-T1-B-E3: no confío en demos sin assert; la regla «S43-T1-B-E3 · Extiende fallo cerrado para `bases, usuarios no root y tamaño` con tres fixtures distintos. `CASO-TRU-043-» del instruction exige fixtures y etiqueta de breach REBUILD_NONROOT. Theory/outcome de anclaje: Compone API/worker/DB/cache. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T1-B-E3 · Extiende fallo cerrado para `bases, usuarios no root y tamaño` con tres fixtures disti",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T2-A-E1",
+      "code": "record = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': False, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}\nmeets_contract = not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])\nstatus = \"PASS\" if meets_contract else \"REMOVE_BAKED_SECRET\"\nprint(\"S43-T2-A\", status)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T2-A-E1: no confío en demos sin assert; la regla «secretos runtime y estado durable/efímero separado» del instruction exige fixtures y etiqueta de breach REMOVE_BAKED_SECRET. Theory/outcome de anclaje: Scanning alimenta una política, límites evitan noisy neighbors y debugging usa logs/metrics controlados, nunca. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T2-A-E1 · Filtra el contrato de `config, secrets y volumes` sobre `CASO-TRU-043-2A`. La entrada ",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'config_declared', 'durable_volumes', 'ephemeral_volumes', 'runtime_secret', 'secret_baked'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])\n    return \"PASS\" if ok else \"REMOVE_BAKED_SECRET\"\n\nvalid = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': False, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}\ninvalid = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': True, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}\nincomplete = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': False, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T2-A-E2: no confío en demos sin assert; la regla «S43-T2-A-E2 · Clasifica tres rutas de `config, secrets y volumes`: fixture válido, fixture adverso y registro sin `ephem» del instruction exige fixtures y etiqueta de breach REMOVE_BAKED_SECRET. Theory/outcome de anclaje: Migraciones son jobs controlados con compatibilidad expand/contract; datos efímeros se recrean y los durables . Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T2-A-E2 · Clasifica tres rutas de `config, secrets y volumes`: fixture válido, fixture adverso y",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T2-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'ephemeral_volumes' not in record or record.get('ephemeral_volumes') in (None, \"\", [], set(), {}):\n        return \"CLASSIFY_VOLUME\"\n    ok = not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])\n    return \"CONTINUE\" if ok else \"REMOVE_BAKED_SECRET\"\n\nvalid = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': False, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}\ninvalid = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': True, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}\nincomplete = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': False, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S43/S43-T2-A-E3: no confío en demos sin assert; la regla «S43-T2-A-E3 · Defiende fallo cerrado para `config, secrets y volumes` con tres fixtures distintos. `CASO-TRU-043-2A` deb» del instruction exige fixtures y etiqueta de breach REMOVE_BAKED_SECRET. Theory/outcome de anclaje: Ordena deps, migrations y datos efímeros. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T2-A-E3 · Defiende fallo cerrado para `config, secrets y volumes` con tres fixtures distintos. `",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T2-B-E1",
+      "code": "record = {'case_id': 'CASO-TRU-043-2B', 'private_network': True, 'readiness_db': True, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}\nmeets_contract = not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])\nstatus = \"PASS\" if meets_contract else \"DRAIN_AND_ISOLATE\"\nprint(\"S43-T2-B\", status)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T2-B-E1: no confío en demos sin assert; la regla «network privada, health semántico y drain de SIGTERM» del instruction exige fixtures y etiqueta de breach DRAIN_AND_ISOLATE. Theory/outcome de anclaje: Usa non-root y reduce tamaño. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T2-B-E1 · Modela el contrato de `networking, health checks y signals` sobre `CASO-TRU-043-2B`. L",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'grace_seconds', 'liveness_loop', 'private_network', 'readiness_db', 'sigterm_drains'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])\n    return \"PASS\" if ok else \"DRAIN_AND_ISOLATE\"\n\nvalid = {'case_id': 'CASO-TRU-043-2B', 'private_network': True, 'readiness_db': True, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}\ninvalid = {'case_id': 'CASO-TRU-043-2B', 'private_network': True, 'readiness_db': False, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}\nincomplete = {'case_id': 'CASO-TRU-043-2B', 'private_network': True, 'readiness_db': True, 'liveness_loop': True, 'sigterm_drains': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T2-B-E2: no confío en demos sin assert; la regla «S43-T2-B-E2 · Audita tres rutas de `networking, health checks y signals`: fixture válido, fixture adverso y registro sin» del instruction exige fixtures y etiqueta de breach DRAIN_AND_ISOLATE. Theory/outcome de anclaje: Una base mínima reduce superficie, pero debe seguir parchable; fija versión/digest y ejecuta con UID sin privi. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T2-B-E2 · Audita tres rutas de `networking, health checks y signals`: fixture válido, fixture ad",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T2-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'grace_seconds' not in record or record.get('grace_seconds') in (None, \"\", [], set(), {}):\n        return \"DIAGNOSE_HEALTH_SIGNAL\"\n    ok = not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])\n    return \"CONTINUE\" if ok else \"DRAIN_AND_ISOLATE\"\n\nvalid = {'case_id': 'CASO-TRU-043-2B', 'private_network': True, 'readiness_db': True, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}\ninvalid = {'case_id': 'CASO-TRU-043-2B', 'private_network': True, 'readiness_db': False, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}\nincomplete = {'case_id': 'CASO-TRU-043-2B', 'private_network': True, 'readiness_db': True, 'liveness_loop': True, 'sigterm_drains': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S43/S43-T2-B-E3: no confío en demos sin assert; la regla «S43-T2-B-E3 · Recupera fallo cerrado para `networking, health checks y signals` con tres fixtures distintos. `CASO-TRU-0» del instruction exige fixtures y etiqueta de breach DRAIN_AND_ISOLATE. Theory/outcome de anclaje: Compone API/worker/DB/cache. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T2-B-E3 · Recupera fallo cerrado para `networking, health checks y signals` con tres fixtures di",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T3-A-E1",
+      "code": "record = {'case_id': 'CASO-TRU-043-3A', 'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True, 'networks': {'back', 'front'}}\nmeets_contract = not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])\nstatus = \"PASS\" if meets_contract else \"STOP_UNHEALTHY_STACK\"\nprint(\"S43-T3-A\", status)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T3-A-E1: no confío en demos sin assert; la regla «cuatro servicios sanos, retries y redes segmentadas» del instruction exige fixtures y etiqueta de breach STOP_UNHEALTHY_STACK. Theory/outcome de anclaje: dependencias, migrations y datos efímeros. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T3-A-E1 · Verifica el contrato de `API/worker/DB/cache` sobre `CASO-TRU-043-3A`. La entrada es e",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'api_retries_db', 'case_id', 'healthy', 'networks', 'services'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"STOP_UNHEALTHY_STACK\"\n\nvalid = {'case_id': 'CASO-TRU-043-3A', 'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True, 'networks': {'back', 'front'}}\ninvalid = {'case_id': 'CASO-TRU-043-3A', 'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True, 'networks': {'back', 'front'}, '__adverse__': True}\nincomplete = {'case_id': 'CASO-TRU-043-3A', 'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T3-A-E2: no confío en demos sin assert; la regla «S43-T3-A-E2 · Decide tres rutas de `API/worker/DB/cache`: fixture válido, fixture adverso y registro sin `networks`. Ent» del instruction exige fixtures y etiqueta de breach STOP_UNHEALTHY_STACK. Theory/outcome de anclaje: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el b. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T3-A-E2 · Decide tres rutas de `API/worker/DB/cache`: fixture válido, fixture adverso y registro",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T3-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'networks' not in record or record.get('networks') in (None, \"\", [], set(), {}):\n        return \"WAIT_FOR_DEPENDENCY\"\n    ok = (not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"STOP_UNHEALTHY_STACK\"\n\nvalid = {'case_id': 'CASO-TRU-043-3A', 'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True, 'networks': {'back', 'front'}}\ninvalid = {'case_id': 'CASO-TRU-043-3A', 'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True, 'networks': {'back', 'front'}, '__adverse__': True}\nincomplete = {'case_id': 'CASO-TRU-043-3A', 'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S43/S43-T3-A-E3: no confío en demos sin assert; la regla «S43-T3-A-E3 · Contrasta fallo cerrado para `API/worker/DB/cache` con tres fixtures distintos. `CASO-TRU-043-3A` debe con» del instruction exige fixtures y etiqueta de breach STOP_UNHEALTHY_STACK. Theory/outcome de anclaje: config, secrets y volumes. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T3-A-E3 · Contrasta fallo cerrado para `API/worker/DB/cache` con tres fixtures distintos. `CASO-",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T3-B-E1",
+      "code": "record = {'case_id': 'CASO-TRU-043-3B', 'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}\nmeets_contract = not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])\nstatus = \"PASS\" if meets_contract else \"ROLL_BACK_MIGRATION\"\nprint(\"S43-T3-B\", status)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T3-B-E1: no confío en demos sin assert; la regla «expand compatible, efímero recreable y restore aprobado» del instruction exige fixtures y etiqueta de breach ROLL_BACK_MIGRATION. Theory/outcome de anclaje: Optimiza Dockerfile y layers. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T3-B-E1 · Clasifica el contrato de `dependencias, migrations y datos efímeros` sobre `CASO-TRU-0",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'backup_restored', 'case_id', 'ephemeral_reset', 'migration', 'old_code_compatible'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"ROLL_BACK_MIGRATION\"\n\nvalid = {'case_id': 'CASO-TRU-043-3B', 'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}\ninvalid = {'case_id': 'CASO-TRU-043-3B', 'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-TRU-043-3B', 'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T3-B-E2: no confío en demos sin assert; la regla «S43-T3-B-E2 · Calcula tres rutas de `dependencias, migrations y datos efímeros`: fixture válido, fixture adverso y regis» del instruction exige fixtures y etiqueta de breach ROLL_BACK_MIGRATION. Theory/outcome de anclaje: Una base mínima reduce superficie, pero debe seguir parchable; fija versión/digest y ejecuta con UID sin privi. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T3-B-E2 · Calcula tres rutas de `dependencias, migrations y datos efímeros`: fixture válido, fix",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T3-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'backup_restored' not in record or record.get('backup_restored') in (None, \"\", [], set(), {}):\n        return \"RUN_RESTORE_DRILL\"\n    ok = (not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"ROLL_BACK_MIGRATION\"\n\nvalid = {'case_id': 'CASO-TRU-043-3B', 'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}\ninvalid = {'case_id': 'CASO-TRU-043-3B', 'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-TRU-043-3B', 'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S43/S43-T3-B-E3: no confío en demos sin assert; la regla «S43-T3-B-E3 · Instrumenta fallo cerrado para `dependencias, migrations y datos efímeros` con tres fixtures distintos. `C» del instruction exige fixtures y etiqueta de breach ROLL_BACK_MIGRATION. Theory/outcome de anclaje: Redes limitan quién habla con quién; readiness expresa capacidad de servir, liveness bloqueo, y SIGTERM drena . Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T3-B-E3 · Instrumenta fallo cerrado para `dependencias, migrations y datos efímeros` con tres fi",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T4-A-E1",
+      "code": "record = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': False, 'runtime_deps_locked': True}\nmeets_contract = not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNPINNED_BUILD\"\nprint(\"S43-T4-A\", status)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T4-A-E1: no confío en demos sin assert; la regla «lock con hash y runtime sin toolchain» del instruction exige fixtures y etiqueta de breach BLOCK_UNPINNED_BUILD. Theory/outcome de anclaje: Una base mínima reduce superficie, pero debe seguir parchable; fija versión/digest y ejecuta con UID sin privi. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T4-A-E1 · Audita el contrato de `locks y multi-stage builds` sobre `CASO-TRU-043-4A`. La entrada",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'compiler_in_runtime', 'lock_hash', 'runtime_deps_locked', 'stages'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])\n    return \"PASS\" if ok else \"BLOCK_UNPINNED_BUILD\"\n\nvalid = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': False, 'runtime_deps_locked': True}\ninvalid = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': True, 'runtime_deps_locked': True}\nincomplete = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T4-A-E2: no confío en demos sin assert; la regla «S43-T4-A-E2 · Compara tres rutas de `locks y multi-stage builds`: fixture válido, fixture adverso y registro sin `runtim» del instruction exige fixtures y etiqueta de breach BLOCK_UNPINNED_BUILD. Theory/outcome de anclaje: Locks fijan resolución completa y multi-stage separa toolchain de runtime; el artefacto final contiene solo lo. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T4-A-E2 · Compara tres rutas de `locks y multi-stage builds`: fixture válido, fixture adverso y ",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T4-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'runtime_deps_locked' not in record or record.get('runtime_deps_locked') in (None, \"\", [], set(), {}):\n        return \"REGENERATE_LOCK\"\n    ok = not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])\n    return \"CONTINUE\" if ok else \"BLOCK_UNPINNED_BUILD\"\n\nvalid = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': False, 'runtime_deps_locked': True}\ninvalid = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': True, 'runtime_deps_locked': True}\nincomplete = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': False}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S43/S43-T4-A-E3: no confío en demos sin assert; la regla «S43-T4-A-E3 · Aísla fallo cerrado para `locks y multi-stage builds` con tres fixtures distintos. `CASO-TRU-043-4A` debe » del instruction exige fixtures y etiqueta de breach BLOCK_UNPINNED_BUILD. Theory/outcome de anclaje: Dockerfile, layers y cache. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T4-A-E3 · Aísla fallo cerrado para `locks y multi-stage builds` con tres fixtures distintos. `CA",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T4-B-E1",
+      "code": "record = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 0, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}\nmeets_contract = not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_IMAGE\"\nprint(\"S43-T4-B\", status)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T4-B-E1: no confío en demos sin assert; la regla «scan limpio, límites definidos y debugging sin shell root» del instruction exige fixtures y etiqueta de breach QUARANTINE_IMAGE. Theory/outcome de anclaje: dependencias, migrations y datos efímeros. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T4-B-E1 · Decide el contrato de `scanning, resource limits y debugging` sobre `CASO-TRU-043-4B`.",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'cpu_limit', 'critical_cves', 'debug_shell', 'logs_redacted', 'memory_limit_mb'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])\n    return \"PASS\" if ok else \"QUARANTINE_IMAGE\"\n\nvalid = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 0, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}\ninvalid = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 1000000, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}\nincomplete = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 0, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S43/S43-T4-B-E2: no confío en demos sin assert; la regla «S43-T4-B-E2 · Filtra tres rutas de `scanning, resource limits y debugging`: fixture válido, fixture adverso y registro s» del instruction exige fixtures y etiqueta de breach QUARANTINE_IMAGE. Theory/outcome de anclaje: Ordena deps, migrations y datos efímeros. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T4-B-E2 · Filtra tres rutas de `scanning, resource limits y debugging`: fixture válido, fixture ",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S43-T4-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'logs_redacted' not in record or record.get('logs_redacted') in (None, \"\", [], set(), {}):\n        return \"TRIAGE_SCAN_FINDING\"\n    ok = not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])\n    return \"CONTINUE\" if ok else \"QUARANTINE_IMAGE\"\n\nvalid = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 0, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}\ninvalid = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 1000000, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}\nincomplete = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 0, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S43/S43-T4-B-E3: no confío en demos sin assert; la regla «S43-T4-B-E3 · Demuestra fallo cerrado para `scanning, resource limits y debugging` con tres fixtures distintos. `CASO-TR» del instruction exige fixtures y etiqueta de breach QUARANTINE_IMAGE. Theory/outcome de anclaje: networking, health checks y signals. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S43-T4-B-E3 · Demuestra fallo cerrado para `scanning, resource limits y debugging` con tres fixtures",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "S43 self-check Q0: escojo «dos builds producen el mismo digest lógico» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué evidencia permite aprobar `Dockerfile, layers y cache` en CASO-TRU-043?. Ancla: Dockerfile, layers y cache. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.72,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "S43 self-check Q1: escojo «emitir BLOCK_IMAGE y conservar evidencia» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: Si ocurre la condición de error de S43, ¿qué respuesta preserva seguridad y auditabilidad?. Ancla: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el b. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.77,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "S43 self-check Q2: escojo «build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-A · servicio reproducible en contenedores`?. Ancla: bases, usuarios no root y tamaño. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.82,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "S43 self-check Q3: escojo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué tratamiento de `CASO-TRU-043` respeta el alcance del curso?. Ancla: Una base mínima reduce superficie, pero debe seguir parchable; fija versión/digest y ejecuta con UID sin privi. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.87,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:45:56.689355+00:00",
+  "session_started_at": "2026-07-23T15:45:56.667011+00:00",
+  "session_ended_at": "2026-07-23T15:46:25.067011+00:00",
+  "receipt_response_sha256": "62b373200e94b5332f6aa1d1cac765b6bfd7aec080847a0c8486c919c122a0a0",
+  "receipt_exercises_sha256": "574579a338e0dab899506dfbbff689b22cc96b86c76f55d75540fbe7dfd6a475",
+  "receipt_selfcheck_sha256": "8e019942dcc1e8c42115fbba998d211f49249bd381412c7a1a4427acbe5d03ec"
+}

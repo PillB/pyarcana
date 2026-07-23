@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 49,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s49-ece01da2fdae",
+  "production_note": "agentic_K1 dual-LLM Skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S49-T1-A-E1",
+      "code": "# Skeptic packet solve S49-T1-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"tool_choice_uncertain\":False,\"baseline_success\":0.96,\"agent_success\":0.9}}\nmeets_contract = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_DETERMINISTIC_WORKFLOW\"\nprint(\"S49-T1-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": [
+        "workflow vs agente",
+        "T1"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «workflow vs agente» usando el fixture CASO-AYA-049 del paquete activo; la rama esperada distingue KEEP_DETERMINISTIC_WORKFLOW y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T1-A-E2",
+      "code": "# Skeptic packet solve S49-T1-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'case_id', 'baseline_success', 'branch_count', 'tool_choice_uncertain', 'agent_success', 'known_steps'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])) else 'KEEP_DETERMINISTIC_WORKFLOW'\n\nvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\ninvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nincomplete = {**valid}\nincomplete.pop('agent_success', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.57,
+      "blocked_on": [],
+      "concepts_used": [
+        "workflow vs agente",
+        "T1"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «workflow vs agente» usando la instruction de S49-T1-A-E2 y sus hints de dominio; la rama esperada distingue PASS, KEEP_DETERMINISTIC_WORKFLOW y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T1-A-E3",
+      "code": "# Skeptic packet solve S49-T1-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'case_id', 'baseline_success', 'branch_count', 'tool_choice_uncertain', 'agent_success', 'known_steps'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RUN_AGENT_BASELINE'\n    return 'CONTINUE' if (not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])) else 'KEEP_DETERMINISTIC_WORKFLOW'\n\nvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\ninvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nincomplete = {**valid}\nincomplete.pop('agent_success', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'RUN_AGENT_BASELINE', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [
+        "workflow vs agente",
+        "T1"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «workflow vs agente» usando theory «workflow vs agente» y el iDo de la sección; la rama esperada distingue KEEP_DETERMINISTIC_WORKFLOW, RUN_AGENT_BASELINE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T1-B-E1",
+      "code": "# Skeptic packet solve S49-T1-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_steps\":5,\"worker_outputs\":3,\"evaluator_pass\":True}}\nmeets_contract = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\nstatus = \"PASS\" if meets_contract else \"STOP_AGENT_LOOP\"\nprint(\"S49-T1-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [
+        "routing, planner/worker y evaluator–optimizer",
+        "T1"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «routing, planner/worker y evaluator–optimizer» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue STOP_AGENT_LOOP y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T1-B-E2",
+      "code": "# Skeptic packet solve S49-T1-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'case_id', 'plan_steps', 'route', 'worker_outputs', 'evaluator_pass', 'max_steps'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])) else 'STOP_AGENT_LOOP'\n\nvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\ninvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 1003, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nincomplete = {**valid}\nincomplete.pop('evaluator_pass', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [
+        "routing, planner/worker y evaluator–optimizer",
+        "T1"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «routing, planner/worker y evaluator–optimizer» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, STOP_AGENT_LOOP y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T1-B-E3",
+      "code": "# Skeptic packet solve S49-T1-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'case_id', 'plan_steps', 'route', 'worker_outputs', 'evaluator_pass', 'max_steps'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REPLAN_WITH_BOUNDS'\n    return 'CONTINUE' if (not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])) else 'STOP_AGENT_LOOP'\n\nvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\ninvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 1003, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nincomplete = {**valid}\nincomplete.pop('evaluator_pass', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'REPLAN_WITH_BOUNDS', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "routing, planner/worker y evaluator–optimizer",
+        "T1"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «routing, planner/worker y evaluator–optimizer» usando el fixture CASO-AYA-049 del paquete activo; la rama esperada distingue STOP_AGENT_LOOP, REPLAN_WITH_BOUNDS y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T2-A-E1",
+      "code": "# Skeptic packet solve S49-T2-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibilities\":1,\"schema_fields\":{\"case_id\"},\"side_effect\":False,\"typed_errors\":True}}\nmeets_contract = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_OVERBROAD_TOOL\"\nprint(\"S49-T2-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "funciones de responsabilidad única",
+        "T2"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «funciones de responsabilidad única» usando la instruction de S49-T2-A-E1 y sus hints de dominio; la rama esperada distingue DISABLE_OVERBROAD_TOOL y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T2-A-E2",
+      "code": "# Skeptic packet solve S49-T2-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'typed_errors', 'case_id', 'side_effect', 'schema_fields', 'tool', 'responsibilities'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])) else 'DISABLE_OVERBROAD_TOOL'\n\nvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\ninvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1001, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nincomplete = {**valid}\nincomplete.pop('typed_errors', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "funciones de responsabilidad única",
+        "T2"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «funciones de responsabilidad única» usando theory «funciones de responsabilidad única» y el iDo de la sección; la rama esperada distingue PASS, DISABLE_OVERBROAD_TOOL y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T2-A-E3",
+      "code": "# Skeptic packet solve S49-T2-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'typed_errors', 'case_id', 'side_effect', 'schema_fields', 'tool', 'responsibilities'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SPLIT_TOOL_CONTRACT'\n    return 'CONTINUE' if (not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])) else 'DISABLE_OVERBROAD_TOOL'\n\nvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\ninvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1001, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nincomplete = {**valid}\nincomplete.pop('typed_errors', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'SPLIT_TOOL_CONTRACT', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "funciones de responsabilidad única",
+        "T2"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «funciones de responsabilidad única» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue DISABLE_OVERBROAD_TOOL, SPLIT_TOOL_CONTRACT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T2-B-E1",
+      "code": "# Skeptic packet solve S49-T2-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:prepare\",\"granted\":{\"report:prepare\"},\"idempotency_key\":\"tool-1\",\"attempts\":2,\"effects\":1,\"error_kind\":\"retryable\"}}\nmeets_contract = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\nstatus = \"PASS\" if meets_contract else \"DENY_TOOL_CALL\"\nprint(\"S49-T2-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "schema, permisos, idempotencia y errores",
+        "T2"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «schema, permisos, idempotencia y errores» usando el escenario sintético sin PII del curso; la rama esperada distingue DENY_TOOL_CALL y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T2-B-E2",
+      "code": "# Skeptic packet solve S49-T2-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'attempts', 'case_id', 'schema_valid', 'effects', 'idempotency_key', 'error_kind', 'scope', 'granted'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)) else 'DENY_TOOL_CALL'\n\nvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\ninvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare_ADV', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\nincomplete = {**valid}\nincomplete.pop('error_kind', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.58,
+      "blocked_on": [],
+      "concepts_used": [
+        "schema, permisos, idempotencia y errores",
+        "T2"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «schema, permisos, idempotencia y errores» usando el fixture fixture de S49-T2-B-E2 del paquete activo; la rama esperada distingue PASS, DENY_TOOL_CALL y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T2-B-E3",
+      "code": "# Skeptic packet solve S49-T2-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'attempts', 'case_id', 'schema_valid', 'effects', 'idempotency_key', 'error_kind', 'scope', 'granted'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CLASSIFY_TOOL_ERROR'\n    return 'CONTINUE' if (not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)) else 'DENY_TOOL_CALL'\n\nvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\ninvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare_ADV', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\nincomplete = {**valid}\nincomplete.pop('error_kind', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'CLASSIFY_TOOL_ERROR', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "concepts_used": [
+        "schema, permisos, idempotencia y errores",
+        "T2"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «schema, permisos, idempotencia y errores» usando la instruction de S49-T2-B-E3 y sus hints de dominio; la rama esperada distingue DENY_TOOL_CALL, CLASSIFY_TOOL_ERROR y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T3-A-E1",
+      "code": "# Skeptic packet solve S49-T3-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_tokens\":2000,\"retrieved_just_in_time\":True,\"checkpoint_after_effect\":True,\"provenance\":True}}\nmeets_contract = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\nstatus = \"PASS\" if meets_contract else \"COMPACT_AND_CHECKPOINT\"\nprint(\"S49-T3-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [
+        "contexto mínimo, retrieval JIT y checkpoints",
+        "T3"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «contexto mínimo, retrieval JIT y checkpoints» usando theory «contexto mínimo, retrieval JIT y checkpoints» y el iDo de la sección; la rama esperada distingue COMPACT_AND_CHECKPOINT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T3-A-E2",
+      "code": "# Skeptic packet solve S49-T3-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'context_tokens', 'case_id', 'retrieved_just_in_time', 'checkpoint_after_effect', 'max_context_tokens', 'provenance'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])) else 'COMPACT_AND_CHECKPOINT'\n\nvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\ninvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 2200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\nincomplete = {**valid}\nincomplete.pop('provenance', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [
+        "contexto mínimo, retrieval JIT y checkpoints",
+        "T3"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «contexto mínimo, retrieval JIT y checkpoints» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue PASS, COMPACT_AND_CHECKPOINT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T3-A-E3",
+      "code": "# Skeptic packet solve S49-T3-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'context_tokens', 'case_id', 'retrieved_just_in_time', 'checkpoint_after_effect', 'max_context_tokens', 'provenance'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RETRIEVE_MINIMUM_CONTEXT'\n    return 'CONTINUE' if (not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])) else 'COMPACT_AND_CHECKPOINT'\n\nvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\ninvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 2200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\nincomplete = {**valid}\nincomplete.pop('provenance', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'RETRIEVE_MINIMUM_CONTEXT', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "contexto mínimo, retrieval JIT y checkpoints",
+        "T3"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «contexto mínimo, retrieval JIT y checkpoints» usando el escenario sintético sin PII del curso; la rama esperada distingue COMPACT_AND_CHECKPOINT, RETRIEVE_MINIMUM_CONTEXT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T3-B-E1",
+      "code": "# Skeptic packet solve S49-T3-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"no_prod_write\"},\"facts_after\":{\"case_id\",\"budget\",\"no_prod_write\"},\"memory_retention_days\":7,\"last_known_good\":\"cp-7\"}}\nmeets_contract = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\nstatus = \"PASS\" if meets_contract else \"RESTORE_LAST_KNOWN_GOOD\"\nprint(\"S49-T3-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "memoria, compaction y last-known-good",
+        "T3"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «memoria, compaction y last-known-good» usando el fixture CASO-AYA-049 del paquete activo; la rama esperada distingue RESTORE_LAST_KNOWN_GOOD y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T3-B-E2",
+      "code": "# Skeptic packet solve S49-T3-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'last_known_good', 'case_id', 'memory_retention_days', 'facts_before', 'facts_after'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])) else 'RESTORE_LAST_KNOWN_GOOD'\n\nvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\ninvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': set(), 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\nincomplete = {**valid}\nincomplete.pop('last_known_good', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "memoria, compaction y last-known-good",
+        "T3"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «memoria, compaction y last-known-good» usando la instruction de S49-T3-B-E2 y sus hints de dominio; la rama esperada distingue PASS, RESTORE_LAST_KNOWN_GOOD y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T3-B-E3",
+      "code": "# Skeptic packet solve S49-T3-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'last_known_good', 'case_id', 'memory_retention_days', 'facts_before', 'facts_after'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_COMPACTION_LOSS'\n    return 'CONTINUE' if (not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])) else 'RESTORE_LAST_KNOWN_GOOD'\n\nvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\ninvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': set(), 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\nincomplete = {**valid}\nincomplete.pop('last_known_good', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'REVIEW_COMPACTION_LOSS', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "memoria, compaction y last-known-good",
+        "T3"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «memoria, compaction y last-known-good» usando theory «memoria, compaction y last-known-good» y el iDo de la sección; la rama esperada distingue RESTORE_LAST_KNOWN_GOOD, REVIEW_COMPACTION_LOSS y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T4-A-E1",
+      "code": "# Skeptic packet solve S49-T4-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\":6,\"tokens\":3200,\"max_tokens\":5000,\"cost_pen\":0.04,\"max_cost_pen\":0.06}}\nmeets_contract = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\nstatus = \"PASS\" if meets_contract else \"STOP_BUDGET_EXHAUSTED\"\nprint(\"S49-T4-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "stopping conditions y budgets",
+        "T4"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «stopping conditions y budgets» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue STOP_BUDGET_EXHAUSTED y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T4-A-E2",
+      "code": "# Skeptic packet solve S49-T4-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'max_tokens', 'case_id', 'cost_pen', 'max_cost_pen', 'tokens', 'steps', 'goal_met', 'max_steps'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])) else 'STOP_BUDGET_EXHAUSTED'\n\nvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\ninvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 1004, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\nincomplete = {**valid}\nincomplete.pop('max_cost_pen', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "stopping conditions y budgets",
+        "T4"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «stopping conditions y budgets» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, STOP_BUDGET_EXHAUSTED y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T4-A-E3",
+      "code": "# Skeptic packet solve S49-T4-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'max_tokens', 'case_id', 'cost_pen', 'max_cost_pen', 'tokens', 'steps', 'goal_met', 'max_steps'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ASK_FOR_SCOPE_REDUCTION'\n    return 'CONTINUE' if (not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])) else 'STOP_BUDGET_EXHAUSTED'\n\nvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\ninvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 1004, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\nincomplete = {**valid}\nincomplete.pop('max_cost_pen', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'ASK_FOR_SCOPE_REDUCTION', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.56,
+      "blocked_on": [],
+      "concepts_used": [
+        "stopping conditions y budgets",
+        "T4"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «stopping conditions y budgets» usando el fixture CASO-AYA-049 del paquete activo; la rama esperada distingue STOP_BUDGET_EXHAUSTED, ASK_FOR_SCOPE_REDUCTION y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T4-B-E1",
+      "code": "# Skeptic packet solve S49-T4-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"workspace-read\",\"sensitive_action\":\"prepare-draft\",\"approval_required\":True,\"approval_present\":True,\"checkpoint\":\"cp-9\",\"replayed_effects\":0}}\nmeets_contract = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\nstatus = \"PASS\" if meets_contract else \"SANDBOX_AND_STOP\"\nprint(\"S49-T4-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [
+        "sandbox, human approval y recuperación",
+        "T4"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «sandbox, human approval y recuperación» usando la instruction de S49-T4-B-E1 y sus hints de dominio; la rama esperada distingue SANDBOX_AND_STOP y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T4-B-E2",
+      "code": "# Skeptic packet solve S49-T4-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'sensitive_action', 'case_id', 'replayed_effects', 'network', 'approval_present', 'approval_required', 'filesystem', 'checkpoint'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)) else 'SANDBOX_AND_STOP'\n\nvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\ninvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': False, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nincomplete = {**valid}\nincomplete.pop('replayed_effects', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "sandbox, human approval y recuperación",
+        "T4"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «sandbox, human approval y recuperación» usando theory «sandbox, human approval y recuperación» y el iDo de la sección; la rama esperada distingue PASS, SANDBOX_AND_STOP y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S49-T4-B-E3",
+      "code": "# Skeptic packet solve S49-T4-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'sensitive_action', 'case_id', 'replayed_effects', 'network', 'approval_present', 'approval_required', 'filesystem', 'checkpoint'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_HUMAN_APPROVAL'\n    return 'CONTINUE' if (not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)) else 'SANDBOX_AND_STOP'\n\nvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\ninvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': False, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nincomplete = {**valid}\nincomplete.pop('replayed_effects', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'REQUEST_HUMAN_APPROVAL', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "sandbox, human approval y recuperación",
+        "T4"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «sandbox, human approval y recuperación» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue SANDBOX_AND_STOP, REQUEST_HUMAN_APPROVAL y no inventa evidencia ni oculta el fallo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "confidence": 0.65,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «ADR workflow/agente con baseline» para «¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049?» porque la theory/outcomes de S49 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 0 del quiz_card activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «emitir STOP_AGENT y conservar evidencia» para «Si ocurre la condición de error de S49, ¿qué respuesta preserva seguridad y audi» porque la theory/outcomes de S49 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 2 del quiz_card activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible» para «¿Cuál resultado demuestra el gate `CP-N4-C · agente acotado con aprobación human» porque la theory/outcomes de S49 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 3 del quiz_card activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.63,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» para «¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso?» porque la theory/outcomes de S49 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 1 del quiz_card activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:34:27.015410+00:00",
+  "session_started_at": "2026-07-23T13:34:09.873915+00:00",
+  "session_ended_at": "2026-07-23T13:34:27.012599+00:00",
+  "receipt_response_sha256": "4f27b5eb3faf06f4b6d5e8c2c91fb870644fc49d85632f4296d3bfdaac3d8398",
+  "receipt_exercises_sha256": "3638f5e9a00df0222608b09fc59c859f6bdc311d114cffce6d75e250e0b930ad",
+  "receipt_selfcheck_sha256": "c2eac2af53143a1e28619415560905d2e477e7ae03ae014122919bcaaad344fe"
+}

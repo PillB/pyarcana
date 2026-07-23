@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 23,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-sk-s23-264a5f8ca7",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "id": "S23-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S23-T1-A-E1.",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "id": "S23-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))\n",
+      "justification_from_packet": "Del paquete S23-T1-A-E2: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "id": "S23-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint(hits[0]['name'] if hits else 'need_testid')\n",
+      "justification_from_packet": "Contrato I/O de S23-T1-A-E3 — solo fixtures sintéticos del packet.",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "id": "S23-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        break\nprint(i)\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S23-T1-B-E1 contra instruction, no memoria externa.",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "id": "S23-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nready = False\nfor i in range(3):\n    if ready:\n        break\nelse:\nprint('ok')\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S23-T1-B-E2.",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "id": "S23-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected, actual = 'Portal demo', 'Portal demo'\nprint('pass' if expected == actual else 'fail')\n",
+      "justification_from_packet": "Del paquete S23-T1-B-E3: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "id": "S23-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nform = {}\nform['usuario'] = 'ana'\nprint(form)\n",
+      "justification_from_packet": "Contrato I/O de S23-T2-A-E1 — solo fixtures sintéticos del packet.",
+      "confidence": 0.57,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "id": "S23-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S23-T2-A-E2 contra instruction, no memoria externa.",
+      "confidence": 0.57,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "id": "S23-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'token':'t'}\nprint('reuse' if state.get('token') else 'login')\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S23-T2-A-E3.",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "id": "S23-T2-B-E1",
+      "code": "class LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        if password == \"sandbox\":\n            self.auth = True\n\np = LoginPage()\np.submit(\"demo\", \"sandbox\")\nprint(p.auth)\n",
+      "justification_from_packet": "Del paquete S23-T2-B-E1: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "id": "S23-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\nexcept PermissionError:\nprint('ok')\n",
+      "justification_from_packet": "Contrato I/O de S23-T2-B-E2 — solo fixtures sintéticos del packet.",
+      "confidence": 0.56,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "id": "S23-T2-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint(state)\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S23-T2-B-E3 contra instruction, no memoria externa.",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "id": "S23-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.keys()))\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S23-T3-A-E1.",
+      "confidence": 0.6,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "id": "S23-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlogs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])\n",
+      "justification_from_packet": "Del paquete S23-T3-A-E2: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "id": "S23-T3-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint(pkg)\n",
+      "justification_from_packet": "Contrato I/O de S23-T3-A-E3 — solo fixtures sintéticos del packet.",
+      "confidence": 0.59,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "id": "S23-T3-B-E1",
+      "code": "def should_retry(k):\n    return k in (\"timeout\", \"429\")\n\nfor k in [\"timeout\", \"captcha\", \"429\"]:\n    print(k, should_retry(k))\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S23-T3-B-E1 contra instruction, no memoria externa.",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "id": "S23-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nerr='stale'\nprint('goto_home' if err=='stale' else 'continue')\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S23-T3-B-E2.",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "id": "S23-T3-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nerrors=['timeout','timeout','timeout']\nfor i,e in enumerate(errors,1):\n    if e!='timeout':\n        break\n    if i==3:\nprint('ok', i)\n",
+      "justification_from_packet": "Del paquete S23-T3-B-E3: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "id": "S23-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\napi=True\nprint('api' if api else 'rpa')\n",
+      "justification_from_packet": "Contrato I/O de S23-T4-A-E1 — solo fixtures sintéticos del packet.",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "id": "S23-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint(c)\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S23-T4-A-E2 contra instruction, no memoria externa.",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "id": "S23-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndecision={'method':'rpa','reason':'no_api'}\nprint(decision)\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S23-T4-A-E3.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "id": "S23-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncaptcha=True\nprint('human_handoff' if captcha else 'continue')\n",
+      "justification_from_packet": "Del paquete S23-T4-B-E1: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "id": "S23-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsig={'tos_forbidden':True,'captcha':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')\n",
+      "justification_from_packet": "Contrato I/O de S23-T4-B-E2 — solo fixtures sintéticos del packet.",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "id": "S23-T4-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S23-T4-B-E3 contra instruction, no memoria externa.",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "get_by_role refleja UI accesible y es más estable que nth-child.",
+      "confidence": 0.85,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Ante CAPTCHA el robot se detiene y hace handoff humano: no resolver servicios externos ni reintentar en bucle (ToS / ética S23).",
+      "confidence": 0.85,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "API/export primero: buscar integración no-UI antes de automatizar el browser con RPA Playwright (preferencia del paquete S23).",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Retry solo fallas transitorias (timeout/red), no captcha/403 negocio.",
+      "confidence": 0.82,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:19.968532+00:00",
+  "session_started_at": "2026-07-23T14:27:07.434102+00:00",
+  "session_ended_at": "2026-07-23T14:28:00.444102+00:00",
+  "receipt_response_sha256": "8d75b5a5bb8d5fd0cad4b0712df75bef4774fe68f0f423ad03d10e516d489fbd",
+  "receipt_exercises_sha256": "3fade611cdc53a7762ee3f8bce4b45ddcd7b46168a35fa91c10532357241d822",
+  "receipt_selfcheck_sha256": "f42f5134d9608f0f4dd3c9730368aebccefd877efe716bc6f4709cb7c08d6c96"
+}

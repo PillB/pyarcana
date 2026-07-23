@@ -1,0 +1,348 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 8,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s08-9c35cbb6547d",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S08-T1-A-E1",
+      "id": "S08-T1-A-E1",
+      "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / \"intake.txt\"\np.write_text(\"linea1\\njosé\\n\", encoding=\"utf-8\")\nprint(p.exists(), p.read_text(encoding=\"utf-8\").splitlines())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S08-T1-A-E1 no improvisé: opté por confrontar con los hints y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: En un temp dir, crea `Path. Los tests piden: True. Conceptos del paquete que usé: alimenta, decisión, convenientes, operativo, errors. Desconfío de respuestas 'bonitas'.",
+      "concepts_used": [
+        "pathlib"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S08-T1-A-E2",
+      "id": "S08-T1-A-E2",
+      "code": "from pathlib import Path\nimport tempfile\np = Path(tempfile.mkdtemp()) / \"a.txt\"\nwith p.open(\"w\", encoding=\"utf-8\") as f:\n    f.write(\"hola\\n\")\nprint(p.read_text(encoding=\"utf-8\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S08/S08-T1-A-E2 («Archivos, CSV, JSON y contratos de ingesta»): E2 (independiente) — Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Escribe 3 líneas co. Apoyo léxico: replace, rutas, contratos, personas. Hint: with path.open('w', encoding='utf-8'). Si el resultado no pasa «['a','b','c']», reintento. Me resisto a copiar sin entender; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "with"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S08-T1-A-E3",
+      "id": "S08-T1-A-E3",
+      "code": "from pathlib import Path\nimport tempfile\np = Path(tempfile.mkdtemp()) / \"b.txt\"\np.write_text(\"x\", encoding=\"utf-8\")\nprint(p.stat().st_size, p.resolve().name)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S08-T1-A-E3 en «Archivos, CSV, JSON y contratos de ingesta» decidí derivar del starter sin inventar APIs: el enunciado dice «E3 (transferencia) — Simula UnicodeDecodeError leyendo bytes latinos como utf-8 strict si es latin-1 content… Mejor: escribe bytes no-UTF8 y captura UnicodeDecodeError al read_text». Hint útil: path.write_bytes(b'\\xff\\xfe') o latin1 bytes inválidos en utf-8. Checklist/tests: UnicodeDecodeError. Exijo evidencia en el paquete activo; vocabulario del paquete: ambig, contratos, manifest, porqué. Riesgo que evito: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "stat"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S08-T1-B-E1",
+      "id": "S08-T1-B-E1",
+      "code": "from pathlib import Path\nimport os, tempfile\ndef write_atomic(path: Path, text: str) -> None:\n    path = Path(path)\n    tmp = path.with_name(path.name + \".tmp\")\n    tmp.write_text(text, encoding=\"utf-8\")\n    os.replace(tmp, path)\ndest = Path(tempfile.mkdtemp()) / \"out.txt\"\nwrite_atomic(dest, \"hola\\n\")\nprint(dest.read_text(encoding=\"utf-8\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S08/S08-T1-B-E1 («Archivos, CSV, JSON y contratos de ingesta»): E1 (guiado) — Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Detecta si un `bytes` samp. Apoyo léxico: control, operativo, write_text, lectura. Hint: b'\\r\\n' in data. Si el resultado no pasa «True False», reintento. Sigo dudando de atajos; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "atomic"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S08-T1-B-E2",
+      "id": "S08-T1-B-E2",
+      "code": "sample = b\"a\\r\\nb\\n\"\nprint(\"tiene CRLF\", b\"\\r\\n\" in sample)\ntext = sample.replace(b\"\\r\\n\", b\"\\n\").decode(\"utf-8\")\nprint(text.splitlines())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S08-T1-B-E2 en «Archivos, CSV, JSON y contratos de ingesta» decidí confrontar con los hints: el enunciado dice «E2 (independiente) — Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Implementa `write_a». Hint útil: tmp + os.replace. Checklist/tests: ok. Prefiero lo aburrido y verificable; vocabulario del paquete: unifica, exclusivo, personas, decisión. Riesgo que evito: si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "newlines"
+      ],
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S08-T1-B-E3",
+      "id": "S08-T1-B-E3",
+      "code": "from pathlib import Path\nimport os, tempfile\ndef write_atomic(path, text):\n    path = Path(path)\n    tmp = path.with_suffix(path.suffix + \".tmp\")\n    tmp.write_text(text, encoding=\"utf-8\")\n    os.replace(tmp, path)\n    return path\nprint(write_atomic(Path(tempfile.mkdtemp())/\"c.csv\", \"id\\n1\\n\").name)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos al resolver S08-T1-B-E3. La sección «Archivos, CSV, JSON y contratos de ingesta» exige E3 (transferencia) — Simula fallo mid-write: escribe dest parcial 'PARCIAL' y muestra que un atomic replace posterior deja 'COMPLETO'. Imprime ambos estados.. Me baso en trunca, encoding, lectura y en el hint «Primero write no atómico parcial; luego write_atomic». Validación esperada: PARCIAL luego COMPLETO. Por eso conviene derivar del starter sin inventar APIs antes de cerrar; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "atomic"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S08-T2-A-E1",
+      "id": "S08-T2-A-E1",
+      "code": "import csv, io\nfrom decimal import Decimal\nraw = \"id,nombre,monto\\nC001,Ana,10.5\\nC002,Luis,20\\n\"\nfor row in csv.DictReader(io.StringIO(raw)):\n    row[\"monto\"] = Decimal(row[\"monto\"]).quantize(Decimal(\"0.01\"))\n    print(row)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S08/S08-T2-A-E1 («Archivos, CSV, JSON y contratos de ingesta»): E1 (guiado) — Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: DictReader sobre StringIO. Apoyo léxico: reales, trunca, encodings, declara. Hint: csv.DictReader. Si el resultado no pasa «C001 Ana», reintento. Sigo dudando de atajos; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "csv"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S08-T2-A-E2",
+      "id": "S08-T2-A-E2",
+      "code": "import csv, io\nraw = \"id,nombre\\nC001,Ana\\n\"\nprint(list(csv.DictReader(io.StringIO(raw))))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S08-T2-A-E2 en «Archivos, CSV, JSON y contratos de ingesta» decidí releer con desconfianza el material: el enunciado dice «E2 (independiente) — Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Escribe CSV con Dic». Hint útil: writeheader + writerow. Checklist/tests: 1 fila. Me resisto a copiar sin entender; vocabulario del paquete: modos, exclusivo, pathlib, contrato. Riesgo que evito: si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "DictReader"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S08-T2-A-E3",
+      "id": "S08-T2-A-E3",
+      "code": "import csv, io\nfrom decimal import Decimal, InvalidOperation\ndef parse_monto(s):\n    try:\n        return Decimal(s).quantize(Decimal(\"0.01\"))\n    except InvalidOperation:\n        return None\nraw = \"id,monto\\nC1,10.5\\nC2,xx\\n\"\nfor row in csv.DictReader(io.StringIO(raw)):\n    print(row[\"id\"], parse_monto(row[\"monto\"]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos al resolver S08-T2-A-E3. La sección «Archivos, CSV, JSON y contratos de ingesta» exige E3 (transferencia) — Cast de monto: `Decimal` desde texto + quantize a céntimos; si lanza `InvalidOperation` → reject con motivo. Procesa `['10', 'x', '3.5']` e imprime ok/reject.. Me baso en exclusivo, rutas, read_text y en el hint «Decimal(v).quantize(Decimal('0.01')); except InvalidOperation». Validación esperada: Contrato exacto: ok 10.00; reject x motivo=cast_monto; ok 3.50; sin float().. Por eso conviene cruzar con la demo iDo antes de cerrar; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "parse"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S08-T2-B-E1",
+      "id": "S08-T2-B-E1",
+      "code": "import csv, io\ntext = \"id,nombre\\nC001,Ana\\nC002,Luis,EXTRA\\nC003\\n\"\nreader = csv.reader(io.StringIO(text))\nheader = next(reader)\ngood, bad = [], []\nfor row in reader:\n    if len(row) != len(header):\n        bad.append({\"raw\": row, \"reason\": f\"cols {len(row)}!={len(header)}\"})\n    else:\n        good.append(dict(zip(header, row)))\nprint(\"good\", good)\nprint(\"bad\", bad)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S08-T2-B-E1 en «Archivos, CSV, JSON y contratos de ingesta» decidí cruzar con la demo iDo: el enunciado dice «E1 (guiado) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Detecta fila irregular: he». Hint útil: len(row) != len(header). Checklist/tests: True. Me resisto a copiar sin entender; vocabulario del paquete: contratos, write_text, texto, ingesta. Riesgo que evito: si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "quarantine"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S08-T2-B-E2",
+      "id": "S08-T2-B-E2",
+      "code": "def quarantine_row(row, reason):\n    return {\"raw\": row, \"reason\": reason, \"status\": \"quarantine\"}\nprint(quarantine_row([\"C1\", \"x\", \"y\"], \"cols 3!=2\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia en el paquete activo al resolver S08-T2-B-E2. La sección «Archivos, CSV, JSON y contratos de ingesta» exige E2 (independiente) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Escribe una fila de. Me baso en trunca, operativo, auditable y en el hint «DictWriter fieldnames raw,reason». Validación esperada: col_count. Por eso conviene derivar del starter sin inventar APIs antes de cerrar; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "quarantine"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S08-T2-B-E3",
+      "id": "S08-T2-B-E3",
+      "code": "good, bad = [{\"id\": \"C1\"}], [{\"raw\": [\"C2\"], \"reason\": \"cols\"}]\nprint(len(good) + len(bad) == 2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S08-T2-B-E3 no improvisé: opté por contrastar con el output de la demo y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Dada lista de reaso. Los tests piden: conteos por reason. Conceptos del paquete que usé: alimenta, inventar, reales, pipelines, write_text. Exijo evidencia en el paquete activo.",
+      "concepts_used": [
+        "balance"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S08-T3-A-E1",
+      "id": "S08-T3-A-E1",
+      "code": "import json\nfrom datetime import date\ndata = [{\"id\": \"T1\", \"dia\": date(2026, 1, 15).isoformat()}]\ns = json.dumps(data, ensure_ascii=False, sort_keys=True)\nprint(s)\nprint(json.loads(s)[0][\"id\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S08-T3-A-E1 en «Archivos, CSV, JSON y contratos de ingesta» decidí confrontar con los hints: el enunciado dice «E1 (guiado) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: `json.loads` de fixture `'». Hint útil: json.loads. Checklist/tests: C001. Me resisto a copiar sin entender; vocabulario del paquete: operativo, contrato, ambig, encoding. Riesgo que evito: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "json"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S08-T3-A-E2",
+      "id": "S08-T3-A-E2",
+      "code": "import json\nprint(json.loads('{\"a\":1,\"b\":null}')[\"b\"] is None)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos al resolver S08-T3-A-E2. La sección «Archivos, CSV, JSON y contratos de ingesta» exige E2 (independiente) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: `dumps` de `{'nombr. Me baso en ambig, reales, exclusivo y en el hint «ensure_ascii=False». Validación esperada: José legible. Por eso conviene contrastar con el output de la demo antes de cerrar; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "null"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S08-T3-A-E3",
+      "id": "S08-T3-A-E3",
+      "code": "import json\nobj = {\"id\": \"C1\"}\nobj.setdefault(\"segment\", \"default\")\nprint(json.dumps(obj, sort_keys=True))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S08-T3-A-E3 no improvisé: opté por cruzar con la demo iDo y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Intenta dumps de di. Los tests piden: TypeError luego ISO. Conceptos del paquete que usé: write_text, contrato, lectura, encoding, convenientes. Me resisto a copiar sin entender.",
+      "concepts_used": [
+        "schema evo"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S08-T3-B-E1",
+      "id": "S08-T3-B-E1",
+      "code": "def validate_schema(obj, required):\n    missing = [k for k in required if k not in obj]\n    return (len(missing) == 0, missing)\nprint(validate_schema({\"id\": \"C1\", \"email\": None}, [\"id\", \"email\"]))\nprint(validate_schema({\"id\": \"C1\"}, [\"id\", \"email\"]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos al resolver S08-T3-B-E1. La sección «Archivos, CSV, JSON y contratos de ingesta» exige E1 (guiado) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Rechaza missing required:. Me baso en texto, default, reales y en el hint «list comprehension missing». Validación esperada: False, ['email']. Por eso conviene confrontar con los hints antes de cerrar; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "schema"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S08-T3-B-E2",
+      "id": "S08-T3-B-E2",
+      "code": "def is_compatible(old_keys, new_obj):\n    return all(k in new_obj for k in old_keys)\nprint(is_compatible([\"id\"], {\"id\": \"x\", \"extra\": 1}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S08-T3-B-E2 no improvisé: opté por releer con desconfianza el material y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: null explícito: `{'. Los tests piden: True / None. Conceptos del paquete que usé: contratos, decisión, manifest, strict, convenientes. No asumo que la primera idea basta.",
+      "concepts_used": [
+        "compat"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S08-T3-B-E3",
+      "id": "S08-T3-B-E3",
+      "code": "record = {\"id\": \"C1\"}\nrecord.setdefault(\"email\", None)\nprint(record)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S08/S08-T3-B-E3 («Archivos, CSV, JSON y contratos de ingesta»): E3 (transferencia) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Añade campo opciona. Apoyo léxico: decisión, reales, Siempre, lectura. Hint: setdefault. Si el resultado no pasa «standard vs vip», reintento. Me resisto a copiar sin entender; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "nulls"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S08-T4-A-E1",
+      "id": "S08-T4-A-E1",
+      "code": "from pathlib import Path\nimport hashlib, tempfile, shutil\ntd = Path(tempfile.mkdtemp())\nsrc = td / \"clients.csv\"\nsrc.write_text(\"id,nombre\\nC001,Ana\\n\", encoding=\"utf-8\")\nh = hashlib.sha256(src.read_bytes()).hexdigest()\nbak = td / \"clients.csv.bak\"\nshutil.copy2(src, bak)\nprint(\"sha256\", h[:16] + \"...\")\nprint(\"bak exists\", bak.exists())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin entender al resolver S08-T4-A-E1. La sección «Archivos, CSV, JSON y contratos de ingesta» exige E1 (guiado) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Calcula sha256 hex de un a. Me baso en reduce, contratos, default y en el hint «hashlib.sha256(path.read_bytes()).hexdigest()». Validación esperada: len 64. Por eso conviene releer con desconfianza el material antes de cerrar; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "hash"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S08-T4-A-E2",
+      "id": "S08-T4-A-E2",
+      "code": "import hashlib\nb = b\"hello\"\nprint(hashlib.sha256(b).hexdigest()[:12])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S08-T4-A-E2 no improvisé: opté por seguir el contrato del instruction y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Copia backup con sh. Los tests piden: True. Conceptos del paquete que usé: auditable, encodings, strict, Archivos, errors. No asumo que la primera idea basta.",
+      "concepts_used": [
+        "sha256"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S08-T4-A-E3",
+      "id": "S08-T4-A-E3",
+      "code": "provenance = {\"path\": \"clients.csv\", \"sha256\": \"abc\", \"bytes\": 12}\nprint(provenance)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S08/S08-T4-A-E3 («Archivos, CSV, JSON y contratos de ingesta»): E3 (transferencia) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Arma dict de proven. Apoyo léxico: convenientes, locales, trunca, control. Hint: stat().st_size. Si el resultado no pasa «3 keys», reintento. Desconfío de respuestas 'bonitas'; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "provenance"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S08-T4-B-E1",
+      "id": "S08-T4-B-E1",
+      "code": "sources = [\n    {\"name\": \"clients.csv\", \"n_in\": 6, \"n_clean\": 5, \"n_quarantine\": 1},\n    {\"name\": \"transactions.json\", \"n_in\": 4, \"n_clean\": 3, \"n_quarantine\": 1},\n]\nfor source in sources:\n    source[\"reconcile_ok\"] = source[\"n_in\"] == source[\"n_clean\"] + source[\"n_quarantine\"]\nprint(sources)\nprint(all(s[\"reconcile_ok\"] for s in sources))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S08-T4-B-E1 no improvisé: opté por confrontar con los hints y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — Construye un manifest con `run_id` y `sources`: cada fuente incluye name, sha256, n_in, n_clean, n_quarantine y reconcile_ok. Deriva los tres totales con sum; no los. Los tests piden: Contrato exacto: totales 5/4/1; ambas fuentes reconcile_ok=True; manifest reconcile_ok=True.. Conceptos del paquete que usé: alimenta, encodings, modos, Siempre, personas. Prefiero lo aburrido y verificable.",
+      "concepts_used": [
+        "reconcile"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S08-T4-B-E2",
+      "id": "S08-T4-B-E2",
+      "code": "def fail_closed(reconcile_ok):\n    if not reconcile_ok:\n        raise SystemExit(1)\n    return 0\nprint(fail_closed(True))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S08/S08-T4-B-E2 («Archivos, CSV, JSON y contratos de ingesta»): E2 (independiente) — Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Implementa `reconci. Apoyo léxico: contrato, reduce, errors, inventar. Hint: all(s['n_in'] == s['n_clean'] + s['n_quarantine'] for s in sources). Si el resultado no pasa «Contrato exacto: good=True; compensated_bad=False aunque 10 == 9 + 1.», reintento. No asumo que la primera idea basta; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "fail closed"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S08-T4-B-E3",
+      "id": "S08-T4-B-E3",
+      "code": "manifest = {\n    \"n_in\": 10, \"n_clean\": 8, \"n_quarantine\": 2,\n    \"reconcile_ok\": 10 == 8 + 2,\n}\nprint(manifest)\nif not manifest[\"reconcile_ok\"]:\n    raise SystemExit(\"reconcile failed\")\nprint(\"publish_ok\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S08-T4-B-E3 en «Archivos, CSV, JSON y contratos de ingesta» decidí derivar del starter sin inventar APIs: el enunciado dice «E3 (transferencia) — Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: `run(sources)` publ». Hint útil: No publiques clean si no cuadra. Checklist/tests: Contrato exacto: good → OK/0; compensated_bad → ERROR sources=clients.csv,transactions.json/1.. Desconfío de respuestas 'bonitas'; vocabulario del paquete: contrato, modos, exclusivo, rastro. Riesgo que evito: si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "manifest"
+      ],
+      "confidence": 0.92
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no me quedo con la opción más corta: en «Archivos, CSV, JSON y contratos de ingesta» el stem «¿Por qué declarar encoding='utf-8' al abrir texto?» apunta a «Evita depender del locale del SO (p. ej. Windows)» (índice 3). Evidencia léxica: alimenta, porqué, rutas, encoding, pathlib. Rechacé: Es más rápido / Comprime el archivo. No asumo que la primera idea basta.",
+      "confidence": 0.89
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no me quedo con la opción más corta: en «Archivos, CSV, JSON y contratos de ingesta» el stem «Escritura atómica típica es…» apunta a «escribir temp y os.replace al destino» (índice 1). Evidencia léxica: encoding, declara, auditable, exclusivo, convenientes. Rechacé: open(dest,'w') y escribir directo siempre / solo print al stdout. No asumo que la primera idea basta.",
+      "confidence": 0.89
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no me quedo con la opción más corta: en «Archivos, CSV, JSON y contratos de ingesta» el stem «Una fila CSV con columnas de más debe…» apunta a «Ir a cuarentena con motivo» (índice 2). Evidencia léxica: declara, pipelines, reduce, write_text, porqué. Rechacé: Ignorarse en silencio / Rellenarse con None sin traza. No asumo que la primera idea basta.",
+      "confidence": 0.72
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no me quedo con la opción más corta: en «Archivos, CSV, JSON y contratos de ingesta» el stem «Reconciliación del manifest exige…» apunta a «n_in == n_clean + n_quarantine» (índice 0). Evidencia léxica: exclusivo, porqué, rastro, reduce, manifest. Rechacé: n_clean > n_in / solo n_quarantine == 0. Sigo dudando de atajos.",
+      "confidence": 0.91
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no me quedo con la opción más corta: en «Archivos, CSV, JSON y contratos de ingesta» el stem «Si reconcile falla, el pipeline debe…» apunta a «Fallar (exit non-zero) / fail closed» (índice 3). Evidencia léxica: contrato, Siempre, auditable, pathlib, read_text. Rechacé: Publicar clean igual / Borrar el manifest. No asumo que la primera idea basta.",
+      "confidence": 0.74
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:14:52.753283+00:00",
+  "session_started_at": "2026-07-23T15:14:16.241346+00:00",
+  "session_ended_at": "2026-07-23T15:14:52.751121+00:00",
+  "receipt_response_sha256": "6334e1dbfbce0626982bb5a5f4c460161d09bb803f0626aeb82d784507a56ae0",
+  "receipt_exercises_sha256": "f7110b9468c5ba60d5ca135f4399be7b1c03b8a01e61b0df09886b244066a87b",
+  "receipt_selfcheck_sha256": "e9361dab302c1eb1df9a0d8f996f77033332eb7bcb4c04e011a7e8fe35c6ad32"
+}

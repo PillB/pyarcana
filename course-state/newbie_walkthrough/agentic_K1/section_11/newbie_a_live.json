@@ -1,0 +1,325 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 11,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s11-79d8757414",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "dataclass"
+      ],
+      "blocked_on": [],
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Person:\n    name: str\n    age: int\np = Person('Ana', 34)\nprint(p)\n",
+      "justification_from_packet": "dataclass define un modelo de dominio con campos tipados (T1-A)."
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "default_factory"
+      ],
+      "blocked_on": [],
+      "code": "from dataclasses import dataclass, field\n@dataclass\nclass Bucket:\n    items: list = field(default_factory=list)\na, b = Bucket(), Bucket()\na.items.append(1)\nprint(a.items, b.items)\n",
+      "justification_from_packet": "field(default_factory=list) evita el default mutable compartido entre instancias."
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "__post_init__"
+      ],
+      "blocked_on": [],
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Client:\n    id: str\n    region: str\n    def __post_init__(self):\n        if not self.id:\n            raise ValueError('id requerido')\nprint(Client('C1', 'Lima'))\n",
+      "justification_from_packet": "Validar invariantes en __post_init__: objeto inválido falla al construir."
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "frozen"
+      ],
+      "blocked_on": [],
+      "code": "from dataclasses import dataclass\n@dataclass(frozen=True)\nclass Money:\n    amount: str  # Decimal as str for demo\nm = Money('10.00')\nprint(m)\n",
+      "justification_from_packet": "frozen=True modela valor inmutable de dominio (T1-B)."
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "asdict"
+      ],
+      "blocked_on": [],
+      "code": "from dataclasses import dataclass, asdict\n@dataclass\nclass Row:\n    id: str\n    status: str\nprint(asdict(Row('C1', 'ok')))\n",
+      "justification_from_packet": "asdict exporta el dataclass a dict serializable para JSON/CSV."
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "composition"
+      ],
+      "blocked_on": [],
+      "code": "from dataclasses import dataclass\n@dataclass\nclass PersonInfo:\n    name: str\n@dataclass\nclass Client:\n    id: str\n    person: PersonInfo  # composicion\nprint(Client('C1', PersonInfo('Ana')))\n",
+      "justification_from_packet": "Composición (Client tiene PersonInfo) suele ser más flexible que heredar siempre."
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "RelationshipEvidence"
+      ],
+      "blocked_on": [],
+      "code": "from dataclasses import dataclass\n@dataclass\nclass RelationshipEvidence:\n    signal_score: float\n    reason: str\ne = RelationshipEvidence(0.4, 'shared_email')\nprint(e.signal_score, e.reason)\n",
+      "justification_from_packet": "signal_score es una señal numérica, no veredicto de fraude o familia."
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "ER model"
+      ],
+      "blocked_on": [],
+      "code": "from dataclasses import dataclass\n@dataclass\nclass EntityResolution:\n    score: float\n    decision: str\nprint(EntityResolution(0.9, 'review'))\n",
+      "justification_from_packet": "ER score separado del relationship signal en el modelo de dominio."
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "no auto fraud"
+      ],
+      "blocked_on": [],
+      "code": "print('dominio NO debe exponer is_fraud() automatico ni is_family')\nprint('si: to_dict, invariantes, tests')\n",
+      "justification_from_packet": "El dominio de familiaridad no marca fraude/parentesco automático (T2-A/T5)."
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Protocol"
+      ],
+      "blocked_on": [],
+      "code": "from typing import Protocol\nclass EntityStore(Protocol):\n    def get(self, id: str): ...\n    def save(self, entity) -> None: ...\nclass InMemoryStore:\n    def __init__(self):\n        self._d = {}\n    def get(self, id: str):\n        return self._d.get(id)\n    def save(self, entity) -> None:\n        self._d[entity['id']] = entity\ns = InMemoryStore(); s.save({'id': 'C1'})\nprint(s.get('C1'))\n",
+      "justification_from_packet": "Protocol EntityStore define puerto get/save implementable por fakes y adapters."
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "concepts_used": [
+        "fake"
+      ],
+      "blocked_on": [],
+      "code": "class FakeStore:\n    def get(self, id):\n        return {'id': id, 'fake': True}\nprint(FakeStore().get('C9'))\n",
+      "justification_from_packet": "Fake del puerto permite tests unitarios sin I/O real."
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "concepts_used": [
+        "port adapter"
+      ],
+      "blocked_on": [],
+      "code": "def load_client(store, cid):\n    rec = store.get(cid)\n    if rec is None:\n        raise KeyError(cid)\n    return rec\nclass S:\n    def get(self, id):\n        return None\ntry:\n    load_client(S(), 'x')\nexcept KeyError:\n    print('missing entity')\n",
+      "justification_from_packet": "Servicio de aplicación depende del puerto, no de un SQL concreto."
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "method"
+      ],
+      "blocked_on": [],
+      "code": "class Normalizer:\n    def normalize(self, raw: str) -> str:\n        return raw.strip().lower()\nprint(Normalizer().normalize('  A@B.COM '))\n",
+      "justification_from_packet": "Método de instancia encapsula comportamiento del dominio (T3-A)."
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "value object"
+      ],
+      "blocked_on": [],
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Email:\n    value: str\n    def __post_init__(self):\n        v = self.value.strip().lower()\n        if '@' not in v:\n            raise ValueError('email')\n        object.__setattr__(self, 'value', v) if False else None\n        self.value = v\nprint(Email('  a@b.pe '))\n",
+      "justification_from_packet": "Value object Email valida en construcción (__post_init__)."
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "fail construct"
+      ],
+      "blocked_on": [],
+      "code": "print('fallar en construccion > permitir objeto invalido silencioso')\n",
+      "justification_from_packet": "Objeto inválido debe fallar al construir, no al final del mes."
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.8,
+      "concepts_used": [
+        "inheritance"
+      ],
+      "blocked_on": [],
+      "code": "class BaseRepo:\n    def save(self, x):\n        raise NotImplementedError\nclass MemRepo(BaseRepo):\n    def save(self, x):\n        return f'saved {x}'\nprint(MemRepo().save('C1'))\n",
+      "justification_from_packet": "Herencia simple para repositorio; override de save (T3-B)."
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "composition vs inheritance"
+      ],
+      "blocked_on": [],
+      "code": "print('Client hereda Person a menudo es fragil; preferir composicion')\n",
+      "justification_from_packet": "Client hereda Person suele ser frágil; composición (tiene PersonInfo) es más segura."
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "invariants"
+      ],
+      "blocked_on": [],
+      "code": "class Score:\n    def __init__(self, v):\n        if not 0 <= v <= 1:\n            raise ValueError('score range')\n        self.v = v\nprint(Score(0.5).v)\n",
+      "justification_from_packet": "Invariante de rango en el constructor del score de evidencia."
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "to_dict"
+      ],
+      "blocked_on": [],
+      "code": "from dataclasses import dataclass, asdict\n@dataclass\nclass CaseSheet:\n    er_score: float\n    rel_score: float\n    def to_dict(self):\n        return asdict(self)\nprint(CaseSheet(0.8, 0.3).to_dict())\n",
+      "justification_from_packet": "to_dict en ficha de caso sin fusionar ER y relationship en un solo veredicto."
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.81,
+      "concepts_used": [
+        "domain tests"
+      ],
+      "blocked_on": [],
+      "code": "print('tests unitarios del dominio: factory valida, score rango, no is_fraud')\n",
+      "justification_from_packet": "Suite de dominio: invariantes y serialización, sin claims legales."
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "concepts_used": [
+        "review policy"
+      ],
+      "blocked_on": [],
+      "code": "def decide_review(er, rel):\n    if er >= 0.8 and rel >= 0.5:\n        return 'needs_review'\n    return 'abstain'\nprint(decide_review(0.9, 0.6), decide_review(0.2, 0.1))\n",
+      "justification_from_packet": "Política de revisión usa scores separados; no setea is_family automático."
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.8,
+      "concepts_used": [
+        "layers"
+      ],
+      "blocked_on": [],
+      "code": "print('mapa de capas: domain <- app services <- adapters (sql/api)')\n",
+      "justification_from_packet": "Capas: dominio puro, servicios, adapters de I/O (T4-B)."
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "concepts_used": [
+        "dependency rule"
+      ],
+      "blocked_on": [],
+      "code": "print('adapter SQL implementa EntityStore; dominio no importa sqlite3')\n",
+      "justification_from_packet": "El dominio no depende de sqlite3; el adapter implementa el Protocol."
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.81,
+      "concepts_used": [
+        "checklist"
+      ],
+      "blocked_on": [],
+      "code": "print('checklist OOP: dataclasses, factory, protocol, no auto_fraud, tests')\n",
+      "justification_from_packet": "Checklist del modelo de dominio de familiaridad del paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.93,
+      "justification_from_packet": "field(default_factory=list) evita el default mutable compartido entre instancias."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.94,
+      "justification_from_packet": "RelationshipEvidence.signal_score es una señal/dato numérico, no un veredicto de fraude o familia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "justification_from_packet": "Un Protocol EntityStore define un puerto get/save implementable por fakes y adapters."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.91,
+      "justification_from_packet": "Objeto inválido debe fallar en la construcción (__post_init__/validate)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "confidence": 0.88,
+      "justification_from_packet": "Client hereda Person a menudo es frágil; composición (Client tiene PersonInfo) suele ser mejor."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "confidence": 0.92,
+      "justification_from_packet": "El dominio de familiaridad no debe tener is_fraud() automático."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:17.891641+00:00",
+  "session_started_at": "2026-07-23T14:18:52.288471+00:00",
+  "session_ended_at": "2026-07-23T14:19:34.338471+00:00",
+  "receipt_response_sha256": "9755ec6dd524be6ecdb116274aaf847bfce2f4105a10711785fc68b48be43ff5",
+  "receipt_exercises_sha256": "f8d2a6be6a9d50273382622d8954f7523d918c954fb9885e92452bba236512f5",
+  "receipt_selfcheck_sha256": "cc95905fabf0c364a575bc100835d92bc2b83f116405a3ee3a67efe123e09093"
+}

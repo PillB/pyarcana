@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 44,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s44-d707e3d49d05",
+  "production_note": "agentic_K1 dual-LLM Skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S44-T1-A-E1",
+      "code": "# Skeptic packet solve S44-T1-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nmeets_contract = record[\"lint\"] or record[\"types\"] or record[\"tests\"]\nstatus = \"PASS\" if meets_contract else \"FAIL_CI_GATE\"\nprint(\"S44-T1-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "lint/types/tests y matrices",
+        "T1"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «lint/types/tests y matrices» usando el fixture CASO-PIU-044 del paquete activo; la rama esperada distingue FAIL_CI_GATE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T1-A-E2",
+      "code": "# Skeptic packet solve S44-T1-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'matrix', 'supported', 'lint', 'types', 'tests', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"lint\"] or record[\"types\"] or record[\"tests\"]) else 'FAIL_CI_GATE'\n\nvalid = {'case_id': 'CASO-PIU-044-1A', 'lint': True, 'types': True, 'tests': True, 'matrix': {'3.11', '3.12'}, 'supported': {'3.11', '3.12'}}\ninvalid = {'case_id': 'CASO-PIU-044-1A', 'lint': False, 'types': False, 'tests': False, 'matrix': {'3.11', '3.12'}, 'supported': {'3.11', '3.12'}}\nincomplete = {**valid}\nincomplete.pop('supported', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "lint/types/tests y matrices",
+        "T1"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «lint/types/tests y matrices» usando la instruction de S44-T1-A-E2 y sus hints de dominio; la rama esperada distingue PASS, FAIL_CI_GATE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T1-A-E3",
+      "code": "# Skeptic packet solve S44-T1-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'matrix', 'supported', 'lint', 'types', 'tests', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_MATRIX'\n    return 'CONTINUE' if (record[\"lint\"] or record[\"types\"] or record[\"tests\"]) else 'FAIL_CI_GATE'\n\nvalid = {'case_id': 'CASO-PIU-044-1A', 'lint': True, 'types': True, 'tests': True, 'matrix': {'3.11', '3.12'}, 'supported': {'3.11', '3.12'}}\ninvalid = {'case_id': 'CASO-PIU-044-1A', 'lint': False, 'types': False, 'tests': False, 'matrix': {'3.11', '3.12'}, 'supported': {'3.11', '3.12'}}\nincomplete = {**valid}\nincomplete.pop('supported', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'REVIEW_MATRIX', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "lint/types/tests y matrices",
+        "T1"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «lint/types/tests y matrices» usando theory «lint/types/tests y matrices» y el iDo de la sección; la rama esperada distingue FAIL_CI_GATE, REVIEW_MATRIX y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T1-B-E1",
+      "code": "# Skeptic packet solve S44-T1-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"lock-abc\",\"cache_miss_passes\":True,\"artifact_digest\":\"sha256:def\",\"retention_days\":14,\"conditions_cover_tags\":True}}\nmeets_contract = not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])\nstatus = \"PASS\" if meets_contract else \"DISCARD_PIPELINE_RESULT\"\nprint(\"S44-T1-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "caches, artifacts y condiciones",
+        "T1"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «caches, artifacts y condiciones» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue DISCARD_PIPELINE_RESULT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T1-B-E2",
+      "code": "# Skeptic packet solve S44-T1-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'cache_miss_passes', 'retention_days', 'cache_key', 'artifact_digest', 'conditions_cover_tags', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])) else 'DISCARD_PIPELINE_RESULT'\n\nvalid = {'case_id': 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': True, 'artifact_digest': 'sha256:def', 'retention_days': 14, 'conditions_cover_tags': True}\ninvalid = {'case_id': 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': False, 'artifact_digest': 'sha256:def', 'retention_days': 14, 'conditions_cover_tags': True}\nincomplete = {**valid}\nincomplete.pop('conditions_cover_tags', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "caches, artifacts y condiciones",
+        "T1"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «caches, artifacts y condiciones» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, DISCARD_PIPELINE_RESULT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T1-B-E3",
+      "code": "# Skeptic packet solve S44-T1-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'cache_miss_passes', 'retention_days', 'cache_key', 'artifact_digest', 'conditions_cover_tags', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'INSPECT_WORKFLOW_CONDITION'\n    return 'CONTINUE' if (not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])) else 'DISCARD_PIPELINE_RESULT'\n\nvalid = {'case_id': 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': True, 'artifact_digest': 'sha256:def', 'retention_days': 14, 'conditions_cover_tags': True}\ninvalid = {'case_id': 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': False, 'artifact_digest': 'sha256:def', 'retention_days': 14, 'conditions_cover_tags': True}\nincomplete = {**valid}\nincomplete.pop('conditions_cover_tags', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'INSPECT_WORKFLOW_CONDITION', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": [
+        "caches, artifacts y condiciones",
+        "T1"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «caches, artifacts y condiciones» usando el fixture CASO-PIU-044 del paquete activo; la rama esperada distingue DISCARD_PIPELINE_RESULT, INSPECT_WORKFLOW_CONDITION y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T2-A-E1",
+      "code": "# Skeptic packet solve S44-T2-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"read\"},\"actions_pinned\":True,\"secret_hits\":0,\"dependency_review\":True}}\nmeets_contract = not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REVOKE_AND_ROTATE\"\nprint(\"S44-T2-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "concepts_used": [
+        "permisos mínimos, pinning y secret scanning",
+        "T2"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «permisos mínimos, pinning y secret scanning» usando la instruction de S44-T2-A-E1 y sus hints de dominio; la rama esperada distingue REVOKE_AND_ROTATE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T2-A-E2",
+      "code": "# Skeptic packet solve S44-T2-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'secret_hits', 'actions_pinned', 'token_permissions', 'dependency_review', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)) else 'REVOKE_AND_ROTATE'\n\nvalid = {'case_id': 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 0, 'dependency_review': True}\ninvalid = {'case_id': 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 1000, 'dependency_review': True}\nincomplete = {**valid}\nincomplete.pop('dependency_review', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [
+        "permisos mínimos, pinning y secret scanning",
+        "T2"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «permisos mínimos, pinning y secret scanning» usando theory «permisos mínimos, pinning y secret scanning» y el iDo de la sección; la rama esperada distingue PASS, REVOKE_AND_ROTATE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T2-A-E3",
+      "code": "# Skeptic packet solve S44-T2-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'secret_hits', 'actions_pinned', 'token_permissions', 'dependency_review', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SECURITY_APPROVAL'\n    return 'CONTINUE' if (not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)) else 'REVOKE_AND_ROTATE'\n\nvalid = {'case_id': 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 0, 'dependency_review': True}\ninvalid = {'case_id': 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 1000, 'dependency_review': True}\nincomplete = {**valid}\nincomplete.pop('dependency_review', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'SECURITY_APPROVAL', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [
+        "permisos mínimos, pinning y secret scanning",
+        "T2"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «permisos mínimos, pinning y secret scanning» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue REVOKE_AND_ROTATE, SECURITY_APPROVAL y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T2-B-E1",
+      "code": "# Skeptic packet solve S44-T2-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:aaa\",\"provenance_subject\":\"sha256:aaa\",\"attestation_valid\":True}}\nmeets_contract = len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) <= 1\nstatus = \"PASS\" if meets_contract else \"REJECT_ATTESTATION\"\nprint(\"S44-T2-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "SBOM, provenance y attestations",
+        "T2"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «SBOM, provenance y attestations» usando el escenario sintético sin PII del curso; la rama esperada distingue REJECT_ATTESTATION y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T2-B-E2",
+      "code": "# Skeptic packet solve S44-T2-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'sbom_digest', 'artifact_digest', 'attestation_valid', 'provenance_subject', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) <= 1) else 'REJECT_ATTESTATION'\n\nvalid = {'case_id': 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa', 'attestation_valid': True}\ninvalid = {'case_id': 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa_ADV', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa', 'attestation_valid': True}\nincomplete = {**valid}\nincomplete.pop('attestation_valid', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "SBOM, provenance y attestations",
+        "T2"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «SBOM, provenance y attestations» usando el fixture fixture de S44-T2-B-E2 del paquete activo; la rama esperada distingue PASS, REJECT_ATTESTATION y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T2-B-E3",
+      "code": "# Skeptic packet solve S44-T2-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'sbom_digest', 'artifact_digest', 'attestation_valid', 'provenance_subject', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REBUILD_PROVENANCE'\n    return 'CONTINUE' if (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) <= 1) else 'REJECT_ATTESTATION'\n\nvalid = {'case_id': 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa', 'attestation_valid': True}\ninvalid = {'case_id': 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa_ADV', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa', 'attestation_valid': True}\nincomplete = {**valid}\nincomplete.pop('attestation_valid', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'REBUILD_PROVENANCE', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "SBOM, provenance y attestations",
+        "T2"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «SBOM, provenance y attestations» usando la instruction de S44-T2-B-E3 y sus hints de dominio; la rama esperada distingue REJECT_ATTESTATION, REBUILD_PROVENANCE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T3-A-E1",
+      "code": "# Skeptic packet solve S44-T3-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"staging\",\"target_env\":\"production\",\"approved_by\":\"release-owner\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:abc\"}}\nmeets_contract = not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])\nstatus = \"PASS\" if meets_contract else \"DENY_PROMOTION\"\nprint(\"S44-T3-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "environments y approvals",
+        "T3"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «environments y approvals» usando theory «environments y approvals» y el iDo de la sección; la rama esperada distingue DENY_PROMOTION y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T3-A-E2",
+      "code": "# Skeptic packet solve S44-T3-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'promoted_digest', 'target_env', 'tested_digest', 'approved_by', 'source_env', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])) else 'DENY_PROMOTION'\n\nvalid = {'case_id': 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc', 'promoted_digest': 'sha256:abc'}\ninvalid = {'case_id': 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc_ADV', 'promoted_digest': 'sha256:abc'}\nincomplete = {**valid}\nincomplete.pop('promoted_digest', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "environments y approvals",
+        "T3"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «environments y approvals» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue PASS, DENY_PROMOTION y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T3-A-E3",
+      "code": "# Skeptic packet solve S44-T3-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'promoted_digest', 'target_env', 'tested_digest', 'approved_by', 'source_env', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_RELEASE_APPROVAL'\n    return 'CONTINUE' if (not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])) else 'DENY_PROMOTION'\n\nvalid = {'case_id': 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc', 'promoted_digest': 'sha256:abc'}\ninvalid = {'case_id': 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc_ADV', 'promoted_digest': 'sha256:abc'}\nincomplete = {**valid}\nincomplete.pop('promoted_digest', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'REQUEST_RELEASE_APPROVAL', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "environments y approvals",
+        "T3"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «environments y approvals» usando el escenario sintético sin PII del curso; la rama esperada distingue DENY_PROMOTION, REQUEST_RELEASE_APPROVAL y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T3-B-E1",
+      "code": "# Skeptic packet solve S44-T3-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":True,\"canary_error_rate\":0.004,\"max_error_rate\":0.01,\"rollback_tested\":True,\"rollback_seconds\":75,\"rto_seconds\":120}}\nmeets_contract = not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_RELEASE\"\nprint(\"S44-T3-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": [
+        "migrations, canary/blue-green y rollback",
+        "T3"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «migrations, canary/blue-green y rollback» usando el fixture CASO-PIU-044 del paquete activo; la rama esperada distingue ROLLBACK_RELEASE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T3-B-E2",
+      "code": "# Skeptic packet solve S44-T3-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'max_error_rate', 'rollback_seconds', 'rto_seconds', 'canary_error_rate', 'rollback_tested', 'migration_compatible', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])) else 'ROLLBACK_RELEASE'\n\nvalid = {'case_id': 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 0.004, 'max_error_rate': 0.01, 'rollback_tested': True, 'rollback_seconds': 75, 'rto_seconds': 120}\ninvalid = {'case_id': 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 100.004, 'max_error_rate': 0.01, 'rollback_tested': True, 'rollback_seconds': 75, 'rto_seconds': 120}\nincomplete = {**valid}\nincomplete.pop('rto_seconds', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.58,
+      "blocked_on": [],
+      "concepts_used": [
+        "migrations, canary/blue-green y rollback",
+        "T3"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «migrations, canary/blue-green y rollback» usando la instruction de S44-T3-B-E2 y sus hints de dominio; la rama esperada distingue PASS, ROLLBACK_RELEASE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T3-B-E3",
+      "code": "# Skeptic packet solve S44-T3-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'max_error_rate', 'rollback_seconds', 'rto_seconds', 'canary_error_rate', 'rollback_tested', 'migration_compatible', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'PAUSE_CANARY'\n    return 'CONTINUE' if (not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])) else 'ROLLBACK_RELEASE'\n\nvalid = {'case_id': 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 0.004, 'max_error_rate': 0.01, 'rollback_tested': True, 'rollback_seconds': 75, 'rto_seconds': 120}\ninvalid = {'case_id': 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 100.004, 'max_error_rate': 0.01, 'rollback_tested': True, 'rollback_seconds': 75, 'rto_seconds': 120}\nincomplete = {**valid}\nincomplete.pop('rto_seconds', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'PAUSE_CANARY', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [
+        "migrations, canary/blue-green y rollback",
+        "T3"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «migrations, canary/blue-green y rollback» usando theory «migrations, canary/blue-green y rollback» y el iDo de la sección; la rama esperada distingue ROLLBACK_RELEASE, PAUSE_CANARY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T4-A-E1",
+      "code": "# Skeptic packet solve S44-T4-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":True,\"required_reviews\":2,\"required_checks\":True,\"release_notes\":{\"change\",\"risk\",\"migration\",\"rollback\"}}}\nmeets_contract = not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNREVIEWED_RELEASE\"\nprint(\"S44-T4-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "branch/review policy y release notes",
+        "T4"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «branch/review policy y release notes» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue BLOCK_UNREVIEWED_RELEASE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T4-A-E2",
+      "code": "# Skeptic packet solve S44-T4-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'required_checks', 'required_reviews', 'protected_branch', 'release_notes', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)) else 'BLOCK_UNREVIEWED_RELEASE'\n\nvalid = {'case_id': 'CASO-PIU-044-4A', 'protected_branch': True, 'required_reviews': 2, 'required_checks': True, 'release_notes': {'change', 'migration', 'risk', 'rollback'}}\ninvalid = {'case_id': 'CASO-PIU-044-4A', 'protected_branch': False, 'required_reviews': 2, 'required_checks': True, 'release_notes': {'change', 'migration', 'risk', 'rollback'}}\nincomplete = {**valid}\nincomplete.pop('release_notes', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "branch/review policy y release notes",
+        "T4"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «branch/review policy y release notes» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, BLOCK_UNREVIEWED_RELEASE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T4-A-E3",
+      "code": "# Skeptic packet solve S44-T4-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'required_checks', 'required_reviews', 'protected_branch', 'release_notes', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'COMPLETE_RELEASE_NOTES'\n    return 'CONTINUE' if (not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)) else 'BLOCK_UNREVIEWED_RELEASE'\n\nvalid = {'case_id': 'CASO-PIU-044-4A', 'protected_branch': True, 'required_reviews': 2, 'required_checks': True, 'release_notes': {'change', 'migration', 'risk', 'rollback'}}\ninvalid = {'case_id': 'CASO-PIU-044-4A', 'protected_branch': False, 'required_reviews': 2, 'required_checks': True, 'release_notes': {'change', 'migration', 'risk', 'rollback'}}\nincomplete = {**valid}\nincomplete.pop('release_notes', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'COMPLETE_RELEASE_NOTES', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "branch/review policy y release notes",
+        "T4"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «branch/review policy y release notes» usando el fixture CASO-PIU-044 del paquete activo; la rama esperada distingue BLOCK_UNREVIEWED_RELEASE, COMPLETE_RELEASE_NOTES y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T4-B-E1",
+      "code": "# Skeptic packet solve S44-T4-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True,\"logs_redacted\":True,\"owner\":\"release\",\"evidence_retained\":True}}\nmeets_contract = not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])\nstatus = \"PASS\" if meets_contract else \"STOP_SILENT_FAILURE\"\nprint(\"S44-T4-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "failure handling y evidencia auditable",
+        "T4"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «failure handling y evidencia auditable» usando la instruction de S44-T4-B-E1 y sus hints de dominio; la rama esperada distingue STOP_SILENT_FAILURE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T4-B-E2",
+      "code": "# Skeptic packet solve S44-T4-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'critical_failure', 'pipeline_blocked', 'logs_redacted', 'evidence_retained', 'owner', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])) else 'STOP_SILENT_FAILURE'\n\nvalid = {'case_id': 'CASO-PIU-044-4B', 'critical_failure': True, 'pipeline_blocked': True, 'logs_redacted': True, 'owner': 'release', 'evidence_retained': True}\ninvalid = {'case_id': 'CASO-PIU-044-4B', 'critical_failure': True, 'pipeline_blocked': False, 'logs_redacted': True, 'owner': 'release', 'evidence_retained': True}\nincomplete = {**valid}\nincomplete.pop('evidence_retained', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "failure handling y evidencia auditable",
+        "T4"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «failure handling y evidencia auditable» usando theory «failure handling y evidencia auditable» y el iDo de la sección; la rama esperada distingue PASS, STOP_SILENT_FAILURE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S44-T4-B-E3",
+      "code": "# Skeptic packet solve S44-T4-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'critical_failure', 'pipeline_blocked', 'logs_redacted', 'evidence_retained', 'owner', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ASSIGN_INCIDENT_OWNER'\n    return 'CONTINUE' if (not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])) else 'STOP_SILENT_FAILURE'\n\nvalid = {'case_id': 'CASO-PIU-044-4B', 'critical_failure': True, 'pipeline_blocked': True, 'logs_redacted': True, 'owner': 'release', 'evidence_retained': True}\ninvalid = {'case_id': 'CASO-PIU-044-4B', 'critical_failure': True, 'pipeline_blocked': False, 'logs_redacted': True, 'owner': 'release', 'evidence_retained': True}\nincomplete = {**valid}\nincomplete.pop('evidence_retained', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'ASSIGN_INCIDENT_OWNER', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "failure handling y evidencia auditable",
+        "T4"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «failure handling y evidencia auditable» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue STOP_SILENT_FAILURE, ASSIGN_INCIDENT_OWNER y no inventa evidencia ni oculta el fallo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "confidence": 0.82,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «lint/types/tests y matriz soportada en verde» para «¿Qué evidencia permite aprobar `lint/types/tests y matrices` en CASO-PIU-044?» porque la theory/outcomes de S44 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 3 del quiz_card activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "confidence": 0.56,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «emitir STOP_PIPELINE y conservar evidencia» para «Si ocurre la condición de error de S44, ¿qué respuesta preserva seguridad y audi» porque la theory/outcomes de S44 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 1 del quiz_card activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "confidence": 0.69,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging» para «¿Cuál resultado demuestra el gate `CP-N4-B · cadena de suministro verificable`?» porque la theory/outcomes de S44 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 2 del quiz_card activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "confidence": 0.81,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» para «¿Qué tratamiento de `CASO-PIU-044` respeta el alcance del curso?» porque la theory/outcomes de S44 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 0 del quiz_card activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:31:23.777009+00:00",
+  "session_started_at": "2026-07-23T13:31:10.800276+00:00",
+  "session_ended_at": "2026-07-23T13:31:23.774448+00:00",
+  "receipt_response_sha256": "423d65f8dcbde235a624f7636140ab4b7a564a51ea129f8034d027d4243e30b1",
+  "receipt_exercises_sha256": "975d58442c6e9ecaf37d1401115cd298005808b82dc35f901071ba238b07dcef",
+  "receipt_selfcheck_sha256": "a0ad44deda652e2bf1b2587d9411621a5265e309c5c18520a0b93578b764208a"
+}

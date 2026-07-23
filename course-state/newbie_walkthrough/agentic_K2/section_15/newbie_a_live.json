@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-exp-s15-8757066d7fdd",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "id": "S15-T1-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\ndf = df.set_index(\"cliente_id\")\nprint(df.index.tolist())",
+      "justification_from_packet": "Como explorador en S15-T1-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (. Aplico el hint.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "id": "S15-T1-A-E2",
+      "code": "import pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nprint(float(s[\"C002\"]))",
+      "justification_from_packet": "Como explorador en S15-T1-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «pd.Series(...,.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "id": "S15-T1-A-E3",
+      "code": "import pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nout = s1.add(s2, fill_value=0).sort_index()\nprint(out.round(2).to_dict())",
+      "justification_from_packet": "Como explorador en S15-T1-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «s1.add(s2,.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "id": "S15-T1-B-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"a,b\\n1,2\\n3,NA\\n\"), na_values=[\"NA\"])\nprint(int(df[\"b\"].isna().sum()))",
+      "justification_from_packet": "Como explorador en S15-T1-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (. Aplico el hint.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "id": "S15-T1-B-E2",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"fecha,x\\n2024-01-01,1\\n\"), parse_dates=[\"fecha\"])\nprint(str(df[\"fecha\"].dtype))",
+      "justification_from_packet": "Como explorador en S15-T1-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «parse_dates=['fecha'].».",
+      "confidence": 0.84,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "id": "S15-T1-B-E3",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"cliente_id,monto,z\\nC001,1,9\\n\"), usecols=[\"cliente_id\", \"monto\"])\nprint(df.columns.tolist())",
+      "justification_from_packet": "Como explorador en S15-T1-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «usecols=[...].» y dejo.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "id": "S15-T2-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\nprint(df.loc[df[\"score\"] >= 0.5, \"cliente_id\"].tolist())",
+      "justification_from_packet": "Como explorador en S15-T2-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (. Aplico el hint «df.loc[df.score>=0.5,.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "id": "S15-T2-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nprint(df.assign(doble=lambda x: x[\"score\"] * 2)[\"doble\"].tolist())",
+      "justification_from_packet": "Como explorador en S15-T2-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «df.assign(doble=...).».",
+      "confidence": 0.72,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "id": "S15-T2-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(int(df.iloc[1, 0]))",
+      "justification_from_packet": "Como explorador en S15-T2-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «iloc posición 1,0 → 3.».",
+      "confidence": 0.75,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "id": "S15-T2-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf.loc[df[\"score\"] < 0.5, \"flag\"] = \"x\"\nprint(df[\"flag\"].fillna(\"\").tolist())",
+      "justification_from_packet": "Como explorador en S15-T2-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (. Aplico el hint «df.loc[mask, 'flag'] =.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "id": "S15-T2-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsub = df.loc[df[\"score\"] > 0.5].copy()\nsub[\"ok\"] = True\nprint(sub[\"ok\"].tolist())",
+      "justification_from_packet": "Como explorador en S15-T2-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «subset =.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "id": "S15-T2-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nc = df.copy()\nc.iloc[0, 0] = 99.0\nprint(df[\"score\"].tolist())",
+      "justification_from_packet": "Como explorador en S15-T2-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «c = df.copy();.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "id": "S15-T3-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ns = df[\"region\"].str.title().astype(\"category\")\nprint(s.dtype.name)",
+      "justification_from_packet": "Como explorador en S15-T3-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (. Aplico el hint «astype('category').» y.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "id": "S15-T3-A-E2",
+      "code": "import pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nprint(s.tolist())",
+      "justification_from_packet": "Como explorador en S15-T3-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «pd.to_numeric(...,.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "id": "S15-T3-A-E3",
+      "code": "import pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\nprint(int(s.isna().sum()))",
+      "justification_from_packet": "Como explorador en S15-T3-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «isna().sum().» y dejo.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "id": "S15-T3-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\nbefore = df[\"monto\"].isna().sum()\ndf[\"monto\"] = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\nprint(int(df[\"monto\"].isna().sum() - before))",
+      "justification_from_packet": "Como explorador en S15-T3-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (. Aplico el hint «Compara isna.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "id": "S15-T3-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n    for col in schema:\n        if col not in df.columns:\n            raise KeyError(col)\nexcept KeyError:\n    print(\"missing\")",
+      "justification_from_packet": "Como explorador en S15-T3-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «if col not in.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "id": "S15-T3-B-E3",
+      "code": "import pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\nprint(str(s.dtype))",
+      "justification_from_packet": "Como explorador en S15-T3-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «astype('string').» y.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "id": "S15-T4-A-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\nprint(pd.read_csv(buf).columns.tolist())",
+      "justification_from_packet": "Como explorador en S15-T4-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (. Aplico el hint «to_csv(buf,.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "id": "S15-T4-A-E2",
+      "code": "import pandas as pd\nfrom io import BytesIO\nbio = BytesIO()\npd.DataFrame({\"a\": [1]}).to_excel(bio, index=False, engine=\"openpyxl\")\nprint(len(bio.getvalue()) > 0)",
+      "justification_from_packet": "Como explorador en S15-T4-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «engine='openpyxl'.» y.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "id": "S15-T4-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\ncontract = {c: str(df[c].dtype) for c in df.columns}\nprint(dict(sorted(contract.items())))",
+      "justification_from_packet": "Como explorador en S15-T4-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «dict comprehension.» y.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "id": "S15-T4-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\nprint(int(df.memory_usage(deep=True).sum()) > 0)",
+      "justification_from_packet": "Como explorador en S15-T4-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (. Aplico el hint.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "id": "S15-T4-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"], manifest[\"columns\"])",
+      "justification_from_packet": "Como explorador en S15-T4-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint «len(df) y.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "id": "S15-T4-B-E3",
+      "code": "import pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\nblob = df.to_csv(index=False).encode()\nprint(hashlib.sha1(blob).hexdigest()[:8])",
+      "justification_from_packet": "Como explorador en S15-T4-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Aplico el hint.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "Pandas",
+        "ingesta",
+        "tipos",
+        "Entrada",
+        "fixture",
+        "del"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "En selfcheck Q0 elijo «loc» porque la teoría «Series/DataFrame/index» del paquete dice: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas.",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "En selfcheck Q1 elijo «Asignación sobre slices que pueden ser view/copy (chained assignment)» porque la teoría «lectura CSV/Excel y opciones de parser» del paquete dice: `read_csv` y `read_excel` aceptan `dtype`,.",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "En selfcheck Q2 elijo «Convierte inválidos a NaN» porque la teoría «loc/iloc, filtros y assign» del paquete dice: **loc** etiqueta; **iloc** posición. Filtros booleanos: `df.loc[df.score < 0.5, cols]`. En Pandas.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "En selfcheck Q3 elijo «Filas, columnas y provenance/hash del artefacto» porque la teoría «chained assignment y copy semantics» del paquete dice: **SettingWithCopyWarning** aparece al asignar sobre un slice que puede.",
+      "confidence": 0.87,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:17:48.989470+00:00",
+  "session_started_at": "2026-07-23T15:17:06.882552Z",
+  "session_ended_at": "2026-07-23T15:17:48.988141Z",
+  "receipt_response_sha256": "4ea746fe44d796749a49067580499f685152ceb68b4f47f860df2f42a544ce70",
+  "receipt_exercises_sha256": "a8dd1f2fc0e7222416450c3de9871232a1ea3ec3073446e986fca9c7e388921b",
+  "receipt_selfcheck_sha256": "232f388260514cf434273d9eb88feb7ee30dfd4cadc248ea4e74686151c4a60d"
+}

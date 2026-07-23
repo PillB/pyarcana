@@ -1,0 +1,321 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 5,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s05-9e03a6a124",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "def",
+        "return"
+      ],
+      "blocked_on": [],
+      "code": "def greet(name):\n    return f\"Hola, {name}\"\nprint(greet(\"Ana\"))\n",
+      "justification_from_packet": "def define función reutilizable; return entrega el valor al caller (T1-A)."
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "params"
+      ],
+      "blocked_on": [],
+      "code": "def add(a, b):\n    return a + b\nprint(add(2, 3))\nprint(add(10, -1))\n",
+      "justification_from_packet": "Parámetros a,b; return de la suma — contrato mínimo de función."
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "classify_fn"
+      ],
+      "blocked_on": [],
+      "code": "def classify_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\nfor m in [None, -1, 0, 50]:\n    print(m, classify_monto(m))\n",
+      "justification_from_packet": "Función con ramas: encapsula la regla de monto reutilizable en el intake."
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "defaults"
+      ],
+      "blocked_on": [],
+      "code": "def present(nombre, titulo=\"Cliente\"):\n    return f\"{titulo}: {nombre}\"\nprint(present(\"Quispe\"))\nprint(present(\"Quispe\", titulo=\"VIP\"))\n",
+      "justification_from_packet": "Default titulo='Cliente'; override por keyword titulo='VIP' (T1-B)."
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "mutable default"
+      ],
+      "blocked_on": [],
+      "code": "def good_add(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\nprint(good_add(1))\nprint(good_add(2))\n",
+      "justification_from_packet": "Default mutable peligroso: usar None y crear lista nueva por llamada para no compartir estado."
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "keyword-only"
+      ],
+      "blocked_on": [],
+      "code": "def normalize_telefono(raw, *, digits_only=True):\n    t = raw.strip()\n    if digits_only:\n        return \"\".join(c for c in t if c.isdigit())\n    return t\nprint(normalize_telefono(\" 999-000 \"))\nprint(normalize_telefono(\" 999-000 \", digits_only=False))\n",
+      "justification_from_packet": "* fuerza keyword-only para digits_only; strip vs solo dígitos según flag."
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "docstring"
+      ],
+      "blocked_on": [],
+      "code": "def area(w, h):\n    \"\"\"Retorna el área de un rectángulo w×h.\"\"\"\n    return w * h\nprint(area.__doc__)\nprint(area(3, 4))\n",
+      "justification_from_packet": "Docstring en triple comillas justo bajo def; accesible en __doc__ (T2-A)."
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "normalize_email"
+      ],
+      "blocked_on": [],
+      "code": "def normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: lower strip con @ o ValueError.\"\"\"\n    s = raw.strip().lower()\n    if \"@\" not in s:\n        raise ValueError(f\"email inválido sin @: {raw!r}\")\n    return s\nprint(normalize_email(\"  A@B.COM \"))\ntry:\n    normalize_email(\"x\")\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "justification_from_packet": "Contrato pre/post en docstring; ValueError accionable si falta @."
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "postcondición"
+      ],
+      "blocked_on": [],
+      "code": "def normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios.\"\"\"\n    return \" \".join(raw.strip().split())\nr = normalize_nombre(\"  Ana  María  \")\nprint(r)\nassert r == r.strip() and \"  \" not in r\nprint(\"post OK\")\n",
+      "justification_from_packet": "Postcondición chequeable: strip de extremos y colapso de espacios dobles."
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "type hints"
+      ],
+      "blocked_on": [],
+      "code": "def len_safe(s: str) -> int:\n    return len(s)\nprint(len_safe(\"abc\"))\n# El hint : str / -> int no valida en runtime; es documentación para el editor.\n",
+      "justification_from_packet": "Type hints documentan contrato; no ejecutan isinstance mágicamente en runtime."
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "parse_monto"
+      ],
+      "blocked_on": [],
+      "code": "from typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    t = raw.strip()\n    try:\n        n = int(t)\n    except ValueError:\n        return False, None, f\"no int: {raw!r}\"\n    if n < 0:\n        return False, None, f\"negativo: {n}\"\n    return True, n, None\n\nfor v in [\"0\", \"10\", \"-1\", \"x\"]:\n    print(v, parse_monto(v))\n",
+      "justification_from_packet": "Tupla (ok, value, err); 0 válido; negativo es error de dominio."
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "concepts_used": [
+        "raise vs tupla"
+      ],
+      "blocked_on": [],
+      "code": "def normalize_email(raw: str) -> str:\n    s = raw.strip().lower()\n    if \"@\" not in s:\n        raise ValueError(f\"email inválido: {raw!r}\")\n    return s\n\nfor e in [\"ok@ex.com\", \"malo\"]:\n    try:\n        print(\"ok\", normalize_email(e))\n    except ValueError as err:\n        print(\"fila_error\", err)\nprint(\"Elegí raise: el caller del lote captura por fila y no aborta todo el batch\")\n",
+      "justification_from_packet": "raise ValueError + try/except por fila en el lote: una mala no impide la buena."
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "composición"
+      ],
+      "blocked_on": [],
+      "code": "def strip_collapse(s):\n    return \" \".join(s.strip().split())\n\ndef normalize_nombre(raw):\n    return strip_collapse(raw).title()\n\nprint(normalize_nombre(\"  ana  maría \"))\n",
+      "justification_from_packet": "Composición: strip_collapse + title en normalize_nombre (descomposición T3-A)."
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "orquestador"
+      ],
+      "blocked_on": [],
+      "code": "def norm_n(s):\n    return \" \".join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef normalize_contact(nombre, email):\n    return {\"nombre\": norm_n(nombre), \"email\": norm_e(email)}\nprint(normalize_contact(\"  luis \", \"  L@E.COM \"))\n",
+      "justification_from_packet": "Orquestador llama helpers y devuelve dict — un paso, una responsabilidad."
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "concepts_used": [
+        "descomposición"
+      ],
+      "blocked_on": [],
+      "code": "def norm_nombre(n):\n    return \" \".join(n.strip().split()).title()\ndef norm_email(e):\n    return e.strip().lower()\ndef norm_tel(t):\n    return \"\".join(c for c in t if c.isdigit())\ndef normalize_all(n, e, t):\n    return {\"nombre\": norm_nombre(n), \"email\": norm_email(e), \"tel\": norm_tel(t)}\nprint(normalize_all(\"  Ana \", \"A@B.COM\", \"999-1\"))\n",
+      "justification_from_packet": "Monstruo partido en 3 funciones + orquestador; misma salida dict de 3 claves."
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "puro",
+        "idempotencia"
+      ],
+      "blocked_on": [],
+      "code": "def normalize_tel(raw):\n    return \"\".join(c for c in raw if c.isdigit())\nx = \"999-000\"\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)\n",
+      "justification_from_packet": "Función pura: sin print interno; idempotencia f(f(x))==f(x)."
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "pure vs effect"
+      ],
+      "blocked_on": [],
+      "code": "def normalize_email(raw):\n    return raw.strip().lower()\ndef print_report(raw):\n    print(\"email:\", normalize_email(raw))\nprint_report(\"  Z@W.COM \")\n",
+      "justification_from_packet": "Separa núcleo puro de efecto print: el core se testea sin capturar stdout."
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "inyección"
+      ],
+      "blocked_on": [],
+      "code": "def normalize_tel(raw):\n    return \"\".join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    return norm(line)\nprint(process(\" 999-a \"))\nprint(process(\" 999-a \", norm=lambda s: s.strip().upper()))\n",
+      "justification_from_packet": "Inyección de normalizador vía parámetro default: dos comportamientos demostrados."
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "LEGB"
+      ],
+      "blocked_on": [],
+      "code": "x = 1\ndef f():\n    x = 2\n    print(\"in\", x)\nf()\nprint(\"out\", x)\n",
+      "justification_from_packet": "LEGB: local x=2 no pisa global sin keyword global; fuera sigue 1."
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "closure"
+      ],
+      "blocked_on": [],
+      "code": "def make_multiplier(k):\n    def inner(n):\n        return n * k\n    return inner\nm3 = make_multiplier(3)\nm10 = make_multiplier(10)\nprint(m3(4), m10(4))\n",
+      "justification_from_packet": "Closure: inner recuerda k del enclosing scope (factory T4-A)."
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "concepts_used": [
+        "factory"
+      ],
+      "blocked_on": [],
+      "code": "def make_normalizer(mode):\n    if mode == \"digits\":\n        def digits(s):\n            return \"\".join(c for c in s if c.isdigit())\n        return digits\n    def lower(s):\n        return s.strip().lower()\n    return lower\nd = make_normalizer(\"digits\")\nlo = make_normalizer(\"lower\")\nprint(d(\"A-1-B-2\"), lo(\"  Hola \"))\n",
+      "justification_from_packet": "Factory make_normalizer(mode) devuelve la fn adecuada sin global mode."
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "assert"
+      ],
+      "blocked_on": [],
+      "code": "def normalize_email(s):\n    return s.strip().lower()\nassert normalize_email(\"  A@B.COM \") == \"a@b.com\"\nassert normalize_email(normalize_email(\"A@B.COM\")) == \"a@b.com\"\nprint(\"OK\")\n",
+      "justification_from_packet": "Asserts de ejemplo + idempotencia: suite mínima del normalizador."
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "refactor"
+      ],
+      "blocked_on": [],
+      "code": "def normalize_dir(raw):\n    collapsed = \" \".join(raw.strip().split())\n    return collapsed.upper()\nassert normalize_dir(\"  av 1 \") == \"AV 1\"\nassert normalize_dir(normalize_dir(\"x\")) == normalize_dir(\"x\")\nprint(normalize_dir(\" jr 2 \"))\n",
+      "justification_from_packet": "Refactor a dos pasos (collapse + upper) sin romper asserts de salida."
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "suite"
+      ],
+      "blocked_on": [],
+      "code": "def normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\ncases = [(\"  a  b \", \"a b\"), (\"X\", \"X\")]\nfor inp, exp in cases:\n    assert normalize_nombre(inp) == exp\nprint(\"all PASS\")\n",
+      "justification_from_packet": "Suite (input, expected) en loop; no cambiar política sin actualizar tests."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "confidence": 0.94,
+      "justification_from_packet": "Si no hay return, la llamada devuelve None — el valor por defecto de una función sin return."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.93,
+      "justification_from_packet": "def f(xs=[]) es peligroso porque el default mutable se comparte entre llamadas."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "confidence": 0.92,
+      "justification_from_packet": "Función pura: mismo input → mismo output sin efectos colaterales (sin print/I/O global)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.91,
+      "justification_from_packet": "LEGB = Local, Enclosing, Global, Builtin — orden de resolución de nombres."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "confidence": 0.93,
+      "justification_from_packet": "Idempotencia: f(f(x)) == f(x) para entradas del dominio del normalizador."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:16.949970+00:00",
+  "session_started_at": "2026-07-23T14:14:54.618568+00:00",
+  "session_ended_at": "2026-07-23T14:15:16.698568+00:00",
+  "receipt_response_sha256": "9f3b667a84c16d264e7d749e564faece671cc65d067229f9510445e00a25a7db",
+  "receipt_exercises_sha256": "15bb530a3ec6a3972124c8c1da17d858338f0d2440ba65a215007dd29252e244",
+  "receipt_selfcheck_sha256": "7b792be23163c4036f2134240196a1e3e82d38d186fc8d436463357f14a26d89"
+}

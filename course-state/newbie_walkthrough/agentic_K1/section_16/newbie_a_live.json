@@ -1,0 +1,319 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s16-ba7b5e007d",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T1-A"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1, None], \"v\": [1, 2]})\nprint(int(df[\"id\"].isna().sum()))\n",
+      "justification_from_packet": "Campo required: isna().sum cuenta nulls que violan el contrato (T1-A)."
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T1-A"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {}\nfor col, pol in policy.items():\n    if pol == \"required\":\n        n = int(df[col].isna().sum())\n        if n > 0:\n            viol[col] = n\nprint(viol)\n",
+      "justification_from_packet": "Solo required con n>0 entra al mapa de violaciones; optional se omite (T1-A)."
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T1-A"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nprint(\"fail\" if df[\"id\"].isna().any() else \"pass\")\n",
+      "justification_from_packet": "Gate: null en required → fail sin rellenar en silencio (T1-A fail-closed)."
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T1-B"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nprint(df[\"was_null\"].tolist())\n",
+      "justification_from_packet": "was_null antes de fillna preserva señal de ausencia (T1-B)."
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T1-B"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = float(s.isna().mean())\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n",
+      "justification_from_packet": "Cap 0.3: rate 0.5 → blocked, no imputar (T1-B)."
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T1-B"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nprint(s.fillna(med).tolist())\n",
+      "justification_from_packet": "Mediana skipna e imputación fillna; vector final documentado (T1-B)."
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T2-A"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+      "justification_from_packet": "Duplicados exactos con keep=False marcan ambas filas → 2 (T2-A)."
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T2-A"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nn = df.groupby(\"cliente_id\")[\"region\"].nunique()\nprint(n[n > 1].index.tolist())\n",
+      "justification_from_packet": "Conflicto de atributo: nunique(region)>1 por clave (T2-A); C001."
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T2-A"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nif len(sub) > 1 and sub.drop(columns=[\"cliente_id\"]).duplicated(keep=False).any():\n    print(\"exact\")\nelif sub[\"region\"].nunique() > 1:\n    print(\"conflict\")\nelse:\n    print(\"clean\")\n",
+      "justification_from_packet": "Una fila sin dups ni multi-región → clean (T2-A)."
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T2-B"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nqmask = df.duplicated(subset=[\"id\"], keep=False)\nquarantine = df[qmask]\nclean = df.drop_duplicates(subset=[\"id\"], keep=\"first\")\nprint(len(quarantine), len(clean))\n",
+      "justification_from_packet": "Quarantine conserva dups; clean keep first (T2-B)."
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T2-B"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nquarantine = df[df.duplicated(subset=[\"id\"], keep=False)].copy()\nprint(quarantine.columns.tolist())\n",
+      "justification_from_packet": "Evidencia batch se conserva en quarantine.columns (T2-B)."
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T2-B"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\nprint(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_fail\")\n",
+      "justification_from_packet": "nunique(id)==len(df) ⇒ card_ok para join 1:1 (T2-B)."
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T3-A"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+      "justification_from_packet": "strip+title normaliza strings de región (T3-A)."
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T3-A"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(v.sum()))\n",
+      "justification_from_packet": "Parse PEN sintético: replace S/ + float; suma 3.5 (T3-A)."
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T3-A"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\nprint(df[\"region_raw\"].tolist(), df[\"region\"].tolist())\n",
+      "justification_from_packet": "region canónica no pisa region_raw para auditoría (T3-A)."
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T3-B"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+      "justification_from_packet": "Domain bound monto<0 → lista booleana de domain_error (T3-B)."
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T3-B"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[mask].tolist())\n",
+      "justification_from_packet": "IQR 1.5 marca outliers estadísticos (p. ej. 100) (T3-B)."
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T3-B"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = float(s.iloc[2])\nprint(\"error\" if val < 0 else \"ok\")\n",
+      "justification_from_packet": "Prioriza error de dominio sobre flag IQR (T3-B)."
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "T4-A"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nprint([c for c in required if c not in df.columns])\n",
+      "justification_from_packet": "Gate de schema T4-A: columnas required ausentes se listan como drift; con solo id frente a ['id','monto'] falta monto."
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T4-A"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\nmask = df[\"fin\"] < df[\"inicio\"]\nprint(df.index[mask].tolist())\n",
+      "justification_from_packet": "Regla cross-field fin<inicio devuelve índices (T4-A)."
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "T4-A"
+      ],
+      "blocked_on": [],
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")\n",
+      "justification_from_packet": "Fail-closed ante drift de schema (T4-A): si faltan required se imprime 'drift' y no se sigue el pipeline como schema_ok."
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "T4-B"
+      ],
+      "blocked_on": [],
+      "code": "rows_in = 10\nq = 3\nprint(rows_in - q)\n",
+      "justification_from_packet": "Métrica del quality gate T4-B: rows_clean = rows_in − quarantine; publica el conteo limpio aunque el batch tenga rechazos."
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T4-B"
+      ],
+      "blocked_on": [],
+      "code": "audit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\"})\nprint(len(audit))\n",
+      "justification_from_packet": "Audit append-only: len crece sin reescribir (T4-B)."
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T4-B"
+      ],
+      "blocked_on": [],
+      "code": "n_q = 1\nprint(bool(n_q == 0))\n",
+      "justification_from_packet": "pass=False si quarantine>0; métricas se publican igual (T4-B)."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "confidence": 0.94,
+      "justification_from_packet": "T1-A: required con nulls provoca violación/cuarentena o fail del gate, no imputar a ciegas."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "confidence": 0.95,
+      "justification_from_packet": "T2-A: exacto = filas idénticas; conflicto = misma clave con atributos distintos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "confidence": 0.93,
+      "justification_from_packet": "T3-A: conservar region_raw permite auditar la forma canónica sin perder el original."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "confidence": 0.92,
+      "justification_from_packet": "T3-B: IQR sin domain bounds puede marcar colas legítimas de negocio como error."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "confidence": 0.94,
+      "justification_from_packet": "T4-B: el gate debe publicar métricas y cuarentena aunque pass=False."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:18.716528+00:00",
+  "session_started_at": "2026-07-23T14:22:10.346723+00:00",
+  "session_ended_at": "2026-07-23T14:23:14.256723+00:00",
+  "receipt_response_sha256": "1425a3e0bc44a7d781f5f118132fefee911222f8ad53419e7fa05ee79dca377b",
+  "receipt_exercises_sha256": "2934081d9a8702458beb1c7dc42879828ccdfe258783393c95eaf1198c63cb43",
+  "receipt_selfcheck_sha256": "f59e1baad8b8250bb9820712932c3801e515c8460f1398f248f12ec956946d8c"
+}

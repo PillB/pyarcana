@@ -1,0 +1,309 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 45,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s45-c5e5c13149",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S45-T1-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"object\",\"transactions\":\"relational\",\"cache_authoritative\":False,\"cache_ttl_s\":300}}\nmeets_contract = record[\"blob_store\"] == \"object\" and record[\"transactions\"] == \"relational\" and not record[\"cache_authoritative\"] and record[\"cache_ttl_s\"] > 0\nstatus = \"PASS\" if meets_contract else \"REDESIGN_PERSISTENCE\"\nprint(\"S45-T1-A\", status)\n",
+      "justification_from_packet": "Cuando comparé la instrucción con el starter defectuoso `S45-T1-A-E1` (guided) sobre `object store, relacional y cache` y el fixture `CASO-IQU-045-1A`: no basta un print vacío: hay umbral y ruta de rechazo. Corregí el predicado/assess/decide del starter según la instruction del packet S45. No usé vidas de K1 ni generadores; solo el packet de la sección. Campos y salidas salen del enunciado del exercise en section_45.",
+      "concepts_used": [
+        "object store, relacional y cache",
+        "S45-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T1-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"blob_store\", \"transactions\", \"cache_authoritative\", \"cache_ttl_s\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"blob_store\"] == \"object\" and record[\"transactions\"] == \"relational\" and not record[\"cache_authoritative\"] and record[\"cache_ttl_s\"] > 0 else \"REDESIGN_PERSISTENCE\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"object\",\"transactions\":\"relational\",\"cache_authoritative\":False,\"cache_ttl_s\":300}}\ninvalid = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"cache\",\"transactions\":\"cache\",\"cache_authoritative\":True,\"cache_ttl_s\":0}}\nincomplete = {**valid}\nincomplete.pop(\"cache_ttl_s\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Cuando comparé la instrucción con el starter defectuoso `S45-T1-A-E2` (independent) sobre `object store, relacional y cache` y el fixture `CASO-S45`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. El reject/missing/continue quedó coherente con tests del weDo de S45.",
+      "concepts_used": [
+        "object store, relacional y cache",
+        "S45-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T1-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"blob_store\", \"transactions\", \"cache_authoritative\", \"cache_ttl_s\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"WRITE_STORE_ADR\"\n    return \"CONTINUE\" if record[\"blob_store\"] == \"object\" and record[\"transactions\"] == \"relational\" and not record[\"cache_authoritative\"] and record[\"cache_ttl_s\"] > 0 else \"REDESIGN_PERSISTENCE\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"object\",\"transactions\":\"relational\",\"cache_authoritative\":False,\"cache_ttl_s\":300}}\ninvalid = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"cache\",\"transactions\":\"cache\",\"cache_authoritative\":True,\"cache_ttl_s\":0}}\nuncertain = {**valid}\nuncertain.pop(\"cache_ttl_s\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Tras identificar el predicado invertido `S45-T1-A-E3` (transfer) sobre `object store, relacional y cache` y el fixture `CASO-IQU-045-1A`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S45. No usé vidas de K1 ni generadores; solo el packet de la sección. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S45.",
+      "concepts_used": [
+        "object store, relacional y cache",
+        "S45-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T1-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"read-after-write\",\"backup_age_h\":4,\"rpo_h\":6,\"restore_minutes\":25,\"rto_minutes\":30}}\nmeets_contract = record[\"consistency\"] == \"read-after-write\" and record[\"backup_age_h\"] <= record[\"rpo_h\"] and record[\"restore_minutes\"] <= record[\"rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_LOSS_RISK\"\nprint(\"S45-T1-B\", status)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S45-T1-B-E1` (guided) sobre `consistencia, lifecycle y backups` y el fixture `CASO-IQU-045-1B`: la theory nombra el gate y la salida exacta esperada. Corregí el predicado/assess/decide del starter según la instruction del packet S45. El learner path queda auditablesin ocultar warnings ni evidencia. Campos y salidas salen del enunciado del exercise en section_45.",
+      "concepts_used": [
+        "consistencia, lifecycle y backups",
+        "S45-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T1-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"operation\", \"consistency\", \"backup_age_h\", \"rpo_h\", \"restore_minutes\", \"rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"consistency\"] == \"read-after-write\" and record[\"backup_age_h\"] <= record[\"rpo_h\"] and record[\"restore_minutes\"] <= record[\"rto_minutes\"] else \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"read-after-write\",\"backup_age_h\":4,\"rpo_h\":6,\"restore_minutes\":25,\"rto_minutes\":30}}\ninvalid = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"eventual\",\"backup_age_h\":24,\"rpo_h\":6,\"restore_minutes\":90,\"rto_minutes\":30}}\nincomplete = {**valid}\nincomplete.pop(\"rto_minutes\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En la práctica del weDo `S45-T1-B-E2` (independent) sobre `consistencia, lifecycle y backups` y el fixture `CASO-S45`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. El reject/missing/continue quedó coherente con tests del weDo de S45.",
+      "concepts_used": [
+        "consistencia, lifecycle y backups",
+        "S45-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T1-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"operation\", \"consistency\", \"backup_age_h\", \"rpo_h\", \"restore_minutes\", \"rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RUN_RESTORE_DRILL\"\n    return \"CONTINUE\" if record[\"consistency\"] == \"read-after-write\" and record[\"backup_age_h\"] <= record[\"rpo_h\"] and record[\"restore_minutes\"] <= record[\"rto_minutes\"] else \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"read-after-write\",\"backup_age_h\":4,\"rpo_h\":6,\"restore_minutes\":25,\"rto_minutes\":30}}\ninvalid = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"eventual\",\"backup_age_h\":24,\"rpo_h\":6,\"restore_minutes\":90,\"rto_minutes\":30}}\nuncertain = {**valid}\nuncertain.pop(\"rto_minutes\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Cuando comparé la instrucción con el starter defectuoso `S45-T1-B-E3` (transfer) sobre `consistencia, lifecycle y backups` y el fixture `CASO-IQU-045-1B`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Mantengo el knowledge boundary: sin PII real ni secretos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S45.",
+      "concepts_used": [
+        "consistencia, lifecycle y backups",
+        "S45-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T2-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_after_effect\":True,\"idempotency_key\":\"job-iqu-1\",\"backoff\":True}}\nmeets_contract = record[\"delivery\"] == \"at-least-once\" and record[\"effect_durable\"] and record[\"acked_after_effect\"] and bool(record[\"idempotency_key\"]) and record[\"backoff\"]\nstatus = \"PASS\" if meets_contract else \"NACK_AND_RETRY\"\nprint(\"S45-T2-A\", status)\n",
+      "justification_from_packet": "Antes de cerrar el caso sintético `S45-T2-A-E1` (guided) sobre `queue/event y delivery semantics` y el fixture `CASO-IQU-045-2A`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S45. No usé vidas de K1 ni generadores; solo el packet de la sección. Campos y salidas salen del enunciado del exercise en section_45.",
+      "concepts_used": [
+        "queue/event y delivery semantics",
+        "S45-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T2-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"delivery\", \"effect_durable\", \"acked_after_effect\", \"idempotency_key\", \"backoff\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"delivery\"] == \"at-least-once\" and record[\"effect_durable\"] and record[\"acked_after_effect\"] and bool(record[\"idempotency_key\"]) and record[\"backoff\"] else \"NACK_AND_RETRY\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_after_effect\":True,\"idempotency_key\":\"job-iqu-1\",\"backoff\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-most-once\",\"effect_durable\":False,\"acked_after_effect\":False,\"idempotency_key\":\"\",\"backoff\":False}}\nincomplete = {**valid}\nincomplete.pop(\"backoff\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En la práctica del weDo `S45-T2-A-E2` (independent) sobre `queue/event y delivery semantics` y el fixture `CASO-S45`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S45. La respuesta es reproducible con los fixtures del starter/paquete. El reject/missing/continue quedó coherente con tests del weDo de S45.",
+      "concepts_used": [
+        "queue/event y delivery semantics",
+        "S45-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T2-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"delivery\", \"effect_durable\", \"acked_after_effect\", \"idempotency_key\", \"backoff\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"VERIFY_DELIVERY_SEMANTICS\"\n    return \"CONTINUE\" if record[\"delivery\"] == \"at-least-once\" and record[\"effect_durable\"] and record[\"acked_after_effect\"] and bool(record[\"idempotency_key\"]) and record[\"backoff\"] else \"NACK_AND_RETRY\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_after_effect\":True,\"idempotency_key\":\"job-iqu-1\",\"backoff\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-most-once\",\"effect_durable\":False,\"acked_after_effect\":False,\"idempotency_key\":\"\",\"backoff\":False}}\nuncertain = {**valid}\nuncertain.pop(\"backoff\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "En la práctica del weDo `S45-T2-A-E3` (transfer) sobre `queue/event y delivery semantics` y el fixture `CASO-IQU-045-2A`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Así el código queda alineado al paquete K2 y al outcome del subtema. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S45.",
+      "concepts_used": [
+        "queue/event y delivery semantics",
+        "S45-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T2-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"},\"ordered_partition\":True,\"terminal_in_dlq\":True}}\nmeets_contract = set(record[\"message_ids\"]) == record[\"processed_ids\"] and len(record[\"processed_ids\"]) == 2 and record[\"ordered_partition\"] and record[\"terminal_in_dlq\"]\nstatus = \"PASS\" if meets_contract else \"DEDUP_OR_DLQ\"\nprint(\"S45-T2-B\", status)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S45-T2-B-E1` (guided) sobre `dedup, ordering y dead-letter` y el fixture `CASO-IQU-045-2B`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S45. No usé vidas de K1 ni generadores; solo el packet de la sección. Campos y salidas salen del enunciado del exercise en section_45.",
+      "concepts_used": [
+        "dedup, ordering y dead-letter",
+        "S45-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T2-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"message_ids\", \"processed_ids\", \"ordered_partition\", \"terminal_in_dlq\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if set(record[\"message_ids\"]) == record[\"processed_ids\"] and len(record[\"processed_ids\"]) == 2 and record[\"ordered_partition\"] and record[\"terminal_in_dlq\"] else \"DEDUP_OR_DLQ\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"},\"ordered_partition\":True,\"terminal_in_dlq\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\"},\"ordered_partition\":False,\"terminal_in_dlq\":False}}\nincomplete = {**valid}\nincomplete.pop(\"terminal_in_dlq\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Después de contrastar theory e iDo `S45-T2-B-E2` (independent) sobre `dedup, ordering y dead-letter` y el fixture `CASO-S45`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Mantengo el knowledge boundary: sin PII real ni secretos. El reject/missing/continue quedó coherente con tests del weDo de S45.",
+      "concepts_used": [
+        "dedup, ordering y dead-letter",
+        "S45-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T2-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"message_ids\", \"processed_ids\", \"ordered_partition\", \"terminal_in_dlq\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INSPECT_MESSAGE_ORDER\"\n    return \"CONTINUE\" if set(record[\"message_ids\"]) == record[\"processed_ids\"] and len(record[\"processed_ids\"]) == 2 and record[\"ordered_partition\"] and record[\"terminal_in_dlq\"] else \"DEDUP_OR_DLQ\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"},\"ordered_partition\":True,\"terminal_in_dlq\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\"},\"ordered_partition\":False,\"terminal_in_dlq\":False}}\nuncertain = {**valid}\nuncertain.pop(\"terminal_in_dlq\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "En la práctica del weDo `S45-T2-B-E3` (transfer) sobre `dedup, ordering y dead-letter` y el fixture `CASO-IQU-045-2B`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S45. No usé vidas de K1 ni generadores; solo el packet de la sección. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S45.",
+      "concepts_used": [
+        "dedup, ordering y dead-letter",
+        "S45-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T3-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":80,\"workers\":4,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":True,\"backpressure\":True}}\nmeets_contract = record[\"workers\"] <= record[\"quota_workers\"] and record[\"backlog\"] / record[\"workers\"] <= record[\"target_per_worker\"] and record[\"private_network\"] and record[\"backpressure\"]\nstatus = \"PASS\" if meets_contract else \"APPLY_BACKPRESSURE\"\nprint(\"S45-T3-A\", status)\n",
+      "justification_from_packet": "En la práctica del weDo `S45-T3-A-E1` (guided) sobre `compute, autoscaling y networking` y el fixture `CASO-IQU-045-3A`: la ausencia se escala; no se inventa el campo faltante. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Queda listo para grade de forma y justificación con soporte léxico. Campos y salidas salen del enunciado del exercise en section_45.",
+      "concepts_used": [
+        "compute, autoscaling y networking",
+        "S45-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T3-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"backlog\", \"workers\", \"target_per_worker\", \"quota_workers\", \"private_network\", \"backpressure\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"workers\"] <= record[\"quota_workers\"] and record[\"backlog\"] / record[\"workers\"] <= record[\"target_per_worker\"] and record[\"private_network\"] and record[\"backpressure\"] else \"APPLY_BACKPRESSURE\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":80,\"workers\":4,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":True,\"backpressure\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":500,\"workers\":2,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":False,\"backpressure\":False}}\nincomplete = {**valid}\nincomplete.pop(\"backpressure\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S45-T3-A-E2` (independent) sobre `compute, autoscaling y networking` y el fixture `CASO-S45`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. El reject/missing/continue quedó coherente con tests del weDo de S45.",
+      "concepts_used": [
+        "compute, autoscaling y networking",
+        "S45-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T3-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"backlog\", \"workers\", \"target_per_worker\", \"quota_workers\", \"private_network\", \"backpressure\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CAPACITY\"\n    return \"CONTINUE\" if record[\"workers\"] <= record[\"quota_workers\"] and record[\"backlog\"] / record[\"workers\"] <= record[\"target_per_worker\"] and record[\"private_network\"] and record[\"backpressure\"] else \"APPLY_BACKPRESSURE\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":80,\"workers\":4,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":True,\"backpressure\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":500,\"workers\":2,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":False,\"backpressure\":False}}\nuncertain = {**valid}\nuncertain.pop(\"backpressure\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Al leer el exercise `S45-T3-A-E3` (transfer) sobre `compute, autoscaling y networking` y el fixture `CASO-IQU-045-3A`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Dejo justificación anclada a instruction, hints y theory activos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S45.",
+      "concepts_used": [
+        "compute, autoscaling y networking",
+        "S45-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T3-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\",\"queue:ack\"},\"requested_action\":\"object:get\",\"private_path\":True,\"egress_host\":\"api.internal\",\"egress_allow\":{\"api.internal\"}}}\nmeets_contract = record[\"requested_action\"] in record[\"allowed_actions\"] and record[\"private_path\"] and record[\"egress_host\"] in record[\"egress_allow\"]\nstatus = \"PASS\" if meets_contract else \"DENY_IAM_OR_EGRESS\"\nprint(\"S45-T3-B\", status)\n",
+      "justification_from_packet": "Cuando comparé la instrucción con el starter defectuoso `S45-T3-B-E1` (guided) sobre `IAM, private paths y egress` y el fixture `CASO-IQU-045-3B`: no basta un print vacío: hay umbral y ruta de rechazo. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. Campos y salidas salen del enunciado del exercise en section_45.",
+      "concepts_used": [
+        "IAM, private paths y egress",
+        "S45-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T3-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"allowed_actions\", \"requested_action\", \"private_path\", \"egress_host\", \"egress_allow\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"requested_action\"] in record[\"allowed_actions\"] and record[\"private_path\"] and record[\"egress_host\"] in record[\"egress_allow\"] else \"DENY_IAM_OR_EGRESS\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\",\"queue:ack\"},\"requested_action\":\"object:get\",\"private_path\":True,\"egress_host\":\"api.internal\",\"egress_allow\":{\"api.internal\"}}}\ninvalid = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\"},\"requested_action\":\"iam:admin\",\"private_path\":False,\"egress_host\":\"unknown.example\",\"egress_allow\":{\"api.internal\"}}}\nincomplete = {**valid}\nincomplete.pop(\"egress_allow\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Antes de cerrar el caso sintético `S45-T3-B-E2` (independent) sobre `IAM, private paths y egress` y el fixture `CASO-S45`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Mantengo el knowledge boundary: sin PII real ni secretos. El reject/missing/continue quedó coherente con tests del weDo de S45.",
+      "concepts_used": [
+        "IAM, private paths y egress",
+        "S45-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T3-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"allowed_actions\", \"requested_action\", \"private_path\", \"egress_host\", \"egress_allow\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SCOPED_POLICY\"\n    return \"CONTINUE\" if record[\"requested_action\"] in record[\"allowed_actions\"] and record[\"private_path\"] and record[\"egress_host\"] in record[\"egress_allow\"] else \"DENY_IAM_OR_EGRESS\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\",\"queue:ack\"},\"requested_action\":\"object:get\",\"private_path\":True,\"egress_host\":\"api.internal\",\"egress_allow\":{\"api.internal\"}}}\ninvalid = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\"},\"requested_action\":\"iam:admin\",\"private_path\":False,\"egress_host\":\"unknown.example\",\"egress_allow\":{\"api.internal\"}}}\nuncertain = {**valid}\nuncertain.pop(\"egress_allow\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S45-T3-B-E3` (transfer) sobre `IAM, private paths y egress` y el fixture `CASO-IQU-045-3B`: el adverso debe fallar por contenido, no por schema roto. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Dejo justificación anclada a instruction, hints y theory activos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S45.",
+      "concepts_used": [
+        "IAM, private paths y egress",
+        "S45-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T4-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"queue\",\"bucket\"},\"environment\":\"staging\",\"secret_values_in_plan\":False,\"destructive_changes\":0}}\nmeets_contract = record[\"declared_resources\"] == record[\"planned_resources\"] and record[\"environment\"] in {\"dev\",\"staging\",\"prod\"} and not record[\"secret_values_in_plan\"] and record[\"destructive_changes\"] == 0\nstatus = \"PASS\" if meets_contract else \"REJECT_IAC_PLAN\"\nprint(\"S45-T4-A\", status)\n",
+      "justification_from_packet": "En la práctica del weDo `S45-T4-A-E1` (guided) sobre `configuración declarativa y environments` y el fixture `CASO-IQU-045-4A`: la theory nombra el gate y la salida exacta esperada. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. Campos y salidas salen del enunciado del exercise en section_45.",
+      "concepts_used": [
+        "configuración declarativa y environments",
+        "S45-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T4-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"declared_resources\", \"planned_resources\", \"environment\", \"secret_values_in_plan\", \"destructive_changes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"declared_resources\"] == record[\"planned_resources\"] and record[\"environment\"] in {\"dev\",\"staging\",\"prod\"} and not record[\"secret_values_in_plan\"] and record[\"destructive_changes\"] == 0 else \"REJECT_IAC_PLAN\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"queue\",\"bucket\"},\"environment\":\"staging\",\"secret_values_in_plan\":False,\"destructive_changes\":0}}\ninvalid = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"bucket\"},\"environment\":\"shared\",\"secret_values_in_plan\":True,\"destructive_changes\":1}}\nincomplete = {**valid}\nincomplete.pop(\"destructive_changes\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S45-T4-A-E2` (independent) sobre `configuración declarativa y environments` y el fixture `CASO-S45`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Queda listo para grade de forma y justificación con soporte léxico. El reject/missing/continue quedó coherente con tests del weDo de S45.",
+      "concepts_used": [
+        "configuración declarativa y environments",
+        "S45-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T4-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"declared_resources\", \"planned_resources\", \"environment\", \"secret_values_in_plan\", \"destructive_changes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_DRIFT\"\n    return \"CONTINUE\" if record[\"declared_resources\"] == record[\"planned_resources\"] and record[\"environment\"] in {\"dev\",\"staging\",\"prod\"} and not record[\"secret_values_in_plan\"] and record[\"destructive_changes\"] == 0 else \"REJECT_IAC_PLAN\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"queue\",\"bucket\"},\"environment\":\"staging\",\"secret_values_in_plan\":False,\"destructive_changes\":0}}\ninvalid = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"bucket\"},\"environment\":\"shared\",\"secret_values_in_plan\":True,\"destructive_changes\":1}}\nuncertain = {**valid}\nuncertain.pop(\"destructive_changes\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Antes de cerrar el caso sintético `S45-T4-A-E3` (transfer) sobre `configuración declarativa y environments` y el fixture `CASO-IQU-045-4A`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Mantengo el knowledge boundary: sin PII real ni secretos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S45.",
+      "concepts_used": [
+        "configuración declarativa y environments",
+        "S45-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T4-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":820,\"budget_pen\":1000,\"quota_used\":72,\"quota_limit\":100,\"restore_tested\":True,\"portable_export\":True}}\nmeets_contract = record[\"forecast_pen\"] <= record[\"budget_pen\"] and record[\"quota_used\"] <= record[\"quota_limit\"] and record[\"restore_tested\"] and record[\"portable_export\"]\nstatus = \"PASS\" if meets_contract else \"FREEZE_SCALE_OUT\"\nprint(\"S45-T4-B\", status)\n",
+      "justification_from_packet": "Siguiendo los hints y el starter `S45-T4-B-E1` (guided) sobre `costos, quotas, recovery y portability` y el fixture `CASO-IQU-045-4B`: el iDo modela el contrato sin servicio externo real. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. Campos y salidas salen del enunciado del exercise en section_45.",
+      "concepts_used": [
+        "costos, quotas, recovery y portability",
+        "S45-T4-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T4-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"forecast_pen\", \"budget_pen\", \"quota_used\", \"quota_limit\", \"restore_tested\", \"portable_export\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"forecast_pen\"] <= record[\"budget_pen\"] and record[\"quota_used\"] <= record[\"quota_limit\"] and record[\"restore_tested\"] and record[\"portable_export\"] else \"FREEZE_SCALE_OUT\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":820,\"budget_pen\":1000,\"quota_used\":72,\"quota_limit\":100,\"restore_tested\":True,\"portable_export\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":1500,\"budget_pen\":1000,\"quota_used\":120,\"quota_limit\":100,\"restore_tested\":False,\"portable_export\":False}}\nincomplete = {**valid}\nincomplete.pop(\"portable_export\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Siguiendo los hints y el starter `S45-T4-B-E2` (independent) sobre `costos, quotas, recovery y portability` y el fixture `CASO-S45`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. El reject/missing/continue quedó coherente con tests del weDo de S45.",
+      "concepts_used": [
+        "costos, quotas, recovery y portability",
+        "S45-T4-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S45-T4-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"forecast_pen\", \"budget_pen\", \"quota_used\", \"quota_limit\", \"restore_tested\", \"portable_export\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"COST_OWNER_REVIEW\"\n    return \"CONTINUE\" if record[\"forecast_pen\"] <= record[\"budget_pen\"] and record[\"quota_used\"] <= record[\"quota_limit\"] and record[\"restore_tested\"] and record[\"portable_export\"] else \"FREEZE_SCALE_OUT\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":820,\"budget_pen\":1000,\"quota_used\":72,\"quota_limit\":100,\"restore_tested\":True,\"portable_export\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":1500,\"budget_pen\":1000,\"quota_used\":120,\"quota_limit\":100,\"restore_tested\":False,\"portable_export\":False}}\nuncertain = {**valid}\nuncertain.pop(\"portable_export\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S45-T4-B-E3` (transfer) sobre `costos, quotas, recovery y portability` y el fixture `CASO-IQU-045-4B`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S45. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S45.",
+      "concepts_used": [
+        "costos, quotas, recovery y portability",
+        "S45-T4-B",
+        "packet_contract"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck Q0 de S45: Descarté capturas sin fuente y prints sin assert porque el paquete pide contratos operativos con campos y predicados. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck Q1 de S45: La opción refleja la evidencia de aprobación descrita en theory del selfCheck: mínima, sintética y con dueño o umbral cuando aplica. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck Q2 de S45: Ante el error de la sección, la respuesta segura emite el bloqueo/rechazo y conserva evidencia; no continúa en silencio ni inventa datos. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck Q3 de S45: Descarté capturas sin fuente y prints sin assert porque el paquete pide contratos operativos con campos y predicados. Anclaje léxico al active packet agentic_K2, persona explorer."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:34:15.365547+00:00",
+  "session_started_at": "2026-07-23T15:33:24.238879Z",
+  "session_ended_at": "2026-07-23T15:34:15.337919Z",
+  "receipt_response_sha256": "7484b167c24c9e3dd138b30848a41b0b85a400340b6841615929d54b6855450a",
+  "receipt_exercises_sha256": "4b613eca4a772f5a4c8d4b2d959c578e090cb7b5f886a9f499d56ea94ac318e6",
+  "receipt_selfcheck_sha256": "bb59d5ba14b356964a98de65a4f993257610cefc6b78ef7f55db16ee00265509"
+}

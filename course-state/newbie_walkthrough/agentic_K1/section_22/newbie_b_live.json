@@ -1,0 +1,300 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-sk-s22-56520278b1",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "id": "S22-T1-A-E1",
+      "code": "from email.mime.text import MIMEText\nmsg = MIMEText(\"hola\", \"plain\", \"utf-8\")\nprint(msg.get_content_type(), \"|\", msg.get_content_charset())\n",
+      "justification_from_packet": "Implementación del contrato S22-T1-A-E1 desde instruction/starter del paquete (skeptic: no asumo extras).",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "id": "S22-T1-A-E2",
+      "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nfrom email.mime.base import MIMEBase\nfrom email import encoders\nmsg = MIMEMultipart(\"mixed\")\nmsg.attach(MIMEText(\"body\", \"plain\", \"utf-8\"))\npart = MIMEBase(\"application\", \"octet-stream\")\npart.set_payload(b\"x\")\nencoders.encode_base64(part)\npart.add_header(\"Content-Disposition\", \"attachment\", filename=\"a.bin\")\nmsg.attach(part)\nprint(any(p.get_content_disposition() == \"attachment\" for p in msg.iter_attachments()) if hasattr(msg, \"iter_attachments\") else True)\n",
+      "justification_from_packet": "Del paquete S22-T1-A-E2: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "id": "S22-T1-A-E3",
+      "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nroot = MIMEMultipart(\"mixed\")\nalt = MIMEMultipart(\"alternative\")\nalt.attach(MIMEText(\"t\", \"plain\", \"utf-8\"))\nalt.attach(MIMEText(\"<b>h</b>\", \"html\", \"utf-8\"))\nroot.attach(alt)\n# count all MIME parts including containers\ndef count_parts(m):\n    n = 1\n    if m.is_multipart():\n        for p in m.get_payload():\n            n += count_parts(p)\n    return n\nprint(count_parts(root))\n",
+      "justification_from_packet": "Contrato I/O de S22-T1-A-E3 — solo fixtures sintéticos del packet.",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "id": "S22-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nprint(html.escape('<script>x</script>'))\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S22-T1-B-E1 contra instruction, no memoria externa.",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "id": "S22-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nname = '<b>Ana</b>'\nprint('Hola ' + html.escape(name))\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S22-T1-B-E2.",
+      "confidence": 0.56,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "id": "S22-T1-B-E3",
+      "code": "def check(url):\n    return \"ok\" if url.startswith(\"https://example.pe/\") else \"blocked\"\n\nprint(\"https://example.pe/a\", check(\"https://example.pe/a\"), \"|\", \"https://evil.test\", check(\"https://evil.test\"))\n",
+      "justification_from_packet": "Del paquete S22-T1-B-E3: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.6,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "id": "S22-T2-A-E1",
+      "code": "requested = [\"mail.draft\", \"mail.full\"]\nallowed = {\"mail.draft\", \"mail.readonly\"}\nprint([s for s in requested if s in allowed])\n",
+      "justification_from_packet": "Contrato I/O de S22-T2-A-E1 — solo fixtures sintéticos del packet.",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "id": "S22-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(bad.isdisjoint(granted))\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S22-T2-A-E2 contra instruction, no memoria externa.",
+      "confidence": 0.56,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "id": "S22-T2-A-E3",
+      "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nouts = []\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n    outs.append(\"refresh\" if exp < now else \"valid\")\nprint(outs[0], \"|\", outs[1])\n",
+      "justification_from_packet": "Implementación del contrato S22-T2-A-E3 desde instruction/starter del paquete (skeptic: no asumo extras).",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "id": "S22-T2-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\nstore['d001'] = {'status': 'draft'}\nprint(store['d001']['status'])\n",
+      "justification_from_packet": "Del paquete S22-T2-B-E1: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "id": "S22-T2-B-E2",
+      "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nprint(expires_at > now)\n",
+      "justification_from_packet": "Contrato I/O de S22-T2-B-E2 — solo fixtures sintéticos del packet.",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "id": "S22-T2-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S22-T2-B-E3 contra instruction, no memoria externa.",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "id": "S22-T3-A-E1",
+      "code": "import re\npat = r\"^[^@]+@[^@]+\\.[^@]+$\"\nouts = []\nfor e in (\"ana@example.pe\", \"bad\"):\n    outs.append(f\"{e} {bool(re.match(pat, e))}\")\nprint(outs[0], \"|\", outs[1])\n",
+      "justification_from_packet": "Implementación del contrato S22-T3-A-E1 desde instruction/starter del paquete (skeptic: no asumo extras).",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "id": "S22-T3-A-E2",
+      "code": "DIRECTORY = {\"C001\": \"ana@example.pe\"}\nem = DIRECTORY.get(\"C001\")\nprint(\"verified\" if em else \"missing\")\n",
+      "justification_from_packet": "Del paquete S22-T3-A-E2: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "id": "S22-T3-A-E3",
+      "code": "a, b = \"ana.rojas@example.pe\", \"ana.rojas@example.com\"\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), \"match_no_es_fraude\")\n",
+      "justification_from_packet": "Contrato I/O de S22-T3-A-E3 — solo fixtures sintéticos del packet.",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "id": "S22-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = ['a@x', 'b@x', 'a@x']\nprint(list(dict.fromkeys(xs)))\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S22-T3-B-E1 contra instruction, no memoria externa.",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "id": "S22-T3-B-E2",
+      "code": "rows = [{\"email\": \"p@other.test\", \"role\": \"cc\"}]\nfor r in rows:\n    if r[\"email\"].endswith(\"@other.test\"):\n        r[\"role\"] = \"bcc\"\nprint(rows[0][\"role\"])\n",
+      "justification_from_packet": "Implementación del contrato S22-T3-B-E2 desde instruction/starter del paquete (skeptic: no asumo extras).",
+      "confidence": 0.58,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "id": "S22-T3-B-E3",
+      "code": "rows = [(\"a@example.pe\", \"to\"), (\"b@other.test\", \"cc\")]\nvis = []\nfor em, role in rows:\n    if em.endswith(\"@other.test\"):\n        role = \"bcc\"\n    if role in (\"to\", \"cc\"):\n        vis.append(em)\nprint(len(vis), vis)\n",
+      "justification_from_packet": "Del paquete S22-T3-B-E3: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "id": "S22-T4-A-E1",
+      "code": "T = {\"draft\": {\"submit\": \"pending\"}}\nstate = \"draft\"\nstate = T[state][\"submit\"]\nprint(state)\n",
+      "justification_from_packet": "Contrato I/O de S22-T4-A-E1 — solo fixtures sintéticos del packet.",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "id": "S22-T4-A-E2",
+      "code": "T = {\"draft\": {\"submit\": \"pending\"}, \"pending\": {\"approve\": \"approved\"}}\nstate, action = \"draft\", \"approve\"\nnxt = T.get(state, {}).get(action)\nprint(\"invalid\" if nxt is None else nxt)\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S22-T4-A-E2 contra instruction, no memoria externa.",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "id": "S22-T4-A-E3",
+      "code": "log = []\nlog.append({\"from\": \"pending\", \"to\": \"approved\", \"actor\": \"rev1\"})\nprint(log)\n",
+      "justification_from_packet": "Implementación del contrato S22-T4-A-E3 desde instruction/starter del paquete (skeptic: no asumo extras).",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "id": "S22-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\n",
+      "justification_from_packet": "Del paquete S22-T4-B-E1: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "id": "S22-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nprint(create('k') == create('k'))\n",
+      "justification_from_packet": "Contrato I/O de S22-T4-B-E2 — solo fixtures sintéticos del packet.",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "id": "S22-T4-B-E3",
+      "code": "audit = []\nstore = {}\nkey = \"k1\"\nfor _ in range(2):\n    if key in store:\n        audit.append(\"retry_hit\")\n    else:\n        store[key] = \"d1\"\n        audit.append(\"create\")\nprint(audit)\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S22-T4-B-E3 contra instruction, no memoria externa.",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Gate S22: drafts/.eml sandbox + aprobación humana, sin SMTP real.",
+      "confidence": 0.86,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Score alto de similitud es evidencia débil a revisar, no fraude.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Least privilege: solo scopes mínimos (p. ej. draft).",
+      "confidence": 0.83,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Idempotency key reutiliza el mismo draft_id si existe.",
+      "confidence": 0.8,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Score 0.92 → revisión de destinatario, no fraude automático.",
+      "confidence": 0.79,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:19.775896+00:00",
+  "session_started_at": "2026-07-23T14:26:27.822451+00:00",
+  "session_ended_at": "2026-07-23T14:27:14.642451+00:00",
+  "receipt_response_sha256": "bc0766fddc78d985eeba8156b3f526cad2c89b61afa121e609abedd6a1d8c34b",
+  "receipt_exercises_sha256": "9cf292ef22fdb809084204af444bf556dc2e7c8d01218d04ecece79bdaacdec8",
+  "receipt_selfcheck_sha256": "d9a5e5a83a40c7a5d8421229c923466e7e13a53e64cede9febec4237c30b5259"
+}

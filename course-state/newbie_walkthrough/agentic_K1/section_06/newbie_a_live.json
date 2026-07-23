@@ -1,0 +1,323 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s06-08b6f35183",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "slicing"
+      ],
+      "blocked_on": [],
+      "code": "txs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nprint(\"ventana\", ventana, \"len\", len(ventana))\nempty = []\nv0 = empty[-2:]\nprint(\"vacio\", v0, \"len\", len(v0))\n",
+      "justification_from_packet": "Slicing txs[-2:] toma los últimos 2; en lista vacía devuelve [] sin error (T1-A)."
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "tuple"
+      ],
+      "blocked_on": [],
+      "code": "headers = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\nprint(\"KEYS\", KEYS)\nprint(\"concat\", more)\n# KEYS.append('x') fallaría: tuple inmutable\n",
+      "justification_from_packet": "tuple(headers) fija claves inmutables; concatenar crea nueva tupla, no muta KEYS."
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "AttributeError"
+      ],
+      "blocked_on": [],
+      "code": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print(\"AttributeError\", type(e).__name__)\n    ids_list = list(ids)\n    ids_list.append('C003')\n    ids = tuple(ids_list)\n    print(\"fixed\", ids)\n",
+      "justification_from_packet": "tuple no tiene append → AttributeError; convertir a list, mutar y re-tuplear."
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.92,
+      "concepts_used": [
+        "unpacking"
+      ],
+      "blocked_on": [],
+      "code": "fila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n",
+      "justification_from_packet": "Unpacking 1:1: cid, region, monto = fila de 3 valores (T1-B)."
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "alias",
+        "copy"
+      ],
+      "blocked_on": [],
+      "code": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\ncopia.append(4)\nprint(\"xs\", xs, \"copia\", copia, \"mismo?\", xs is copia)\n",
+      "justification_from_packet": "alias comparte objeto; copy() es superficial e independiente para lista de ints."
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "concepts_used": [
+        "deepcopy"
+      ],
+      "blocked_on": [],
+      "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\ndeep = copy.deepcopy(rows)\nshallow[0]['tags'].append('b')\nprint('orig tras shallow mut', rows)\ndeep[0]['tags'].append('z')\nprint('orig tras deep mut tags', rows)\nprint('deep', deep)\n",
+      "justification_from_packet": "copy() de la lista no aísla tags anidados; deepcopy sí (T1-B)."
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "dict"
+      ],
+      "blocked_on": [],
+      "code": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])\n",
+      "justification_from_packet": "dict(pares) construye mapa id→región; acceso d['C002'] (T2-A)."
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "get",
+        "KeyError"
+      ],
+      "blocked_on": [],
+      "code": "idx = {'C001': 'Ana'}\nprint(idx.get('C001'), idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)\n",
+      "justification_from_packet": "get con default evita KeyError; acceso directo a clave ausente lo lanza."
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "merge dict"
+      ],
+      "blocked_on": [],
+      "code": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nprint('defaults intacto', defaults)\n",
+      "justification_from_packet": "Fusión {**defaults, **override} sin mutar original; timeout se conserva."
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.92,
+      "concepts_used": [
+        "set",
+        "dedup"
+      ],
+      "blocked_on": [],
+      "code": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)\n",
+      "justification_from_packet": "set deduplica; sorted da lista ordenada de únicos (T2-B)."
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "set ops"
+      ],
+      "blocked_on": [],
+      "code": "a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(a & b))\nprint('symdiff', sorted(a ^ b))\n",
+      "justification_from_packet": "Intersección a&b y diferencia simétrica a^b sobre sets de emails."
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "concepts_used": [
+        "dedup_report"
+      ],
+      "blocked_on": [],
+      "code": "def dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        k = r[key]\n        if k not in seen:\n            seen[k] = r\n            unique.append(r)\n        else:\n            if r != seen[k]:\n                conflicts.append({'id': k, 'prev': seen[k], 'curr': r})\n    return {'unique': unique, 'conflicts': conflicts}\n\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))\n",
+      "justification_from_packet": "dedup_report lista unique y conflicts sin silenciar payloads distintos del mismo id."
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "nested"
+      ],
+      "blocked_on": [],
+      "code": "clients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))\n",
+      "justification_from_packet": "Recorrido de estructura anidada: len(contacts) por cliente."
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "flatten"
+      ],
+      "blocked_on": [],
+      "code": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = []\nfor c in clients:\n    for t in c['txs']:\n        flat.append({'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']})\nprint(flat)\n",
+      "justification_from_packet": "Aplanar txs anidadas a filas planas con doble for (T3-A)."
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "shape"
+      ],
+      "blocked_on": [],
+      "code": "clients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    status = 'ok' if isinstance(txs, list) else 'review'\n    print(c['id'], status)\n",
+      "justification_from_packet": "Shape inconsistente: falta txs o no es list → status review."
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "get_nested"
+      ],
+      "blocked_on": [],
+      "code": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n",
+      "justification_from_packet": "get_nested recorre claves; si falta devuelve default (T3-B)."
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "missing"
+      ],
+      "blocked_on": [],
+      "code": "clients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n    print(f\"{c['id']}: {flag}\")\n",
+      "justification_from_packet": "Missing = clave ausente o None; no confundir con '' sin política (T3-B)."
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "concepts_used": [
+        "falsy vs missing"
+      ],
+      "blocked_on": [],
+      "code": "vals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'is_None=', v is None, 'missing_de_negocio=', v is None)\n",
+      "justification_from_packet": "Tabla: todos son falsy salvo matices; missing de negocio se modela con is None, no con truthiness de 0/[]."
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "sorted",
+        "key"
+      ],
+      "blocked_on": [],
+      "code": "rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])\n",
+      "justification_from_packet": "sorted + key=lambda r: r['monto'] ordena ascendente y devuelve nueva lista."
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "multi-key"
+      ],
+      "blocked_on": [],
+      "code": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(rows, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])\n",
+      "justification_from_packet": "Key multi-campo: tupla (region, nombre) para orden estable por dos criterios."
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "sort vs sorted"
+      ],
+      "blocked_on": [],
+      "code": "rows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\ncopy_sorted = sorted(base)\nprint('ret', ret, type(ret))\nprint('mutada', rows)\nprint('sorted copy', copy_sorted, 'base', base)\n",
+      "justification_from_packet": "list.sort retorna None y muta; sorted devuelve nueva lista (T4-A)."
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "estructura"
+      ],
+      "blocked_on": [],
+      "code": "jobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\nstructs = ['list', 'dict', 'set']\nfor j, s in zip(jobs, structs):\n    print(j, '→', s)\n",
+      "justification_from_packet": "Elegir estructura: list cola, dict lookup, set unicidad (T4-B)."
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "determinismo"
+      ],
+      "blocked_on": [],
+      "code": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)\n",
+      "justification_from_packet": "Export determinista: ids sorted + json.dumps sort_keys=True."
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "complejidad"
+      ],
+      "blocked_on": [],
+      "code": "ids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\nprint('list membership conceptual O(n); set O(1) promedio')\nprint('C003 in list', 'C003' in ids)\nprint('C003 in set', 'C003' in s)\n",
+      "justification_from_packet": "Tradeoff membership: set escala mejor que list para 1000+ ids."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.94,
+      "justification_from_packet": "xs[-2:] con [1,2,3,4] produce los últimos dos: [3,4]."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.93,
+      "justification_from_packet": "b=a en listas es alias: append en b también se ve en a."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.91,
+      "justification_from_packet": "dedup_report debe listar conflicts sin silenciar payloads distintos del mismo id."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.94,
+      "justification_from_packet": "rows.sort(...) retorna None y muta in-place; no devuelve la lista ordenada."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "confidence": 0.92,
+      "justification_from_packet": "json.dumps(..., sort_keys=True) ayuda a salidas deterministas/reproducibles."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:17.069450+00:00",
+  "session_started_at": "2026-07-23T14:15:34.230218+00:00",
+  "session_ended_at": "2026-07-23T14:15:59.210218+00:00",
+  "receipt_response_sha256": "30219ee5a22a3c5b5edfbd73d32fda97188dee2ede97c5ab0b5d45d5d7fbf17a",
+  "receipt_exercises_sha256": "3897e08a7cfdf3df0c97cf4c82d761c394b35e40420351e3e94a3f6b006fb723",
+  "receipt_selfcheck_sha256": "2d723b3fa9ed36303970a5bb5605eccb00226fda1666f36f81924e6c56c3b03e"
+}

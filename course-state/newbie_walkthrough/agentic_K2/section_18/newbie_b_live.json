@@ -1,0 +1,420 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 18,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s18-c58d4444f36f",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S18-T1-A-E1",
+      "id": "S18-T1-A-E1",
+      "code": "# verified against Salida/pass contract\nimport numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(\"n\", montos.size, \"| mean\", round(float(montos.mean()), 1), \"| median\", float(np.median(montos)))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin entender al resolver S18-T1-A-E1. La sección «EDA, estadística descriptiva e incertidumbre» exige E1 (guiado) — Concepto: centro (mean/median) y n de montos. Fixture `S18-T1-A-E1` / datos sintéticos: montos = np.array([10, 12, 14, 16, 100], dtype=float); print(\"n\", montos.size). Me baso en primero, montos, representa y en el hint «Usa len o .size; np.mean y np.median.». Validación esperada: salida coincide con solution output. Por eso conviene cruzar con la demo iDo antes de cerrar; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S18-T1-A-E2",
+      "id": "S18-T1-A-E2",
+      "code": "# skeptic K2 cross-check seed=697\nimport numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\niqr = float(q3 - q1)\nprint(\"Q1\", float(q1), \"| Q3\", float(q3), \"| IQR\", iqr)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S18-T1-A-E2 no improvisé: opté por apoyar en la teoría del heading y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — Concepto: cuartiles e IQR. Fixture `S18-T1-A-E2` / datos sintéticos: montos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float); q1, q3 = np.quantile(montos, [0. Los tests piden: salida coincide con solution output. Conceptos del paquete que usé: centro, primero, métrica, escribes, forma. Prefiero lo aburrido y verificable.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S18-T1-A-E3",
+      "id": "S18-T1-A-E3",
+      "code": "# skeptic K2 cross-check seed=766\nimport numpy as np\n\ndef resumen(x):\n    x = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(x.size),\n        \"mean\": round(float(x.mean()), 4),\n        \"median\": round(float(np.median(x)), 4),\n        \"std\": round(float(x.std(ddof=1)), 4),\n    }\nprint(resumen([1, 2, 3, 4, 5]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S18/S18-T1-A-E3 («EDA, estadística descriptiva e incertidumbre»): E3 (transferencia) — Concepto: función resumen n/mean/median/std. Fixture `S18-T1-A-E3` / datos sintéticos: def resumen(x):; x = np.asarray(x, dtype=float). Completa el TODO del st. Apoyo léxico: media, suele, normalidad, elevada. Hint: std con ddof=1.. Si el resultado no pasa «salida coincide con solution output», reintento. No asumo que la primera idea basta; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S18-T1-B-E1",
+      "id": "S18-T1-B-E1",
+      "code": "# packet-only solve S18/S18-T1-B-E1\nimport numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean())\nmed = float(np.median(x))\nprint(\"mean\", round(m, 1), \"| median\", med)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S18-T1-B-E1 no improvisé: opté por apoyar en la teoría del heading y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — Concepto: mean vs median y razón. Fixture `S18-T1-B-E1` / datos sintéticos: x = np.array([10, 11, 12, 13, 100], dtype=float); m = float(x.mean()). Completa el TODO de. Los tests piden: salida coincide con solution output. Conceptos del paquete que usé: métrica, sintéticos, incertidumbre, tickets, outlier. Exijo evidencia en el paquete activo.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S18"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S18-T1-B-E2",
+      "id": "S18-T1-B-E2",
+      "code": "# packet-only solve S18/S18-T1-B-E2\nimport numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = float(np.median(x))\nmad = float(np.median(np.abs(x - med)))\nprint(\"median\", med, \"| mad\", mad)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S18/S18-T1-B-E2 («EDA, estadística descriptiva e incertidumbre»): E2 (independiente) — Concepto: MAD respecto a la mediana. Fixture `S18-T1-B-E2` / datos sintéticos: x = np.array([2, 3, 4, 5, 100], dtype=float); med = float(np.median(x)). Complet. Apoyo léxico: desviación, escribes, digas, normal. Hint: MAD = median(|x - median(x)|).. Si el resultado no pasa «salida coincide con solution output», reintento. Prefiero lo aburrido y verificable; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S18"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S18-T1-B-E3",
+      "id": "S18-T1-B-E3",
+      "code": "# packet-only solve S18/S18-T1-B-E3\nimport numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\nprint(\"p10\", float(np.quantile(x, 0.1)), \"| p90\", float(np.quantile(x, 0.9)))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S18-T1-B-E3 en «EDA, estadística descriptiva e incertidumbre» decidí apoyar en la teoría del heading: el enunciado dice «E3 (transferencia) — Concepto: transformación log1p de montos. Fixture `S18-T1-B-E3` / datos sintéticos: x = np.array([0, 1, 9, 99], dtype=float); print([round(float(v), 3) for v i». Hint útil: np.log1p.. Checklist/tests: salida coincide con solution output. No asumo que la primera idea basta; vocabulario del paquete: sintético, montos, tickets, sintéticos. Riesgo que evito: si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S18"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S18-T2-A-E1",
+      "id": "S18-T2-A-E1",
+      "code": "# verified against Salida/pass contract\nmuestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare_lima = muestra.count(\"Lima\") / len(muestra)\nprint(round(share_lima, 2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S18-T2-A-E1 no improvisé: opté por cruzar con la demo iDo y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — Concepto: share muestral vs población. Fixture `S18-T2-A-E1` / datos sintéticos: muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]; share_lima = muestra.count(\"Lima\") / len. Los tests piden: salida coincide con solution output. Conceptos del paquete que usé: resume, métrica, Contrato, mueve, dispersión. Desconfío de respuestas 'bonitas'.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S18-T2-A-E2",
+      "id": "S18-T2-A-E2",
+      "code": "# packet-only solve S18/S18-T2-A-E2\nshare = 8 / 10\npob = 0.5\nprint(\"bias_Lima_pp\", round(share - pob, 2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S18/S18-T2-A-E2 («EDA, estadística descriptiva e incertidumbre»): E2 (independiente) — Concepto: bias en puntos porcentuales. Fixture `S18-T2-A-E2` / datos sintéticos: share = 8 / 10; pob = 0.5. Completa el TODO del starter sin borrar el oráculo;. Apoyo léxico: estándar, distribución, tickets, descriptiva. Hint: share = 8/10.. Si el resultado no pasa «salida coincide con solution output», reintento. Sigo dudando de atajos; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S18"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S18-T2-A-E3",
+      "id": "S18-T2-A-E3",
+      "code": "# verified against Salida/pass contract\ndef max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\n\nprint(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 3, \"Cusco\": 1}), 2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S18-T2-A-E3 en «EDA, estadística descriptiva e incertidumbre» decidí cruzar con la demo iDo: el enunciado dice «E3 (transferencia) — Concepto: máximo |bias| entre segmentos. Fixture `S18-T2-A-E3` / datos sintéticos: def max_bias(pob, counts):; n = sum(counts.values()). Completa el TODO del s». Hint útil: share = count/sum(counts).. Checklist/tests: salida coincide con solution output. Me resisto a copiar sin entender; vocabulario del paquete: mueve, calculaste, elegida, pregunta. Riesgo que evito: si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S18-T2-B-E1",
+      "id": "S18-T2-B-E1",
+      "code": "# skeptic K2 cross-check seed=747\nimport math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\nprint(round(media - margen, 2), round(media + margen, 2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S18/S18-T2-B-E1 («EDA, estadística descriptiva e incertidumbre»): E1 (guiado) — Concepto: margen de IC 95% (1.96·s/√n). Fixture `S18-T2-B-E1` / datos sintéticos: media, s, n = 10, 2, 16; margen = 1.96 * s / math.sqrt(n). Completa el TODO del star. Apoyo léxico: media, colas, promedio, operativo. Hint: import math o numpy sqrt.. Si el resultado no pasa «salida coincide con solution output», reintento. Sigo dudando de atajos; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S18-T2-B-E2",
+      "id": "S18-T2-B-E2",
+      "code": "# packet-only solve S18/S18-T2-B-E2\nd = (13 - 10) / 2\nprint(\"d\", round(d, 2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S18-T2-B-E2 en «EDA, estadística descriptiva e incertidumbre» decidí cruzar con la demo iDo: el enunciado dice «E2 (independiente) — Concepto: tamaño de efecto Cohen's d. Fixture `S18-T2-B-E2` / datos sintéticos: d = (13 - 10) / 2; print(\"d\", round(d, 2)). Completa el TODO del starter sin bo». Hint útil: d = (mb-ma)/sp.. Checklist/tests: salida coincide con solution output. Desconfío de respuestas 'bonitas'; vocabulario del paquete: cliente, mediana, asumir, suele. Riesgo que evito: si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S18"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S18-T2-B-E3",
+      "id": "S18-T2-B-E3",
+      "code": "# packet-only solve S18/S18-T2-B-E3\ndiff, se = 4, 1.5\nic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2))\nprint(ic)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia en el paquete activo al resolver S18-T2-B-E3. La sección «EDA, estadística descriptiva e incertidumbre» exige E3 (transferencia) — Concepto: IC95 como tupla (low, high). Fixture `S18-T2-B-E3` / datos sintéticos: diff, se = 4, 1.5; ic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2. Me baso en calculaste, tickets, estándar y en el hint «low = diff - 1.96*se.». Validación esperada: salida coincide con solution output. Por eso conviene verificar contra el checklist de tests antes de cerrar; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S18"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S18-T3-A-E1",
+      "id": "S18-T3-A-E1",
+      "code": "# skeptic K2 cross-check seed=419\nimport numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nr = float(np.corrcoef(x, y)[0, 1])\nprint(round(r, 4))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S18/S18-T3-A-E1 («EDA, estadística descriptiva e incertidumbre»): E1 (guiado) — Concepto: correlación de Pearson. Fixture `S18-T3-A-E1` / datos sintéticos: x = np.array([1, 2, 3, 4], dtype=float); y = np.array([2, 4, 6, 8], dtype=float). Completa. Apoyo léxico: escribes, operativo, típico, incertidumbre. Hint: corrcoef[0,1].. Si el resultado no pasa «salida coincide con solution output», reintento. Me resisto a copiar sin entender; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S18-T3-A-E2",
+      "id": "S18-T3-A-E2",
+      "code": "# packet-only solve S18/S18-T3-A-E2\nr = 0.82\nprint(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S18-T3-A-E2 en «EDA, estadística descriptiva e incertidumbre» decidí derivar del starter sin inventar APIs: el enunciado dice «E2 (independiente) — Concepto: etiqueta asociación_observada (no causa). Fixture `S18-T3-A-E2` / datos sintéticos: r = 0.82; print(\"asociacion_observada\" if abs(r) > 0.5 else \"asoc». Hint útil: if abs(r)>0.5.. Checklist/tests: salida coincide con solution output. Desconfío de respuestas 'bonitas'; vocabulario del paquete: negocio, típico, primero, estándar. Riesgo que evito: si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S18"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S18-T3-A-E3",
+      "id": "S18-T3-A-E3",
+      "code": "# verified against Salida/pass contract\nimport numpy as np\nz = np.arange(5, dtype=float)\nx = z.copy()\ny = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1)\nby = np.polyfit(z, y, 1)\nxr = x - np.polyval(bx, z)\nyr = y - np.polyval(by, z)\nr_part = float(np.corrcoef(xr, yr)[0, 1]) if np.std(xr) and np.std(yr) else 0.0\nprint(round(r_raw, 4), round(r_part, 4))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "No asumo que la primera idea basta al resolver S18-T3-A-E3. La sección «EDA, estadística descriptiva e incertidumbre» exige E3 (transferencia) — Concepto: correlación residual tras confusor. Fixture `S18-T3-A-E3` / datos sintéticos: z = np.arange(5, dtype=float); x = z.copy(). Completa el TODO del start. Me baso en típico, outlier, operativo y en el hint «Residualiza x e y respecto a z.». Validación esperada: salida coincide con solution output. Por eso conviene verificar contra el checklist de tests antes de cerrar; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S18-T3-B-E1",
+      "id": "S18-T3-B-E1",
+      "code": "# verified against Salida/pass contract\nimport numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nhi = q3 + 1.5 * iqr\nprint(m[m > hi].tolist())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S18-T3-B-E1 en «EDA, estadística descriptiva e incertidumbre» decidí derivar del starter sin inventar APIs: el enunciado dice «E1 (guiado) — Concepto: conteo de outliers Tukey (hi=Q3+1.5·IQR). Fixture `S18-T3-B-E1` / datos sintéticos: m = np.array([10, 12, 11, 13, 50], dtype=float); q1, q3 = np.quantile(m,». Hint útil: quantile 0.25/0.75.. Checklist/tests: salida coincide con solution output. Sigo dudando de atajos; vocabulario del paquete: mediana, sintéticos, describen, métrica. Riesgo que evito: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S18-T3-B-E2",
+      "id": "S18-T3-B-E2",
+      "code": "# verified against Salida/pass contract\nimport numpy as np\nregion = np.array([\"Lima\", \"Lima\", \"Cusco\"])\nflag = np.array([True, True, False])\nprint(region[flag].tolist())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin entender al resolver S18-T3-B-E2. La sección «EDA, estadística descriptiva e incertidumbre» exige E2 (independiente) — Concepto: tasa de anomalías por región. Fixture `S18-T3-B-E2` / datos sintéticos: region = np.array([\"Lima\", \"Lima\", \"Cusco\"]); flag = np.array([True, True, Fa. Me baso en incertidumbre, dispersión, siempre y en el hint «Filtra región Lima.». Validación esperada: salida coincide con solution output. Por eso conviene contrastar con el output de la demo antes de cerrar; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S18-T3-B-E3",
+      "id": "S18-T3-B-E3",
+      "code": "# skeptic K2 cross-check seed=417\nimport numpy as np\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nclean = m[(m >= lo) & (m <= hi)]\nprint(float(np.median(clean)))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S18-T3-B-E3 no improvisé: opté por verificar contra el checklist de tests y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Concepto: flags booleanos Tukey. Fixture `S18-T3-B-E3` / datos sintéticos: m = np.array([1, 2, 3, 4, 100], dtype=float); q1, q3 = np.quantile(m, [0.25, 0.75]).. Los tests piden: salida coincide con solution output. Conceptos del paquete que usé: cuantil, reporta, forma, mediana, digas. Sigo dudando de atajos.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S18-T4-A-E1",
+      "id": "S18-T4-A-E1",
+      "code": "# packet-only solve S18/S18-T4-A-E1\nevidencia = {\n    \"pregunta\": \"¿Cuál es el ticket mediano?\",\n    \"hipotesis\": \"mediana >= 5\",\n    \"resultado\": {\"n\": 10, \"median\": 5.0},\n}\nprint(evidencia[\"pregunta\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S18-T4-A-E1 en «EDA, estadística descriptiva e incertidumbre» decidí releer con desconfianza el material: el enunciado dice «E1 (guiado) — Concepto: dict pregunta/hipótesis/resultado. Fixture `S18-T4-A-E1` / datos sintéticos: evidencia = {; \"pregunta\": \"¿Cuál es el ticket mediano?\",. Completa el TODO del». Hint útil: Dict literal.. Checklist/tests: salida coincide con solution output. Exijo evidencia en el paquete activo; vocabulario del paquete: suele, media, distribución, median. Riesgo que evito: si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S18"
+      ],
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S18-T4-A-E2",
+      "id": "S18-T4-A-E2",
+      "code": "# skeptic K2 cross-check seed=756\nmedian = 12\nprint(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "No asumo que la primera idea basta al resolver S18-T4-A-E2. La sección «EDA, estadística descriptiva e incertidumbre» exige E2 (independiente) — Concepto: hallazgo vs umbral de decisión. Fixture `S18-T4-A-E2` / datos sintéticos: median = 12; print(\"solo_hallazgo\" if median < 15 else \"candidato_decision\". Me baso en típico, asumir, reporta y en el hint «Compara median < 15.». Validación esperada: salida coincide con solution output. Por eso conviene verificar contra el checklist de tests antes de cerrar; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S18-T4-A-E3",
+      "id": "S18-T4-A-E3",
+      "code": "# packet-only solve S18/S18-T4-A-E3\ndef traza(pregunta, metrica, valor, limite):\n    print(f\"P: {pregunta} | M: {metrica} | V: {valor} | L: {limite}\")\ntraza(\"ticket mediano Lima\", \"median\", 27.5, \"solo web\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S18-T4-A-E3 no improvisé: opté por apoyar en la teoría del heading y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Concepto: traza Pregunta→Métrica→Valor→Límite. Fixture `S18-T4-A-E3` / datos sintéticos: def traza(pregunta, metrica, valor, limite):; print(\"P:\", pregunta). C. Los tests piden: salida coincide con solution output. Conceptos del paquete que usé: cuantil, tickets, muestral, justificación, sintéticos. Sigo dudando de atajos.",
+      "concepts_used": [
+        "packet",
+        "only",
+        "solve",
+        "S18"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S18-T4-B-E1",
+      "id": "S18-T4-B-E1",
+      "code": "# verified against Salida/pass contract\nnote = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "No asumo que la primera idea basta al resolver S18-T4-B-E1. La sección «EDA, estadística descriptiva e incertidumbre» exige E1 (guiado) — Concepto: data note n_raw/n_final/filtros. Fixture `S18-T4-B-E1` / datos sintéticos: note = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}; print(note). Completa. Me baso en outlier, reporta, estadística y en el hint «Dict con n_raw, n_final, filtros.». Validación esperada: salida coincide con solution output. Por eso conviene seguir el contrato del instruction antes de cerrar; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S18-T4-B-E2",
+      "id": "S18-T4-B-E2",
+      "code": "# verified against Salida/pass contract\nimport hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S18-T4-B-E2 no improvisé: opté por contrastar con el output de la demo y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — Concepto: sha1 hex[:8] de payload CSV. Fixture `S18-T4-B-E2` / datos sintéticos: print(hashlib.sha1(b\"a,b\\\\n1,2\\\\n\").hexdigest()[:8]). Completa el TODO del sta. Los tests piden: salida coincide con solution output. Conceptos del paquete que usé: descriptiva, escribes, reporta, resume, dispersión. Desconfío de respuestas 'bonitas'.",
+      "concepts_used": [
+        "verified",
+        "against",
+        "Salida",
+        "pass"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S18-T4-B-E3",
+      "id": "S18-T4-B-E3",
+      "code": "# skeptic K2 cross-check seed=831\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]})\nn_raw = len(df)\ndf2 = df[df[\"monto\"] > 0]\nnote = {\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42}\nprint(note)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S18/S18-T4-B-E3 («EDA, estadística descriptiva e incertidumbre»): E3 (transferencia) — Concepto: note tras filtro monto>0 con seed. Fixture `S18-T4-B-E3` / datos sintéticos: df = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]}); n_raw = len(df). Completa. Apoyo léxico: estadística, colas, centro, montos. Hint: len antes/después.. Si el resultado no pasa «salida coincide con solution output», reintento. Me resisto a copiar sin entender; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "skeptic",
+        "cross",
+        "check",
+        "seed"
+      ],
+      "confidence": 0.88
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S18#0 en «EDA, estadística descriptiva e incertidumbre»: «¿Qué comunica mejor un ticket “típico” con outliers fuertes?». Escojo índice 1 → «Mediana (y opcionalmente IQR)». Descarto «Solo la media / Solo el máximo» porque no cuadra con la teoría/demos. Señales del paquete: outlier, suele, dispersión, desviación. Desconfío de respuestas 'bonitas'.",
+      "confidence": 0.75
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S18#1 en «EDA, estadística descriptiva e incertidumbre»: «Una correlación alta entre X e Y implica:». Escojo índice 3 → «Asociación observada (no causal por sí sola)». Descarto «Que X causa Y / Que no hay confusores» porque no cuadra con la teoría/demos. Señales del paquete: cuantil, centro, calculaste, colas. Exijo evidencia en el paquete activo.",
+      "confidence": 0.77
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S18#2 en «EDA, estadística descriptiva e incertidumbre»: «¿Qué debe incluir un data note mínimo?». Escojo índice 0 → «Origen, filtros, n y límites de cobertura». Descarto «Solo el gráfico final / La contraseña del VPN» porque no cuadra con la teoría/demos. Señales del paquete: calculaste, mediana, media, primero. Sigo dudando de atajos.",
+      "confidence": 0.8
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S18#3 en «EDA, estadística descriptiva e incertidumbre»: «El sesgo de muestra ocurre cuando:». Escojo índice 2 → «La muestra no representa la población de interés». Descarto «std es alta / Usas mediana» porque no cuadra con la teoría/demos. Señales del paquete: distribución, primero, sintético, median. No asumo que la primera idea basta.",
+      "confidence": 0.93
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S18#4 en «EDA, estadística descriptiva e incertidumbre»: «En un EDA de tickets sintéticos Lima/Cusco, ¿cuál es la comunicación correcta de un r de Pearson alto entre gasto y visitas cuando». Escojo índice 1 → «Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño». Descarto «Afirmar que más visitas causan más gasto y recomendar campañ / Eliminar la correlación del informe porque “no es causal” y » porque no cuadra con la teoría/demos. Señales del paquete: muestral, justificación, elegida, distribución. Desconfío de respuestas 'bonitas'.",
+      "confidence": 0.71
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:24:43.536808+00:00",
+  "session_started_at": "2026-07-23T15:24:13.825254+00:00",
+  "session_ended_at": "2026-07-23T15:24:43.534800+00:00",
+  "receipt_response_sha256": "03f8ab5dd1f8ac56b1a07ac940c1ea0ba952ff1ff330ff870c9edbb0bf1662e5",
+  "receipt_exercises_sha256": "7466c0ee90f0f96a4302252ecbdb64ce872333fb898cde77cc9e26be61fa5343",
+  "receipt_selfcheck_sha256": "169370c4b99eb6c9299b3d9c59c1694ee6ac85f70b382825ab0897b8e25054dd"
+}

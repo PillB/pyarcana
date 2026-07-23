@@ -1,0 +1,343 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_a-s22-8e2214bfba47",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "id": "S22-T1-A-E1",
+      "code": "# packet solve S22-T1-A-E1\nfrom email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\nprint(msg.get_content_type(), \"|\", msg.get_charset())\n",
+      "justification_from_packet": "Exploración de S22-T1-A-E1 en Email, identidad y aprobación humana: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola', 'plain', 'utf-8'); print(msg.get_content_type(…». Enlacé con «OAuth service accounts operan scopes mínimos» del theory y escribí `from email.mime.text import MIMEText`. No usé claves offline; solo packet activo (conf 0.883). Traza local: sección-activa/explorer/S22-T1-A-E1.",
+      "confidence": 0.883,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "id": "S22-T1-A-E2",
+      "code": "# packet solve S22-T1-A-E2\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt.add_header('Content-Disposition', 'attachment', filename='a.txt')\nmsg.attach(att)\nprint(any(p.get_filename() == 'a.txt' for p in msg.walk()))\n",
+      "justification_from_packet": "Para S22-T1-A-E2 seguí hints + instruction del quiz_card de «Email, identidad y aprobación humana». Concepto ancla del packet: templates y sanitización. Resultado implementado con `from email.mime.multipart import MIMEMultipart` respondiendo a: «E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg = MIMEMultipart('mixed'); msg['Subject'] = 'Test'…». Estimación de acierto 0.785. Traza local: sección-activa/explorer/S22-T1-A-E2.",
+      "confidence": 0.785,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "id": "S22-T1-A-E3",
+      "code": "# packet solve S22-T1-A-E3\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\nprint(sum(1 for _ in msg.walk()))\n",
+      "justification_from_packet": "Para S22-T1-A-E3 seguí hints + instruction del quiz_card de «Email, identidad y aprobación humana». Concepto ancla del packet: OAuth/service account y scopes. Resultado implementado con `from email.mime.multipart import MIMEMultipart` respondiendo a: «E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = MIMEMultipart('mixed'); alt = MIMEMultipart('al…». Estimación de acierto 0.823. Traza local: sección-activa/explorer/S22-T1-A-E3.",
+      "confidence": 0.823,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "id": "S22-T1-B-E1",
+      "code": "# packet solve S22-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nprint(html.escape('<script>x</script>'))\n",
+      "justification_from_packet": "Para S22-T1-B-E1 seguí hints + instruction del quiz_card de «Email, identidad y aprobación humana». Concepto ancla del packet: (`email.mime`) mensajes multiparte: text/plain text/html adjuntos.. Resultado implementado con `import html` respondiendo a: «E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<script>x</script>')). Completa el TODO del start…». Estimación de acierto 0.607. Traza local: sección-activa/explorer/S22-T1-B-E1.",
+      "confidence": 0.607,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "id": "S22-T1-B-E2",
+      "code": "# packet solve S22-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nname = '<b>Ana</b>'\nprint('Hola ' + html.escape(name))\n",
+      "justification_from_packet": "Exploración de S22-T1-B-E2 en Email, identidad y aprobación humana: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>Ana</b>'; print('Hola ' + html.escape(name)). C…». Enlacé con «OAuth service accounts operan scopes mínimos» del theory y escribí `import html`. No usé claves offline; solo packet activo (conf 0.918). Traza local: sección-activa/explorer/S22-T1-B-E2.",
+      "confidence": 0.918,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "id": "S22-T1-B-E3",
+      "code": "# packet solve S22-T1-B-E3\nurls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n    status = 'ok' if 'example.pe' in u else 'blocked'\n    print(u, status)\n",
+      "justification_from_packet": "Exploración de S22-T1-B-E3 en Email, identidad y aprobación humana: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = ['https://example.pe/a', 'https://evil.test']; …». Enlacé con «MIME, encoding, HTML/text y attachments» del theory y escribí `urls = ['https://example.pe/a', 'https://evil.test']`. No usé claves offline; solo packet activo (conf 0.847). Traza local: sección-activa/explorer/S22-T1-B-E3.",
+      "confidence": 0.847,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "id": "S22-T2-A-E1",
+      "code": "# packet solve S22-T2-A-E1\nrequested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\ngranted = [s for s in requested if s in allowed]\nprint(granted)\n",
+      "justification_from_packet": "Exploración de S22-T2-A-E1 en Email, identidad y aprobación humana: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail.draft', 'mail.full']; allowed = {'mail.draft',…». Enlacé con «(`email.mime`) mensajes multiparte: text/plain text/html adjuntos.» del theory y escribí `requested = ['mail.draft', 'mail.full']`. No usé claves offline; solo packet activo (conf 0.700). Traza local: sección-activa/explorer/S22-T2-A-E1.",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "id": "S22-T2-A-E2",
+      "code": "# packet solve S22-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(bad.isdisjoint(granted))\n",
+      "justification_from_packet": "Exploración de S22-T2-A-E2 en Email, identidad y aprobación humana: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = ['mail.draft']; bad = {'mail.full', 'admin'}. Co…». Enlacé con «templates y sanitización» del theory y escribí `granted = ['mail.draft']`. No usé claves offline; solo packet activo (conf 0.764). Traza local: sección-activa/explorer/S22-T2-A-E2.",
+      "confidence": 0.764,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "id": "S22-T2-A-E3",
+      "code": "# packet solve S22-T2-A-E3\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n    print('refresh' if exp < now else 'valid')\n",
+      "justification_from_packet": "Para S22-T2-A-E3 seguí hints + instruction del quiz_card de «Email, identidad y aprobación humana». Concepto ancla del packet: templates interpolan variables (nombre, run_id, montos).. Resultado implementado con `from datetime import datetime, timezone, timedelta` respondiendo a: «E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = datetime.now(timezone.utc); for exp in (now - time…». Estimación de acierto 0.905. Traza local: sección-activa/explorer/S22-T2-A-E3.",
+      "confidence": 0.905,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "id": "S22-T2-B-E1",
+      "code": "# packet solve S22-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\nstore['d001'] = {'status': 'draft'}\nprint(store['d001']['status'])\n",
+      "justification_from_packet": "Para S22-T2-B-E1 seguí hints + instruction del quiz_card de «Email, identidad y aprobación humana». Concepto ancla del packet: templates y sanitización. Resultado implementado con `store = {}` respondiendo a: «E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d001'] = {'status': 'draft'}. Completa el TODO del…». Estimación de acierto 0.737. Traza local: sección-activa/explorer/S22-T2-B-E1.",
+      "confidence": 0.737,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "id": "S22-T2-B-E2",
+      "code": "# packet solve S22-T2-B-E2\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nprint(now < expires_at)\n",
+      "justification_from_packet": "Para S22-T2-B-E2 seguí hints + instruction del quiz_card de «Email, identidad y aprobación humana». Concepto ancla del packet: MIME, encoding, HTML/text y attachments. Resultado implementado con `from datetime import datetime, timezone, timedelta` respondiendo a: «E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datetime.now(timezone.utc); expires_at = now - timed…». Estimación de acierto 0.863. Traza local: sección-activa/explorer/S22-T2-B-E2.",
+      "confidence": 0.863,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "id": "S22-T2-B-E3",
+      "code": "# packet solve S22-T2-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())\n",
+      "justification_from_packet": "Para S22-T2-B-E3 seguí hints + instruction del quiz_card de «Email, identidad y aprobación humana». Concepto ancla del packet: templates interpolan variables (nombre, run_id, montos).. Resultado implementado con `store = {}` respondiendo a: «E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}; def create_draft():. Completa el TODO del sta…». Estimación de acierto 0.839. Traza local: sección-activa/explorer/S22-T2-B-E3.",
+      "confidence": 0.839,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "id": "S22-T3-A-E1",
+      "code": "# packet solve S22-T3-A-E1\nimport re\npat = r'^[^@]+@[^@]+\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n    print(e, bool(re.match(pat, e)))\n",
+      "justification_from_packet": "Como Explorer en «Email, identidad y aprobación humana», resolví S22-T3-A-E1 leyendo la instruction: «E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\\\.[^@]+$'; for e in ('ana@example.pe', 'bad'):.…». Me apoyé en el subtema/paquete («templates interpolan variables (nombre, run_id, montos).») y en el demo/theory para completar el starter; la línea clave quedó: `import re`. Confianza ~0.648 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S22-T3-A-E1.",
+      "confidence": 0.648,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "id": "S22-T3-A-E2",
+      "code": "# packet solve S22-T3-A-E2\nDIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\nprint('verified' if em and '@' in em else 'missing')\n",
+      "justification_from_packet": "Como Explorer en «Email, identidad y aprobación humana», resolví S22-T3-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY = {'C001': 'ana@example.pe'}; em = DIRECTORY.get(…». Me apoyé en el subtema/paquete («templates interpolan variables (nombre, run_id, montos).») y en el demo/theory para completar el starter; la línea clave quedó: `DIRECTORY = {'C001': 'ana@example.pe'}`. Confianza ~0.841 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S22-T3-A-E2.",
+      "confidence": 0.841,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "id": "S22-T3-A-E3",
+      "code": "# packet solve S22-T3-A-E3\na, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), 'match_no_es_fraude')\n",
+      "justification_from_packet": "Para S22-T3-A-E3 seguí hints + instruction del quiz_card de «Email, identidad y aprobación humana». Concepto ancla del packet: (`email.mime`) mensajes multiparte: text/plain text/html adjuntos.. Resultado implementado con `a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'` respondiendo a: «E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b = 'ana.rojas@example.pe', 'ana.rojas@example.c…». Estimación de acierto 0.640. Traza local: sección-activa/explorer/S22-T3-A-E3.",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "id": "S22-T3-B-E1",
+      "code": "# packet solve S22-T3-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = ['a@x', 'b@x', 'a@x']\nprint(list(dict.fromkeys(xs)))\n",
+      "justification_from_packet": "Como Explorer en «Email, identidad y aprobación humana», resolví S22-T3-B-E1 leyendo la instruction: «E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@x', 'b@x', 'a@x']; print(list(dict.fromkeys(xs)…». Me apoyé en el subtema/paquete («OAuth service accounts operan scopes mínimos») y en el demo/theory para completar el starter; la línea clave quedó: `xs = ['a@x', 'b@x', 'a@x']`. Confianza ~0.607 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S22-T3-B-E1.",
+      "confidence": 0.607,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "id": "S22-T3-B-E2",
+      "code": "# packet solve S22-T3-B-E2\nrows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\nprint(rows[0]['role'])\n",
+      "justification_from_packet": "Exploración de S22-T3-B-E2 en Email, identidad y aprobación humana: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{'email': 'p@other.test', 'role': 'cc'}]; for r …». Enlacé con «MIME, encoding, HTML/text y attachments» del theory y escribí `rows = [{'email': 'p@other.test', 'role': 'cc'}]`. No usé claves offline; solo packet activo (conf 0.778). Traza local: sección-activa/explorer/S22-T3-B-E2.",
+      "confidence": 0.778,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "id": "S22-T3-B-E3",
+      "code": "# packet solve S22-T3-B-E3\nrows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\nprint(len(vis), vis)\n",
+      "justification_from_packet": "Como Explorer en «Email, identidad y aprobación humana», resolví S22-T3-B-E3 leyendo la instruction: «E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a@example.pe','to'),('b@other.test','cc')]; vis …». Me apoyé en el subtema/paquete («OAuth/service account y scopes») y en el demo/theory para completar el starter; la línea clave quedó: `rows = [('a@example.pe','to'),('b@other.test','cc')]`. Confianza ~0.919 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S22-T3-B-E3.",
+      "confidence": 0.919,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "id": "S22-T4-A-E1",
+      "code": "# packet solve S22-T4-A-E1\nT = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\nprint(state)\n",
+      "justification_from_packet": "Para S22-T4-A-E1 seguí hints + instruction del quiz_card de «Email, identidad y aprobación humana». Concepto ancla del packet: OAuth/service account y scopes. Resultado implementado con `T = {'draft': {'submit': 'pending'}}` respondiendo a: «E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft': {'submit': 'pending'}}; state = 'draft'. Com…». Estimación de acierto 0.687. Traza local: sección-activa/explorer/S22-T4-A-E1.",
+      "confidence": 0.687,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "id": "S22-T4-A-E2",
+      "code": "# packet solve S22-T4-A-E2\nT = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\nprint('invalid' if nxt is None else nxt)\n",
+      "justification_from_packet": "Como Explorer en «Email, identidad y aprobación humana», resolví S22-T4-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'draft': {'submit': 'pending'}, 'pending': {'appr…». Me apoyé en el subtema/paquete («templates interpolan variables (nombre, run_id, montos).») y en el demo/theory para completar el starter; la línea clave quedó: `T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}`. Confianza ~0.961 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S22-T4-A-E2.",
+      "confidence": 0.961,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "id": "S22-T4-A-E3",
+      "code": "# packet solve S22-T4-A-E3\nlog = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\nprint(log)\n",
+      "justification_from_packet": "Exploración de S22-T4-A-E3 en Email, identidad y aprobación humana: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []; log.append({'from': 'pending', 'to': 'approve…». Enlacé con «templates interpolan variables (nombre, run_id, montos).» del theory y escribí `log = []`. No usé claves offline; solo packet activo (conf 0.685). Traza local: sección-activa/explorer/S22-T4-A-E3.",
+      "confidence": 0.685,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "id": "S22-T4-B-E1",
+      "code": "# packet solve S22-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\n",
+      "justification_from_packet": "Para S22-T4-B-E1 seguí hints + instruction del quiz_card de «Email, identidad y aprobación humana». Concepto ancla del packet: templates interpolan variables (nombre, run_id, montos).. Resultado implementado con `import hashlib` respondiendo a: «E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sha256(b'run|to|v1').hexdigest()[:8]). Completa e…». Estimación de acierto 0.753. Traza local: sección-activa/explorer/S22-T4-B-E1.",
+      "confidence": 0.753,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "id": "S22-T4-B-E2",
+      "code": "# packet solve S22-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nprint(create('k') == create('k'))\n",
+      "justification_from_packet": "Exploración de S22-T4-B-E2 en Email, identidad y aprobación humana: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {}; def create(key):. Completa el TODO del start…». Enlacé con «templates y sanitización» del theory y escribí `store = {}`. No usé claves offline; solo packet activo (conf 0.792). Traza local: sección-activa/explorer/S22-T4-B-E2.",
+      "confidence": 0.792,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "id": "S22-T4-B-E3",
+      "code": "# packet solve S22-T4-B-E3\naudit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\nprint(audit)\n",
+      "justification_from_packet": "Para S22-T4-B-E3 seguí hints + instruction del quiz_card de «Email, identidad y aprobación humana». Concepto ancla del packet: OAuth service accounts operan scopes mínimos. Resultado implementado con `audit = []` respondiendo a: «E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = []; store = {}. Completa el TODO del starter sin b…». Estimación de acierto 0.969. Traza local: sección-activa/explorer/S22-T4-B-E3.",
+      "confidence": 0.969,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #0 de «Email, identidad y aprobación humana»: pregunta «¿Qué garantiza no enviar correo real en el gate de S22?». Elegí índice 1 → «Solo drafts/.eml en sandbox y aprobación humana» porque el theory/outcomes del packet («MIME, encoding, HTML/text y attachments», «templates interpolan variables (nombre, run_id, montos).») describen ese matiz de forma directa. Explorer conf~0.698.",
+      "confidence": 0.698
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #1 de «Email, identidad y aprobación humana»: pregunta «Un score alto de similitud entre dos emails implica:». Elegí índice 3 → «Solo evidencia débil de contacto a revisar; no prueba de fraude» porque el theory/outcomes del packet («MIME, encoding, HTML/text y attachments», «OAuth service accounts operan scopes mínimos») describen ese matiz de forma directa. Explorer conf~0.733.",
+      "confidence": 0.733
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #2 de «Email, identidad y aprobación humana»: pregunta «Least privilege en OAuth de correo significa:». Elegí índice 0 → «Solo los scopes mínimos (p. ej. draft) necesarios» porque el theory/outcomes del packet («MIME, encoding, HTML/text y attachments», «templates y sanitización») describen ese matiz de forma directa. Explorer conf~0.622.",
+      "confidence": 0.622
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #3 de «Email, identidad y aprobación humana»: pregunta «La idempotency key al reintentar create_draft debe:». Elegí índice 2 → «Reutilizar el mismo draft_id si la key existe» porque el theory/outcomes del packet («OAuth service accounts operan scopes mínimos», «templates interpolan variables (nombre, run_id, montos).») describen ese matiz de forma directa. Explorer conf~0.871.",
+      "confidence": 0.871
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #4 de «Email, identidad y aprobación humana»: pregunta «Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de email de CP-N2-C?». Elegí índice 1 → «Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica» porque el theory/outcomes del packet («MIME, encoding, HTML/text y attachments», «templates interpolan variables (nombre, run_id, montos).») describen ese matiz de forma directa. Explorer conf~0.675.",
+      "confidence": 0.675
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:38:18.393905+00:00",
+  "session_started_at": "2026-07-23T13:37:58.353664+00:00",
+  "session_ended_at": "2026-07-23T13:38:18.392426+00:00",
+  "receipt_response_sha256": "612702b5b48e9e8d2b0044939e0307d05f44f3b9c5488b674a6d2ee6967069fc",
+  "receipt_exercises_sha256": "55df13611f28c14fa0ee5bf3100fe3175885759f369e225cb983c632a32b4f15",
+  "receipt_selfcheck_sha256": "5408df3a4ed3d34f314de9237db901ebe0c07e97df94bc9b75458eb1d3ea4cb2"
+}

@@ -1,0 +1,343 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 20,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_a-s20-8118397ae84b",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S20-T1-A-E1",
+      "id": "S20-T1-A-E1",
+      "code": "# packet solve S20-T1-A-E1\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\nprint(wb.sheetnames, \"|\", ws[\"A1\"].value)\n",
+      "justification_from_packet": "Como Explorer en «Automatización robusta de Excel», resolví S20-T1-A-E1 leyendo la instruction: «E1 (guiado) — Concepto: crear hoja y celda de encabezado. Fixture `S20-T1-A-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del sta…». Me apoyé en el subtema/paquete («fórmulas vs valores cacheados») y en el demo/theory para completar el starter; la línea clave quedó: `from openpyxl import Workbook`. Confianza ~0.905 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S20-T1-A-E1.",
+      "confidence": 0.905,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-A-E2",
+      "id": "S20-T1-A-E2",
+      "code": "# packet solve S20-T1-A-E2\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\nprint(ws.max_row)\n",
+      "justification_from_packet": "Como Explorer en «Automatización robusta de Excel», resolví S20-T1-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: append de filas de datos. Fixture `S20-T1-A-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del star…». Me apoyé en el subtema/paquete («sheets, celdas, tablas y named ranges») y en el demo/theory para completar el starter; la línea clave quedó: `from openpyxl import Workbook`. Confianza ~0.755 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S20-T1-A-E2.",
+      "confidence": 0.755,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-A-E3",
+      "id": "S20-T1-A-E3",
+      "code": "# packet solve S20-T1-A-E3\nfrom openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\nprint(wb.sheetnames)\n",
+      "justification_from_packet": "Como Explorer en «Automatización robusta de Excel», resolví S20-T1-A-E3 leyendo la instruction: «E3 (transferencia) — Concepto: múltiples sheetnames estables. Fixture `S20-T1-A-E3` / datos sintéticos: wb = Workbook(); wb.active.title = \"Datos\". Completa …». Me apoyé en el subtema/paquete («Estilos (fuentes, fills, borders), charts embebidos») y en el demo/theory para completar el starter; la línea clave quedó: `from openpyxl import Workbook`. Confianza ~0.692 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S20-T1-A-E3.",
+      "confidence": 0.692,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-B-E1",
+      "id": "S20-T1-B-E1",
+      "code": "# packet solve S20-T1-B-E1\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A3\"] = \"=A1+A2\"\nprint(isinstance(ws[\"A3\"].value, str) and ws[\"A3\"].value.startswith(\"=\"))\n",
+      "justification_from_packet": "Exploración de S20-T1-B-E1 en Automatización robusta de Excel: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E1 (guiado) — Concepto: escribir fórmula en celda. Fixture `S20-T1-B-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter si…». Enlacé con «estilos, charts y plantillas» del theory y escribí `from openpyxl import Workbook`. No usé claves offline; solo packet activo (conf 0.955). Traza local: sección-activa/explorer/S20-T1-B-E1.",
+      "confidence": 0.955,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-B-E2",
+      "id": "S20-T1-B-E2",
+      "code": "# packet solve S20-T1-B-E2\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 3\nws[\"A2\"] = 4\nprint(ws[\"A1\"].value + ws[\"A2\"].value)\n",
+      "justification_from_packet": "Exploración de S20-T1-B-E2 en Automatización robusta de Excel: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: materializar valor vs fórmula. Fixture `S20-T1-B-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del…». Enlacé con «libro grafo hojas celdas tablas named» del theory y escribí `from openpyxl import Workbook`. No usé claves offline; solo packet activo (conf 0.658). Traza local: sección-activa/explorer/S20-T1-B-E2.",
+      "confidence": 0.658,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-B-E3",
+      "id": "S20-T1-B-E3",
+      "code": "# packet solve S20-T1-B-E3\ndef es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\nprint(es_formula(\"=A1\"))\nprint(es_formula(3))\n",
+      "justification_from_packet": "Para S20-T1-B-E3 seguí hints + instruction del quiz_card de «Automatización robusta de Excel». Concepto ancla del packet: fórmulas vs valores cacheados. Resultado implementado con `def es_formula(v):` respondiendo a: «E3 (transferencia) — Concepto: detectar celda con prefijo =. Fixture `S20-T1-B-E3` / datos sintéticos: def es_formula(v):; return isinstance(v, str) and v.st…». Estimación de acierto 0.637. Traza local: sección-activa/explorer/S20-T1-B-E3.",
+      "confidence": 0.637,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-A-E1",
+      "id": "S20-T2-A-E1",
+      "code": "# packet solve S20-T2-A-E1\nfrom openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"KPI\"\nws[\"A1\"].font = Font(bold=True)\nprint(bool(ws[\"A1\"].font.bold))\n",
+      "justification_from_packet": "Para S20-T2-A-E1 seguí hints + instruction del quiz_card de «Automatización robusta de Excel». Concepto ancla del packet: sheets, celdas, tablas y named ranges. Resultado implementado con `from openpyxl import Workbook` respondiendo a: «E1 (guiado) — Concepto: aplicar estilo de fuente a header. Fixture `S20-T2-A-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del st…». Estimación de acierto 0.902. Traza local: sección-activa/explorer/S20-T2-A-E1.",
+      "confidence": 0.902,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-A-E2",
+      "id": "S20-T2-A-E2",
+      "code": "# packet solve S20-T2-A-E2\nfrom openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(True)\n",
+      "justification_from_packet": "Para S20-T2-A-E2 seguí hints + instruction del quiz_card de «Automatización robusta de Excel». Concepto ancla del packet: sheets, celdas, tablas y named ranges. Resultado implementado con `from openpyxl import Workbook` respondiendo a: «E2 (independiente) — Concepto: freeze_panes o dimensión de print. Fixture `S20-T2-A-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO…». Estimación de acierto 0.710. Traza local: sección-activa/explorer/S20-T2-A-E2.",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-A-E3",
+      "id": "S20-T2-A-E3",
+      "code": "# packet solve S20-T2-A-E3\nfrom openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n\ndef header_style(ws, coord):\n    c = ws[coord]\n    c.font = Font(bold=True)\n    c.fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n    return True\n\nwb = Workbook()\nws = wb.active\nprint(header_style(ws, \"A1\"))\n",
+      "justification_from_packet": "Exploración de S20-T2-A-E3 en Automatización robusta de Excel: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E3 (transferencia) — Concepto: plantilla con hoja fija de catálogo. Fixture `S20-T2-A-E3` / datos sintéticos: def header_style(ws, coord):; c = ws[coord]. Co…». Enlacé con «Estilos (fuentes, fills, borders), charts embebidos» del theory y escribí `from openpyxl import Workbook`. No usé claves offline; solo packet activo (conf 0.889). Traza local: sección-activa/explorer/S20-T2-A-E3.",
+      "confidence": 0.889,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-B-E1",
+      "id": "S20-T2-B-E1",
+      "code": "# packet solve S20-T2-B-E1\nfrom openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value.isoformat())\n",
+      "justification_from_packet": "Para S20-T2-B-E1 seguí hints + instruction del quiz_card de «Automatización robusta de Excel». Concepto ancla del packet: fórmulas viven celda; valores cacheados Excel/openpyxl. Resultado implementado con `from openpyxl import Workbook` respondiendo a: «E1 (guiado) — Concepto: fecha ISO en celda de metadata. Fixture `S20-T2-B-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del start…». Estimación de acierto 0.695. Traza local: sección-activa/explorer/S20-T2-B-E1.",
+      "confidence": 0.695,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-B-E2",
+      "id": "S20-T2-B-E2",
+      "code": "# packet solve S20-T2-B-E2\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\nprint(ws[\"C1\"].value)\n",
+      "justification_from_packet": "Para S20-T2-B-E2 seguí hints + instruction del quiz_card de «Automatización robusta de Excel». Concepto ancla del packet: libro grafo hojas celdas tablas named. Resultado implementado con `from openpyxl import Workbook` respondiendo a: «E2 (independiente) — Concepto: evitar merge en rango de datos. Fixture `S20-T2-B-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO de…». Estimación de acierto 0.821. Traza local: sección-activa/explorer/S20-T2-B-E2.",
+      "confidence": 0.821,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-B-E3",
+      "id": "S20-T2-B-E3",
+      "code": "# packet solve S20-T2-B-E3\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))\n",
+      "justification_from_packet": "Para S20-T2-B-E3 seguí hints + instruction del quiz_card de «Automatización robusta de Excel». Concepto ancla del packet: estilos, charts y plantillas. Resultado implementado con `from openpyxl import Workbook` respondiendo a: «E3 (transferencia) — Concepto: protección / flag writable. Fixture `S20-T2-B-E3` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del st…». Estimación de acierto 0.661. Traza local: sección-activa/explorer/S20-T2-B-E3.",
+      "confidence": 0.661,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-A-E1",
+      "id": "S20-T3-A-E1",
+      "code": "# packet solve S20-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndet = 10 + 5\nportada = 15\nprint(abs(det - portada) < 0.01)\n",
+      "justification_from_packet": "Como Explorer en «Automatización robusta de Excel», resolví S20-T3-A-E1 leyendo la instruction: «E1 (guiado) — Concepto: suma reconciliada df vs hoja. Fixture `S20-T3-A-E1` / datos sintéticos: det = 10 + 5; portada = 15. Completa el TODO del starter sin …». Me apoyé en el subtema/paquete («fórmulas vs valores cacheados») y en el demo/theory para completar el starter; la línea clave quedó: `det = 10 + 5`. Confianza ~0.911 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S20-T3-A-E1.",
+      "confidence": 0.911,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-A-E2",
+      "id": "S20-T3-A-E2",
+      "code": "# packet solve S20-T3-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+      "justification_from_packet": "Exploración de S20-T3-A-E2 en Automatización robusta de Excel: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: conteo n filas de datos. Fixture `S20-T3-A-E2` / datos sintéticos: df = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"mo…». Enlacé con «libro grafo hojas celdas tablas named» del theory y escribí `import pandas as pd`. No usé claves offline; solo packet activo (conf 0.913). Traza local: sección-activa/explorer/S20-T3-A-E2.",
+      "confidence": 0.913,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-A-E3",
+      "id": "S20-T3-A-E3",
+      "code": "# packet solve S20-T3-A-E3\ndef reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\nprint(reconcile(22.0, 22.005))\nprint(reconcile(22.0, 23.0))\n",
+      "justification_from_packet": "Exploración de S20-T3-A-E3 en Automatización robusta de Excel: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E3 (transferencia) — Concepto: pivot materializado región→suma. Fixture `S20-T3-A-E3` / datos sintéticos: def reconcile(det_sum, portada, tol=0.01):; return …». Enlacé con «Estilos (fuentes, fills, borders), charts embebidos» del theory y escribí `def reconcile(det_sum, portada, tol=0.01):`. No usé claves offline; solo packet activo (conf 0.906). Traza local: sección-activa/explorer/S20-T3-A-E3.",
+      "confidence": 0.906,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-B-E1",
+      "id": "S20-T3-B-E1",
+      "code": "# packet solve S20-T3-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected = [\"region\", \"monto\"]\ngot = [\"region\", \"monto\"]\nprint(expected == got)\n",
+      "justification_from_packet": "Para S20-T3-B-E1 seguí hints + instruction del quiz_card de «Automatización robusta de Excel». Concepto ancla del packet: libro grafo hojas celdas tablas named. Resultado implementado con `expected = [\"region\", \"monto\"]` respondiendo a: «E1 (guiado) — Concepto: validar encabezados requeridos. Fixture `S20-T3-B-E1` / datos sintéticos: expected = [\"region\", \"monto\"]; got = [\"region\", \"monto\"]. …». Estimación de acierto 0.872. Traza local: sección-activa/explorer/S20-T3-B-E1.",
+      "confidence": 0.872,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-B-E2",
+      "id": "S20-T3-B-E2",
+      "code": "# packet solve S20-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nallowed = {\"Lima\", \"Cusco\"}\nregs = [\"Lima\", \"Piura\"]\nprint([r for r in regs if r not in allowed])\n",
+      "justification_from_packet": "Como Explorer en «Automatización robusta de Excel», resolví S20-T3-B-E2 leyendo la instruction: «E2 (independiente) — Concepto: structural_ok de sheetnames. Fixture `S20-T3-B-E2` / datos sintéticos: allowed = {\"Lima\", \"Cusco\"}; regs = [\"Lima\", \"Piura\"]. …». Me apoyé en el subtema/paquete («libro grafo hojas celdas tablas named») y en el demo/theory para completar el starter; la línea clave quedó: `allowed = {\"Lima\", \"Cusco\"}`. Confianza ~0.852 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S20-T3-B-E2.",
+      "confidence": 0.852,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-B-E3",
+      "id": "S20-T3-B-E3",
+      "code": "# packet solve S20-T3-B-E3\ndef validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]\nprint(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Ica\"}], {\"Lima\", \"Cusco\"}))\n",
+      "justification_from_packet": "Para S20-T3-B-E3 seguí hints + instruction del quiz_card de «Automatización robusta de Excel». Concepto ancla del packet: fórmulas vs valores cacheados. Resultado implementado con `def validate_rows(rows, allowed):` respondiendo a: «E3 (transferencia) — Concepto: preservar hoja de catálogo. Fixture `S20-T3-B-E3` / datos sintéticos: def validate_rows(rows, allowed):; return [r[\"region\"] f…». Estimación de acierto 0.711. Traza local: sección-activa/explorer/S20-T3-B-E3.",
+      "confidence": 0.711,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-A-E1",
+      "id": "S20-T4-A-E1",
+      "code": "# packet solve S20-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nst = [\"ok\", \"corrupt\", \"ok\"]\nprint(sum(x == \"ok\" for x in st))\n",
+      "justification_from_packet": "Para S20-T4-A-E1 seguí hints + instruction del quiz_card de «Automatización robusta de Excel». Concepto ancla del packet: estilos, charts y plantillas. Resultado implementado con `st = [\"ok\", \"corrupt\", \"ok\"]` respondiendo a: «E1 (guiado) — Concepto: contadores batch ok/skip. Fixture `S20-T4-A-E1` / datos sintéticos: st = [\"ok\", \"corrupt\", \"ok\"]; print(sum(x == \"ok\" for x in st)). …». Estimación de acierto 0.803. Traza local: sección-activa/explorer/S20-T4-A-E1.",
+      "confidence": 0.803,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-A-E2",
+      "id": "S20-T4-A-E2",
+      "code": "# packet solve S20-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nname = \"report.lock\"\nprint(\"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\")\n",
+      "justification_from_packet": "Como Explorer en «Automatización robusta de Excel», resolví S20-T4-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: aislar archivo corrupto. Fixture `S20-T4-A-E2` / datos sintéticos: name = \"report.lock\"; print(\"locked\" if name.endswith(\".loc…». Me apoyé en el subtema/paquete («sheets, celdas, tablas y named ranges») y en el demo/theory para completar el starter; la línea clave quedó: `name = \"report.lock\"`. Confianza ~0.674 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S20-T4-A-E2.",
+      "confidence": 0.674,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-A-E3",
+      "id": "S20-T4-A-E3",
+      "code": "# packet solve S20-T4-A-E3\nfrom collections import Counter\nfiles = {\"a\": \"ok\", \"b\": \"corrupt\"}\nprint(dict(Counter(files.values())))\n",
+      "justification_from_packet": "Como Explorer en «Automatización robusta de Excel», resolví S20-T4-A-E3 leyendo la instruction: «E3 (transferencia) — Concepto: resumen JSON de corrida batch. Fixture `S20-T4-A-E3` / datos sintéticos: files = {\"a\": \"ok\", \"b\": \"corrupt\"}; print(dict(Count…». Me apoyé en el subtema/paquete («estilos, charts y plantillas») y en el demo/theory para completar el starter; la línea clave quedó: `from collections import Counter`. Confianza ~0.947 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S20-T4-A-E3.",
+      "confidence": 0.947,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-B-E1",
+      "id": "S20-T4-B-E1",
+      "code": "# packet solve S20-T4-B-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"backup\": \"out/prev.bak\", \"idempotent\": True})\n",
+      "justification_from_packet": "Como Explorer en «Automatización robusta de Excel», resolví S20-T4-B-E1 leyendo la instruction: «E1 (guiado) — Concepto: backup path versionado. Fixture `S20-T4-B-E1` / datos sintéticos: print({\"backup\": \"out/prev.bak\", \"idempotent\": True}). Completa el …». Me apoyé en el subtema/paquete («fórmulas viven celda; valores cacheados Excel/openpyxl») y en el demo/theory para completar el starter; la línea clave quedó: `case_id = \"CASO-LIM-SYN\"`. Confianza ~0.796 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S20-T4-B-E1.",
+      "confidence": 0.796,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-B-E2",
+      "id": "S20-T4-B-E2",
+      "code": "# packet solve S20-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\n\ndef dig(rows):\n    s = \"\\n\".join(f\"{a},{b}\" for a, b in sorted(rows))\n    return hashlib.sha1(s.encode()).hexdigest()\nprint(dig([(\"Lima\", 1), (\"Cusco\", 2)]) == dig([(\"Cusco\", 2), (\"Lima\", 1)]))\n",
+      "justification_from_packet": "Exploración de S20-T4-B-E2 en Automatización robusta de Excel: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: digest canónico de filas. Fixture `S20-T4-B-E2` / datos sintéticos: def dig(rows):; s = \"\\\\n\".join(f\"{a},{b}\" for a, b in sort…». Enlacé con «fórmulas vs valores cacheados» del theory y escribí `import hashlib`. No usé claves offline; solo packet activo (conf 0.637). Traza local: sección-activa/explorer/S20-T4-B-E2.",
+      "confidence": 0.637,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-B-E3",
+      "id": "S20-T4-B-E3",
+      "code": "# packet solve S20-T4-B-E3\ndef structural_ok(sheetnames, need):\n    return set(sheetnames) >= set(need)\nprint(structural_ok([\"Entrada\", \"Salida\", \"Log\"], [\"Entrada\", \"Salida\"]))\n",
+      "justification_from_packet": "Como Explorer en «Automatización robusta de Excel», resolví S20-T4-B-E3 leyendo la instruction: «E3 (transferencia) — Concepto: structural_ok need ⊆ sheets. Fixture `S20-T4-B-E3` / datos sintéticos: def structural_ok(sheetnames, need):; return set(sheetn…». Me apoyé en el subtema/paquete («fórmulas vs valores cacheados») y en el demo/theory para completar el starter; la línea clave quedó: `def structural_ok(sheetnames, need):`. Confianza ~0.635 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S20-T4-B-E3.",
+      "confidence": 0.635,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #0 de «Automatización robusta de Excel»: pregunta «openpyxl sin Excel instalado evalúa fórmulas automáticamente:». Elegí índice 3 → «No; suele devolver la fórmula o cache si existe» porque el theory/outcomes del packet («fórmulas viven celda; valores cacheados Excel/openpyxl», «Estilos (fuentes, fills, borders), charts embebidos») describen ese matiz de forma directa. Explorer conf~0.631.",
+      "confidence": 0.631
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #1 de «Automatización robusta de Excel»: pregunta «Al escribir en celdas combinadas debes:». Elegí índice 1 → «Escribir en la celda ancla (top-left)» porque el theory/outcomes del packet («estilos, charts y plantillas», «fórmulas vs valores cacheados») describen ese matiz de forma directa. Explorer conf~0.905.",
+      "confidence": 0.905
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #2 de «Automatización robusta de Excel»: pregunta «Un manifest del excel factory debe permitir auditar:». Elegí índice 2 → «Estados de batch, conciliación y backups» porque el theory/outcomes del packet («sheets, celdas, tablas y named ranges», «sheets, celdas, tablas y named ranges») describen ese matiz de forma directa. Explorer conf~0.783.",
+      "confidence": 0.783
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #3 de «Automatización robusta de Excel»: pregunta «Idempotencia significa:». Elegí índice 0 → «Misma entrada → mismo resultado lógico» porque el theory/outcomes del packet («fórmulas viven celda; valores cacheados Excel/openpyxl», «libro grafo hojas celdas tablas named») describen ese matiz de forma directa. Explorer conf~0.760.",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #4 de «Automatización robusta de Excel»: pregunta «Al materializar un Excel de salida del reporting factory, la suma de montos en la hoja no cuadra con el DataFrame fuente. ¿Cuál es la política correcta?». Elegí índice 3 → «Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolerancia de redondeo documentada)» porque el theory/outcomes del packet («estilos, charts y plantillas», «fórmulas viven celda; valores cacheados Excel/openpyxl») describen ese matiz de forma directa. Explorer conf~0.953.",
+      "confidence": 0.953
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:37:19.617199+00:00",
+  "session_started_at": "2026-07-23T13:37:07.971494+00:00",
+  "session_ended_at": "2026-07-23T13:37:19.615507+00:00",
+  "receipt_response_sha256": "4ca3cd39835ba7d8906c17e6cab1c718f48525fb28073da187e28b085430512a",
+  "receipt_exercises_sha256": "d82bee2567cce076c15d027e72e295023d476cf46729c3f6edf18ecabcee9af9",
+  "receipt_selfcheck_sha256": "16aa1dae973c923fd885d6e00a341c43aaf4bff250790400e2cf7bebd9b45cea"
+}

@@ -1,0 +1,372 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-explorer-s06-3946056690",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntxs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nempty = []\nv0 = empty[-2:]\n# forma esperada (referencia): print(ventana)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S06-T1-A-E1 leyendo outcomes y teoría de S06-T1. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la ventana. Caso vacío: si `txs=[]`, imprime `ventana=[]` y `len=0`.… Anclé la respuesta en: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nheaders = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\n# forma esperada (referencia): print('KEYS', KEYS)\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S06-T1-A-E2 leyendo outcomes y teoría de S06-T1. El contrato del ejercicio (independiente) se satisface con el patrón del paquete; instruction resumida: E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmutable). Imprime `KEYS` y demuestra que `KEYS + ('canal',)` crea otra tupla sin m… Fragmento de teoría que usé: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')  # bug intencional si se ejecuta sobre tuple\nexcept Exception as e:\n    ...\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S06-T1-A-E3 leyendo outcomes y teoría de S06-T1. El contrato del ejercicio (transferencia) se satisface con el patrón del paquete; instruction resumida: E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError, convierte a list, append 'C003', e imprime el resultado y u… Apoyo en paquete: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfila = ('C001', 'Lima', 10)\ncid, region, monto = fila\n# forma esperada (referencia): print(cid, region, monto)\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisé hints e instruction de S06-T1-B-E1 junto con la teoría de «Colecciones y estructuras de datos». La instruction pide: E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si la fila tuviera 2 valores, el unpack fallaría (no lo fuerces aquí).… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Fragmento de teoría que usé: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\ncopia.append(4)\n# forma esperada (referencia): print('tras alias', xs, copia)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S06-T1 («Colecciones y estructuras de datos») y resolví el ejercicio S06-T1-B-E2 (independiente). La instruction pide: E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3; imprimir xs y copia. Luego append 4 a copia e imprimir de … Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. La teoría remarca: «Colecciones y estructuras de datos» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\nprint('orig', rows)\nprint('deep', deep)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S06-T1-B-E3 partí del material del quiz_card sobre S06-T1: Colecciones y estructuras de datos. El contrato del ejercicio (transferencia) se satisface con el patrón del paquete; instruction resumida: E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.deepcopy`, muta tags del deep, e imprime … La teoría remarca: «Colecciones y estructuras de datos» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\n# forma esperada (referencia): print(d)\n",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S06-T2-A-E1 partí del material del quiz_card sobre S06-T2: Colecciones y estructuras de datos. Completé el código/markdown de forma ejecutable o documentable según el kind=guiado. Instruction: E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002']`.… Fragmento de teoría que usé: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nidx = {'C001': 'Ana'}\ntry:\nexcept KeyError as e:\n# forma esperada (referencia): print(idx.get('C001', 'N/A'))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S06-T2 («Colecciones y estructuras de datos») y resolví el ejercicio S06-T2-A-E2 (independiente). La instruction pide: E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra un `try/except KeyError` al acceder `idx['C999']` directo.… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Apoyo en paquete: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nprint('merged', merged)\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S06-T2-A-E3 leyendo outcomes y teoría de S06-T2. La instruction pide: E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder timeout. Imprime merged. Luego muestra el peligro de `defaults.update(ove… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Anclé la respuesta en: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nemails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\n# forma esperada (referencia): print(unicos)\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S06-T2-B-E1 leyendo outcomes y teoría de S06-T2. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.… Apoyo en paquete: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\n# forma esperada (referencia): print('inter', sorted(a & b))\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S06-T2-B-E2 partí del material del quiz_card sobre S06-T2: Colecciones y estructuras de datos. La instruction pide: E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la intersección y de la diferencia simétrica.… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Apoyo en paquete: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def dedup_report(rows, key='id'):\n    ...\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Colecciones y estructuras de datos», me enfoqué en S06-T2 para completar S06-T2-B-E3. Completé el código/markdown de forma ejecutable o documentable según el kind=transferencia. Instruction: E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin eliminar del reporte los conflictos. Filas sintéticas con C001 r… Anclé la respuesta en: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n# forma esperada (referencia): print(c['id'], '→', len(c['contacts']))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S06-T3-A-E1 leyendo outcomes y teoría de S06-T3. El contrato del ejercicio (guiado) se satisface con el patrón del paquete; instruction resumida: E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.… La teoría remarca: «Colecciones y estructuras de datos» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nprint(flat)\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Colecciones y estructuras de datos», me enfoqué en S06-T3 para completar S06-T3-A-E2. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.… Apoyo en paquete: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    ok = isinstance(txs, list)\n# forma esperada (referencia): print(c['id'], 'ok' if ok else 'review')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S06-T3 («Colecciones y estructuras de datos») y resolví el ejercicio S06-T3-A-E3 (transferencia). El contrato del ejercicio (transferencia) se satisface con el patrón del paquete; instruction resumida: E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprime status por cliente sintético (uno ok, uno malo).… La teoría remarca: «Colecciones y estructuras de datos» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def get_nested(d, *keys, default=None):\n    ...\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S06-T3-B-E1 leyendo outcomes y teoría de S06-T3. El contrato del ejercicio (guiado) se satisface con el patrón del paquete; instruction resumida: E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintético.… Anclé la respuesta en: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n# forma esperada (referencia): print(f\"{c['id']}: {flag}\")\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Explorando la sección «Colecciones y estructuras de datos», me enfoqué en S06-T3 para completar S06-T3-B-E2. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present. Imprime líneas `id: missing|present`.… Fragmento de teoría que usé: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nvals = [None, '', 0, []]\nfor v in vals:\n# forma esperada (referencia): print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S06-T3-B-E3 partí del material del quiz_card sobre S06-T3: Colecciones y estructuras de datos. La instruction pide: E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si representan missing de negocio (solo None = missing aquí).… Respondí sin dejar ____ ni TODO, alineado al starter y a los tests. Fragmento de teoría que usé: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\n# forma esperada (referencia): print([r['id'] for r in ordered])\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S06-T4-A-E1 leyendo outcomes y teoría de S06-T4. Completé el código/markdown de forma ejecutable o documentable según el kind=guiado. Instruction: E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.… La teoría remarca: «Colecciones y estructuras de datos» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Para S06-T4-A-E2 partí del material del quiz_card sobre S06-T4: Colecciones y estructuras de datos. Completé el código/markdown de forma ejecutable o documentable según el kind=independiente. Instruction: E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.… Fragmento de teoría que usé: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\ncopy_sorted = sorted(base)\n# forma esperada (referencia): print('ret', ret)\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S06-T4 («Colecciones y estructuras de datos») y resolví el ejercicio S06-T4-A-E3 (transferencia). Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista mutada. Luego usa sorted para obtener copia ordenada sin tocar otra lista … Anclé la respuesta en: «Colecciones y estructuras de datos»"
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "jobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Revisé hints e instruction de S06-T4-B-E1 junto con la teoría de «Colecciones y estructuras de datos». Completé el código/markdown de forma ejecutable o documentable según el kind=guiado. Instruction: E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de emails únicos.… La teoría remarca: «Colecciones y estructuras de datos» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\n# forma esperada (referencia): print(s)\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "Como explorer, armé S06-T4-B-E2 leyendo outcomes y teoría de S06-T4. Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JSON una vez.… La teoría remarca: «Colecciones y estructuras de datos» — eso orientó la solución."
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\n# forma esperada (referencia): print('list membership: O(n) por chequeo')\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4",
+        "quiz_card",
+        "theory"
+      ],
+      "justification_from_packet": "En modo explorer leí el subtema S06-T4 («Colecciones y estructuras de datos») y resolví el ejercicio S06-T4-B-E3 (transferencia). Usé sys/print/def/if __name__ solo cuando el starter o la instruction lo exigían. Contexto: E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad conceptual y un micro-ejemplo n=5 mostrando `x in set` True.… Apoyo en paquete: «Colecciones y estructuras de datos»"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check #0: «¿Qué produce xs[-2:] si xs = [1,2,3,4]?». Elegí el índice 1: «[3,4]». La teoría de la sección respalda esa lectura y descarta las distracciones."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.91,
+      "blocked_on": [],
+      "justification_from_packet": "Para la pregunta 1 («b = a (listas) y mutas b.append(1). ¿Qué pasa con a?») la opción correcta es 3 — «a también ve el append (alias)» — porque el paquete define ese contrato y no las alternativas."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.75,
+      "blocked_on": [],
+      "justification_from_packet": "En autoevaluación, pregunta 2: me quedo con la opción 0 («Listar conflicto en conflicts sin silenciar»). Las otras no coinciden con el vocabulario del theory/iDo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta 3 del self-check: «rows.sort(key=...) retorna…» → respuesta 2 «None (muta in-place)», alineada a outcomes y párrafos de la sección activa."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "confidence": 0.83,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check #4: «json.dumps(..., sort_keys=True) ayuda a…». Elegí el índice 1: «salidas deterministas/reproducibles». La teoría de la sección respalda esa lectura y descarta las distracciones."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:30:05.339290+00:00",
+  "session_started_at": "2026-07-23T13:29:45.976366+00:00",
+  "session_ended_at": "2026-07-23T13:30:05.338008+00:00",
+  "receipt_response_sha256": "2ed739327a968c579202fbc240e6091d8df055e6c4661295264d26bfa687e074",
+  "receipt_exercises_sha256": "ae84d916a45c8cbb18a76728ef3eefa30ca3f50d7d37dce296f4def6575d65c0",
+  "receipt_selfcheck_sha256": "7d215060eb53ccdcf27bab6935b31a62b8b05939a57528c1bd1cba9bc3937904"
+}

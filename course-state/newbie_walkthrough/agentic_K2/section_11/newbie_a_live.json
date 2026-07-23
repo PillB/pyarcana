@@ -1,0 +1,181 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 11,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s11-1a45bec013",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Client:\n    client_id: str\n    name: str\n\nc = Client('C001', 'Ana')\nprint(c)\n",
+      "justification_from_packet": "dataclass genera __init__ y repr para Client. client_id y name modelan la entidad sin boilerplate manual."
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    tags: list = field(default_factory=list)\n\na = CaseFile('X')\nb = CaseFile('Y')\na.tags.append('t1')\nprint(a.tags, b.tags)\n",
+      "justification_from_packet": "field(default_factory=list) evita lista compartida entre instancias. a.tags no contamina b.tags."
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Person:\n    name: str\n\n    def __post_init__(self):\n        if not self.name.strip():\n            raise ValueError('name vacío')\n\nprint(Person('Ana'))\ntry:\n    Person('  ')\nexcept ValueError as e:\n    print('err', e)\n",
+      "justification_from_packet": "__post_init__ valida invariantes tras construir. name vacío lanza ValueError en el borde del dominio."
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass RelationshipEvidence:\n    signal_score: float\n    note: str = ''\n\ne = RelationshipEvidence(0.7, 'shared surname')\nprint(e.signal_score, e.note)\n",
+      "justification_from_packet": "signal_score es evidencia numérica, no veredicto de fraude ni is_family. El dominio separa señal de decisión legal."
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Entity:\n    entity_id: str\n    display_name: str\n\nprint(Entity('E1', 'Ana'))\nprint('no_fraud_label_on_entity')\n",
+      "justification_from_packet": "Entity lleva id y display_name. No embebe auto_fraud ni is_family: esas etiquetas no pertenecen al dominio puro."
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "code": "print('INV: score en [0,1] finito')\nprint('INV: entity_id no vacío')\nprint('INV: no campos is_family/auto_fraud en el modelo de dominio')\n",
+      "justification_from_packet": "Invariantes del dominio: scores en rango, ids presentes y sin etiquetas legales de fraude/familia en la entidad."
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first_name: str\n    last_name: str\n\n    @property\n    def full_name(self) -> str:\n        return f'{self.first_name} {self.last_name}'\n\np = Person('Ana', 'Quispe')\nprint(p.full_name)\n",
+      "justification_from_packet": "@property full_name deriva first+last sin setter. Encapsula presentación sin duplicar estado mutable."
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    day_created: int\n\n    def age_days_since(self, day: int) -> int:\n        return day - self.day_created\n\nt = Transaction(10)\nprint(t.age_days_since(25))\n",
+      "justification_from_packet": "Método de dominio age_days_since calcula day - day_created. La lógica vive en el objeto Transaction."
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "code": "from math import isfinite\n\nclass Signal:\n    def __init__(self, score=0.0):\n        self._score = 0.0\n        self.score = score\n\n    @property\n    def score(self):\n        return self._score\n\n    @score.setter\n    def score(self, v):\n        if not isinstance(v, (int, float)) or not isfinite(v) or not (0 <= float(v) <= 1):\n            raise ValueError('score fuera de rango')\n        self._score = float(v)\n\ns = Signal(0.4)\nprint(s.score)\nfor bad in [1.5, float('nan')]:\n    try:\n        s.score = bad\n    except ValueError as e:\n        print(e)\n",
+      "justification_from_packet": "Setter de score valida isfinite y rango 0..1. 0.4 ok; 1.5 y NaN lanzan ValueError fuera de rango."
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass(frozen=True)\nclass ResolvedEntity:\n    entity_id: str\n    display_name: str = field(compare=False)\n\na = ResolvedEntity('E1', 'Ana')\nb = ResolvedEntity('E1', 'Ana actualizada')\nc = ResolvedEntity('E2', 'Bob')\nprint(a == b, a != c)\nprint(len({a, b, c}))\nprint(a.entity_id)\n",
+      "justification_from_packet": "frozen + compare solo por entity_id: E1==E1 aunque cambie display_name. Set de 2 elementos; identidad estable."
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Evidence:\n    kind: str\n    value: str\n\ns = {Evidence('email', 'a@x.com'), Evidence('email', 'a@x.com'), Evidence('phone', '999')}\nprint(len(s))\n",
+      "justification_from_packet": "Evidence frozen es value object hasheable. Duplicados colapsan en el set: len refleja únicos reales."
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "code": "class MutableEntity:\n    def __init__(self, eid):\n        self.eid = eid\n    def __hash__(self):\n        return hash(self.eid)\n    def __eq__(self, o):\n        return isinstance(o, MutableEntity) and self.eid == o.eid\n\nm = MutableEntity('E1')\nd = {m: 'ok'}\nm.eid = 'E2'  # rompe lookup\nprint('BUG', d.get(m))\n# SAFE: key inmutable\nsafe = {'E1': 'ok'}\nprint('SAFE', safe.get('E1'))\n",
+      "justification_from_packet": "Entidad mutable como key de dict rompe el lookup al mutar el campo hasheado. SAFE usa id string inmutable."
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass PersonInfo:\n    name: str\n\n@dataclass\nclass Client:\n    client_id: str\n    person: PersonInfo\n\nc = Client('C1', PersonInfo('Ana'))\nprint(c.client_id, c.person.name)\n",
+      "justification_from_packet": "Composición Client tiene PersonInfo en vez de heredar Person. Roles evolucionan sin jerarquía rígida."
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = field(default_factory=list)\n\n    def add_evidence(self, e):\n        self.evidences.append(e)\n\ncf = CaseFile('K1')\ncf.add_evidence('e1')\ncf.add_evidence('e2')\nprint('n=', len(cf.evidences))\n",
+      "justification_from_packet": "CaseFile agrega evidencias con add_evidence. La lista interna crece a n=2 sin default mutable compartido."
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "code": "print('No heredar Client de Person: un client puede cambiar de rol sin ser un subtipo rígido')\nprint('Composición permite reutilizar PersonInfo en otros contextos (empleado, contacto)')\n",
+      "justification_from_packet": "Herencia innecesaria acopla roles. Composición deja evolucionar el modelo sin forzar is-a permanente."
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "code": "from typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, pair: tuple[str, str]) -> float: ...\n\nclass JaccardScorer:\n    def score(self, pair: tuple[str, str]) -> float:\n        a, b = set(pair[0].split()), set(pair[1].split())\n        return len(a & b) / len(a | b) if a | b else 0.0\n\ns: Scorer = JaccardScorer()\nprint(round(s.score(('Ana Quispe', 'Ana Rojas')), 3))\n",
+      "justification_from_packet": "Protocol Scorer define score(pair)->float. JaccardScorer lo cumple sin herencia: duck typing tipado."
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "code": "def apply(norm, text):\n    return norm(text)\n\nprint(apply(str.strip, '  hi  '))\nprint(apply(str.casefold, 'Hola'))\n",
+      "justification_from_packet": "Dos normalizers inyectados: strip y casefold. apply solo llama norm(text): polimorfismo por comportamiento."
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "code": "print('YAGNI: una sola implementación de scorer no justifica Protocol aún')\nprint('Añadir Protocol cuando haya 2+ adapters reales o tests con fakes estables')\n",
+      "justification_from_packet": "No introducir Protocol prematuro: YAGNI si hay una sola implementación. Aparece con múltiples adapters/fakes."
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    name: str\n    password: str = ''\n    secret: str = ''\n\n    def to_dict(self):\n        return {'client_id': self.client_id, 'name': self.name}\n\nprint(ClientRecord('C1', 'Ana', 'pw', 'sec').to_dict())\n",
+      "justification_from_packet": "to_dict omite password/secret aunque existan en el objeto. Serialización segura hacia fuera del dominio."
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "code": "class Repo:\n    def __init__(self):\n        self._store = {}\n    def save(self, client):\n        self._store[client['id']] = client\n    def get(self, cid):\n        return self._store.get(cid)\n\nr = Repo()\nr.save({'id': 'C1', 'name': 'Ana'})\nprint(r.get('C1'))\n",
+      "justification_from_packet": "Repository en memoria con save/get. Roundtrip del client dict separa persistencia del modelo de dominio."
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "code": "print('LAYER: cli — parse argv e I/O')\nprint('LAYER: service — casos de uso')\nprint('LAYER: domain/repo — entidades y persistencia')\n",
+      "justification_from_packet": "Frontera cli→service→domain/repo. I/O no contamina el dominio; el servicio orquesta sin filtrar secretos al CLI."
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError('document_id vacío')\n\ntry:\n    ClientRecord('C1', '')\nexcept ValueError:\n    print('pass')\n",
+      "justification_from_packet": "Test de invariante: document_id vacío lanza. Assert/try manual cierra el contrato del ClientRecord."
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "code": "class FakeRepo:\n    def __init__(self):\n        self.data = {}\n    def save(self, c):\n        self.data[c['id']] = c\n    def get(self, i):\n        return self.data.get(i)\n\nclass Service:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, c):\n        self.repo.save(c)\n    def get(self, i):\n        return self.repo.get(i)\n\nsvc = Service(FakeRepo())\nsvc.register({'id': 'C1'})\nassert svc.get('C1')['id'] == 'C1'\nprint('pass')\nprint('pass')\nprint('pass')\n",
+      "justification_from_packet": "FakeRepo inyectado en Service habilita 3 tests sin I/O real. register/get demuestran el puerto del repositorio."
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "code": "print('Mover score a Evidence; Client no decide fraude')\nprint('Eliminar decide_fraud del dominio; la política ops vive fuera')\n",
+      "justification_from_packet": "Revisión: decide_fraud no debe vivir en Client. Extraer score a Evidence y dejar la decisión operativa fuera del dominio."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "field(default_factory=list)",
+      "justification_from_packet": "default_factory=list crea lista nueva por instancia. =[] compartiría la misma lista entre objetos: bug clásico."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "fuerza de la señal, no veredicto legal",
+      "justification_from_packet": "signal_score mide fuerza de evidencia de relación, no parentesco legal ni fraude confirmado. Se reporta separado."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "contrato de puerto para fakes/adapters",
+      "justification_from_packet": "Protocol EntityStore define el puerto del repositorio: permite fakes en tests y adapters reales sin acoplar dominio."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "en construcción / bordes del dominio",
+      "justification_from_packet": "Objeto inválido debe fallar al construir o en el borde del dominio, no propagarse silencioso al CLI o a la UI."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "composición preferible a herencia rígida",
+      "justification_from_packet": "Client hereda de Person suele sobrar: composición con PersonInfo es más flexible cuando los roles cambian."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "chosen_text": "etiquetas is_family/auto_fraud",
+      "justification_from_packet": "El dominio de familiaridad no debe cargar is_family ni auto_fraud. Esas etiquetas son de política ops/legal."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:22:07.634643+00:00",
+  "session_started_at": "2026-07-23T15:21:38.424053+00:00",
+  "session_ended_at": "2026-07-23T15:22:07.633149+00:00",
+  "receipt_response_sha256": "76205d10b0b9ff987a91ee40843d2879af8e76b3b2b747437e63395c7e5ccb09",
+  "receipt_exercises_sha256": "7e16cee58469b3efd3c01e5ba080a0253ea6329a71dbc7913734d5f5636d4ba5",
+  "receipt_selfcheck_sha256": "fd696048cfac91b456fb294961a3a443e18327574389740bcc7294600c434c59"
+}

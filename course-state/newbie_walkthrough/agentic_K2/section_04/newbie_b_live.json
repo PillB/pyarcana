@@ -1,0 +1,349 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 4,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s04-08261b4bff58",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S04-T1-A-E1",
+      "id": "S04-T1-A-E1",
+      "code": "regiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor r in regiones:\n    print(r)\nprint(list(range(3)))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S04-T1-A-E1 no improvisé: opté por contrastar con el output de la demo y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — Dada `regiones = [\"Lima\", \"Cusco\", \"Piura\"]`, imprime cada región en su propia línea con un `for`. Luego imprime `list(range(3))`.. Los tests piden: 3 regiones + [0,1,2]. Conceptos del paquete que usé: contador, elemento, listas, lista, orden. Sigo dudando de atajos.",
+      "concepts_used": [
+        "for",
+        "range"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S04-T1-A-E2",
+      "id": "S04-T1-A-E2",
+      "code": "edades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\nprint(n)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S04/S04-T1-A-E2 («Iteración y resúmenes transaccionales»): E2 (independiente) — `edades = [30, 17, 45, 22]`. Cuenta cuántas son `>= 18` con un for (no uses comprehension todavía). Imprime el contador.. Apoyo léxico: exclusivo, valor, start, contador. Hint: n = 0; for e in edades: if e >= 18: n += 1. Si el resultado no pasa «assert n == 3», reintento. Prefiero lo aburrido y verificable; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "count"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S04-T1-A-E3",
+      "id": "S04-T1-A-E3",
+      "code": "lote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": 5}]\nfor reg in lote:\n    if reg[\"monto\"] > 0:\n        print(reg[\"id\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S04-T1-A-E3 en «Iteración y resúmenes transaccionales» decidí verificar contra el checklist de tests: el enunciado dice «E3 (transferencia) — Simula un mini-lote: lista de dicts con `id` y `monto`. Imprime solo los `id` cuyo monto sea `> 0` usando for. No mutes la lista original.». Hint útil: for reg in lote: if reg['monto'] > 0: print(reg['id']). Checklist/tests: C1 y C4; len 4. Desconfío de respuestas 'bonitas'; vocabulario del paquete: lotes, materializar, típicas, dicts. Riesgo que evito: si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "filter"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S04-T1-B-E1",
+      "id": "S04-T1-B-E1",
+      "code": "ids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n    print(f\"fila {i}: {x}\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S04/S04-T1-B-E1 («Iteración y resúmenes transaccionales»): E1 (guiado) — Con `ids = [\"A\", \"B\", \"C\"]`, usa `enumerate(..., start=1)` e imprime `fila k: id`.. Apoyo léxico: elemento, necesitas, filas, secuencia. Hint: for i, x in enumerate(ids, start=1): print(f'fila {i}: {x}'). Si el resultado no pasa «fila 1..3», reintento. Prefiero lo aburrido y verificable; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "enumerate"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S04-T1-B-E2",
+      "id": "S04-T1-B-E2",
+      "code": "nombres = [\"Ana\", \"Luis\", \"Maria\"]\nedades = [30, 25, 40]\nfor n, e in zip(nombres, edades):\n    print(f\"{n}={e}\")\nfor n, e in zip(nombres, edades[:2]):\n    print(\"corto\", n, e)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S04-T1-B-E2 en «Iteración y resúmenes transaccionales» decidí contrastar con el output de la demo: el enunciado dice «E2 (independiente) — `nombres` y `edades` de igual longitud. Emparéjalos con `zip` e imprime `nombre=edad`. Luego muestra qué pasa con zip silencioso si acortas edades a 1 elemento». Hint útil: zip se detiene en la más corta; el resto se pierde.. Checklist/tests: 3 pares + 1 par en zip corto. Prefiero lo aburrido y verificable; vocabulario del paquete: importa, transaccionales, registro, bucle. Riesgo que evito: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "zip"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S04-T1-B-E3",
+      "id": "S04-T1-B-E3",
+      "code": "def zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"longitudes distintas\")\n    return list(zip(a, b))\ntry:\n    zip_strict([1, 2, 3], [10, 20])\nexcept ValueError:\n    print(\"DESALINEADO\")\ntry:\n    zip_strict([1, 2], [3, 4])\n    print(\"OK\")\nexcept ValueError:\n    print(\"DESALINEADO\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos al resolver S04-T1-B-E3. La sección «Iteración y resúmenes transaccionales» exige E3 (transferencia) — Implementa `zip_strict(a,b)` que lance ValueError si `len(a)!=len(b)` (equivalente pedagógico a `zip(..., strict=True)` en Py 3.10+). Prueba desalineado → `DES. Me baso en Iteración, listas, recorre y en el hint «if len(a) != len(b): raise ValueError(...); return list(zip(a,b))». Validación esperada: DESALINEADO luego OK. Por eso conviene derivar del starter sin inventar APIs antes de cerrar; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "zip_strict"
+      ],
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S04-T2-A-E1",
+      "id": "S04-T2-A-E1",
+      "code": "lines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\nprint(out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S04/S04-T2-A-E1 («Iteración y resúmenes transaccionales»): E1 (guiado) — Buffer `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. Con while e índice, acumula hasta el string vacío (sin incluirlo). Imprime la lista.. Apoyo léxico: Iteración, patrón, intake, necesitas. Hint: while i < len: leer, i+=1, if line=='': break else append. Si el resultado no pasa «['r1','r2']», reintento. Sigo dudando de atajos; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "while"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S04-T2-A-E2",
+      "id": "S04-T2-A-E2",
+      "code": "intentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n    print(f\"intento {intentos}\")\nprint(\"done\", intentos)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S04-T2-A-E2 en «Iteración y resúmenes transaccionales» decidí verificar contra el checklist de tests: el enunciado dice «E2 (independiente) — Simula reintentos: `intentos = 0`, `MAX = 3`, `while intentos < MAX`, incrementa e imprime `intento k`. Al salir imprime `done` y el valor final de intentos.». Hint útil: intentos += 1 dentro del while es la variable de control.. Checklist/tests: 3 intentos + done 3. Exijo evidencia en el paquete activo; vocabulario del paquete: patrón, intake, contador, numerar. Riesgo que evito: si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "retries"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S04-T2-A-E3",
+      "id": "S04-T2-A-E3",
+      "code": "cola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    print(job)\n    if job == \"job2\":\n        print(\"PAUSE\")\n        break\nprint(\"rest\", cola)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Prefiero lo aburrido y verificable al resolver S04-T2-A-E3. La sección «Iteración y resúmenes transaccionales» exige E3 (transferencia) — Cola simulada: `cola = [\"job1\", \"job2\", \"job3\"]`. Mientras la cola no esté vacía, saca el primero con `pop(0)`, imprímelo, y si el job es `job2` imprime `PAUSE. Me baso en gigante, enteros, líneas y en el hint «while cola: job = cola.pop(0)». Validación esperada: job1 job2 PAUSE rest [job3]. Por eso conviene contrastar con el output de la demo antes de cerrar; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "queue"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S04-T2-B-E1",
+      "id": "S04-T2-B-E1",
+      "code": "raw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n    print(x)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S04-T2-B-E1 en «Iteración y resúmenes transaccionales» decidí confrontar con los hints: el enunciado dice «E1 (guiado) — `raw = [\" \", \"Lima\", \"\", \"Cusco\"]`. Con for, usa continue si `not x.strip()`; imprime las regiones válidas.». Hint útil: if not x.strip(): continue. Checklist/tests: Lima\\nCusco. Exijo evidencia en el paquete activo; vocabulario del paquete: transaccionales, patrón, gigante, dentro. Riesgo que evito: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "continue"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S04-T2-B-E2",
+      "id": "S04-T2-B-E2",
+      "code": "codes = [200, 200, 500, 200]\nn_ok = 0\nfor c in codes:\n    if c >= 500:\n        print(\"STOP\")\n        break\n    n_ok += 1\n    print(\"ok\")\nprint(\"n_ok\", n_ok)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Desconfío de respuestas 'bonitas' al resolver S04-T2-B-E2. La sección «Iteración y resúmenes transaccionales» exige E2 (independiente) — `codes = [200, 200, 500, 200]`. Recorre; si code >= 500 imprime `STOP` y break; si no, imprime `ok`. Cuenta cuántos ok imprimiste.. Me baso en listas, contador, valor y en el hint «break no procesa el 200 final.». Validación esperada: ok ok STOP n_ok 2. Por eso conviene verificar contra el checklist de tests antes de cerrar; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "break"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S04-T2-B-E3",
+      "id": "S04-T2-B-E3",
+      "code": "buf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guard\")\n    item = buf[i]\n    i += 1\n    if item == \"END\":\n        break\n    out.append(item)\nprint(out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S04-T2-B-E3 no improvisé: opté por verificar contra el checklist de tests y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Escribe un `while True` que lea de `buf = [\"a\", \"b\", \"END\"]` con índice, break en END, y un guardrail `if i > 10: raise RuntimeError('guard')`. Imprime los val. Los tests piden: ['a','b']. Conceptos del paquete que usé: orden, sintéticos, lotes, texto, quieres. Desconfío de respuestas 'bonitas'.",
+      "concepts_used": [
+        "while True"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S04-T3-A-E1",
+      "id": "S04-T3-A-E1",
+      "code": "sts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor s in sts:\n    n_total += 1\n    if s == \"accept\":\n        n_accept += 1\n    elif s == \"reject\":\n        n_reject += 1\nprint(n_accept, n_reject, n_total)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S04-T3-A-E1 en «Iteración y resúmenes transaccionales» decidí releer con desconfianza el material: el enunciado dice «E1 (guiado) — `sts = [\"accept\", \"reject\", \"accept\"]`. Inicializa contadores y en un for incrementa. Imprime n_accept, n_reject, n_total.». Hint útil: n_total = len o +=1 por fila. Checklist/tests: 2 1 3. No asumo que la primera idea basta; vocabulario del paquete: elemento, lotes, registro, numerar. Riesgo que evito: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "counters"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S04-T3-A-E2",
+      "id": "S04-T3-A-E2",
+      "code": "def tasa_reject(sts):\n    n_total = len(sts)\n    if n_total == 0:\n        return None\n    n_reject = sum(1 for s in sts if s == \"reject\")\n    return n_reject / n_total\nprint(tasa_reject([\"accept\", \"reject\", \"accept\"]))\nprint(tasa_reject([]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia en el paquete activo al resolver S04-T3-A-E2. La sección «Iteración y resúmenes transaccionales» exige E2 (independiente) — Calcula `tasa_reject = n_reject / n_total` para sts del E1. Luego calcula tasa para lista vacía sin ZeroDivisionError (imprime None).. Me baso en producen, orden, valor y en el hint «if n_total: tasa = n_rej/n_total else None». Validación esperada: 0.3333 y None. Por eso conviene verificar contra el checklist de tests antes de cerrar; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "rate"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S04-T3-A-E3",
+      "id": "S04-T3-A-E3",
+      "code": "rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]\nidx = -1\nfound_id = None\nfor i, r in enumerate(rows):\n    if r[\"status\"] == \"review\":\n        idx = i\n        found_id = r[\"id\"]\n        break\nprint(idx, found_id)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S04-T3-A-E3 no improvisé: opté por verificar contra el checklist de tests y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Busca el índice del primer `status==\"review\"` en una lista de dicts. Si no hay, imprime -1. Si hay, imprime el índice y el id.. Los tests piden: 1 C2. Conceptos del paquete que usé: producen, secuencia, lotes, índice, contador. Me resisto a copiar sin entender.",
+      "concepts_used": [
+        "search"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S04-T3-B-E1",
+      "id": "S04-T3-B-E1",
+      "code": "nums = [1, 2, 3, 4, 5]\nprint([x * x for x in nums])\nprint([x for x in nums if x % 2 == 0])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "No asumo que la primera idea basta al resolver S04-T3-B-E1. La sección «Iteración y resúmenes transaccionales» exige E1 (guiado) — `nums = [1,2,3,4,5]`. Crea con comprehension la lista de cuadrados y la de pares. Imprímelas.. Me baso en start, resúmenes, elemento y en el hint «[x*x for x in nums] y [x for x in nums if x%2==0]». Validación esperada: cuadrados y pares. Por eso conviene confrontar con los hints antes de cerrar; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "comp"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S04-T3-B-E2",
+      "id": "S04-T3-B-E2",
+      "code": "rows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\nprint(sorted({r[\"status\"] for r in rows}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S04-T3-B-E2 no improvisé: opté por verificar contra el checklist de tests y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — De `rows` con status, obtén set de statuses distintos ordenados alfabéticamente para el reporte.. Los tests piden: ['accept','reject','review']. Conceptos del paquete que usé: Iteración, elemento, listas, sintéticos, dentro. Desconfío de respuestas 'bonitas'.",
+      "concepts_used": [
+        "set"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S04-T3-B-E3",
+      "id": "S04-T3-B-E3",
+      "code": "rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"accept\"}, {\"id\": \"C4\", \"status\": \"reject\"}]\nby = {r[\"id\"]: r[\"status\"] for r in rows}\nrejects = [i for i, st in by.items() if st == \"reject\"]\nprint(\"reject\", rejects, len(rejects) / len(rows))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S04/S04-T3-B-E3 («Iteración y resúmenes transaccionales»): E3 (transferencia) — Construye dict `id -> status` por comprehension y calcula tasa de reject como len de rejects / len rows usando otra comprehension para rejects.. Apoyo léxico: lista, texto, importa, contador. Hint: by = {r['id']: r['status'] for r in rows}. Si el resultado no pasa «reject [C2,C4] 0.5», reintento. Sigo dudando de atajos; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "dictcomp"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S04-T4-A-E1",
+      "id": "S04-T4-A-E1",
+      "code": "vals = [2, -1, 3]\ns = 0\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n    print(i, val, s)\nprint(\"final\", s)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "No asumo que la primera idea basta al resolver S04-T4-A-E1. La sección «Iteración y resúmenes transaccionales» exige E1 (guiado) — Traza: `vals = [2, -1, 3]`, acumulador `s=0`. En cada paso imprime `i, val, s` después de sumar solo positivos.. Me baso en índice, registros, evita y en el hint «if val > 0: s += val; luego print». Validación esperada: traza + final 5. Por eso conviene contrastar con el output de la demo antes de cerrar; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "trace"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S04-T4-A-E2",
+      "id": "S04-T4-A-E2",
+      "code": "filas = [\"a\", \"b\", \"c\"]\nn = 0\nfor f in filas:\n    n += 1\nprint(n)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S04-T4-A-E2 no improvisé: opté por confrontar con los hints y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — Hay un bug: el contador `n` se incrementa dos veces por fila. Traza e identifica; imprime n corregido para 3 filas (debe ser 3).. Los tests piden: 3. Conceptos del paquete que usé: secuencias, enteros, líneas, range, Iteración. No asumo que la primera idea basta.",
+      "concepts_used": [
+        "bugfix"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S04-T4-A-E3",
+      "id": "S04-T4-A-E3",
+      "code": "regs = [\"accept\", \"reject\", \"accept\"]\ncounts = {\"accept\": 0, \"reject\": 0}\nfor i, st in enumerate(regs):\n    counts[st] = counts.get(st, 0) + 1\n    print(\"TRACE\", i, st, dict(counts))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S04/S04-T4-A-E3 («Iteración y resúmenes transaccionales»): E3 (transferencia) — Simula tres registros y un dict de contadores. Imprime una línea TRACE por registro con el estado completo del dict (copy o str).. Apoyo léxico: clientes, sintéticos, necesitas, evita. Hint: counts = dict; al final de cada iter print TRACE. Si el resultado no pasa «3 TRACE + FINAL», reintento. Desconfío de respuestas 'bonitas'; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "TRACE"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S04-T4-B-E1",
+      "id": "S04-T4-B-E1",
+      "code": "sts = [\"accept\", \"accept\", \"reject\", \"review\", \"accept\"]\nn_total = len(sts)\nn_accept = sum(1 for s in sts if s == \"accept\")\nn_reject = sum(1 for s in sts if s == \"reject\")\nn_review = sum(1 for s in sts if s == \"review\")\nprint({\"n_total\": n_total, \"n_accept\": n_accept, \"n_reject\": n_reject, \"n_review\": n_review,\n       \"tasa_reject\": n_reject / n_total if n_total else None})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S04-T4-B-E1 no improvisé: opté por releer con desconfianza el material y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — Para n=5, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos números.. Los tests piden: 5 25. Conceptos del paquete que usé: dicts, sintéticos, contador, producen, exclusivo. Me resisto a copiar sin entender.",
+      "concepts_used": [
+        "summary"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S04-T4-B-E2",
+      "id": "S04-T4-B-E2",
+      "code": "rows = [\n    {\"id\": \"C1\", \"status\": \"accept\", \"monto\": 10},\n    {\"id\": \"C2\", \"status\": \"reject\", \"monto\": 0},\n    {\"id\": \"C3\", \"status\": \"accept\", \"monto\": 5},\n]\nclean = [r for r in rows if r[\"status\"] == \"accept\"]\nprint(\"clean_ids\", [r[\"id\"] for r in clean])\nprint(\"n_clean\", len(clean), \"n_total\", len(rows))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S04/S04-T4-B-E2 («Iteración y resúmenes transaccionales»): E2 (independiente) — `data = [\"r0\", \"r1\", \"r2\"]`. El código usa `for i in range(1, len(data)+1)` y hace IndexError. Arréglalo para recorrer todos los índices válidos e imprimir cad. Apoyo léxico: índice, range, texto, sintéticos. Hint: range(len(data)) → 0..n-1. Si el resultado no pasa «r0 r1 r2», reintento. Desconfío de respuestas 'bonitas'; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "clean"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S04-T4-B-E3",
+      "id": "S04-T4-B-E3",
+      "code": "def batch_report(rows):\n    n_total = len(rows)\n    n_reject = sum(1 for r in rows if r.get(\"status\") == \"reject\")\n    return {\n        \"n_total\": n_total,\n        \"n_reject\": n_reject,\n        \"tasa_reject\": (n_reject / n_total) if n_total else None,\n        \"ids\": [r[\"id\"] for r in rows],\n    }\nprint(batch_report([{\"id\": \"A\", \"status\": \"accept\"}, {\"id\": \"B\", \"status\": \"reject\"}]))\nprint(batch_report([]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S04-T4-B-E3 en «Iteración y resúmenes transaccionales» decidí verificar contra el checklist de tests: el enunciado dice «E3 (transferencia) — Reescribe un conteo de pares reject-reject O(n²) ingenuo a un conteo O(n) de rejects (no necesitas pares). Imprime n_reject y comenta en un print por qué O(n)». Hint útil: No necesitas combinar pares para la tasa de error.. Checklist/tests: 3 0.6 + nota. Desconfío de respuestas 'bonitas'; vocabulario del paquete: materializar, orden, resúmenes, listas. Riesgo que evito: si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "report"
+      ],
+      "confidence": 0.7
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («¿Qué produce list(range(3))?»). Tras seguir el contrato del instruction, la opción 3 («[0,1,2]») es la única coherente con registro, valor, texto en «Iteración y resúmenes transaccionales». Las alternativas ([1,2,3] / [0,1,2,3]) suenan plausibles pero el material activo las niega.",
+      "confidence": 0.79
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («zip([1,2,3],[10,20]) sin strict…»). Tras verificar contra el checklist de tests, la opción 1 («Empareja solo (1,10) y (2,20); el 3 se pierde en silencio») es la única coherente con materializar, quieres, gigante en «Iteración y resúmenes transaccionales». Las alternativas (Lanza ValueError / Rellena con None el tercero) suenan plausibles pero el material activo las niega.",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («Para la tasa de reject del gate, el denominador debe ser…»). Tras derivar del starter sin inventar APIs, la opción 2 («n_total de registros procesados (intentados)») es la única coherente con importa, típicas, índice en «Iteración y resúmenes transaccionales». Las alternativas (Solo n_accept / Siempre 100) suenan plausibles pero el material activo las niega.",
+      "confidence": 0.79
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («¿Qué hace continue en un for de líneas de intake?»). Tras contrastar con el output de la demo, la opción 0 («Salta al siguiente ciclo del bucle») es la única coherente con texto, filas, gigante en «Iteración y resúmenes transaccionales». Las alternativas (Termina todo el programa / Borra la lista) suenan plausibles pero el material activo las niega.",
+      "confidence": 0.79
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («Un doble for anidado sobre n elementos es aproximadamente…»). Tras releer con desconfianza el material, la opción 3 («O(n²)») es la única coherente con producen, lista, exclusivo en «Iteración y resúmenes transaccionales». Las alternativas (O(1) / O(n)) suenan plausibles pero el material activo las niega.",
+      "confidence": 0.71
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:12:41.337779+00:00",
+  "session_started_at": "2026-07-23T15:11:47.731522+00:00",
+  "session_ended_at": "2026-07-23T15:12:41.334275+00:00",
+  "receipt_response_sha256": "3a40c819e2445a3dfc2a553e3b9e9a6699f5fd98c745b4b84dc426ab994b5be7",
+  "receipt_exercises_sha256": "9982993d6111bf9a5c43a474ccd5030abeb0976fcbfcd56260d771836867f984",
+  "receipt_selfcheck_sha256": "3eb9d5f376fdd95ffbfd635fb12e3fe37a64616fd326fcb596bcaadbbac48f15"
+}

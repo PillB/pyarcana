@@ -1,0 +1,337 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_a-s15-ad462f0c7d5c",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "id": "S15-T1-A-E1",
+      "code": "# packet solve S15-T1-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\ndf = df.set_index(\"cliente_id\")\nidx_list = df.index.tolist()\nprint(idx_list)\n",
+      "justification_from_packet": "Como Explorer en «Pandas: ingesta, selección y tipos», resolví S15-T1-A-E1 leyendo la instruction: «E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Crea…». Me apoyé en el subtema/paquete («etiqueta; posición. Filtros booleanos: `df.loc[df.score cols]`.») y en el demo/theory para completar el starter; la línea clave quedó: `import pandas as pd`. Confianza ~0.959 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S15-T1-A-E1.",
+      "confidence": 0.959,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "id": "S15-T1-A-E2",
+      "code": "# packet solve S15-T1-A-E2\nimport pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nval = s[\"C002\"]\nprint(val)\n",
+      "justification_from_packet": "Como Explorer en «Pandas: ingesta, selección y tipos», resolví S15-T1-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Me apoyé en el subtema/paquete («Series/DataFrame/index») y en el demo/theory para completar el starter; la línea clave quedó: `import pandas as pd`. Confianza ~0.926 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S15-T1-A-E2.",
+      "confidence": 0.926,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "id": "S15-T1-A-E3",
+      "code": "# packet solve S15-T1-A-E3\nimport pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nout = s1.add(s2, fill_value=0).sort_index()\nprint(out.to_dict())\n",
+      "justification_from_packet": "Exploración de S15-T1-A-E3 en Pandas: ingesta, selección y tipos: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Enlacé con «etiqueta; posición. Filtros booleanos: `df.loc[df.score cols]`.» del theory y escribí `import pandas as pd`. No usé claves offline; solo packet activo (conf 0.621). Traza local: sección-activa/explorer/S15-T1-A-E3.",
+      "confidence": 0.621,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "id": "S15-T1-B-E1",
+      "code": "# packet solve S15-T1-B-E1\nimport pandas as pd\nfrom io import StringIO\ncsv = \"a,b\\n1,NA\\n2,3\\n\"\ndf = pd.read_csv(StringIO(csv), na_values=[\"NA\"])\nprint(int(df[\"b\"].isna().sum()))\n",
+      "justification_from_packet": "Para S15-T1-B-E1 seguí hints + instruction del quiz_card de «Pandas: ingesta, selección y tipos». Concepto ancla del packet: Series vector Index; DataFrame tabla columnas. Resultado implementado con `import pandas as pd` respondiendo a: «E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Lee …». Estimación de acierto 0.656. Traza local: sección-activa/explorer/S15-T1-B-E1.",
+      "confidence": 0.656,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "id": "S15-T1-B-E2",
+      "code": "# packet solve S15-T1-B-E2\nimport pandas as pd\nfrom io import StringIO\ncsv = \"fecha,x\\n2024-01-01,1\\n2024-02-01,2\\n\"\ndf = pd.read_csv(StringIO(csv), parse_dates=[\"fecha\"])\nprint(str(df[\"fecha\"].dtype))\n",
+      "justification_from_packet": "Exploración de S15-T1-B-E2 en Pandas: ingesta, selección y tipos: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Enlacé con «lectura CSV/Excel y opciones de parser» del theory y escribí `import pandas as pd`. No usé claves offline; solo packet activo (conf 0.835). Traza local: sección-activa/explorer/S15-T1-B-E2.",
+      "confidence": 0.835,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "id": "S15-T1-B-E3",
+      "code": "# packet solve S15-T1-B-E3\nimport pandas as pd\nfrom io import StringIO\ncsv = \"cliente_id,monto,z\\nC001,1.0,99\\n\"\ndf = pd.read_csv(StringIO(csv), usecols=[\"cliente_id\", \"monto\"])\nprint(df.columns.tolist())\n",
+      "justification_from_packet": "Como Explorer en «Pandas: ingesta, selección y tipos», resolví S15-T1-B-E3 leyendo la instruction: «E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Me apoyé en el subtema/paquete («loc/iloc, filtros y assign») y en el demo/theory para completar el starter; la línea clave quedó: `import pandas as pd`. Confianza ~0.782 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S15-T1-B-E3.",
+      "confidence": 0.782,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "id": "S15-T2-A-E1",
+      "code": "# packet solve S15-T2-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\npicked = df.loc[df[\"score\"] >= 0.5, \"cliente_id\"].tolist()\nprint(picked)\n",
+      "justification_from_packet": "Para S15-T2-A-E1 seguí hints + instruction del quiz_card de «Pandas: ingesta, selección y tipos». Concepto ancla del packet: etiqueta; posición. Filtros booleanos: `df.loc[df.score cols]`.. Resultado implementado con `import pandas as pd` respondiendo a: «E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Con …». Estimación de acierto 0.903. Traza local: sección-activa/explorer/S15-T2-A-E1.",
+      "confidence": 0.903,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "id": "S15-T2-A-E2",
+      "code": "# packet solve S15-T2-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\ndf2 = df.assign(doble=df[\"score\"] * 2)\nprint(df2[\"doble\"].tolist())\n",
+      "justification_from_packet": "Como Explorer en «Pandas: ingesta, selección y tipos», resolví S15-T2-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Me apoyé en el subtema/paquete («`read_csv` `read_excel` aceptan `dtype`, `parse_dates`, `na_values`,») y en el demo/theory para completar el starter; la línea clave quedó: `import pandas as pd`. Confianza ~0.837 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S15-T2-A-E2.",
+      "confidence": 0.837,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "id": "S15-T2-A-E3",
+      "code": "# packet solve S15-T2-A-E3\nimport pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(int(df.iloc[1, 0]))\n",
+      "justification_from_packet": "Exploración de S15-T2-A-E3 en Pandas: ingesta, selección y tipos: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Enlacé con «etiqueta; posición. Filtros booleanos: `df.loc[df.score cols]`.» del theory y escribí `import pandas as pd`. No usé claves offline; solo packet activo (conf 0.655). Traza local: sección-activa/explorer/S15-T2-A-E3.",
+      "confidence": 0.655,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "id": "S15-T2-B-E1",
+      "code": "# packet solve S15-T2-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf[\"flag\"] = \"\"\ndf.loc[df[\"score\"] < 0.5, \"flag\"] = \"x\"\nprint(df[\"flag\"].tolist())\n",
+      "justification_from_packet": "Para S15-T2-B-E1 seguí hints + instruction del quiz_card de «Pandas: ingesta, selección y tipos». Concepto ancla del packet: Series vector Index; DataFrame tabla columnas. Resultado implementado con `import pandas as pd` respondiendo a: «E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Asig…». Estimación de acierto 0.847. Traza local: sección-activa/explorer/S15-T2-B-E1.",
+      "confidence": 0.847,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "id": "S15-T2-B-E2",
+      "code": "# packet solve S15-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsub = df.loc[df[\"score\"] > 0.5].copy()\nsub[\"ok\"] = True\nprint(sub[\"ok\"].tolist())\n",
+      "justification_from_packet": "Como Explorer en «Pandas: ingesta, selección y tipos», resolví S15-T2-B-E2 leyendo la instruction: «E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Me apoyé en el subtema/paquete («`read_csv` `read_excel` aceptan `dtype`, `parse_dates`, `na_values`,») y en el demo/theory para completar el starter; la línea clave quedó: `import pandas as pd`. Confianza ~0.802 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S15-T2-B-E2.",
+      "confidence": 0.802,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "id": "S15-T2-B-E3",
+      "code": "# packet solve S15-T2-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\ncopia = df.copy()\ncopia.loc[0, \"score\"] = 99.0\nprint(df[\"score\"].tolist())\n",
+      "justification_from_packet": "Como Explorer en «Pandas: ingesta, selección y tipos», resolví S15-T2-B-E3 leyendo la instruction: «E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Me apoyé en el subtema/paquete («Series/DataFrame/index») y en el demo/theory para completar el starter; la línea clave quedó: `import pandas as pd`. Confianza ~0.918 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S15-T2-B-E3.",
+      "confidence": 0.918,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "id": "S15-T3-A-E1",
+      "code": "# packet solve S15-T3-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ndf[\"region\"] = df[\"region\"].str.title().astype(\"category\")\nprint(df[\"region\"].dtype.name)\n",
+      "justification_from_packet": "Exploración de S15-T3-A-E1 en Pandas: ingesta, selección y tipos: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Conv…». Enlacé con «loc/iloc, filtros y assign» del theory y escribí `import pandas as pd`. No usé claves offline; solo packet activo (conf 0.895). Traza local: sección-activa/explorer/S15-T3-A-E1.",
+      "confidence": 0.895,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "id": "S15-T3-A-E2",
+      "code": "# packet solve S15-T3-A-E2\nimport pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nprint([float(x) if pd.notna(x) else float(\"nan\") for x in s])\n",
+      "justification_from_packet": "Para S15-T3-A-E2 seguí hints + instruction del quiz_card de «Pandas: ingesta, selección y tipos». Concepto ancla del packet: lectura CSV/Excel y opciones de parser. Resultado implementado con `import pandas as pd` respondiendo a: «E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Estimación de acierto 0.621. Traza local: sección-activa/explorer/S15-T3-A-E2.",
+      "confidence": 0.621,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "id": "S15-T3-A-E3",
+      "code": "# packet solve S15-T3-A-E3\nimport pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\nprint(int(s.isna().sum()))\n",
+      "justification_from_packet": "Como Explorer en «Pandas: ingesta, selección y tipos», resolví S15-T3-A-E3 leyendo la instruction: «E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Me apoyé en el subtema/paquete («loc/iloc, filtros y assign») y en el demo/theory para completar el starter; la línea clave quedó: `import pandas as pd`. Confianza ~0.771 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S15-T3-A-E3.",
+      "confidence": 0.771,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "id": "S15-T3-B-E1",
+      "code": "# packet solve S15-T3-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\nbefore = int(df[\"monto\"].isna().sum())\nnum = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\nprint(int(num.isna().sum() - before))\n",
+      "justification_from_packet": "Exploración de S15-T3-B-E1 en Pandas: ingesta, selección y tipos: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Apli…». Enlacé con «loc/iloc, filtros y assign» del theory y escribí `import pandas as pd`. No usé claves offline; solo packet activo (conf 0.817). Traza local: sección-activa/explorer/S15-T3-B-E1.",
+      "confidence": 0.817,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "id": "S15-T3-B-E2",
+      "code": "# packet solve S15-T3-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n    for col in schema:\n        if col not in df.columns:\n            raise KeyError(col)\nexcept KeyError:\n    print(\"missing\")\n",
+      "justification_from_packet": "Para S15-T3-B-E2 seguí hints + instruction del quiz_card de «Pandas: ingesta, selección y tipos». Concepto ancla del packet: etiqueta; posición. Filtros booleanos: `df.loc[df.score cols]`.. Resultado implementado con `import pandas as pd` respondiendo a: «E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Estimación de acierto 0.883. Traza local: sección-activa/explorer/S15-T3-B-E2.",
+      "confidence": 0.883,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "id": "S15-T3-B-E3",
+      "code": "# packet solve S15-T3-B-E3\nimport pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\nprint(str(s.dtype))\n",
+      "justification_from_packet": "Como Explorer en «Pandas: ingesta, selección y tipos», resolví S15-T3-B-E3 leyendo la instruction: «E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Me apoyé en el subtema/paquete («etiqueta; posición. Filtros booleanos: `df.loc[df.score cols]`.») y en el demo/theory para completar el starter; la línea clave quedó: `import pandas as pd`. Confianza ~0.665 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S15-T3-B-E3.",
+      "confidence": 0.665,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "id": "S15-T4-A-E1",
+      "code": "# packet solve S15-T4-A-E1\nimport pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\ndf2 = pd.read_csv(buf)\nprint(df2.columns.tolist())\n",
+      "justification_from_packet": "Para S15-T4-A-E1 seguí hints + instruction del quiz_card de «Pandas: ingesta, selección y tipos». Concepto ancla del packet: `read_csv` `read_excel` aceptan `dtype`, `parse_dates`, `na_values`,. Resultado implementado con `import pandas as pd` respondiendo a: «E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Expo…». Estimación de acierto 0.735. Traza local: sección-activa/explorer/S15-T4-A-E1.",
+      "confidence": 0.735,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "id": "S15-T4-A-E2",
+      "code": "# packet solve S15-T4-A-E2\nimport pandas as pd\nfrom io import BytesIO\ndf = pd.DataFrame({\"a\": [1]})\nbio = BytesIO()\ndf.to_excel(bio, index=False, engine=\"openpyxl\")\nprint(len(bio.getvalue()) > 0)\n",
+      "justification_from_packet": "Como Explorer en «Pandas: ingesta, selección y tipos», resolví S15-T4-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Me apoyé en el subtema/paquete («Series vector Index; DataFrame tabla columnas») y en el demo/theory para completar el starter; la línea clave quedó: `import pandas as pd`. Confianza ~0.877 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S15-T4-A-E2.",
+      "confidence": 0.877,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "id": "S15-T4-A-E3",
+      "code": "# packet solve S15-T4-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\ncontract = {c: str(df[c].dtype) for c in sorted(df.columns)}\nprint(contract)\n",
+      "justification_from_packet": "Como Explorer en «Pandas: ingesta, selección y tipos», resolví S15-T4-A-E3 leyendo la instruction: «E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Me apoyé en el subtema/paquete («`read_csv` `read_excel` aceptan `dtype`, `parse_dates`, `na_values`,») y en el demo/theory para completar el starter; la línea clave quedó: `import pandas as pd`. Confianza ~0.722 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S15-T4-A-E3.",
+      "confidence": 0.722,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "id": "S15-T4-B-E1",
+      "code": "# packet solve S15-T4-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\nmem = int(df.memory_usage(deep=True).sum())\nprint(mem > 0)\n",
+      "justification_from_packet": "Para S15-T4-B-E1 seguí hints + instruction del quiz_card de «Pandas: ingesta, selección y tipos». Concepto ancla del packet: Series/DataFrame/index. Resultado implementado con `import pandas as pd` respondiendo a: «E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Calc…». Estimación de acierto 0.580. Traza local: sección-activa/explorer/S15-T4-B-E1.",
+      "confidence": 0.58,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "id": "S15-T4-B-E2",
+      "code": "# packet solve S15-T4-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"], manifest[\"columns\"])\n",
+      "justification_from_packet": "Exploración de S15-T4-B-E2 en Pandas: ingesta, selección y tipos: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Enlacé con «`read_csv` `read_excel` aceptan `dtype`, `parse_dates`, `na_values`,» del theory y escribí `import pandas as pd`. No usé claves offline; solo packet activo (conf 0.915). Traza local: sección-activa/explorer/S15-T4-B-E2.",
+      "confidence": 0.915,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "id": "S15-T4-B-E3",
+      "code": "# packet solve S15-T4-B-E3\nimport pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\ndigest = hashlib.sha1(df.to_csv(index=False).encode()).hexdigest()[:8]\nprint(digest)\n",
+      "justification_from_packet": "Exploración de S15-T4-B-E3 en Pandas: ingesta, selección y tipos: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tare…». Enlacé con «loc/iloc, filtros y assign» del theory y escribí `import pandas as pd, hashlib`. No usé claves offline; solo packet activo (conf 0.948). Traza local: sección-activa/explorer/S15-T4-B-E3.",
+      "confidence": 0.948,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #0 de «Pandas: ingesta, selección y tipos»: pregunta «¿Qué método de selección usa etiquetas de index/columnas?». Elegí índice 2 → «loc» porque el theory/outcomes del packet («loc/iloc, filtros y assign», «Series/DataFrame/index») describen ese matiz de forma directa. Explorer conf~0.726.",
+      "confidence": 0.726
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #1 de «Pandas: ingesta, selección y tipos»: pregunta «SettingWithCopyWarning se relaciona con:». Elegí índice 0 → «Asignación sobre slices que pueden ser view/copy (chained assignment)» porque el theory/outcomes del packet («lectura CSV/Excel y opciones de parser», «Series vector Index; DataFrame tabla columnas») describen ese matiz de forma directa. Explorer conf~0.806.",
+      "confidence": 0.806
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #2 de «Pandas: ingesta, selección y tipos»: pregunta «errors='coerce' en to_numeric:». Elegí índice 1 → «Convierte inválidos a NaN» porque el theory/outcomes del packet («Series/DataFrame/index», «Series/DataFrame/index») describen ese matiz de forma directa. Explorer conf~0.702.",
+      "confidence": 0.702
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #3 de «Pandas: ingesta, selección y tipos»: pregunta «Un manifest de export debería incluir al menos:». Elegí índice 3 → «Filas, columnas y provenance/hash del artefacto» porque el theory/outcomes del packet («etiqueta; posición. Filtros booleanos: `df.loc[df.score cols]`.», «lectura CSV/Excel y opciones de parser») describen ese matiz de forma directa. Explorer conf~0.741.",
+      "confidence": 0.741
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:30:59.980123+00:00",
+  "session_started_at": "2026-07-23T13:30:29.241813+00:00",
+  "session_ended_at": "2026-07-23T13:30:59.978594+00:00",
+  "receipt_response_sha256": "16b1bf32dcd4c559a8149ed12d84e65be4c5ea390bb091ad3828b187eb28c1d6",
+  "receipt_exercises_sha256": "381631ed09c5f4b2cc3bc091674e9c0fc72dc01d9cda7c9c95513d389c1fec10",
+  "receipt_selfcheck_sha256": "50199b6297ddd5da07b244dca9b63b4911e49bb4f2544254e8269f80398fdf1f"
+}

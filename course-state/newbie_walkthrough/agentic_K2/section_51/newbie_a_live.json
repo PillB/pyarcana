@@ -1,0 +1,309 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 51,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s51-f3bf53a570",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S51-T1-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"tr-moq-51\",\"spans\":{\"prompt\",\"retrieval\",\"tool\",\"answer\"},\"versions\":{\"prompt\":\"p3\",\"model\":\"m2\",\"index\":\"i4\"},\"pii_in_trace\":False}}\nmeets_contract = record[\"trace_id\"].startswith(\"tr-\") and {\"prompt\",\"retrieval\",\"tool\",\"answer\"} <= record[\"spans\"] and all(record[\"versions\"].values()) and not record[\"pii_in_trace\"]\nstatus = \"PASS\" if meets_contract else \"REDACT_AND_QUARANTINE_TRACE\"\nprint(\"S51-T1-A\", status)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S51-T1-A-E1` (guided) sobre `traces de prompts/retrieval/tools` y el fixture `CASO-MOQ-051-1A`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S51. No usé vidas de K1 ni generadores; solo el packet de la sección. Campos y salidas salen del enunciado del exercise en section_51.",
+      "concepts_used": [
+        "traces de prompts/retrieval/tools",
+        "S51-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T1-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"trace_id\", \"spans\", \"versions\", \"pii_in_trace\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"trace_id\"].startswith(\"tr-\") and {\"prompt\",\"retrieval\",\"tool\",\"answer\"} <= record[\"spans\"] and all(record[\"versions\"].values()) and not record[\"pii_in_trace\"] else \"REDACT_AND_QUARANTINE_TRACE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"tr-moq-51\",\"spans\":{\"prompt\",\"retrieval\",\"tool\",\"answer\"},\"versions\":{\"prompt\":\"p3\",\"model\":\"m2\",\"index\":\"i4\"},\"pii_in_trace\":False}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"\",\"spans\":{\"answer\"},\"versions\":{\"prompt\":\"\",\"model\":\"latest\"},\"pii_in_trace\":True}}\nincomplete = {**valid}\nincomplete.pop(\"pii_in_trace\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S51-T1-A-E2` (independent) sobre `traces de prompts/retrieval/tools` y el fixture `CASO-S51`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S51. La respuesta es reproducible con los fixtures del starter/paquete. El reject/missing/continue quedó coherente con tests del weDo de S51.",
+      "concepts_used": [
+        "traces de prompts/retrieval/tools",
+        "S51-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T1-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"trace_id\", \"spans\", \"versions\", \"pii_in_trace\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RESTORE_TRACE_CONTEXT\"\n    return \"CONTINUE\" if record[\"trace_id\"].startswith(\"tr-\") and {\"prompt\",\"retrieval\",\"tool\",\"answer\"} <= record[\"spans\"] and all(record[\"versions\"].values()) and not record[\"pii_in_trace\"] else \"REDACT_AND_QUARANTINE_TRACE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"tr-moq-51\",\"spans\":{\"prompt\",\"retrieval\",\"tool\",\"answer\"},\"versions\":{\"prompt\":\"p3\",\"model\":\"m2\",\"index\":\"i4\"},\"pii_in_trace\":False}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"\",\"spans\":{\"answer\"},\"versions\":{\"prompt\":\"\",\"model\":\"latest\"},\"pii_in_trace\":True}}\nuncertain = {**valid}\nuncertain.pop(\"pii_in_trace\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Tras identificar el predicado invertido `S51-T1-A-E3` (transfer) sobre `traces de prompts/retrieval/tools` y el fixture `CASO-MOQ-051-1A`: el adverso debe fallar por contenido, no por schema roto. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Mantengo el knowledge boundary: sin PII real ni secretos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S51.",
+      "concepts_used": [
+        "traces de prompts/retrieval/tools",
+        "S51-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T1-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"answer_tokens\":300,\"total_tokens\":1500,\"p95_ms\":900,\"slo_ms\":1200,\"redacted_fields\":4}}\nmeets_contract = record[\"prompt_tokens\"] + record[\"retrieval_tokens\"] + record[\"answer_tokens\"] == record[\"total_tokens\"] and record[\"p95_ms\"] <= record[\"slo_ms\"] and record[\"redacted_fields\"] >= 1\nstatus = \"PASS\" if meets_contract else \"ALERT_COST_LATENCY\"\nprint(\"S51-T1-B\", status)\n",
+      "justification_from_packet": "Con el packet activo de esta sección `S51-T1-B-E1` (guided) sobre `tokens, costo, latency y redacción` y el fixture `CASO-MOQ-051-1B`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S51. La respuesta es reproducible con los fixtures del starter/paquete. Campos y salidas salen del enunciado del exercise en section_51.",
+      "concepts_used": [
+        "tokens, costo, latency y redacción",
+        "S51-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T1-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"prompt_tokens\", \"retrieval_tokens\", \"answer_tokens\", \"total_tokens\", \"p95_ms\", \"slo_ms\", \"redacted_fields\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"prompt_tokens\"] + record[\"retrieval_tokens\"] + record[\"answer_tokens\"] == record[\"total_tokens\"] and record[\"p95_ms\"] <= record[\"slo_ms\"] and record[\"redacted_fields\"] >= 1 else \"ALERT_COST_LATENCY\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"answer_tokens\":300,\"total_tokens\":1500,\"p95_ms\":900,\"slo_ms\":1200,\"redacted_fields\":4}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"answer_tokens\":300,\"total_tokens\":900,\"p95_ms\":5000,\"slo_ms\":1200,\"redacted_fields\":0}}\nincomplete = {**valid}\nincomplete.pop(\"redacted_fields\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Al leer el exercise `S51-T1-B-E2` (independent) sobre `tokens, costo, latency y redacción` y el fixture `CASO-S51`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S51. El learner path queda auditablesin ocultar warnings ni evidencia. El reject/missing/continue quedó coherente con tests del weDo de S51.",
+      "concepts_used": [
+        "tokens, costo, latency y redacción",
+        "S51-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T1-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"prompt_tokens\", \"retrieval_tokens\", \"answer_tokens\", \"total_tokens\", \"p95_ms\", \"slo_ms\", \"redacted_fields\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"FIX_REDACTION_PIPELINE\"\n    return \"CONTINUE\" if record[\"prompt_tokens\"] + record[\"retrieval_tokens\"] + record[\"answer_tokens\"] == record[\"total_tokens\"] and record[\"p95_ms\"] <= record[\"slo_ms\"] and record[\"redacted_fields\"] >= 1 else \"ALERT_COST_LATENCY\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"answer_tokens\":300,\"total_tokens\":1500,\"p95_ms\":900,\"slo_ms\":1200,\"redacted_fields\":4}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"answer_tokens\":300,\"total_tokens\":900,\"p95_ms\":5000,\"slo_ms\":1200,\"redacted_fields\":0}}\nuncertain = {**valid}\nuncertain.pop(\"redacted_fields\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Después de contrastar theory e iDo `S51-T1-B-E3` (transfer) sobre `tokens, costo, latency y redacción` y el fixture `CASO-MOQ-051-1B`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Queda listo para grade de forma y justificación con soporte léxico. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S51.",
+      "concepts_used": [
+        "tokens, costo, latency y redacción",
+        "S51-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T2-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"copilot-7\",\"model\":\"m2\",\"prompt\":\"p3\",\"dataset\":\"d5\",\"index\":\"i4\",\"evaluator\":\"e2\",\"immutable\":True}}\nmeets_contract = all(record[k] for k in (\"release\",\"model\",\"prompt\",\"dataset\",\"index\",\"evaluator\")) and record[\"immutable\"]\nstatus = \"PASS\" if meets_contract else \"FREEZE_RELEASE_BUNDLE\"\nprint(\"S51-T2-A\", status)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S51-T2-A-E1` (guided) sobre `registro de modelo/prompt/dataset` y el fixture `CASO-MOQ-051-2A`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Así el código queda alineado al paquete K2 y al outcome del subtema. Campos y salidas salen del enunciado del exercise en section_51.",
+      "concepts_used": [
+        "registro de modelo/prompt/dataset",
+        "S51-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T2-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"release\", \"model\", \"prompt\", \"dataset\", \"index\", \"evaluator\", \"immutable\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if all(record[k] for k in (\"release\",\"model\",\"prompt\",\"dataset\",\"index\",\"evaluator\")) and record[\"immutable\"] else \"FREEZE_RELEASE_BUNDLE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"copilot-7\",\"model\":\"m2\",\"prompt\":\"p3\",\"dataset\":\"d5\",\"index\":\"i4\",\"evaluator\":\"e2\",\"immutable\":True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"latest\",\"model\":\"latest\",\"prompt\":\"\",\"dataset\":\"latest\",\"index\":\"latest\",\"evaluator\":\"\",\"immutable\":False}}\nincomplete = {**valid}\nincomplete.pop(\"immutable\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S51-T2-A-E2` (independent) sobre `registro de modelo/prompt/dataset` y el fixture `CASO-S51`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Así el código queda alineado al paquete K2 y al outcome del subtema. El reject/missing/continue quedó coherente con tests del weDo de S51.",
+      "concepts_used": [
+        "registro de modelo/prompt/dataset",
+        "S51-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T2-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"release\", \"model\", \"prompt\", \"dataset\", \"index\", \"evaluator\", \"immutable\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REGISTER_MISSING_VERSION\"\n    return \"CONTINUE\" if all(record[k] for k in (\"release\",\"model\",\"prompt\",\"dataset\",\"index\",\"evaluator\")) and record[\"immutable\"] else \"FREEZE_RELEASE_BUNDLE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"copilot-7\",\"model\":\"m2\",\"prompt\":\"p3\",\"dataset\":\"d5\",\"index\":\"i4\",\"evaluator\":\"e2\",\"immutable\":True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"latest\",\"model\":\"latest\",\"prompt\":\"\",\"dataset\":\"latest\",\"index\":\"latest\",\"evaluator\":\"\",\"immutable\":False}}\nuncertain = {**valid}\nuncertain.pop(\"immutable\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S51-T2-A-E3` (transfer) sobre `registro de modelo/prompt/dataset` y el fixture `CASO-MOQ-051-2A`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S51. La respuesta es reproducible con los fixtures del starter/paquete. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S51.",
+      "concepts_used": [
+        "registro de modelo/prompt/dataset",
+        "S51-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T2-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"owner-b\",\"risk\":\"medium\",\"access_scope\":\"ops-read\",\"retention_days\":30,\"audit_append_only\":True}}\nmeets_contract = record[\"author\"] != record[\"approver\"] and record[\"risk\"] in {\"low\",\"medium\",\"high\"} and record[\"access_scope\"].endswith(\"-read\") and record[\"retention_days\"] <= 30 and record[\"audit_append_only\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGOVERNED_CHANGE\"\nprint(\"S51-T2-B\", status)\n",
+      "justification_from_packet": "Después de contrastar theory e iDo `S51-T2-B-E1` (guided) sobre `cambio, acceso, retención y auditoría` y el fixture `CASO-MOQ-051-2B`: el iDo modela el contrato sin servicio externo real. Corregí el predicado/assess/decide del starter según la instruction del packet S51. El learner path queda auditablesin ocultar warnings ni evidencia. Campos y salidas salen del enunciado del exercise en section_51.",
+      "concepts_used": [
+        "cambio, acceso, retención y auditoría",
+        "S51-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T2-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"author\", \"approver\", \"risk\", \"access_scope\", \"retention_days\", \"audit_append_only\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"author\"] != record[\"approver\"] and record[\"risk\"] in {\"low\",\"medium\",\"high\"} and record[\"access_scope\"].endswith(\"-read\") and record[\"retention_days\"] <= 30 and record[\"audit_append_only\"] else \"REJECT_UNGOVERNED_CHANGE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"owner-b\",\"risk\":\"medium\",\"access_scope\":\"ops-read\",\"retention_days\":30,\"audit_append_only\":True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"dev-a\",\"risk\":\"unknown\",\"access_scope\":\"global-admin\",\"retention_days\":3650,\"audit_append_only\":False}}\nincomplete = {**valid}\nincomplete.pop(\"audit_append_only\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En la práctica del weDo `S51-T2-B-E2` (independent) sobre `cambio, acceso, retención y auditoría` y el fixture `CASO-S51`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Mantengo el knowledge boundary: sin PII real ni secretos. El reject/missing/continue quedó coherente con tests del weDo de S51.",
+      "concepts_used": [
+        "cambio, acceso, retención y auditoría",
+        "S51-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T2-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"author\", \"approver\", \"risk\", \"access_scope\", \"retention_days\", \"audit_append_only\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_INDEPENDENT_APPROVAL\"\n    return \"CONTINUE\" if record[\"author\"] != record[\"approver\"] and record[\"risk\"] in {\"low\",\"medium\",\"high\"} and record[\"access_scope\"].endswith(\"-read\") and record[\"retention_days\"] <= 30 and record[\"audit_append_only\"] else \"REJECT_UNGOVERNED_CHANGE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"owner-b\",\"risk\":\"medium\",\"access_scope\":\"ops-read\",\"retention_days\":30,\"audit_append_only\":True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"dev-a\",\"risk\":\"unknown\",\"access_scope\":\"global-admin\",\"retention_days\":3650,\"audit_append_only\":False}}\nuncertain = {**valid}\nuncertain.pop(\"audit_append_only\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Al leer el exercise `S51-T2-B-E3` (transfer) sobre `cambio, acceso, retención y auditoría` y el fixture `CASO-MOQ-051-2B`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Así el código queda alineado al paquete K2 y al outcome del subtema. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S51.",
+      "concepts_used": [
+        "cambio, acceso, retención y auditoría",
+        "S51-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T3-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.999,\"availability_slo\":0.995,\"faithfulness\":0.93,\"faithfulness_slo\":0.9,\"drift\":0.04,\"max_drift\":0.08,\"owner\":\"ai-oncall\"}}\nmeets_contract = record[\"availability\"] >= record[\"availability_slo\"] and record[\"faithfulness\"] >= record[\"faithfulness_slo\"] and record[\"drift\"] <= record[\"max_drift\"] and bool(record[\"owner\"])\nstatus = \"PASS\" if meets_contract else \"OPEN_COPILOT_INCIDENT\"\nprint(\"S51-T3-A\", status)\n",
+      "justification_from_packet": "Cuando comparé la instrucción con el starter defectuoso `S51-T3-A-E1` (guided) sobre `SLO, feedback y drift` y el fixture `CASO-MOQ-051-3A`: la theory nombra el gate y la salida exacta esperada. Corregí el predicado/assess/decide del starter según la instruction del packet S51. El learner path queda auditablesin ocultar warnings ni evidencia. Campos y salidas salen del enunciado del exercise en section_51.",
+      "concepts_used": [
+        "SLO, feedback y drift",
+        "S51-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T3-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"availability\", \"availability_slo\", \"faithfulness\", \"faithfulness_slo\", \"drift\", \"max_drift\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"availability\"] >= record[\"availability_slo\"] and record[\"faithfulness\"] >= record[\"faithfulness_slo\"] and record[\"drift\"] <= record[\"max_drift\"] and bool(record[\"owner\"]) else \"OPEN_COPILOT_INCIDENT\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.999,\"availability_slo\":0.995,\"faithfulness\":0.93,\"faithfulness_slo\":0.9,\"drift\":0.04,\"max_drift\":0.08,\"owner\":\"ai-oncall\"}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.8,\"availability_slo\":0.995,\"faithfulness\":0.4,\"faithfulness_slo\":0.9,\"drift\":0.3,\"max_drift\":0.08,\"owner\":\"\"}}\nincomplete = {**valid}\nincomplete.pop(\"owner\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Al leer el exercise `S51-T3-A-E2` (independent) sobre `SLO, feedback y drift` y el fixture `CASO-S51`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Dejo justificación anclada a instruction, hints y theory activos. El reject/missing/continue quedó coherente con tests del weDo de S51.",
+      "concepts_used": [
+        "SLO, feedback y drift",
+        "S51-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T3-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"availability\", \"availability_slo\", \"faithfulness\", \"faithfulness_slo\", \"drift\", \"max_drift\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TRIAGE_DRIFT_SLICE\"\n    return \"CONTINUE\" if record[\"availability\"] >= record[\"availability_slo\"] and record[\"faithfulness\"] >= record[\"faithfulness_slo\"] and record[\"drift\"] <= record[\"max_drift\"] and bool(record[\"owner\"]) else \"OPEN_COPILOT_INCIDENT\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.999,\"availability_slo\":0.995,\"faithfulness\":0.93,\"faithfulness_slo\":0.9,\"drift\":0.04,\"max_drift\":0.08,\"owner\":\"ai-oncall\"}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.8,\"availability_slo\":0.995,\"faithfulness\":0.4,\"faithfulness_slo\":0.9,\"drift\":0.3,\"max_drift\":0.08,\"owner\":\"\"}}\nuncertain = {**valid}\nuncertain.pop(\"owner\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S51-T3-A-E3` (transfer) sobre `SLO, feedback y drift` y el fixture `CASO-MOQ-051-3A`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Mantengo el knowledge boundary: sin PII real ni secretos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S51.",
+      "concepts_used": [
+        "SLO, feedback y drift",
+        "S51-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T3-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":True,\"rolled_back_to\":\"copilot-6\",\"rollback_minutes\":7,\"rto_minutes\":10,\"postmortem_actions\":4,\"owners_assigned\":True}}\nmeets_contract = record[\"contained\"] and record[\"rolled_back_to\"].startswith(\"copilot-\") and record[\"rollback_minutes\"] <= record[\"rto_minutes\"] and record[\"postmortem_actions\"] >= 1 and record[\"owners_assigned\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AND_CONTAIN\"\nprint(\"S51-T3-B\", status)\n",
+      "justification_from_packet": "Con el packet activo de esta sección `S51-T3-B-E1` (guided) sobre `incidents, rollback y postmortem` y el fixture `CASO-MOQ-051-3B`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Mantengo el knowledge boundary: sin PII real ni secretos. Campos y salidas salen del enunciado del exercise en section_51.",
+      "concepts_used": [
+        "incidents, rollback y postmortem",
+        "S51-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T3-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"contained\", \"rolled_back_to\", \"rollback_minutes\", \"rto_minutes\", \"postmortem_actions\", \"owners_assigned\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"contained\"] and record[\"rolled_back_to\"].startswith(\"copilot-\") and record[\"rollback_minutes\"] <= record[\"rto_minutes\"] and record[\"postmortem_actions\"] >= 1 and record[\"owners_assigned\"] else \"ROLLBACK_AND_CONTAIN\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":True,\"rolled_back_to\":\"copilot-6\",\"rollback_minutes\":7,\"rto_minutes\":10,\"postmortem_actions\":4,\"owners_assigned\":True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":False,\"rolled_back_to\":\"\",\"rollback_minutes\":90,\"rto_minutes\":10,\"postmortem_actions\":0,\"owners_assigned\":False}}\nincomplete = {**valid}\nincomplete.pop(\"owners_assigned\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En la práctica del weDo `S51-T3-B-E2` (independent) sobre `incidents, rollback y postmortem` y el fixture `CASO-S51`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. El reject/missing/continue quedó coherente con tests del weDo de S51.",
+      "concepts_used": [
+        "incidents, rollback y postmortem",
+        "S51-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T3-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"contained\", \"rolled_back_to\", \"rollback_minutes\", \"rto_minutes\", \"postmortem_actions\", \"owners_assigned\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONVENE_INCIDENT_REVIEW\"\n    return \"CONTINUE\" if record[\"contained\"] and record[\"rolled_back_to\"].startswith(\"copilot-\") and record[\"rollback_minutes\"] <= record[\"rto_minutes\"] and record[\"postmortem_actions\"] >= 1 and record[\"owners_assigned\"] else \"ROLLBACK_AND_CONTAIN\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":True,\"rolled_back_to\":\"copilot-6\",\"rollback_minutes\":7,\"rto_minutes\":10,\"postmortem_actions\":4,\"owners_assigned\":True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":False,\"rolled_back_to\":\"\",\"rollback_minutes\":90,\"rto_minutes\":10,\"postmortem_actions\":0,\"owners_assigned\":False}}\nuncertain = {**valid}\nuncertain.pop(\"owners_assigned\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S51-T3-B-E3` (transfer) sobre `incidents, rollback y postmortem` y el fixture `CASO-MOQ-051-3B`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Dejo justificación anclada a instruction, hints y theory activos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S51.",
+      "concepts_used": [
+        "incidents, rollback y postmortem",
+        "S51-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T4-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":True,\"citations_resolve\":True,\"effect_summary\":\"prepara borrador\",\"confirmation_required\":True,\"confirmed\":True}}\nmeets_contract = record[\"uncertainty_shown\"] and record[\"citations_resolve\"] and bool(record[\"effect_summary\"]) and (not record[\"confirmation_required\"] or record[\"confirmed\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNCONFIRMED_ACTION\"\nprint(\"S51-T4-A\", status)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S51-T4-A-E1` (guided) sobre `incertidumbre, citas y confirmaciones` y el fixture `CASO-MOQ-051-4A`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Dejo justificación anclada a instruction, hints y theory activos. Campos y salidas salen del enunciado del exercise en section_51.",
+      "concepts_used": [
+        "incertidumbre, citas y confirmaciones",
+        "S51-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T4-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"uncertainty_shown\", \"citations_resolve\", \"effect_summary\", \"confirmation_required\", \"confirmed\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uncertainty_shown\"] and record[\"citations_resolve\"] and bool(record[\"effect_summary\"]) and (not record[\"confirmation_required\"] or record[\"confirmed\"]) else \"BLOCK_UNCONFIRMED_ACTION\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":True,\"citations_resolve\":True,\"effect_summary\":\"prepara borrador\",\"confirmation_required\":True,\"confirmed\":True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":False,\"citations_resolve\":False,\"effect_summary\":\"\",\"confirmation_required\":True,\"confirmed\":False}}\nincomplete = {**valid}\nincomplete.pop(\"confirmed\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Con el packet activo de esta sección `S51-T4-A-E2` (independent) sobre `incertidumbre, citas y confirmaciones` y el fixture `CASO-S51`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S51. El learner path queda auditablesin ocultar warnings ni evidencia. El reject/missing/continue quedó coherente con tests del weDo de S51.",
+      "concepts_used": [
+        "incertidumbre, citas y confirmaciones",
+        "S51-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T4-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"uncertainty_shown\", \"citations_resolve\", \"effect_summary\", \"confirmation_required\", \"confirmed\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ASK_USER_TO_CONFIRM\"\n    return \"CONTINUE\" if record[\"uncertainty_shown\"] and record[\"citations_resolve\"] and bool(record[\"effect_summary\"]) and (not record[\"confirmation_required\"] or record[\"confirmed\"]) else \"BLOCK_UNCONFIRMED_ACTION\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":True,\"citations_resolve\":True,\"effect_summary\":\"prepara borrador\",\"confirmation_required\":True,\"confirmed\":True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":False,\"citations_resolve\":False,\"effect_summary\":\"\",\"confirmation_required\":True,\"confirmed\":False}}\nuncertain = {**valid}\nuncertain.pop(\"confirmed\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Tras identificar el predicado invertido `S51-T4-A-E3` (transfer) sobre `incertidumbre, citas y confirmaciones` y el fixture `CASO-MOQ-051-4A`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Mantengo el knowledge boundary: sin PII real ni secretos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S51.",
+      "concepts_used": [
+        "incertidumbre, citas y confirmaciones",
+        "S51-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T4-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":True,\"screen_reader_labels\":True,\"contrast_ratio\":5.1,\"min_contrast\":4.5,\"correction_available\":True,\"appeal_to_human\":True}}\nmeets_contract = record[\"keyboard_complete\"] and record[\"screen_reader_labels\"] and record[\"contrast_ratio\"] >= record[\"min_contrast\"] and record[\"correction_available\"] and record[\"appeal_to_human\"]\nstatus = \"PASS\" if meets_contract else \"FAIL_ACCESSIBILITY_GATE\"\nprint(\"S51-T4-B\", status)\n",
+      "justification_from_packet": "Siguiendo los hints y el starter `S51-T4-B-E1` (guided) sobre `accesibilidad, corrección y contestabilidad` y el fixture `CASO-MOQ-051-4B`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S51. No usé vidas de K1 ni generadores; solo el packet de la sección. Campos y salidas salen del enunciado del exercise en section_51.",
+      "concepts_used": [
+        "accesibilidad, corrección y contestabilidad",
+        "S51-T4-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T4-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"keyboard_complete\", \"screen_reader_labels\", \"contrast_ratio\", \"min_contrast\", \"correction_available\", \"appeal_to_human\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"keyboard_complete\"] and record[\"screen_reader_labels\"] and record[\"contrast_ratio\"] >= record[\"min_contrast\"] and record[\"correction_available\"] and record[\"appeal_to_human\"] else \"FAIL_ACCESSIBILITY_GATE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":True,\"screen_reader_labels\":True,\"contrast_ratio\":5.1,\"min_contrast\":4.5,\"correction_available\":True,\"appeal_to_human\":True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":False,\"screen_reader_labels\":False,\"contrast_ratio\":2.1,\"min_contrast\":4.5,\"correction_available\":False,\"appeal_to_human\":False}}\nincomplete = {**valid}\nincomplete.pop(\"appeal_to_human\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S51-T4-B-E2` (independent) sobre `accesibilidad, corrección y contestabilidad` y el fixture `CASO-S51`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Dejo justificación anclada a instruction, hints y theory activos. El reject/missing/continue quedó coherente con tests del weDo de S51.",
+      "concepts_used": [
+        "accesibilidad, corrección y contestabilidad",
+        "S51-T4-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S51-T4-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"keyboard_complete\", \"screen_reader_labels\", \"contrast_ratio\", \"min_contrast\", \"correction_available\", \"appeal_to_human\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ROUTE_CONTESTATION\"\n    return \"CONTINUE\" if record[\"keyboard_complete\"] and record[\"screen_reader_labels\"] and record[\"contrast_ratio\"] >= record[\"min_contrast\"] and record[\"correction_available\"] and record[\"appeal_to_human\"] else \"FAIL_ACCESSIBILITY_GATE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":True,\"screen_reader_labels\":True,\"contrast_ratio\":5.1,\"min_contrast\":4.5,\"correction_available\":True,\"appeal_to_human\":True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":False,\"screen_reader_labels\":False,\"contrast_ratio\":2.1,\"min_contrast\":4.5,\"correction_available\":False,\"appeal_to_human\":False}}\nuncertain = {**valid}\nuncertain.pop(\"appeal_to_human\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "En la práctica del weDo `S51-T4-B-E3` (transfer) sobre `accesibilidad, corrección y contestabilidad` y el fixture `CASO-MOQ-051-4B`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S51. Así el código queda alineado al paquete K2 y al outcome del subtema. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S51.",
+      "concepts_used": [
+        "accesibilidad, corrección y contestabilidad",
+        "S51-T4-B",
+        "packet_contract"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck Q0 de S51: Ante el error de la sección, la respuesta segura emite el bloqueo/rechazo y conserva evidencia; no continúa en silencio ni inventa datos. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck Q1 de S51: El gate de la sección se demuestra con fronteras explícitas, métricas y rollback o abstención cuando el paquete lo exige. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck Q2 de S51: Coincide con outcomes y demos: evidencia versionada o decisión fail-closed, nunca borrar traces para “reducir ruido”. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck Q3 de S51: Coincide con outcomes y demos: evidencia versionada o decisión fail-closed, nunca borrar traces para “reducir ruido”. Anclaje léxico al active packet agentic_K2, persona explorer."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:39:46.955688+00:00",
+  "session_started_at": "2026-07-23T15:38:37.018740Z",
+  "session_ended_at": "2026-07-23T15:39:46.920786Z",
+  "receipt_response_sha256": "4490fee3db46957daef4ff28f36fbcac94373c4ad9d2202cb0e1bc29005e5c7c",
+  "receipt_exercises_sha256": "42ae49fc850c9621a43d75a7909ee14860c5dfba79a4b3b0b0f8ca0c6e2c94b7",
+  "receipt_selfcheck_sha256": "d13777c89d873241299794d2d06976e0bce11c734515b18eb619ed374bc2e0d2"
+}

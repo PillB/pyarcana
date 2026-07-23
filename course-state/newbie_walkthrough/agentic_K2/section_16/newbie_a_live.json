@@ -1,0 +1,492 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-exp-s16-92ce34707820",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "id": "S16-T1-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))",
+      "justification_from_packet": "Como explorador en S16-T1-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un null. Cuen. Aplico el hint «isna().sum().» y dejo.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "required",
+        "conteo",
+        "nulls",
+        "Fixture",
+        "con",
+        "columna"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "id": "S16-T1-A-E2",
+      "code": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(viol)",
+      "justification_from_packet": "Como explorador en S16-T1-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` required/optional, construye dic. Aplico el hint «Itera policy.» y dejo.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "mapa",
+        "violaciones",
+        "required",
+        "Dado",
+        "policy",
+        "required"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "id": "S16-T1-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nviol = {\"id\": int(df[\"id\"].isna().sum())} if df[\"id\"].isna().any() else {}\nprint(\"fail\" if viol else \"pass\")",
+      "justification_from_packet": "Como explorador en S16-T1-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones required imprime exactamente `f. Aplico el hint «Usa el dict viol.» y.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "gate",
+        "pass",
+        "fail",
+        "por",
+        "required",
+        "hay"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "id": "S16-T1-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0.0)\nprint(df[\"was_null\"].tolist())",
+      "justification_from_packet": "Como explorador en S16-T1-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, crea `was_null` booleana, luego. Aplico el hint «was_null = isna.» y.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "indicador",
+        "ausencia",
+        "antes",
+        "imputar",
+        "Sobre",
+        "monto"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "id": "S16-T1-B-E2",
+      "code": "import pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = s.isna().mean()\nprint(\"blocked\" if rate > 0.3 else \"ok\")",
+      "justification_from_packet": "Como explorador en S16-T1-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (rate=0.5) con umbral 0.3. Si n. Aplico el hint «mean de isna.» y dejo.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "cap",
+        "Fixture",
+        "null",
+        "monto",
+        "rate",
+        "con"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "id": "S16-T1-B-E3",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nfilled = s.fillna(med)\nprint(float(med), filled.tolist())",
+      "justification_from_packet": "Como explorador en S16-T1-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,None]: imputa mediana de no-nulo. Aplico el hint «median skipna.» y dejo.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "mediana",
+        "estable",
+        "pre",
+        "post",
+        "null",
+        "Fixture"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "id": "S16-T2-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nprint(int(df.duplicated(keep=False).sum()))",
+      "justification_from_packet": "Como explorador en S16-T2-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cuenta filas con `duplicated(keep. Aplico el hint.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "duplicados",
+        "exactos",
+        "con",
+        "una",
+        "fila",
+        "exacta"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "id": "S16-T2-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nids = df.groupby(\"cliente_id\")[\"region\"].nunique()\nprint(ids[ids > 1].index.tolist())",
+      "justification_from_packet": "Como explorador en S16-T2-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con más de una región distinta (`n. Aplico el hint «groupby nunique > 1.» y.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "conflictos",
+        "atributo",
+        "Detecta",
+        "cliente_id",
+        "con",
+        "una"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "id": "S16-T2-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nif sub.duplicated(keep=False).any() and sub.duplicated(keep=False).all():\n    print(\"exact\")\nelif sub[\"region\"].nunique() > 1:\n    print(\"conflict\")\nelse:\n    print(\"clean\")",
+      "justification_from_packet": "Como explorador en S16-T2-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C001 en el fixture: si dup exact. Aplico el hint «Lógica en orden.» y.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "clasificar",
+        "exact",
+        "conflict",
+        "clean",
+        "Para",
+        "fixture"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "id": "S16-T2-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nq = df[df.duplicated(\"id\", keep=False)]\nc = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(q), len(c))",
+      "justification_from_packet": "Como explorador en S16-T2-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup key keep=False) y clean con d. Aplico el hint «duplicated(key,.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "split",
+        "quarantine",
+        "clean",
+        "por",
+        "clave",
+        "Separa"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "id": "S16-T2-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nprint(q.columns.tolist())",
+      "justification_from_packet": "Como explorador en S16-T2-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine conserve la columna `batch` (o . Aplico el hint «copy del mask.» y dejo.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "evidencia",
+        "cuarentena",
+        "Asegura",
+        "que",
+        "quarantine",
+        "conserve"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "id": "S16-T2-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\nprint(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_bad\")",
+      "justification_from_packet": "Como explorador en S16-T2-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(df)` imprime `card_ok`; si no,. Aplico el hint «cardinalidad 1:1.» y.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "cardinalidad",
+        "fila",
+        "por",
+        "nunique",
+        "len",
+        "imprime"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "id": "S16-T3-A-E1",
+      "code": "import pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())",
+      "justification_from_packet": "Como explorador en S16-T3-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` aplica strip + title; imprime la . Aplico el hint.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "strings",
+        "Sobre",
+        "lima",
+        "CUSCO",
+        "aplica",
+        "strip"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "id": "S16-T3-A-E2",
+      "code": "import pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(v.sum()))",
+      "justification_from_packet": "Como explorador en S16-T3-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/` y castea float en `['S/1.5',. Aplico el hint «str.replace.» y dejo el.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "parse",
+        "montos",
+        "PEN",
+        "Quita",
+        "prefijo",
+        "castea"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "id": "S16-T3-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\nprint(df[\"region_raw\"].tolist(), df[\"region\"].tolist())",
+      "justification_from_packet": "Como explorador en S16-T3-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `region_raw` y verifica que `region. Aplico el hint «Nueva col no pisa raw.».",
+      "confidence": 0.72,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "conservar",
+        "raw",
+        "Crea",
+        "region",
+        "desde",
+        "region_raw"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "id": "S16-T3-B-E1",
+      "code": "import pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())",
+      "justification_from_packet": "Como explorador en S16-T3-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprime lista booleana alineada. Pas. Aplico el hint «s < 0.» y dejo el.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "domain",
+        "bounds",
+        "Marca",
+        "domain_error",
+        "monto",
+        "imprime"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "id": "S16-T3-B-E2",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[mask].tolist())",
+      "justification_from_packet": "Como explorador en S16-T3-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], lista valores stat-outlier. Pa. Aplico el hint «quantile 0.25/0.75.» y.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "outliers",
+        "IQR",
+        "Dado",
+        "lista",
+        "valores",
+        "stat"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "id": "S16-T3-B-E3",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = s.iloc[2]\nlabel = \"error\" if val < 0 else \"ok\"\nprint(label)",
+      "justification_from_packet": "Como explorador en S16-T3-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]: `error` si domain, `flag` si. Aplico el hint «Prioriza error.» y dejo.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "etiqueta",
+        "error",
+        "flag",
+        "Para",
+        "valor",
+        "error"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "id": "S16-T4-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nprint([c for c in required if c not in df.columns])",
+      "justification_from_packet": "Como explorador en S16-T4-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y DF solo con `id`; imprime lis. Aplico el hint «list comprehension.» y.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "columnas",
+        "required",
+        "faltantes",
+        "Required",
+        "monto",
+        "solo"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "id": "S16-T4-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\nprint(df.index[df[\"fin\"] < df[\"inicio\"]].tolist())",
+      "justification_from_packet": "Como explorador en S16-T4-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fin < inicio`; imprime la lista . Aplico el hint «máscara datetime.» y.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "cross",
+        "field",
+        "temporal",
+        "Encuentra",
+        "donde",
+        "fin"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "id": "S16-T4-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")",
+      "justification_from_packet": "Como explorador en S16-T4-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required imprime `drift`; else `schema_ok. Aplico el hint «Usa lista missing.» y.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "schema",
+        "drift",
+        "gate",
+        "faltan",
+        "columnas",
+        "required"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "id": "S16-T4-B-E1",
+      "code": "rows_in = 10\nq = 3\nprint(rows_in - q)",
+      "justification_from_packet": "Como explorador en S16-T4-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime rows_clean = in - quarantine. Pa. Aplico el hint «resta simple.» y dejo.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "rows_clean",
+        "Dado",
+        "rows_in",
+        "quarantine_n",
+        "imprime",
+        "rows_clean"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "id": "S16-T4-B-E2",
+      "code": "audit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\", \"n\": 2})\nprint(len(audit))",
+      "justification_from_packet": "Como explorador en S16-T4-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` a la lista audit e imprime `le. Aplico el hint «audit.append.» y dejo.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "audit",
+        "append",
+        "only",
+        "Append",
+        "evento",
+        "quarantine"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "id": "S16-T4-B-E3",
+      "code": "n_q = 1\nmetrics = {\"pass\": n_q == 0, \"rows_quarantine\": n_q}\nprint(metrics[\"pass\"])",
+      "justification_from_packet": "Como explorador en S16-T4-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False; imprime el booleano para n_q. Aplico el hint «pass = n_q==0.» y dejo.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "metrics",
+        "pass",
+        "quarantine",
+        "entonces",
+        "pass",
+        "False"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "En selfcheck Q0 elijo «Provocar violación/cuarentena o fail del gate» porque la teoría «nulls y políticas por campo» del paquete dice: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del.",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "En selfcheck Q1 elijo «Exacto = filas idénticas; conflicto = misma clave con atributos distintos» porque la teoría «indicadores y límites de imputación» del paquete dice: Un **indicador de ausencia** (`monto_was_null`).",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "En selfcheck Q2 elijo «Auditar y disputar la forma canónica sin perder el valor original» porque la teoría «duplicados exactos vs conflictos» del paquete dice: **Duplicado exacto**: mismas columnas relevantes.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "En selfcheck Q3 elijo «Puede marcar (o borrar) colas legítimas de negocio como si fueran error» porque la teoría «claves, cardinalidad y conservación de evidencia» del paquete dice: Define la **clave de negocio** y la.",
+      "confidence": 0.87,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "En selfcheck Q4 elijo «Publicar métricas y cuarentena aunque pass=False» porque la teoría «normalización de strings, números, fechas y categorías» del paquete dice: Normalización: strings (`strip`, colapso de espacios,.",
+      "confidence": 0.9,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:18:16.656679+00:00",
+  "session_started_at": "2026-07-23T15:17:49.045710Z",
+  "session_ended_at": "2026-07-23T15:18:16.655534Z",
+  "receipt_response_sha256": "48863a4c2bdf8ce139fc11ccc85674bd24d3943b6b638781be15f42dd8c9eeac",
+  "receipt_exercises_sha256": "9809c9f2fffea2c81e0023fb211e05e04aea9509fb52cc49bed630f82f2e2577",
+  "receipt_selfcheck_sha256": "695e654acc7f05de16148702c00a89c2409e5c1e3dcd10b8e3ee0d04ba40220e"
+}

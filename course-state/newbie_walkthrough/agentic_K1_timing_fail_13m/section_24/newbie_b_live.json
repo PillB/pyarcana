@@ -1,0 +1,337 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s24-c6e8c803f4fa",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "id": "S24-T1-A-E1",
+      "code": "# skeptic audit S24-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndpi=96\nprint(max(dpi, 200))\n",
+      "justification_from_packet": "Skeptic en «OCR y Document AI»: crucé S24-T1-A-E1 contra theory/iDo antes de aceptar el código. La instruction dice «Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el entero resultante. Contrato: no inventa detalle óptico; solo …»; el apoyo lexical viene de «ruido y orientación». Implementación auditada: `dpi=96`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.835). Traza local: sección-activa/skeptic/S24-T1-A-E1.",
+      "confidence": 0.835,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "id": "S24-T1-A-E2",
+      "code": "# skeptic audit S24-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nskew=1.2\nprint(abs(skew) >= 0.5)\n",
+      "justification_from_packet": "Revisión escéptica de S24-T1-A-E2 (OCR y Document AI). Packet grounding: degrada tipografía pequeña facturas sintéticas; eleva + idiomas, layout y confidence. Instruction: «Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral didáctico 0.5°. Pass: True. Usa solo fixtures sintéticos…». Código final `skew=1.2` sin stamps de theater ni ejecutor. Confianza calibrada 0.603. Traza local: sección-activa/skeptic/S24-T1-A-E2.",
+      "confidence": 0.603,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "id": "S24-T1-A-E3",
+      "code": "# skeptic audit S24-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nw=h=1000\nm=0.05\nprint((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n",
+      "justification_from_packet": "Skeptic en «OCR y Document AI»: crucé S24-T1-A-E3 contra theory/iDo antes de aceptar el código. La instruction dice «Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen esquina superior izquierda. Pass: (50, 50, 950, 9…»; el apoyo lexical viene de «Ruido (sal/pimienta, compresión JPEG) orientación (0/90/180/270)». Implementación auditada: `w=h=1000`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.678). Traza local: sección-activa/skeptic/S24-T1-A-E3.",
+      "confidence": 0.678,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "id": "S24-T1-B-E1",
+      "code": "# skeptic audit S24-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns={0:0.1,90:0.8}\nprint(max(s, key=s.get))\n",
+      "justification_from_packet": "Revisión escéptica de S24-T1-B-E1 (OCR y Document AI). Packet grounding: DPI, deskew, crop y contraste + Configura idiomas (spa+eng) según corpus: facturas. Instruction: «Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de grados. Contrato: max(s, key=s.get). Pass: 90. Usa solo f…». Código final `s={0:0.1,90:0.8}` sin stamps de theater ni ejecutor. Confianza calibrada 0.866. Traza local: sección-activa/skeptic/S24-T1-B-E1.",
+      "confidence": 0.866,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "id": "S24-T1-B-E2",
+      "code": "# skeptic audit S24-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflags=[0,1,1,0]\nprint(sum(flags))\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S24-T1-B-E2: completé solo el TODO según el contrato del paquete «OCR y Document AI». Cita de apoyo: Ruido (sal/pimienta, compresión JPEG) orientación (0/90/180/270). Instrucción: «Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(flags) o count. Pass: 2. Usa solo fixtures sintéticos del …». Salida vía `flags=[0,1,1,0]`. conf=0.641. Traza local: sección-activa/skeptic/S24-T1-B-E2.",
+      "confidence": 0.641,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "id": "S24-T1-B-E3",
+      "code": "# skeptic audit S24-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=0.4\nprint('manual_orient' if score < 0.5 else 'auto')\n",
+      "justification_from_packet": "Skeptic en «OCR y Document AI»: crucé S24-T1-B-E3 contra theory/iDo antes de aceptar el código. La instruction dice «Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed a humano. Pass: manual_orient. Usa solo fixtur…»; el apoyo lexical viene de «idiomas, layout y confidence». Implementación auditada: `score=0.4`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.747). Traza local: sección-activa/skeptic/S24-T1-B-E3.",
+      "confidence": 0.747,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "id": "S24-T2-A-E1",
+      "code": "# skeptic audit S24-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.85])\n",
+      "justification_from_packet": "Skeptic en «OCR y Document AI»: crucé S24-T2-A-E1 contra theory/iDo antes de aceptar el código. La instruction dice «Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de text. Contrato: no mutar conf. Pass: ['A']. Usa solo fixtu…»; el apoyo lexical viene de «DPI, deskew, crop y contraste». Implementación auditada: `toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.756). Traza local: sección-activa/skeptic/S24-T2-A-E1.",
+      "confidence": 0.756,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "id": "S24-T2-A-E2",
+      "code": "# skeptic audit S24-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint(ocr('Hola')['lang'])\n",
+      "justification_from_packet": "Skeptic en «OCR y Document AI»: crucé S24-T2-A-E2 contra theory/iDo antes de aceptar el código. La instruction dice «Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e imprime lang. Contrato: string fijo didáctico. Pass: spa. Usa solo fixtu…»; el apoyo lexical viene de «idiomas, layout y confidence». Implementación auditada: `def ocr(text, lang='spa'):`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.703). Traza local: sección-activa/skeptic/S24-T2-A-E2.",
+      "confidence": 0.703,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "id": "S24-T2-A-E3",
+      "code": "# skeptic audit S24-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nconfs=[0.9,0.75,0.95]\nm=min(confs)\nprint(m, 'review' if m < 0.8 else 'auto')\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S24-T2-A-E3: completé solo el TODO según el contrato del paquete «OCR y Document AI». Cita de apoyo: ruido y orientación. Instrucción: «Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución). Contrato: campo débil tumba auto-accept. Pass: …». Salida vía `confs=[0.9,0.75,0.95]`. conf=0.612. Traza local: sección-activa/skeptic/S24-T2-A-E3.",
+      "confidence": 0.612,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "id": "S24-T2-B-E1",
+      "code": "# skeptic audit S24-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='Total: 12.5'\nk,v=s.split(':',1)\nprint(k.strip(), v.strip())\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S24-T2-B-E1: completé solo el TODO según el contrato del paquete «OCR y Document AI». Cita de apoyo: ruido y orientación. Instrucción: «KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Contrato: strip ambos lados. Pass: Total 12.5. Usa solo fixt…». Salida vía `s='Total: 12.5'`. conf=0.944. Traza local: sección-activa/skeptic/S24-T2-B-E1.",
+      "confidence": 0.944,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "id": "S24-T2-B-E2",
+      "code": "# skeptic audit S24-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nt=[['H1','H2'],['a','b']]\nprint(len(t)-1)\n",
+      "justification_from_packet": "Skeptic en «OCR y Document AI»: crucé S24-T2-B-E2 contra theory/iDo antes de aceptar el código. La instruction dice «Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: header no cuenta. Pass: 1. Usa solo fixtures sintéticos del la…»; el apoyo lexical viene de «degrada tipografía pequeña facturas sintéticas; eleva». Implementación auditada: `t=[['H1','H2'],['a','b']]`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.876). Traza local: sección-activa/skeptic/S24-T2-B-E2.",
+      "confidence": 0.876,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "id": "S24-T2-B-E3",
+      "code": "# skeptic audit S24-T2-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfield={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint(field['bbox'], field['value'])\n",
+      "justification_from_packet": "Skeptic en «OCR y Document AI»: crucé S24-T2-B-E3 contra theory/iDo antes de aceptar el código. La instruction dice «Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Contrato: bbox del valor. Pass: [0, 0, 10, 10] 201…»; el apoyo lexical viene de «Configura idiomas (spa+eng) según corpus: facturas». Implementación auditada: `field={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.714). Traza local: sección-activa/skeptic/S24-T2-B-E3.",
+      "confidence": 0.714,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "id": "S24-T3-A-E1",
+      "code": "# skeptic audit S24-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\ns='20-123'\nprint(re.sub(r'\\D', '', s))\n",
+      "justification_from_packet": "Revisión escéptica de S24-T3-A-E1 (OCR y Document AI). Packet grounding: Ruido (sal/pimienta, compresión JPEG) orientación (0/90/180/270) + DPI, deskew, crop y contraste. Instruction: «Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valida longitud aquí. Pass: 20123. Usa solo fixtures sintético…». Código final `import re` sin stamps de theater ni ejecutor. Confianza calibrada 0.929. Traza local: sección-activa/skeptic/S24-T3-A-E1.",
+      "confidence": 0.929,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "id": "S24-T3-A-E2",
+      "code": "# skeptic audit S24-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import datetime\nprint(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n",
+      "justification_from_packet": "Revisión escéptica de S24-T3-A-E2 (OCR y Document AI). Packet grounding: Configura idiomas (spa+eng) según corpus: facturas + Ruido (sal/pimienta, compresión JPEG) orientación (0/90/180/270). Instruction: «Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY. Pass: 2026-01-15. Usa solo fixtures sintéticos del lab; la salid…». Código final `from datetime import datetime` sin stamps de theater ni ejecutor. Confianza calibrada 0.723. Traza local: sección-activa/skeptic/S24-T3-A-E2.",
+      "confidence": 0.723,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "id": "S24-T3-A-E3",
+      "code": "# skeptic audit S24-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\nraw='123'\nd=re.sub(r'\\D','',raw)\nprint(d if len(d)==11 else None)\n",
+      "justification_from_packet": "Skeptic en «OCR y Document AI»: crucé S24-T3-A-E3 contra theory/iDo antes de aceptar el código. La instruction dice «RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa solo fixtures sintéticos del lab; la salida de…»; el apoyo lexical viene de «ruido y orientación». Implementación auditada: `import re`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.593). Traza local: sección-activa/skeptic/S24-T3-A-E3.",
+      "confidence": 0.593,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "id": "S24-T3-B-E1",
+      "code": "# skeptic audit S24-T3-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntotal, lines=10.0,[4.0,5.0]\nprint('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S24-T3-B-E1: completé solo el TODO según el contrato del paquete «OCR y Document AI». Cita de apoyo: DPI, deskew, crop y contraste. Instrucción: «Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. Contrato: tolerancia 0.01. Pass: needs_review. Usa solo f…». Salida vía `total, lines=10.0,[4.0,5.0]`. conf=0.949. Traza local: sección-activa/skeptic/S24-T3-B-E1.",
+      "confidence": 0.949,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "id": "S24-T3-B-E2",
+      "code": "# skeptic audit S24-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint(reasons)\n",
+      "justification_from_packet": "Revisión escéptica de S24-T3-B-E2 (OCR y Document AI). Packet grounding: Configura idiomas (spa+eng) según corpus: facturas + Ruido (sal/pimienta, compresión JPEG) orientación (0/90/180/270). Instruction: «Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumular, no raise. Pass: ['ruc_missing']. Usa solo fixtures s…». Código final `ruc=None` sin stamps de theater ni ejecutor. Confianza calibrada 0.815. Traza local: sección-activa/skeptic/S24-T3-B-E2.",
+      "confidence": 0.815,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "id": "S24-T3-B-E3",
+      "code": "# skeptic audit S24-T3-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmismatch=True\nprint('review_not_fraud' if mismatch else 'auto')\n",
+      "justification_from_packet": "Skeptic en «OCR y Document AI»: crucé S24-T3-B-E3 contra theory/iDo antes de aceptar el código. La instruction dice «Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de política del curso. Pass: review_not_fraud.»; el apoyo lexical viene de «DPI, deskew, crop y contraste». Implementación auditada: `mismatch=True`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.743). Traza local: sección-activa/skeptic/S24-T3-B-E3.",
+      "confidence": 0.743,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "id": "S24-T4-A-E1",
+      "code": "# skeptic audit S24-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ncorrect, n = 3, 4\nprint(correct / n)\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S24-T4-A-E1: completé solo el TODO según el contrato del paquete «OCR y Document AI». Cita de apoyo: degrada tipografía pequeña facturas sintéticas; eleva. Instrucción: «Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0.75. Usa solo fixtures sintéticos del lab; la salida debe…». Salida vía `correct, n = 3, 4`. conf=0.602. Traza local: sección-activa/skeptic/S24-T4-A-E1.",
+      "confidence": 0.602,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "id": "S24-T4-A-E2",
+      "code": "# skeptic audit S24-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n",
+      "justification_from_packet": "Revisión escéptica de S24-T4-A-E2 (OCR y Document AI). Packet grounding: Configura idiomas (spa+eng) según corpus: facturas + degrada tipografía pequeña facturas sintéticas; eleva. Instruction: «Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5. Contrato: solo campo ruc. Pass: 0.5. Usa solo fixtures s…». Código final `rows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]` sin stamps de theater ni ejecutor. Confianza calibrada 0.716. Traza local: sección-activa/skeptic/S24-T4-A-E2.",
+      "confidence": 0.716,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "id": "S24-T4-A-E3",
+      "code": "# skeptic audit S24-T4-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nauto, review = 7, 3\nprint(auto / (auto + review))\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S24-T4-A-E3: completé solo el TODO según el contrato del paquete «OCR y Document AI». Cita de apoyo: degrada tipografía pequeña facturas sintéticas; eleva. Instrucción: «Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobertura. Pass: 0.7. Usa solo fixtures sintéticos …». Salida vía `auto, review = 7, 3`. conf=0.949. Traza local: sección-activa/skeptic/S24-T4-A-E3.",
+      "confidence": 0.949,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "id": "S24-T4-B-E1",
+      "code": "# skeptic audit S24-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('reject' if mime not in allowed else 'ok')\n",
+      "justification_from_packet": "Skeptic en «OCR y Document AI»: crucé S24-T4-B-E1 contra theory/iDo antes de aceptar el código. La instruction dice «Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-closed. Pass: reject. Usa solo fixtures sintéticos del lab; l…»; el apoyo lexical viene de «degrada tipografía pequeña facturas sintéticas; eleva». Implementación auditada: `mime='application/zip'`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.734). Traza local: sección-activa/skeptic/S24-T4-B-E1.",
+      "confidence": 0.734,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "id": "S24-T4-B-E2",
+      "code": "# skeptic audit S24-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=6_000_000\nprint('reject' if n > 5_000_000 else 'ok')\n",
+      "justification_from_packet": "Revisión escéptica de S24-T4-B-E2 (OCR y Document AI). Packet grounding: ruido y orientación + ruido y orientación. Instruction: «Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: reject. Usa solo fixtures sintéticos del lab; la salida de…». Código final `n=6_000_000` sin stamps de theater ni ejecutor. Confianza calibrada 0.895. Traza local: sección-activa/skeptic/S24-T4-B-E2.",
+      "confidence": 0.895,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "id": "S24-T4-B-E3",
+      "code": "# skeptic audit S24-T4-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus='ocr_fail'\nprint({'ocr_fail':'human_rescan'}.get(status, 'continue'))\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S24-T4-B-E3: completé solo el TODO según el contrato del paquete «OCR y Document AI». Cita de apoyo: Ruido (sal/pimienta, compresión JPEG) orientación (0/90/180/270). Instrucción: «Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito de OCR. Pass: human_rescan. Usa solo fixtures si…». Salida vía `status='ocr_fail'`. conf=0.656. Traza local: sección-activa/skeptic/S24-T4-B-E3.",
+      "confidence": 0.656,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic SelfCheck s/OCR y Document AI Q0: «¿Qué haces si confidence de RUC es 0.6?». Descarté distractores y me quedé con [3] «Abstener y encolar revisión», alineado con el corpus del paquete (DPI, deskew, crop y contraste). Relectura de iDo/theory refuerza la elección (conf 0.786).",
+      "confidence": 0.786
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic SelfCheck s/OCR y Document AI Q1: «Un mismatch total vs líneas implica:». Descarté distractores y me quedé con [1] «Cola de revisión / corrección», alineado con el corpus del paquete (ruido y orientación). Relectura de iDo/theory refuerza la elección (conf 0.716).",
+      "confidence": 0.716
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic SelfCheck s/OCR y Document AI Q2: «¿Por qué medir accuracy por campo?». Descarté distractores y me quedé con [2] «Los campos críticos pueden fallar aunque el global se vea bien», alineado con el corpus del paquete (Ruido (sal/pimienta, compresión JPEG) orientación (0/90/180/270)). Relectura de iDo/theory refuerza la elección (conf 0.951).",
+      "confidence": 0.951
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic SelfCheck s/OCR y Document AI Q3: «Archivo application/zip en intake de facturas:». Descarté distractores y me quedé con [0] «Gate reject/review por mime no permitido», alineado con el corpus del paquete (ruido y orientación). Relectura de iDo/theory refuerza la elección (conf 0.760).",
+      "confidence": 0.76
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:39:46.540468+00:00",
+  "session_started_at": "2026-07-23T13:39:31.788754+00:00",
+  "session_ended_at": "2026-07-23T13:39:46.538968+00:00",
+  "receipt_response_sha256": "b8c64d42f9e3c0dbfeb6a842d4d7bb47409b4ec02c0f077b936fc7e1fda37b42",
+  "receipt_exercises_sha256": "c09f0a0d932da762515c7ec43bc6c2e86c36d2edc221022530bcb6d4b53080dc",
+  "receipt_selfcheck_sha256": "f424843272236dde7666638a5686c49400f1a6fea5c7606960e74cd8e6970ce1"
+}

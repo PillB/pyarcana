@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_K1",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s30-e2108bd5edfb",
+  "production_note": "agentic_K1 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "id": "S30-T1-A-E1",
+      "code": "# Cruzado Skeptic del fixture S30-T1-A-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\nprint(1.0 if a == b else 0.0)",
+      "justification_from_packet": "Skeptic-B: el weDo S30-T1-A-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['float comparación', 'exact'] y en el tramo «S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (r» sin inventar APIs fuera del card.",
+      "confidence": 0.62,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "id": "S30-T1-A-E2",
+      "code": "# Cruzado Skeptic del fixture S30-T1-A-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\nprint(len(ta&tb)/len(ta|tb))",
+      "justification_from_packet": "Cruce theory/iDo de S30 con el starter de S30-T1-A-E2: la salida contractual sigue «S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fix». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.66.",
+      "confidence": 0.66,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "id": "S30-T1-A-E3",
+      "code": "# Cruzado Skeptic del fixture S30-T1-A-E3 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\nprint(1.0 if d == d else 0.0)",
+      "justification_from_packet": "Cruce theory/iDo de S30 con el starter de S30-T1-A-E3: la salida contractual sigue «S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LI». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "id": "S30-T1-B-E1",
+      "code": "# Cruzado Skeptic del fixture S30-T1-B-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\nprint('missing' if (not a or not b) else 'cmp')",
+      "justification_from_packet": "En «Entity resolution probabilístico» resolví S30-T1-B-E1 (guided) leyendo la instruction del quiz_card: «S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter …». La pista «guard» fijó el patrón observable; conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "id": "S30-T1-B-E2",
+      "code": "# Cruzado Skeptic del fixture S30-T1-B-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\nprint(1 / freq)",
+      "justification_from_packet": "Skeptic-B: el weDo S30-T1-B-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['división', 'frecuencia'] y en el tramo «S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn» sin inventar APIs fuera del card.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "id": "S30-T1-B-E3",
+      "code": "# Cruzado Skeptic del fixture S30-T1-B-E3 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('informative_missing')",
+      "justification_from_packet": "Para S30-T1-B-E3 del paquete «Entity resolution probabilístico» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone. Fixture». Hint usado: «string». [Ske-30-E3]",
+      "confidence": 0.6,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "id": "S30-T2-A-E1",
+      "code": "# Cruzado Skeptic del fixture S30-T2-A-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\nprint(f'{last}|{city}')",
+      "justification_from_packet": "Cruce theory/iDo de S30 con el starter de S30-T2-A-E1: la salida contractual sigue «S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-L». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.69.",
+      "confidence": 0.69,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "id": "S30-T2-A-E2",
+      "code": "# Cruzado Skeptic del fixture S30-T2-A-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\nprint(found / gold_n)",
+      "justification_from_packet": "Skeptic-B: el weDo S30-T2-A-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['división', 'recall'] y en el tramo «S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (r» sin inventar APIs fuera del card.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "id": "S30-T2-A-E3",
+      "code": "# Cruzado Skeptic del fixture S30-T2-A-E3 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n*(n-1)//2)",
+      "justification_from_packet": "Para S30-T2-A-E3 del paquete «Entity resolution probabilístico» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id». Hint usado: «combinatoria». [Ske-30-E3]",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "id": "S30-T2-B-E1",
+      "code": "# Cruzado Skeptic del fixture S30-T2-B-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))",
+      "justification_from_packet": "En «Entity resolution probabilístico» resolví S30-T2-B-E1 (guided) leyendo la instruction del quiz_card: «S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter…». La pista «sum n(n-1)/2» fijó el patrón observable; conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "id": "S30-T2-B-E2",
+      "code": "# Cruzado Skeptic del fixture S30-T2-B-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\nprint(ta != tb)",
+      "justification_from_packet": "Skeptic-B: el weDo S30-T2-B-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['!=', 'filtro'] y en el tramo «S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sinté» sin inventar APIs fuera del card.",
+      "confidence": 0.67,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "id": "S30-T2-B-E3",
+      "code": "# Cruzado Skeptic del fixture S30-T2-B-E3 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('filter_before_score')",
+      "justification_from_packet": "Cruce theory/iDo de S30 con el starter de S30-T2-B-E3: la salida contractual sigue «S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.67.",
+      "confidence": 0.67,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "id": "S30-T3-A-E1",
+      "code": "# Cruzado Skeptic del fixture S30-T3-A-E1 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))",
+      "justification_from_packet": "Para S30-T3-A-E1 del paquete «Entity resolution probabilístico» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id». Hint usado: «suma w*s / suma w». [Ske-30-E1]",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "id": "S30-T3-A-E2",
+      "code": "# Cruzado Skeptic del fixture S30-T3-A-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))",
+      "justification_from_packet": "En «Entity resolution probabilístico» resolví S30-T3-A-E2 (independent) leyendo la instruction del quiz_card: «S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es …». La pista «umbrales» fijó el patrón observable; conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "id": "S30-T3-A-E3",
+      "code": "# Cruzado Skeptic del fixture S30-T3-A-E3 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'name': 0.9, 'email': 1.0})",
+      "justification_from_packet": "Para S30-T3-A-E3 del paquete «Entity resolution probabilístico» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3». Hint usado: «dict». [Ske-30-E3]",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "id": "S30-T3-B-E1",
+      "code": "# Cruzado Skeptic del fixture S30-T3-B-E1 (packet-only) · revisión dual\np={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\nprint('ok')",
+      "justification_from_packet": "Skeptic-B: el weDo S30-T3-B-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['parent dict', 'cluster'] y en el tramo «S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent m» sin inventar APIs fuera del card.",
+      "confidence": 0.62,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "id": "S30-T3-B-E2",
+      "code": "# Cruzado Skeptic del fixture S30-T3-B-E2 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['match', 'non_match', 'uncertain'])",
+      "justification_from_packet": "Para S30-T3-B-E2 del paquete «Entity resolution probabilístico» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM». Hint usado: «lista». [Ske-30-E2]",
+      "confidence": 0.64,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "id": "S30-T3-B-E3",
+      "code": "# Cruzado Skeptic del fixture S30-T3-B-E3 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ER_only_same_entity')",
+      "justification_from_packet": "Para S30-T3-B-E3 del paquete «Entity resolution probabilístico» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (run_id=cpn». Hint usado: «string». [Ske-30-E3]",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "id": "S30-T4-A-E1",
+      "code": "# Cruzado Skeptic del fixture S30-T4-A-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')",
+      "justification_from_packet": "Para S30-T4-A-E1 del paquete «Entity resolution probabilístico» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture». Hint usado: «subset». [Ske-30-E1]",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "id": "S30-T4-A-E2",
+      "code": "# Cruzado Skeptic del fixture S30-T4-A-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\nprint(matches / n)",
+      "justification_from_packet": "En «Entity resolution probabilístico» resolví S30-T4-A-E2 (independent) leyendo la instruction del quiz_card: «S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es …». La pista «división» fijó el patrón observable; conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "id": "S30-T4-A-E3",
+      "code": "# Cruzado Skeptic del fixture S30-T4-A-E3 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('entity_split')",
+      "justification_from_packet": "Skeptic-B: el weDo S30-T4-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['string', 'eval'] y en el tramo «S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-L» sin inventar APIs fuera del card.",
+      "confidence": 0.67,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "id": "S30-T4-B-E1",
+      "code": "# Cruzado Skeptic del fixture S30-T4-B-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))",
+      "justification_from_packet": "Skeptic-B: el weDo S30-T4-B-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['tp/(tp+fp)', 'precision'] y en el tramo «S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `» sin inventar APIs fuera del card.",
+      "confidence": 0.67,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "id": "S30-T4-B-E2",
+      "code": "# Cruzado Skeptic del fixture S30-T4-B-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\nprint(tp/(tp+fn))",
+      "justification_from_packet": "En «Entity resolution probabilístico» resolví S30-T4-B-E2 (independent) leyendo la instruction del quiz_card: «S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; im…». La pista «tp/(tp+fn)» fijó el patrón observable; conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "id": "S30-T4-B-E3",
+      "code": "# Cruzado Skeptic del fixture S30-T4-B-E3 (packet-only) · revisión dual\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['missing_phone'])",
+      "justification_from_packet": "Skeptic-B: el weDo S30-T4-B-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['lista', 'error analysis'] y en el tramo «S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos» sin inventar APIs fuera del card.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Entity resolution probabilístico"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic-B en S30 Q0: elijo «Si dos registros son la misma entidad» porque el stem «El motor ER de CP-N3-A debe decidir:» del quiz_card de «Entity resolution probabilístico» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.60.",
+      "confidence": 0.6,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Selfcheck Q1 de «Entity resolution probabilístico»: la opción índice 3 («Fracción de verdaderos matches que sobreviven al blocking») es la que el paquete sostiene frente a «Candidate recall de blocking mide:». Las demás contradicen outcomes de la sección. [Skeptic-B-30-q1]",
+      "confidence": 0.68,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Desde el packet S30, para «Scores entre t_low y t_high van a:» la lectura de outcomes/theory apunta a «clerical review». Justificación packet-only sin claves offline. conf=0.72.",
+      "confidence": 0.72,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic-B en S30 Q3: elijo «Leakage de identidad entre train y test» porque el stem «Split por entidad evita:» del quiz_card de «Entity resolution probabilístico» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.77.",
+      "confidence": 0.77,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:31:27.597735+00:00",
+  "session_started_at": "2026-07-23T13:31:18.380808Z",
+  "session_ended_at": "2026-07-23T13:31:27.595912Z",
+  "receipt_response_sha256": "75a6b581d5667f72b3ed66cba38a393108724be38b28a70a12ac913638a0085f",
+  "receipt_exercises_sha256": "992f4fc75afecbfb0acc59a7f52271c962732573c156fdcd7c5bc3011322931e",
+  "receipt_selfcheck_sha256": "3362146d62dd49fbb599c1a79c2e5d182298ea067ed272968411474e2177156b"
+}

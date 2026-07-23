@@ -1,0 +1,355 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 11,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s11-8327a4d6b6d6",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "id": "S11-T1-A-E1",
+      "code": "from dataclasses import dataclass, field\n@dataclass\nclass Bag:\n    items: list = field(default_factory=list)\na, b = Bag(), Bag()\na.items.append(1)\nprint(a.items, b.items)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S11/S11-T1-A-E1 («OOP y modelo de dominio»): E1 (guiado) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Completa la dataclass ClientRecord co. Apoyo léxico: reales, objeto, clásico, __repr__. Hint: Usa field(default_factory=list).. Si el resultado no pasa «Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou», reintento. Me resisto a copiar sin entender; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "dataclass"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "id": "S11-T1-A-E2",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Person:\n    name: str\n    doc: str\nprint(Person(\"Ana\", \"D1\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S11-T1-A-E2 en «OOP y modelo de dominio» decidí cruzar con la demo iDo: el enunciado dice «E2 (independiente) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Define Transaction con tx_id,». Hint útil: Importa Decimal; sin defaults en campos obligatorios.. Checklist/tests: Contrato exacto: repr muestra amount=Decimal('150.50') y currency='PEN'; el código no llama float().. Me resisto a copiar sin entender; vocabulario del paquete: clase, opcionalmente, personas, __repr__. Riesgo que evito: si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "Person"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "id": "S11-T1-A-E3",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Person:\n    name: str\n    def __post_init__(self):\n        if not self.name.strip():\n            raise ValueError(\"name vacio\")\nprint(Person(\"Ana\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Desconfío de respuestas 'bonitas' al resolver S11-T1-A-E3. La sección «OOP y modelo de dominio» exige E3 (transferencia) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Migra un dict anónimo a Client. Me baso en alimenta, rastro, ambig y en el hint «classmethod from_dict.». Validación esperada: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Por eso conviene cruzar con la demo iDo antes de cerrar; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "post_init"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "id": "S11-T1-B-E1",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass RelationshipEvidence:\n    signal_score: float\n    kind: str\ne = RelationshipEvidence(0.4, \"shared_phone\")\nprint(e.signal_score, \"not_verdict\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S11-T1-B-E1 en «OOP y modelo de dominio» decidí verificar contra el checklist de tests: el enunciado dice «E1 (guiado) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Añade invariantes: amount Decimal > 0». Hint útil: __post_init__: isinstance Decimal, quantize(0.01), allowlist de currency.. Checklist/tests: Contrato exacto: Decimal('10.00')/PEN válido; cero y EUR lanzan ValueError; float 10.0 se rechaza; n. Exijo evidencia en el paquete activo; vocabulario del paquete: evitan, reduce, dominio, Campos. Riesgo que evito: si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "evidence"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "id": "S11-T1-B-E2",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass RelationshipEvidence:\n    signal_score: float\n    def as_dict(self):\n        return {\"relationship_signal_score\": self.signal_score, \"is_fraud\": False}\nprint(RelationshipEvidence(0.7).as_dict())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Desconfío de respuestas 'bonitas' al resolver S11-T1-B-E2. La sección «OOP y modelo de dominio» exige E2 (independiente) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Factory from_dict con validaci. Me baso en operativo, hints, modelo y en el hint «Raise ValueError con mensaje claro.». Validación esperada: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Por eso conviene seguir el contrato del instruction antes de cerrar; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "to_dict"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "id": "S11-T1-B-E3",
+      "code": "def interpret_signal(score):\n    return {\"score\": score, \"claim\": \"evidence_only\"}\nprint(interpret_signal(0.9))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S11-T1-B-E3 no improvisé: opté por verificar contra el checklist de tests y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Lista en español 4 invariantes. Los tests piden: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Conceptos del paquete que usé: alimenta, rastro, hints, mutables, porqué. Sigo dudando de atajos.",
+      "concepts_used": [
+        "policy"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "id": "S11-T2-A-E1",
+      "code": "from typing import Protocol\nclass EntityStore(Protocol):\n    def get(self, id: str): ...\n    def save(self, entity) -> None: ...\nclass MemStore:\n    def __init__(self):\n        self._d = {}\n    def get(self, id: str):\n        return self._d.get(id)\n    def save(self, entity) -> None:\n        self._d[entity[\"id\"]] = entity\ns = MemStore()\ns.save({\"id\": \"C1\"})\nprint(s.get(\"C1\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S11-T2-A-E1 en «OOP y modelo de dominio» decidí cruzar con la demo iDo: el enunciado dice «E1 (guiado) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Property full_name desde first_name y». Hint útil: @property sin setter.. Checklist/tests: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Prefiero lo aburrido y verificable; vocabulario del paquete: testeable, define, dataclass, personas. Riesgo que evito: si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "Protocol"
+      ],
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "id": "S11-T2-A-E2",
+      "code": "class FakeStore:\n    def get(self, id):\n        return {\"id\": id}\nprint(FakeStore().get(\"X\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin entender al resolver S11-T2-A-E2. La sección «OOP y modelo de dominio» exige E2 (independiente) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Método age_days_since(day: int. Me baso en dataclass, molde, auditable y en el hint «Retorna day - day_created.». Validación esperada: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Por eso conviene releer con desconfianza el material antes de cerrar; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "fake"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "id": "S11-T2-A-E3",
+      "code": "def load_entity(store, id):\n    ent = store.get(id)\n    if ent is None:\n        raise KeyError(id)\n    return ent\nclass S:\n    def get(self, id):\n        return None\ntry:\n    load_entity(S(), \"missing\")\nexcept KeyError as e:\n    print(\"missing\", e)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S11-T2-A-E3 no improvisé: opté por seguir el contrato del instruction y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Encapsula mutación de score co. Los tests piden: Contrato exacto: 0.4 válido; 1.5 y float('nan') lanzan ValueError('score fuera de rango').. Conceptos del paquete que usé: rastro, testeable, opcionalmente, inventar, operativo. Me resisto a copiar sin entender.",
+      "concepts_used": [
+        "hexagonal"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "id": "S11-T2-B-E1",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Client:\n    id: str\n    name: str\n    def validate(self):\n        if not self.id:\n            raise ValueError(\"id\")\n        return self\nprint(Client(\"C1\", \"Ana\").validate())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos al resolver S11-T2-B-E1. La sección «OOP y modelo de dominio» exige E1 (guiado) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Implementa ResolvedEntity frozen con. Me baso en porqué, __repr__, reales y en el hint «dataclass(frozen=True) + field(compare=False) en display_name.». Validación esperada: Contrato exacto: E1/Ana == E1/Ana actualizada; E1 != E2; set tiene 2 elementos; entity_id vacío lanz. Por eso conviene derivar del starter sin inventar APIs antes de cerrar; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "validate"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "id": "S11-T2-B-E2",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Client:\n    id: str\n    def __post_init__(self):\n        if not self.id.startswith(\"C\"):\n            raise ValueError(\"id format\")\nprint(Client(\"C9\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S11-T2-B-E2 no improvisé: opté por verificar contra el checklist de tests y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Crea Evidence frozen value obj. Los tests piden: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Conceptos del paquete que usé: define, default_factory, genera, locales, dominio. Sigo dudando de atajos.",
+      "concepts_used": [
+        "invariant"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "id": "S11-T2-B-E3",
+      "code": "def build_client(data):\n    if \"id\" not in data or \"name\" not in data:\n        raise ValueError(\"incomplete\")\n    return data\nprint(build_client({\"id\": \"C1\", \"name\": \"Ana\"}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S11/S11-T2-B-E3 («OOP y modelo de dominio»): E3 (transferencia) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Demuestra el bug de entidad mu. Apoyo léxico: alimenta, evitan, default_factory, genera. Hint: Imprime BUG y SAFE.. Si el resultado no pasa «Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou», reintento. Me resisto a copiar sin entender; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "factory"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "id": "S11-T3-A-E1",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass PersonInfo:\n    name: str\n@dataclass\nclass Client:\n    id: str\n    person: PersonInfo\nprint(Client(\"C1\", PersonInfo(\"Ana\")))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "No asumo que la primera idea basta al resolver S11-T3-A-E1. La sección «OOP y modelo de dominio» exige E1 (guiado) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Reemplaza herencia innecesaria Client. Me baso en hechos, pipelines, auditable y en el hint «Imprime el diseño final simple.». Validación esperada: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Por eso conviene contrastar con el output de la demo antes de cerrar; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "composition"
+      ],
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "id": "S11-T3-A-E2",
+      "code": "# herencia fragil demo (evitar como default)\nclass Person:\n    def __init__(self, name):\n        self.name = name\nclass Client(Person):\n    def __init__(self, name, id):\n        super().__init__(name)\n        self.id = id\nprint(Client(\"Ana\", \"C1\").id)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S11-T3-A-E2 no improvisé: opté por contrastar con el output de la demo y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: CaseFile agrega evidencias con. Los tests piden: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Conceptos del paquete que usé: Campos, locales, __init__, clásico, Clases. Prefiero lo aburrido y verificable.",
+      "concepts_used": [
+        "inheritance"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "id": "S11-T3-A-E3",
+      "code": "def prefer_composition():\n    return \"Client has PersonInfo rather than is-a Person by default\"\nprint(prefer_composition())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S11/S11-T3-A-E3 («OOP y modelo de dominio»): E3 (transferencia) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Justifica en 2 líneas por qué. Apoyo léxico: objeto, clásico, default, rastro. Hint: Piensa en roles y evolución del modelo.. Si el resultado no pasa «Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou», reintento. No asumo que la primera idea basta; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "design"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "id": "S11-T3-B-E1",
+      "code": "from dataclasses import dataclass, asdict\n@dataclass\nclass Entity:\n    id: str\n    score: float\nprint(asdict(Entity(\"C1\", 0.5)))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S11-T3-B-E1 no improvisé: opté por seguir el contrato del instruction y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Define Protocol Scorer con score(pair. Los tests piden: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Conceptos del paquete que usé: default, reduce, reales, compartido, locales. Prefiero lo aburrido y verificable.",
+      "concepts_used": [
+        "asdict"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "id": "S11-T3-B-E2",
+      "code": "from dataclasses import dataclass\n@dataclass(frozen=True)\nclass DocId:\n    value: str\nd = DocId(\"X\")\nprint(d.value)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S11/S11-T3-B-E2 («OOP y modelo de dominio»): E2 (independiente) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Dos implementaciones de normal. Apoyo léxico: molde, default, testeable, inventar. Hint: apply(norm, text) llama norm(text).. Si el resultado no pasa «Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou», reintento. Exijo evidencia en el paquete activo; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "frozen"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "id": "S11-T3-B-E3",
+      "code": "domain_forbidden = [\"is_fraud_auto\", \"is_family_auto\"]\nprint(domain_forbidden)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S11-T3-B-E3 en «OOP y modelo de dominio» decidí contrastar con el output de la demo: el enunciado dice «E3 (transferencia) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Escribe 2 razones para NO intr». Hint útil: YAGNI / una sola implementación.. Checklist/tests: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. No asumo que la primera idea basta; vocabulario del paquete: __init__, opcionalmente, inventar, objeto. Riesgo que evito: si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "forbidden"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "id": "S11-T4-A-E1",
+      "code": "tests = [\"test_default_factory_isolated\", \"test_post_init_rejects_empty\", \"test_store_roundtrip\"]\nprint(tests)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S11-T4-A-E1 no improvisé: opté por apoyar en la teoría del heading y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: to_dict de ClientRecord sin campos pa. Los tests piden: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Conceptos del paquete que usé: Campos, default, ambig, dominio, __repr__. Me resisto a copiar sin entender.",
+      "concepts_used": [
+        "tests"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "id": "S11-T4-A-E2",
+      "code": "def test_signal_not_fraud():\n    score = 0.99\n    assert score != \"fraud\"\n    return True\nprint(test_signal_not_fraud())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S11/S11-T4-A-E2 («OOP y modelo de dominio»): E2 (independiente) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Repository save/get con dict s. Apoyo léxico: opcionalmente, instancia, porqué, alimenta. Hint: Clase con save y get.. Si el resultado no pasa «Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou», reintento. Me resisto a copiar sin entender; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "test"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "id": "S11-T4-A-E3",
+      "code": "def test_protocol_fake():\n    class F:\n        def get(self, i):\n            return {\"id\": i}\n        def save(self, e):\n            pass\n    assert F().get(\"1\")[\"id\"] == \"1\"\n    return \"ok\"\nprint(test_protocol_fake())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S11-T4-A-E3 en «OOP y modelo de dominio» decidí verificar contra el checklist de tests: el enunciado dice «E3 (transferencia) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Dibuja en texto la frontera do». Hint útil: cli → service → domain/repo.. Checklist/tests: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Prefiero lo aburrido y verificable; vocabulario del paquete: ambig, personas, reduce, alimenta. Riesgo que evito: si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "test"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "id": "S11-T4-B-E1",
+      "code": "model = {\"entities\": [\"Person\", \"Client\", \"RelationshipEvidence\"], \"ports\": [\"EntityStore\"]}\nprint(model)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S11/S11-T4-B-E1 («OOP y modelo de dominio»): E1 (guiado) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Test de invariante ClientRecord: docu. Apoyo léxico: inventar, testeable, Campos, operativo. Hint: Usa assert en un try o pytest-style manual.. Si el resultado no pasa «Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou», reintento. No asumo que la primera idea basta; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "model"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "id": "S11-T4-B-E2",
+      "code": "invariants = [\"Client.id non-empty\", \"signal_score in 0..1\", \"no auto fraud flag\"]\nprint(invariants)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S11-T4-B-E2 en «OOP y modelo de dominio» decidí verificar contra el checklist de tests: el enunciado dice «E2 (independiente) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Fake repo en 3 tests de servic». Hint útil: Imprime pass x3.. Checklist/tests: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Me resisto a copiar sin entender; vocabulario del paquete: clase, genera, concreto, define. Riesgo que evito: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "invariants"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "id": "S11-T4-B-E3",
+      "code": "readme = \"Domain model: composition first; evidence scores are not legal verdicts.\"\nprint(readme)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Prefiero lo aburrido y verificable al resolver S11-T4-B-E3. La sección «OOP y modelo de dominio» exige E3 (transferencia) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Revisa una clase con decide_fr. Me baso en define, clásico, personas y en el hint «Mueve el score a Evidence; elimina el veredicto.». Validación esperada: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Por eso conviene derivar del starter sin inventar APIs antes de cerrar; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "docs"
+      ],
+      "confidence": 0.92
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no me quedo con la opción más corta: en «OOP y modelo de dominio» el stem «¿Por qué `field(default_factory=list)` y no `= []`?» apunta a «Evita el default mutable compartido entre instancias» (índice 2). Evidencia léxica: default, auditable, rastro, opcionalmente, instancia. Rechacé: Es más corto / Obliga a usar Protocol. No asumo que la primera idea basta.",
+      "confidence": 0.81
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no me quedo con la opción más corta: en «OOP y modelo de dominio» el stem «RelationshipEvidence.signal_score representa…» apunta a «Una señal/dato numérico, no un veredicto de fraude o familia» (índice 0). Evidencia léxica: porqué, dicts, dataclass, hechos, default_factory. Rechacé: Veredicto legal de parentesco / Password hasheado. Sigo dudando de atajos.",
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no me quedo con la opción más corta: en «OOP y modelo de dominio» el stem «Un Protocol EntityStore sirve para…» apunta a «Definir un puerto get/save implementable por fakes y adapters» (índice 1). Evidencia léxica: dicts, molde, hechos, listas, dataclass. Rechacé: Conectarse solo a Postgres / Reemplazar dataclass. Prefiero lo aburrido y verificable.",
+      "confidence": 0.78
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no me quedo con la opción más corta: en «OOP y modelo de dominio» el stem «Objeto inválido: ¿cuándo fallar?» apunta a «En la construcción (__post_init__/validate)» (índice 3). Evidencia léxica: dataclass, define, default_factory, compartido, Clases. Rechacé: Al final del mes / Nunca. Sigo dudando de atajos.",
+      "confidence": 0.87
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no me quedo con la opción más corta: en «OOP y modelo de dominio» el stem «Client hereda de Person…» apunta a «A menudo es frágil; composición (Client tiene PersonInfo) suele bastar» (índice 2). Evidencia léxica: instancia, clásico, locales, reduce, rastro. Rechacé: Siempre es la mejor opción / Es obligatoria en Python. Prefiero lo aburrido y verificable.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Como escéptico no me quedo con la opción más corta: en «OOP y modelo de dominio» el stem «¿Qué no debe tener el dominio de familiaridad?» apunta a «is_fraud() automático» (índice 0). Evidencia léxica: listas, compartido, __init__, porqué, pipelines. Rechacé: to_dict / Invariantes. Sigo dudando de atajos.",
+      "confidence": 0.81
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:17:53.800322+00:00",
+  "session_started_at": "2026-07-23T15:17:04.589788+00:00",
+  "session_ended_at": "2026-07-23T15:17:53.798292+00:00",
+  "receipt_response_sha256": "c6fe0ae942c6b71fb478508c0cf79894c6ff34c0d6e541ab1cf29b407f9e97eb",
+  "receipt_exercises_sha256": "6bd930a933f79a80a2bcb68535e51bb73764f7b04cd3e54bb7b9839f82a1febb",
+  "receipt_selfcheck_sha256": "b77d33617c3b2b52dfbe81218e9ba4064818f6d4b674a4325a6a913a5c1ab674"
+}

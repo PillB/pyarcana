@@ -22,7 +22,7 @@ from newbie_slim_packet import slim_packet  # noqa: E402
 from newbie_walkthrough_runner import attempt_dir, now_iso  # noqa: E402
 
 WALK = ROOT / "course-state/newbie_walkthrough"
-ALLOWED_PREFIX = ("agentic_J",)
+ALLOWED_PREFIX = ("agentic_J", "agentic_K")
 REJECTED_THEATER = (
     "agentic_D", "agentic_E", "agentic_F", "agentic_G", "agentic_H", "agentic_I",
 )
@@ -48,8 +48,8 @@ def sha_payload(exercises: list, selfcheck: list) -> str:
 def init_attempt(attempt: str, *, prior_clean: str | None = None) -> Path:
     if not any(attempt.startswith(p) for p in ALLOWED_PREFIX):
         raise SystemExit(
-            f"llm_walk sealed path only for {ALLOWED_PREFIX}; got {attempt}. "
-            f"Theater ids {REJECTED_THEATER}* are permanently rejected for pass claims."
+            f"llm_walk sealed path only for agentic_J*/K*; got {attempt}. "
+            f"Theater ids D–I permanently rejected for pass claims."
         )
     root = attempt_dir(attempt)
     if root.exists():
@@ -186,11 +186,12 @@ def write_live(
 ) -> Path:
     """Sealed write: requires receipt matching payload hashes + latency ≥ 8s."""
     if not any(attempt.startswith(p) for p in ALLOWED_PREFIX):
-        raise RuntimeError(f"write_live refused for non-J attempt {attempt}")
+        raise RuntimeError(f"write_live refused for non-J/K attempt {attempt}")
     root = attempt_dir(attempt)
-    ex_sha = sha_payload(exercises, [])  # exercises only
-    # full payload hash for response binding
-    full_sha = sha_payload(exercises, selfcheck)
+    # Canonical hashes MUST match what the validator recomputes from live files:
+    #   exercises_sha256 = sha256(json.dumps(exercises, sort_keys=True, ensure_ascii=False))
+    #   selfcheck_sha256 = sha256(json.dumps(selfcheck, sort_keys=True, ensure_ascii=False))
+    ex_sha = sha256_text(json.dumps(exercises or [], ensure_ascii=False, sort_keys=True))
     sc_sha = sha256_text(json.dumps(selfcheck or [], ensure_ascii=False, sort_keys=True))
 
     # latency
@@ -201,23 +202,7 @@ def write_live(
     if lat < 8000:
         raise RuntimeError(f"receipt latency_ms {lat:.0f} < 8000 for section {section} {agent}")
 
-    # receipt must already be appended OR we append after validating fields
-    receipt = {
-        "section": section,
-        "agent": agent if agent in ("newbie_a", "newbie_b") else (
-            "newbie_a" if "a" in agent else "newbie_b"
-        ),
-        "started_at": started_at,
-        "ended_at": ended_at,
-        "latency_ms": int(lat),
-        "model_or_subagent_id": model_or_subagent_id,
-        "prompt_sha256": prompt_sha256,
-        "response_sha256": response_sha256,
-        "exercises_sha256": full_sha,  # bind full live payload
-        "selfcheck_sha256": sc_sha,
-        "session_id": session_id,
-    }
-    # response_sha256 must equal hash of answers+justifications
+    # response_sha256 must equal hash of answers+justifications (canonical binding)
     ans_blob = json.dumps(
         {
             "exercises": [
@@ -246,8 +231,22 @@ def write_live(
             f"response_sha256 mismatch for s{section} {agent}: "
             f"got {response_sha256[:12]} expected {expected_resp[:12]}"
         )
-    # exercises_sha256 in receipt uses full payload
-    receipt["exercises_sha256"] = full_sha
+
+    receipt = {
+        "section": section,
+        "agent": agent if agent in ("newbie_a", "newbie_b") else (
+            "newbie_a" if "a" in agent else "newbie_b"
+        ),
+        "started_at": started_at,
+        "ended_at": ended_at,
+        "latency_ms": int(lat),
+        "model_or_subagent_id": model_or_subagent_id,
+        "prompt_sha256": prompt_sha256,
+        "response_sha256": response_sha256,
+        "exercises_sha256": ex_sha,  # MUST equal hash of live["exercises"]
+        "selfcheck_sha256": sc_sha,  # MUST equal hash of live["selfcheck"]
+        "session_id": session_id,
+    }
     append_receipt(attempt, receipt)
 
     agent_key = receipt["agent"]
@@ -275,6 +274,8 @@ def write_live(
         "session_started_at": started_at,
         "session_ended_at": ended_at,
         "receipt_response_sha256": response_sha256,
+        "receipt_exercises_sha256": ex_sha,
+        "receipt_selfcheck_sha256": sc_sha,
     }
     out = root / f"section_{section:02d}" / lab
     out.write_text(json.dumps(live, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

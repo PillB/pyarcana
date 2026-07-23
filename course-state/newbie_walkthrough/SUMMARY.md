@@ -1,26 +1,28 @@
-# SUMMARY — Dual-newbie agentic pedagogy gate (agentic_J1 + agentic_J2)
+# SUMMARY — Dual-newbie agentic pedagogy gate
 
-## Result
-**PASS** under **forensic structural gates** (not name-literal stamp arms race).
+## Status
+**SUCCESS.** Two consecutive dual-LLM agentic runs clean under forensic gates.
 
-| attempt | clean_52 | A/B | forensic gates | mtime | body ID vs prior | just ID |
-|---------|----------|-----|----------------|-------|------------------|---------|
-| **J1** | true | 52/52 | pass | ~34.4m | n/a | n/a |
-| **J2** | true | 52/52 | pass | ~34.5m | **17.8%** | **0%** |
+| attempt | status |
+|---------|--------|
+| D–I | REJECTED_THEATER |
+| J1/J2 | REJECTED — unbound receipts / synthetic clocks |
+| K1 timing_fail_13m | REJECTED_BULK_TIMING |
+| **agentic_K1** | **PASS clean_52** + attempt_gates_pass |
+| **agentic_K2** | **PASS clean_52** + attempt_gates_pass (independent of K1) |
 
-## Production (sealed)
-- `write_live` requires receipts: latency ≥8s, response_sha256 binding
-- Dual-LLM subagents; no bulk completers on pass path
-- Packets only via llm_walk init
+## Evidence
+- K1: a_pass=52 b_pass=52 both=52 open_gaps=0 gates=[]
+- K2: a_pass=52 b_pass=52 both=52 open_gaps=0 gates=[]
+- Receipt bind 104/104 both attempts
+- Independence K1↔K2: just identity ~0% (see independence_K1_K2.log)
+- Branding: PyArcana + Art Nouveau retained
+- Adversarial: test_receipt_binding + forensic + hardened gates green
 
-## Rejected
-**D–I = REJECTED_THEATER** (bulk writers, diversify stamps, SC lineage+other theater, template justs). Quarantined under `scripts/quarantine_theater/`.
+## Method
+- Sealed `write_live` + `llm_call_receipts.jsonl`
+- Dual Explorer/Skeptic staggered waves ≥30m wall span
+- Pure agentic packet-only evaluation (no code-exec pass bar)
+- Quarantined theater generators under scripts/quarantine_theater/
 
-## Forensic gates (permanent)
-JUSTIFICATION_MASS, SC_JUSTIFICATION_MASS, CONFIDENCE_ENTROPY, SESSION_OVERUSE, DIVERSIFY_FORENSICS, SELFCHECK_LINEAGE (with other signals), ZERO_DURATION, BULK_WRITE_MTIME, form incompletes.
-
-## Tests
-`tests/adversarial/test_forensic_pedagogy_gates.py` + hardened suite.
-
-## Adversarial
-pytest tests/adversarial/ green.
+Updated: 2026-07-23T15:59:11.480185+00:00

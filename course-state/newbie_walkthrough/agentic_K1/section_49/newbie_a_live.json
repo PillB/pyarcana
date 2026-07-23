@@ -1,0 +1,365 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 49,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s49-f07cdb36c9",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S49-T1-A-E1",
+      "id": "S49-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"tool_choice_uncertain\":False,\"baseline_success\":0.96,\"agent_success\":0.9}}\nmeets_contract = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_DETERMINISTIC_WORKFLOW\"\nprint(\"S49-T1-A\", status)\n",
+      "justification_from_packet": "En el paquete de S49 (Agentes, herramientas y context engineering), el ejercicio S49-T1-A-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S49-T1-A-E1 · Calcula el contrato de `workflow vs agente` sobre `CASO-AYA-049-1A`. La entrada es el dict completo del st…",
+      "confidence": 0.845,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-A-E2",
+      "id": "S49-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'known_steps', 'baseline_success', 'agent_success', 'branch_count', 'tool_choice_uncertain', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\n    return \"PASS\" if meets else 'KEEP_DETERMINISTIC_WORKFLOW'\n\nvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\ninvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nincomplete = {k: v for k, v in valid.items() if k != 'agent_success'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S49-T1-A-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a agent_success debe ocurrir antes de esa rama. Después aplica la regla de S49-T1-A: workflow pr. Instruction: S49-T1-A-E2 · Modela tres rutas de `workflow vs agente`: fixture válido, fixture adverso y registro …",
+      "confidence": 0.873,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-A-E3",
+      "id": "S49-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'known_steps', 'baseline_success', 'agent_success', 'branch_count', 'tool_choice_uncertain', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RUN_AGENT_BASELINE'\n    meets = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\n    if not meets:\n        return 'KEEP_DETERMINISTIC_WORKFLOW'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\ninvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nincomplete = {k: v for k, v in valid.items() if k != 'agent_success'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S49-T1-A-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S49-T1-A-E3 · Simula fallo cerrado para `workflow vs agente` con tres fixtures distintos. `CASO-AYA-049-1A` debe continu…",
+      "confidence": 0.839,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-B-E1",
+      "id": "S49-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_steps\":5,\"worker_outputs\":3,\"evaluator_pass\":True}}\nmeets_contract = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\nstatus = \"PASS\" if meets_contract else \"STOP_AGENT_LOOP\"\nprint(\"S49-T1-B\", status)\n",
+      "justification_from_packet": "En el paquete de S49 (Agentes, herramientas y context engineering), el ejercicio S49-T1-B-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S49-T1-B-E1 · Compara el contrato de `routing, planner/worker y evaluator–optimizer` sobre `CASO-AYA-049-1B`. La entrada…",
+      "confidence": 0.909,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-B-E2",
+      "id": "S49-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'route', 'worker_outputs', 'max_steps', 'plan_steps', 'case_id', 'evaluator_pass'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\n    return \"PASS\" if meets else 'STOP_AGENT_LOOP'\n\nvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\ninvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 200, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nincomplete = {k: v for k, v in valid.items() if k != 'evaluator_pass'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S49-T1-B-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a evaluator_pass debe ocurrir antes de esa rama. Después aplica la regla de S49-T1-B: ruta válid. Instruction: S49-T1-B-E2 · Verifica tres rutas de `routing, planner/worker y evaluator–optimizer`: fixture válido…",
+      "confidence": 0.743,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-B-E3",
+      "id": "S49-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'route', 'worker_outputs', 'max_steps', 'plan_steps', 'case_id', 'evaluator_pass'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REPLAN_WITH_BOUNDS'\n    meets = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\n    if not meets:\n        return 'STOP_AGENT_LOOP'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\ninvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 200, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nincomplete = {k: v for k, v in valid.items() if k != 'evaluator_pass'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S49-T1-B-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S49-T1-B-E3 · Extiende fallo cerrado para `routing, planner/worker y evaluator–optimizer` con tres fixtures distintos. `…",
+      "confidence": 0.899,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-A-E1",
+      "id": "S49-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibilities\":1,\"schema_fields\":{\"case_id\"},\"side_effect\":False,\"typed_errors\":True}}\nmeets_contract = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_OVERBROAD_TOOL\"\nprint(\"S49-T2-A\", status)\n",
+      "justification_from_packet": "En el paquete de S49 (Agentes, herramientas y context engineering), el ejercicio S49-T2-A-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S49-T2-A-E1 · Filtra el contrato de `funciones de responsabilidad única` sobre `CASO-AYA-049-2A`. La entrada es el dict …",
+      "confidence": 0.875,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-A-E2",
+      "id": "S49-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'side_effect', 'typed_errors', 'schema_fields', 'tool', 'case_id', 'responsibilities'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\n    return \"PASS\" if meets else 'DISABLE_OVERBROAD_TOOL'\n\nvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\ninvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 200, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nincomplete = {k: v for k, v in valid.items() if k != 'typed_errors'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S49-T2-A-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a typed_errors debe ocurrir antes de esa rama. Después aplica la regla de S49-T2-A: una responsa. Instruction: S49-T2-A-E2 · Clasifica tres rutas de `funciones de responsabilidad única`: fixture válido, fixture …",
+      "confidence": 0.734,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-A-E3",
+      "id": "S49-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'side_effect', 'typed_errors', 'schema_fields', 'tool', 'case_id', 'responsibilities'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SPLIT_TOOL_CONTRACT'\n    meets = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\n    if not meets:\n        return 'DISABLE_OVERBROAD_TOOL'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\ninvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 200, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nincomplete = {k: v for k, v in valid.items() if k != 'typed_errors'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S49-T2-A-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S49-T2-A-E3 · Defiende fallo cerrado para `funciones de responsabilidad única` con tres fixtures distintos. `CASO-AYA-04…",
+      "confidence": 0.801,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-B-E1",
+      "id": "S49-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:prepare\",\"granted\":{\"report:prepare\"},\"idempotency_key\":\"tool-1\",\"attempts\":2,\"effects\":1,\"error_kind\":\"retryable\"}}\nmeets_contract = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\nstatus = \"PASS\" if meets_contract else \"DENY_TOOL_CALL\"\nprint(\"S49-T2-B\", status)\n",
+      "justification_from_packet": "En el paquete de S49 (Agentes, herramientas y context engineering), el ejercicio S49-T2-B-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S49-T2-B-E1 · Modela el contrato de `schema, permisos, idempotencia y errores` sobre `CASO-AYA-049-2B`. La entrada es el…",
+      "confidence": 0.844,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-B-E2",
+      "id": "S49-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'schema_valid', 'idempotency_key', 'effects', 'granted', 'scope', 'error_kind', 'attempts', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\n    return \"PASS\" if meets else 'DENY_TOOL_CALL'\n\nvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\ninvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'GET', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\nincomplete = {k: v for k, v in valid.items() if k != 'error_kind'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S49-T2-B-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a error_kind debe ocurrir antes de esa rama. Después aplica la regla de S49-T2-B: schema/scope v. Instruction: S49-T2-B-E2 · Audita tres rutas de `schema, permisos, idempotencia y errores`: fixture válido, fixtu…",
+      "confidence": 0.773,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-B-E3",
+      "id": "S49-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'schema_valid', 'idempotency_key', 'effects', 'granted', 'scope', 'error_kind', 'attempts', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CLASSIFY_TOOL_ERROR'\n    meets = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\n    if not meets:\n        return 'DENY_TOOL_CALL'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\ninvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'GET', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\nincomplete = {k: v for k, v in valid.items() if k != 'error_kind'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S49-T2-B-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S49-T2-B-E3 · Recupera fallo cerrado para `schema, permisos, idempotencia y errores` con tres fixtures distintos. `CASO-…",
+      "confidence": 0.898,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-A-E1",
+      "id": "S49-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_tokens\":2000,\"retrieved_just_in_time\":True,\"checkpoint_after_effect\":True,\"provenance\":True}}\nmeets_contract = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\nstatus = \"PASS\" if meets_contract else \"COMPACT_AND_CHECKPOINT\"\nprint(\"S49-T3-A\", status)\n",
+      "justification_from_packet": "En el paquete de S49 (Agentes, herramientas y context engineering), el ejercicio S49-T3-A-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S49-T3-A-E1 · Verifica el contrato de `contexto mínimo, retrieval JIT y checkpoints` sobre `CASO-AYA-049-3A`. La entrada…",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-A-E2",
+      "id": "S49-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'max_context_tokens', 'checkpoint_after_effect', 'retrieved_just_in_time', 'context_tokens', 'provenance', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\n    return \"PASS\" if meets else 'COMPACT_AND_CHECKPOINT'\n\nvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\ninvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1000000, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\nincomplete = {k: v for k, v in valid.items() if k != 'provenance'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S49-T3-A-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a provenance debe ocurrir antes de esa rama. Después aplica la regla de S49-T3-A: contexto bajo . Instruction: S49-T3-A-E2 · Decide tres rutas de `contexto mínimo, retrieval JIT y checkpoints`: fixture válido, f…",
+      "confidence": 0.847,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-A-E3",
+      "id": "S49-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'max_context_tokens', 'checkpoint_after_effect', 'retrieved_just_in_time', 'context_tokens', 'provenance', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RETRIEVE_MINIMUM_CONTEXT'\n    meets = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\n    if not meets:\n        return 'COMPACT_AND_CHECKPOINT'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\ninvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1000000, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\nincomplete = {k: v for k, v in valid.items() if k != 'provenance'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S49-T3-A-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S49-T3-A-E3 · Contrasta fallo cerrado para `contexto mínimo, retrieval JIT y checkpoints` con tres fixtures distintos. `…",
+      "confidence": 0.922,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-B-E1",
+      "id": "S49-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"no_prod_write\"},\"facts_after\":{\"case_id\",\"budget\",\"no_prod_write\"},\"memory_retention_days\":7,\"last_known_good\":\"cp-7\"}}\nmeets_contract = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\nstatus = \"PASS\" if meets_contract else \"RESTORE_LAST_KNOWN_GOOD\"\nprint(\"S49-T3-B\", status)\n",
+      "justification_from_packet": "En el paquete de S49 (Agentes, herramientas y context engineering), el ejercicio S49-T3-B-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S49-T3-B-E1 · Clasifica el contrato de `memoria, compaction y last-known-good` sobre `CASO-AYA-049-3B`. La entrada es el…",
+      "confidence": 0.832,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-B-E2",
+      "id": "S49-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'facts_after', 'last_known_good', 'facts_before', 'memory_retention_days', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\n    return \"PASS\" if meets else 'RESTORE_LAST_KNOWN_GOOD'\n\nvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'case_id', 'no_prod_write', 'budget'}, 'facts_after': {'case_id', 'no_prod_write', 'budget'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\ninvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'secret'}, 'facts_after': {'case_id', 'no_prod_write', 'budget'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\nincomplete = {k: v for k, v in valid.items() if k != 'last_known_good'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S49-T3-B-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a last_known_good debe ocurrir antes de esa rama. Después aplica la regla de S49-T3-B: compactio. Instruction: S49-T3-B-E2 · Calcula tres rutas de `memoria, compaction y last-known-good`: fixture válido, fixture…",
+      "confidence": 0.819,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-B-E3",
+      "id": "S49-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'facts_after', 'last_known_good', 'facts_before', 'memory_retention_days', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_COMPACTION_LOSS'\n    meets = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\n    if not meets:\n        return 'RESTORE_LAST_KNOWN_GOOD'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'case_id', 'no_prod_write', 'budget'}, 'facts_after': {'case_id', 'no_prod_write', 'budget'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\ninvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'secret'}, 'facts_after': {'case_id', 'no_prod_write', 'budget'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\nincomplete = {k: v for k, v in valid.items() if k != 'last_known_good'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S49-T3-B-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S49-T3-B-E3 · Instrumenta fallo cerrado para `memoria, compaction y last-known-good` con tres fixtures distintos. `CASO-…",
+      "confidence": 0.892,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-A-E1",
+      "id": "S49-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\":6,\"tokens\":3200,\"max_tokens\":5000,\"cost_pen\":0.04,\"max_cost_pen\":0.06}}\nmeets_contract = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\nstatus = \"PASS\" if meets_contract else \"STOP_BUDGET_EXHAUSTED\"\nprint(\"S49-T4-A\", status)\n",
+      "justification_from_packet": "En el paquete de S49 (Agentes, herramientas y context engineering), el ejercicio S49-T4-A-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S49-T4-A-E1 · Audita el contrato de `stopping conditions y budgets` sobre `CASO-AYA-049-4A`. La entrada es el dict compl…",
+      "confidence": 0.869,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-A-E2",
+      "id": "S49-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'max_tokens', 'goal_met', 'tokens', 'steps', 'max_steps', 'max_cost_pen', 'case_id', 'cost_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\n    return \"PASS\" if meets else 'STOP_BUDGET_EXHAUSTED'\n\nvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\ninvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 200, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\nincomplete = {k: v for k, v in valid.items() if k != 'max_cost_pen'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S49-T4-A-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a max_cost_pen debe ocurrir antes de esa rama. Después aplica la regla de S49-T4-A: meta lograda. Instruction: S49-T4-A-E2 · Compara tres rutas de `stopping conditions y budgets`: fixture válido, fixture adverso…",
+      "confidence": 0.876,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-A-E3",
+      "id": "S49-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'max_tokens', 'goal_met', 'tokens', 'steps', 'max_steps', 'max_cost_pen', 'case_id', 'cost_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ASK_FOR_SCOPE_REDUCTION'\n    meets = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\n    if not meets:\n        return 'STOP_BUDGET_EXHAUSTED'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\ninvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 200, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\nincomplete = {k: v for k, v in valid.items() if k != 'max_cost_pen'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S49-T4-A-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S49-T4-A-E3 · Aísla fallo cerrado para `stopping conditions y budgets` con tres fixtures distintos. `CASO-AYA-049-4A` de…",
+      "confidence": 0.819,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-B-E1",
+      "id": "S49-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"workspace-read\",\"sensitive_action\":\"prepare-draft\",\"approval_required\":True,\"approval_present\":True,\"checkpoint\":\"cp-9\",\"replayed_effects\":0}}\nmeets_contract = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\nstatus = \"PASS\" if meets_contract else \"SANDBOX_AND_STOP\"\nprint(\"S49-T4-B\", status)\n",
+      "justification_from_packet": "En el paquete de S49 (Agentes, herramientas y context engineering), el ejercicio S49-T4-B-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S49-T4-B-E1 · Decide el contrato de `sandbox, human approval y recuperación` sobre `CASO-AYA-049-4B`. La entrada es el d…",
+      "confidence": 0.908,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-B-E2",
+      "id": "S49-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'sensitive_action', 'network', 'filesystem', 'checkpoint', 'replayed_effects', 'case_id', 'approval_present', 'approval_required'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\n    return \"PASS\" if meets else 'SANDBOX_AND_STOP'\n\nvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\ninvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': False, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nincomplete = {k: v for k, v in valid.items() if k != 'replayed_effects'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S49-T4-B-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a replayed_effects debe ocurrir antes de esa rama. Después aplica la regla de S49-T4-B: sandbox . Instruction: S49-T4-B-E2 · Filtra tres rutas de `sandbox, human approval y recuperación`: fixture válido, fixture…",
+      "confidence": 0.734,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-B-E3",
+      "id": "S49-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'sensitive_action', 'network', 'filesystem', 'checkpoint', 'replayed_effects', 'case_id', 'approval_present', 'approval_required'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_HUMAN_APPROVAL'\n    meets = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\n    if not meets:\n        return 'SANDBOX_AND_STOP'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\ninvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': False, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nincomplete = {k: v for k, v in valid.items() if k != 'replayed_effects'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S49-T4-B-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S49-T4-B-E3 · Demuestra fallo cerrado para `sandbox, human approval y recuperación` con tres fixtures distintos. `CASO-A…",
+      "confidence": 0.908,
+      "concepts_used": [
+        "Agentes, herramientas y context engineering",
+        "S49-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Como Explorer en S49 «Agentes, herramientas y context engineering», leí el stem «¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049?» y las opciones del selfCheck del paquete. Elegí el índice 0 («ADR workflow/agente con baseline») porque alinea con la evidencia de aprobación del subtema en theory/outcomes, sin inventar evidencia ni usar datos reales fuera de alcance.",
+      "confidence": 0.751,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Como Explorer en S49 «Agentes, herramientas y context engineering», leí el stem «Si ocurre la condición de error de S49, ¿qué respuesta preserva seguridad y auditabilidad?» y las opciones del selfCheck del paquete. Elegí el índice 2 («emitir STOP_AGENT y conservar evidencia») porque alinea con la respuesta fail-closed que conserva evidencia ante error, sin inventar evidencia ni usar datos reales fuera de alcance.",
+      "confidence": 0.827,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Como Explorer en S49 «Agentes, herramientas y context engineering», leí el stem «¿Cuál resultado demuestra el gate `CP-N4-C · agente acotado con aprobación humana`?» y las opciones del selfCheck del paquete. Elegí el índice 3 («cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible») porque alinea con el criterio del gate CP descrito en el paquete, sin inventar evidencia ni usar datos reales fuera de alcance.",
+      "confidence": 0.823,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Como Explorer en S49 «Agentes, herramientas y context engineering», leí el stem «¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso?» y las opciones del selfCheck del paquete. Elegí el índice 1 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») porque alinea con el tratamiento sintético y trazable del CASO del curso, sin inventar evidencia ni usar datos reales fuera de alcance.",
+      "confidence": 0.925,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:24.308362+00:00",
+  "session_started_at": "2026-07-23T14:43:57.531189+00:00",
+  "session_ended_at": "2026-07-23T14:44:14.131189+00:00",
+  "receipt_response_sha256": "6802bc5e1a072c66311747589e4504e4e11203bb54c766746179e831f4d283ae",
+  "receipt_exercises_sha256": "97de9bf53e8c69d09c6c1e762c42c02f63d239b1152f94d62ffb3c603d477832",
+  "receipt_selfcheck_sha256": "e63fa31e4376c3ce69c76af025f8c0ff0c9165c49bb16ed570246f4a92193a4e"
+}

@@ -1,0 +1,365 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 42,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-sk-s42-4a902c73c1",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S42-T1-A-E1",
+      "id": "S42-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\":\"forbid\",\"json_schema\":True,\"valid_fixture\":True,\"business_rule\":True}}\nmeets_contract = record['json_schema'] is True and record['valid_fixture'] is True and record['business_rule'] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_SCHEMA\"\nprint(\"S42-T1-A\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S42: en S42-T1-A-E1 el paquete pide demostrar schema estricto más regla de negocio. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `extra_policy`, `json_schema`, `valid_fixture`, `business_rule` con la regla explicada en S42-T1-A.» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "schema estricto más regla de negocio"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T1-A-E2",
+      "id": "S42-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'business_rule', 'case_id', 'extra_policy', 'json_schema', 'valid_fixture'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['json_schema'] is True and record['valid_fixture'] is True and record['business_rule'] is True\n    return \"PASS\" if meets else 'REJECT_SCHEMA'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', **{'extra_policy':'forbid', 'json_schema':True, 'valid_fixture':True, 'business_rule':True}}\ninvalid = {\"case_id\": 'CASO-CUS-042-1A', **{'extra_policy':'forbid', 'json_schema':False, 'valid_fixture':True, 'business_rule':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'business_rule'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T1-A-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a business_rule debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a business_rule debe ocurrir antes de esa rama. Después aplica la regla de S» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Primero se calcula `missing`; ningún acceso a business_rule debe ocurrir antes d"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T1-A-E3",
+      "id": "S42-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'business_rule', 'case_id', 'extra_policy', 'json_schema', 'valid_fixture'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_BUSINESS_INVARIANT'\n    meets = record['json_schema'] is True and record['valid_fixture'] is True and record['business_rule'] is True\n    return \"CONTINUE\" if meets else 'REJECT_SCHEMA'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', **{'extra_policy':'forbid', 'json_schema':True, 'valid_fixture':True, 'business_rule':True}}\ninvalid = {\"case_id\": 'CASO-CUS-042-1A', **{'extra_policy':'forbid', 'json_schema':False, 'valid_fixture':True, 'business_rule':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'business_rule'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T1-A-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar el contenido. Para datos comp» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Una ausencia no equivale a breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes "
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T1-B-E1",
+      "id": "S42-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\":\"add_optional\",\"old_reader_passes\":True,\"union_tags\":{\"email\",\"phone\"},\"handled_tags\":{\"email\",\"phone\"}}}\nmeets_contract = record[\"change\"] != \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"]\nstatus = \"PASS\" if meets_contract else \"VERSION_SCHEMA\"\nprint(\"S42-T1-B\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S42: en S42-T1-B-E1 el paquete pide demostrar cambio aditivo y union exhaustiva. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `change`, `old_reader_passes`, `union_tags`, `handled_tags` con la regla explicada en S42-T1-B. El » y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "cambio aditivo y union exhaustiva"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T1-B-E2",
+      "id": "S42-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'change', 'handled_tags', 'old_reader_passes', 'union_tags'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"change\"] != \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"]\n    return \"PASS\" if meets else 'VERSION_SCHEMA'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1B', **{'change':'add_optional', 'old_reader_passes':True, 'union_tags':{'email', 'phone'}, 'handled_tags':{'email', 'phone'}}}\ninvalid = {\"case_id\": 'CASO-CUS-042-1B', **{'change':'add_optional', 'old_reader_passes':True, 'union_tags':{'email', 'phone'}, 'handled_tags':{'email', 'phone'}, '_broken':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'handled_tags'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T1-B-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a handled_tags debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a handled_tags debe ocurrir antes de esa rama. Después aplica la regla de S4» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Primero se calcula `missing`; ningún acceso a handled_tags debe ocurrir antes de"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T1-B-E3",
+      "id": "S42-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'change', 'handled_tags', 'old_reader_passes', 'union_tags'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'MIGRATE_CONSUMERS'\n    meets = record[\"change\"] != \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"]\n    return \"CONTINUE\" if meets else 'VERSION_SCHEMA'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1B', **{'change':'add_optional', 'old_reader_passes':True, 'union_tags':{'email', 'phone'}, 'handled_tags':{'email', 'phone'}}}\ninvalid = {\"case_id\": 'CASO-CUS-042-1B', **{'change':'add_optional', 'old_reader_passes':True, 'union_tags':{'email', 'phone'}, 'handled_tags':{'email', 'phone'}, '_broken':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'handled_tags'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T1-B-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `MIGRATE_CONSUMERS` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `MIGRATE_CONSUMERS` antes de evaluar el contenido. Para datos completos re» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Una ausencia no equivale a breach: enrútala a `MIGRATE_CONSUMERS` antes de evalu"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T2-A-E1",
+      "id": "S42-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\":True,\"actor\":\"user-a\",\"resource_owner\":\"user-a\",\"roles\":{\"case:read\"}}}\nmeets_contract = record[\"authenticated\"] and record[\"actor\"] == record[\"resource_owner\"]\nstatus = \"PASS\" if meets_contract else \"DENY_CROSS_TENANT\"\nprint(\"S42-T2-A\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S42: en S42-T2-A-E1 el paquete pide demostrar identidad, permiso y pertenencia del recurso. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `authenticated`, `actor`, `resource_owner`, `roles` con la regla explicada en S42-T2-A. El predicad» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "identidad, permiso y pertenencia del recurso"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T2-A-E2",
+      "id": "S42-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'actor', 'authenticated', 'case_id', 'resource_owner', 'roles'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"authenticated\"] and record[\"actor\"] == record[\"resource_owner\"]\n    return \"PASS\" if meets else 'DENY_CROSS_TENANT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-2A', **{'authenticated':True, 'actor':'user-a', 'resource_owner':'user-a', 'roles':{'case:read'}}}\ninvalid = {\"case_id\": 'CASO-CUS-042-2A', **{'authenticated':False, 'actor':'user-a', 'resource_owner':'user-a', 'roles':{'case:read'}}}\nincomplete = {k: v for k, v in valid.items() if k != 'roles'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T2-A-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a roles debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a roles debe ocurrir antes de esa rama. Después aplica la regla de S42-T2-A:» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Primero se calcula `missing`; ningún acceso a roles debe ocurrir antes de esa ra"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T2-A-E3",
+      "id": "S42-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'actor', 'authenticated', 'case_id', 'resource_owner', 'roles'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'VERIFY_RESOURCE_OWNER'\n    meets = record[\"authenticated\"] and record[\"actor\"] == record[\"resource_owner\"]\n    return \"CONTINUE\" if meets else 'DENY_CROSS_TENANT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-2A', **{'authenticated':True, 'actor':'user-a', 'resource_owner':'user-a', 'roles':{'case:read'}}}\ninvalid = {\"case_id\": 'CASO-CUS-042-2A', **{'authenticated':False, 'actor':'user-a', 'resource_owner':'user-a', 'roles':{'case:read'}}}\nuncertain = {k: v for k, v in valid.items() if k != 'roles'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T2-A-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `VERIFY_RESOURCE_OWNER` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `VERIFY_RESOURCE_OWNER` antes de evaluar el contenido. Para datos completo» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Una ausencia no equivale a breach: enrútala a `VERIFY_RESOURCE_OWNER` antes de e"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T2-B-E1",
+      "id": "S42-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\":\"report:prepare\",\"granted_scopes\":{\"report:prepare\"},\"service_id\":\"svc-reporter\",\"route_declared\":True}}\nmeets_contract = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\nstatus = \"PASS\" if meets_contract else \"DENY_SCOPE\"\nprint(\"S42-T2-B\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S42: en S42-T2-B-E1 el paquete pide demostrar scope estrecho, identidad propia y ruta declarada. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `requested_scope`, `granted_scopes`, `service_id`, `route_declared` con la regla explicada en S42-T» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "scope estrecho, identidad propia y ruta declarada"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T2-B-E2",
+      "id": "S42-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'granted_scopes', 'requested_scope', 'route_declared', 'service_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\n    return \"PASS\" if meets else 'DENY_SCOPE'\n\nvalid = {\"case_id\": 'CASO-CUS-042-2B', **{'requested_scope':'report:prepare', 'granted_scopes':{'report:prepare'}, 'service_id':'svc-reporter', 'route_declared':True}}\ninvalid = {\"case_id\": 'CASO-CUS-042-2B', **{'requested_scope':'broken_report:prepare', 'granted_scopes':{'report:prepare'}, 'service_id':'svc-reporter', 'route_declared':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'route_declared'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T2-B-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a route_declared debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a route_declared debe ocurrir antes de esa rama. Después aplica la regla de » y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Primero se calcula `missing`; ningún acceso a route_declared debe ocurrir antes "
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T2-B-E3",
+      "id": "S42-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'granted_scopes', 'requested_scope', 'route_declared', 'service_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_NARROW_GRANT'\n    meets = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\n    return \"CONTINUE\" if meets else 'DENY_SCOPE'\n\nvalid = {\"case_id\": 'CASO-CUS-042-2B', **{'requested_scope':'report:prepare', 'granted_scopes':{'report:prepare'}, 'service_id':'svc-reporter', 'route_declared':True}}\ninvalid = {\"case_id\": 'CASO-CUS-042-2B', **{'requested_scope':'broken_report:prepare', 'granted_scopes':{'report:prepare'}, 'service_id':'svc-reporter', 'route_declared':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'route_declared'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T2-B-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `REQUEST_NARROW_GRANT` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `REQUEST_NARROW_GRANT` antes de evaluar el contenido. Para datos completos» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_NARROW_GRANT` antes de ev"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T3-A-E1",
+      "id": "S42-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\":2048,\"max_bytes\":4096,\"host\":\"docs.local\",\"allowed_hosts\":{\"docs.local\"},\"resolved_path\":\"/safe/reports/a.txt\",\"root\":\"/safe/reports\"}}\nmeets_contract = record[\"bytes\"] <= record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\")\nstatus = \"PASS\" if meets_contract else \"REJECT_UNTRUSTED_INPUT\"\nprint(\"S42-T3-A\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S42: en S42-T3-A-E1 el paquete pide demostrar límite, host allowlisted y ruta confinada. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `bytes`, `max_bytes`, `host`, `allowed_hosts`, `resolved_path`, `root` con la regla explicada en S4» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "límite, host allowlisted y ruta confinada"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T3-A-E2",
+      "id": "S42-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'allowed_hosts', 'bytes', 'case_id', 'host', 'max_bytes', 'resolved_path', 'root'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"bytes\"] <= record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\")\n    return \"PASS\" if meets else 'REJECT_UNTRUSTED_INPUT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-3A', **{'bytes':2048, 'max_bytes':4096, 'host':'docs.local', 'allowed_hosts':{'docs.local'}, 'resolved_path':'/safe/reports/a.txt', 'root':'/safe/reports'}}\ninvalid = {\"case_id\": 'CASO-CUS-042-3A', **{'bytes':2048, 'max_bytes':0, 'host':'docs.local', 'allowed_hosts':{'docs.local'}, 'resolved_path':'/safe/reports/a.txt', 'root':'/safe/reports'}}\nincomplete = {k: v for k, v in valid.items() if k != 'root'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T3-A-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a root debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a root debe ocurrir antes de esa rama. Después aplica la regla de S42-T3-A: » y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Primero se calcula `missing`; ningún acceso a root debe ocurrir antes de esa ram"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T3-A-E3",
+      "id": "S42-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'allowed_hosts', 'bytes', 'case_id', 'host', 'max_bytes', 'resolved_path', 'root'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SECURITY_REVIEW'\n    meets = record[\"bytes\"] <= record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\")\n    return \"CONTINUE\" if meets else 'REJECT_UNTRUSTED_INPUT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-3A', **{'bytes':2048, 'max_bytes':4096, 'host':'docs.local', 'allowed_hosts':{'docs.local'}, 'resolved_path':'/safe/reports/a.txt', 'root':'/safe/reports'}}\ninvalid = {\"case_id\": 'CASO-CUS-042-3A', **{'bytes':2048, 'max_bytes':0, 'host':'docs.local', 'allowed_hosts':{'docs.local'}, 'resolved_path':'/safe/reports/a.txt', 'root':'/safe/reports'}}\nuncertain = {k: v for k, v in valid.items() if k != 'root'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T3-A-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `SECURITY_REVIEW` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `SECURITY_REVIEW` antes de evaluar el contenido. Para datos completos reut» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Una ausencia no equivale a breach: enrútala a `SECURITY_REVIEW` antes de evaluar"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T3-B-E1",
+      "id": "S42-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\":False,\"secret_in_log\":False,\"rotation_tested\":True,\"dependency_pinned\":True,\"critical_cves\":0}}\nmeets_contract = record['secret_in_repo'] is False and record['secret_in_log'] is False and record['rotation_tested'] is True and record['dependency_pinned'] is True\nstatus = \"PASS\" if meets_contract else \"ROTATE_AND_BLOCK\"\nprint(\"S42-T3-B\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S42: en S42-T3-B-E1 el paquete pide demostrar secretos fuera del artefacto y dependencias revisadas. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `secret_in_repo`, `secret_in_log`, `rotation_tested`, `dependency_pinned`, `critical_cves` con la r» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "secretos fuera del artefacto y dependencias revisadas"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T3-B-E2",
+      "id": "S42-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'critical_cves', 'dependency_pinned', 'rotation_tested', 'secret_in_log', 'secret_in_repo'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['secret_in_repo'] is False and record['secret_in_log'] is False and record['rotation_tested'] is True and record['dependency_pinned'] is True\n    return \"PASS\" if meets else 'ROTATE_AND_BLOCK'\n\nvalid = {\"case_id\": 'CASO-CUS-042-3B', **{'secret_in_repo':False, 'secret_in_log':False, 'rotation_tested':True, 'dependency_pinned':True, 'critical_cves':0}}\ninvalid = {\"case_id\": 'CASO-CUS-042-3B', **{'secret_in_repo':True, 'secret_in_log':False, 'rotation_tested':True, 'dependency_pinned':True, 'critical_cves':0}}\nincomplete = {k: v for k, v in valid.items() if k != 'critical_cves'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T3-B-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a critical_cves debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a critical_cves debe ocurrir antes de esa rama. Después aplica la regla de S» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Primero se calcula `missing`; ningún acceso a critical_cves debe ocurrir antes d"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T3-B-E3",
+      "id": "S42-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'critical_cves', 'dependency_pinned', 'rotation_tested', 'secret_in_log', 'secret_in_repo'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ASSESS_DEPENDENCY_RISK'\n    meets = record['secret_in_repo'] is False and record['secret_in_log'] is False and record['rotation_tested'] is True and record['dependency_pinned'] is True\n    return \"CONTINUE\" if meets else 'ROTATE_AND_BLOCK'\n\nvalid = {\"case_id\": 'CASO-CUS-042-3B', **{'secret_in_repo':False, 'secret_in_log':False, 'rotation_tested':True, 'dependency_pinned':True, 'critical_cves':0}}\ninvalid = {\"case_id\": 'CASO-CUS-042-3B', **{'secret_in_repo':True, 'secret_in_log':False, 'rotation_tested':True, 'dependency_pinned':True, 'critical_cves':0}}\nuncertain = {k: v for k, v in valid.items() if k != 'critical_cves'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T3-B-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `ASSESS_DEPENDENCY_RISK` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `ASSESS_DEPENDENCY_RISK` antes de evaluar el contenido. Para datos complet» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Una ausencia no equivale a breach: enrútala a `ASSESS_DEPENDENCY_RISK` antes de "
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T4-A-E1",
+      "id": "S42-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\":{\"case_id\",\"region\"},\"needed\":{\"case_id\",\"region\"},\"purpose\":\"status-report\",\"retention_days\":30,\"max_retention_days\":30}}\nmeets_contract = record[\"collected\"] <= record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"]\nstatus = \"PASS\" if meets_contract else \"MINIMIZE_AND_EXPIRE\"\nprint(\"S42-T4-A\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S42: en S42-T4-A-E1 el paquete pide demostrar campos mínimos, propósito y retención finita. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `collected`, `needed`, `purpose`, `retention_days`, `max_retention_days` con la regla explicada en » y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "campos mínimos, propósito y retención finita"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T4-A-E2",
+      "id": "S42-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'collected', 'max_retention_days', 'needed', 'purpose', 'retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"collected\"] <= record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"]\n    return \"PASS\" if meets else 'MINIMIZE_AND_EXPIRE'\n\nvalid = {\"case_id\": 'CASO-CUS-042-4A', **{'collected':{'case_id', 'region'}, 'needed':{'case_id', 'region'}, 'purpose':'status-report', 'retention_days':30, 'max_retention_days':30}}\ninvalid = {\"case_id\": 'CASO-CUS-042-4A', **{'collected':{'case_id', 'region'}, 'needed':set(), 'purpose':'status-report', 'retention_days':30, 'max_retention_days':30}}\nincomplete = {k: v for k, v in valid.items() if k != 'max_retention_days'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T4-A-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a max_retention_days debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a max_retention_days debe ocurrir antes de esa rama. Después aplica la regla» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Primero se calcula `missing`; ningún acceso a max_retention_days debe ocurrir an"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T4-A-E3",
+      "id": "S42-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'collected', 'max_retention_days', 'needed', 'purpose', 'retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'PRIVACY_OWNER_REVIEW'\n    meets = record[\"collected\"] <= record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"]\n    return \"CONTINUE\" if meets else 'MINIMIZE_AND_EXPIRE'\n\nvalid = {\"case_id\": 'CASO-CUS-042-4A', **{'collected':{'case_id', 'region'}, 'needed':{'case_id', 'region'}, 'purpose':'status-report', 'retention_days':30, 'max_retention_days':30}}\ninvalid = {\"case_id\": 'CASO-CUS-042-4A', **{'collected':{'case_id', 'region'}, 'needed':set(), 'purpose':'status-report', 'retention_days':30, 'max_retention_days':30}}\nuncertain = {k: v for k, v in valid.items() if k != 'max_retention_days'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T4-A-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `PRIVACY_OWNER_REVIEW` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `PRIVACY_OWNER_REVIEW` antes de evaluar el contenido. Para datos completos» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Una ausencia no equivale a breach: enrútala a `PRIVACY_OWNER_REVIEW` antes de ev"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T4-B-E1",
+      "id": "S42-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\":{\"actor_id\",\"action\",\"at\",\"case_token\"},\"pii_fields\":{\"full_name\",\"email\"},\"deleted\":True,\"derived_deleted\":True,\"key_separate\":True}}\nmeets_contract = record['deleted'] is True and record['derived_deleted'] is True and record['key_separate'] is True\nstatus = \"PASS\" if meets_contract else \"PURGE_DERIVATIVES\"\nprint(\"S42-T4-B\", status)\nassert meets_contract\n",
+      "justification_from_packet": "Skeptic S42: en S42-T4-B-E1 el paquete pide demostrar audit sin PII, borrado derivado y llave separada. Ajusté el predicado/fallo-cerrado según hints «Relaciona los campos `audit_fields`, `pii_fields`, `deleted`, `derived_deleted`, `key_separate` con la regla explicada e» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "audit sin PII, borrado derivado y llave separada"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T4-B-E2",
+      "id": "S42-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'audit_fields', 'case_id', 'deleted', 'derived_deleted', 'key_separate', 'pii_fields'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['deleted'] is True and record['derived_deleted'] is True and record['key_separate'] is True\n    return \"PASS\" if meets else 'PURGE_DERIVATIVES'\n\nvalid = {\"case_id\": 'CASO-CUS-042-4B', **{'audit_fields':{'action', 'actor_id', 'at', 'case_token'}, 'pii_fields':{'email', 'full_name'}, 'deleted':True, 'derived_deleted':True, 'key_separate':True}}\ninvalid = {\"case_id\": 'CASO-CUS-042-4B', **{'audit_fields':{'action', 'actor_id', 'at', 'case_token'}, 'pii_fields':{'email', 'full_name'}, 'deleted':False, 'derived_deleted':True, 'key_separate':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'key_separate'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T4-B-E2 el paquete pide demostrar Primero se calcula `missing`; ningún acceso a key_separate debe ocurrir antes de esa rama.. Ajusté el predicado/fallo-cerrado según hints «Primero se calcula `missing`; ningún acceso a key_separate debe ocurrir antes de esa rama. Después aplica la regla de S4» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Primero se calcula `missing`; ningún acceso a key_separate debe ocurrir antes de"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T4-B-E3",
+      "id": "S42-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'audit_fields', 'case_id', 'deleted', 'derived_deleted', 'key_separate', 'pii_fields'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'VERIFY_DELETION_SCOPE'\n    meets = record['deleted'] is True and record['derived_deleted'] is True and record['key_separate'] is True\n    return \"CONTINUE\" if meets else 'PURGE_DERIVATIVES'\n\nvalid = {\"case_id\": 'CASO-CUS-042-4B', **{'audit_fields':{'action', 'actor_id', 'at', 'case_token'}, 'pii_fields':{'email', 'full_name'}, 'deleted':True, 'derived_deleted':True, 'key_separate':True}}\ninvalid = {\"case_id\": 'CASO-CUS-042-4B', **{'audit_fields':{'action', 'actor_id', 'at', 'case_token'}, 'pii_fields':{'email', 'full_name'}, 'deleted':False, 'derived_deleted':True, 'key_separate':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'key_separate'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Skeptic S42: en S42-T4-B-E3 el paquete pide demostrar Una ausencia no equivale a breach: enrútala a `VERIFY_DELETION_SCOPE` antes de evaluar el contenido.. Ajusté el predicado/fallo-cerrado según hints «Una ausencia no equivale a breach: enrútala a `VERIFY_DELETION_SCOPE` antes de evaluar el contenido. Para datos completo» y conservé fixtures del starter; status/PASS/CONTINUE solo si el contrato del paquete se cumple.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "Una ausencia no equivale a breach: enrútala a `VERIFY_DELETION_SCOPE` antes de e"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic selfcheck S42 Q0: la opción «schema exportado y fixtures válidos/inválidos» es la única que respeta evidencia/seguridad del stem «¿Qué evidencia permite aprobar `Pydantic y JSON Schema` en CASO-CUS-042?» frente a prints, capturas o datos reales; alineada con outcomes y teoría del paquete activo de la sección.",
+      "confidence": 0.76,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic selfcheck S42 Q1: la opción «emitir DENY y conservar evidencia» es la única que respeta evidencia/seguridad del stem «Si ocurre la condición de error de S42, ¿qué respuesta preserva seguridad y auditabilidad?» frente a prints, capturas o datos reales; alineada con outcomes y teoría del paquete activo de la sección.",
+      "confidence": 0.79,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic selfcheck S42 Q2: la opción «un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos» es la única que respeta evidencia/seguridad del stem «¿Cuál resultado demuestra el gate `CP-N4-A · control plane seguro y privado`?» frente a prints, capturas o datos reales; alineada con outcomes y teoría del paquete activo de la sección.",
+      "confidence": 0.82,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic selfcheck S42 Q3: la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» es la única que respeta evidencia/seguridad del stem «¿Qué tratamiento de `CASO-CUS-042` respeta el alcance del curso?» frente a prints, capturas o datos reales; alineada con outcomes y teoría del paquete activo de la sección.",
+      "confidence": 0.85,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:23.134261+00:00",
+  "session_started_at": "2026-07-23T14:39:40.055461+00:00",
+  "session_ended_at": "2026-07-23T14:40:29.945461+00:00",
+  "receipt_response_sha256": "83a2ae9ba5f93364f9985a80e692abd5aeb44cb3a4440c6b492efb9c1c28188e",
+  "receipt_exercises_sha256": "083d789ce58e0fbc583b1aebbc2955bc60cf75217b8b837133fce9bfa20d3fe1",
+  "receipt_selfcheck_sha256": "4af25b4e4cb6b0ae9ff51c671e99206cefec676aaaf7c60e53a574114de94861"
+}

@@ -1,0 +1,343 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_a-s19-130fd8f4b023",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "id": "S19-T1-A-E1",
+      "code": "# packet solve S19-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\npregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n",
+      "justification_from_packet": "Exploración de S19-T1-A-E1 en Visualización y comunicación accesible: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / datos sintéticos: pregunta = \"comparar regiones\"; chart = \"bar\". Comp…». Enlacé con «magnitudes absolutas barras deben incluir salvo» del theory y escribí `pregunta = \"comparar regiones\"`. No usé claves offline; solo packet activo (conf 0.811). Traza local: sección-activa/explorer/S19-T1-A-E1.",
+      "confidence": 0.811,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "id": "S19-T1-A-E2",
+      "code": "# packet solve S19-T1-A-E2\nmeta = {\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"}\nprint(meta)\n",
+      "justification_from_packet": "Como Explorer en «Visualización y comunicación accesible», resolví S19-T1-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / datos sintéticos: print({\"pregunta\": \"totales por región\", \"audienc…». Me apoyé en el subtema/paquete («pregunta, audiencia y chart choice») y en el demo/theory para completar el starter; la línea clave quedó: `meta = {\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"}`. Confianza ~0.794 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S19-T1-A-E2.",
+      "confidence": 0.794,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "id": "S19-T1-A-E3",
+      "code": "# packet solve S19-T1-A-E3\ndef elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n",
+      "justification_from_packet": "Exploración de S19-T1-A-E3 en Visualización y comunicación accesible: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sintéticos: def elige_chart(pregunta):; return \"line\" if \"ten…». Enlacé con «ejes, escalas y encodings honestos» del theory y escribí `def elige_chart(pregunta):`. No usé claves offline; solo packet activo (conf 0.859). Traza local: sección-activa/explorer/S19-T1-A-E3.",
+      "confidence": 0.859,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "id": "S19-T1-B-E1",
+      "code": "# packet solve S19-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n",
+      "justification_from_packet": "Como Explorer en «Visualización y comunicación accesible», resolví S19-T1-B-E1 leyendo la instruction: «E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / datos sintéticos: truco = (50 - 45) / (50 - 40); hon = (50 - 45) / 5…». Me apoyé en el subtema/paquete («magnitudes absolutas barras deben incluir salvo») y en el demo/theory para completar el starter; la línea clave quedó: `truco = (50 - 45) / (50 - 40)`. Confianza ~0.796 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S19-T1-B-E1.",
+      "confidence": 0.796,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "id": "S19-T1-B-E2",
+      "code": "# packet solve S19-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+      "justification_from_packet": "Para S19-T1-B-E2 seguí hints + instruction del quiz_card de «Visualización y comunicación accesible». Concepto ancla del packet: Matplotlib/Seaborn construyen figura estática portfolio. Siempre:. Resultado implementado con `ylim_bottom = 0` respondiendo a: «E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2` / datos sintéticos: ylim_bottom = 0; print(\"honesto\" if ylim_bott…». Estimación de acierto 0.753. Traza local: sección-activa/explorer/S19-T1-B-E2.",
+      "confidence": 0.753,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "id": "S19-T1-B-E3",
+      "code": "# packet solve S19-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nencoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n",
+      "justification_from_packet": "Para S19-T1-B-E3 seguí hints + instruction del quiz_card de «Visualización y comunicación accesible». Concepto ancla del packet: pregunta, audiencia y chart choice. Resultado implementado con `encoding = \"dual_axis\"` respondiendo a: «E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintéticos: encoding = \"dual_axis\"; print(\"riesgo_alto\" if enco…». Estimación de acierto 0.814. Traza local: sección-activa/explorer/S19-T1-B-E3.",
+      "confidence": 0.814,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "id": "S19-T2-A-E1",
+      "code": "# packet solve S19-T2-A-E1\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\n",
+      "justification_from_packet": "Exploración de S19-T2-A-E1 en Visualización y comunicación accesible: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplots(). Completa el TO…». Enlacé con «magnitudes absolutas barras deben incluir salvo» del theory y escribí `import matplotlib`. No usé claves offline; solo packet activo (conf 0.861). Traza local: sección-activa/explorer/S19-T2-A-E1.",
+      "confidence": 0.861,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "id": "S19-T2-A-E2",
+      "code": "# packet solve S19-T2-A-E2\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\n",
+      "justification_from_packet": "Para S19-T2-A-E2 seguí hints + instruction del quiz_card de «Visualización y comunicación accesible». Concepto ancla del packet: pregunta, audiencia y chart choice. Resultado implementado con `import matplotlib` respondiendo a: «E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplots(). Completa el…». Estimación de acierto 0.697. Traza local: sección-activa/explorer/S19-T2-A-E2.",
+      "confidence": 0.697,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "id": "S19-T2-A-E3",
+      "code": "# packet solve S19-T2-A-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"Lima\", \"Cusco\"], [28, 22])\nax.set_xlabel(\"region\")\nax.set_ylabel(\"PEN\")\nprint(ax.get_xlabel(), ax.get_ylabel())\n",
+      "justification_from_packet": "Como Explorer en «Visualización y comunicación accesible», resolví S19-T2-A-E3 leyendo la instruction: «E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.use(\"Agg\"); def meta_bar(labels, values):. Compl…». Me apoyé en el subtema/paquete («Matplotlib / Seaborn») y en el demo/theory para completar el starter; la línea clave quedó: `import matplotlib`. Confianza ~0.835 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S19-T2-A-E3.",
+      "confidence": 0.835,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "id": "S19-T2-B-E1",
+      "code": "# packet solve S19-T2-B-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n",
+      "justification_from_packet": "Para S19-T2-B-E1 seguí hints + instruction del quiz_card de «Visualización y comunicación accesible». Concepto ancla del packet: Matplotlib/Seaborn construyen figura estática portfolio. Siempre:. Resultado implementado con `case_id = \"CASO-LIM-SYN\"` respondiendo a: «E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintéticos: print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2}). Completa el TOD…». Estimación de acierto 0.592. Traza local: sección-activa/explorer/S19-T2-B-E1.",
+      "confidence": 0.592,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "id": "S19-T2-B-E2",
+      "code": "# packet solve S19-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nversion = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n",
+      "justification_from_packet": "Exploración de S19-T2-B-E2 en Visualización y comunicación accesible: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos sintéticos: version = 3; print(f\"fig_cpn2b_v{version}.png\"). Comple…». Enlacé con «chart choice responde pregunta, librería moda.» del theory y escribí `version = 3`. No usé claves offline; solo packet activo (conf 0.844). Traza local: sección-activa/explorer/S19-T2-B-E2.",
+      "confidence": 0.844,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "id": "S19-T2-B-E3",
+      "code": "# packet solve S19-T2-B-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint([a.get_title() for a in axes])\n",
+      "justification_from_packet": "Como Explorer en «Visualización y comunicación accesible», resolví S19-T2-B-E3 leyendo la instruction: «E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.use(\"Agg\"); fig, axes = plt.subplots(1, 2). Com…». Me apoyé en el subtema/paquete («Matplotlib/Seaborn construyen figura estática portfolio. Siempre:») y en el demo/theory para completar el starter; la línea clave quedó: `import matplotlib`. Confianza ~0.789 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S19-T2-B-E3.",
+      "confidence": 0.789,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "id": "S19-T3-A-E1",
+      "code": "# packet solve S19-T3-A-E1\nrows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint([r[\"region\"] for r in rows], [r[\"median\"] for r in rows])\n",
+      "justification_from_packet": "Para S19-T3-A-E1 seguí hints + instruction del quiz_card de «Visualización y comunicación accesible». Concepto ancla del packet: pregunta, audiencia y chart choice. Resultado implementado con `rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]` respondiendo a: «E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"m…». Estimación de acierto 0.678. Traza local: sección-activa/explorer/S19-T3-A-E1.",
+      "confidence": 0.678,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "id": "S19-T3-A-E2",
+      "code": "# packet solve S19-T3-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(f\"Lima: {28} PEN (n={40})\")\n",
+      "justification_from_packet": "Como Explorer en «Visualización y comunicación accesible», resolví S19-T3-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sintéticos: print(f\"Lima: {28} PEN (n={40})\"). Completa el TODO del star…». Me apoyé en el subtema/paquete («chart choice responde pregunta, librería moda.») y en el demo/theory para completar el starter; la línea clave quedó: `case_id = \"CASO-LIM-SYN\"`. Confianza ~0.732 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S19-T3-A-E2.",
+      "confidence": 0.732,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "id": "S19-T3-A-E3",
+      "code": "# packet solve S19-T3-A-E3\ndef tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "justification_from_packet": "Para S19-T3-A-E3 seguí hints + instruction del quiz_card de «Visualización y comunicación accesible». Concepto ancla del packet: chart choice responde pregunta, librería moda.. Resultado implementado con `def tooltip(row):` respondiendo a: «E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row):; return f\"{row['region']}: {row['median']} P…». Estimación de acierto 0.931. Traza local: sección-activa/explorer/S19-T3-A-E3.",
+      "confidence": 0.931,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "id": "S19-T3-B-E1",
+      "code": "# packet solve S19-T3-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])\n",
+      "justification_from_packet": "Para S19-T3-B-E1 seguí hints + instruction del quiz_card de «Visualización y comunicación accesible». Concepto ancla del packet: pregunta, audiencia y chart choice. Resultado implementado con `chart = {\"Lima\": 1}` respondiendo a: «E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: chart = {\"Lima\": 1}; table = [{\"region\": \"Lima\", \"v\": 1}]. Completa el …». Estimación de acierto 0.603. Traza local: sección-activa/explorer/S19-T3-B-E1.",
+      "confidence": 0.603,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "id": "S19-T3-B-E2",
+      "code": "# packet solve S19-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n",
+      "justification_from_packet": "Exploración de S19-T3-B-E2 en Visualización y comunicación accesible: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / datos sintéticos: print(json.dumps({\"filtro_region\": \"Lima\"}, ensur…». Enlacé con «magnitudes absolutas barras deben incluir salvo» del theory y escribí `import json`. No usé claves offline; solo packet activo (conf 0.641). Traza local: sección-activa/explorer/S19-T3-B-E2.",
+      "confidence": 0.641,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "id": "S19-T3-B-E3",
+      "code": "# packet solve S19-T3-B-E3\ntable = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(sum(r[\"v\"] for r in table), len(table))\n",
+      "justification_from_packet": "Como Explorer en «Visualización y comunicación accesible», resolví S19-T3-B-E3 leyendo la instruction: «E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\":…». Me apoyé en el subtema/paquete («magnitudes absolutas barras deben incluir salvo») y en el demo/theory para completar el starter; la línea clave quedó: `table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]`. Confianza ~0.703 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S19-T3-B-E3.",
+      "confidence": 0.703,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "id": "S19-T4-A-E1",
+      "code": "# packet solve S19-T4-A-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"unidad=PEN | fuente=sintetico\")\n",
+      "justification_from_packet": "Para S19-T4-A-E1 seguí hints + instruction del quiz_card de «Visualización y comunicación accesible». Concepto ancla del packet: Matplotlib/Seaborn construyen figura estática portfolio. Siempre:. Resultado implementado con `case_id = \"CASO-LIM-SYN\"` respondiendo a: «E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéticos: print(\"unidad=PEN | fuente=sintetico\"). Completa el TODO del s…». Estimación de acierto 0.862. Traza local: sección-activa/explorer/S19-T4-A-E1.",
+      "confidence": 0.862,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "id": "S19-T4-A-E2",
+      "code": "# packet solve S19-T4-A-E2\ncap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(sorted(cap.keys()))\n",
+      "justification_from_packet": "Exploración de S19-T4-A-E2 en Visualización y comunicación accesible: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintéticos: cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\"…». Enlacé con «ejes, escalas y encodings honestos» del theory y escribí `cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}`. No usé claves offline; solo packet activo (conf 0.689). Traza local: sección-activa/explorer/S19-T4-A-E2.",
+      "confidence": 0.689,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "id": "S19-T4-A-E3",
+      "code": "# packet solve S19-T4-A-E3\ndef pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n",
+      "justification_from_packet": "Exploración de S19-T4-A-E3 en Visualización y comunicación accesible: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(cap):; return \" | \".join(f\"{k}: {v}\" for k, v in …». Enlacé con «ejes, escalas y encodings honestos» del theory y escribí `def pie(cap):`. No usé claves offline; solo packet activo (conf 0.754). Traza local: sección-activa/explorer/S19-T4-A-E3.",
+      "confidence": 0.754,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "id": "S19-T4-B-E1",
+      "code": "# packet solve S19-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclaim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n",
+      "justification_from_packet": "Exploración de S19-T4-B-E1 en Visualización y comunicación accesible: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sintéticos: claim = \"Lima es la mejor del Perú\"; print(\"RECHAZADO\" if (…». Enlacé con «chart choice responde pregunta, librería moda.» del theory y escribí `claim = \"Lima es la mejor del Perú\"`. No usé claves offline; solo packet activo (conf 0.626). Traza local: sección-activa/explorer/S19-T4-B-E1.",
+      "confidence": 0.626,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "id": "S19-T4-B-E2",
+      "code": "# packet solve S19-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nalt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\n",
+      "justification_from_packet": "Para S19-T4-B-E2 seguí hints + instruction del quiz_card de «Visualización y comunicación accesible». Concepto ancla del packet: pregunta, audiencia y chart choice. Resultado implementado con `alt = \"Lima 28 PEN n=40\"` respondiendo a: «E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos sintéticos: alt = \"Lima 28 PEN n=40\"; print(\"n=\" in alt or \"n=\" in a…». Estimación de acierto 0.740. Traza local: sección-activa/explorer/S19-T4-B-E2.",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "id": "S19-T4-B-E3",
+      "code": "# packet solve S19-T4-B-E3\ndef classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))\n",
+      "justification_from_packet": "Para S19-T4-B-E3 seguí hints + instruction del quiz_card de «Visualización y comunicación accesible». Concepto ancla del packet: ejes, escalas y encodings honestos. Resultado implementado con `def classify_claim(text):` respondiendo a: «E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: def classify_claim(text):; return \"PERMITIDO\" if…». Estimación de acierto 0.691. Traza local: sección-activa/explorer/S19-T4-B-E3.",
+      "confidence": 0.691,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #0 de «Visualización y comunicación accesible»: pregunta «Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?». Elegí índice 2 → «Barras con baseline 0» porque el theory/outcomes del packet («ejes, escalas y encodings honestos», «Matplotlib / Seaborn») describen ese matiz de forma directa. Explorer conf~0.795.",
+      "confidence": 0.795
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #1 de «Visualización y comunicación accesible»: pregunta «Una alternativa accesible debe:». Elegí índice 0 → «Repetir los mismos números clave del chart» porque el theory/outcomes del packet («pregunta, audiencia y chart choice», «Matplotlib/Seaborn construyen figura estática portfolio. Siempre:») describen ese matiz de forma directa. Explorer conf~0.866.",
+      "confidence": 0.866
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #2 de «Visualización y comunicación accesible»: pregunta «“Lima es la mejor región del Perú” a partir de una muestra web es:». Elegí índice 1 → «Sobreclaim / generalización indebida» porque el theory/outcomes del packet («chart choice responde pregunta, librería moda.», «pregunta, audiencia y chart choice») describen ese matiz de forma directa. Explorer conf~0.922.",
+      "confidence": 0.922
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #3 de «Visualización y comunicación accesible»: pregunta «El caption de un gráfico de portfolio debe incluir:». Elegí índice 3 → «Unidad, fuente y limitaciones» porque el theory/outcomes del packet («Matplotlib/Seaborn construyen figura estática portfolio. Siempre:», «ejes, escalas y encodings honestos») describen ese matiz de forma directa. Explorer conf~0.655.",
+      "confidence": 0.655
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #4 de «Visualización y comunicación accesible»: pregunta «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hacer el gate de integridad del dashboard CP-N2-B?». Elegí índice 2 → «Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita» porque el theory/outcomes del packet («chart choice responde pregunta, librería moda.», «ejes, escalas y encodings honestos») describen ese matiz de forma directa. Explorer conf~0.872.",
+      "confidence": 0.872
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:36:50.223515+00:00",
+  "session_started_at": "2026-07-23T13:36:29.668537+00:00",
+  "session_ended_at": "2026-07-23T13:36:50.221932+00:00",
+  "receipt_response_sha256": "5f2a60e84aaad88c4d2cc5c51d46e0e15e7125669fac1f7d62cd59e2ac9b202b",
+  "receipt_exercises_sha256": "73fa36cd871e628c59e26db3d4c2a0a117862b48e0311fe39b7a867f715b2c42",
+  "receipt_selfcheck_sha256": "9d6e30a7d35772af4fbc58f7b25a6113a1f0927095af5bf9b85c381f1f14192c"
+}

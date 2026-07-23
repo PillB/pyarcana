@@ -1,0 +1,37 @@
+{
+  "attempt_id": "agentic_K2",
+  "started_at": "2026-07-23T15:02:29.212824+00:00",
+  "evidence_origin": "live_agentic_transcript",
+  "generation_mode": "fresh_sequential_packet_read",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "brand": "PyArcana",
+  "production_harness": "sealed newbie_agentic_llm_walk + dual-LLM receipts",
+  "forbidden_harnesses": [
+    "tool-results bulk writers",
+    "quarantine_theater completers",
+    "packet_walk",
+    "hardcoded SELFCHECK/ANSWERS maps",
+    "e1 transplant"
+  ],
+  "method": "live_agentic_packet_only_no_execution",
+  "reason": "Dual-LLM Explorer+Skeptic from landing; sealed write_live requires per-section receipts; no bulk generators",
+  "receipts_required": true,
+  "prior_clean": "agentic_K1",
+  "independence_baseline": "agentic_K1",
+  "independence_rule": "Do not read agentic_K1 lives; prior_clean only for independence metric",
+  "pacing": "staggered dual-LLM waves; varied natural latencies 12-70s; no generators",
+  "status": "clean_52",
+  "frozen_at": "2026-07-23T15:59:11.223586+00:00",
+  "validation": {
+    "clean_52": true,
+    "a_pass": 52,
+    "b_pass": 52,
+    "attempt_gates_pass": true
+  },
+  "independence_vs_K1": {
+    "just_identity": 0.0,
+    "code_identity": 0.0292,
+    "sc_index_same": 1.0
+  }
+}

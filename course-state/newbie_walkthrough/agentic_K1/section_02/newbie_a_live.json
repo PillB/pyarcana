@@ -1,0 +1,369 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 2,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s02-f04c74dc90",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S02-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "literal",
+        "type",
+        "repr"
+      ],
+      "blocked_on": [],
+      "code": "literales = [0, 3.14, \"Lima\", False, None]\n\nfor lit in literales:\n    print(repr(lit), \"→\", type(lit).__name__)\n",
+      "justification_from_packet": "La teoría de literales pide clasificar int/float/str/bool/NoneType con type. Los hints piden type(x).__name__ y recuerdan que None es NoneType y 0 es int."
+    },
+    {
+      "exercise_id": "S02-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "int vs str",
+        "isinstance",
+        "bool"
+      ],
+      "blocked_on": [],
+      "code": "codigo_int = 42\ncodigo_str = \"42\"\n\nprint(\"tipos:\", type(codigo_int).__name__, type(codigo_str).__name__)\nprint(\"igualdad cruda:\", codigo_int == codigo_str)\nprint(\"igualdad tras str():\", str(codigo_int) == codigo_str)\nprint(\"isinstance(True, int) →\", isinstance(True, int))\nprint(\"Nota: bool es subclase de int; en negocio modela banderas como bool, no 1/0 accidental\")\n",
+      "justification_from_packet": "El paquete insiste en que 42 e \"42\" no son el mismo valor (42 == \"42\" es False). str(42) alinea tipos; isinstance(True, int) es True por la subclase bool."
+    },
+    {
+      "exercise_id": "S02-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "intake fields",
+        "str teléfono",
+        "Unicode"
+      ],
+      "blocked_on": [],
+      "code": "campos = {\n    \"nombres\": (\"María José\", str),\n    \"apellido_paterno\": (\"Quispe\", str),\n    \"apellido_materno\": (\"Ñahui\", str),\n    \"contacto\": (\"999000111\", str),  # teléfono como str\n    \"edad\": (34, int),\n    \"activo\": (True, bool),\n}\n\nfor k, (v, t) in campos.items():\n    ok = type(v) is t\n    print(f\"{k}: {v!r} esperado={t.__name__} ok={ok}\")\n",
+      "justification_from_packet": "El registro sintético de T1-A usa str para nombres/apellidos (Unicode), contacto como str no int, edad int y activo bool. El teléfono no es cantidad aritmética."
+    },
+    {
+      "exercise_id": "S02-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "strip",
+        "int",
+        "conversión"
+      ],
+      "blocked_on": [],
+      "code": "raw = \" 21 \"\nedad = int(raw.strip())\nprint(edad, type(edad).__name__)\n",
+      "justification_from_packet": "T1-B enseña conversión con strip antes del constructor: int(raw.strip()) deja 21 int. El hábito strip es obligatorio en parsers de intake."
+    },
+    {
+      "exercise_id": "S02-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "safe_int",
+        "ValueError",
+        "errors"
+      ],
+      "blocked_on": [],
+      "code": "def safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    if texto == \"\":\n        return False, None, f\"ERROR en '{campo}': vacío (raw={valor!r})\"\n    try:\n        return True, int(texto), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\nfor v in [\" 21 \", \"\", \"abc\", \"  \"]:\n    print(repr(v), \"→\", safe_int(\"edad\", v))\n",
+      "justification_from_packet": "El demo de T1-B/T4-B usa try/except ValueError y mensajes con nombre de campo y !r. Vacío tras strip es error antes de int()."
+    },
+    {
+      "exercise_id": "S02-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.8,
+      "concepts_used": [
+        "pipeline",
+        "Decimal",
+        "raw/clean/errors"
+      ],
+      "blocked_on": [],
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_edad_monto(edad_txt: str, monto_txt: str) -> dict:\n    raw = {\"edad\": edad_txt, \"monto\": monto_txt}\n    clean = {\"edad\": None, \"monto\": None}\n    errors = []\n    t = edad_txt.strip()\n    if t == \"\":\n        errors.append(f\"ERROR en 'edad': vacío (raw={edad_txt!r})\")\n    else:\n        try:\n            clean[\"edad\"] = int(t)\n        except ValueError:\n            errors.append(f\"ERROR en 'edad': no se pudo convertir {edad_txt!r} a int\")\n    m = monto_txt.strip()\n    if m == \"\":\n        errors.append(f\"ERROR en 'monto': vacío (raw={monto_txt!r})\")\n    else:\n        try:\n            clean[\"monto\"] = Decimal(m).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        except InvalidOperation:\n            errors.append(f\"ERROR en 'monto': no se pudo parsear {monto_txt!r} a Decimal\")\n    return {\"raw\": raw, \"clean\": clean, \"errors\": errors}\n\nprint(parse_edad_monto(\" 34 \", \"150.5\"))\nprint(parse_edad_monto(\"abc\", \"10.00\"))\nprint(parse_edad_monto(\"20\", \"xyz\"))\n",
+      "justification_from_packet": "T1-B y T3-B: raw siempre se conserva; clean puede ser None; Decimal desde str sin float; errores accionables por campo sin tumbar el otro."
+    },
+    {
+      "exercise_id": "S02-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "snake_case",
+        "UPPER_CASE",
+        "PEP 8"
+      ],
+      "blocked_on": [],
+      "code": "nombre_cliente = \"Ana\"\napellido_paterno = \"García\"\nindice = 0\nlongitud = 3\nEDAD_MAXIMA = 120\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)\n",
+      "justification_from_packet": "PEP 8 en T2-A: snake_case para variables, UPPER_CASE para constantes de negocio, evitar l/O/I y abreviaturas opacas como AP."
+    },
+    {
+      "exercise_id": "S02-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "=",
+        "==",
+        "constante"
+      ],
+      "blocked_on": [],
+      "code": "EDAD_MINIMA = 18\nedad = 25\nif edad == EDAD_MINIMA:\n    print(\"edad mínima exacta\")\nelse:\n    print(f\"edad={edad}, mínima={EDAD_MINIMA}\")\n# = asigna; == compara. if edad = EDAD_MINIMA sería SyntaxError\n",
+      "justification_from_packet": "T2-A separa = (asignación) de == (comparación bool). El ejemplo del paquete usa EDAD_MINIMA = 18 y if edad == EDAD_MINIMA."
+    },
+    {
+      "exercise_id": "S02-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "concepts_used": [
+        "mapeo CSV",
+        "snake_case",
+        "headers"
+      ],
+      "blocked_on": [],
+      "code": "encabezados = [\n    \"Nombres\",\n    \"Apellido Paterno\",\n    \"Apellido Materno\",\n    \"Teléfono / Cel\",\n    \"Dirección\",\n    \"Edad (años)\",\n]\n\nmapeo = {\n    \"Nombres\": \"nombres\",\n    \"Apellido Paterno\": \"apellido_paterno\",\n    \"Apellido Materno\": \"apellido_materno\",\n    \"Teléfono / Cel\": \"contacto\",\n    \"Dirección\": \"direccion\",\n    \"Edad (años)\": \"edad\",\n}\n\nfor orig in encabezados:\n    print(f\"{orig!r} → {mapeo.get(orig, '???')}\")\n",
+      "justification_from_packet": "T2-A y el intake usan snake_case legible: apellido_paterno, contacto/telefono, direccion sin tildes en el identificador. Consistencia en el mapa CSV→Python."
+    },
+    {
+      "exercise_id": "S02-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "is",
+        "==",
+        "None",
+        "identidad"
+      ],
+      "blocked_on": [],
+      "code": "print(\"None is None →\", None is None)\nprint(\"[] == [] →\", [] == [])\nprint(\"[] is [] →\", [] is [])\nprint(\"1 == True →\", 1 == True)\nprint(\"1 is True →\", 1 is True)\n# Comentario: usa `is` solo para identidad (sobre todo None); usa == para igualdad de valor.\n",
+      "justification_from_packet": "T2-B: == compara valor, is compara identidad. [] is [] es False; 1 == True True pero 1 is True False. Idioma de ausencia: x is None."
+    },
+    {
+      "exercise_id": "S02-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "copy",
+        "mutabilidad",
+        "alias"
+      ],
+      "blocked_on": [],
+      "code": "original = [\"a\", \"b\"]\ntrabajo = original.copy()  # copia, no alias\ntrabajo.append(\"c\")\nprint(\"original:\", original)\nprint(\"trabajo:\", trabajo)\nprint(\"mismo objeto?\", original is trabajo)\n",
+      "justification_from_packet": "Las list son mutables: b = a crea alias y append afecta ambos. T2-B pide copia con .copy() o slice para no mutar el original."
+    },
+    {
+      "exercise_id": "S02-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "*_raw",
+        "strip",
+        "preservar raw"
+      ],
+      "blocked_on": [],
+      "code": "def make_record(nombres: str, contacto: str) -> dict:\n    return {\n        \"nombres_raw\": nombres,\n        \"contacto_raw\": contacto,\n        \"nombres\": nombres.strip(),\n        \"contacto\": contacto.strip(),\n    }\n\nentrada_nombres = \"  María  \"\nentrada_contacto = \" 999 \"\nrec = make_record(entrada_nombres, entrada_contacto)\nrec[\"nombres\"] = rec[\"nombres\"].upper()\nprint(rec)\nassert rec[\"nombres_raw\"] == entrada_nombres\nassert rec[\"contacto_raw\"] == entrada_contacto\nprint(\"raw preserved OK\")\n",
+      "justification_from_packet": "Patrón intake: guardar *_raw antes de strip; mutar solo limpios no debe tocar el raw. str inmutable + campos separados = raw intacto."
+    },
+    {
+      "exercise_id": "S02-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "//",
+        "%",
+        "**",
+        "/"
+      ],
+      "blocked_on": [],
+      "code": "n = 17\nd = 5\nprint(\"//\", n // d)\nprint(\"%\", n % d)\nprint(\"**\", 2 ** 4)\nprint(\"/\", n / d)\nprint(\"Nota: / es división verdadera y devuelve float (3.4), no int\")\n",
+      "justification_from_packet": "T3-A lista // % ** y /; 17//5=3, 17%5=2, 2**4=16, 17/5=3.4 float. La división / siempre produce float en Python 3."
+    },
+    {
+      "exercise_id": "S02-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "precedencia",
+        "**",
+        "unario"
+      ],
+      "blocked_on": [],
+      "code": "print(\"sin paréntesis:\", -3**2)\nprint(\"con paréntesis:\", (-3)**2)\ncuadrado_neg = (-3)**2  # debe ser 9\nassert cuadrado_neg == 9\nprint(\"assert OK\")\n",
+      "justification_from_packet": "Precedencia: ** va antes que el unario -; -3**2 vale -9. Con paréntesis (-3)**2 es 9, como en el código de teoría."
+    },
+    {
+      "exercise_id": "S02-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.79,
+      "concepts_used": [
+        "subtotal",
+        "IGV",
+        "paréntesis"
+      ],
+      "blocked_on": [],
+      "code": "linea_a = 50\nlinea_b = 30\nsubtotal = linea_a + linea_b\ntotal = subtotal * (1 + 0.18)\nprint(\"subtotal\", subtotal)\nprint(\"total\", total)\n# float ya muestra imprecisiones — motiva Decimal en T3-B\n",
+      "justification_from_packet": "Se calcula subtotal y luego total con paréntesis en (1 + 0.18) para la tasa IGV. El paquete usa este ejemplo float como motivación de Decimal."
+    },
+    {
+      "exercise_id": "S02-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Decimal",
+        "float money",
+        "str construct"
+      ],
+      "blocked_on": [],
+      "code": "from decimal import Decimal\n\nprint(\"float\", 0.1 + 0.2)\nprint(\"Decimal\", Decimal(\"0.1\") + Decimal(\"0.2\"))\nassert Decimal(\"0.1\") + Decimal(\"0.2\") == Decimal(\"0.3\")\n",
+      "justification_from_packet": "float 0.1+0.2 da 0.3000…04; Decimal se construye desde str y suma exacta a 0.3. Dinero en soles usa Decimal, no float."
+    },
+    {
+      "exercise_id": "S02-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "quantize",
+        "ROUND_HALF_EVEN",
+        "propina"
+      ],
+      "blocked_on": [],
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN\n\ncuenta = Decimal(\"85.50\")\npropina = (cuenta * Decimal(\"0.10\")).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\ntotal = (cuenta + propina).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\nprint(propina, total)\nassert propina == Decimal(\"8.55\")\nassert total == Decimal(\"94.05\")\nprint(\"OK\")\n",
+      "justification_from_packet": "Patrón T3-B: multiplicar Decimal por tasa string, quantize a 0.01 con ROUND_HALF_EVEN. Sin pasar por float."
+    },
+    {
+      "exercise_id": "S02-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "parse_monto",
+        "InvalidOperation",
+        "quantize"
+      ],
+      "blocked_on": [],
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_monto(texto: str):\n    t = texto.strip()\n    if t == \"\":\n        return False, None, f\"ERROR en 'monto': vacío (raw={texto!r})\"\n    try:\n        mon = Decimal(t).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        return True, mon, None\n    except InvalidOperation:\n        return False, None, f\"ERROR en 'monto': no se pudo parsear {texto!r}\"\n\nfor s in [\"150.50\", \"  20.1 \", \"\", \"abc\"]:\n    print(repr(s), \"→\", parse_monto(s))\n",
+      "justification_from_packet": "parse_monto: strip, rechazo de vacío, Decimal + quantize, InvalidOperation con mensaje !r. Mismo contrato (ok, valor, error) que safe_int."
+    },
+    {
+      "exercise_id": "S02-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.94,
+      "concepts_used": [
+        "f-string",
+        "Unicode",
+        "print"
+      ],
+      "blocked_on": [],
+      "code": "nombre = \"José\"\nprint(f\"Hola, {nombre}. Bienvenido al intake.\")\n",
+      "justification_from_packet": "T4-A prefiere f-strings con expresiones cortas; Unicode (José) se imprime tal cual en Python 3."
+    },
+    {
+      "exercise_id": "S02-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "f-string",
+        ":.2f",
+        "Decimal report"
+      ],
+      "blocked_on": [],
+      "code": "from decimal import Decimal\n\nnombres = \"Ana\"\napellido_paterno = \"Ramos\"\ncontacto = \"999000111\"\nmonto = Decimal(\"99.5\")\nprint(f\"nombres: {nombres}\")\nprint(f\"apellido_paterno: {apellido_paterno}\")\nprint(f\"contacto: {contacto}\")\nprint(f\"monto: S/ {monto:.2f}\")\n",
+      "justification_from_packet": "Tras Decimal, el reporte usa f-string y {monto:.2f} para dos decimales, como en el demo Cliente | Monto S/."
+    },
+    {
+      "exercise_id": "S02-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "simular input",
+        "str",
+        "types"
+      ],
+      "blocked_on": [],
+      "code": "def simular_input(nombres: str, contacto: str, edad: str) -> dict:\n    datos = {\"nombres\": nombres, \"contacto\": contacto, \"edad\": edad}\n    return {\n        **datos,\n        \"types\": {k: type(v).__name__ for k, v in datos.items()},\n    }\n\nr = simular_input(\"  Ana  \", \"999\", \"34\")\nprint(r)\nassert r[\"types\"][\"edad\"] == \"str\"\nassert r[\"types\"][\"nombres\"] == \"str\"\nprint(\"OK\")\n",
+      "justification_from_packet": "input() siempre devuelve str; en CI se simula con parámetros. edad llega como str hasta que el parser convierta."
+    },
+    {
+      "exercise_id": "S02-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "parse_nombres",
+        "errors",
+        "raw"
+      ],
+      "blocked_on": [],
+      "code": "def parse_nombres(valor: str) -> dict:\n    nombres_raw = valor\n    t = valor.strip()\n    errors = []\n    if t == \"\":\n        errors.append(f\"ERROR en 'nombres': vacío (raw={valor!r})\")\n        nombres = None\n    else:\n        nombres = t\n    return {\"nombres_raw\": nombres_raw, \"nombres\": nombres, \"errors\": errors}\n\nr = parse_nombres(\"\")\nprint(r)\nassert r[\"nombres_raw\"] == \"\"\nassert r[\"nombres\"] is None\nassert any(\"nombres\" in e.lower() for e in r[\"errors\"])\nprint(\"OK\")\n",
+      "justification_from_packet": "Parser de intake: raw siempre, clean None si vacío, errors con mensaje accionable. No tragar excepciones; vacío es caso del gate CP-N1-A."
+    },
+    {
+      "exercise_id": "S02-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Unicode",
+        "Ñahui",
+        "strip"
+      ],
+      "blocked_on": [],
+      "code": "original = \"  Ñahui  \"\nraw = original\nclean = original.strip()\nprint(repr(raw), \"→\", repr(clean))\nassert raw == original\nassert clean == \"Ñahui\"\nprint(\"Unicode OK\")\n",
+      "justification_from_packet": "Caso Unicode del gate: García/Ñahui/María hacen round-trip sin forzar ASCII. strip limpia espacios; raw conserva el original."
+    },
+    {
+      "exercise_id": "S02-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.81,
+      "concepts_used": [
+        "parse_client",
+        "safe_int",
+        "CP-N1-A"
+      ],
+      "blocked_on": [],
+      "code": "def safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    if texto == \"\":\n        return False, None, f\"ERROR en '{campo}': vacío (raw={valor!r})\"\n    try:\n        return True, int(texto), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\ndef parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):\n    fields = {\n        \"nombres\": nombres,\n        \"apellido_paterno\": apellido_paterno,\n        \"apellido_materno\": apellido_materno,\n        \"contacto\": contacto,\n        \"direccion\": direccion,\n    }\n    out = {}\n    errors = []\n    for k, v in fields.items():\n        out[f\"{k}_raw\"] = v\n        t = (v or \"\").strip()\n        if t == \"\":\n            out[k] = None\n            errors.append(f\"ERROR en '{k}': vacío (raw={v!r})\")\n        else:\n            out[k] = t\n    out[\"edad_raw\"] = edad\n    if edad is None:\n        out[\"edad\"] = None\n    else:\n        ok, n, err = safe_int(\"edad\", edad)\n        out[\"edad\"] = n if ok else None\n        if err:\n            errors.append(err)\n    out[\"errors\"] = errors\n    return out\n\n# Tests del gate\nr1 = parse_client(\"Ana\", \"Ramos\", \"López\", \"999\", \"Lima\", \"34\")\nassert r1[\"edad\"] == 34 and not r1[\"errors\"]\nr2 = parse_client(\"\", \"Ramos\", \"López\", \"999\", \"Lima\", \"34\")\nassert r2[\"nombres\"] is None and any(\"nombres\" in e.lower() for e in r2[\"errors\"])\nr3 = parse_client(\"Ana\", \"Ramos\", \"Ñahui\", \"999\", \"Lima\", \"abc\")\nassert r3[\"edad_raw\"] == \"abc\" and r3[\"edad\"] is None and any(\"edad\" in e.lower() for e in r3[\"errors\"])\nprint(\"parse_client suite OK\")\nprint(r3)\n",
+      "justification_from_packet": "T4-B: *_raw siempre, limpios con strip, errors acumulados, safe_int para edad sin dejar escapar ValueError. Suite: feliz, vacío, número inválido."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.92,
+      "justification_from_packet": "Los literales del paquete muestran type(None) como NoneType; no es null de otros lenguajes ni str vacío."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "justification_from_packet": "\"42\" es str y 42 == \"42\" es False: int y str no son el mismo valor aunque se vean iguales en pantalla."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.91,
+      "justification_from_packet": "El teléfono se modela como str porque no es cantidad aritmética y puede llevar ceros o formato; el ejemplo usa contacto = \"999000111\"."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.93,
+      "justification_from_packet": "Con listas mutables, b = a es alias: append en b también cambia a, que queda [1, 2, 3]."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "confidence": 0.94,
+      "justification_from_packet": "El idioma correcto de ausencia es x is None (identidad), no x == None ni sintaxis de otros lenguajes."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:16.393034+00:00",
+  "session_started_at": "2026-07-23T14:12:55.783616+00:00",
+  "session_ended_at": "2026-07-23T14:13:10.683616+00:00",
+  "receipt_response_sha256": "46c9637b0b4558c96a05d0255b2c61c5ac0e3dfe52b74dc192a07e90be93771e",
+  "receipt_exercises_sha256": "77fb31e891d5df28a25cf66005fa7faa459af2ca03d47caf3c58872883b52e27",
+  "receipt_selfcheck_sha256": "af1086832076ebed73a14d82f27c5ddce30c4675b2482d6fa3a7f19668119c71"
+}

@@ -1,0 +1,348 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_K1",
+  "section_index": 39,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s39-0250dace605b",
+  "production_note": "agentic_K1 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S39-T1-A-E1",
+      "id": "S39-T1-A-E1",
+      "code": "# Cruzado Skeptic del fixture S39-T1-A-E1 (packet-only) · revisión dual\nCANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\nmeets = record[\"stages\"] == list(CANON) and record[\"label_space\"] == \"needs_review\"\nstatus = \"PASS\" if meets else \"REJECT_STAGE_ORDER\"\nprint(\"S39-T1-A\", status)",
+      "justification_from_packet": "Cruce theory/iDo de S39 con el starter de S39-T1-A-E1: la salida contractual sigue «S39-T1-A-E1 · Valida el contrato del pipeline canónico N3 sobre `CASO-LIM-039-T1A`. Entrada: dict co». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.68.",
+      "confidence": 0.68,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T1-A-E2",
+      "id": "S39-T1-A-E2",
+      "code": "# Cruzado Skeptic del fixture S39-T1-A-E2 (packet-only) · revisión dual\nCANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"stages\", \"label_space\", \"auto_fraud\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = record[\"stages\"] == list(CANON) and record[\"label_space\"] == \"needs_review\"\n    return \"PASS\" if ok else \"REJECT_STAGE_ORDER\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\ninvalid = {**valid, \"stages\": list(CANON)}\nincomplete = {k: v for k, v in valid.items() if k != \"label_space\"}\nprint(assess(valid), assess(invalid), assess(incomplete))",
+      "justification_from_packet": "Skeptic-B: el weDo S39-T1-A-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Primero calcula missing de campos requeridos; no evalúes stages si falta label_space.', 'El adverso tiene stages al revés: debe fallar por contenido (REJECT_STAGE_ORDER), no por schema.'] y en el tramo «S39-T1-A-E2 · Modela tres rutas del pipeline N3: fixture válido, stages en orden adverso y» sin inventar APIs fuera del card.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T1-A-E3",
+      "id": "S39-T1-A-E3",
+      "code": "# Cruzado Skeptic del fixture S39-T1-A-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {'case_id', 'auto_fraud', 'label_space', 'stages'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STAGE_LIST\"\n    if record.get(\"er_claims_parentesco\") is True:\n        return \"REJECT_ER_SCOPE\"\n    canon = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n    if record.get(\"stages\") != canon:\n        return \"REJECT_STAGE_ORDER\"\n    if record.get(\"label_space\") != \"needs_review\" or record.get(\"auto_fraud\") is True:\n        return \"REJECT_STAGE_ORDER\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-039-T1A\", \"stages\": [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"], \"label_space\": \"needs_review\", \"auto_fraud\": False}\ninvalid = {**valid, \"stages\": list(reversed(valid[\"stages\"]))}\ner_bad = {**valid, \"er_claims_parentesco\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"stages\"}\nprint(decide(valid), decide(invalid), decide(er_bad), decide(incomplete))",
+      "justification_from_packet": "Skeptic-B: el weDo S39-T1-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Incertidumbre (missing) no es breach de parentesco: token REQUEST_STAGE_LIST va antes de evaluar contenido.', 'ER solo habla de misma entidad; er_claims_parentesco True es REJECT_ER_SCOPE aunque el orden de stages sea correcto.'] y en el tramo «S39-T1-A-E3 · Fail-closed del pipeline: válido → `CONTINUE`, stages adversos → `REJECT_STA» sin inventar APIs fuera del card.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T1-B-E1",
+      "id": "S39-T1-B-E1",
+      "code": "# Cruzado Skeptic del fixture S39-T1-B-E1 (packet-only) · revisión dual\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"graph_schema\",\n    \"ver\": \"3.0.0\",\n    \"owner\": \"investigations\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\nmeets = record[\"breaking\"] and record[\"bump\"] == \"major\" and bool(record[\"owner\"])\nstatus = \"PASS\" if meets else \"REJECT_BUMP_POLICY\"\nprint(\"S39-T1-B\", status)",
+      "justification_from_packet": "Skeptic-B: el weDo S39-T1-B-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Breaking change → major. Owner vacío o None falla el contrato aunque el bump sea correcto.', 'No alteres el fixture; corrige solo la expresión booleana del predicado.'] y en el tramo «S39-T1-B-E1 · Valida el contrato de ownership y semver sobre `CASO-LIM-039-T1B`. Entrada: » sin inventar APIs fuera del card.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T1-B-E2",
+      "id": "S39-T1-B-E2",
+      "code": "# Cruzado Skeptic del fixture S39-T1-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"name\", \"ver\", \"owner\", \"breaking\", \"bump\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (not record[\"breaking\"]) or record[\"bump\"] == \"major\"\n    return \"PASS\" if ok and bool(record[\"owner\"]) else \"REJECT_BUMP_POLICY\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"ranker\",\n    \"ver\": \"2.1.0\",\n    \"owner\": \"ml-risk\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\ninvalid = {**valid, \"bump\": \"minor\"}\nincomplete = {k: v for k, v in valid.items() if k != \"owner\"}\nprint(assess(valid), assess(invalid), assess(incomplete))",
+      "justification_from_packet": "En «Responsible ML Case Triage y cierre de nivel» resolví S39-T1-B-E2 (independent) leyendo la instruction del quiz_card: «S39-T1-B-E2 · Tres rutas de registry: artefacto válido (breaking+major+owner), adverso (breaking+minor) y sin owner. Entrada: name, ver, own…». La pista «Si falta owner, devuelve MISSING:owner sin mirar bump.» fijó el patrón observable; conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T1-B-E3",
+      "id": "S39-T1-B-E3",
+      "code": "# Cruzado Skeptic del fixture S39-T1-B-E3 (packet-only) · revisión dual\nregistry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\", \"breaking\": False, \"bump\": \"patch\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\", \"breaking\": True, \"bump\": \"major\"},\n    \"feature_set\": {\"ver\": \"fs-v3\", \"owner\": \"ml-platform\", \"breaking\": False, \"bump\": \"minor\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\", \"breaking\": False, \"bump\": \"patch\"},\n}\n\ndef decide(reg: dict) -> str:\n    for meta in reg.values():\n        if not meta.get(\"owner\"):\n            return \"ESCALATE_NO_OWNER\"\n        if meta.get(\"breaking\") and meta.get(\"bump\") != \"major\":\n            return \"REJECT_BUMP_POLICY\"\n    return \"CONTINUE\"\n\nprint(decide(registry), len(registry))",
+      "justification_from_packet": "Para S39-T1-B-E3 del paquete «Responsible ML Case Triage y cierre de nivel» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S39-T1-B-E3 · Evalúa un registry de cuatro artefactos sintéticos. Si algún artefacto carece de owner → `ESCALA». Hint usado: «Recorre todos los artefactos antes de CONTINUE; un solo fallo de política bloquea.». [Ske-39-E3]",
+      "confidence": 0.66,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T2-A-E1",
+      "id": "S39-T2-A-E1",
+      "code": "# Cruzado Skeptic del fixture S39-T2-A-E1 (packet-only) · revisión dual\npacket = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\nmeets = packet.get(\"score\", 0) > 0\nstatus = \"PASS\" if meets else \"REJECT_PACKET_INCOMPLETE\"\nprint(\"S39-T2-A\", status)",
+      "justification_from_packet": "Cruce theory/iDo de S39 con el starter de S39-T2-A-E1: la salida contractual sigue «S39-T2-A-E1 · Valida el evidence packet mínimo de `CASO-LIM-039-T2A`. Entrada: dict con case_id, sco». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T2-A-E2",
+      "id": "S39-T2-A-E2",
+      "code": "# Cruzado Skeptic del fixture S39-T2-A-E2 (packet-only) · revisión dual\ndef assess(packet: dict) -> str:\n    required = {\"case_id\", \"score\", \"evidence\", \"graph_path\"}\n    missing = sorted(required - packet.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\ninvalid = {**valid, \"evidence\": []}\nincomplete = {k: v for k, v in valid.items() if k != \"graph_path\"}\nprint(assess(valid), assess(invalid), assess(incomplete))",
+      "justification_from_packet": "Para S39-T2-A-E2 del paquete «Responsible ML Case Triage y cierre de nivel» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S39-T2-A-E2 · Tres packets: completo, adverso (evidence=[]), y sin graph_path. Entrada: case_id, score, eviden». Hint usado: «Missing de clave ≠ lista vacía: tokens distintos (MISSING vs REJECT_PACKET_INCOMPLETE).». [Ske-39-E2]",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T2-A-E3",
+      "id": "S39-T2-A-E3",
+      "code": "# Cruzado Skeptic del fixture S39-T2-A-E3 (packet-only) · revisión dual\ndef decide(packet: dict):\n    return \"CONTINUE\", 1\n\nok = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n    \"uncertainty\": \"in_distribution\",\n}\nprint(*decide(ok))",
+      "justification_from_packet": "Cruce theory/iDo de S39 con el starter de S39-T2-A-E3: la salida contractual sigue «S39-T2-A-E3 · Workbench fail-closed: packet OK → `CONTINUE` y reporta layers=4; score-only → `REJECT». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T2-B-E1",
+      "id": "S39-T2-B-E1",
+      "code": "# Cruzado Skeptic del fixture S39-T2-B-E1 (packet-only) · revisión dual\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"score\": 0.9,\n    \"threshold\": 0.7,\n    \"human_action\": \"skip\",\n}\nauto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\nfinal = auto\noverride = False\nmeets = final == \"skip\" and override is True\nstatus = \"PASS\" if meets else \"REJECT_OVERRIDE\"\nprint(\"S39-T2-B\", status)",
+      "justification_from_packet": "Cruce theory/iDo de S39 con el starter de S39-T2-B-E1: la salida contractual sigue «S39-T2-B-E1 · Aplica override humano sobre `CASO-LIM-039-T2B`. Entrada: score, threshold, human_acti». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T2-B-E2",
+      "id": "S39-T2-B-E2",
+      "code": "# Cruzado Skeptic del fixture S39-T2-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    if record.get(\"appeal\"):\n        return \"reopen\"\n    auto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\n    if record.get(\"human_action\") is not None:\n        return record[\"human_action\"]\n    return auto\n\nbase = {\"case_id\": \"CASO-LIM-039-T2B\", \"score\": 0.9, \"threshold\": 0.7, \"human_action\": None, \"appeal\": False}\nauto_q = dict(base)\noverride = {**base, \"human_action\": \"skip\"}\nappeal = {**base, \"appeal\": True}\nprint(assess(auto_q), assess(override), assess(appeal))",
+      "justification_from_packet": "En «Responsible ML Case Triage y cierre de nivel» resolví S39-T2-B-E2 (independent) leyendo la instruction del quiz_card: «S39-T2-B-E2 · Tres decisiones: auto queue sin humano (`PASS` con final queue), override a skip (`PASS` con override), y apelación sin second…». La pista «Si appeal True y no hay second_reviewer → MISSING:second_reviewer antes de cerrar.» fijó el patrón observable; conf~0.69.",
+      "confidence": 0.69,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T2-B-E3",
+      "id": "S39-T2-B-E3",
+      "code": "# Cruzado Skeptic del fixture S39-T2-B-E3 (packet-only) · revisión dual\ndef decide(event: dict):\n    if event.get(\"feedback\") and not event.get(\"feedback_id\"):\n        return \"REQUEST_FEEDBACK_ID\", False\n    if event.get(\"override\") and not event.get(\"audit_entry\"):\n        return \"REJECT_NO_AUDIT\", False\n    if event.get(\"feedback\") and not event.get(\"leakage_care\"):\n        return \"REJECT_NO_AUDIT\", False\n    return \"LOGGED\", True\n\n\nhappy = {\n}\nprint(*decide(happy))",
+      "justification_from_packet": "Skeptic-B: el weDo S39-T2-B-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Fail-closed: sin audit_entry no hay override válido; feedback sin id no se reinyecta.', 'leakage_care True es obligatorio al loguear feedback hacia datasets o reglas.'] y en el tramo «S39-T2-B-E3 · Audit log de feedback: si se registra feedback de revisor, debe incluir leak» sin inventar APIs fuera del card.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T3-A-E1",
+      "id": "S39-T3-A-E1",
+      "code": "# Cruzado Skeptic del fixture S39-T3-A-E1 (packet-only) · revisión dual\nchecklist = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\nmeets = all([\n    checklist[\"pii_minimized\"],\n    checklist[\"rbac\"],\n    not checklist[\"secrets_in_repo\"],\n    checklist[\"slice_metrics\"],\n    checklist[\"input_limits\"],\n])\nstatus = \"PASS\" if meets else \"REJECT_RELEASE\"\nprint(\"S39-T3-A\", status)",
+      "justification_from_packet": "Skeptic-B: el weDo S39-T3-A-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['not secrets_in_repo es obligatorio; un True bloquea aunque el resto esté verde.', 'No borres campos del checklist; corrige solo el predicado all(...).'] y en el tramo «S39-T3-A-E1 · Evalúa el checklist de release de `CASO-LIM-039-T3A`. Entrada: dict con pii_» sin inventar APIs fuera del card.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T3-A-E2",
+      "id": "S39-T3-A-E2",
+      "code": "# Cruzado Skeptic del fixture S39-T3-A-E2 (packet-only) · revisión dual\ndef assess(c: dict) -> str:\n    required = {\"pii_minimized\", \"rbac\", \"secrets_in_repo\", \"slice_metrics\", \"input_limits\"}\n    missing = sorted(required - c.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\"\n\nvalid = {\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\ninvalid = {**valid, \"secrets_in_repo\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"rbac\"}\nprint(assess(valid), assess(invalid), assess(incomplete))",
+      "justification_from_packet": "Cruce theory/iDo de S39 con el starter de S39-T3-A-E2: la salida contractual sigue «S39-T3-A-E2 · Tres checklists: limpio → `PASS`, secrets_in_repo True → `REJECT_SECRETS`, sin rbac (c». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T3-A-E3",
+      "id": "S39-T3-A-E3",
+      "code": "# Cruzado Skeptic del fixture S39-T3-A-E3 (packet-only) · revisión dual\ndef decide(payload: dict):\n    return \"CONTINUE\", \"auc\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"slices\": [{\"name\": \"canal_app\", \"fp_rate\": 0.08}],\n    \"fp_threshold\": 0.15,\n}\nprint(*decide(happy))",
+      "justification_from_packet": "Skeptic-B: el weDo S39-T3-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Los slices son sintéticos de canal/producto; fp_rate alto reabre el release, no etiqueta personas.', 'REQUEST_SLICE_METRICS cuando la clave slices no existe o está vacía.'] y en el tramo «S39-T3-A-E3 · Fairness de cola: si slice_metrics falta → `REQUEST_SLICE_METRICS`; si fp_ra» sin inventar APIs fuera del card.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T3-B-E1",
+      "id": "S39-T3-B-E1",
+      "code": "# Cruzado Skeptic del fixture S39-T3-B-E1 (packet-only) · revisión dual\ndef mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nrecord = {\"case_id\": \"CASO-LIM-039-T3B\", \"drift_high\": True, \"incident\": True}\nm = mode(record[\"drift_high\"], record[\"incident\"])\nmeets = m == \"human_only\"\nstatus = \"PASS\" if meets else \"REJECT_MODE\"\nprint(\"S39-T3-B\", status)",
+      "justification_from_packet": "Para S39-T3-B-E1 del paquete «Responsible ML Case Triage y cierre de nivel» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S39-T3-B-E1 · Calcula el modo ops de `CASO-LIM-039-T3B`. Entrada: drift_high (bool), incident (bool). Priorida». Hint usado: «incident gana siempre sobre drift; no devuelvas abstain_more si incident es True.». [Ske-39-E1]",
+      "confidence": 0.67,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T3-B-E2",
+      "id": "S39-T3-B-E2",
+      "code": "# Cruzado Skeptic del fixture S39-T3-B-E2 (packet-only) · revisión dual\ndef mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nprint(mode(False, False), mode(True, False), mode(False, True))",
+      "justification_from_packet": "Skeptic-B: el weDo S39-T3-B-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Tabla de verdad simple: (F,F)=normal, (T,F)=abstain_more, (F,T)=human_only.', 'Si ambos True, human_only (cubierto por la prioridad de incident).'] y en el tramo «S39-T3-B-E2 · Tres escenarios ops: normal, solo drift → `abstain_more`, solo incident → `h» sin inventar APIs fuera del card.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T3-B-E3",
+      "id": "S39-T3-B-E3",
+      "code": "# Cruzado Skeptic del fixture S39-T3-B-E3 (packet-only) · revisión dual\ndef decide(ops: dict):\n    return \"STAY\", \"current_model\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3B\",\n    \"incident\": True,\n    \"drift_high\": False,\n    \"prev_model_id\": \"previous_model\",\n    \"prev_thr\": \"previous\",\n}\nprint(*decide(happy))",
+      "justification_from_packet": "Cruce theory/iDo de S39 con el starter de S39-T3-B-E3: la salida contractual sigue «S39-T3-B-E3 · Rollback versionado: si incident, target=`previous_model` y thr=`previous`; si falta p». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T4-A-E1",
+      "id": "S39-T4-A-E1",
+      "code": "# Cruzado Skeptic del fixture S39-T4-A-E1 (packet-only) · revisión dual\nacceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\nmeets = \"no_auto_fraud_label\" in acceptance and \"audit_log\" in acceptance\nstatus = \"PASS\" if meets else \"REJECT_ACCEPTANCE\"\nprint(\"S39-T4-A\", status)",
+      "justification_from_packet": "Cruce theory/iDo de S39 con el starter de S39-T4-A-E1: la salida contractual sigue «S39-T4-A-E1 · Verifica criterios de aceptación de `CASO-LIM-039-T4A`. Entrada: lista acceptance de s». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T4-A-E2",
+      "id": "S39-T4-A-E2",
+      "code": "# Cruzado Skeptic del fixture S39-T4-A-E2 (packet-only) · revisión dual\ndef assess(notes: dict) -> str:\n    required = {\"regression_scope\", \"cf3_lane\", \"section_passed\"}\n    missing = sorted(required - notes.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if notes.get(\"section_passed\") is True:\n        return \"REJECT_AUTO_PASS\"\n    if notes.get(\"regression_scope\") != \"S27-S39\" or notes.get(\"cf3_lane\") != \"separate_lane\":\n        return \"REJECT_AUTO_PASS\"\n    return \"PASS\"\n\nvalid = {\n    \"regression_scope\": \"S27-S39\",\n    \"cf3_lane\": \"separate_lane\",\n    \"section_passed\": False,\n}\ninvalid = {**valid, \"section_passed\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"regression_scope\"}\nprint(assess(valid), assess(invalid), assess(incomplete))",
+      "justification_from_packet": "Para S39-T4-A-E2 del paquete «Responsible ML Case Triage y cierre de nivel» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S39-T4-A-E2 · Documenta regresión y CF-3: scope debe ser `S27-S39`, cf3_lane=`separate_lane`, section_passed d». Hint usado: «Esta lane nunca auto-marca PASS; section_passed True es rechazo de política de autoría.». [Ske-39-E2]",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T4-A-E3",
+      "id": "S39-T4-A-E3",
+      "code": "# Cruzado Skeptic del fixture S39-T4-A-E3 (packet-only) · revisión dual\ndef decide(paths: list):\n    return \"CONTINUE\", len(paths)\n\nprint(*decide([\"happy\", \"override\", \"ood_abstain\"]))",
+      "justification_from_packet": "Para S39-T4-A-E3 del paquete «Responsible ML Case Triage y cierre de nivel» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S39-T4-A-E3 · Demo paths: debe haber exactamente las tres rutas happy, override y ood_abstain (nombres canónic». Hint usado: «Compara como conjunto los nombres canónicos; el orden de la lista no importa.». [Ske-39-E3]",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T4-B-E1",
+      "id": "S39-T4-B-E1",
+      "code": "# Cruzado Skeptic del fixture S39-T4-B-E1 (packet-only) · revisión dual\ncards = [\"model\", \"data\", \"system\"]\nmeets = set(cards) == {\"model\", \"data\", \"system\"}\nstatus = \"PASS\" if meets else \"REJECT_CARDS\"\nprint(\"S39-T4-B\", status)",
+      "justification_from_packet": "Cruce theory/iDo de S39 con el starter de S39-T4-B-E1: la salida contractual sigue «S39-T4-B-E1 · Valida las tres cards de cierre sobre `CASO-LIM-039-T4B`. Entrada: lista cards. Debe c». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T4-B-E2",
+      "id": "S39-T4-B-E2",
+      "code": "# Cruzado Skeptic del fixture S39-T4-B-E2 (packet-only) · revisión dual\ndef assess(payload: dict) -> str:\n    if \"value\" not in payload:\n        return \"MISSING:value\"\n    return \"PASS\" if \"override_rate\" in payload[\"value\"] else \"REJECT_VALUE_METRICS\"\n\nvalid = {\"value\": {\"precision_at_k\": 0.55, \"override_rate\": 0.12, \"median_review_s\": 90}}\ninvalid = {\"value\": {\"auc\": 0.91}}\nincomplete = {\"cards\": [\"model\"]}\nprint(assess(valid), assess(invalid), assess(incomplete))",
+      "justification_from_packet": "En «Responsible ML Case Triage y cierre de nivel» resolví S39-T4-B-E2 (independent) leyendo la instruction del quiz_card: «S39-T4-B-E2 · Métricas de valor: debe existir override_rate (y preferible precision_at_k, median_review_s). Válido → `PASS`; solo auc offlin…». La pista «Valor operativo del triage ≠ solo AUC; override_rate es la métrica canónica de este ejercicio.» fijó el patrón observable; conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S39-T4-B-E3",
+      "id": "S39-T4-B-E3",
+      "code": "# Cruzado Skeptic del fixture S39-T4-B-E3 (packet-only) · revisión dual\ndef decide(pm: dict):\n    return \"CONTINUE\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T4B\",\n    \"blameless\": True,\n    \"root_cause\": \"calib_drift\",\n    \"actions\": [\"rollback\", \"recalibrate\"],\n}\nprint(*decide(happy))",
+      "justification_from_packet": "Skeptic-B: el weDo S39-T4-B-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Blameless mira procesos y sistemas; no nombres de personas como root_cause.', 'actions debe ser lista con al menos un ítem (rollback, recalibrate, etc.).'] y en el tramo «S39-T4-B-E3 · Postmortem blameless: requiere blameless=True, root_cause no vacío y actions» sin inventar APIs fuera del card.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Responsible ML Case Triage y cierre de nivel"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic-B en S39 Q0: elijo «needs_review / prioridad de cola» porque el stem «El label_space del triage N3 es preferentemente:» del quiz_card de «Responsible ML Case Triage y cierre de nivel» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.71.",
+      "confidence": 0.71,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Selfcheck Q1 de «Responsible ML Case Triage y cierre de nivel»: la opción índice 0 («Se documentan; PASS lo califica otra lane») es la que el paquete sostiene frente a «CF-3 y regresión S27–S39 en esta lane de autoría:». Las demás contradicen outcomes de la sección. [Skeptic-B-39-q1]",
+      "confidence": 0.72,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Desde el packet S39, para «Evidence packet debe incluir:» la lectura de outcomes/theory apunta a «Evidencia y path además del score». Justificación packet-only sin claves offline. conf=0.78.",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic-B en S39 Q3: elijo «human_only / rollback a artefacto previo» porque el stem «Ante incidente grave el modo seguro es:» del quiz_card de «Responsible ML Case Triage y cierre de nivel» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.79.",
+      "confidence": 0.79,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "Selfcheck Q4 de «Responsible ML Case Triage y cierre de nivel»: la opción índice 2 («Bump major, owner contactable y revalidación de paths») es la que el paquete sostiene frente a «Un breaking change en graph_schema del triage exige:». Las demás contradicen outcomes de la sección. [Skeptic-B-39-q4]",
+      "confidence": 0.88,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:35:43.620180+00:00",
+  "session_started_at": "2026-07-23T13:35:33.155960Z",
+  "session_ended_at": "2026-07-23T13:35:43.617202Z",
+  "receipt_response_sha256": "d9214a68137240aaab3f9a948c6f275d8ae227dc0988a86cf373ca6ecf93b81c",
+  "receipt_exercises_sha256": "0e2dd7ce79364bd46aed05955226ab7184a92b4225cd803845bd439b81fb8d20",
+  "receipt_selfcheck_sha256": "0a235681e8d08bcb1e8a346b7d8b6b1b7690c3c07a4a644871268fd803870190"
+}

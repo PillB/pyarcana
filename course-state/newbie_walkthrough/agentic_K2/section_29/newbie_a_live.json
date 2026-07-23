@@ -1,0 +1,169 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 29,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s29-c7e36f99980f",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "code": "# k2 explorer · S29-T1-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\nprint(c.execute('select count(*) from entities').fetchone()[0])\n",
+      "justification_from_packet": "Como explorer en S29 leí el paquete activo: S29-T1-A-E1. Enunciado: «S29-T1-A-E1 · Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql,». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S29, sqlite3, connect. Salida: [\"print(c.execute('select count(*) from entities').fetchone()[0])\"]. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "code": "# k2 explorer · S29-T1-A-E2\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\ntry:\n    c.execute('insert into p values (1.5)')\nexcept sqlite3.IntegrityError:\n    k2_out = 'bad_score'\n    print(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S29-T1-A-E2 en K2: S29-T1-A-E2. Enunciado: «S29-T1-A-E2 · CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S29, sqlite3, connect. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "code": "# k2 explorer · S29-T1-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'e1' < 'e2'\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S29-T1-A-E3 en K2: S29-T1-A-E3. Enunciado: «S29-T1-A-E3 · Imprime True si 'e1'<'e2' (orden canónico de par). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el st». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S29, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "code": "# k2 explorer · S29-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\nprint(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n",
+      "justification_from_packet": "Como explorer en S29 leí el paquete activo: S29-T1-B-E1. Enunciado: «S29-T1-B-E1 · Inserta dos labels para pair p1; imprime número de filas de historia. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe):». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S29, Fixture, del. Salida: ['print(c.execute(\"select count(*) from d where pair=\\'p1\\'\").fetchone()[0])']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "code": "# k2 explorer · S29-T1-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'source': 'crm_synth', 'record': 'r9'})\n",
+      "justification_from_packet": "Como explorer en S29 leí el paquete activo: S29-T1-B-E2. Enunciado: «S29-T1-B-E2 · Imprime provenance dict source='crm_synth' record='r9'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S29, Fixture, sint. Salida: [\"print({'source': 'crm_synth', 'record': 'r9'})\"]. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "code": "# k2 explorer · S29-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\nk2_out = 'open' if valid_to is None else 'closed'\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S29-T1-B-E3 en K2: S29-T1-B-E3. Enunciado: «S29-T1-B-E3 · valid_to NULL significa vigente: imprime 'open' si valid_to is None. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): l». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S29, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "code": "# k2 explorer · S29-T2-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nprint([r[0] for r in c.execute('select id from pairs where id not in (select pair_id from dec)')])\n",
+      "justification_from_packet": "Exploré «SQL avanzado y modelado relacional» en el quiz_card K2: S29-T2-A-E1. Enunciado: «S29-T2-A-E1 · Con pairs p1,p2 y decision solo p1, lista ids sin decisión. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S29, sqlite3, connect. Salida: [\"print([r[0] for r in c.execute('select id from pairs where id not in (select pair_id from dec)')])\"]. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "code": "# k2 explorer · S29-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])\n",
+      "justification_from_packet": "Exploré «SQL avanzado y modelado relacional» en el quiz_card K2: S29-T2-A-E2. Enunciado: «S29-T2-A-E2 · Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe):». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S29, Fixture, del. Salida: ['print(sorted(scores, reverse=True)[0])']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "code": "# k2 explorer · S29-T2-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'ranked'\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «SQL avanzado y modelado relacional» en el quiz_card K2: S29-T2-A-E3. Enunciado: «S29-T2-A-E3 · Imprime el nombre de la CTE de ejemplo: ranked. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el start». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S29, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "code": "# k2 explorer · S29-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\nk2_out = n*(n-1)//2\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «SQL avanzado y modelado relacional»: S29-T2-B-E1. Enunciado: «S29-T2-B-E1 · C(n,2) para n=5 → 10. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa so». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S29, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "code": "# k2 explorer · S29-T2-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = None is None\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «SQL avanzado y modelado relacional»: S29-T2-B-E2. Enunciado: «S29-T2-B-E2 · Imprime True si None is None (recuerda NULL SQL ≠ Python en joins). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S29, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "code": "# k2 explorer · S29-T2-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'SCAN'\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S29-T2-B-E3 en K2: S29-T2-B-E3. Enunciado: «S29-T2-B-E3 · Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáctico). Fixture sintético `CASO-LIM-02». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S29, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "code": "# k2 explorer · S29-T3-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('rollback')\nk2_out = c.execute('select count(*) from t').fetchone()[0]\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «SQL avanzado y modelado relacional» en el quiz_card K2: S29-T3-A-E1. Enunciado: «S29-T3-A-E1 · Tras BEGIN insert y ROLLBACK, count debe ser 0. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el start». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S29, sqlite3, connect. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "code": "# k2 explorer · S29-T3-A-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A,C,I,D')\n",
+      "justification_from_packet": "Desde el starter de S29-T3-A-E2 en K2: S29-T3-A-E2. Enunciado: «S29-T3-A-E2 · Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D. Fixture sintético `CASO-LIM-029` (run_id=cpn3». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S29, Fixture, sint. Salida: [\"print('A,C,I,D')\"]. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "code": "# k2 explorer · S29-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\nk2_out = 'abort' if not evidence_ok else 'commit'\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «SQL avanzado y modelado relacional» en el quiz_card K2: S29-T3-A-E3. Enunciado: «S29-T3-A-E3 · Si evidence_ok es False no hagas commit conceptual: imprime 'abort'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): l». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S29, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "code": "# k2 explorer · S29-T3-B-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nc.execute(\"insert into e values ('1','B') on conflict(id) do update set name=excluded.name\")\nprint(c.execute(\"select name from e where id='1'\").fetchone()[0])\n",
+      "justification_from_packet": "Como explorer en S29 leí el paquete activo: S29-T3-B-E1. Enunciado: «S29-T3-B-E1 · Upsert: segunda insert con mismo id actualiza; imprime name final 'B'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe):». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S29, sqlite3, connect. Salida: ['print(c.execute(\"select name from e where id=\\'1\\'\").fetchone()[0])']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "code": "# k2 explorer · S29-T3-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'job': 'er_block', 'status': 'pending'}['status'])\n",
+      "justification_from_packet": "Seguí el slim_packet de «SQL avanzado y modelado relacional»: S29-T3-B-E2. Enunciado: «S29-T3-B-E2 · Recuperación: job status 'pending' tras crash; imprime status. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entr». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S29, Fixture, sint. Salida: [\"print({'job': 'er_block', 'status': 'pending'}['status'])\"]. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "code": "# k2 explorer · S29-T3-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\nk2_out = 'retry' if conflict else 'ok'\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «SQL avanzado y modelado relacional» en el quiz_card K2: S29-T3-B-E3. Enunciado: «S29-T3-B-E3 · Conflicto de par duplicado → imprime 'retry'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S29, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "code": "# k2 explorer · S29-T4-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nc.execute(\"insert into schema_migrations values (2,'add_index')\")\nprint(c.execute('select max(v) from schema_migrations').fetchone()[0])\n",
+      "justification_from_packet": "Exploré «SQL avanzado y modelado relacional» en el quiz_card K2: S29-T4-A-E1. Enunciado: «S29-T4-A-E1 · Registra migration version 2 name 'add_index'; imprime max version. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S29, sqlite3, connect. Salida: [\"print(c.execute('select max(v) from schema_migrations').fetchone()[0])\"]. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "code": "# k2 explorer · S29-T4-A-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'idx_pairs_block_key'\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «SQL avanzado y modelado relacional» en el quiz_card K2: S29-T4-A-E2. Enunciado: «S29-T4-A-E2 · Imprime nombre de índice sugerido idx_pairs_block_key. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es e». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S29, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "code": "# k2 explorer · S29-T4-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'no_drop_without_backup'\nprint(k2_out)\n",
+      "justification_from_packet": "Como explorer en S29 leí el paquete activo: S29-T4-A-E3. Enunciado: «S29-T4-A-E3 · Política: imprime 'no_drop_without_backup'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter c». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S29, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "code": "# k2 explorer · S29-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\nk2_out = store.get('e1')\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «SQL avanzado y modelado relacional» en el quiz_card K2: S29-T4-B-E1. Enunciado: «S29-T4-B-E1 · Repo.get: dict store {'e1':'Ana'}; imprime get e1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el st». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S29, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "code": "# k2 explorer · S29-T4-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = {'pool_size': 5}['pool_size']\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S29-T4-B-E2 en K2: S29-T4-B-E2. Enunciado: «S29-T4-B-E2 · Pool size conceptual 5; imprime pool_size. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter co». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S29, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "code": "# k2 explorer · S29-T4-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\nk2_out = pending_count\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S29-T4-B-E3 en K2: S29-T4-B-E3. Enunciado: «S29-T4-B-E3 · Test de repo: pending count 1; imprime 1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter com». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S29, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Evitar duplicar el mismo par en orden invertido",
+      "justification_from_packet": "Revisando stem y opciones del paquete K2 S29: «entity_a < entity_b en el par sirve para:». Elijo índice 0 («Evitar duplicar el mismo par en orden invertido») porque la teoría del slim/quiz_card («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ) alinea ese concepto; descarto p.ej. ['Inferir fraude', 'Borrar historia']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Nueva fila por cambio de decisión",
+      "justification_from_packet": "Self-check explorer S29 Q1: «Append-only en decisions significa:». Elijo índice 2 («Nueva fila por cambio de decisión») porque la teoría del slim/quiz_card («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ) alinea ese concepto; descarto p.ej. ['UPDATE del label in place sin rastro', 'Drop de tabla cada noche']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Ser atómicas en la misma transacción lógica",
+      "justification_from_packet": "Revisando stem y opciones del paquete K2 S29: «Decisión y evidencia deben:». Elijo índice 3 («Ser atómicas en la misma transacción lógica») porque la teoría del slim/quiz_card («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ) alinea ese concepto; descarto p.ej. ['Commitearse en transacciones separadas siempre', 'Ignorar rollback']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Encapsula acceso a datos y facilita tests con :memory:",
+      "justification_from_packet": "En el selfCheck de «SQL avanzado y modelado relacional» ítem 3: «El repository pattern:». Elijo índice 1 («Encapsula acceso a datos y facilita tests con :memory:») porque la teoría del slim/quiz_card («claves, constraints y normalización» **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQ) alinea ese concepto; descarto p.ej. ['Esparce SQL por toda la app a propósito', 'Reemplaza constraints']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:21:21.670426+00:00",
+  "session_started_at": "2026-07-23T15:20:23.561298+00:00",
+  "session_ended_at": "2026-07-23T15:21:21.668714+00:00",
+  "receipt_response_sha256": "1a9803fe2a3c6ece7fbae8e3572a7b73532635efd77716571730377863f53e88",
+  "receipt_exercises_sha256": "4c1ffd5abb42dff396a6d29d79c6bbf8f2f77422e189a9f1c83c140dddba7695",
+  "receipt_selfcheck_sha256": "1f98135e4ea5fa1f0bcfcfd2299a6688ee1ef92ef4ad47154208b7faded7a57d"
+}

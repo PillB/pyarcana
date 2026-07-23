@@ -1,0 +1,245 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 48,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s48-cf0a748229",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S48-T1-A-E1",
+      "code": "record = {'case_id': 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"REJECT_EMBEDDING_RANK\"\nprint(\"S48-T1-A\", status)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T1-A-E1: no confío en demos sin assert; la regla «top por dot product y versión embedding explícita» del instruction exige fixtures y etiqueta de breach REJECT_EMBEDDING_RANK. Theory/outcome de anclaje: Chunking con metadata y dedup. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T1-A-E1 · Calcula el contrato de `embeddings y similarity` sobre `CASO-PUN-048-1A`. La entrada e",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'docs', 'expected_top', 'metric', 'query', 'version'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"REJECT_EMBEDDING_RANK\"\n\nvalid = {'case_id': 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}\ninvalid = {'case_id': 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1', '__adverse__': True}\nincomplete = {'case_id': 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T1-A-E2: no confío en demos sin assert; la regla «S48-T1-A-E2 · Modela tres rutas de `embeddings y similarity`: fixture válido, fixture adverso y registro sin `expected_t» del instruction exige fixtures y etiqueta de breach REJECT_EMBEDDING_RANK. Theory/outcome de anclaje: límites, versiones y evaluación. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T1-A-E2 · Modela tres rutas de `embeddings y similarity`: fixture válido, fixture adverso y regi",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T1-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'expected_top' not in record or record.get('expected_top') in (None, \"\", [], set(), {}):\n        return \"REVIEW_METRIC_VERSION\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"REJECT_EMBEDDING_RANK\"\n\nvalid = {'case_id': 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1'}\ninvalid = {'case_id': 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2', 'expected_top': 'd1', '__adverse__': True}\nincomplete = {'case_id': 'CASO-PUN-048-1A', 'query': [1.0, 0.0], 'docs': {'d1': [0.8, 0.2], 'd2': [0.1, 0.9]}, 'metric': 'dot', 'version': 'emb-v2'}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S48/S48-T1-A-E3: no confío en demos sin assert; la regla «S48-T1-A-E3 · Simula fallo cerrado para `embeddings y similarity` con tres fixtures distintos. `CASO-PUN-048-1A` debe co» del instruction exige fixtures y etiqueta de breach REJECT_EMBEDDING_RANK. Theory/outcome de anclaje: Respeta ACL, deletion y provenance. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T1-A-E3 · Simula fallo cerrado para `embeddings y similarity` con tres fixtures distintos. `CASO",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T1-B-E1",
+      "code": "record = {'case_id': 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\nmeets_contract = not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_EMBEDDING_BASELINE\"\nprint(\"S48-T1-B\", status)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T1-B-E1: no confío en demos sin assert; la regla «recall holdout mejora y costo de reindexación acotado» del instruction exige fixtures y etiqueta de breach KEEP_EMBEDDING_BASELINE. Theory/outcome de anclaje: Arma contexto con citas y permisos. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T1-B-E1 · Compara el contrato de `límites, versiones y evaluación` sobre `CASO-PUN-048-1B`. La e",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'baseline_recall', 'candidate_recall', 'case_id', 'holdout', 'min_recall', 'reindex_cost_pen'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])\n    return \"PASS\" if ok else \"KEEP_EMBEDDING_BASELINE\"\n\nvalid = {'case_id': 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\ninvalid = {'case_id': 'CASO-PUN-048-1B', 'baseline_recall': 99.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\nincomplete = {'case_id': 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T1-B-E2: no confío en demos sin assert; la regla «S48-T1-B-E2 · Verifica tres rutas de `límites, versiones y evaluación`: fixture válido, fixture adverso y registro sin `» del instruction exige fixtures y etiqueta de breach KEEP_EMBEDDING_BASELINE. Theory/outcome de anclaje: Genera structured grounded output. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T1-B-E2 · Verifica tres rutas de `límites, versiones y evaluación`: fixture válido, fixture adve",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T1-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'reindex_cost_pen' not in record or record.get('reindex_cost_pen') in (None, \"\", [], set(), {}):\n        return \"EVALUATE_ERROR_SLICES\"\n    ok = not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])\n    return \"CONTINUE\" if ok else \"KEEP_EMBEDDING_BASELINE\"\n\nvalid = {'case_id': 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\ninvalid = {'case_id': 'CASO-PUN-048-1B', 'baseline_recall': 99.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1', 'reindex_cost_pen': 30}\nincomplete = {'case_id': 'CASO-PUN-048-1B', 'baseline_recall': 0.72, 'candidate_recall': 0.81, 'min_recall': 0.78, 'holdout': 'rag-holdout-v1'}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S48/S48-T1-B-E3: no confío en demos sin assert; la regla «S48-T1-B-E3 · Extiende fallo cerrado para `límites, versiones y evaluación` con tres fixtures distintos. `CASO-PUN-048-1» del instruction exige fixtures y etiqueta de breach KEEP_EMBEDDING_BASELINE. Theory/outcome de anclaje: Calcula embeddings y similarity. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T1-B-E3 · Extiende fallo cerrado para `límites, versiones y evaluación` con tres fixtures distin",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T2-A-E1",
+      "code": "record = {'case_id': 'CASO-PUN-048-2A', 'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3'}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"DEDUP_AND_RECHUNK\"\nprint(\"S48-T2-A\", status)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T2-A-E1: no confío en demos sin assert; la regla «hashes únicos, metadata y source version» del instruction exige fixtures y etiqueta de breach DEDUP_AND_RECHUNK. Theory/outcome de anclaje: lexical/vector/hybrid y reranking. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T2-A-E1 · Filtra el contrato de `chunking, metadata y dedup` sobre `CASO-PUN-048-2A`. La entrada",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'chunks', 'source_version', 'unique_hashes'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"DEDUP_AND_RECHUNK\"\n\nvalid = {'case_id': 'CASO-PUN-048-2A', 'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3'}\ninvalid = {'case_id': 'CASO-PUN-048-2A', 'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3', '__adverse__': True}\nincomplete = {'case_id': 'CASO-PUN-048-2A', 'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T2-A-E2: no confío en demos sin assert; la regla «S48-T2-A-E2 · Clasifica tres rutas de `chunking, metadata y dedup`: fixture válido, fixture adverso y registro sin `sour» del instruction exige fixtures y etiqueta de breach DEDUP_AND_RECHUNK. Theory/outcome de anclaje: Versiona embeddings y evalúa límites. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T2-A-E2 · Clasifica tres rutas de `chunking, metadata y dedup`: fixture válido, fixture adverso ",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T2-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'source_version' not in record or record.get('source_version') in (None, \"\", [], set(), {}):\n        return \"RESTORE_CHUNK_METADATA\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"DEDUP_AND_RECHUNK\"\n\nvalid = {'case_id': 'CASO-PUN-048-2A', 'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3'}\ninvalid = {'case_id': 'CASO-PUN-048-2A', 'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2, 'source_version': 'd1-v3', '__adverse__': True}\nincomplete = {'case_id': 'CASO-PUN-048-2A', 'chunks': [{'id': 'd1#1', 'hash': 'a', 'section': 'policy'}, {'id': 'd1#2', 'hash': 'b', 'section': 'limits'}], 'unique_hashes': 2}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S48/S48-T2-A-E3: no confío en demos sin assert; la regla «S48-T2-A-E3 · Defiende fallo cerrado para `chunking, metadata y dedup` con tres fixtures distintos. `CASO-PUN-048-2A` de» del instruction exige fixtures y etiqueta de breach DEDUP_AND_RECHUNK. Theory/outcome de anclaje: lexical/vector/hybrid y reranking. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T2-A-E3 · Defiende fallo cerrado para `chunking, metadata y dedup` con tres fixtures distintos. ",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T2-B-E1",
+      "code": "record = {'case_id': 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"FILTER_OR_DELETE_CHUNK\"\nprint(\"S48-T2-B\", status)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T2-B-E1: no confío en demos sin assert; la regla «ACL intersecta, documento activo y cache coherente» del instruction exige fixtures y etiqueta de breach FILTER_OR_DELETE_CHUNK. Theory/outcome de anclaje: Retrieval eval y answer eval son gates separados; costo/latencia tienen presupuesto y la abstención es éxito c. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T2-B-E1 · Modela el contrato de `ACL, deletion y provenance` sobre `CASO-PUN-048-2B`. La entrada",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'cache_invalidated', 'case_id', 'chunk_acl', 'deleted', 'provenance', 'user_acl'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"FILTER_OR_DELETE_CHUNK\"\n\nvalid = {'case_id': 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}\ninvalid = {'case_id': 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T2-B-E2: no confío en demos sin assert; la regla «S48-T2-B-E2 · Audita tres rutas de `ACL, deletion y provenance`: fixture válido, fixture adverso y registro sin `cache_i» del instruction exige fixtures y etiqueta de breach FILTER_OR_DELETE_CHUNK. Theory/outcome de anclaje: Chunking con metadata y dedup. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T2-B-E2 · Audita tres rutas de `ACL, deletion y provenance`: fixture válido, fixture adverso y r",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T2-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'cache_invalidated' not in record or record.get('cache_invalidated') in (None, \"\", [], set(), {}):\n        return \"VERIFY_ACL_PROVENANCE\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"FILTER_OR_DELETE_CHUNK\"\n\nvalid = {'case_id': 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True}\ninvalid = {'case_id': 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2', 'cache_invalidated': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-PUN-048-2B', 'user_acl': {'ops', 'public'}, 'chunk_acl': {'ops'}, 'deleted': False, 'provenance': 'doc-7-v2'}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S48/S48-T2-B-E3: no confío en demos sin assert; la regla «S48-T2-B-E3 · Recupera fallo cerrado para `ACL, deletion y provenance` con tres fixtures distintos. `CASO-PUN-048-2B` de» del instruction exige fixtures y etiqueta de breach FILTER_OR_DELETE_CHUNK. Theory/outcome de anclaje: Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y . Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T2-B-E3 · Recupera fallo cerrado para `ACL, deletion y provenance` con tres fixtures distintos. ",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T3-A-E1",
+      "code": "record = {'case_id': 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_HYBRID_RANK\"\nprint(\"S48-T3-A\", status)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T3-A-E1: no confío en demos sin assert; la regla «weighted hybrid score produce top esperado» del instruction exige fixtures y etiqueta de breach RECALIBRATE_HYBRID_RANK. Theory/outcome de anclaje: Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y . Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T3-A-E1 · Verifica el contrato de `lexical/vector/hybrid y reranking` sobre `CASO-PUN-048-3A`. L",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'expected_top', 'lexical', 'vector', 'weights'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"RECALIBRATE_HYBRID_RANK\"\n\nvalid = {'case_id': 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}\ninvalid = {'case_id': 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1', '__adverse__': True}\nincomplete = {'case_id': 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T3-A-E2: no confío en demos sin assert; la regla «S48-T3-A-E2 · Decide tres rutas de `lexical/vector/hybrid y reranking`: fixture válido, fixture adverso y registro sin `» del instruction exige fixtures y etiqueta de breach RECALIBRATE_HYBRID_RANK. Theory/outcome de anclaje: retrieval/answer eval, costo y abstención. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T3-A-E2 · Decide tres rutas de `lexical/vector/hybrid y reranking`: fixture válido, fixture adve",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T3-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'expected_top' not in record or record.get('expected_top') in (None, \"\", [], set(), {}):\n        return \"REVIEW_RERANK_CANDIDATES\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"RECALIBRATE_HYBRID_RANK\"\n\nvalid = {'case_id': 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1'}\ninvalid = {'case_id': 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}, 'expected_top': 'd1', '__adverse__': True}\nincomplete = {'case_id': 'CASO-PUN-048-3A', 'lexical': {'d1': 0.9, 'd2': 0.2}, 'vector': {'d1': 0.6, 'd2': 0.8}, 'weights': {'lexical': 0.6, 'vector': 0.4}}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S48/S48-T3-A-E3: no confío en demos sin assert; la regla «S48-T3-A-E3 · Contrasta fallo cerrado para `lexical/vector/hybrid y reranking` con tres fixtures distintos. `CASO-PUN-04» del instruction exige fixtures y etiqueta de breach RECALIBRATE_HYBRID_RANK. Theory/outcome de anclaje: Recupera hybrid y rerankea. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T3-A-E3 · Contrasta fallo cerrado para `lexical/vector/hybrid y reranking` con tres fixtures dis",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T3-B-E1",
+      "code": "record = {'case_id': 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}\nmeets_contract = not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_UNCITED\"\nprint(\"S48-T3-B\", status)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T3-B-E1: no confío en demos sin assert; la regla «todas las claims citadas, ACL y contexto bajo límite» del instruction exige fixtures y etiqueta de breach ABSTAIN_UNCITED. Theory/outcome de anclaje: ACL se filtra antes de retrieval/rerank; deletion invalida índice/cache y provenance enlaza cada chunk a docum. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T3-B-E1 · Clasifica el contrato de `contexto, citas y permisos` sobre `CASO-PUN-048-3B`. La entr",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'citation_acl', 'cited_claims', 'claims', 'context_tokens', 'max_context_tokens'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])\n    return \"PASS\" if ok else \"ABSTAIN_UNCITED\"\n\nvalid = {'case_id': 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}\ninvalid = {'case_id': 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': set(), 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}\nincomplete = {'case_id': 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T3-B-E2: no confío en demos sin assert; la regla «S48-T3-B-E2 · Calcula tres rutas de `contexto, citas y permisos`: fixture válido, fixture adverso y registro sin `max_co» del instruction exige fixtures y etiqueta de breach ABSTAIN_UNCITED. Theory/outcome de anclaje: embeddings y similarity. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T3-B-E2 · Calcula tres rutas de `contexto, citas y permisos`: fixture válido, fixture adverso y ",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T3-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'max_context_tokens' not in record or record.get('max_context_tokens') in (None, \"\", [], set(), {}):\n        return \"REQUEST_AUTHORIZED_CONTEXT\"\n    ok = not (not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"])\n    return \"CONTINUE\" if ok else \"ABSTAIN_UNCITED\"\n\nvalid = {'case_id': 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}\ninvalid = {'case_id': 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': set(), 'citation_acl': True, 'context_tokens': 800, 'max_context_tokens': 1000}\nincomplete = {'case_id': 'CASO-PUN-048-3B', 'claims': {'c1', 'c2'}, 'cited_claims': {'c1', 'c2'}, 'citation_acl': True, 'context_tokens': 800}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S48/S48-T3-B-E3: no confío en demos sin assert; la regla «S48-T3-B-E3 · Instrumenta fallo cerrado para `contexto, citas y permisos` con tres fixtures distintos. `CASO-PUN-048-3B`» del instruction exige fixtures y etiqueta de breach ABSTAIN_UNCITED. Theory/outcome de anclaje: embeddings y similarity. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T3-B-E3 · Instrumenta fallo cerrado para `contexto, citas y permisos` con tres fixtures distinto",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T4-A-E1",
+      "code": "record = {'case_id': 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGROUNDED_OUTPUT\"\nprint(\"S48-T4-A\", status)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T4-A-E1: no confío en demos sin assert; la regla «schema exacto, evidence IDs permitidos e injection ignorada» del instruction exige fixtures y etiqueta de breach REJECT_UNGROUNDED_OUTPUT. Theory/outcome de anclaje: Contexto incluye fragmentos mínimos, citas y límites; una cita debe resolver a texto/ver­sión accesible por el. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T4-A-E1 · Audita el contrato de `structured output y grounding` sobre `CASO-PUN-048-4A`. La entr",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'allowed_evidence', 'case_id', 'injected_instruction_ignored', 'output', 'schema_keys'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"REJECT_UNGROUNDED_OUTPUT\"\n\nvalid = {'case_id': 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True}\ninvalid = {'case_id': 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T4-A-E2: no confío en demos sin assert; la regla «S48-T4-A-E2 · Compara tres rutas de `structured output y grounding`: fixture válido, fixture adverso y registro sin `inj» del instruction exige fixtures y etiqueta de breach REJECT_UNGROUNDED_OUTPUT. Theory/outcome de anclaje: Contexto incluye fragmentos mínimos, citas y límites; una cita debe resolver a texto/ver­sión accesible por el. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T4-A-E2 · Compara tres rutas de `structured output y grounding`: fixture válido, fixture adverso",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T4-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'injected_instruction_ignored' not in record or record.get('injected_instruction_ignored') in (None, \"\", [], set(), {}):\n        return \"VALIDATE_OUTPUT_SCHEMA\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"REJECT_UNGROUNDED_OUTPUT\"\n\nvalid = {'case_id': 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True}\ninvalid = {'case_id': 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}, 'injected_instruction_ignored': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-PUN-048-4A', 'output': {'answer': 'plazo 30 días', 'evidence_ids': ['d7#2']}, 'schema_keys': {'answer', 'evidence_ids'}, 'allowed_evidence': {'d7#2'}}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S48/S48-T4-A-E3: no confío en demos sin assert; la regla «S48-T4-A-E3 · Aísla fallo cerrado para `structured output y grounding` con tres fixtures distintos. `CASO-PUN-048-4A` de» del instruction exige fixtures y etiqueta de breach REJECT_UNGROUNDED_OUTPUT. Theory/outcome de anclaje: Lexical captura términos exactos, vector semántica y hybrid combina scores calibrados; rerank opera solo sobre. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T4-A-E3 · Aísla fallo cerrado para `structured output y grounding` con tres fixtures distintos. ",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T4-B-E1",
+      "code": "record = {'case_id': 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}\nmeets_contract = not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_WITH_REASON\"\nprint(\"S48-T4-B\", status)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T4-B-E1: no confío en demos sin assert; la regla «retrieval/answer gates, costo y soporte» del instruction exige fixtures y etiqueta de breach ABSTAIN_WITH_REASON. Theory/outcome de anclaje: límites, versiones y evaluación. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T4-B-E1 · Decide el contrato de `retrieval/answer eval, costo y abstención` sobre `CASO-PUN-048-",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'cost_cap_pen', 'cost_pen', 'faithfulness', 'min_faithfulness', 'min_recall', 'retrieval_recall', 'support'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])\n    return \"PASS\" if ok else \"ABSTAIN_WITH_REASON\"\n\nvalid = {'case_id': 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}\ninvalid = {'case_id': 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 99.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}\nincomplete = {'case_id': 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S48/S48-T4-B-E2: no confío en demos sin assert; la regla «S48-T4-B-E2 · Filtra tres rutas de `retrieval/answer eval, costo y abstención`: fixture válido, fixture adverso y regist» del instruction exige fixtures y etiqueta de breach ABSTAIN_WITH_REASON. Theory/outcome de anclaje: Contexto incluye fragmentos mínimos, citas y límites; una cita debe resolver a texto/ver­sión accesible por el. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T4-B-E2 · Filtra tres rutas de `retrieval/answer eval, costo y abstención`: fixture válido, fixt",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S48-T4-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'support' not in record or record.get('support') in (None, \"\", [], set(), {}):\n        return \"TUNE_RETRIEVAL_OR_BUDGET\"\n    ok = not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])\n    return \"CONTINUE\" if ok else \"ABSTAIN_WITH_REASON\"\n\nvalid = {'case_id': 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}\ninvalid = {'case_id': 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 99.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1, 'support': True}\nincomplete = {'case_id': 'CASO-PUN-048-4B', 'retrieval_recall': 0.84, 'min_recall': 0.8, 'faithfulness': 0.91, 'min_faithfulness': 0.9, 'cost_pen': 0.08, 'cost_cap_pen': 0.1}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S48/S48-T4-B-E3: no confío en demos sin assert; la regla «S48-T4-B-E3 · Demuestra fallo cerrado para `retrieval/answer eval, costo y abstención` con tres fixtures distintos. `CAS» del instruction exige fixtures y etiqueta de breach ABSTAIN_WITH_REASON. Theory/outcome de anclaje: Retrieval eval y answer eval son gates separados; costo/latencia tienen presupuesto y la abstención es éxito c. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S48-T4-B-E3 · Demuestra fallo cerrado para `retrieval/answer eval, costo y abstención` con tres fixt",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "S48 self-check Q0: escojo «ranking reproducible con versión de embedding» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué evidencia permite aprobar `embeddings y similarity` en CASO-PUN-048?. Ancla: embeddings y similarity. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.7,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "S48 self-check Q1: escojo «emitir ABSTAIN y conservar evidencia» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: Si ocurre la condición de error de S48, ¿qué respuesta preserva seguridad y auditabilidad?. Ancla: Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y . Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.75,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "S48 self-check Q2: escojo «retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-C · RAG con evidencia y abstención`?. Ancla: límites, versiones y evaluación. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.8,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "S48 self-check Q3: escojo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué tratamiento de `CASO-PUN-048` respeta el alcance del curso?. Ancla: Evalúa recall/precision en tareas reales y slicea errores; cambiar embedding exige baseline, costo y reindexac. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.85,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:45:56.864809+00:00",
+  "session_started_at": "2026-07-23T15:45:56.834342+00:00",
+  "session_ended_at": "2026-07-23T15:46:48.334342+00:00",
+  "receipt_response_sha256": "af1864f046b9c334dc6ec32fc7bf3e66efccb8f43f2620a06d059d76ae135c1e",
+  "receipt_exercises_sha256": "a7935eabc5cbec1854e1ab945af85c81ff3e65756740970602bde9ccecbb83cf",
+  "receipt_selfcheck_sha256": "a83a7af67b3d0b4ac1769aa946bf41e606b755d547d8394683fcbabc10c322d1"
+}

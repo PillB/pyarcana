@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_K1",
+  "section_index": 33,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s33-170fcb5562b7",
+  "production_note": "agentic_K1 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S33-T1-A-E1",
+      "id": "S33-T1-A-E1",
+      "code": "# Cruzado Skeptic del fixture S33-T1-A-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\nmeets_contract = \"needs_review\" in str(record[\"target\"]) and \"fraud\" not in str(record[\"target\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_FRAUD_TARGET\"\nprint(\"S33-T1-A\", status)",
+      "justification_from_packet": "Para S33-T1-A-E1 del paquete «ML supervisado y baselines responsables» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S33-T1-A-E1 · Calcula el contrato de `unidad, target y horizonte` sobre `CASO-LIM-033-1A`. La entrada es el di». Hint usado: «Relaciona los campos `unit, target, horizon` con la regla explicada en S33-T1-A.». [Ske-33-E1]",
+      "confidence": 0.73,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T1-A-E2",
+      "id": "S33-T1-A-E2",
+      "code": "# Cruzado Skeptic del fixture S33-T1-A-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'unit', 'target', 'horizon'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if \"needs_review\" in record[\"target\"] and \"fraud\" not in record[\"target\"] else \"REJECT_FRAUD_TARGET\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}\nincomplete = {**valid}\nincomplete.pop(\"horizon\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "En «ML supervisado y baselines responsables» resolví S33-T1-A-E2 (independent) leyendo la instruction del quiz_card: «S33-T1-A-E2 · Modela tres rutas de `unidad, target y horizonte`: fixture válido, fixture adverso y registro sin `horizon`. Entrada: dict con…». La pista «Primero se calcula `missing`; ningún acceso a horizon debe ocurrir antes de esa rama.» fijó el patrón observable; conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T1-A-E3",
+      "id": "S33-T1-A-E3",
+      "code": "# Cruzado Skeptic del fixture S33-T1-A-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'unit', 'target', 'horizon'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_HORIZON\"\n    return \"CONTINUE\" if \"needs_review\" in record[\"target\"] else \"REJECT_FRAUD_TARGET\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}\nuncertain = {**valid}\nuncertain.pop(\"horizon\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "En «ML supervisado y baselines responsables» resolví S33-T1-A-E3 (transfer) leyendo la instruction del quiz_card: «S33-T1-A-E3 · Contrasta fallo cerrado para `unidad, target y horizonte` con tres fixtures distintos. `CASO-LIM-033-1A` debe continuar, el ad…». La pista «Una ausencia no equivale a breach: enrútala a `REQUEST_HORIZON` antes de evaluar el contenido.» fijó el patrón observable; conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T1-B-E1",
+      "id": "S33-T1-B-E1",
+      "code": "# Cruzado Skeptic del fixture S33-T1-B-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\nmeets_contract = record[\"has_baseline\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_NO_BASELINE\"\nprint(\"S33-T1-B\", status)",
+      "justification_from_packet": "En «ML supervisado y baselines responsables» resolví S33-T1-B-E1 (guided) leyendo la instruction del quiz_card: «S33-T1-B-E1 · Calcula el contrato de `costos, baseline de regla y dummy estimator` sobre `CASO-LIM-033-1B`. La entrada es el dict completo d…». La pista «Relaciona los campos `dummy_acc, cost, has_baseline` con la regla explicada en S33-T1-B.» fijó el patrón observable; conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T1-B-E2",
+      "id": "S33-T1-B-E2",
+      "code": "# Cruzado Skeptic del fixture S33-T1-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'dummy_acc', 'cost', 'has_baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"has_baseline\"] is True else \"REJECT_NO_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}\nincomplete = {**valid}\nincomplete.pop(\"cost\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Cruce theory/iDo de S33 con el starter de S33-T1-B-E2: la salida contractual sigue «S33-T1-B-E2 · Modela tres rutas de `costos, baseline de regla y dummy estimator`: fixture válido, fi». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T1-B-E3",
+      "id": "S33-T1-B-E3",
+      "code": "# Cruzado Skeptic del fixture S33-T1-B-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'dummy_acc', 'cost', 'has_baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_COST\"\n    return \"CONTINUE\" if record[\"has_baseline\"] is True else \"REJECT_NO_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}\nuncertain = {**valid}\nuncertain.pop(\"cost\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Cruce theory/iDo de S33 con el starter de S33-T1-B-E3: la salida contractual sigue «S33-T1-B-E3 · Contrasta fallo cerrado para `costos, baseline de regla y dummy estimator` con tres fi». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T2-A-E1",
+      "id": "S33-T2-A-E1",
+      "code": "# Cruzado Skeptic del fixture S33-T2-A-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\nmeets_contract = record[\"l2\"] == 0\nstatus = \"PASS\" if meets_contract else \"REJECT_UNREGULARIZED\"\nprint(\"S33-T2-A\", status)",
+      "justification_from_packet": "Para S33-T2-A-E1 del paquete «ML supervisado y baselines responsables» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S33-T2-A-E1 · Calcula el contrato de `regresión/logística y regularización` sobre `CASO-LIM-033-2A`. La entrad». Hint usado: «Relaciona los campos `p, pred, l2` con la regla explicada en S33-T2-A.». [Ske-33-E1]",
+      "confidence": 0.8,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T2-A-E2",
+      "id": "S33-T2-A-E2",
+      "code": "# Cruzado Skeptic del fixture S33-T2-A-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'pred', 'l2'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"l2\"] == 0 else \"REJECT_UNREGULARIZED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}\nincomplete = {**valid}\nincomplete.pop(\"p\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Para S33-T2-A-E2 del paquete «ML supervisado y baselines responsables» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S33-T2-A-E2 · Modela tres rutas de `regresión/logística y regularización`: fixture válido, fixture adverso y r». Hint usado: «Primero se calcula `missing`; ningún acceso a p debe ocurrir antes de esa rama.». [Ske-33-E2]",
+      "confidence": 0.8,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T2-A-E3",
+      "id": "S33-T2-A-E3",
+      "code": "# Cruzado Skeptic del fixture S33-T2-A-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'p', 'pred', 'l2'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SIGMOID\"\n    return \"CONTINUE\" if record[\"l2\"] == 0 else \"REJECT_UNREGULARIZED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}\nuncertain = {**valid}\nuncertain.pop(\"p\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Cruce theory/iDo de S33 con el starter de S33-T2-A-E3: la salida contractual sigue «S33-T2-A-E3 · Contrasta fallo cerrado para `regresión/logística y regularización` con tres fixtures ». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T2-B-E1",
+      "id": "S33-T2-B-E1",
+      "code": "# Cruzado Skeptic del fixture S33-T2-B-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\nmeets_contract = record[\"scaled\"] is False or record[\"causal\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSCALED_COEF\"\nprint(\"S33-T2-B\", status)",
+      "justification_from_packet": "Skeptic-B: el weDo S33-T2-B-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Relaciona los campos `coefs, scaled, causal` con la regla explicada en S33-T2-B.', 'El predicado correcto debe ser verdadero porque el fixture conserva coefs scaled con causal=False; revisa dirección de comparación, conjuntos y negaciones.'] y en el tramo «S33-T2-B-E1 · Calcula el contrato de `coeficientes, supuestos y scaling` sobre `CASO-LIM-0» sin inventar APIs fuera del card.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T2-B-E2",
+      "id": "S33-T2-B-E2",
+      "code": "# Cruzado Skeptic del fixture S33-T2-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'coefs', 'scaled', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"scaled\"] is False or record[\"causal\"] is False else \"REJECT_UNSCALED_COEF\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"scaled\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "En «ML supervisado y baselines responsables» resolví S33-T2-B-E2 (independent) leyendo la instruction del quiz_card: «S33-T2-B-E2 · Modela tres rutas de `coeficientes, supuestos y scaling`: fixture válido, fixture adverso y registro sin `scaled`. Entrada: di…». La pista «Primero se calcula `missing`; ningún acceso a scaled debe ocurrir antes de esa rama.» fijó el patrón observable; conf~0.69.",
+      "confidence": 0.69,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T2-B-E3",
+      "id": "S33-T2-B-E3",
+      "code": "# Cruzado Skeptic del fixture S33-T2-B-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'coefs', 'scaled', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SCALE_FLAG\"\n    return \"CONTINUE\" if record[\"scaled\"] is False or record[\"causal\"] is False else \"REJECT_UNSCALED_COEF\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}\nuncertain = {**valid}\nuncertain.pop(\"scaled\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Para S33-T2-B-E3 del paquete «ML supervisado y baselines responsables» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S33-T2-B-E3 · Contrasta fallo cerrado para `coeficientes, supuestos y scaling` con tres fixtures distintos. `C». Hint usado: «Una ausencia no equivale a breach: enrútala a `REQUEST_SCALE_FLAG` antes de evaluar el contenido.». [Ske-33-E3]",
+      "confidence": 0.73,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T3-A-E1",
+      "id": "S33-T3-A-E1",
+      "code": "# Cruzado Skeptic del fixture S33-T3-A-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\nmeets_contract = record[\"depth_unlimited\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_DEPTH_UNLIMITED\"\nprint(\"S33-T3-A\", status)",
+      "justification_from_packet": "En «ML supervisado y baselines responsables» resolví S33-T3-A-E1 (guided) leyendo la instruction del quiz_card: «S33-T3-A-E1 · Calcula el contrato de `decisiones y random forest/boosting` sobre `CASO-LIM-033-3A`. La entrada es el dict completo del start…». La pista «Relaciona los campos `stump_preds, majority, depth_unlimited` con la regla explicada en S33-T3-A.» fijó el patrón observable; conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T3-A-E2",
+      "id": "S33-T3-A-E2",
+      "code": "# Cruzado Skeptic del fixture S33-T3-A-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'stump_preds', 'majority', 'depth_unlimited'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"depth_unlimited\"] is True else \"REJECT_DEPTH_UNLIMITED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}\nincomplete = {**valid}\nincomplete.pop(\"stump_preds\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Para S33-T3-A-E2 del paquete «ML supervisado y baselines responsables» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S33-T3-A-E2 · Modela tres rutas de `decisiones y random forest/boosting`: fixture válido, fixture adverso y re». Hint usado: «Primero se calcula `missing`; ningún acceso a stump_preds debe ocurrir antes de esa rama.». [Ske-33-E2]",
+      "confidence": 0.83,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T3-A-E3",
+      "id": "S33-T3-A-E3",
+      "code": "# Cruzado Skeptic del fixture S33-T3-A-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'stump_preds', 'majority', 'depth_unlimited'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STUMP\"\n    return \"CONTINUE\" if record[\"depth_unlimited\"] is True else \"REJECT_DEPTH_UNLIMITED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}\nuncertain = {**valid}\nuncertain.pop(\"stump_preds\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Skeptic-B: el weDo S33-T3-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Una ausencia no equivale a breach: enrútala a `REQUEST_STUMP` antes de evaluar el contenido.', 'Para datos completos reutiliza la regla que demostró stump/vote con depth controlada; solo ese caso devuelve `CONTINUE`.'] y en el tramo «S33-T3-A-E3 · Contrasta fallo cerrado para `decisiones y random forest/boosting` con tres » sin inventar APIs fuera del card.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T3-B-E1",
+      "id": "S33-T3-B-E1",
+      "code": "# Cruzado Skeptic del fixture S33-T3-B-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\nmeets_contract = record[\"train_acc\"] - record[\"valid_acc\"] > 0.2\nstatus = \"PASS\" if meets_contract else \"REJECT_OVERFIT\"\nprint(\"S33-T3-B\", status)",
+      "justification_from_packet": "En «ML supervisado y baselines responsables» resolví S33-T3-B-E1 (guided) leyendo la instruction del quiz_card: «S33-T3-B-E1 · Calcula el contrato de `overfit, profundidad y reproducibilidad` sobre `CASO-LIM-033-3B`. La entrada es el dict completo del s…». La pista «Relaciona los campos `train_acc, valid_acc, seed` con la regla explicada en S33-T3-B.» fijó el patrón observable; conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T3-B-E2",
+      "id": "S33-T3-B-E2",
+      "code": "# Cruzado Skeptic del fixture S33-T3-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'train_acc', 'valid_acc', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"train_acc\"] - record[\"valid_acc\"] > 0.2 else \"REJECT_OVERFIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.99, 'valid_acc': 0.6, 'seed': 42}}\nincomplete = {**valid}\nincomplete.pop(\"seed\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Para S33-T3-B-E2 del paquete «ML supervisado y baselines responsables» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S33-T3-B-E2 · Modela tres rutas de `overfit, profundidad y reproducibilidad`: fixture válido, fixture adverso ». Hint usado: «Primero se calcula `missing`; ningún acceso a seed debe ocurrir antes de esa rama.». [Ske-33-E2]",
+      "confidence": 0.8,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T3-B-E3",
+      "id": "S33-T3-B-E3",
+      "code": "# Cruzado Skeptic del fixture S33-T3-B-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'train_acc', 'valid_acc', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SEED\"\n    return \"CONTINUE\" if record[\"train_acc\"] - record[\"valid_acc\"] > 0.2 else \"REJECT_OVERFIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.99, 'valid_acc': 0.6, 'seed': 42}}\nuncertain = {**valid}\nuncertain.pop(\"seed\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Cruce theory/iDo de S33 con el starter de S33-T3-B-E3: la salida contractual sigue «S33-T3-B-E3 · Contrasta fallo cerrado para `overfit, profundidad y reproducibilidad` con tres fixtur». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T4-A-E1",
+      "id": "S33-T4-A-E1",
+      "code": "# Cruzado Skeptic del fixture S33-T4-A-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\nmeets_contract = not record[\"metrics\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNLOGGED_RUN\"\nprint(\"S33-T4-A\", status)",
+      "justification_from_packet": "Skeptic-B: el weDo S33-T4-A-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Relaciona los campos `metrics, beats_dummy, run_id` con la regla explicada en S33-T4-A.', 'El predicado correcto debe ser verdadero porque el fixture conserva metrics no vacías con beats_dummy y run_id; revisa dirección de comparación, conjuntos y negaciones.'] y en el tramo «S33-T4-A-E1 · Calcula el contrato de `pipeline y tracking mínimo` sobre `CASO-LIM-033-4A`.» sin inventar APIs fuera del card.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T4-A-E2",
+      "id": "S33-T4-A-E2",
+      "code": "# Cruzado Skeptic del fixture S33-T4-A-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'metrics', 'beats_dummy', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"metrics\"] else \"REJECT_UNLOGGED_RUN\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {}, 'beats_dummy': False, 'run_id': 'run-1'}}\nincomplete = {**valid}\nincomplete.pop(\"metrics\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "En «ML supervisado y baselines responsables» resolví S33-T4-A-E2 (independent) leyendo la instruction del quiz_card: «S33-T4-A-E2 · Modela tres rutas de `pipeline y tracking mínimo`: fixture válido, fixture adverso y registro sin `metrics`. Entrada: dict con…». La pista «Primero se calcula `missing`; ningún acceso a metrics debe ocurrir antes de esa rama.» fijó el patrón observable; conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T4-A-E3",
+      "id": "S33-T4-A-E3",
+      "code": "# Cruzado Skeptic del fixture S33-T4-A-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'metrics', 'beats_dummy', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_METRICS\"\n    return \"CONTINUE\" if not record[\"metrics\"] else \"REJECT_UNLOGGED_RUN\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {}, 'beats_dummy': False, 'run_id': 'run-1'}}\nuncertain = {**valid}\nuncertain.pop(\"metrics\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Cruce theory/iDo de S33 con el starter de S33-T4-A-E3: la salida contractual sigue «S33-T4-A-E3 · Contrasta fallo cerrado para `pipeline y tracking mínimo` con tres fixtures distintos.». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T4-B-E1",
+      "id": "S33-T4-B-E1",
+      "code": "# Cruzado Skeptic del fixture S33-T4-B-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\nmeets_contract = record[\"random_split\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_RANDOM_LEAK\"\nprint(\"S33-T4-B\", status)",
+      "justification_from_packet": "Para S33-T4-B-E1 del paquete «ML supervisado y baselines responsables» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S33-T4-B-E1 · Calcula el contrato de `validación cruzada apropiada y error analysis` sobre `CASO-LIM-033-4B`. ». Hint usado: «Relaciona los campos `fold_scores, entities, random_split` con la regla explicada en S33-T4-B.». [Ske-33-E1]",
+      "confidence": 0.77,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T4-B-E2",
+      "id": "S33-T4-B-E2",
+      "code": "# Cruzado Skeptic del fixture S33-T4-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'fold_scores', 'entities', 'random_split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"random_split\"] is True else \"REJECT_RANDOM_LEAK\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}\nincomplete = {**valid}\nincomplete.pop(\"entities\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Para S33-T4-B-E2 del paquete «ML supervisado y baselines responsables» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S33-T4-B-E2 · Modela tres rutas de `validación cruzada apropiada y error analysis`: fixture válido, fixture ad». Hint usado: «Primero se calcula `missing`; ningún acceso a entities debe ocurrir antes de esa rama.». [Ske-33-E2]",
+      "confidence": 0.84,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S33-T4-B-E3",
+      "id": "S33-T4-B-E3",
+      "code": "# Cruzado Skeptic del fixture S33-T4-B-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'fold_scores', 'entities', 'random_split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_GROUP_IDS\"\n    return \"CONTINUE\" if record[\"random_split\"] is True else \"REJECT_RANDOM_LEAK\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}\nuncertain = {**valid}\nuncertain.pop(\"entities\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "En «ML supervisado y baselines responsables» resolví S33-T4-B-E3 (transfer) leyendo la instruction del quiz_card: «S33-T4-B-E3 · Contrasta fallo cerrado para `validación cruzada apropiada y error analysis` con tres fixtures distintos. `CASO-LIM-033-4B` de…». La pista «Una ausencia no equivale a breach: enrútala a `REQUEST_GROUP_IDS` antes de evaluar el contenido.» fijó el patrón observable; conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "ML supervisado y baselines responsables"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic-B en S33 Q0: elijo «Ser needs_review con horizonte» porque el stem «El target del workbench debe:» del quiz_card de «ML supervisado y baselines responsables» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.76.",
+      "confidence": 0.76,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Selfcheck Q1 de «ML supervisado y baselines responsables»: la opción índice 2 («Dummy/regla y costos») es la que el paquete sostiene frente a «Antes del modelo ML conviene:». Las demás contradicen outcomes de la sección. [Skeptic-B-33-q1]",
+      "confidence": 0.75,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Desde el packet S33, para «Comparar coeficientes exige:» la lectura de outcomes/theory apunta a «Features scaled y causal=False». Justificación packet-only sin claves offline. conf=0.78.",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic-B en S33 Q3: elijo «Leakage de la misma entidad entre folds» porque el stem «Group CV por entidad evita:» del quiz_card de «ML supervisado y baselines responsables» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.83.",
+      "confidence": 0.83,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:32:50.598355+00:00",
+  "session_started_at": "2026-07-23T13:32:38.163692Z",
+  "session_ended_at": "2026-07-23T13:32:50.595475Z",
+  "receipt_response_sha256": "c05c874880cf9d8acc84f977337d9448bb45efa950c3a3dd89f0b8e34e0d0cd5",
+  "receipt_exercises_sha256": "0fa3693f4bdbc39433f6fb0c385afa8ead408eb46b78300d4f5ef6eb654b1665",
+  "receipt_selfcheck_sha256": "4927b34456975bfd9f89739367f5193a9c71b3af7d6164a9ae68210397bc5925"
+}

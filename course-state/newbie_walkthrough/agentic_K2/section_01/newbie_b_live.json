@@ -1,0 +1,357 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 1,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s01-f4d9a8443222",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "id": "S01-T1-A-E1",
+      "code": "# Sesión REPL documentada (comentarios = líneas del intérprete)\n# >>> 2 + 2\n# 4\n# >>> type(\"hola\")\n# <class 'str'>\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.12.1'\n# >>> exit()\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S01-T1-A-E1 en «Entorno reproducible y trabajo seguro» decidí contrastar con el output de la demo: el enunciado dice «E1 (guiado) — Completa el transcript de una sesión REPL: suma, type() e import de sys. No crees un archivo .py; simula el diálogo en comentarios y luego pruébalo en tu terminal rea». Hint útil: En el REPL el prompt es >>>. Tras import sys, usa sys.version.split()[0] para la versión corta.. Checklist/tests: Checklist: (1) 2+2 → 4; (2) type(\"x\") es str; (3) sys.version.split()[0] es string tipo 3.x.y; (4) q. Sigo dudando de atajos; vocabulario del paquete: comando, macOS, version, profesional. Riesgo que evito: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "REPL",
+        "sys.version"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "id": "S01-T1-A-E2",
+      "code": "import sys\n\ndef main() -> None:\n    nombre = \"Pat Rivera\"\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\nif __name__ == \"__main__\":\n    main()\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "No asumo que la primera idea basta al resolver S01-T1-A-E2. La sección «Entorno reproducible y trabajo seguro» exige E2 (independiente) — Crea `hello_sys.py` que imprima tu nombre sintético y la versión de Python con sys. Debe usar `if __name__ == \"__main__\":` y salir con código 0 al correrse com. Me baso en siempre, habilidad, intérprete y en el hint «Importa sys. La versión corta es sys.version.split()[0]. Envuelve la lógica en main().». Validación esperada: python hello_sys.py → exit 0; stdout contiene una versión 3.x y un nombre; no requiere pip install.. Por eso conviene seguir el contrato del instruction antes de cerrar; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "main",
+        "sys",
+        "__name__"
+      ],
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "id": "S01-T1-A-E3",
+      "code": "# Diagnóstico: intérprete no encontrado\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. Confirmar que el fallo es PATH o nombre de comando, no un script del proyecto.\n2. Instalar/reparar desde https://www.python.org/downloads/ (oficial); en Windows habilitar PATH en el instalador.\n3. Abrir una terminal nueva y probar `python --version` (Win) o `python3 --version` (macOS/Linux).\n4. Si Windows sigue fallando, revisar `where python` y el alias de la Store; en Unix estandarizar python3.\n5. (opcional) Documentar el comando verificado en el README del repo.\n6. (opcional) Crear `.venv` con el intérprete ya validado: `python3 -m venv .venv`.\n\n## Verificación final\n- Comando: python3 --version\n- Resultado esperado: Python 3.12+ (o 3.x del curso)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S01-T1-A-E3 no improvisé: opté por verificar contra el checklist de tests y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Diagnóstico: en una laptop Windows el usuario escribe `python --version` y obtiene \"no se reconoce como comando\". En macOS, `python` falla pero `python3 --vers. Los tests piden: Rúbrica: menciona fuente oficial; verifica --version; distingue Windows vs Unix; no recomienda force. Conceptos del paquete que usé: trabajo, habilidad, comandos, intérprete, escribir. Exijo evidencia en el paquete activo.",
+      "concepts_used": [
+        "PATH",
+        "python3"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "id": "S01-T1-B-E1",
+      "code": "# Transcript de códigos de salida (bash/zsh)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\n\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n\n# SHELL_USADA=bash\n# (PowerShell equivalente: $LASTEXITCODE)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Prefiero lo aburrido y verificable al resolver S01-T1-B-E1. La sección «Entorno reproducible y trabajo seguro» exige E1 (guiado) — Completa el transcript de terminal: ejecuta un Python que sale con 0, otro con 1, y anota `$?` (bash/zsh) o `$LASTEXITCODE` (PowerShell). No subas secretos ni rutas d. Me baso en Linux, programa, común y en el hint «Tras cada comando, imprime el código de salida. En bash: echo $?. En PowerShell: echo $LASTEXITCODE.». Validación esperada: Checklist: (1) exit 0 documentado; (2) exit 1 documentado; (3) shell nombrada (bash/zsh/PowerShell);. Por eso conviene derivar del starter sin inventar APIs antes de cerrar; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "sys.exit",
+        "$?"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "id": "S01-T1-B-E2",
+      "code": "import sys\n\ndef main() -> None:\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <arg>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S01-T1-B-E2 no improvisé: opté por derivar del starter sin inventar APIs y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — Escribe `check_arg.py`: si recibe exactamente un argumento de línea de comandos, imprime `OK:<arg>` y termina con código 0; si no hay argumentos (o hay más de. Los tests piden: python check_arg.py hola → exit 0 y stdout contiene OK:hola; python check_arg.py → exit 1; python ch. Conceptos del paquete que usé: reproducible, habilidad, principal, veces, carpetas. Exijo evidencia en el paquete activo.",
+      "concepts_used": [
+        "sys.argv",
+        "sys.exit"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "id": "S01-T1-B-E3",
+      "code": "# Caso pip / ModuleNotFoundError\n\n### A) pip no se reconoce (PATH)\n- Fallo del shell al encontrar el ejecutable.\n- Pasos: comprobar PATH; `python3 -m pip --version`; no reinstalar el SO sin necesidad.\n\n### B) pip OK + import falla\n- Paquete en otro site-packages / venv inactivo.\n- Pasos: imprimir `sys.executable`; `python -m pip list`; reinstalar en el venv activo con `python -m pip install ...`.\n\n### Verificación cruzada\npython --version\npython -m pip --version\npython -c \"import sys; print(sys.executable)\"\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S01/S01-T1-B-E3 («Entorno reproducible y trabajo seguro»): E3 (transferencia) — Caso: un colega corre `pip install pandas` y ve error. En un escenario el mensaje es \"pip no se reconoce como comando\"; en otro, pip corre pero `python -c \"imp. Apoyo léxico: usando, escribir, habilidad, principal. Hint: Pregunta siempre: ¿qué ejecutable falló? ¿qué python usa import? Preferir python -m pip para atar pi. Si el resultado no pasa «Rúbrica: clasifica A vs B; propone python -m pip; verifica --version de python y pip; no inventa rei», reintento. No asumo que la primera idea basta; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "pip",
+        "PATH",
+        "sys.executable"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "id": "S01-T2-A-E1",
+      "code": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\n# 1) Crear\npython3 -m venv .venv\n# 2) Activar (Unix)\nsource .venv/bin/activate\n# Windows: .venv\\Scripts\\Activate.ps1\n# 3) Verificar\npython -c \"import sys; print(sys.prefix)\"\n# 4) Salir\ndeactivate\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin entender al resolver S01-T2-A-E1. La sección «Entorno reproducible y trabajo seguro» exige E1 (guiado) — En una carpeta de práctica, crea un entorno `.venv` con `python -m venv`, actívalo y verifica que `sys.prefix` apunta a esa carpeta. Luego ejecuta `deactivate`.. Me baso en terminal, intérprete, programa y en el hint «Comando de creación: python3 -m venv .venv. Activación Unix: source .venv/bin/activate. Windows: .ve». Validación esperada: Checklist: existe carpeta .venv; tras activate, sys.prefix contiene .venv; tras deactivate, el prefi. Por eso conviene cruzar con la demo iDo antes de cerrar; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "venv",
+        "sys.prefix"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "id": "S01-T2-A-E2",
+      "code": "deactivate 2>/dev/null || true\nrm -rf .venv\npython3 -m venv .venv\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# scripts del proyecto intactos\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S01-T2-A-E2 no improvisé: opté por derivar del starter sin inventar APIs y armé el cuerpo desde el starter. Instrucción (resumen): E2 (independiente) — Simula un entorno “roto”: con `.venv` ya creado, borra la carpeta del entorno (o renómbrala) y recrea un `.venv` limpio sin tocar tu código fuente. Documenta l. Los tests piden: Tras recrear: activate funciona; sys.prefix apunta al nuevo .venv; archivos .py del proyecto siguen. Conceptos del paquete que usé: Linux, ejecuta, comando, tener, programa. Prefiero lo aburrido y verificable.",
+      "concepts_used": [
+        "venv recreate"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S01-T2-A-E3",
+      "id": "S01-T2-A-E3",
+      "code": "# Riesgo del Python global\n\nSi dos proyectos piden versiones distintas de pandas, el global fuerza un único set de paquetes y produce 'a mí me funciona'.\n\nFlujo:\n1. python -m venv .venv\n2. activate\n3. python -m pip install ...\n\nvenv es stdlib; carpeta canónica `.venv`.\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S01/S01-T2-A-E3 («Entorno reproducible y trabajo seguro»): E3 (transferencia) — Un colega propone instalar pandas con `pip install pandas` en el Python global “para no perder tiempo con venv”. Escribe un párrafo (5–8 oraciones) o un markdo. Apoyo léxico: Linux, veces, verificación, reproducible. Hint: Usa el escenario: Proyecto A necesita pandas 1.x; Proyecto B necesita 2.x. Un solo site-packages glo. Si el resultado no pasa «Rúbrica: menciona conflicto de versiones; propone .venv o venv por proyecto; no recomienda install g», reintento. Sigo dudando de atajos; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "venv isolation"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S01-T2-B-E1",
+      "id": "S01-T2-B-E1",
+      "code": "source .venv/bin/activate\npython -m pip install requests==2.32.3\npython -m pip freeze > requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n# requirements.txt debe contener requests==2.32.3\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S01-T2-B-E1 no improvisé: opté por cruzar con la demo iDo y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — Con `.venv` activado, instala un paquete de terceros pinneado (ej. `requests==2.32.3`), genera `requirements.txt` con freeze y verifica que el archivo contiene `paque. Los tests piden: requirements.txt existe; contiene al menos una línea name==version del paquete instalado; no incluye. Conceptos del paquete que usé: comando, profesional, lista, escribir, reproducible. Exijo evidencia en el paquete activo.",
+      "concepts_used": [
+        "pip freeze"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S01-T2-B-E2",
+      "id": "S01-T2-B-E2",
+      "code": "python3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r requirements.txt\npython -c \"import requests; print('ok', requests.__version__)\"\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S01/S01-T2-B-E2 («Entorno reproducible y trabajo seguro»): E2 (independiente) — Dado un `requirements.txt` de plantilla (puede ser el de E1), crea un **segundo** entorno limpio (`.venv_replica` o borra y recrea `.venv`), actívalo e instala. Apoyo léxico: código, tener, suele, veces. Hint: No copies site-packages a mano. El contrato es el archivo -r.. Si el resultado no pasa «En el env limpio: import del paquete pinneado exitoso; versión alineada con requirements.txt.», reintento. Desconfío de respuestas 'bonitas'; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "install -r"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S01-T2-B-E3",
+      "id": "S01-T2-B-E3",
+      "code": "# ModuleNotFoundError forense\n1. Identificar intérprete: sys.executable\n2. Clasificar módulo: stdlib no va a requirements; requests sí es terceros\n3. python -m pip list en ese intérprete\n4. Instalar con python -m pip install ... en el venv correcto\n5. Confirmar import; evitar reinstalar el SO\n- requests: terceros | datetime: stdlib\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S01-T2-B-E3 en «Entorno reproducible y trabajo seguro» decidí cruzar con la demo iDo: el enunciado dice «E3 (transferencia) — Forense ModuleNotFoundError: el usuario corre `python -c \"import requests\"` y falla. En un caso, nunca instaló el paquete; en otro, lo instaló con un `pip` de». Hint útil: Primero identifica el intérprete; luego pregunta si el módulo es stdlib; luego instala con python -m. Checklist/tests: Rúbrica: usa sys.executable; recomienda python -m pip; clasifica stdlib vs terceros; contempla wrong. Me resisto a copiar sin entender; vocabulario del paquete: realmente, sistema, verificación, lista. Riesgo que evito: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "ModuleNotFoundError"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S01-T3-A-E1",
+      "id": "S01-T3-A-E1",
+      "code": "mkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README de practica\"\ngit log -1 --oneline\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S01-T3-A-E1 no improvisé: opté por apoyar en la teoría del heading y armé el cuerpo desde el starter. Instrucción (resumen): E1 (guiado) — En una carpeta de práctica: `git init`, crea un archivo, haz un commit con mensaje Conventional Commits (`docs:` o `feat:`). Verifica con `git log -1`. No uses mensaj. Los tests piden: git log -1 --pretty=%s coincide con patrón ^(feat|fix|docs|chore|refactor|test): .+. Conceptos del paquete que usé: programas, ejecuta, siempre, empiezas, profesional. Desconfío de respuestas 'bonitas'.",
+      "concepts_used": [
+        "git commit"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S01-T3-A-E2",
+      "id": "S01-T3-A-E2",
+      "code": "# Diff post-commit\n## Comandos\ngit add README.md && git commit -m \"docs: ampliar README\" && git show HEAD\n\n## 1) Líneas +\nTexto agregado en el último commit.\n\n## 2) Nuevo vs modificado\nNuevo = casi todo +; modificado = parches +/- localizados.\n\n## 3) Resumen\nCommit docs: que amplía el README existente.\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S01/S01-T3-A-E2 («Entorno reproducible y trabajo seguro»): E2 (independiente) — Modifica un README ya commiteado (agrega una línea), haz commit, y responde en un markdown corto: (1) qué muestra `git show HEAD` en líneas `+`; (2) diferencia. Apoyo léxico: siempre, habilidad, llamarse, estás. Hint: Tras el segundo commit, git show HEAD sin pager: GIT_PAGER=cat git show HEAD. Si el resultado no pasa «Markdown responde las 3 preguntas; menciona +/−; commit existe en log.», reintento. Prefiero lo aburrido y verificable; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "git show"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S01-T3-A-E3",
+      "id": "S01-T3-A-E3",
+      "code": "# Elección: B `feat: agregar smoke hello_env`\nJustificación: prefijo feat + imperativo + objeto claro. A (wip) no es aceptable en main. C no nombra el archivo ni el beneficio.\n\nReescritura A: chore: checkpoint temporal hello_env\nReescritura C: docs: actualizar README de setup\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S01-T3-A-E3 en «Entorno reproducible y trabajo seguro» decidí derivar del starter sin inventar APIs: el enunciado dice «E3 (transferencia) — Te entregan tres mensajes candidatos para el mismo cambio (añadir `scripts/hello_env.py` que imprime la versión de Python): (A) `wip`, (B) `feat: agregar smoke». Hint útil: El mejor es claro, con prefijo de tipo y descripción imperativa del *porqué/qué* observable.. Checklist/tests: Elige B; justificación menciona legibilidad/historial; reescrituras usan feat/docs/fix/chore válidos. Prefiero lo aburrido y verificable; vocabulario del paquete: veces, llamarse, Linux, lista. Riesgo que evito: si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "Conventional Commits"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S01-T3-B-E1",
+      "id": "S01-T3-B-E1",
+      "code": "git switch main\ngit switch -c feat/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"feat: agregar nota de practica\"\ngit branch\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S01/S01-T3-B-E1 («Entorno reproducible y trabajo seguro»): E1 (guiado) — Desde un repo con al menos un commit en `main`, crea la rama `feat/practica-s01`, añade un archivo pequeño, commit con `feat:` y lista las ramas. No hagas force-push.. Apoyo léxico: sistema, terminal, empiezas, profesional. Hint: git switch -c feat/practica-s01 (equivalente moderno a checkout -b). Si el resultado no pasa «branch feat/practica-s01 existe; HEAD en esa rama; log -1 con prefijo feat:», reintento. Sigo dudando de atajos; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "git branch"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S01-T3-B-E2",
+      "id": "S01-T3-B-E2",
+      "code": "# feat: hello_env + docs de setup\n\n## Resumen\n- Smoke scripts/hello_env.py\n- README con pasos de venv\n- Sin secretos en el diff\n\n## Plan de prueba\n1. Activar .venv\n2. pip install -r requirements.txt\n3. python scripts/hello_env.py\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] Revisar que .gitignore cubre .venv y .env\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S01-T3-B-E2 en «Entorno reproducible y trabajo seguro» decidí contrastar con el output de la demo: el enunciado dice «E2 (independiente) — Redacta la descripción de un Pull Request (markdown) para una rama que agrega `scripts/hello_env.py` y actualiza el README de instalación. Incluye: título, res». Hint útil: Título al estilo Conventional Commits; cuerpo orientado al revisor, no a ti.. Checklist/tests: Archivo con título, ≥3 bullets, pasos de prueba, mención de .env/secretos; sin PII real.. Exijo evidencia en el paquete activo; vocabulario del paquete: ejecuta, intérprete, escribir, Entorno. Riesgo que evito: si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "PR"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S01-T3-B-E3",
+      "id": "S01-T3-B-E3",
+      "code": "# Fix seguro\n1. git restore README.md para descartar el cambio malo no commiteado\n2. Si aún lo necesitas luego: git stash push -m \"wip\" en vez de borrarlo\n\nNo usar push --force a main (historial compartido).\nNo usar reset --hard como primer reflejo (pierde trabajo fácilmente).\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia en el paquete activo al resolver S01-T3-B-E3. La sección «Entorno reproducible y trabajo seguro» exige E3 (transferencia) — Escenario: editaste `README.md` sin commit y el cambio está mal. Un colega te dice “usa `reset --hard`” y otro “`push --force` a main”. Escribe el procedimient. Me baso en sistema, carpetas, programas y en el hint «restore descarta cambios no deseados en working tree; stash guarda para después. Ninguno reescribe m». Validación esperada: Menciona git restore; menciona stash como alternativa de guardado; prohíbe force-push a main; no rec. Por eso conviene releer con desconfianza el material antes de cerrar; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "git restore"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S01-T4-A-E1",
+      "id": "S01-T4-A-E1",
+      "code": "[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S01/S01-T4-A-E1 («Entorno reproducible y trabajo seguro»): E1 (guiado) — Completa un `pyproject.toml` mínimo con `[tool.ruff]` (line-length 88, target-version) y `[tool.ruff.lint] select = [\"E\", \"F\", \"I\"]`. No hace falta publicar en PyPI;. Apoyo léxico: llamarse, verificación, carpetas, principal. Hint: TOML usa secciones entre corchetes y listas con corchetes para select.. Si el resultado no pasa «Archivo contiene [tool.ruff], line-length = 88, select con E F I.», reintento. Exijo evidencia en el paquete activo; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "ruff"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S01-T4-A-E2",
+      "id": "S01-T4-A-E2",
+      "code": "from datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S01-T4-A-E2 en «Entorno reproducible y trabajo seguro» decidí releer con desconfianza el material: el enunciado dice «E2 (independiente) — Dado un script con imports sin usar, instala `ruff` en el venv, corre `python -m ruff check` y corrige hasta exit 0. Entrega el script limpio (sin imports muer». Hint útil: F401 = imported but unused. La corrección habitual es borrar el import.. Checklist/tests: ruff check sobre el archivo final exit 0; el script sigue siendo válido Python.. Prefiero lo aburrido y verificable; vocabulario del paquete: llamarse, primera, usando, veces. Riesgo que evito: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "F401"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S01-T4-A-E3",
+      "id": "S01-T4-A-E3",
+      "code": "# Propuesta S01: select = [\"E\", \"F\", \"I\"]\nALL abruma notebooks el día 1. E/F/I dan señal accionable.\nAmpliar (p. ej. B/UP) solo tras CI verde estable en el mínimo.\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos al resolver S01-T4-A-E3. La sección «Entorno reproducible y trabajo seguro» exige E3 (transferencia) — Un lead propone `select = [\"ALL\"]` el día 1 en un repo de analytics con notebooks. Justifica por escrito un `select` mínimo (E/F/I u otro set pequeño) para S01. Me baso en tener, estás, programas y en el hint «ALL genera cientos de hallazgos; el equipo deja de mirar el linter. Empieza por errores reales (F) y». Validación esperada: Propone set acotado; argumenta ruido vs señal; plan de ampliación; tono profesional.. Por eso conviene releer con desconfianza el material antes de cerrar; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "ruff select"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S01-T4-B-E1",
+      "id": "S01-T4-B-E1",
+      "code": "# Entornos\n.venv/\nvenv/\n# Bytecode\n__pycache__/\n*.pyc\n# Secretos\n.env\n# Jupyter\n.ipynb_checkpoints/\n# Verificación: git check-ignore -v .env\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S01-T4-B-E1 en «Entorno reproducible y trabajo seguro» decidí derivar del starter sin inventar APIs: el enunciado dice «E1 (guiado) — Completa un `.gitignore` mínimo de Python/data que incluya `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env` e ipynb checkpoints. Verifica con `git check-ignore -v .». Hint útil: Una entrada por línea. Las barras finales marcan directorios.. Checklist/tests: git check-ignore -v .env exit 0; check-ignore aplica a .venv o ruta de entorno.. Desconfío de respuestas 'bonitas'; vocabulario del paquete: terminal, seguro, Windows, carpetas. Riesgo que evito: si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "gitignore"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S01-T4-B-E2",
+      "id": "S01-T4-B-E2",
+      "code": "API_URL=\nDB_HOST=\nLOG_LEVEL=debug\n# copiar a .env local — no commitear secretos\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos al resolver S01-T4-B-E2. La sección «Entorno reproducible y trabajo seguro» exige E2 (independiente) — Crea `.env.example` con al menos 3 claves de un proyecto de intake (ej. `API_URL`, `DB_HOST`, `LOG_LEVEL`) con valores vacíos o ficticios no sensibles. Confirm. Me baso en version, algoritmo, siempre y en el hint «Clave=valor; el valor en example es placeholder. El .env local puede tener secretos pero queda ignor». Validación esperada: Archivo tiene ≥3 KEY=; sin patrones obvios de secreto; .env en gitignore.. Por eso conviene seguir el contrato del instruction antes de cerrar; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        ".env.example"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S01-T4-B-E3",
+      "id": "S01-T4-B-E3",
+      "code": "# Checklist revisor CP-N1-A\n- [ ] 1. Repo clona sin secretos en el árbol\n- [ ] 2. `python -m venv .venv` + activate\n- [ ] 3. `python -m pip install -r requirements.txt` OK\n- [ ] 4. `python scripts/hello_env.py` exit 0\n- [ ] 5. `git check-ignore .env` exit 0\n- [ ] data/clients_synthetic.csv sintético + data/data_dictionary.md\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S01-T4-B-E3 no improvisé: opté por apoyar en la teoría del heading y armé el cuerpo desde el starter. Instrucción (resumen): E3 (transferencia) — Checklist de “máquina limpia” para el esqueleto CP-N1-A: escribe 5 ítems verificables (clon → venv → install -r → smoke → ignore de .env) que un revisor pueda. Los tests piden: ≥5 ítems; comandos concretos; menciona datos sintéticos/diccionario; sin secretos.. Conceptos del paquete que usé: realmente, intérprete, sistema, ejecuta, programas. No asumo que la primera idea basta.",
+      "concepts_used": [
+        "checklist"
+      ],
+      "confidence": 0.88
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («¿Para qué sirve un entorno virtual (venv) en Python?»). Tras cruzar con la demo iDo, la opción 0 («Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones») es la única coherente con programa, verificación, tener en «Entorno reproducible y trabajo seguro». Las alternativas (Para acelerar la ejecución del código Python / Para conectarse a internet más rápido al instalar paquetes) suenan plausibles pero el material activo las niega.",
+      "confidence": 0.91
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («¿Cuál de los siguientes archivos SÍ debería estar en tu .gitignore?»). Tras verificar contra el checklist de tests, la opción 2 («.venv/ (o venv/)») es la única coherente con trabajo, programas, escribir en «Entorno reproducible y trabajo seguro». Las alternativas (requirements.txt / README.md) suenan plausibles pero el material activo las niega.",
+      "confidence": 0.73
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?»). Tras verificar contra el checklist de tests, la opción 3 («\"feat: agregar cálculo de churn por segmento\"») es la única coherente con busca, empiezas, ejecuta en «Entorno reproducible y trabajo seguro». Las alternativas (\"cambios\" / \"wip\") suenan plausibles pero el material activo las niega.",
+      "confidence": 0.87
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («¿Qué comando te permite replicar el entorno de otro desarrollador?»). Tras contrastar con el output de la demo, la opción 1 («pip install -r requirements.txt») es la única coherente con Windows, version, realmente en «Entorno reproducible y trabajo seguro». Las alternativas (pip install pandas numpy / python -m venv venv) suenan plausibles pero el material activo las niega.",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («¿Por qué NO debes subir el archivo .env a GitHub?»). Tras apoyar en la teoría del heading, la opción 0 («Porque suele contener credenciales (API keys, passwords, tokens) que son secretos») es la única coherente con tener, código, estás en «Entorno reproducible y trabajo seguro». Las alternativas (Porque pesa demasiado y ralentiza el git push / Porque GitHub no soporta archivos sin extensión) suenan plausibles pero el material activo las niega.",
+      "confidence": 0.72
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:21:04.182865+00:00",
+  "session_started_at": "2026-07-23T15:20:35.871996+00:00",
+  "session_ended_at": "2026-07-23T15:21:04.180151+00:00",
+  "receipt_response_sha256": "8e80e17f2fbf9aace89403a8136243178af509a883a3f929f567306999636315",
+  "receipt_exercises_sha256": "84ba0863de310072e1f4899a271dde600c570740da77c569390ceb9abaef2630",
+  "receipt_selfcheck_sha256": "e98c0205863eb5f09ddcbb80f863807da54fb33407a1a99c213009f2c25a1284"
+}

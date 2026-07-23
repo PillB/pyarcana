@@ -1,0 +1,245 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 49,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s49-53b4c5ee8b",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S49-T1-A-E1",
+      "code": "record = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nmeets_contract = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_DETERMINISTIC_WORKFLOW\"\nprint(\"S49-T1-A\", status)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T1-A-E1: no confío en demos sin assert; la regla «workflow preferido cuando pasos conocidos y baseline gana» del instruction exige fixtures y etiqueta de breach KEEP_DETERMINISTIC_WORKFLOW. Theory/outcome de anclaje: Sandbox, aprobación humana y recovery. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T1-A-E1 · Calcula el contrato de `workflow vs agente` sobre `CASO-AYA-049-1A`. La entrada es el ",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'agent_success', 'baseline_success', 'branch_count', 'case_id', 'known_steps', 'tool_choice_uncertain'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\n    return \"PASS\" if ok else \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\ninvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nincomplete = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T1-A-E2: no confío en demos sin assert; la regla «S49-T1-A-E2 · Modela tres rutas de `workflow vs agente`: fixture válido, fixture adverso y registro sin `agent_success`.» del instruction exige fixtures y etiqueta de breach KEEP_DETERMINISTIC_WORKFLOW. Theory/outcome de anclaje: Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto ent. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T1-A-E2 · Modela tres rutas de `workflow vs agente`: fixture válido, fixture adverso y registro ",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'agent_success' not in record or record.get('agent_success') in (None, \"\", [], set(), {}):\n        return \"RUN_AGENT_BASELINE\"\n    ok = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\n    return \"CONTINUE\" if ok else \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\ninvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nincomplete = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S49/S49-T1-A-E3: no confío en demos sin assert; la regla «S49-T1-A-E3 · Simula fallo cerrado para `workflow vs agente` con tres fixtures distintos. `CASO-AYA-049-1A` debe continu» del instruction exige fixtures y etiqueta de breach KEEP_DETERMINISTIC_WORKFLOW. Theory/outcome de anclaje: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T1-A-E3 · Simula fallo cerrado para `workflow vs agente` con tres fixtures distintos. `CASO-AYA-",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-B-E1",
+      "code": "record = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nmeets_contract = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\nstatus = \"PASS\" if meets_contract else \"STOP_AGENT_LOOP\"\nprint(\"S49-T1-B\", status)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T1-B-E1: no confío en demos sin assert; la regla «ruta válida, plan acotado, outputs completos y evaluación» del instruction exige fixtures y etiqueta de breach STOP_AGENT_LOOP. Theory/outcome de anclaje: Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede au. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T1-B-E1 · Compara el contrato de `routing, planner/worker y evaluator–optimizer` sobre `CASO-AYA",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'evaluator_pass', 'max_steps', 'plan_steps', 'route', 'worker_outputs'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\n    return \"PASS\" if ok else \"STOP_AGENT_LOOP\"\n\nvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\ninvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 1000003, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nincomplete = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T1-B-E2: no confío en demos sin assert; la regla «S49-T1-B-E2 · Verifica tres rutas de `routing, planner/worker y evaluator–optimizer`: fixture válido, fixture adverso y » del instruction exige fixtures y etiqueta de breach STOP_AGENT_LOOP. Theory/outcome de anclaje: Esquema, permisos e idempotencia de tools. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T1-B-E2 · Verifica tres rutas de `routing, planner/worker y evaluator–optimizer`: fixture válido",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T1-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'evaluator_pass' not in record or record.get('evaluator_pass') in (None, \"\", [], set(), {}):\n        return \"REPLAN_WITH_BOUNDS\"\n    ok = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\n    return \"CONTINUE\" if ok else \"STOP_AGENT_LOOP\"\n\nvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\ninvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 1000003, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nincomplete = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S49/S49-T1-B-E3: no confío en demos sin assert; la regla «S49-T1-B-E3 · Extiende fallo cerrado para `routing, planner/worker y evaluator–optimizer` con tres fixtures distintos. `» del instruction exige fixtures y etiqueta de breach STOP_AGENT_LOOP. Theory/outcome de anclaje: Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto ent. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T1-B-E3 · Extiende fallo cerrado para `routing, planner/worker y evaluator–optimizer` con tres f",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-A-E1",
+      "code": "record = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nmeets_contract = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_OVERBROAD_TOOL\"\nprint(\"S49-T2-A\", status)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T2-A-E1: no confío en demos sin assert; la regla «una responsabilidad, schema estrecho y error tipado» del instruction exige fixtures y etiqueta de breach DISABLE_OVERBROAD_TOOL. Theory/outcome de anclaje: Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good p. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T2-A-E1 · Filtra el contrato de `funciones de responsabilidad única` sobre `CASO-AYA-049-2A`. La",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'responsibilities', 'schema_fields', 'side_effect', 'tool', 'typed_errors'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\n    return \"PASS\" if ok else \"DISABLE_OVERBROAD_TOOL\"\n\nvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\ninvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1000001, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nincomplete = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T2-A-E2: no confío en demos sin assert; la regla «S49-T2-A-E2 · Clasifica tres rutas de `funciones de responsabilidad única`: fixture válido, fixture adverso y registro s» del instruction exige fixtures y etiqueta de breach DISABLE_OVERBROAD_TOOL. Theory/outcome de anclaje: Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin f. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T2-A-E2 · Clasifica tres rutas de `funciones de responsabilidad única`: fixture válido, fixture ",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'typed_errors' not in record or record.get('typed_errors') in (None, \"\", [], set(), {}):\n        return \"SPLIT_TOOL_CONTRACT\"\n    ok = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\n    return \"CONTINUE\" if ok else \"DISABLE_OVERBROAD_TOOL\"\n\nvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\ninvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1000001, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nincomplete = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S49/S49-T2-A-E3: no confío en demos sin assert; la regla «S49-T2-A-E3 · Defiende fallo cerrado para `funciones de responsabilidad única` con tres fixtures distintos. `CASO-AYA-04» del instruction exige fixtures y etiqueta de breach DISABLE_OVERBROAD_TOOL. Theory/outcome de anclaje: Sandbox, aprobación humana y recovery. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T2-A-E3 · Defiende fallo cerrado para `funciones de responsabilidad única` con tres fixtures dis",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-B-E1",
+      "code": "record = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\nmeets_contract = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\nstatus = \"PASS\" if meets_contract else \"DENY_TOOL_CALL\"\nprint(\"S49-T2-B\", status)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T2-B-E1: no confío en demos sin assert; la regla «schema/scope válidos y retry con un solo efecto» del instruction exige fixtures y etiqueta de breach DENY_TOOL_CALL. Theory/outcome de anclaje: Elige workflow vs agente. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T2-B-E1 · Modela el contrato de `schema, permisos, idempotencia y errores` sobre `CASO-AYA-049-2",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'attempts', 'case_id', 'effects', 'error_kind', 'granted', 'idempotency_key', 'schema_valid', 'scope'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\n    return \"PASS\" if ok else \"DENY_TOOL_CALL\"\n\nvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\ninvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': '', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\nincomplete = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T2-B-E2: no confío en demos sin assert; la regla «S49-T2-B-E2 · Audita tres rutas de `schema, permisos, idempotencia y errores`: fixture válido, fixture adverso y registr» del instruction exige fixtures y etiqueta de breach DENY_TOOL_CALL. Theory/outcome de anclaje: Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T2-B-E2 · Audita tres rutas de `schema, permisos, idempotencia y errores`: fixture válido, fixtu",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T2-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'error_kind' not in record or record.get('error_kind') in (None, \"\", [], set(), {}):\n        return \"CLASSIFY_TOOL_ERROR\"\n    ok = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\n    return \"CONTINUE\" if ok else \"DENY_TOOL_CALL\"\n\nvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\ninvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': '', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\nincomplete = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S49/S49-T2-B-E3: no confío en demos sin assert; la regla «S49-T2-B-E3 · Recupera fallo cerrado para `schema, permisos, idempotencia y errores` con tres fixtures distintos. `CASO-» del instruction exige fixtures y etiqueta de breach DENY_TOOL_CALL. Theory/outcome de anclaje: Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T2-B-E3 · Recupera fallo cerrado para `schema, permisos, idempotencia y errores` con tres fixtur",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-A-E1",
+      "code": "record = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\nmeets_contract = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\nstatus = \"PASS\" if meets_contract else \"COMPACT_AND_CHECKPOINT\"\nprint(\"S49-T3-A\", status)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T3-A-E1: no confío en demos sin assert; la regla «contexto bajo presupuesto, JIT, provenance y checkpoint» del instruction exige fixtures y etiqueta de breach COMPACT_AND_CHECKPOINT. Theory/outcome de anclaje: Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin f. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T3-A-E1 · Verifica el contrato de `contexto mínimo, retrieval JIT y checkpoints` sobre `CASO-AYA",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'checkpoint_after_effect', 'context_tokens', 'max_context_tokens', 'provenance', 'retrieved_just_in_time'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\n    return \"PASS\" if ok else \"COMPACT_AND_CHECKPOINT\"\n\nvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\ninvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1001200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\nincomplete = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T3-A-E2: no confío en demos sin assert; la regla «S49-T3-A-E2 · Decide tres rutas de `contexto mínimo, retrieval JIT y checkpoints`: fixture válido, fixture adverso y reg» del instruction exige fixtures y etiqueta de breach COMPACT_AND_CHECKPOINT. Theory/outcome de anclaje: routing, planner/worker y evaluator–optimizer. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T3-A-E2 · Decide tres rutas de `contexto mínimo, retrieval JIT y checkpoints`: fixture válido, f",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'provenance' not in record or record.get('provenance') in (None, \"\", [], set(), {}):\n        return \"RETRIEVE_MINIMUM_CONTEXT\"\n    ok = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\n    return \"CONTINUE\" if ok else \"COMPACT_AND_CHECKPOINT\"\n\nvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\ninvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1001200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\nincomplete = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S49/S49-T3-A-E3: no confío en demos sin assert; la regla «S49-T3-A-E3 · Contrasta fallo cerrado para `contexto mínimo, retrieval JIT y checkpoints` con tres fixtures distintos. `» del instruction exige fixtures y etiqueta de breach COMPACT_AND_CHECKPOINT. Theory/outcome de anclaje: contexto mínimo, retrieval JIT y checkpoints. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T3-A-E3 · Contrasta fallo cerrado para `contexto mínimo, retrieval JIT y checkpoints` con tres f",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-B-E1",
+      "code": "record = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\nmeets_contract = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\nstatus = \"PASS\" if meets_contract else \"RESTORE_LAST_KNOWN_GOOD\"\nprint(\"S49-T3-B\", status)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T3-B-E1: no confío en demos sin assert; la regla «compaction conserva restricciones, retención y LKG» del instruction exige fixtures y etiqueta de breach RESTORE_LAST_KNOWN_GOOD. Theory/outcome de anclaje: Define stops y budgets. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T3-B-E1 · Clasifica el contrato de `memoria, compaction y last-known-good` sobre `CASO-AYA-049-3",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'facts_after', 'facts_before', 'last_known_good', 'memory_retention_days'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\n    return \"PASS\" if ok else \"RESTORE_LAST_KNOWN_GOOD\"\n\nvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\ninvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': set(), 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\nincomplete = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T3-B-E2: no confío en demos sin assert; la regla «S49-T3-B-E2 · Calcula tres rutas de `memoria, compaction y last-known-good`: fixture válido, fixture adverso y registro » del instruction exige fixtures y etiqueta de breach RESTORE_LAST_KNOWN_GOOD. Theory/outcome de anclaje: Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T3-B-E2 · Calcula tres rutas de `memoria, compaction y last-known-good`: fixture válido, fixture",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T3-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'last_known_good' not in record or record.get('last_known_good') in (None, \"\", [], set(), {}):\n        return \"REVIEW_COMPACTION_LOSS\"\n    ok = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\n    return \"CONTINUE\" if ok else \"RESTORE_LAST_KNOWN_GOOD\"\n\nvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\ninvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': set(), 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\nincomplete = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S49/S49-T3-B-E3: no confío en demos sin assert; la regla «S49-T3-B-E3 · Instrumenta fallo cerrado para `memoria, compaction y last-known-good` con tres fixtures distintos. `CASO-» del instruction exige fixtures y etiqueta de breach RESTORE_LAST_KNOWN_GOOD. Theory/outcome de anclaje: stopping conditions y budgets. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T3-B-E3 · Instrumenta fallo cerrado para `memoria, compaction y last-known-good` con tres fixtur",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-A-E1",
+      "code": "record = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\nmeets_contract = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\nstatus = \"PASS\" if meets_contract else \"STOP_BUDGET_EXHAUSTED\"\nprint(\"S49-T4-A\", status)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T4-A-E1: no confío en demos sin assert; la regla «meta lograda dentro de pasos, tokens y costo» del instruction exige fixtures y etiqueta de breach STOP_BUDGET_EXHAUSTED. Theory/outcome de anclaje: Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explíci. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T4-A-E1 · Audita el contrato de `stopping conditions y budgets` sobre `CASO-AYA-049-4A`. La entr",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'cost_pen', 'goal_met', 'max_cost_pen', 'max_steps', 'max_tokens', 'steps', 'tokens'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\n    return \"PASS\" if ok else \"STOP_BUDGET_EXHAUSTED\"\n\nvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\ninvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 1000004, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\nincomplete = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T4-A-E2: no confío en demos sin assert; la regla «S49-T4-A-E2 · Compara tres rutas de `stopping conditions y budgets`: fixture válido, fixture adverso y registro sin `max» del instruction exige fixtures y etiqueta de breach STOP_BUDGET_EXHAUSTED. Theory/outcome de anclaje: Esquema, permisos e idempotencia de tools. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T4-A-E2 · Compara tres rutas de `stopping conditions y budgets`: fixture válido, fixture adverso",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'max_cost_pen' not in record or record.get('max_cost_pen') in (None, \"\", [], set(), {}):\n        return \"ASK_FOR_SCOPE_REDUCTION\"\n    ok = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\n    return \"CONTINUE\" if ok else \"STOP_BUDGET_EXHAUSTED\"\n\nvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\ninvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 1000004, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\nincomplete = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S49/S49-T4-A-E3: no confío en demos sin assert; la regla «S49-T4-A-E3 · Aísla fallo cerrado para `stopping conditions y budgets` con tres fixtures distintos. `CASO-AYA-049-4A` de» del instruction exige fixtures y etiqueta de breach STOP_BUDGET_EXHAUSTED. Theory/outcome de anclaje: Esquema, permisos e idempotencia de tools. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T4-A-E3 · Aísla fallo cerrado para `stopping conditions y budgets` con tres fixtures distintos. ",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-B-E1",
+      "code": "record = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nmeets_contract = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\nstatus = \"PASS\" if meets_contract else \"SANDBOX_AND_STOP\"\nprint(\"S49-T4-B\", status)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T4-B-E1: no confío en demos sin assert; la regla «sandbox mínimo, aprobación y reanudación sin repetir efectos» del instruction exige fixtures y etiqueta de breach SANDBOX_AND_STOP. Theory/outcome de anclaje: Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin f. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T4-B-E1 · Decide el contrato de `sandbox, human approval y recuperación` sobre `CASO-AYA-049-4B`",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'approval_present', 'approval_required', 'case_id', 'checkpoint', 'filesystem', 'network', 'replayed_effects', 'sensitive_action'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\n    return \"PASS\" if ok else \"SANDBOX_AND_STOP\"\n\nvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\ninvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': False, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nincomplete = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S49/S49-T4-B-E2: no confío en demos sin assert; la regla «S49-T4-B-E2 · Filtra tres rutas de `sandbox, human approval y recuperación`: fixture válido, fixture adverso y registro » del instruction exige fixtures y etiqueta de breach SANDBOX_AND_STOP. Theory/outcome de anclaje: workflow vs agente. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T4-B-E2 · Filtra tres rutas de `sandbox, human approval y recuperación`: fixture válido, fixture",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S49-T4-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'replayed_effects' not in record or record.get('replayed_effects') in (None, \"\", [], set(), {}):\n        return \"REQUEST_HUMAN_APPROVAL\"\n    ok = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\n    return \"CONTINUE\" if ok else \"SANDBOX_AND_STOP\"\n\nvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\ninvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': False, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nincomplete = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9'}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S49/S49-T4-B-E3: no confío en demos sin assert; la regla «S49-T4-B-E3 · Demuestra fallo cerrado para `sandbox, human approval y recuperación` con tres fixtures distintos. `CASO-A» del instruction exige fixtures y etiqueta de breach SANDBOX_AND_STOP. Theory/outcome de anclaje: sandbox, human approval y recuperación. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S49-T4-B-E3 · Demuestra fallo cerrado para `sandbox, human approval y recuperación` con tres fixture",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "S49 self-check Q0: escojo «ADR workflow/agente con baseline» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049?. Ancla: workflow vs agente. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.72,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "S49 self-check Q1: escojo «emitir STOP_AGENT y conservar evidencia» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: Si ocurre la condición de error de S49, ¿qué respuesta preserva seguridad y auditabilidad?. Ancla: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.77,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "S49 self-check Q2: escojo «cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-C · agente acotado con aprobación humana`?. Ancla: routing, planner/worker y evaluator–optimizer. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.82,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "S49 self-check Q3: escojo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso?. Ancla: Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto ent. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.87,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:45:56.901740+00:00",
+  "session_started_at": "2026-07-23T15:45:56.870639+00:00",
+  "session_ended_at": "2026-07-23T15:46:32.770639+00:00",
+  "receipt_response_sha256": "0e5b41470671077a4fed72a562f0b5c414f85c51d542d4ecdb34c4cac824b461",
+  "receipt_exercises_sha256": "738c75a047df318ab88df63e6fafd661b467de6417f5d19a548abbf64b1ffb4d",
+  "receipt_selfcheck_sha256": "83b9ff082c2754eabe499eded78c8a16b6ce8ea8c42f2eebc0fe7d7c823f212b"
+}

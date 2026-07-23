@@ -1,0 +1,169 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s27-ad09036c62bb",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "code": "# k2 explorer · S27-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nk2_out = impact * likelihood\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Estrategia de pruebas con pytest» en el quiz_card K2: S27-T1-A-E1. Enunciado: «S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S27, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "code": "# k2 explorer · S27-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "justification_from_packet": "Seguí el slim_packet de «Estrategia de pruebas con pytest»: S27-T1-A-E2. Enunciado: «S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es e». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S27, Fixture, del. Salida: ['print([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "code": "# k2 explorer · S27-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nk2_out = top_layer == 'unit'\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S27-T1-A-E3 en K2: S27-T1-A-E3. Enunciado: «S27-T1-A-E3 · Imprime True si la capa top es 'unit'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter complet». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S27, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "code": "# k2 explorer · S27-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nk2_out = ' '.join(s.casefold().split())\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Estrategia de pruebas con pytest»: S27-T1-B-E1. Enunciado: «S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @examp». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S27, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "code": "# k2 explorer · S27-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nk2_out = 'pass'\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Estrategia de pruebas con pytest» en el quiz_card K2: S27-T1-B-E2. Enunciado: «S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S27, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "code": "# k2 explorer · S27-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "justification_from_packet": "Como explorer en S27 leí el paquete activo: S27-T1-B-E3. Enunciado: «S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S27, Fixture, del. Salida: [\"print(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\"]. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "code": "# k2 explorer · S27-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "justification_from_packet": "Seguí el slim_packet de «Estrategia de pruebas con pytest»: S27-T2-A-E1. Enunciado: «S27-T2-A-E1 · Filtra nombres que empiezan con 'test_' de la lista dada. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S27, Fixture, del. Salida: [\"print([n for n in names if n.startswith('test_')])\"]. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "code": "# k2 explorer · S27-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nk2_out = 'ok' if left == right else 'fail'\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Estrategia de pruebas con pytest»: S27-T2-A-E2. Enunciado: «S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S27, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "code": "# k2 explorer · S27-T2-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "justification_from_packet": "Seguí el slim_packet de «Estrategia de pruebas con pytest»: S27-T2-A-E3. Enunciado: «S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S27, Fixture, sint. Salida: [\"print([(' x ', 'x')])\"]. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "code": "# k2 explorer · S27-T2-B-E1\nfrom copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nk2_out = orig[0]['n']\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S27-T2-B-E1 en K2: S27-T2-B-E1. Enunciado: «S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @exampl». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S27, copy, deepcopy. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "code": "# k2 explorer · S27-T2-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'function'\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Estrategia de pruebas con pytest»: S27-T2-B-E2. Enunciado: «S27-T2-B-E2 · Imprime 'function' como scope por defecto de fixture. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S27, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "code": "# k2 explorer · S27-T2-B-E3\ndef make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nk2_out = len(make(3))\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Estrategia de pruebas con pytest»: S27-T2-B-E3. Enunciado: «S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @e». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S27, make, range. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "code": "# k2 explorer · S27-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "justification_from_packet": "Exploré «Estrategia de pruebas con pytest» en el quiz_card K2: S27-T3-A-E1. Enunciado: «S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S27, Fixture, del. Salida: ['print(math.isclose(0.1 + 0.2, 0.3))']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "code": "# k2 explorer · S27-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('err')\nk2_out = 'bad'\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Estrategia de pruebas con pytest» en el quiz_card K2: S27-T3-A-E2. Enunciado: «S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starte». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S27, Fixture, del. Salida: [\"print('err')\", 'print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "code": "# k2 explorer · S27-T3-A-E3\nimport tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nk2_out = Path(path).read_text(encoding='utf-8').strip()\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Estrategia de pruebas con pytest»: S27-T3-A-E3. Enunciado: «S27-T3-A-E3 · Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip(). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @exampl». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S27, tempfile, pathlib. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "code": "# k2 explorer · S27-T3-B-E1\nemail=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    k2_out = e\n    print(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S27-T3-B-E1 en K2: S27-T3-B-E1. Enunciado: «S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.p». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S27, email, raise. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "code": "# k2 explorer · S27-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nk2_out = 'ok' if '@' in s else 'invalid'\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Estrategia de pruebas con pytest»: S27-T3-B-E2. Enunciado: «S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entra». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S27, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "code": "# k2 explorer · S27-T3-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nk2_out = f'campo score inválido: {v!r}'\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Estrategia de pruebas con pytest» en el quiz_card K2: S27-T3-B-E3. Enunciado: «S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe):». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S27, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "code": "# k2 explorer · S27-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "justification_from_packet": "Como explorer en S27 leí el paquete activo: S27-T4-A-E1. Enunciado: «S27-T4-A-E1 · Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la ent». completé el TODO/defecto sin reescribir asserts ni datos sintéticos. Conceptos del paquete: explorer, S27, Fixture, del. Salida: ['print(f(1), f(-1))']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "code": "# k2 explorer · S27-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nk2_out = 'non' not in hit\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S27-T4-A-E2 en K2: S27-T4-A-E2. Enunciado: «S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe):». invertí el predicado defectuoso cuando la instrucción pedía PASS del contrato. Conceptos del paquete: explorer, S27, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "code": "# k2 explorer · S27-T4-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nk2_out = int(100 * k / n)\nprint(k2_out)\n",
+      "justification_from_packet": "Seguí el slim_packet de «Estrategia de pruebas con pytest»: S27-T4-A-E3. Enunciado: «S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la e». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S27, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "code": "# k2 explorer · S27-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nk2_out = good == 'a' and mutant != 'a'\nprint(k2_out)\n",
+      "justification_from_packet": "Desde el starter de S27-T4-B-E1 en K2: S27-T4-B-E1. Enunciado: «S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (run_id=cpn». apliqué la forma esperada del comentario de referencia y el contrato I/O. Conceptos del paquete: explorer, S27, Fixture, del. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "code": "# k2 explorer · S27-T4-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "justification_from_packet": "Seguí el slim_packet de «Estrategia de pruebas con pytest»: S27-T4-B-E2. Enunciado: «S27-T4-B-E2 · Falla útil: imprime dict con keys expected, actual para expected=1 actual=2. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S27, Fixture, sint. Salida: [\"print({'expected': 1, 'actual': 2})\"]. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "code": "# k2 explorer · S27-T4-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nk2_out = 'bug_repro → regression_test'\nprint(k2_out)\n",
+      "justification_from_packet": "Exploré «Estrategia de pruebas con pytest» en el quiz_card K2: S27-T4-B-E3. Enunciado: «S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la en». anclé la salida a los prints del oráculo descritos en hints/tests. Conceptos del paquete: explorer, S27, Fixture, sint. Salida: ['print(k2_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Pruebas unitarias",
+      "justification_from_packet": "En el selfCheck de «Estrategia de pruebas con pytest» ítem 0: «En la pirámide de pruebas, la base más ancha suele ser:». Elijo índice 2 («Pruebas unitarias») porque la teoría del slim/quiz_card («riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** r) alinea ese concepto; descarto p.ej. ['E2E UI', 'Solo manual']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Una fuente de verdad determinista para el assert",
+      "justification_from_packet": "Self-check explorer S27 Q1: «Un oráculo confiable es:». Elijo índice 0 («Una fuente de verdad determinista para el assert») porque la teoría del slim/quiz_card («riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** r) alinea ese concepto; descarto p.ej. ['Un print en consola', 'El reloj del sistema sin fijar']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "El contrato es débil; el mutante sobrevivió",
+      "justification_from_packet": "Self-check explorer S27 Q2: «Si mutas un casefold y ningún test falla:». Elijo índice 1 («El contrato es débil; el mutante sobrevivió») porque la teoría del slim/quiz_card («riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** r) alinea ese concepto; descarto p.ej. ['Está bien', 'pytest está roto siempre']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Contratos de misma entidad / normalización — no riesgo ni relación",
+      "justification_from_packet": "Self-check explorer S27 Q3: «Las pruebas de matching en CP-N3-A demuestran:». Elijo índice 3 («Contratos de misma entidad / normalización — no riesgo ni relación») porque la teoría del slim/quiz_card («riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** r) alinea ese concepto; descarto p.ej. ['Fraude automático', 'Parentescos']. Solo material del paquete activo agentic_K2, sin claves de intentos previos."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:20:03.831059+00:00",
+  "session_started_at": "2026-07-23T15:19:21.521000+00:00",
+  "session_ended_at": "2026-07-23T15:20:03.829222+00:00",
+  "receipt_response_sha256": "3b399d35237b63a78586466c802fa03bab6e178932fbb7e1086f47e85d96e2ad",
+  "receipt_exercises_sha256": "11f53982f569a791bbad87e065ddd57ee3b79dc239c9675eada7dc24be1e3dc4",
+  "receipt_selfcheck_sha256": "a01f8082dc8869431228bd7dd66c76ee2412d67e24c082a2a0619238fd698417"
+}
