@@ -27,9 +27,9 @@ export const section29: CourseSection = {
     {
       heading: "Almacén relacional del ER para CP-N3-A",
       paragraphs: [
-        "Modelas el **almacén ER**: source_records, entities, candidate_pairs, decisions y evidence, **sin borrar historia**.",
-        "SQLite local es una base real y reproducible para observar constraints, NULL, planes, transacciones y locks; las diferencias con otros motores se declaran cuando importan.",
-        "Orden: **T1 Modelo** → **T2 Consulta** → **T3 Transacción** → **T4 Evolución**. Decisiones de match ≠ fraude.",
+        "Modelas el **almacén ER**: source_records, entities, candidate_pairs, decisions y evidence, **sin borrar historia**. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "SQLite local es una base real y reproducible para observar constraints, NULL, planes, transacciones y locks; las diferencias con otros motores se declaran cuando importan. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "Orden: **T1 Modelo** → **T2 Consulta** → **T3 Transacción** → **T4 Evolución**. Decisiones de match ≠ fraude. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline.",
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section29: CourseSection = {
       heading: "claves, constraints y normalización",
       subtopicId: "S29-T1-A",
       paragraphs: [
-        "**PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_id).",
-        "Normaliza a **3NF** para hechos: no repitas atributos de entidad en cada par; la evidencia puede ser tabla hija.",
-        "Ids sintéticos estables (`ent_…`, `pair_…`) facilitan tests.",
+        "**PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_id). El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "Normaliza a **3NF** para hechos: no repitas atributos de entidad en cada par; la evidencia puede ser tabla hija. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "Ids sintéticos estables (`ent_…`, `pair_…`) facilitan tests. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -85,9 +85,9 @@ check_score True`,
       heading: "temporalidad y provenance",
       subtopicId: "S29-T1-B",
       paragraphs: [
-        "**Temporalidad**: valid_from/valid_to o tablas de eventos. No sobrescribas la decisión anterior; inserta una nueva fila versionada.",
-        "**Provenance**: source_system, source_record_id, ingested_at, transform_version. Toda entidad debe rastrearse al registro fuente.",
-        "Auditoría: quién (actor sintético) decidió match/non-match y cuándo.",
+        "**Temporalidad**: valid_from/valid_to o tablas de eventos. No sobrescribas la decisión anterior; inserta una nueva fila versionada. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "**Provenance**: source_system, source_record_id, ingested_at, transform_version. Toda entidad debe rastrearse al registro fuente. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "Auditoría: quién (actor sintético) decidió match/non-match y cuándo. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -134,9 +134,9 @@ overwrite False`,
       heading: "CTEs, windows y anti-joins",
       subtopicId: "S29-T2-A",
       paragraphs: [
-        "**CTEs** (`WITH`) nombran pasos: candidatos filtrados, scores rankeados. **Windows** (`ROW_NUMBER`, `RANK`) particionan por entidad.",
-        "**Anti-join**: entidades sin par, o pares sin decisión — `NOT EXISTS` / `LEFT JOIN … IS NULL`.",
-        "Útil para colas de review y coverage de blocking.",
+        "**CTEs** (`WITH`) nombran pasos: candidatos filtrados, scores rankeados. **Windows** (`ROW_NUMBER`, `RANK`) particionan por entidad. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "**Anti-join**: entidades sin par, o pares sin decisión — `NOT EXISTS` / `LEFT JOIN … IS NULL`. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "Útil para colas de review y coverage de blocking. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -177,9 +177,9 @@ antijoin True`,
       heading: "cardinalidad, NULL y planes",
       subtopicId: "S29-T2-B",
       paragraphs: [
-        "**Cardinalidad** de joins define explosión de pares: n×m sin blocking es inviable. Estima filas antes de correr.",
-        "**NULL**: `NULL != NULL`; usa `IS NULL`. Agrega con cuidado (`COUNT` vs `COUNT(col)`).",
-        "**Planes**: `EXPLAIN QUERY PLAN` en sqlite para ver scans vs search por índice.",
+        "**Cardinalidad** de joins define explosión de pares: n×m sin blocking es inviable. Estima filas antes de correr. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "**NULL**: `NULL != NULL`; usa `IS NULL`. Agrega con cuidado (`COUNT` vs `COUNT(col)`). Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "**Planes**: `EXPLAIN QUERY PLAN` en sqlite para ver scans vs search por índice. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -215,9 +215,9 @@ plan_rows 1`,
       heading: "ACID e isolation",
       subtopicId: "S29-T3-A",
       paragraphs: [
-        "**ACID**: Atomicity, Consistency, Isolation, Durability. Una decisión + evidencia deben commitearse juntas o no.",
-        "Isolation (READ COMMITTED, SERIALIZABLE…) define qué ven transacciones concurrentes. sqlite: transacciones + `BEGIN IMMEDIATE` cuando hay escritura concurrente.",
-        "En el curso: demuestra rollback si falla el segundo insert.",
+        "**ACID**: Atomicity, Consistency, Isolation, Durability. Una decisión + evidencia deben commitearse juntas o no. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "Isolation (READ COMMITTED, SERIALIZABLE…) define qué ven transacciones concurrentes. sqlite: transacciones + `BEGIN IMMEDIATE` cuando hay escritura concurrente. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "En el curso: demuestra rollback si falla el segundo insert. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -255,9 +255,9 @@ atomic True`,
       heading: "upserts, concurrencia y recuperación",
       subtopicId: "S29-T3-B",
       paragraphs: [
-        "**Upsert** (`INSERT … ON CONFLICT`): actualiza atributos mutables de entidad sin perder el id estable.",
-        "Concurrencia: dos workers no deben crear el mismo par; usa constraints + reintento.",
-        "Recuperación: journal/WAL, reaplicar eventos, o marcar jobs `pending` tras crash.",
+        "**Upsert** (`INSERT … ON CONFLICT`): actualiza atributos mutables de entidad sin perder el id estable. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "Concurrencia: dos workers no deben crear el mismo par; usa constraints + reintento. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "Recuperación: journal/WAL, reaplicar eventos, o marcar jobs `pending` tras crash. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -291,9 +291,9 @@ upsert True`,
       heading: "índices y migrations",
       subtopicId: "S29-T4-A",
       paragraphs: [
-        "Índices en FK y columnas de filtro (`score`, `status`, `block_key`) bajan latencia de colas y blocking.",
-        "**Migrations** versionadas: expand → backfill → contract. Evita drops destructivos sin backup.",
-        "En sqlite didáctico: `CREATE INDEX` y tabla `schema_migrations`.",
+        "Índices en FK y columnas de filtro (`score`, `status`, `block_key`) bajan latencia de colas y blocking. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "**Migrations** versionadas: expand → backfill → contract. Evita drops destructivos sin backup. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "En sqlite didáctico: `CREATE INDEX` y tabla `schema_migrations`. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -330,9 +330,9 @@ n 1`,
       heading: "repository pattern, pooling y pruebas",
       subtopicId: "S29-T4-B",
       paragraphs: [
-        "El **repository** encapsula SQL: `get_entity`, `insert_decision`. La lógica de matching no arma SQL crudo por todos lados.",
-        "**Pooling**: reusa conexiones (en sqlite a menudo una por thread). En servers: pool con timeout.",
-        "Prueba el repo con sqlite memoria: inserts, constraints y anti-joins de la cola de review.",
+        "El **repository** encapsula SQL: `get_entity`, `insert_decision`. La lógica de matching no arma SQL crudo por todos lados. El modelo relacional es el contrato entre fuentes, candidatos y decisiones: sin historia, no hay auditoría del ER. Documenta evidencia y límites del fixture `CASO-LIM-029` (run_id=cpn3a-sql): sin PII real y sin auto-veredicto.",
+        "**Pooling**: reusa conexiones (en sqlite a menudo una por thread). En servers: pool con timeout. Contrato operativo: entrada DDL/DML sobre fixture `CASO-LIM-029` (run_id=cpn3a-sql) → tablas con PK/FK y queries deterministas; fail-closed si falta llave o el join multiplica filas sin documentar fan-out.",
+        "Prueba el repo con sqlite memoria: inserts, constraints y anti-joins de la cola de review. Caso sintético PE: warehouse de Red Andina en Lima con ids `ent-00N` y emails `@example.pe`; las consultas de candidatos se versionan con el run_id del pipeline.",
       ],
       code: {
         language: 'python',
@@ -561,7 +561,7 @@ print(R(c).pending())`,
         subtopicId: "S29-T1-A",
         kind: "guided",
         instruction:
-          "Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count.",
+          "S29-T1-A-E1 · Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sqlite3",
         hints: [
           "sqlite3",
@@ -593,7 +593,7 @@ print(c.execute('select count(*) from entities').fetchone()[0])`,
         subtopicId: "S29-T1-A",
         kind: "independent",
         instruction:
-          "CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'.",
+          "S29-T1-A-E2 · CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "try/except",
         hints: [
           "try/except",
@@ -629,7 +629,7 @@ except sqlite3.IntegrityError:
         subtopicId: "S29-T1-A",
         kind: "transfer",
         instruction:
-          "Imprime True si 'e1'<'e2' (orden canónico de par).",
+          "S29-T1-A-E3 · Imprime True si 'e1'<'e2' (orden canónico de par). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "comparación strings",
         hints: [
           "comparación strings",
@@ -656,7 +656,7 @@ except sqlite3.IntegrityError:
         subtopicId: "S29-T1-B",
         kind: "guided",
         instruction:
-          "Inserta dos labels para pair p1; imprime número de filas de historia.",
+          "S29-T1-B-E1 · Inserta dos labels para pair p1; imprime número de filas de historia. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "append-only",
         hints: [
           "append-only",
@@ -690,7 +690,7 @@ print(c.execute("select count(*) from d where pair='p1'").fetchone()[0])`,
         subtopicId: "S29-T1-B",
         kind: "independent",
         instruction:
-          "Imprime provenance dict source='crm_synth' record='r9'.",
+          "S29-T1-B-E2 · Imprime provenance dict source='crm_synth' record='r9'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "dict",
         hints: [
           "dict",
@@ -717,7 +717,7 @@ print(c.execute("select count(*) from d where pair='p1'").fetchone()[0])`,
         subtopicId: "S29-T1-B",
         kind: "transfer",
         instruction:
-          "valid_to NULL significa vigente: imprime 'open' si valid_to is None.",
+          "S29-T1-B-E3 · valid_to NULL significa vigente: imprime 'open' si valid_to is None. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "None",
         hints: [
           "None",
@@ -746,7 +746,7 @@ print('open' if valid_to is None else 'closed')`,
         subtopicId: "S29-T2-A",
         kind: "guided",
         instruction:
-          "Con pairs p1,p2 y decision solo p1, lista ids sin decisión.",
+          "S29-T2-A-E1 · Con pairs p1,p2 y decision solo p1, lista ids sin decisión. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "NOT IN o left join",
         hints: [
           "NOT IN o left join",
@@ -779,7 +779,7 @@ print([r[0] for r in c.execute('select id from pairs where id not in (select pai
         subtopicId: "S29-T2-A",
         kind: "independent",
         instruction:
-          "Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top.",
+          "S29-T2-A-E2 · Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sorted",
         hints: [
           "sorted",
@@ -808,7 +808,7 @@ print(sorted(scores, reverse=True)[0])`,
         subtopicId: "S29-T2-A",
         kind: "transfer",
         instruction:
-          "Imprime el nombre de la CTE de ejemplo: ranked.",
+          "S29-T2-A-E3 · Imprime el nombre de la CTE de ejemplo: ranked. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "literal",
         hints: [
           "literal",
@@ -835,7 +835,7 @@ print(sorted(scores, reverse=True)[0])`,
         subtopicId: "S29-T2-B",
         kind: "guided",
         instruction:
-          "C(n,2) para n=5 → 10.",
+          "S29-T2-B-E1 · C(n,2) para n=5 → 10. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "combinatoria",
         hints: [
           "combinatoria",
@@ -864,7 +864,7 @@ print(n*(n-1)//2)`,
         subtopicId: "S29-T2-B",
         kind: "independent",
         instruction:
-          "Imprime True si None is None (recuerda NULL SQL ≠ Python en joins).",
+          "S29-T2-B-E2 · Imprime True si None is None (recuerda NULL SQL ≠ Python en joins). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "is",
         hints: [
           "is",
@@ -891,7 +891,7 @@ print(n*(n-1)//2)`,
         subtopicId: "S29-T2-B",
         kind: "transfer",
         instruction:
-          "Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáctico).",
+          "S29-T2-B-E3 · Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáctico). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "string",
         hints: [
           "string",
@@ -918,7 +918,7 @@ print(n*(n-1)//2)`,
         subtopicId: "S29-T3-A",
         kind: "guided",
         instruction:
-          "Tras BEGIN insert y ROLLBACK, count debe ser 0.",
+          "S29-T3-A-E1 · Tras BEGIN insert y ROLLBACK, count debe ser 0. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "rollback",
         hints: [
           "rollback",
@@ -954,7 +954,7 @@ print(c.execute('select count(*) from t').fetchone()[0])`,
         subtopicId: "S29-T3-A",
         kind: "independent",
         instruction:
-          "Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D.",
+          "S29-T3-A-E2 · Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "string",
         hints: [
           "string",
@@ -981,7 +981,7 @@ print(c.execute('select count(*) from t').fetchone()[0])`,
         subtopicId: "S29-T3-A",
         kind: "transfer",
         instruction:
-          "Si evidence_ok es False no hagas commit conceptual: imprime 'abort'.",
+          "S29-T3-A-E3 · Si evidence_ok es False no hagas commit conceptual: imprime 'abort'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "guard",
         hints: [
           "guard",
@@ -1010,7 +1010,7 @@ print('abort' if not evidence_ok else 'commit')`,
         subtopicId: "S29-T3-B",
         kind: "guided",
         instruction:
-          "Upsert: segunda insert con mismo id actualiza; imprime name final 'B'.",
+          "S29-T3-B-E1 · Upsert: segunda insert con mismo id actualiza; imprime name final 'B'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "ON CONFLICT",
         hints: [
           "ON CONFLICT",
@@ -1046,7 +1046,7 @@ print(c.execute("select name from e where id='1'").fetchone()[0])`,
         subtopicId: "S29-T3-B",
         kind: "independent",
         instruction:
-          "Recuperación: job status 'pending' tras crash; imprime status.",
+          "S29-T3-B-E2 · Recuperación: job status 'pending' tras crash; imprime status. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "literal/dict",
         hints: [
           "literal/dict",
@@ -1073,7 +1073,7 @@ print(c.execute("select name from e where id='1'").fetchone()[0])`,
         subtopicId: "S29-T3-B",
         kind: "transfer",
         instruction:
-          "Conflicto de par duplicado → imprime 'retry'.",
+          "S29-T3-B-E3 · Conflicto de par duplicado → imprime 'retry'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "política",
         hints: [
           "política",
@@ -1102,7 +1102,7 @@ print('retry' if conflict else 'ok')`,
         subtopicId: "S29-T4-A",
         kind: "guided",
         instruction:
-          "Registra migration version 2 name 'add_index'; imprime max version.",
+          "S29-T4-A-E1 · Registra migration version 2 name 'add_index'; imprime max version. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "schema_migrations",
         hints: [
           "schema_migrations",
@@ -1138,7 +1138,7 @@ print(c.execute('select max(v) from schema_migrations').fetchone()[0])`,
         subtopicId: "S29-T4-A",
         kind: "independent",
         instruction:
-          "Imprime nombre de índice sugerido idx_pairs_block_key.",
+          "S29-T4-A-E2 · Imprime nombre de índice sugerido idx_pairs_block_key. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "convención",
         hints: [
           "convención",
@@ -1165,7 +1165,7 @@ print(c.execute('select max(v) from schema_migrations').fetchone()[0])`,
         subtopicId: "S29-T4-A",
         kind: "transfer",
         instruction:
-          "Política: imprime 'no_drop_without_backup'.",
+          "S29-T4-A-E3 · Política: imprime 'no_drop_without_backup'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "string",
         hints: [
           "string",
@@ -1192,7 +1192,7 @@ print(c.execute('select max(v) from schema_migrations').fetchone()[0])`,
         subtopicId: "S29-T4-B",
         kind: "guided",
         instruction:
-          "Repo.get: dict store {'e1':'Ana'}; imprime get e1.",
+          "S29-T4-B-E1 · Repo.get: dict store {'e1':'Ana'}; imprime get e1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "dict",
         hints: [
           "dict",
@@ -1221,7 +1221,7 @@ print(store.get('e1'))`,
         subtopicId: "S29-T4-B",
         kind: "independent",
         instruction:
-          "Pool size conceptual 5; imprime pool_size.",
+          "S29-T4-B-E2 · Pool size conceptual 5; imprime pool_size. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "dict",
         hints: [
           "dict",
@@ -1248,7 +1248,7 @@ print(store.get('e1'))`,
         subtopicId: "S29-T4-B",
         kind: "transfer",
         instruction:
-          "Test de repo: pending count 1; imprime 1.",
+          "S29-T4-B-E3 · Test de repo: pending count 1; imprime 1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "assert blando",
         hints: [
           "assert blando",

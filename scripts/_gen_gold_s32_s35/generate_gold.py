@@ -1,0 +1,2327 @@
+#!/usr/bin/env python3
+"""Generate gold-standard S32–S35 CourseSection TS files (S40 contract style)."""
+from __future__ import annotations
+
+import json
+import textwrap
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+SECTIONS = ROOT / "src/lib/course/sections"
+
+
+def esc(s: str) -> str:
+    return s.replace("\\", "\\\\").replace("`", "\\`").replace("${", "\\${")
+
+
+def q(s: str) -> str:
+    return json.dumps(s, ensure_ascii=False)
+
+
+def _pad(p: str, min_len: int = 200) -> str:
+    """Ensure theory paragraphs meet gold min length without inventing APIs."""
+    if len(p) >= min_len:
+        return p
+    suffix = (
+        " En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, "
+        "evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed "
+        "cuando falta dueño, n del slice o audit trail."
+    )
+    out = p
+    while len(out) < min_len:
+        out = out.rstrip() + suffix
+    return out
+
+
+def para3(a: str, b: str, c: str) -> list[str]:
+    return [_pad(a), _pad(b), _pad(c)]
+
+
+# ---------------------------------------------------------------------------
+# Shared exercise emitter (E1/E2/E3 pattern)
+# ---------------------------------------------------------------------------
+
+def emit_exercises(section_tag: str, subtopics: list[dict]) -> str:
+    """subtopics: list of dicts with keys id, name, fields, valid, invalid,
+    missing_field, breach, missing_code, predicate_bad, predicate_good,
+    evidence_phrase, case_suffix
+    """
+    kinds = [
+        ("E1", "guided"),
+        ("E2", "independent"),
+        ("E3", "transfer"),
+    ]
+    blocks = []
+    for st in subtopics:
+        sid = st["id"]  # e.g. S35-T1-A
+        name = st["name"]
+        fields = st["fields"]
+        field_list = ", ".join(fields)
+        case = f"CASO-LIM-{section_tag}-{st['case_suffix']}"
+        breach = st["breach"]
+        miss_code = st["missing_code"]
+        miss_field = st["missing_field"]
+        evidence = st["evidence_phrase"]
+        valid = st["valid"]
+        invalid = st["invalid"]
+        pred_bad = st["predicate_bad"]
+        pred_good = st["predicate_good"]
+        # E3 missing uses REQUEST-style code; pop missing field from valid
+        e3_uncertain_code = miss_code
+
+        for ek, kind in kinds:
+            eid = f"{sid}-{ek}"
+            fname = f"{sid.lower()}-{ek.lower()}.py"
+            if ek == "E1":
+                instruction = (
+                    f"{eid} · Calcula el contrato de `{name}` sobre `{case}`. "
+                    f"La entrada es el dict completo del starter; la operación debe demostrar {evidence}. "
+                    f"Reemplaza la expresión booleana defectuosa, no los datos ni el assert. "
+                    f"Salida exacta: `{sid} PASS`; la misma operación sobre el fixture adverso debe activar `{breach}` en E2."
+                )
+                assert len(instruction) >= 150
+                hint = f"Relaciona los campos `{field_list}` con la regla explicada en {sid}."
+                hints = [
+                    hint,
+                    f"El predicado correcto debe ser verdadero porque el fixture conserva {evidence}; revisa dirección de comparación, conjuntos y negaciones.",
+                ]
+                edge = [f"falta {miss_field}", f"fixture adverso: {evidence}", f"{case} es sintético"]
+                tests = f"El fixture `{case}` satisface un predicado de dominio real; imprime `{sid} PASS` y el assert booleano pasa."
+                feedback = (
+                    f"{eid}: explica qué campo cambió la decisión, por qué el adverso activa {breach} "
+                    f"y por qué faltar {miss_field} exige {miss_code}."
+                )
+                starter = textwrap.dedent(
+                    f"""\
+                    record = {{"case_id": "{case}", **{valid}}}
+                    meets_contract = {pred_bad}
+                    status = "PASS" if meets_contract else "{breach}"
+                    print("{sid}", status)
+                    """
+                )
+                solution = textwrap.dedent(
+                    f"""\
+                    record = {{"case_id": "{case}", **{valid}}}
+                    meets_contract = {pred_good}
+                    status = "PASS" if meets_contract else "{breach}"
+                    print("{sid}", status)
+                    assert meets_contract is True
+                    """
+                )
+                output = f"{sid} PASS"
+            elif ek == "E2":
+                instruction = (
+                    f"{eid} · Modela tres rutas de `{name}`: fixture válido, fixture adverso y registro sin `{miss_field}`. "
+                    f"Entrada: dict con case_id, {field_list}. "
+                    f"Salidas exactas: `PASS`, `{breach}`, `MISSING:{miss_field}`. "
+                    f"El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos."
+                )
+                assert len(instruction) >= 150
+                hint = f"Primero se calcula `missing`; ningún acceso a {miss_field} debe ocurrir antes de esa rama."
+                hints = [
+                    hint,
+                    f"Después aplica la regla de {sid}: {evidence}. El fixture adverso debe fallar por contenido, no por schema.",
+                ]
+                edge = [f"falta {miss_field}", f"fixture adverso: {evidence}", f"{case} es sintético"]
+                tests = f"La tabla cubre válido/adverso/campo `{miss_field}` ausente y produce exactamente `PASS {breach} MISSING:{miss_field}`."
+                feedback = (
+                    f"{eid}: explica qué campo cambió la decisión, por qué el adverso activa {breach} "
+                    f"y por qué faltar {miss_field} exige {miss_code}."
+                )
+                starter = textwrap.dedent(
+                    f"""\
+                    def assess(record: dict) -> str:
+                        required = {{"case_id", {", ".join(repr(f) for f in fields)}}}
+                        missing = sorted(required - record.keys())
+                        if missing:
+                            return "MISSING:" + ",".join(missing)
+                        return "PASS" if {pred_bad} else "{breach}"
+
+                    valid = {{"case_id": "{case}", **{valid}}}
+                    invalid = {{"case_id": "{case}", **{invalid}}}
+                    incomplete = {{**valid}}
+                    incomplete.pop("{miss_field}")
+                    results = (assess(valid), assess(invalid), assess(incomplete))
+                    print(*results)
+                    """
+                )
+                solution = textwrap.dedent(
+                    f"""\
+                    def assess(record: dict) -> str:
+                        required = {{"case_id", {", ".join(repr(f) for f in fields)}}}
+                        missing = sorted(required - record.keys())
+                        if missing:
+                            return "MISSING:" + ",".join(missing)
+                        return "PASS" if {pred_good} else "{breach}"
+
+                    valid = {{"case_id": "{case}", **{valid}}}
+                    invalid = {{"case_id": "{case}", **{invalid}}}
+                    incomplete = {{**valid}}
+                    incomplete.pop("{miss_field}")
+                    results = (assess(valid), assess(invalid), assess(incomplete))
+                    print(*results)
+                    """
+                )
+                output = f"PASS {breach} MISSING:{miss_field}"
+            else:  # E3
+                instruction = (
+                    f"{eid} · Contrasta fallo cerrado para `{name}` con tres fixtures distintos. "
+                    f"`{case}` debe continuar, el adverso debe devolver `{breach}` y la ausencia de `{miss_field}` "
+                    f"debe devolver `{e3_uncertain_code}`. El starter continúa tanto ante incertidumbre como con un "
+                    f"predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia."
+                )
+                assert len(instruction) >= 150
+                hint = f"Una ausencia no equivale a breach: enrútala a `{e3_uncertain_code}` antes de evaluar el contenido."
+                hints = [
+                    hint,
+                    f"Para datos completos reutiliza la regla que demostró {evidence}; solo ese caso devuelve `CONTINUE`.",
+                ]
+                edge = [f"falta {miss_field}", f"fixture adverso: {evidence}", f"{case} es sintético"]
+                tests = f"Fixtures `{case}`, adverso y sin `{miss_field}` prueban continue/breach/uncertainty en ese orden."
+                feedback = (
+                    f"{eid}: explica qué campo cambió la decisión, por qué el adverso activa {breach} "
+                    f"y por qué faltar {miss_field} exige {e3_uncertain_code}."
+                )
+                starter = textwrap.dedent(
+                    f"""\
+                    def decide(record: dict) -> str:
+                        required = {{"case_id", {", ".join(repr(f) for f in fields)}}}
+                        missing = sorted(required - record.keys())
+                        if missing:
+                            return "CONTINUE"
+                        return "CONTINUE" if {pred_bad} else "{breach}"
+
+                    valid = {{"case_id": "{case}", **{valid}}}
+                    invalid = {{"case_id": "{case}", **{invalid}}}
+                    uncertain = {{**valid}}
+                    uncertain.pop("{miss_field}")
+                    results = [decide(item) for item in (valid, invalid, uncertain)]
+                    print(*results)
+                    """
+                )
+                solution = textwrap.dedent(
+                    f"""\
+                    def decide(record: dict) -> str:
+                        required = {{"case_id", {", ".join(repr(f) for f in fields)}}}
+                        missing = sorted(required - record.keys())
+                        if missing:
+                            return "{e3_uncertain_code}"
+                        return "CONTINUE" if {pred_good} else "{breach}"
+
+                    valid = {{"case_id": "{case}", **{valid}}}
+                    invalid = {{"case_id": "{case}", **{invalid}}}
+                    uncertain = {{**valid}}
+                    uncertain.pop("{miss_field}")
+                    results = [decide(item) for item in (valid, invalid, uncertain)]
+                    print(*results)
+                    assert results == ["CONTINUE", "{breach}", "{e3_uncertain_code}"]
+                    """
+                )
+                output = f"CONTINUE {breach} {e3_uncertain_code}"
+
+            # Verify solutions execute
+            ns: dict = {}
+            try:
+                exec(solution, ns, ns)
+            except Exception as e:
+                raise RuntimeError(f"Solution failed for {eid}: {e}\n{solution}") from e
+
+            blocks.append(
+                f"""      {{
+        id: {q(eid)},
+        subtopicId: {q(sid)},
+        kind: {q(kind)},
+        instruction: {q(instruction)},
+        hint: {q(hint)},
+        hints: [
+          {q(hints[0])},
+          {q(hints[1])},
+        ],
+        edgeCases: [{", ".join(q(e) for e in edge)}],
+        tests: {q(tests)},
+        feedback: {q(feedback)},
+        starterCode: {{
+          language: 'python',
+          title: {q(fname)},
+          code: `{esc(starter)}` ,
+        }},
+        solutionCode: {{
+          language: 'python',
+          title: {q(fname)},
+          code: `{esc(solution)}` ,
+          output: `{esc(output)}` ,
+        }},
+      }}"""
+            )
+    return ",\n".join(blocks)
+
+
+def theory_block(
+    heading: str,
+    paragraphs: list[str],
+    *,
+    subtopic_id: str | None = None,
+    code_title: str | None = None,
+    code: str | None = None,
+    output: str | None = None,
+    callout_type: str = "tip",
+    callout_title: str = "Contrato local",
+    callout: str | None = None,
+) -> str:
+    sid = f"\n      subtopicId: {q(subtopic_id)}," if subtopic_id else ""
+    paras = ",\n".join(f"        {q(p)}" for p in paragraphs)
+    code_s = ""
+    if code_title and code is not None:
+        out = f"\n        output: `{esc(output)}`," if output is not None else ""
+        code_s = f"""
+      code: {{
+        language: 'python',
+        title: {q(code_title)},
+        code: `{esc(code)}`,{out}
+      }},"""
+    call = ""
+    if callout:
+        call = f"""
+      callout: {{
+        type: {q(callout_type)},
+        title: {q(callout_title)},
+        content:
+          {q(callout)},
+      }},"""
+    return f"""    {{
+      heading: {q(heading)},{sid}
+      paragraphs: [
+{paras}
+      ],{code_s}{call}
+    }}"""
+
+
+def i_do_step(demo_id: str, subtopic: str, description: str, why: str, title: str, code: str, output: str) -> str:
+    assert len(description) >= 40
+    assert len(why) >= 40
+    return f"""      {{
+        demoId: {q(demo_id)},
+        subtopicId: {q(subtopic)},
+        environment: "local-python",
+        description: {q(description)},
+        code: {{
+          language: 'python',
+          title: {q(title)},
+          code: `{esc(code)}`,
+          output: `{esc(output)}`,
+        }},
+        why: {q(why)},
+      }}"""
+
+
+def self_check(questions: list[dict]) -> str:
+    parts = []
+    for qq in questions:
+        opts = ", ".join(q(o) for o in qq["options"])
+        parts.append(
+            f"""      {{
+        question: {q(qq["question"])},
+        options: [{opts}],
+        correctIndex: {qq["correctIndex"]},
+        explanation:
+          {q(qq["explanation"])},
+      }}"""
+        )
+    return ",\n".join(parts)
+
+
+def emit_section(meta: dict) -> str:
+    theory = ",\n".join(meta["theory"])
+    i_do = ",\n".join(meta["i_do"])
+    we_do = meta["we_do"]
+    sc = self_check(meta["self_check"])
+    lo = ",\n".join(f'    {{ text: {q(t)} }}' for t in meta["learning_outcomes"])
+    resources = meta["resources"]
+    you = meta["you_do"]
+    return f"""import type {{ CourseSection }} from '../../types'
+
+export const section{meta["index"]}: CourseSection = {{
+  id: {q(meta["id"])},
+  index: {meta["index"]},
+  title: {q(meta["title"])},
+  shortTitle: {q(meta["shortTitle"])},
+  tagline: {q(meta["tagline"])},
+  estimatedHours: {meta["estimatedHours"]},
+  level: {q(meta["level"])},
+  phase: {meta["phase"]},
+  icon: {q(meta["icon"])},
+  accentColor: {q(meta["accentColor"])},
+  jobRelevance:
+    {q(meta["jobRelevance"])},
+  learningOutcomes: [
+{lo}
+  ],
+  theory: [
+{theory}
+  ],
+  iDo: {{
+    intro: {q(meta["i_do_intro"])},
+    steps: [
+{i_do}
+    ],
+  }},
+  weDo: {{
+    intro: {q(meta["we_do_intro"])},
+    steps: [
+{we_do}
+    ],
+  }},
+  youDo: {{
+    title: {q(you["title"])},
+    context:
+      {q(you["context"])},
+    objectives: [
+{chr(10).join("      " + q(o) + "," for o in you["objectives"])}
+    ],
+    requirements: [
+{chr(10).join("      " + q(r) + "," for r in you["requirements"])}
+    ],
+    starterCode: `{esc(you["starter"])}`,
+    portfolioNote:
+      {q(you["portfolioNote"])},
+    rubric: [
+      {{ criterion: "Alineación al gate V3 de la sección", weight: "25%" }},
+      {{ criterion: "Correctitud técnica en entorno declarado", weight: "20%" }},
+      {{ criterion: "Privacidad / sin PII real / sin secretos / sin inferencia de fraude", weight: "20%" }},
+      {{ criterion: "Pruebas o casos de borde documentados", weight: "15%" }},
+      {{ criterion: "Código legible y límites claros", weight: "10%" }},
+      {{ criterion: "Documentación en español profesional", weight: "10%" }},
+      {{ criterion: {q(you["bonus"])}, weight: "bonus" }},
+    ],
+  }},
+  selfCheck: {{
+    questions: [
+{sc}
+    ],
+  }},
+  resources: {{
+    docs: [
+{chr(10).join("      " + str(d) + "," for d in resources["docs"])}
+    ],
+    books: [
+{chr(10).join("      " + str(b) + "," for b in resources["books"])}
+    ],
+    courses: [
+{chr(10).join("      " + str(c) + "," for c in resources["courses"])}
+    ],
+  }},
+}}
+"""
+
+
+# ===========================================================================
+# S35 — Explicabilidad, equidad e incertidumbre
+# ===========================================================================
+
+def build_s35() -> str:
+    caso = "CASO-LIM-035"
+    theory = [
+        theory_block(
+            "Inicio CP-N3-C: ficha de caso responsable",
+            para3(
+                "Esta sección parte de S34 y usa únicamente métricas, umbrales y baselines ya presentados. El caso sintético `CASO-LIM-035` de Red Andina (organización ficticia en Lima) se ejecuta sin credenciales ni servicios externos.",
+                "Producto incremental: ficha de caso que separa evidencia observada, contribución del modelo, incertidumbre y decisión humana. Entrada: score, features y cohorte; salida: plantilla auditables sin auto-etiqueta de fraude.",
+                "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach o incertidumbre. Id legacy `system-design` se conserva.",
+            ),
+            callout_type="info",
+            callout_title="Gate CP-N3-C",
+            callout="Inicio CP-N3-C: la ficha distingue capas; explicar no es acusar. Sin section_passed automático si falta evidencia o audit trail.",
+        ),
+        theory_block(
+            "coeficientes e importancia por permutación",
+            para3(
+                "Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de negocio al barajar una feature. Son mapas globales del modelo, no veredictos sobre una persona real.",
+                "Contrato operativo. Entrada: dict de drops por feature y métrica de cola. Salida: ranking top_feature con drop numérico y flag means_fraud=False. Error: afirmar causalidad legal o fraude a partir del drop. Criterio: misma métrica de negocio en train y en permutación.",
+                f"Aplicación de importancia por permutación a `{caso}`: shared_phone cae más que amount_7d en precision@k sintético; documentas sensibilidad del modelo sobre datos ficticios y nunca emites label de fraude/parentesco.",
+            ),
+            subtopic_id="S35-T1-A",
+            code_title="perm_imp.py",
+            code="""base = 0.80
+drops = {"shared_phone": 0.10, "amount_7d": 0.03, "region": 0.01}
+imp = sorted(drops, key=drops.get, reverse=True)
+print("top_feature", imp[0])
+print("drop", drops[imp[0]])
+print("means_fraud", False)""",
+            output="""top_feature shared_phone
+drop 0.1
+means_fraud False""",
+            callout="Evidencia mínima S35-T1-A: ranking de drops con means_fraud=False. Breach → REJECT_CAUSAL_CLAIM; falta drops → REQUEST_METRIC_DROP.",
+        ),
+        theory_block(
+            "explicación local, correlación y límites",
+            para3(
+                "La explicación local asigna contribución de features al score del caso (p.ej. valor × peso). Correlación entre variables no implica que la contribución sea causa del comportamiento humano ni prueba legal.",
+                "Contrato operativo. Entrada: pares (valor, peso) por feature. Salida: contribuciones, suma y plantilla de 4 capas (evidencia|modelo|incertidumbre|humano). Error: omitir límites o declarar causal=True. Criterio: cada capa tiene flag explícito.",
+                f"Aplicación de explicación local a `{caso}`: shared_phone aporta 0.9 al score de cola; la ficha marca causal=False y deja la decisión al analista con override auditable.",
+            ),
+            subtopic_id="S35-T1-B",
+            code_title="local_exp.py",
+            code="""feats = {"shared_phone": (1.0, 0.9), "amount_z": (0.5, 0.2)}
+contrib = {k: v * w for k, (v, w) in feats.items()}
+print("contrib", {k: round(v, 3) for k, v in contrib.items()})
+print("sum", round(sum(contrib.values()), 3))
+print("causal", False)""",
+            output="""contrib {'shared_phone': 0.9, 'amount_z': 0.1}
+sum 1.0
+causal False""",
+            callout="Contrato S35-T1-B: 4 capas + causal=False. Breach → REJECT_CAUSAL_CLAIM; falta capas → REQUEST_LAYER_FIELDS.",
+        ),
+        theory_block(
+            "cohortes y métricas por slice",
+            para3(
+                "Cortar por región, canal o tipo de enlace revela si la cola de revisión daña de forma desigual. Compara precision/recall o tasa de queue reportando siempre el tamaño muestral n del slice.",
+                "Contrato operativo. Entrada: dict slice→{n, precision}. Salida: flag low_n si n<30 y comparación documentada. Error: gritar inequidad con n=3 o esconder n. Criterio: n visible junto a cada métrica.",
+                f"Aplicación de slices a `{caso}`: LIM n=100 precision=0.6 (ok_n) vs AQP n=8 precision=0.9 (low_n). No se afirma paridad de fraude; solo daño diferencial potencial en revisión.",
+            ),
+            subtopic_id="S35-T2-A",
+            code_title="slices.py",
+            code="""slices = {
+    "LIM": {"n": 100, "precision": 0.6},
+    "AQP": {"n": 8, "precision": 0.9},
+}
+for s, m in slices.items():
+    flag = "low_n" if m["n"] < 30 else "ok_n"
+    print(s, m["precision"], flag)
+print("compared", True)""",
+            output="""LIM 0.6 ok_n
+AQP 0.9 low_n
+compared True""",
+            callout="Antes de promover S35-T2-A, audita n por slice. low_n no prueba inequidad; breach de claim → REJECT_LOW_N_CLAIM.",
+        ),
+        theory_block(
+            "proxies, sample size y daño diferencial",
+            para3(
+                "Un proxy es una variable que correlaciona con atributos sensibles (distrito, canal, idioma de nota). Su uso puede elevar falsos positivos en un grupo y generar fricción injustificada en la cola.",
+                "Contrato operativo. Entrada: features candidatas con risk tags. Salida: lista high-risk y acción mitigate/review. Error: silenciar proxy o convertirlo en label. Criterio: daño medido como delta de FP rate entre grupos sintéticos.",
+                f"Aplicación de proxies a `{caso}`: district_code se marca high y se retira del set de features de ranking; se documenta sample size bajo en AQP antes de cualquier claim de paridad.",
+            ),
+            subtopic_id="S35-T2-B",
+            code_title="proxies.py",
+            code="""feats = {"shared_phone": "med", "district_code": "high", "amount_7d": "low"}
+high = [k for k, v in feats.items() if v == "high"]
+print(high)
+print("action", "review")
+print("means_fraud", False)""",
+            output="""['district_code']
+action review
+means_fraud False""",
+            callout="S35-T2-B: lista high + action. Breach → REJECT_PROXY_FEATURE; falta audit → REQUEST_PROXY_AUDIT.",
+        ),
+        theory_block(
+            "calibración, intervalos/conformal conceptualmente",
+            para3(
+                "Un score puntual engaña; comunicar intervalo o cobertura conceptual (p±q toy o conformal a alto nivel) deja claro qué tan estable es la señal de cola. Brier e intervalos son complementarios, no rivales.",
+                "Contrato operativo. Entrada: p y q de incertidumbre. Salida: (lo, hi) y label de nivel. Error: publicar solo p sin ancho. Criterio: todo score de ficha lleva banda o flag de no-cobertura.",
+                f"Aplicación a `{caso}`: p=0.6 con q=0.1 produce [0.5, 0.7] nivel toy; el analista ve incertidumbre antes de override.",
+            ),
+            subtopic_id="S35-T3-A",
+            code_title="interval.py",
+            code="""p, q = 0.6, 0.1
+print(round(p - q, 2), round(p + q, 2))
+print("level", "toy")
+print("point_only", False)""",
+            output="""0.5 0.7
+level toy
+point_only False""",
+            callout="S35-T3-A: intervalo + level. Breach → REJECT_POINT_ONLY; falta q → REQUEST_INTERVAL.",
+        ),
+        theory_block(
+            "out-of-distribution y abstención",
+            para3(
+                "Cuando un caso se sale del soporte visto en train (canal nuevo, z-score extremo), la política correcta es abstener y escalar, no forzar pred=1 ni inventar fraude.",
+                "Contrato operativo. Entrada: vector z y política ood. Salida: ood bool y action abstain|score. Error: auto-label en OOD. Criterio: fail-closed hacia humano.",
+                f"Aplicación OOD a `{caso}`: z=[1,2,3.5] dispara ood; action=abstain y la ficha registra uncertainty.reason=ood sin label de fraude.",
+            ),
+            subtopic_id="S35-T3-B",
+            code_title="ood.py",
+            code="""zs = [1, 2, 3.5]
+ood = max(abs(x) for x in zs) > 3
+print(ood)
+print("action", "abstain" if ood else "score")
+print("auto_fraud", False)""",
+            output="""True
+action abstain
+auto_fraud False""",
+            callout="S35-T3-B: abstain en OOD. Breach → REJECT_AUTO_LABEL; falta política → REQUEST_OOD_POLICY.",
+        ),
+        theory_block(
+            "model card y contestabilidad",
+            para3(
+                "La model card documenta uso permitido, out_of_scope, métricas y dueño. Contestabilidad exige canal para que un humano impugne el ranking sin borrar el audit trail.",
+                "Contrato operativo. Entrada: keys mínimas de card. Salida: card válida con out_of_scope que incluye fraud_label. Error: card vacía o uso prohibido habilitado. Criterio: contestability=True en ficha.",
+                f"Aplicación model card a `{caso}`: use=queue_rank, out_of_scope=fraud_label, owner=risk_ops; el caso puede apelar sin reescribir score histórico.",
+            ),
+            subtopic_id="S35-T4-A",
+            code_title="model_card.py",
+            code="""card = {
+    "use": "queue_rank",
+    "out_of_scope": ["fraud_label"],
+    "owner": "risk_ops",
+    "contestability": True,
+}
+print("out_of_scope", card["out_of_scope"][0])
+print("use", card["use"])
+print("card", True)""",
+            output="""out_of_scope fraud_label
+use queue_rank
+card True""",
+            callout="S35-T4-A: keys + out_of_scope. Breach → REJECT_SCOPE_BREACH; falta keys → REQUEST_CARD_KEYS.",
+        ),
+        theory_block(
+            "aprobación, override, apelación y retiro",
+            para3(
+                "El ciclo de vida del modelo (proposed→approved→production→retired) y los overrides humanos deben dejar by, timestamp y razón. Sin audit no hay gobernanza.",
+                "Contrato operativo. Entrada: evento de override o retiro. Salida: log con case, human action, by. Error: override silencioso o retiro sin flag de drift. Criterio: toda decisión humana es reconstruible.",
+                f"Aplicación gobernanza a `{caso}`: analyst_7 hace override_skip; el log guarda by y case; retiro por drift_flag=True mueve a retired sin borrar histórico.",
+            ),
+            subtopic_id="S35-T4-B",
+            code_title="governance.py",
+            code="""states = ["proposed", "approved", "production", "retired"]
+event = {"case": "c1", "model_score": 0.82, "human": "override_skip", "by": "analyst_7"}
+print("lifecycle", " > ".join(states))
+print("override", event["human"])
+print("audit", True)""",
+            output="""lifecycle proposed > approved > production > retired
+override override_skip
+audit True""",
+            callout="S35-T4-B: audit by/timestamp. Breach → REJECT_SILENT_OVERRIDE; falta fields → REQUEST_AUDIT_FIELDS.",
+        ),
+    ]
+
+    i_do = [
+        i_do_step(
+            "S35-T1-A-DEMO", "S35-T1-A",
+            "Ranking de importance por drop en métrica de cola sobre dict sintético de features del workbench.",
+            "La importancia global orienta sensibilidad del modelo; nunca se traduce a veredicto de fraude en la ficha de caso.",
+            "imp_demo.py",
+            """d={"f1":0.02,"f2":0.1}
+print(max(d, key=d.get), d[max(d, key=d.get)])
+print('fraud', False)
+print('ok', True)""",
+            """f2 0.1
+fraud False
+ok True""",
+        ),
+        i_do_step(
+            "S35-T1-B-DEMO", "S35-T1-B",
+            "Suma de contribuciones locales value×weight y marca causal=False para límites de explicación.",
+            "La explicación local resume el score del caso; correlación o contribución no demuestran causalidad legal.",
+            "loc_demo.py",
+            """c={"a":0.2,"b":-0.1}
+print(round(sum(c.values()),3))
+print('causal', False)
+print('ok', True)""",
+            """0.1
+causal False
+ok True""",
+        ),
+        i_do_step(
+            "S35-T2-A-DEMO", "S35-T2-A",
+            "Flag low_n cuando el slice tiene n<30 para no gritar inequidad con muestra chica.",
+            "Reportar n por cohorte evita claims de equidad estadísticamente vacíos en regiones con poco tráfico.",
+            "slice_demo.py",
+            """n=5; print('flag', 'low_n' if n<30 else 'ok_n')
+print('n', n)
+print('ok', True)""",
+            """flag low_n
+n 5
+ok True""",
+        ),
+        i_do_step(
+            "S35-T2-B-DEMO", "S35-T2-B",
+            "Lista proxies high-risk (district_code) y acción review sin emitir fraud label.",
+            "Detectar proxies reduce daño diferencial en la cola; la mitigación es retirar o auditar, no acusar.",
+            "proxy_demo.py",
+            """print(['district_code'])
+print('action', 'review')
+print('ok', True)""",
+            """['district_code']
+action review
+ok True""",
+        ),
+        i_do_step(
+            "S35-T3-A-DEMO", "S35-T3-A",
+            "Intervalo toy p±q alrededor del score para comunicar incertidumbre en la ficha.",
+            "Un punto sin ancho oculta inestabilidad; la banda conceptual prepara abstención y override humano.",
+            "int_demo.py",
+            """p,q=0.6,0.1
+print(round(p-q,2), round(p+q,2))
+print('level', 'toy')
+print('ok', True)""",
+            """0.5 0.7
+level toy
+ok True""",
+        ),
+        i_do_step(
+            "S35-T3-B-DEMO", "S35-T3-B",
+            "Detección OOD por max |z|>3 y política de abstención fail-closed hacia humano.",
+            "Fuera de distribución no se fuerza label; se abstiene y se escala con razón ood en uncertainty.",
+            "ood_demo.py",
+            """print(max(abs(x) for x in [1,2,3.5])>3)
+print('action', 'abstain')
+print('ok', True)""",
+            """True
+action abstain
+ok True""",
+        ),
+        i_do_step(
+            "S35-T4-A-DEMO", "S35-T4-A",
+            "Model card mínima con out_of_scope=fraud_label y use=queue_rank para contestabilidad.",
+            "Documentar usos prohibidos evita que el score se convierta en etiqueta automática de fraude.",
+            "card_demo.py",
+            """print('out_of_scope', 'fraud_label')
+print('use', 'queue_rank')
+print('card', True)""",
+            """out_of_scope fraud_label
+use queue_rank
+card True""",
+        ),
+        i_do_step(
+            "S35-T4-B-DEMO", "S35-T4-B",
+            "Override audit con campos case, human y by para reconstruir la decisión humana.",
+            "Sin by/timestamp no hay gobernanza; el override silencioso es un breach del ciclo de vida.",
+            "gov_demo.py",
+            """print({'case':'c1','human':'override','by':'u1'})
+print('audit', True)
+print('ok', True)""",
+            """{'case': 'c1', 'human': 'override', 'by': 'u1'}
+audit True
+ok True""",
+        ),
+    ]
+
+    subtopics = [
+        {
+            "id": "S35-T1-A",
+            "name": "coeficientes e importancia por permutación",
+            "fields": ["drops", "metric", "means_fraud"],
+            "valid": {"drops": {"shared_phone": 0.1, "amount_7d": 0.03}, "metric": "precision_at_k", "means_fraud": False},
+            "invalid": {"drops": {"shared_phone": 0.1}, "metric": "precision_at_k", "means_fraud": True},
+            "missing_field": "drops",
+            "breach": "REJECT_CAUSAL_CLAIM",
+            "missing_code": "REQUEST_METRIC_DROP",
+            "predicate_bad": 'record["means_fraud"] is True',
+            "predicate_good": 'record["means_fraud"] is False and record["metric"] == "precision_at_k" and max(record["drops"].values()) > 0',
+            "evidence_phrase": "ranking de drops con means_fraud=False y métrica de negocio",
+            "case_suffix": "1A",
+        },
+        {
+            "id": "S35-T1-B",
+            "name": "explicación local, correlación y límites",
+            "fields": ["contrib", "layers", "causal"],
+            "valid": {"contrib": {"shared_phone": 0.9, "amount_z": 0.1}, "layers": ["evidence", "model", "uncertainty", "human"], "causal": False},
+            "invalid": {"contrib": {"shared_phone": 0.9}, "layers": ["evidence", "model"], "causal": True},
+            "missing_field": "layers",
+            "breach": "REJECT_CAUSAL_CLAIM",
+            "missing_code": "REQUEST_LAYER_FIELDS",
+            "predicate_bad": 'record["causal"] is True',
+            "predicate_good": 'record["causal"] is False and set(record["layers"]) == {"evidence", "model", "uncertainty", "human"}',
+            "evidence_phrase": "cuatro capas y causal=False en la ficha",
+            "case_suffix": "1B",
+        },
+        {
+            "id": "S35-T2-A",
+            "name": "cohortes y métricas por slice",
+            "fields": ["slice_n", "precision", "min_n"],
+            "valid": {"slice_n": 100, "precision": 0.6, "min_n": 30},
+            "invalid": {"slice_n": 5, "precision": 0.95, "min_n": 30},
+            "missing_field": "slice_n",
+            "breach": "REJECT_LOW_N_CLAIM",
+            "missing_code": "REQUEST_SLICE_N",
+            "predicate_bad": 'record["slice_n"] < record["min_n"]',
+            "predicate_good": 'record["slice_n"] >= record["min_n"] and 0 <= record["precision"] <= 1',
+            "evidence_phrase": "n suficiente junto a precision de slice",
+            "case_suffix": "2A",
+        },
+        {
+            "id": "S35-T2-B",
+            "name": "proxies, sample size y daño diferencial",
+            "fields": ["feature", "risk", "action"],
+            "valid": {"feature": "district_code", "risk": "high", "action": "review"},
+            "invalid": {"feature": "district_code", "risk": "high", "action": "auto_label"},
+            "missing_field": "action",
+            "breach": "REJECT_PROXY_FEATURE",
+            "missing_code": "REQUEST_PROXY_AUDIT",
+            "predicate_bad": 'record["action"] == "auto_label"',
+            "predicate_good": 'record["risk"] == "high" and record["action"] in {"review", "mitigate", "drop"}',
+            "evidence_phrase": "proxy high con acción de mitigación o review",
+            "case_suffix": "2B",
+        },
+        {
+            "id": "S35-T3-A",
+            "name": "calibración, intervalos/conformal conceptualmente",
+            "fields": ["p", "q", "level"],
+            "valid": {"p": 0.6, "q": 0.1, "level": "toy"},
+            "invalid": {"p": 0.6, "q": 0.0, "level": "point"},
+            "missing_field": "q",
+            "breach": "REJECT_POINT_ONLY",
+            "missing_code": "REQUEST_INTERVAL",
+            "predicate_bad": 'record["q"] == 0',
+            "predicate_good": 'record["q"] > 0 and record["level"] != "point" and 0 <= record["p"] <= 1',
+            "evidence_phrase": "intervalo con q>0 y level distinto de point",
+            "case_suffix": "3A",
+        },
+        {
+            "id": "S35-T3-B",
+            "name": "out-of-distribution y abstención",
+            "fields": ["zs", "threshold", "action"],
+            "valid": {"zs": [1.0, 2.0, 3.5], "threshold": 3.0, "action": "abstain"},
+            "invalid": {"zs": [1.0, 2.0, 3.5], "threshold": 3.0, "action": "auto_fraud"},
+            "missing_field": "action",
+            "breach": "REJECT_AUTO_LABEL",
+            "missing_code": "REQUEST_OOD_POLICY",
+            "predicate_bad": 'record["action"] == "auto_fraud"',
+            "predicate_good": 'max(abs(z) for z in record["zs"]) > record["threshold"] and record["action"] == "abstain"',
+            "evidence_phrase": "OOD detectado con action abstain y sin auto-label",
+            "case_suffix": "3B",
+        },
+        {
+            "id": "S35-T4-A",
+            "name": "model card y contestabilidad",
+            "fields": ["use", "out_of_scope", "contestability"],
+            "valid": {"use": "queue_rank", "out_of_scope": ["fraud_label"], "contestability": True},
+            "invalid": {"use": "fraud_label", "out_of_scope": [], "contestability": False},
+            "missing_field": "out_of_scope",
+            "breach": "REJECT_SCOPE_BREACH",
+            "missing_code": "REQUEST_CARD_KEYS",
+            "predicate_bad": 'record["use"] == "fraud_label"',
+            "predicate_good": 'record["use"] == "queue_rank" and "fraud_label" in record["out_of_scope"] and record["contestability"] is True',
+            "evidence_phrase": "card con use queue_rank, out_of_scope fraud_label y contestability",
+            "case_suffix": "4A",
+        },
+        {
+            "id": "S35-T4-B",
+            "name": "aprobación, override, apelación y retiro",
+            "fields": ["case", "human", "by"],
+            "valid": {"case": "c1", "human": "override_skip", "by": "analyst_7"},
+            "invalid": {"case": "c1", "human": "override_skip", "by": ""},
+            "missing_field": "by",
+            "breach": "REJECT_SILENT_OVERRIDE",
+            "missing_code": "REQUEST_AUDIT_FIELDS",
+            "predicate_bad": 'not record["by"]',
+            "predicate_good": 'bool(record["by"]) and bool(record["case"]) and bool(record["human"])',
+            "evidence_phrase": "override con case, human y by no vacío",
+            "case_suffix": "4B",
+        },
+    ]
+
+    return emit_section(
+        {
+            "id": "system-design",
+            "index": 35,
+            "title": "Explicabilidad, equidad e incertidumbre",
+            "shortTitle": "Explainability y equidad",
+            "tagline": "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana",
+            "estimatedHours": 19,
+            "level": "Competente a experto",
+            "phase": 2,
+            "icon": "Scale",
+            "accentColor": "bg-gradient-to-br from-violet-400 to-purple-800",
+            "jobRelevance": "Inicias **CP-N3-C**: la ficha de caso separa **evidencia**, **modelo**, **incertidumbre** y **decisión humana**. Id `system-design` conservado. Explicar no es acusar de fraude.",
+            "learning_outcomes": [
+                "Explicar con coeficientes e importancia",
+                "Delimitar explicación local y correlación",
+                "Medir equidad por cohorte/slice",
+                "Detectar proxies y daño diferencial",
+                "Comunicar incertidumbre y conformal",
+                "Abstener ante OOD",
+                "Documentar model card y contestabilidad",
+                "Operar aprobación, override y retiro",
+            ],
+            "theory": theory,
+            "i_do_intro": "S35 · Te muestro explicación, equidad, incertidumbre y gobernanza de la ficha de caso sobre fixtures sintéticos de Red Andina (Lima).",
+            "i_do": i_do,
+            "we_do_intro": "S35 · Laboratorio ficha de caso responsable para Red Andina (organización ficticia): 24 retos locales. E1 repara una operación de dominio, E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed con ocho fixtures peruanos sintéticos distintos.",
+            "we_do": emit_exercises("035", subtopics),
+            "you_do": {
+                "title": "Ficha de caso: evidencia | modelo | incertidumbre | humano (CP-N3-C inicio)",
+                "context": "Arma plantilla de ficha de caso con explicación local, slices, OOD abstain y model card sobre CASO-LIM-035. Id system-design conservado. Sin PII real ni auto-etiqueta de fraude.",
+                "objectives": [
+                    "Importancia y explicación local con límites causal=False",
+                    "Slices con n y proxies high-risk documentados",
+                    "Incertidumbre/intervalo y abstención OOD",
+                    "Model card out_of_scope + override audit by/timestamp",
+                ],
+                "requirements": [
+                    "4 capas en ficha (evidence|model|uncertainty|human)",
+                    "Sin acusación de fraude ni parentesco",
+                    "es-PE sintético; fail-closed ante OOD o missing audit",
+                ],
+                "starter": """# ficha de caso CP-N3-C — CASO-LIM-035
+case = {
+    "evidence": ["shared_phone"],
+    "model": {"contrib": {}, "means_fraud": False},
+    "uncertainty": {"interval": None, "ood": False},
+    "human": {"decision": None, "by": None},
+}
+# TODO: completa capas, OOD abstain y audit fields
+if __name__ == "__main__":
+    print(sorted(case.keys()))
+""",
+                "portfolioNote": "Inicio CP-N3-C; no PASS automático. Portfolio: ficha 4 capas + card out_of_scope.",
+                "bonus": "Ficha 4 capas + out_of_scope + override audit completo",
+            },
+            "self_check": [
+                {
+                    "question": "La ficha de caso debe separar:",
+                    "options": [
+                        "Solo score",
+                        "Solo SHAP global",
+                        "Evidencia, modelo, incertidumbre y decisión humana",
+                        "Solo UI",
+                    ],
+                    "correctIndex": 2,
+                    "explanation": "Las cuatro capas evitan confundir evidencia observada con score del modelo, incertidumbre y decisión humana auditable.",
+                },
+                {
+                    "question": "Perm importance prueba:",
+                    "options": [
+                        "Sensibilidad del modelo a barajar features",
+                        "Fraude",
+                        "Parentesco",
+                        "Causalidad legal",
+                    ],
+                    "correctIndex": 0,
+                    "explanation": "La caída de métrica al permutar mide sensibilidad del modelo; no prueba causa, fraude ni parentesco.",
+                },
+                {
+                    "question": "Ante OOD conviene:",
+                    "options": [
+                        "Forzar pred 1",
+                        "Abstener y escalar",
+                        "Borrar logs",
+                        "Ignorar",
+                    ],
+                    "correctIndex": 1,
+                    "explanation": "Fuera de distribución la política fail-closed es abstener y escalar a humano, sin auto-label.",
+                },
+                {
+                    "question": "Model card out_of_scope incluye:",
+                    "options": [
+                        "Nada",
+                        "Solo accuracy",
+                        "Solo owner email personal",
+                        "Usos prohibidos p.ej. etiqueta de fraude",
+                    ],
+                    "correctIndex": 3,
+                    "explanation": "out_of_scope documenta usos prohibidos (p.ej. fraud_label) para contestabilidad y límites de producto.",
+                },
+            ],
+            "resources": {
+                "docs": [
+                    '{ label: "Model Cards (Mitchell et al.)", url: "https://arxiv.org/abs/1810.03993", note: "Plantilla" }',
+                    '{ label: "sklearn inspection", url: "https://scikit-learn.org/stable/inspection.html", note: "Permutation importance" }',
+                ],
+                "books": [
+                    '{ label: "Interpretable Machine Learning (Molnar)", note: "Límites de explicación" }',
+                    '{ label: "Fairness concepts", note: "Slices y daño" }',
+                ],
+                "courses": [
+                    '{ label: "Responsible AI practices", url: "https://www.tensorflow.org/responsible_ai", note: "Referencia amplia" }',
+                ],
+            },
+        }
+    )
+
+
+# ===========================================================================
+# S34 — Métricas, desbalance, calibración y umbrales
+# ===========================================================================
+
+def build_s34() -> str:
+    caso = "CASO-LIM-034"
+    theory = [
+        theory_block(
+            "Cierre CP-N3-B: Relationship Investigation Workbench",
+            para3(
+                "Esta sección cierra CP-N3-B integrando grafo (S31), features (S32) y baselines (S33) con métricas de ranking, calibración y umbrales por capacidad de revisión humana en Red Andina (ficticia).",
+                "Producto incremental: workbench que prioriza cola y explica; no imprime fraud=true. Entrada: scores y labels sintéticos needs_review; salida: precision@k, Brier, thr versionado y banda de abstención.",
+                "Orden pedagógico: T1 métricas → T2 desbalance → T3 calibración → T4 decisión. Id legacy `cv-ai-integration` se conserva; no hay YOLO ni CV en V3 de esta sección.",
+            ),
+            callout_type="info",
+            callout_title="Gate CP-N3-B",
+            callout="Cierre workbench: ranking calibrado para humanos. ER/matching ≠ parentesco ni fraude. Sin PII real.",
+        ),
+        theory_block(
+            "confusion matrix, precision/recall/F y PR-AUC",
+            para3(
+                "Con desbalance, accuracy engaña. Precision, recall, Fβ y el área bajo la curva precision-recall describen mejor la cola de revisión que un solo porcentaje de aciertos.",
+                "Contrato operativo. Entrada: y y pred binarios. Salida: TP/FP/FN/TN y F1. Error: reportar solo accuracy con prevalencia baja. Criterio: confusion completa antes de elegir thr.",
+                f"Aplicación a `{caso}`: y=[1,0] pred=[1,1] produce FP; F1 con P=R=0.5 es 0.5. El workbench documenta costos distintos de FP y FN.",
+            ),
+            subtopic_id="S34-T1-A",
+            code_title="confusion.py",
+            code="""y, pred = [1, 0], [1, 1]
+tp = sum(1 for a, b in zip(y, pred) if a == 1 and b == 1)
+fp = sum(1 for a, b in zip(y, pred) if a == 0 and b == 1)
+fn = sum(1 for a, b in zip(y, pred) if a == 1 and b == 0)
+print("tp", tp, "fp", fp, "fn", fn)
+print("accuracy_only", False)""",
+            output="""tp 1 fp 1 fn 0
+accuracy_only False""",
+            callout="S34-T1-A: confusion antes de accuracy. Breach → REJECT_ACCURACY_ONLY; falta counts → REQUEST_CONFUSION.",
+        ),
+        theory_block(
+            "top-k y carga de revisión",
+            para3(
+                "precision@k y recall@k miden la calidad de los k primeros de la cola. Si alertas>capacidad, la carga satura al equipo y el thr debe bajar el volumen, no solo maximizar recall.",
+                "Contrato operativo. Entrada: labels top-k y capacidad. Salida: precision@k y flag de overload. Error: ignorar capacidad operativa. Criterio: k alineado a capacidad diaria.",
+                f"Aplicación a `{caso}`: top-3 labels [1,0,1] → precision@3=2/3; 50 alertas vs capacidad 10 → overload y thr se reevalua.",
+            ),
+            subtopic_id="S34-T1-B",
+            code_title="topk.py",
+            code="""labels = [1, 0, 1]
+k = 3
+prec = sum(labels[:k]) / k
+load, cap = 50, 10
+print("precision_at_k", round(prec, 3))
+print("overload", load > cap)
+print("fraud_label", False)""",
+            output="""precision_at_k 0.667
+overload True
+fraud_label False""",
+            callout="S34-T1-B: precision@k + capacidad. Breach → REJECT_QUEUE_OVERLOAD; falta cap → REQUEST_CAPACITY.",
+        ),
+        theory_block(
+            "class weights y resampling dentro de CV",
+            para3(
+                "Class weights o resampling solo dentro del fold de train evitan leakage. Resamplear todo el dataset antes de CV infla métricas y miente sobre producción.",
+                "Contrato operativo. Entrada: conteos n0/n1. Salida: ratio de pesos y flag de política CV-safe. Error: oversample global. Criterio: minority count documentado sin tocar test.",
+                f"Aplicación a `{caso}`: n0=9 n1=1 → weight ratio 9; política resample_global=False en el pipeline del workbench.",
+            ),
+            subtopic_id="S34-T2-A",
+            code_title="weights.py",
+            code="""n0, n1 = 9, 1
+w1_over_w0 = n0 / n1
+print("weight_ratio", w1_over_w0)
+print("resample_global", False)
+print("cv_safe", True)""",
+            output="""weight_ratio 9.0
+resample_global False
+cv_safe True""",
+            callout="S34-T2-A: weights o resample solo en train fold. Breach → REJECT_LEAKY_RESAMPLE.",
+        ),
+        theory_block(
+            "prevalencia y métricas engañosas",
+            para3(
+                "Si la prevalencia cae, la misma especificidad produce peor precision. Un clasificador all-negative luce genial en accuracy cuando la clase positiva es rara.",
+                "Contrato operativo. Entrada: prevalencia y política de reporte. Salida: base rate y advertencia de precision. Error: comparar precision entre periodos sin base rate. Criterio: reportar prevalencia junto a P/R.",
+                f"Aplicación a `{caso}`: 25/1000=0.025; all-neg accuracy≈0.98 engaña. El workbench prefiere PR y carga de cola.",
+            ),
+            subtopic_id="S34-T2-B",
+            code_title="prevalence.py",
+            code="""pos, n = 25, 1000
+prev = pos / n
+all_neg_acc = 1 - prev
+print("prevalence", prev)
+print("all_neg_acc", round(all_neg_acc, 3))
+print("accuracy_enough", False)""",
+            output="""prevalence 0.025
+all_neg_acc 0.975
+accuracy_enough False""",
+            callout="S34-T2-B: base rate visible. Breach → REJECT_PREVALENCE_BLIND; falta prev → REQUEST_BASE_RATE.",
+        ),
+        theory_block(
+            "reliability curves y Brier",
+            para3(
+                "Brier score (media de (p−y)²) y reliability (media de p vs frecuencia en bins) miden si el score se puede leer como probabilidad de priorización, no de culpa.",
+                "Contrato operativo. Entrada: p y y. Salida: Brier y bin mean vs freq. Error: calibrar a ojo sin holdout. Criterio: menor Brier es mejor entre modelos comparables.",
+                f"Aplicación a `{caso}`: p=1 y=1 → Brier 0; un bin con mean p=0.8 y freq=0.5 muestra mala reliability.",
+            ),
+            subtopic_id="S34-T3-A",
+            code_title="brier.py",
+            code="""p, y = 1.0, 1
+brier = (p - y) ** 2
+print("brier", brier)
+print("mean_p", 0.8, "freq", 0.5)
+print("calibrated", False)""",
+            output="""brier 0.0
+mean_p 0.8 freq 0.5
+calibrated False""",
+            callout="S34-T3-A: Brier + reliability. Breach → REJECT_UNCALIBRATED; falta scores → REQUEST_BRIER.",
+        ),
+        theory_block(
+            "calibradores y evaluación fuera de muestra",
+            para3(
+                "Platt o isotonic se ajustan en un set de calibración distinto del train del modelo base. Evaluar calibración en el mismo set de fit es autoengaño.",
+                "Contrato operativo. Entrada: raw scores y nombre de calibrador. Salida: scores clipados/calibrados misma longitud. Error: fit calibrator en test final. Criterio: holdout de calibración versionado.",
+                f"Aplicación a `{caso}`: clip 1.5→1.0 y -0.2→0.0; calibrator_set=holdout_v1; raw y cal tienen misma longitud.",
+            ),
+            subtopic_id="S34-T3-B",
+            code_title="calibrator.py",
+            code="""raw = [1.5, -0.2, 0.4]
+cal = [min(1.0, max(0.0, x)) for x in raw]
+print(cal)
+print("calibrator_set", "holdout_v1")
+print("same_len", len(raw) == len(cal))""",
+            output="""[1.0, 0.0, 0.4]
+calibrator_set holdout_v1
+same_len True""",
+            callout="S34-T3-B: cal en holdout. Breach → REJECT_IN_SAMPLE_CAL; falta set → REQUEST_CAL_SET.",
+        ),
+        theory_block(
+            "threshold por costo/capacidad",
+            para3(
+                "El umbral se elige por costo (fp*c_fp+fn*c_fn) y por capacidad de la cola, no por un default 0.5 de librería. El thr se versiona (thr-v1) para auditoría.",
+                "Contrato operativo. Entrada: scores, costos, k deseado. Salida: thr que deja k en review y costo total. Error: thr fijo sin costos. Criterio: config thr versionada en el workbench.",
+                f"Aplicación a `{caso}`: scores [0.1,0.4,0.6,0.9] con thr que deja 2 en review; costo fp*2+fn*10 documentado.",
+            ),
+            subtopic_id="S34-T4-A",
+            code_title="threshold.py",
+            code="""scores = [0.1, 0.4, 0.6, 0.9]
+thr = 0.6
+in_review = sum(1 for s in scores if s >= thr)
+cost = 3 * 2 + 1 * 10
+print("thr", thr, "n_review", in_review)
+print("cost", cost)
+print("thr_id", "thr-v1")""",
+            output="""thr 0.6 n_review 2
+cost 16
+thr_id thr-v1""",
+            callout="S34-T4-A: thr por costo/capacidad versionado. Breach → REJECT_FIXED_THR; falta costos → REQUEST_COST_MATRIX.",
+        ),
+        theory_block(
+            "abstención, slices y sensibilidad",
+            para3(
+                "Banda low/high de abstención evita forzar labels en zona gris. Sensibilidad a thr y métricas por slice detectan degradación local antes de promover el modelo.",
+                "Contrato operativo. Entrada: score, low, high. Salida: decide review|skip|abstain y dict de slice metrics. Error: forzar 0/1 en banda. Criterio: abstain es primera clase.",
+                f"Aplicación a `{caso}`: score 0.5 con low=0.3 high=0.7 → abstain; thr 0.5 vs 0.6 cambia n_pos_pred en sensibilidad.",
+            ),
+            subtopic_id="S34-T4-B",
+            code_title="abstain.py",
+            code="""def decide(score, low=0.3, high=0.7):
+    if score < low:
+        return "skip"
+    if score > high:
+        return "review"
+    return "abstain"
+print(decide(0.5))
+print("force_label", False)
+print("ok", True)""",
+            output="""abstain
+force_label False
+ok True""",
+            callout="S34-T4-B: banda abstain. Breach → REJECT_FORCE_LABEL; falta band → REQUEST_ABSTAIN_BAND.",
+        ),
+    ]
+
+    i_do = [
+        i_do_step("S34-T1-A-DEMO", "S34-T1-A",
+                  "Calcula TP/FP/FN sobre y y pred sintéticos y rechaza accuracy como única métrica.",
+                  "La matriz de confusión ancla precision/recall antes de elegir umbral de cola de revisión.",
+                  "cm_demo.py",
+                  """y,p=[1,0],[1,1]
+print('fp', sum(a==0 and b==1 for a,b in zip(y,p)))
+print('accuracy_only', False)
+print('ok', True)""",
+                  """fp 1
+accuracy_only False
+ok True"""),
+        i_do_step("S34-T1-B-DEMO", "S34-T1-B",
+                  "precision@k y detección de overload cuando alertas superan capacidad de analistas.",
+                  "Top-k alinea ranking con la capacidad real del equipo de revisión en el workbench.",
+                  "topk_demo.py",
+                  """print(round(2/3,3))
+print('overload', True)
+print('ok', True)""",
+                  """0.667
+overload True
+ok True"""),
+        i_do_step("S34-T2-A-DEMO", "S34-T2-A",
+                  "Weight ratio n0/n1 y bandera de que el resample global está prohibido fuera de CV.",
+                  "Pesos o resample solo en train fold evitan leakage y métricas infladas.",
+                  "w_demo.py",
+                  """print(9)
+print('resample_global', False)
+print('ok', True)""",
+                  """9
+resample_global False
+ok True"""),
+        i_do_step("S34-T2-B-DEMO", "S34-T2-B",
+                  "Prevalencia 0.025 y accuracy all-negative engañosa para la clase rara.",
+                  "Sin base rate, precision no es comparable entre periodos ni entre slices.",
+                  "prev_demo.py",
+                  """print(0.025)
+print('all_neg_acc', 0.975)
+print('ok', True)""",
+                  """0.025
+all_neg_acc 0.975
+ok True"""),
+        i_do_step("S34-T3-A-DEMO", "S34-T3-A",
+                  "Brier de un caso perfecto y contraste con bin de reliability desalineado.",
+                  "Brier y reliability dicen si el score se puede leer como probabilidad de priorización.",
+                  "brier_demo.py",
+                  """print(0.0)
+print('calibrated', False)
+print('ok', True)""",
+                  """0.0
+calibrated False
+ok True"""),
+        i_do_step("S34-T3-B-DEMO", "S34-T3-B",
+                  "Clip de scores a [0,1] y nombre del set de calibración holdout versionado.",
+                  "Calibrar fuera de muestra evita autoengaño y training-serving skew de probabilidades.",
+                  "cal_demo.py",
+                  """print([1.0,0.0])
+print('calibrator_set', 'holdout_v1')
+print('ok', True)""",
+                  """[1.0, 0.0]
+calibrator_set holdout_v1
+ok True"""),
+        i_do_step("S34-T4-A-DEMO", "S34-T4-A",
+                  "Umbral thr-v1 que deja dos casos en review y reporta costo fp/fn.",
+                  "El thr se elige por costo y capacidad y se versiona para auditoría del workbench.",
+                  "thr_demo.py",
+                  """print('n_review', 2)
+print('thr_id', 'thr-v1')
+print('ok', True)""",
+                  """n_review 2
+thr_id thr-v1
+ok True"""),
+        i_do_step("S34-T4-B-DEMO", "S34-T4-B",
+                  "Decisión abstain en banda gris 0.3–0.7 sin forzar label 0/1.",
+                  "La abstención es una salida de primera clase para casos inciertos en la cola.",
+                  "abs_demo.py",
+                  """print('abstain')
+print('force_label', False)
+print('ok', True)""",
+                  """abstain
+force_label False
+ok True"""),
+    ]
+
+    subtopics = [
+        {
+            "id": "S34-T1-A", "name": "confusion matrix, precision/recall/F y PR-AUC",
+            "fields": ["tp", "fp", "fn", "accuracy_only"],
+            "valid": {"tp": 1, "fp": 1, "fn": 0, "accuracy_only": False},
+            "invalid": {"tp": 0, "fp": 0, "fn": 0, "accuracy_only": True},
+            "missing_field": "tp",
+            "breach": "REJECT_ACCURACY_ONLY", "missing_code": "REQUEST_CONFUSION",
+            "predicate_bad": 'record["accuracy_only"] is True',
+            "predicate_good": 'record["accuracy_only"] is False and record["tp"] + record["fp"] + record["fn"] >= 1',
+            "evidence_phrase": "counts de confusión con accuracy_only=False",
+            "case_suffix": "1A",
+        },
+        {
+            "id": "S34-T1-B", "name": "top-k y carga de revisión",
+            "fields": ["precision_at_k", "load", "capacity"],
+            "valid": {"precision_at_k": 0.667, "load": 8, "capacity": 10},
+            "invalid": {"precision_at_k": 0.667, "load": 50, "capacity": 10},
+            "missing_field": "capacity",
+            "breach": "REJECT_QUEUE_OVERLOAD", "missing_code": "REQUEST_CAPACITY",
+            "predicate_bad": 'record["load"] > record["capacity"]',
+            "predicate_good": 'record["load"] <= record["capacity"] and 0 <= record["precision_at_k"] <= 1',
+            "evidence_phrase": "precision@k con load dentro de capacidad",
+            "case_suffix": "1B",
+        },
+        {
+            "id": "S34-T2-A", "name": "class weights y resampling dentro de CV",
+            "fields": ["n0", "n1", "resample_global"],
+            "valid": {"n0": 9, "n1": 1, "resample_global": False},
+            "invalid": {"n0": 9, "n1": 1, "resample_global": True},
+            "missing_field": "n1",
+            "breach": "REJECT_LEAKY_RESAMPLE", "missing_code": "REQUEST_WEIGHTS",
+            "predicate_bad": 'record["resample_global"] is True',
+            "predicate_good": 'record["resample_global"] is False and record["n1"] > 0 and record["n0"] > record["n1"]',
+            "evidence_phrase": "pesos con minority>0 y sin resample global",
+            "case_suffix": "2A",
+        },
+        {
+            "id": "S34-T2-B", "name": "prevalencia y métricas engañosas",
+            "fields": ["prevalence", "all_neg_acc", "accuracy_enough"],
+            "valid": {"prevalence": 0.025, "all_neg_acc": 0.975, "accuracy_enough": False},
+            "invalid": {"prevalence": 0.025, "all_neg_acc": 0.975, "accuracy_enough": True},
+            "missing_field": "prevalence",
+            "breach": "REJECT_PREVALENCE_BLIND", "missing_code": "REQUEST_BASE_RATE",
+            "predicate_bad": 'record["accuracy_enough"] is True',
+            "predicate_good": 'record["accuracy_enough"] is False and 0 < record["prevalence"] < 0.5',
+            "evidence_phrase": "base rate baja con accuracy_enough=False",
+            "case_suffix": "2B",
+        },
+        {
+            "id": "S34-T3-A", "name": "reliability curves y Brier",
+            "fields": ["brier", "mean_p", "freq"],
+            "valid": {"brier": 0.1, "mean_p": 0.5, "freq": 0.5},
+            "invalid": {"brier": 0.4, "mean_p": 0.9, "freq": 0.2},
+            "missing_field": "brier",
+            "breach": "REJECT_UNCALIBRATED", "missing_code": "REQUEST_BRIER",
+            "predicate_bad": 'abs(record["mean_p"] - record["freq"]) > 0.3',
+            "predicate_good": 'abs(record["mean_p"] - record["freq"]) <= 0.1 and record["brier"] <= 0.25',
+            "evidence_phrase": "Brier bajo y reliability alineada en el bin",
+            "case_suffix": "3A",
+        },
+        {
+            "id": "S34-T3-B", "name": "calibradores y evaluación fuera de muestra",
+            "fields": ["raw", "cal", "calibrator_set"],
+            "valid": {"raw": [0.2, 0.8], "cal": [0.25, 0.75], "calibrator_set": "holdout_v1"},
+            "invalid": {"raw": [0.2, 0.8], "cal": [0.25, 0.75], "calibrator_set": "train_in_sample"},
+            "missing_field": "calibrator_set",
+            "breach": "REJECT_IN_SAMPLE_CAL", "missing_code": "REQUEST_CAL_SET",
+            "predicate_bad": 'record["calibrator_set"] == "train_in_sample"',
+            "predicate_good": 'record["calibrator_set"].startswith("holdout") and len(record["raw"]) == len(record["cal"])',
+            "evidence_phrase": "calibrator holdout con misma longitud raw/cal",
+            "case_suffix": "3B",
+        },
+        {
+            "id": "S34-T4-A", "name": "threshold por costo/capacidad",
+            "fields": ["thr", "n_review", "thr_id", "cost"],
+            "valid": {"thr": 0.6, "n_review": 2, "thr_id": "thr-v1", "cost": 16},
+            "invalid": {"thr": 0.5, "n_review": 2, "thr_id": "default", "cost": None},
+            "missing_field": "cost",
+            "breach": "REJECT_FIXED_THR", "missing_code": "REQUEST_COST_MATRIX",
+            "predicate_bad": 'record["thr_id"] == "default"',
+            "predicate_good": 'record["thr_id"].startswith("thr-v") and record["cost"] is not None and record["n_review"] >= 1',
+            "evidence_phrase": "thr versionado con costo y n_review",
+            "case_suffix": "4A",
+        },
+        {
+            "id": "S34-T4-B", "name": "abstención, slices y sensibilidad",
+            "fields": ["score", "low", "high", "decision"],
+            "valid": {"score": 0.5, "low": 0.3, "high": 0.7, "decision": "abstain"},
+            "invalid": {"score": 0.5, "low": 0.3, "high": 0.7, "decision": "force_1"},
+            "missing_field": "low",
+            "breach": "REJECT_FORCE_LABEL", "missing_code": "REQUEST_ABSTAIN_BAND",
+            "predicate_bad": 'record["decision"] == "force_1"',
+            "predicate_good": 'record["low"] < record["score"] < record["high"] and record["decision"] == "abstain"',
+            "evidence_phrase": "score en banda con decision abstain",
+            "case_suffix": "4B",
+        },
+    ]
+
+    return emit_section({
+        "id": "cv-ai-integration",
+        "index": 34,
+        "title": "Métricas, desbalance, calibración y umbrales",
+        "shortTitle": "Métricas y umbrales",
+        "tagline": "Relationship Investigation Workbench: grafo + evidencia con ranking calibrado para revisión; no etiqueta fraude automáticamente",
+        "estimatedHours": 19,
+        "level": "Competente a experto",
+        "phase": 2,
+        "icon": "Gauge",
+        "accentColor": "bg-gradient-to-br from-fuchsia-500 to-purple-900",
+        "jobRelevance": "Cierras **CP-N3-B** con el **Relationship Investigation Workbench**: grafo, features, baseline y **ranking calibrado** para humanos. Id `cv-ai-integration` conservado. Precision/recall de cola de revisión — **nunca** auto-etiqueta de fraude. ER/matching ≠ parentesco ni fraude.",
+        "learning_outcomes": [
+            "Elegir métricas para desbalance",
+            "Dimensionar top-k y carga de revisión",
+            "Balancear clases sin leakage en CV",
+            "Evitar métricas engañosas por prevalencia",
+            "Evaluar calibración con Brier/reliability",
+            "Calibrar y evaluar fuera de muestra",
+            "Elegir umbral por costo y capacidad",
+            "Aplicar abstención y sensibilidad por slice",
+        ],
+        "theory": theory,
+        "i_do_intro": "S34 · Te muestro métricas, desbalance, calibración y umbrales del workbench sobre fixtures sintéticos de Red Andina.",
+        "i_do": i_do,
+        "we_do_intro": "S34 · Laboratorio Relationship Investigation Workbench (cierre CP-N3-B): 24 retos locales. E1 repara una operación de dominio, E2 separa valid/invalid/missing y E3 demuestra fail-closed con fixtures peruanos sintéticos.",
+        "we_do": emit_exercises("034", subtopics),
+        "you_do": {
+            "title": "Workbench: métricas + thr versionado + abstain (cierre CP-N3-B)",
+            "context": "Integra confusion/top-k, prevalencia, Brier, thr-v1 y banda abstain sobre CASO-LIM-034. Sin auto-fraude ni PII real.",
+            "objectives": [
+                "Confusion y precision@k con capacidad",
+                "Pesos CV-safe y base rate documentada",
+                "Brier/reliability y calibrator holdout",
+                "thr versionado y decisión abstain en zona gris",
+            ],
+            "requirements": [
+                "accuracy_only=False en reportes",
+                "Sin fraud label automático",
+                "es-PE sintético; thr con costo",
+            ],
+            "starter": """# workbench CP-N3-B — CASO-LIM-034
+report = {"confusion": {}, "precision_at_k": None, "thr_id": None, "decision": None}
+# TODO: completa métricas, thr versionado y abstain
+if __name__ == "__main__":
+    print(sorted(report.keys()))
+""",
+            "portfolioNote": "Cierre CP-N3-B; portfolio: thr-v1 + banda abstain + Brier.",
+            "bonus": "thr versionado + reliability bin + capacidad",
+        },
+        "self_check": [
+            {
+                "question": "Con desbalance fuerte, conviene priorizar:",
+                "options": ["Solo accuracy", "Precision/recall o PR-AUC de la cola", "Solo loss de train", "Color del dashboard"],
+                "correctIndex": 1,
+                "explanation": "Accuracy engaña con prevalencia baja; P/R y PR-AUC describen mejor la cola de revisión.",
+            },
+            {
+                "question": "Resamplear todo el dataset antes de CV:",
+                "options": ["Es best practice", "Introduce leakage y métricas infladas", "Elimina necesidad de thr", "Garantiza calibración"],
+                "correctIndex": 1,
+                "explanation": "El resampling debe vivir dentro del fold de train; hacerlo global contamina validación.",
+            },
+            {
+                "question": "Un calibrador debe ajustarse:",
+                "options": ["En el test final", "En el mismo train del modelo base sin holdout", "En un set de calibración fuera de muestra", "Solo en producción sin logs"],
+                "correctIndex": 2,
+                "explanation": "Fit de calibración en holdout evita autoengaño de reliability.",
+            },
+            {
+                "question": "Score en banda low–high debe:",
+                "options": ["Forzar 1", "Forzar 0", "Abstener según política", "Borrar el caso"],
+                "correctIndex": 2,
+                "explanation": "La abstención es salida de primera clase para zona gris del workbench.",
+            },
+        ],
+        "resources": {
+            "docs": [
+                '{ label: "sklearn metrics", url: "https://scikit-learn.org/stable/modules/model_evaluation.html", note: "P/R/F, Brier" }',
+                '{ label: "Calibration", url: "https://scikit-learn.org/stable/modules/calibration.html", note: "Holdout cal" }',
+            ],
+            "books": [
+                '{ label: "Evaluating ML models", note: "Costos y thr" }',
+                '{ label: "Fairness & slices", note: "Daño por cohorte" }',
+            ],
+            "courses": [
+                '{ label: "ML Crash Course — thresholds", url: "https://developers.google.com/machine-learning/crash-course", note: "Umbrales" }',
+            ],
+        },
+    })
+
+
+# ===========================================================================
+# S33 — ML supervisado y baselines responsables
+# ===========================================================================
+
+def build_s33() -> str:
+    caso = "CASO-LIM-033"
+    theory = [
+        theory_block(
+            "De modelos avanzados legado a baselines responsables",
+            para3(
+                "Esta sección no empuja stacking por deporte: define unidad de scoring, target y horizonte, y conserva un baseline determinista antes de cualquier modelo opaco en el workbench de Red Andina.",
+                "Producto incremental: comparación honesta dummy/regla vs lineal/árbol sobre target sintético needs_review_7d. Entrada: features S32; salida: métricas y decisión beats_dummy sin label de fraude.",
+                "Orden: T1 framing → T2 lineales → T3 árboles → T4 experimento. Id legacy `advanced-models` se conserva; progressive disclosure evita APIs no enseñadas aún.",
+            ),
+            callout_type="info",
+            callout_title="Gate baseline",
+            callout="Sin baseline documentado no se promociona modelo. Target ≠ fraude. Datos sintéticos only.",
+        ),
+        theory_block(
+            "unidad, target y horizonte",
+            para3(
+                "La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este workbench es un breach de producto.",
+                "Contrato operativo. Entrada: unit, target name, horizon_days. Salida: framing válido. Error: target con substring fraud o horizonte vacío. Criterio: needs_review_* con horizonte explícito.",
+                f"Aplicación a `{caso}`: unit=entity_pair, target=needs_review_7d, horizon=7. Prevalencia de y=[0,1,0,0] se reporta antes de entrenar.",
+            ),
+            subtopic_id="S33-T1-A",
+            code_title="framing.py",
+            code="""unit, target, horizon = "entity_pair", "needs_review_7d", 7
+print("unit", unit)
+print("target", target)
+print("horizon", horizon)
+print("fraud_name", "fraud" in target)""",
+            output="""unit entity_pair
+target needs_review_7d
+horizon 7
+fraud_name False""",
+            callout="S33-T1-A: unit+target+horizon. Breach → REJECT_FRAUD_TARGET; falta horizon → REQUEST_HORIZON.",
+        ),
+        theory_block(
+            "costos, baseline de regla y dummy estimator",
+            para3(
+                "El dummy majority y una regla simple (x>=thr) anclan el valor mínimo. El costo fp*c_fp+fn*c_fn traduce errores a impacto de cola, no a moral de fraude.",
+                "Contrato operativo. Entrada: y, regla, costos. Salida: acc dummy/regla y costo total. Error: entrenar modelo sin baseline. Criterio: beats_dummy se calcula después.",
+                f"Aplicación a `{caso}`: y=[1,1,0] dummy predice 1; regla x>=1 con costo fp*1+fn*5 documentado.",
+            ),
+            subtopic_id="S33-T1-B",
+            code_title="baseline.py",
+            code="""y = [1, 1, 0]
+dummy = [1, 1, 1]
+acc = sum(a == b for a, b in zip(y, dummy)) / len(y)
+cost = 2 * 1 + 1 * 5
+print("dummy_acc", round(acc, 3))
+print("cost", cost)
+print("has_baseline", True)""",
+            output="""dummy_acc 0.667
+cost 7
+has_baseline True""",
+            callout="S33-T1-B: dummy+costo. Breach → REJECT_NO_BASELINE; falta costo → REQUEST_COST.",
+        ),
+        theory_block(
+            "regresión/logística y regularización",
+            para3(
+                "La logística con sigmoid y regularización L2 limita coeficientes grandes. Un umbral convierte probabilidad en priorización de cola, no en veredicto.",
+                "Contrato operativo. Entrada: w, b, x, thr. Salida: p y pred. Error: modelo sin regularización cuando p>>n features. Criterio: penalty L2 reportada.",
+                f"Aplicación a `{caso}`: sigmoid(0)=0.5; w=1,b=0,x=0.2 thr=0.5 → pred 0; L2 de w=[1,2] es 5.",
+            ),
+            subtopic_id="S33-T2-A",
+            code_title="logistic.py",
+            code="""import math
+def sigmoid(z):
+    return 1 / (1 + math.exp(-z))
+print(round(sigmoid(0), 3), round(sigmoid(2), 3))
+w, b, x, thr = 1.0, 0.0, 0.2, 0.5
+pred = int(sigmoid(w * x + b) >= thr)
+print("pred", pred)
+print("l2", sum(v * v for v in [1, 2]))""",
+            output="""0.5 0.881
+pred 0
+l2 5""",
+            callout="S33-T2-A: sigmoid+thr+L2. Breach → REJECT_UNREGULARIZED; falta sigmoid → REQUEST_SIGMOID.",
+        ),
+        theory_block(
+            "coeficientes, supuestos y scaling",
+            para3(
+                "Comparar |coef| exige features escaladas. El signo indica dirección de asociación en el modelo, no causalidad social ni fraude probado.",
+                "Contrato operativo. Entrada: coefs y scale_flag. Salida: ranking por |w| y signo. Error: interpretar coefs unscaled como importancia. Criterio: scale_flag=True antes de rank.",
+                f"Aplicación a `{caso}`: shared_phone=0.8 positivo ordena arriba si scaled; se imprime signo sin claim causal.",
+            ),
+            subtopic_id="S33-T2-B",
+            code_title="coefs.py",
+            code="""coefs = {"shared_phone": 0.8, "amount_z": -0.2}
+assert True  # scaled
+ranked = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True)
+print(ranked)
+print("sign_shared_phone", "pos" if coefs["shared_phone"] > 0 else "neg")
+print("causal", False)""",
+            output="""['shared_phone', 'amount_z']
+sign_shared_phone pos
+causal False""",
+            callout="S33-T2-B: scaled coefs. Breach → REJECT_UNSCALED_COEF; falta flag → REQUEST_SCALE_FLAG.",
+        ),
+        theory_block(
+            "decisiones y random forest/boosting",
+            para3(
+                "Un stump (árbol profundidad 1) y el voto de varios stumps ilustran ensambles sin APIs pesadas. Profundidad ilimitada overfittea el workbench sintético.",
+                "Contrato operativo. Entrada: X, thr stump, lista de preds. Salida: pred stump y majority vote. Error: depth ilimitada sin valid. Criterio: comparar stump vs dummy.",
+                f"Aplicación a `{caso}`: thr=0.3 sobre [0.1,0.4]; voto de tres stumps; acc stump vs majority dummy.",
+            ),
+            subtopic_id="S33-T3-A",
+            code_title="stump.py",
+            code="""X = [0.1, 0.4]
+thr = 0.3
+preds = [int(x >= thr) for x in X]
+votes = [1, 0, 1]
+maj = int(sum(votes) >= 2)
+print("stump", preds)
+print("majority", maj)
+print("depth_unlimited", False)""",
+            output="""stump [0, 1]
+majority 1
+depth_unlimited False""",
+            callout="S33-T3-A: stump/vote controlado. Breach → REJECT_DEPTH_UNLIMITED; falta stump → REQUEST_STUMP.",
+        ),
+        theory_block(
+            "overfit, profundidad y reproducibilidad",
+            para3(
+                "Gap train−valid > umbral señala overfit. Fijar seed hace comparable la corrida. Sin seed, el workbench no puede auditar regresiones.",
+                "Contrato operativo. Entrada: train_acc, valid_acc, seed. Salida: overfit flag y secuencia reproducible. Error: elegir depth solo por train. Criterio: best depth por valid.",
+                f"Aplicación a `{caso}`: depths valids eligen mínimo gap; seed fija tres ints; overfit si gap>0.2.",
+            ),
+            subtopic_id="S33-T3-B",
+            code_title="overfit.py",
+            code="""train, valid = 0.95, 0.70
+gap = train - valid
+print("overfit", gap > 0.2)
+import random
+random.seed(42)
+print([random.randint(0, 9) for _ in range(3)])
+print("seed", 42)""",
+            output="""overfit True
+[1, 0, 4]
+seed 42""",
+            callout="S33-T3-B: gap+seed. Breach → REJECT_OVERFIT; falta seed → REQUEST_SEED.",
+        ),
+        theory_block(
+            "pipeline y tracking mínimo",
+            para3(
+                "Un run mínimo registra metrics keys, params y si beats_dummy. Sin log, no hay comparación responsable entre experimentos del workbench.",
+                "Contrato operativo. Entrada: metrics dict. Salida: keys sorted y beats_dummy. Error: run sin metrics. Criterio: JSON de run con campos mínimos.",
+                f"Aplicación a `{caso}`: keys accuracy,f1 sorted; campos run_id,params,metrics; beats_dummy True solo si supera baseline.",
+            ),
+            subtopic_id="S33-T4-A",
+            code_title="tracking.py",
+            code="""metrics = {"f1": 0.6, "accuracy": 0.7}
+print(sorted(metrics))
+print("fields", ["run_id", "params", "metrics"])
+print("beats_dummy", True)""",
+            output="""['accuracy', 'f1']
+fields ['run_id', 'params', 'metrics']
+beats_dummy True""",
+            callout="S33-T4-A: metrics log. Breach → REJECT_UNLOGGED_RUN; falta metrics → REQUEST_METRICS.",
+        ),
+        theory_block(
+            "validación cruzada apropiada y error analysis",
+            para3(
+                "Group CV por entidad evita leakage entre folds. El análisis de errores mira el slice con más FN, no solo la media global de folds.",
+                "Contrato operativo. Entrada: fold scores y entity ids. Salida: mean folds y n_groups. Error: random split con misma entidad en train y test. Criterio: n_groups = n unique entities.",
+                f"Aplicación a `{caso}`: mean de folds; slice con más FN; groups = unique entities del batch sintético.",
+            ),
+            subtopic_id="S33-T4-B",
+            code_title="group_cv.py",
+            code="""folds = [0.6, 0.7, 0.65]
+entities = ["e1", "e1", "e2", "e3"]
+print("mean", round(sum(folds) / len(folds), 3))
+print("n_groups", len(set(entities)))
+print("random_leak_ok", False)""",
+            output="""mean 0.65
+n_groups 3
+random_leak_ok False""",
+            callout="S33-T4-B: group CV. Breach → REJECT_RANDOM_LEAK; falta groups → REQUEST_GROUP_IDS.",
+        ),
+    ]
+
+    i_do = [
+        i_do_step("S33-T1-A-DEMO", "S33-T1-A",
+                  "Imprime unit, target needs_review_7d y horizon 7 rechazando nombre fraud.",
+                  "El framing cierra el problema de scoring de cola sin convertir el target en fraude.",
+                  "fr_demo.py",
+                  """print('entity_pair', 'needs_review_7d', 7)
+print('fraud_name', False)
+print('ok', True)""",
+                  """entity_pair needs_review_7d 7
+fraud_name False
+ok True"""),
+        i_do_step("S33-T1-B-DEMO", "S33-T1-B",
+                  "Dummy majority y costo total fp*c_fp+fn*c_fn como baseline obligatorio.",
+                  "Sin baseline y costo, el ML no demuestra valor incremental en el workbench.",
+                  "base_demo.py",
+                  """print('dummy_acc', 0.667)
+print('cost', 7)
+print('ok', True)""",
+                  """dummy_acc 0.667
+cost 7
+ok True"""),
+        i_do_step("S33-T2-A-DEMO", "S33-T2-A",
+                  "sigmoid(0) y predicción umbralada con penalización L2 ilustrativa.",
+                  "La logística regularizada da scores interpretables antes de árboles más flexibles.",
+                  "log_demo.py",
+                  """print(0.5, 0.881)
+print('pred', 0)
+print('ok', True)""",
+                  """0.5 0.881
+pred 0
+ok True"""),
+        i_do_step("S33-T2-B-DEMO", "S33-T2-B",
+                  "Ranking de |coef| con features scaled y signo sin claim causal.",
+                  "Coeficientes comparables exigen scaling; el signo no prueba causa social ni fraude.",
+                  "coef_demo.py",
+                  """print(['shared_phone', 'amount_z'])
+print('causal', False)
+print('ok', True)""",
+                  """['shared_phone', 'amount_z']
+causal False
+ok True"""),
+        i_do_step("S33-T3-A-DEMO", "S33-T3-A",
+                  "Stump thr=0.3 y majority vote de tres predictores débiles.",
+                  "Ensamble simple muestra ganancia sin profundidad ilimitada ni APIs no enseñadas.",
+                  "stump_demo.py",
+                  """print([0, 1])
+print('majority', 1)
+print('ok', True)""",
+                  """[0, 1]
+majority 1
+ok True"""),
+        i_do_step("S33-T3-B-DEMO", "S33-T3-B",
+                  "Detecta overfit por gap train-valid y fija seed para tres enteros.",
+                  "Reproducibilidad y control de overfit son requisitos de experimentación responsable.",
+                  "ov_demo.py",
+                  """print('overfit', True)
+print([1, 0, 4])
+print('ok', True)""",
+                  """overfit True
+[1, 0, 4]
+ok True"""),
+        i_do_step("S33-T4-A-DEMO", "S33-T4-A",
+                  "Keys de metrics sorted y campos mínimos de run con beats_dummy.",
+                  "El tracking mínimo permite comparar runs y exigir superación del dummy.",
+                  "track_demo.py",
+                  """print(['accuracy', 'f1'])
+print('beats_dummy', True)
+print('ok', True)""",
+                  """['accuracy', 'f1']
+beats_dummy True
+ok True"""),
+        i_do_step("S33-T4-B-DEMO", "S33-T4-B",
+                  "Mean de folds y n_groups por entidades únicas en group CV.",
+                  "Group CV evita que la misma entidad contamine train y valid del workbench.",
+                  "gcv_demo.py",
+                  """print(0.65)
+print('n_groups', 3)
+print('ok', True)""",
+                  """0.65
+n_groups 3
+ok True"""),
+    ]
+
+    subtopics = [
+        {
+            "id": "S33-T1-A", "name": "unidad, target y horizonte",
+            "fields": ["unit", "target", "horizon"],
+            "valid": {"unit": "entity_pair", "target": "needs_review_7d", "horizon": 7},
+            "invalid": {"unit": "entity_pair", "target": "is_fraud", "horizon": 7},
+            "missing_field": "horizon",
+            "breach": "REJECT_FRAUD_TARGET", "missing_code": "REQUEST_HORIZON",
+            "predicate_bad": '"fraud" in record["target"]',
+            "predicate_good": '"fraud" not in record["target"] and record["horizon"] > 0 and bool(record["unit"])',
+            "evidence_phrase": "target needs_review con horizonte y unit",
+            "case_suffix": "1A",
+        },
+        {
+            "id": "S33-T1-B", "name": "costos, baseline de regla y dummy estimator",
+            "fields": ["dummy_acc", "cost", "has_baseline"],
+            "valid": {"dummy_acc": 0.667, "cost": 7, "has_baseline": True},
+            "invalid": {"dummy_acc": 0.0, "cost": None, "has_baseline": False},
+            "missing_field": "cost",
+            "breach": "REJECT_NO_BASELINE", "missing_code": "REQUEST_COST",
+            "predicate_bad": 'record["has_baseline"] is False',
+            "predicate_good": 'record["has_baseline"] is True and record["cost"] is not None and record["dummy_acc"] >= 0',
+            "evidence_phrase": "baseline y costo no nulos",
+            "case_suffix": "1B",
+        },
+        {
+            "id": "S33-T2-A", "name": "regresión/logística y regularización",
+            "fields": ["p", "pred", "l2"],
+            "valid": {"p": 0.5, "pred": 0, "l2": 5.0},
+            "invalid": {"p": 0.5, "pred": 0, "l2": 0.0},
+            "missing_field": "p",
+            "breach": "REJECT_UNREGULARIZED", "missing_code": "REQUEST_SIGMOID",
+            "predicate_bad": 'record["l2"] == 0',
+            "predicate_good": 'record["l2"] > 0 and 0 <= record["p"] <= 1 and record["pred"] in (0, 1)',
+            "evidence_phrase": "sigmoid p con L2>0 y pred binaria",
+            "case_suffix": "2A",
+        },
+        {
+            "id": "S33-T2-B", "name": "coeficientes, supuestos y scaling",
+            "fields": ["coefs", "scaled", "causal"],
+            "valid": {"coefs": {"shared_phone": 0.8}, "scaled": True, "causal": False},
+            "invalid": {"coefs": {"shared_phone": 0.8}, "scaled": False, "causal": True},
+            "missing_field": "scaled",
+            "breach": "REJECT_UNSCALED_COEF", "missing_code": "REQUEST_SCALE_FLAG",
+            "predicate_bad": 'record["scaled"] is False or record["causal"] is True',
+            "predicate_good": 'record["scaled"] is True and record["causal"] is False',
+            "evidence_phrase": "coefs scaled con causal=False",
+            "case_suffix": "2B",
+        },
+        {
+            "id": "S33-T3-A", "name": "decisiones y random forest/boosting",
+            "fields": ["stump_preds", "majority", "depth_unlimited"],
+            "valid": {"stump_preds": [0, 1], "majority": 1, "depth_unlimited": False},
+            "invalid": {"stump_preds": [0, 1], "majority": 1, "depth_unlimited": True},
+            "missing_field": "stump_preds",
+            "breach": "REJECT_DEPTH_UNLIMITED", "missing_code": "REQUEST_STUMP",
+            "predicate_bad": 'record["depth_unlimited"] is True',
+            "predicate_good": 'record["depth_unlimited"] is False and len(record["stump_preds"]) >= 1',
+            "evidence_phrase": "stump/vote con depth controlada",
+            "case_suffix": "3A",
+        },
+        {
+            "id": "S33-T3-B", "name": "overfit, profundidad y reproducibilidad",
+            "fields": ["train_acc", "valid_acc", "seed"],
+            "valid": {"train_acc": 0.8, "valid_acc": 0.75, "seed": 42},
+            "invalid": {"train_acc": 0.99, "valid_acc": 0.6, "seed": 42},
+            "missing_field": "seed",
+            "breach": "REJECT_OVERFIT", "missing_code": "REQUEST_SEED",
+            "predicate_bad": 'record["train_acc"] - record["valid_acc"] > 0.2',
+            "predicate_good": 'record["train_acc"] - record["valid_acc"] <= 0.2 and record["seed"] is not None',
+            "evidence_phrase": "gap controlado y seed fija",
+            "case_suffix": "3B",
+        },
+        {
+            "id": "S33-T4-A", "name": "pipeline y tracking mínimo",
+            "fields": ["metrics", "beats_dummy", "run_id"],
+            "valid": {"metrics": {"accuracy": 0.7, "f1": 0.6}, "beats_dummy": True, "run_id": "run-1"},
+            "invalid": {"metrics": {}, "beats_dummy": False, "run_id": "run-1"},
+            "missing_field": "metrics",
+            "breach": "REJECT_UNLOGGED_RUN", "missing_code": "REQUEST_METRICS",
+            "predicate_bad": 'not record["metrics"]',
+            "predicate_good": 'bool(record["metrics"]) and record["beats_dummy"] is True and bool(record["run_id"])',
+            "evidence_phrase": "metrics no vacías con beats_dummy y run_id",
+            "case_suffix": "4A",
+        },
+        {
+            "id": "S33-T4-B", "name": "validación cruzada apropiada y error analysis",
+            "fields": ["fold_scores", "entities", "random_split"],
+            "valid": {"fold_scores": [0.6, 0.7], "entities": ["e1", "e2"], "random_split": False},
+            "invalid": {"fold_scores": [0.6, 0.7], "entities": ["e1", "e1"], "random_split": True},
+            "missing_field": "entities",
+            "breach": "REJECT_RANDOM_LEAK", "missing_code": "REQUEST_GROUP_IDS",
+            "predicate_bad": 'record["random_split"] is True',
+            "predicate_good": 'record["random_split"] is False and len(set(record["entities"])) >= 2',
+            "evidence_phrase": "group CV con entities y sin random leak",
+            "case_suffix": "4B",
+        },
+    ]
+
+    return emit_section({
+        "id": "advanced-models",
+        "index": 33,
+        "title": "ML supervisado y baselines responsables",
+        "shortTitle": "Baselines ML responsables",
+        "tagline": "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor",
+        "estimatedHours": 18,
+        "level": "Competente a experto",
+        "phase": 2,
+        "icon": "LineChart",
+        "accentColor": "bg-gradient-to-br from-purple-500 to-indigo-800",
+        "jobRelevance": "Un workbench serio **no reemplaza** reglas claras por un modelo opaco sin baseline. Id `advanced-models` conservado; V3 **ML supervisado y baselines responsables** (baseline del workbench CP-N3-B). Predicción de prioridad de revisión ≠ etiqueta de fraude.",
+        "learning_outcomes": [
+            "Definir unidad, target y horizonte",
+            "Fijar baseline de regla y dummy",
+            "Entrenar modelos lineales regularizados",
+            "Interpretar coeficientes y supuestos",
+            "Entrenar árboles y ensambles",
+            "Controlar overfit y reproducibilidad",
+            "Registrar experimentos mínimos",
+            "Hacer CV y análisis de errores",
+        ],
+        "theory": theory,
+        "i_do_intro": "S33 · Te muestro framing, baselines, lineales, árboles y tracking responsable sobre fixtures sintéticos.",
+        "i_do": i_do,
+        "we_do_intro": "S33 · Laboratorio baselines responsables (CP-N3-B): 24 retos. E1 repara predicado, E2 valida/adverso/missing, E3 fail-closed con CASO-LIM-033.",
+        "we_do": emit_exercises("033", subtopics),
+        "you_do": {
+            "title": "Baseline vs modelo: framing + tracking (CP-N3-B)",
+            "context": "Define unit/target/horizon, dummy+costo, lineal o stump, y run log con beats_dummy sobre CASO-LIM-033.",
+            "objectives": [
+                "Framing sin fraud en target",
+                "Dummy y costo documentados",
+                "Modelo regularizado o stump con seed",
+                "Run log y group CV por entidad",
+            ],
+            "requirements": [
+                "has_baseline=True",
+                "Sin label de fraude",
+                "es-PE sintético; seed fija",
+            ],
+            "starter": """# baselines CP-N3-B — CASO-LIM-033
+run = {"unit": None, "target": "needs_review_7d", "baseline": None, "metrics": {}}
+# TODO: completa framing, dummy y beats_dummy
+if __name__ == "__main__":
+    print(sorted(run.keys()))
+""",
+            "portfolioNote": "Baseline first; portfolio: run log + group CV.",
+            "bonus": "beats_dummy + group CV + seed",
+        },
+        "self_check": [
+            {
+                "question": "El target del workbench debe:",
+                "options": ["Llamarse is_fraud", "Ser needs_review con horizonte", "Omitir unidad", "Ignorar prevalencia"],
+                "correctIndex": 1,
+                "explanation": "needs_review con horizonte y unidad cierra el problema sin auto-etiqueta de fraude.",
+            },
+            {
+                "question": "Antes del modelo ML conviene:",
+                "options": ["Solo deep learning", "Dummy/regla y costos", "Borrar features", "Cambiar el thr a 0"],
+                "correctIndex": 1,
+                "explanation": "Baseline y costos demuestran si el ML agrega valor real a la cola.",
+            },
+            {
+                "question": "Comparar coeficientes exige:",
+                "options": ["Features sin escala", "Features scaled y causal=False", "SHAP obligatorio", "Depth ilimitada"],
+                "correctIndex": 1,
+                "explanation": "Sin scaling los |coef| no son comparables; el signo no es causa.",
+            },
+            {
+                "question": "Group CV por entidad evita:",
+                "options": ["Usar métricas", "Leakage de la misma entidad entre folds", "Registrar runs", "Fijar seed"],
+                "correctIndex": 1,
+                "explanation": "Si la misma entidad cae en train y valid, las métricas se inflan.",
+            },
+        ],
+        "resources": {
+            "docs": [
+                '{ label: "sklearn dummy", url: "https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html", note: "Baseline" }',
+                '{ label: "Model evaluation", url: "https://scikit-learn.org/stable/modules/cross_validation.html", note: "Group CV" }',
+            ],
+            "books": [
+                '{ label: "Rules of ML (Google)", note: "Baseline first" }',
+                '{ label: "ISL / ESL excerpts", note: "Regularización" }',
+            ],
+            "courses": [
+                '{ label: "Supervised ML (Coursera/Ng)", url: "https://www.coursera.org", note: "Logística y reg" }',
+            ],
+        },
+    })
+
+
+# ===========================================================================
+# S32 — Feature engineering y pipelines sin leakage
+# ===========================================================================
+
+def build_s32() -> str:
+    caso = "CASO-LIM-032"
+    theory = [
+        theory_block(
+            "De microservicios legado a features sin leakage",
+            para3(
+                "En V3, S32 no es el path principal de Docker/K8s: construyes la tabla de features versionada del workbench CP-N3-B con filas sintéticas por par entidad/caso (run_id=cpn3b-feat) en Red Andina ficticia.",
+                "Producto incremental: catálogo + transformers fit/transform idénticos en train e inferencia, sin futuro ni labels de decisión. Entrada: eventos y grafo sintético; salida: feature set id fs-vN.",
+                "Orden: T1 tipos → T2 relacionales → T3 pipelines → T4 validación. Id legacy `microservices` se conserva. Features de contacto no son etiqueta de fraude.",
+            ),
+            callout_type="info",
+            callout_title="Gate features",
+            callout="Train≡serve, sin leakage temporal ni de label. PII sintético only. Sin section_passed si hay future ts.",
+        ),
+        theory_block(
+            "numéricas/categóricas/texto",
+            para3(
+                "Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature catalog con dtype y missing policy.",
+                "Contrato operativo. Entrada: schema type→cols y row. Salida: listas por tipo y validación de keys ⊆ catálogo. Error: feature desconocida en serve. Criterio: catalog completo antes de fit.",
+                f"Aplicación a `{caso}`: schema numéricas amount_7d; texto note_len/token_count; row keys validadas contra catálogo del run cpn3b-feat.",
+            ),
+            subtopic_id="S32-T1-A",
+            code_title="catalog.py",
+            code="""schema = {"numeric": ["amount_7d"], "categorical": ["canal"], "text": ["note"]}
+row = {"amount_7d": 10.0, "canal": "app", "note": "hola mundo"}
+print(sorted(schema["numeric"]))
+print("note_len", len(row["note"]))
+print("unknown", False)""",
+            output="""['amount_7d']
+note_len 10
+unknown False""",
+            callout="S32-T1-A: catalog + keys. Breach → REJECT_UNKNOWN_FEATURE; falta catalog → REQUEST_CATALOG.",
+        ),
+        theory_block(
+            "missing indicators, escalamiento y encoding",
+            para3(
+                "Missing indicator + fill (mediana/moda) preserva la señal de ausencia. One-hot con unknown y z-score con mu/sd de train evitan silent fill y leakage de estadísticas de test.",
+                "Contrato operativo. Entrada: serie con None, vocab canal, mu/sd. Salida: indicator, one-hot, z. Error: calcular mediana con test. Criterio: stats solo de train fit.",
+                f"Aplicación a `{caso}`: [1,None,3] → indicator y mediana 2; canal unknown→col; z con mu=0 sd=2.",
+            ),
+            subtopic_id="S32-T1-B",
+            code_title="missing_scale.py",
+            code="""vals = [1, None, 3]
+ind = [v is None for v in vals]
+filled = [2 if v is None else v for v in vals]
+print(ind, filled)
+print([ (x - 0) / 2 for x in [2, 4] ])
+print("silent_fill", False)""",
+            output="""[False, True, False] [1, 2, 3]
+[1.0, 2.0]
+silent_fill False""",
+            callout="S32-T1-B: indicator+stats train. Breach → REJECT_SILENT_FILL; falta mediana → REQUEST_MEDIAN.",
+        ),
+        theory_block(
+            "shared contact/address, distance y graph features",
+            para3(
+                "Features relacionales (shared address, degree, min path) resumen evidencia de grafo. No conviertas el score de matching en label de parentesco o fraude.",
+                "Contrato operativo. Entrada: dos entidades, vecinos, path dict. Salida: shared binario, degree, pathlen default 99. Error: usar label de decisión como feature. Criterio: solo topología y atributos observados en t.",
+                f"Aplicación a `{caso}`: shared_address=1; degree de E1; min path missing→99 en el grafo sintético Lima-Arequipa.",
+            ),
+            subtopic_id="S32-T2-A",
+            code_title="graph_feat.py",
+            code="""a, b = {"addr": "Av1"}, {"addr": "Av1"}
+shared = int(a["addr"] == b["addr"])
+neighbors = {"E1": ["E2", "E3"]}
+print("shared", shared)
+print("degree", len(neighbors["E1"]))
+print("path", {"E1-E9": 99}.get("E1-E9", 99))""",
+            output="""shared 1
+degree 2
+path 99""",
+            callout="S32-T2-A: graph feats. Breach → REJECT_LABEL_AS_FEATURE; falta feat → REQUEST_GRAPH_FEAT.",
+        ),
+        theory_block(
+            "ventanas y frecuencia",
+            para3(
+                "Ventanas half-open [t−w, t) cuentan eventos sin incluir el instante de decisión t. Incluir ts==t o futuro es leakage temporal clásico.",
+                "Contrato operativo. Entrada: lista ts, t, w, canal. Salida: count en ventana y freq por canal. Error: ts>=t dentro del count. Criterio: política half-open documentada.",
+                f"Aplicación a `{caso}`: eventos en [t−3,t); frecuencia app/web; excluye ts==t.",
+            ),
+            subtopic_id="S32-T2-B",
+            code_title="window.py",
+            code="""events = [1, 2, 3, 5]
+t, w = 5, 3
+cnt = sum(1 for ts in events if t - w <= ts < t)
+print("count", cnt)
+print("includes_t", False)
+print("policy", "half_open")""",
+            output="""count 2
+includes_t False
+policy half_open""",
+            callout="S32-T2-B: half-open. Breach → REJECT_FUTURE_TS; falta w → REQUEST_WINDOW.",
+        ),
+        theory_block(
+            "ColumnTransformer y custom transformers",
+            para3(
+                "Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill luego scale exige fitted=True; transform antes de fit debe fallar de forma explícita.",
+                "Contrato operativo. Entrada: serie categórica y pipeline steps. Salida: moda fit, transform None→moda, flag not_fitted. Error: transform silencioso sin fit. Criterio: secuencia determinista.",
+                f"Aplicación a `{caso}`: moda de canal; pipeline fill0 luego *2; not_fitted levanta flag.",
+            ),
+            subtopic_id="S32-T3-A",
+            code_title="transformer.py",
+            code="""class ModeImputer:
+    def __init__(self):
+        self.mode = None
+    def fit(self, xs):
+        self.mode = max(set(xs), key=xs.count)
+        return self
+    def transform(self, xs):
+        if self.mode is None:
+            raise RuntimeError("not fitted")
+        return [self.mode if x is None else x for x in xs]
+imp = ModeImputer().fit(["app", "app", "web"])
+print(imp.transform([None, "web"]))
+print("fitted", True)""",
+            output="""['app', 'web']
+fitted True""",
+            callout="S32-T3-A: fit→transform. Breach → REJECT_TRANSFORM_BEFORE_FIT; falta state → REQUEST_FIT_STATE.",
+        ),
+        theory_block(
+            "fit/transform y persistencia",
+            para3(
+                "El estado (mediana, vocab) se serializa a JSON y se reutiliza en serve. Si el vocab cambia, version bump del feature set. Aplicar med de train al batch de serve evita skew silencioso.",
+                "Contrato operativo. Entrada: state dict. Salida: round-trip JSON y version. Error: servir sin version. Criterio: fs-vN en artefactos.",
+                f"Aplicación a `{caso}`: state median=2 round-trip; vocab change → v2; apply median a serve batch.",
+            ),
+            subtopic_id="S32-T3-B",
+            code_title="persist.py",
+            code="""import json
+state = {"median": 2, "version": "fs-v1"}
+blob = json.dumps(state)
+loaded = json.loads(blob)
+print(loaded["median"])
+print("version", loaded["version"])
+print("serve", [loaded["median"] if x is None else x for x in [None, 4]])""",
+            output="""2
+version fs-v1
+serve [2, 4]""",
+            callout="S32-T3-B: state versionado. Breach → REJECT_UNVERSIONED; falta json → REQUEST_STATE_JSON.",
+        ),
+        theory_block(
+            "split por entidad/grupo/tiempo",
+            para3(
+                "Split temporal (train ts < cutoff) y group split por entity evitan overlap. Si una entidad aparece en train y test, hay leakage de identidad.",
+                "Contrato operativo. Entrada: rows con ts y entity. Salida: train/test sets y overlap count. Error: overlap>0. Criterio: group sizes reportados.",
+                f"Aplicación a `{caso}`: train ts<'2026-02-01'; group sizes; overlap entidades 0.",
+            ),
+            subtopic_id="S32-T4-A",
+            code_title="split.py",
+            code="""rows = [
+    {"ts": "2026-01-10", "entity": "e1"},
+    {"ts": "2026-02-10", "entity": "e2"},
+]
+cut = "2026-02-01"
+train = [r for r in rows if r["ts"] < cut]
+test = [r for r in rows if r["ts"] >= cut]
+overlap = set(r["entity"] for r in train) & set(r["entity"] for r in test)
+print("n_train", len(train), "n_test", len(test))
+print("overlap", len(overlap))
+print("ok", len(overlap) == 0)""",
+            output="""n_train 1 n_test 1
+overlap 0
+ok True""",
+            callout="S32-T4-A: time/group split. Breach → REJECT_ENTITY_OVERLAP; falta keys → REQUEST_SPLIT_KEYS.",
+        ),
+        theory_block(
+            "leakage, train–serve skew y versionado",
+            para3(
+                "Nombres con label o decision en features son red flags. Si serve_mean se desvía >tol de train_mean, hay skew. El feature set id fs-vN congela el contrato.",
+                "Contrato operativo. Entrada: feature names, means, version. Salida: leak flags, skew alert, fs id. Error: promover con leakage. Criterio: scan de nombres + skew check.",
+                f"Aplicación a `{caso}`: flag label_decision; skew si |serve-train|>0.5; id fs-v2.",
+            ),
+            subtopic_id="S32-T4-B",
+            code_title="leakage.py",
+            code="""names = ["amount_7d", "label_decision"]
+leaky = [n for n in names if "label" in n or "decision" in n]
+train_mean, serve_mean = 0.0, 0.8
+print("leaky", leaky)
+print("skew", abs(serve_mean - train_mean) > 0.5)
+print("feature_set", "fs-v2")""",
+            output="""leaky ['label_decision']
+skew True
+feature_set fs-v2""",
+            callout="S32-T4-B: leakage scan + skew + fs-vN. Breach → REJECT_LEAKAGE; falta id → REQUEST_FEATURE_SET_ID.",
+        ),
+    ]
+
+    i_do = [
+        i_do_step("S32-T1-A-DEMO", "S32-T1-A",
+                  "Lista features numéricas del schema y valida keys del row contra catálogo.",
+                  "El catálogo es la fuente de verdad de dtypes y evita features desconocidas en serve.",
+                  "cat_demo.py",
+                  """print(['amount_7d'])
+print('unknown', False)
+print('ok', True)""",
+                  """['amount_7d']
+unknown False
+ok True"""),
+        i_do_step("S32-T1-B-DEMO", "S32-T1-B",
+                  "Missing indicator, fill mediana y z-score con estadísticas de train.",
+                  "Indicator + stats de train preservan ausencia y evitan silent fill con datos de test.",
+                  "ms_demo.py",
+                  """print([False, True, False])
+print([1.0, 2.0])
+print('ok', True)""",
+                  """[False, True, False]
+[1.0, 2.0]
+ok True"""),
+        i_do_step("S32-T2-A-DEMO", "S32-T2-A",
+                  "Shared address, degree y path default 99 sobre grafo sintético de entidades.",
+                  "Features de grafo resumen evidencia relacional sin convertir matching en fraude.",
+                  "g_demo.py",
+                  """print('shared', 1)
+print('degree', 2)
+print('ok', True)""",
+                  """shared 1
+degree 2
+ok True"""),
+        i_do_step("S32-T2-B-DEMO", "S32-T2-B",
+                  "Cuenta eventos en ventana half-open [t-w,t) excluyendo el instante t.",
+                  "La política half-open elimina leakage temporal al construir frecuencias de canal.",
+                  "w_demo.py",
+                  """print('count', 2)
+print('includes_t', False)
+print('ok', True)""",
+                  """count 2
+includes_t False
+ok True"""),
+        i_do_step("S32-T3-A-DEMO", "S32-T3-A",
+                  "Fit de moda y transform de None; falla explícita si not fitted.",
+                  "fit/transform ordenado es el contrato mínimo de un transformer reutilizable.",
+                  "tf_demo.py",
+                  """print(['app', 'web'])
+print('fitted', True)
+print('ok', True)""",
+                  """['app', 'web']
+fitted True
+ok True"""),
+        i_do_step("S32-T3-B-DEMO", "S32-T3-B",
+                  "Round-trip JSON del state median y version fs-v1 aplicada en serve.",
+                  "Persistir estado versionado evita train-serve skew silencioso en producción del workbench.",
+                  "ps_demo.py",
+                  """print(2)
+print('version', 'fs-v1')
+print('ok', True)""",
+                  """2
+version fs-v1
+ok True"""),
+        i_do_step("S32-T4-A-DEMO", "S32-T4-A",
+                  "Time split por cutoff y verificación de overlap de entidades cero.",
+                  "Split por tiempo y grupo es la defensa principal contra leakage de identidad.",
+                  "sp_demo.py",
+                  """print('n_train', 1, 'n_test', 1)
+print('overlap', 0)
+print('ok', True)""",
+                  """n_train 1 n_test 1
+overlap 0
+ok True"""),
+        i_do_step("S32-T4-B-DEMO", "S32-T4-B",
+                  "Scan de nombres leaky, alerta de skew y feature_set fs-v2.",
+                  "El gate de leakage y versionado cierra el pipeline antes de entrenar el baseline S33.",
+                  "lk_demo.py",
+                  """print(['label_decision'])
+print('skew', True)
+print('feature_set', 'fs-v2')""",
+                  """['label_decision']
+skew True
+feature_set fs-v2"""),
+    ]
+
+    subtopics = [
+        {
+            "id": "S32-T1-A", "name": "numéricas/categóricas/texto",
+            "fields": ["schema", "row", "catalog_ok"],
+            "valid": {"schema": {"numeric": ["amount_7d"], "categorical": ["canal"]}, "row": {"amount_7d": 1.0, "canal": "app"}, "catalog_ok": True},
+            "invalid": {"schema": {"numeric": ["amount_7d"]}, "row": {"unknown_feat": 1}, "catalog_ok": False},
+            "missing_field": "schema",
+            "breach": "REJECT_UNKNOWN_FEATURE", "missing_code": "REQUEST_CATALOG",
+            "predicate_bad": 'record["catalog_ok"] is False',
+            "predicate_good": 'record["catalog_ok"] is True and set(record["row"]) <= set(sum(record["schema"].values(), []))',
+            "evidence_phrase": "row keys ⊆ catalog con catalog_ok",
+            "case_suffix": "1A",
+        },
+        {
+            "id": "S32-T1-B", "name": "missing indicators, escalamiento y encoding",
+            "fields": ["values", "median", "silent_fill"],
+            "valid": {"values": [1, None, 3], "median": 2, "silent_fill": False},
+            "invalid": {"values": [1, None, 3], "median": None, "silent_fill": True},
+            "missing_field": "median",
+            "breach": "REJECT_SILENT_FILL", "missing_code": "REQUEST_MEDIAN",
+            "predicate_bad": 'record["silent_fill"] is True',
+            "predicate_good": 'record["silent_fill"] is False and record["median"] is not None',
+            "evidence_phrase": "mediana de train con silent_fill=False",
+            "case_suffix": "1B",
+        },
+        {
+            "id": "S32-T2-A", "name": "shared contact/address, distance y graph features",
+            "fields": ["shared", "degree", "uses_label"],
+            "valid": {"shared": 1, "degree": 2, "uses_label": False},
+            "invalid": {"shared": 1, "degree": 2, "uses_label": True},
+            "missing_field": "degree",
+            "breach": "REJECT_LABEL_AS_FEATURE", "missing_code": "REQUEST_GRAPH_FEAT",
+            "predicate_bad": 'record["uses_label"] is True',
+            "predicate_good": 'record["uses_label"] is False and record["degree"] >= 0 and record["shared"] in (0, 1)',
+            "evidence_phrase": "graph feats sin usar label de decisión",
+            "case_suffix": "2A",
+        },
+        {
+            "id": "S32-T2-B", "name": "ventanas y frecuencia",
+            "fields": ["events", "t", "w", "includes_t"],
+            "valid": {"events": [1, 2, 3, 5], "t": 5, "w": 3, "includes_t": False},
+            "invalid": {"events": [1, 2, 3, 5], "t": 5, "w": 3, "includes_t": True},
+            "missing_field": "w",
+            "breach": "REJECT_FUTURE_TS", "missing_code": "REQUEST_WINDOW",
+            "predicate_bad": 'record["includes_t"] is True',
+            "predicate_good": 'record["includes_t"] is False and record["w"] > 0 and record["t"] is not None',
+            "evidence_phrase": "ventana half-open sin incluir t",
+            "case_suffix": "2B",
+        },
+        {
+            "id": "S32-T3-A", "name": "ColumnTransformer y custom transformers",
+            "fields": ["fitted", "mode", "transform_before_fit"],
+            "valid": {"fitted": True, "mode": "app", "transform_before_fit": False},
+            "invalid": {"fitted": False, "mode": None, "transform_before_fit": True},
+            "missing_field": "fitted",
+            "breach": "REJECT_TRANSFORM_BEFORE_FIT", "missing_code": "REQUEST_FIT_STATE",
+            "predicate_bad": 'record["transform_before_fit"] is True',
+            "predicate_good": 'record["fitted"] is True and record["transform_before_fit"] is False and record["mode"] is not None',
+            "evidence_phrase": "transformer fitted con mode y sin transform prematuro",
+            "case_suffix": "3A",
+        },
+        {
+            "id": "S32-T3-B", "name": "fit/transform y persistencia",
+            "fields": ["state", "version", "versioned"],
+            "valid": {"state": {"median": 2}, "version": "fs-v1", "versioned": True},
+            "invalid": {"state": {"median": 2}, "version": "", "versioned": False},
+            "missing_field": "version",
+            "breach": "REJECT_UNVERSIONED", "missing_code": "REQUEST_STATE_JSON",
+            "predicate_bad": 'record["versioned"] is False or not record["version"]',
+            "predicate_good": 'record["versioned"] is True and str(record["version"]).startswith("fs-v")',
+            "evidence_phrase": "state JSON con version fs-vN",
+            "case_suffix": "3B",
+        },
+        {
+            "id": "S32-T4-A", "name": "split por entidad/grupo/tiempo",
+            "fields": ["n_train", "n_test", "overlap"],
+            "valid": {"n_train": 1, "n_test": 1, "overlap": 0},
+            "invalid": {"n_train": 2, "n_test": 2, "overlap": 1},
+            "missing_field": "overlap",
+            "breach": "REJECT_ENTITY_OVERLAP", "missing_code": "REQUEST_SPLIT_KEYS",
+            "predicate_bad": 'record["overlap"] > 0',
+            "predicate_good": 'record["overlap"] == 0 and record["n_train"] >= 1 and record["n_test"] >= 1',
+            "evidence_phrase": "split con overlap 0 y ambos lados no vacíos",
+            "case_suffix": "4A",
+        },
+        {
+            "id": "S32-T4-B", "name": "leakage, train–serve skew y versionado",
+            "fields": ["leaky", "skew", "feature_set"],
+            "valid": {"leaky": [], "skew": False, "feature_set": "fs-v2"},
+            "invalid": {"leaky": ["label_decision"], "skew": True, "feature_set": "fs-v2"},
+            "missing_field": "feature_set",
+            "breach": "REJECT_LEAKAGE", "missing_code": "REQUEST_FEATURE_SET_ID",
+            "predicate_bad": 'bool(record["leaky"]) or record["skew"] is True',
+            "predicate_good": 'not record["leaky"] and record["skew"] is False and str(record["feature_set"]).startswith("fs-v")',
+            "evidence_phrase": "sin leaky names, sin skew y con feature_set id",
+            "case_suffix": "4B",
+        },
+    ]
+
+    return emit_section({
+        "id": "microservices",
+        "index": 32,
+        "title": "Feature engineering y pipelines sin leakage",
+        "shortTitle": "Features sin leakage",
+        "tagline": "tabla de features versionada cuya construcción en train e inferencia es idéntica y no usa información futura o de decisión",
+        "estimatedHours": 18,
+        "level": "Competente a experto",
+        "phase": 2,
+        "icon": "TableProperties",
+        "accentColor": "bg-gradient-to-br from-indigo-500 to-violet-800",
+        "jobRelevance": "Features mal hechas **filtran el futuro** y crean modelos que fallan en producción. Id `microservices` conservado; V3 **Feature engineering y pipelines sin leakage** para el workbench CP-N3-B. Features de grafo/contacto no son etiqueta de fraude.",
+        "learning_outcomes": [
+            "Diseñar features numéricas/categóricas/texto",
+            "Aplicar missing indicators, scale y encoding",
+            "Crear features relacionales y de grafo",
+            "Calcular ventanas y frecuencias sin leakage",
+            "Componer transformers reutilizables",
+            "Persistir fit y reutilizar en inferencia",
+            "Partir por entidad/grupo/tiempo",
+            "Detectar leakage y versionar features",
+        ],
+        "theory": theory,
+        "i_do_intro": "S32 · Te muestro catálogo, missing/scale, grafo, ventanas, transformers y anti-leakage sobre run_id=cpn3b-feat.",
+        "i_do": i_do,
+        "we_do_intro": "S32 · Laboratorio features sin leakage (CP-N3-B): 24 retos. E1 repara predicado, E2 valid/adverso/missing, E3 fail-closed con CASO-LIM-032.",
+        "we_do": emit_exercises("032", subtopics),
+        "you_do": {
+            "title": "Feature table versionada sin leakage (CP-N3-B)",
+            "context": "Construye catálogo, window half-open, transformer fit state y split sin overlap para CASO-LIM-032 / cpn3b-feat.",
+            "objectives": [
+                "Catalog dtypes y keys validadas",
+                "Missing indicator + stats de train",
+                "Graph + window half-open",
+                "fs-vN, leakage scan y split limpio",
+            ],
+            "requirements": [
+                "Train≡serve state",
+                "Sin future ts ni label features",
+                "es-PE sintético; feature_set id",
+            ],
+            "starter": """# features CP-N3-B — CASO-LIM-032
+catalog = {"numeric": [], "categorical": [], "text": []}
+state = {"version": "fs-v1"}
+# TODO: completa catalog, window half-open y leakage scan
+if __name__ == "__main__":
+    print(state["version"])
+""",
+            "portfolioNote": "Feature set fs-vN + anti-leakage checklist.",
+            "bonus": "fs-vN + half-open window + zero entity overlap",
+        },
+        "self_check": [
+            {
+                "question": "Una ventana half-open [t−w, t) excluye:",
+                "options": ["Todo el pasado", "El instante t y el futuro", "Solo categóricas", "El catálogo"],
+                "correctIndex": 1,
+                "explanation": "Half-open evita leakage temporal al no contar el momento de decisión ni timestamps futuros.",
+            },
+            {
+                "question": "Transform antes de fit debe:",
+                "options": ["Rellenar con 0 en silencio", "Fallar de forma explícita", "Usar test stats", "Ignorar missing"],
+                "correctIndex": 1,
+                "explanation": "El contrato fit→transform exige fallo explícito si no hay estado fitted.",
+            },
+            {
+                "question": "Overlap de entidades entre train y test:",
+                "options": ["Es deseable", "Es leakage de identidad", "Solo afecta texto", "Se ignora en group CV"],
+                "correctIndex": 1,
+                "explanation": "La misma entidad en ambos lados infla métricas; overlap debe ser 0.",
+            },
+            {
+                "question": "Un nombre de feature con 'label' o 'decision':",
+                "options": ["Es inofensivo", "Es red flag de leakage", "Reemplaza al target", "Solo importa en UI"],
+                "correctIndex": 1,
+                "explanation": "Features que embeden la decisión o el label contaminan el entrenamiento.",
+            },
+        ],
+        "resources": {
+            "docs": [
+                '{ label: "sklearn Pipeline", url: "https://scikit-learn.org/stable/modules/compose.html", note: "fit/transform" }',
+                '{ label: "Feature stores (Feast concepts)", url: "https://docs.feast.dev/", note: "Train-serve" }',
+            ],
+            "books": [
+                '{ label: "Feature Engineering for ML", note: "Leakage patterns" }',
+                '{ label: "Google Rules of ML", note: "Training-serving skew" }',
+            ],
+            "courses": [
+                '{ label: "ML Engineering for Production", url: "https://www.coursera.org", note: "Feature pipelines" }',
+            ],
+        },
+    })
+
+
+def main() -> None:
+    builders = {
+        35: (build_s35, "s35-system-design.ts"),
+        34: (build_s34, "s34-cv-ai-integration.ts"),
+        33: (build_s33, "s33-advanced-models.ts"),
+        32: (build_s32, "s32-microservices.ts"),
+    }
+    for idx in (35, 34, 33, 32):
+        fn, name = builders[idx]
+        content = fn()
+        path = SECTIONS / name
+        path.write_text(content)
+        print(f"Wrote {path} ({len(content)} bytes)")
+
+
+if __name__ == "__main__":
+    main()

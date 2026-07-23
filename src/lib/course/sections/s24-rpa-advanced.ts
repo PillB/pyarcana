@@ -27,9 +27,9 @@ export const section24: CourseSection = {
     {
       heading: "OCR Document AI para intake CP-N2-C",
       paragraphs: [
-        "Aquí haces **document intake**: crear y preprocesar una imagen sintética, ejecutar un adapter OCR con confidence, normalizar a schema, validar y medir un golden set.",
-        "Todo documento es **sintético** (facturas demo, IDs fake). Conservas **bounding boxes** y te **abstienes** si confidence < umbral.",
-        "Orden: **T1 Imagen** → **T2 OCR** → **T3 Extracción** → **T4 Evaluación**. Coincidir campos no prueba fraude.",
+        "Aquí construyes el **document intake** de CP-N2-C: imagen sintética → preproceso → adapter OCR (confidence + bbox) → normalización a schema → validación cross-field → golden set por campo. En un backoffice sintético de facturas en Lima, el objetivo es encolar revisión, no “cerrar” casos por score.",
+        "Todo documento es **sintético** (facturas demo, IDs fake). Conservas **bounding boxes** como evidencia y te **abstienes** si confidence < umbral de campo crítico (p. ej. RUC). Coincidir totales o RUC **no prueba fraude** ni parentesco: solo genera reasons para humanos.",
+        "Orden: **T1 Imagen** (DPI, deskew, ruido, orientación) → **T2 OCR** (idiomas, layout, KV/tablas) → **T3 Extracción** (schema, validación, cola) → **T4 Evaluación** (golden, privacidad, hostiles, fallback). Frontera real/fake: TesseractAdapter vs FakeOcrAdapter nunca se confunden en contract tests.",
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section24: CourseSection = {
       heading: "DPI, deskew, crop y contraste",
       subtopicId: "S24-T1-A",
       paragraphs: [
-        "**DPI** bajo degrada OCR. **Deskew** corrige inclinación; **crop** elimina márgenes; **contraste** ayuda a tinta débil.",
-        "Modelamos ops como transformaciones sobre metadatos de imagen sintética (ancho, ángulo, histograma).",
-        "Pipeline: load → dpi_check → deskew → crop → contrast → OCR.",
+        "**DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efectivos) antes del motor. **Deskew** corrige inclinación de escaneo móvil; **crop** quita márgenes negros; **contraste** ayuda tinta débil sin inventar dígitos.",
+        "Modelamos ops como transformaciones sobre metadatos de imagen sintética (w, h, dpi, skew_deg, contrast): no necesitas OpenCV instalado para aprender el contrato del pipeline. Cada op deja flags (deskew_applied) auditables en el run de intake.",
+        "Pipeline canónico: load → dpi_check → deskew → crop → contrast → OCR. Caso PE sintético: foto de boleta a 96 DPI y 1.8° de sesgo; tras preproceso dpi=200, deskew_applied True, crop 2–5% y contrast escalado — listo para adapter con lang spa.",
       ],
       code: {
         language: 'python',
@@ -77,9 +77,9 @@ print(meta["dpi"], meta["deskew_applied"], meta["crop_box"][0], round(meta["cont
       heading: "ruido y orientación",
       subtopicId: "S24-T1-B",
       paragraphs: [
-        "Ruido (sal/pimienta, compresión) y **orientación** (0/90/180/270) rompen el layout.",
-        "Detecta orientación por señales (cabecera arriba, densidad de texto) o modelo; corrige antes de OCR.",
-        "Simulamos score de orientación y filtro de ruido binario.",
+        "Ruido (sal/pimienta, compresión JPEG) y **orientación** (0/90/180/270) rompen el layout y pueden dar confidence alta en basura si OCR corre al revés. Detecta orientación por scores de señales (cabecera, densidad) o modelo; corrige **antes** de OCR.",
+        "Simulamos score por rotación y un denoise binario sobre flags 0/1. Si score_orient < 0.5, el intake prefiere manual_orient (humano gira la página) antes de forzar auto con baja certeza — fail-closed de calidad.",
+        "Caso sintético: página con scores {0:0.1, 90:0.05, 180:0.7, 270:0.15} → 180°. Un OCR previo a orientar produce campos RUC permutados; el runbook exige fix_orientation en el preflight del batch nocturno.",
       ],
       code: {
         language: 'python',
@@ -110,9 +110,9 @@ denoise [0, 0, 0, 0, 0]`,
       heading: "idiomas, layout y confidence",
       subtopicId: "S24-T2-A",
       paragraphs: [
-        "Configura **idiomas** (spa+eng). El **layout** (bloques, columnas) guía la lectura.",
-        "Cada token/campo trae **confidence** 0–1. Umbral de abstención por campo crítico.",
-        "No promedies confidence a ciegas: un campo clave bajo tumba el auto-aceptar.",
+        "Configura **idiomas** (spa+eng) según el corpus: facturas PE en español con tokens EN de software. El **layout** (bloques, columnas) guía el orden de lectura; no concatenes columnas a ciegas o mezclas “Total” con líneas de ítem.",
+        "Cada token/campo trae **confidence** 0–1. Umbral de abstención por campo crítico (RUC, total): un promedio global esconde el dígito débil. Si RUC conf < 0.85 → review_queue, no inventes dígitos ni “corrijas” con checksum inventado sin política.",
+        "Contrato del adapter: ocr_page(tokens, lang) → lista {text, conf, bbox, lang}. Low-conf se lista para HITL. FakeOcrAdapter devuelve observaciones fijadas para tests de parsing; nunca se presenta como motor real en logs de producción del curso.",
       ],
       code: {
         language: 'python',
@@ -141,9 +141,9 @@ print("n", len(out), "low_conf", [(t["text"], t["conf"]) for t in low])`,
       heading: "texto, tablas y pares clave–valor",
       subtopicId: "S24-T2-B",
       paragraphs: [
-        "Extrae **texto corrido**, **tablas** (filas/cols) y **KV** (RUC→valor) con bbox de evidencia.",
-        "Heurística KV: label a la izquierda, valor a la derecha en misma línea.",
-        "Tablas sintéticas como listas de listas.",
+        "Extrae **texto corrido**, **tablas** (filas/cols) y **KV** (RUC→valor, Total→monto) con bbox de evidencia del **valor**, no solo del label. Heurística KV didáctica: “Clave: valor” en la misma línea tras split de “:”.",
+        "Tablas sintéticas como listas de listas con header en fila 0; n_data_rows = len(table)-1. Ítems de factura demo alimentan validación de suma vs total, siempre con tolerancia monetaria.",
+        "Caso PE: líneas “RUC: 20123456789” y “Total: 150.00” → dict KV; tabla 2 ítems. Evidencia: adjunta bbox del valor RUC al field dict para que el revisor resalte en UI sin re-OCRizar.",
       ],
       code: {
         language: 'python',
@@ -178,9 +178,9 @@ table_rows 2 header ['Item', 'Monto']`,
       heading: "schema y normalización",
       subtopicId: "S24-T3-A",
       paragraphs: [
-        "Un **schema** define campos, tipos y required. Normaliza monedas, fechas ISO y RUC a dígitos.",
-        "Output canónico: `{field, value, conf, bbox, source_doc_id}`.",
-        "Versión del schema en metadata del run.",
+        "Un **schema** define campos, tipos y required (ruc str11, total float, fecha date). Normaliza monedas (quita PEN/comas), fechas a ISO y RUC a solo dígitos. Output canónico: {field, value, conf, bbox, source_doc_id} + schema_version en metadata del run.",
+        "Si tras normalizar RUC no tiene longitud 11, value=None y el validador acumula reason — no rellenes con ceros mágicos. Fechas DD/MM/YYYY de boletas sintéticas pasan a YYYY-MM-DD con datetime.strptime.",
+        "Versionar schema evita que un deploy cambie el significado de total_incl_igv a mitad de un golden set. Contrato lab: norm_ruc / norm_total / norm_fecha puras, testeables sin I/O de red.",
       ],
       code: {
         language: 'python',
@@ -226,9 +226,9 @@ print({
       heading: "validación cross-field y cola de revisión",
       subtopicId: "S24-T3-B",
       paragraphs: [
-        "**Cross-field**: total ≈ suma de líneas; fecha ≤ hoy; RUC checksum sintético opcional.",
-        "Falla de regla → `needs_review` con razones. El humano corrige; el bot no “adivina”.",
-        "Matching de proveedor por nombre similar **no** es veredicto de fraude.",
+        "Cross-field: abs(sum(líneas) - total) > 0.01 → needs_review. RUC None → reasons.append('ruc_missing'). Varias reasons se acumulan; el documento no se auto-acepta si la lista no está vacía o conf de críticos es baja.",
+        "La cola de revisión es el producto: status review, reasons[], evidencias bbox. **Mismatch ≠ fraude**: imprime política review_not_fraud para entrenar el hábito. Humanos investigan; el sistema solo encola.",
+        "Caso sintético: total 10.0 vs líneas 4+5 → needs_review; ruc missing → ['ruc_missing']. El intake batch marca human_queue y sigue con el siguiente doc sin bloquear todo el archivo.",
       ],
       code: {
         language: 'python',
@@ -263,9 +263,9 @@ note: validation≠fraud_label`,
       heading: "golden set sintético, exactitud por campo y cobertura",
       subtopicId: "S24-T4-A",
       paragraphs: [
-        "El **golden set** tiene documentos sintéticos con labels. Mide **exactitud por campo** y **cobertura** (cuántos auto vs review).",
-        "Campo crítico (RUC, total) tiene SLO propio.",
-        "Nunca evalúes solo accuracy global: oculta fallas en campos caros.",
+        "Un **golden set** de páginas/campos etiquetados a mano mide exactitud por campo (ruc, total, fecha), no un accuracy global engañoso. Campo crítico tiene SLO propio: caer en RUC es más grave que en glosa opcional.",
+        "Accuracy = correct/n; por campo se compara pred vs true en lista de dicts. coverage_auto = auto/(auto+review) mide cuánto pasa sin HITL — subir cobertura bajando umbral sin medir error es anti-patrón.",
+        "Caso PE de lab: 3/4 correctos → 0.75; ruc acc 0.5 en dos filas; auto=7,review=3 → coverage 0.7. Reporta métricas en el paquete de CP-N2-C sin pretender que OCR “valida identidad legal”.",
       ],
       code: {
         language: 'python',
@@ -298,9 +298,9 @@ coverage_auto 0.5`,
       heading: "privacidad, archivos hostiles y fallback",
       subtopicId: "S24-T4-B",
       paragraphs: [
-        "**Privacidad**: no subas PII real a APIs públicas; usa sintéticos o entornos aprobados.",
-        "**Hostiles**: zip bombs, PDF con JS, imágenes enormes → límites de tamaño y tipo MIME.",
-        "**Fallback**: si OCR falla, encola humano o pide re-scan; no completes campos con LLM sin evidencia.",
+        "Privacidad: solo fixtures sintéticos; no subas PDFs reales de clientes al sandbox. Allowlist mime pdf/png/jpeg; zip u otros → reject. Size cap (p. ej. 5e6 bytes) mitiga zip-bomb y DoS al worker OCR.",
+        "Archivos hostiles (corrupción, ratio de compresión absurdo) se rechazan o van a cuarentena. Fallback operativo: ocr_fail → human_rescan (re-escaneo o tipeo asistido), no reintentar 100 veces el mismo binario roto.",
+        "Contrato de seguridad del intake: fail-closed en mime/size; logs sin PII real; Fake vs Real adapters etiquetados. El revisor ve reasons y bbox, nunca un badge de “fraude detectado por OCR”.",
       ],
       code: {
         language: 'python',
@@ -464,11 +464,12 @@ print("ok" if meta["mime"]=="application/pdf" and meta["n"]<5_000_000 else "reje
         subtopicId: "S24-T1-A",
         kind: "guided",
         instruction:
-          "Si dpi<200, súbelo a 200 e imprime.",
+          "Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el entero resultante. Contrato: no inventa detalle óptico; solo metadata. Pass: 200.",
         hint: "max()",
         hints: [
-          "max()",
-          "asignación",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["upscaling no crea detalle real"],
         tests: "salida coincide con solution output",
@@ -476,8 +477,8 @@ print("ok" if meta["mime"]=="application/pdf" and meta["n"]<5_000_000 else "reje
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `dpi=96
-# TODO
+          code: `dpi=96  # escaneo sintético bajo
+# TODO: eleva a >=200 con max; print
 `,
         },
         solutionCode: {
@@ -493,11 +494,12 @@ print(max(dpi, 200))`,
         subtopicId: "S24-T1-A",
         kind: "independent",
         instruction:
-          "deskew_applied = abs(skew)>=0.5 para skew=1.2 e imprime.",
+          "Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral didáctico 0.5°. Pass: True. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "abs",
         hints: [
-          "abs",
-          "boolean",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["umbral empírico"],
         tests: "salida coincide con solution output",
@@ -505,8 +507,8 @@ print(max(dpi, 200))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `skew=1.2
-# TODO
+          code: `skew=1.2  # grados de inclinación
+# TODO: deskew_applied = abs(skew)>=0.5; print
 `,
         },
         solutionCode: {
@@ -522,11 +524,12 @@ print(abs(skew) >= 0.5)`,
         subtopicId: "S24-T1-A",
         kind: "transfer",
         instruction:
-          "Crop box 5% márgenes en w=1000,h=1000: imprime (x0,y0,x1,y1).",
+          "Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen esquina superior izquierda. Pass: (50, 50, 950, 950).",
         hint: "int 0.05*w",
         hints: [
-          "int 0.05*w",
-          "tuple",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["no crops contenido útil"],
         tests: "salida coincide con solution output",
@@ -534,8 +537,8 @@ print(abs(skew) >= 0.5)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `w=h=1000
-# TODO
+          code: `w=h=1000  # lienzo sintético
+# TODO: crop 5% → (x0,y0,x1,y1); print
 `,
         },
         solutionCode: {
@@ -552,11 +555,12 @@ print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))`,
         subtopicId: "S24-T1-B",
         kind: "guided",
         instruction:
-          "Elige rotación con mayor score en {0:0.1,90:0.8}.",
+          "Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de grados. Contrato: max(s, key=s.get). Pass: 90. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "max key=",
         hints: [
-          "max key=",
-          "dict",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["empates"],
         tests: "salida coincide con solution output",
@@ -564,8 +568,8 @@ print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `s={0:0.1,90:0.8}
-# TODO
+          code: `s={0:0.1,90:0.8}  # scores por rotación
+# TODO: print rotación de mayor score
 `,
         },
         solutionCode: {
@@ -581,11 +585,12 @@ print(max(s, key=s.get))`,
         subtopicId: "S24-T1-B",
         kind: "independent",
         instruction:
-          "Cuenta píxeles de ruido (1) en [0,1,1,0].",
+          "Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(flags) o count. Pass: 2. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "sum",
         hints: [
-          "sum",
-          "lista",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["modelo real de denoise"],
         tests: "salida coincide con solution output",
@@ -593,8 +598,8 @@ print(max(s, key=s.get))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `flags=[0,1,1,0]
-# TODO
+          code: `flags=[0,1,1,0]  # 1=ruido marcado
+# TODO: cuenta ruido; print
 `,
         },
         solutionCode: {
@@ -610,11 +615,12 @@ print(sum(flags))`,
         subtopicId: "S24-T1-B",
         kind: "transfer",
         instruction:
-          "Si score_orient<0.5 imprime 'manual_orient' else 'auto'.",
+          "Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed a humano. Pass: manual_orient. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "umbral",
         hints: [
-          "umbral",
-          "string",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["página en blanco"],
         tests: "salida coincide con solution output",
@@ -622,8 +628,8 @@ print(sum(flags))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `score=0.4
-# TODO
+          code: `score=0.4  # score_orient
+# TODO: manual_orient si <0.5 else auto
 `,
         },
         solutionCode: {
@@ -639,11 +645,12 @@ print('manual_orient' if score < 0.5 else 'auto')`,
         subtopicId: "S24-T2-A",
         kind: "guided",
         instruction:
-          "Filtra tokens con conf>=0.85 e imprime textos.",
+          "Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de text. Contrato: no mutar conf. Pass: ['A']. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "list comp",
         hints: [
-          "list comp",
-          "umbral",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["umbral por campo"],
         tests: "salida coincide con solution output",
@@ -652,7 +659,7 @@ print('manual_orient' if score < 0.5 else 'auto')`,
           language: 'python',
           title: "exercise.py",
           code: `toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]
-# TODO
+# TODO: textos con conf>=0.85
 `,
         },
         solutionCode: {
@@ -668,11 +675,12 @@ print([t['text'] for t in toks if t['conf']>=0.85])`,
         subtopicId: "S24-T2-A",
         kind: "independent",
         instruction:
-          "Idioma por defecto 'spa'; imprime lang del resultado OCR simulado.",
+          "Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e imprime lang. Contrato: string fijo didáctico. Pass: spa. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "parámetro default",
         hints: [
-          "parámetro default",
-          "dict",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["spa+eng"],
         tests: "salida coincide con solution output",
@@ -680,7 +688,8 @@ print([t['text'] for t in toks if t['conf']>=0.85])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# OCR simulado PE
+# TODO: resultado con lang spa; print lang
 `,
         },
         solutionCode: {
@@ -697,11 +706,12 @@ print(ocr('Hola')['lang'])`,
         subtopicId: "S24-T2-A",
         kind: "transfer",
         instruction:
-          "Min confidence de una lista de campos; si min<0.8 status=review.",
+          "Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución). Contrato: campo débil tumba auto-accept. Pass: 0.75 review.",
         hint: "min()",
         hints: [
-          "min()",
-          "status",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["no promedies a ciegas"],
         tests: "salida coincide con solution output",
@@ -710,7 +720,7 @@ print(ocr('Hola')['lang'])`,
           language: 'python',
           title: "exercise.py",
           code: `confs=[0.9,0.75,0.95]
-# TODO
+# TODO: min conf + status review si min<0.8
 `,
         },
         solutionCode: {
@@ -727,11 +737,12 @@ print(m, 'review' if m < 0.8 else 'auto')`,
         subtopicId: "S24-T2-B",
         kind: "guided",
         instruction:
-          "Parsea 'Total: 12.5' a clave y valor.",
+          "KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Contrato: strip ambos lados. Pass: Total 12.5. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "split once",
         hints: [
-          "split once",
-          "strip",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["múltiples dos puntos"],
         tests: "salida coincide con solution output",
@@ -739,8 +750,8 @@ print(m, 'review' if m < 0.8 else 'auto')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `s='Total: 12.5'
-# TODO
+          code: `s='Total: 12.5'  # línea KV
+# TODO: split clave/valor; print
 `,
         },
         solutionCode: {
@@ -757,11 +768,12 @@ print(k.strip(), v.strip())`,
         subtopicId: "S24-T2-B",
         kind: "independent",
         instruction:
-          "De tabla [[H1,H2],[a,b]] imprime número de filas de datos.",
+          "Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: header no cuenta. Pass: 1. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "len-1",
         hints: [
-          "len-1",
-          "header",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["tablas irregulares"],
         tests: "salida coincide con solution output",
@@ -770,7 +782,7 @@ print(k.strip(), v.strip())`,
           language: 'python',
           title: "exercise.py",
           code: `t=[['H1','H2'],['a','b']]
-# TODO
+# TODO: filas de datos (sin header)
 `,
         },
         solutionCode: {
@@ -786,11 +798,12 @@ print(len(t)-1)`,
         subtopicId: "S24-T2-B",
         kind: "transfer",
         instruction:
-          "Adjunta bbox [0,0,10,10] al valor RUC en un dict field.",
+          "Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Contrato: bbox del valor. Pass: [0, 0, 10, 10] 20123456789.",
         hint: "estructura evidencia",
         hints: [
-          "estructura evidencia",
-          "dict anidado",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["coords en px página"],
         tests: "salida coincide con solution output",
@@ -798,7 +811,8 @@ print(len(t)-1)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Field RUC con evidencia bbox
+# TODO: adjunta [0,0,10,10] y valor; print
 `,
         },
         solutionCode: {
@@ -814,11 +828,12 @@ print(field['bbox'], field['value'])`,
         subtopicId: "S24-T3-A",
         kind: "guided",
         instruction:
-          "Normaliza '20-123' dejando solo dígitos.",
+          "Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valida longitud aquí. Pass: 20123. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "re.sub",
         hints: [
-          "re.sub",
-          "\\D",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["vacío tras norm"],
         tests: "salida coincide con solution output",
@@ -828,7 +843,7 @@ print(field['bbox'], field['value'])`,
           title: "exercise.py",
           code: `import re
 s='20-123'
-# TODO
+# TODO: solo dígitos; print
 `,
         },
         solutionCode: {
@@ -845,11 +860,12 @@ print(re.sub(r'\\D', '', s))`,
         subtopicId: "S24-T3-A",
         kind: "independent",
         instruction:
-          "Convierte '15/01/2026' a ISO date string.",
+          "Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY. Pass: 2026-01-15. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "strptime",
         hints: [
-          "strptime",
-          "%d/%m/%Y",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["formatos mixtos"],
         tests: "salida coincide con solution output",
@@ -858,7 +874,7 @@ print(re.sub(r'\\D', '', s))`,
           language: 'python',
           title: "exercise.py",
           code: `from datetime import datetime
-# TODO
+# TODO: '15/01/2026' → ISO; print
 `,
         },
         solutionCode: {
@@ -874,11 +890,12 @@ print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())`,
         subtopicId: "S24-T3-A",
         kind: "transfer",
         instruction:
-          "Si RUC normalizado no tiene len 11, devuelve None e imprime.",
+          "RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "guard clause",
         hints: [
-          "guard clause",
-          "None",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["None en JSON null"],
         tests: "salida coincide con solution output",
@@ -887,8 +904,8 @@ print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())`,
           language: 'python',
           title: "exercise.py",
           code: `import re
-raw='123'
-# TODO
+raw='123'  # RUC incompleto sintético
+# TODO: None si len!=11 tras dígitos
 `,
         },
         solutionCode: {
@@ -906,11 +923,12 @@ print(d if len(d)==11 else None)`,
         subtopicId: "S24-T3-B",
         kind: "guided",
         instruction:
-          "Si abs(sum(lines)-total)>0.01 imprime needs_review.",
+          "Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. Contrato: tolerancia 0.01. Pass: needs_review. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "abs",
         hints: [
-          "abs",
-          "tolerancia",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["redondeo moneda"],
         tests: "salida coincide con solution output",
@@ -919,7 +937,7 @@ print(d if len(d)==11 else None)`,
           language: 'python',
           title: "exercise.py",
           code: `total, lines=10.0,[4.0,5.0]
-# TODO
+# TODO: needs_review si |sum-total|>0.01
 `,
         },
         solutionCode: {
@@ -935,11 +953,12 @@ print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')`,
         subtopicId: "S24-T3-B",
         kind: "independent",
         instruction:
-          "Acumula reasons list si ruc is None.",
+          "Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumular, no raise. Pass: ['ruc_missing']. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "append",
         hints: [
-          "append",
-          "lista",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["múltiples reasons"],
         tests: "salida coincide con solution output",
@@ -949,8 +968,9 @@ print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')`,
           title: "exercise.py",
           code: `ruc=None
 reasons=[]
-# TODO
-print(reasons)`,
+# TODO: append ruc_missing; print reasons
+print(reasons)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -968,11 +988,12 @@ print(reasons)`,
         subtopicId: "S24-T3-B",
         kind: "transfer",
         instruction:
-          "Imprime 'review_not_fraud' cuando hay mismatch (mensaje de política).",
+          "Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de política del curso. Pass: review_not_fraud.",
         hint: "política explícita",
         hints: [
-          "política explícita",
-          "string fijo",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["separar risk triage"],
         tests: "salida coincide con solution output",
@@ -980,8 +1001,8 @@ print(reasons)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `mismatch=True
-# TODO
+          code: `mismatch=True  # totales no cierran
+# TODO: política review_not_fraud
 `,
         },
         solutionCode: {
@@ -997,11 +1018,12 @@ print('review_not_fraud' if mismatch else 'auto')`,
         subtopicId: "S24-T4-A",
         kind: "guided",
         instruction:
-          "Accuracy = correct/n para 3 de 4 correctos.",
+          "Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0.75. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "división float",
         hints: [
-          "división float",
-          "print",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["n=0"],
         tests: "salida coincide con solution output",
@@ -1010,7 +1032,7 @@ print('review_not_fraud' if mismatch else 'auto')`,
           language: 'python',
           title: "exercise.py",
           code: `correct, n = 3, 4
-# TODO
+# TODO: accuracy = correct/n; print
 `,
         },
         solutionCode: {
@@ -1026,11 +1048,12 @@ print(correct / n)`,
         subtopicId: "S24-T4-A",
         kind: "independent",
         instruction:
-          "Calcula acc por campo 'ruc' en lista de dicts pred/true.",
+          "Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5. Contrato: solo campo ruc. Pass: 0.5. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "sum generator",
         hints: [
-          "sum generator",
-          "campo",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["campos missing"],
         tests: "salida coincide con solution output",
@@ -1039,7 +1062,7 @@ print(correct / n)`,
           language: 'python',
           title: "exercise.py",
           code: `rows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]
-# TODO
+# TODO: acc campo ruc; print
 `,
         },
         solutionCode: {
@@ -1055,11 +1078,12 @@ print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))`,
         subtopicId: "S24-T4-A",
         kind: "transfer",
         instruction:
-          "coverage_auto = auto/(auto+review); imprime con auto=7, review=3.",
+          "Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobertura. Pass: 0.7. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "fórmula",
         hints: [
-          "fórmula",
-          "float",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["abstention es métrica de producto"],
         tests: "salida coincide con solution output",
@@ -1068,7 +1092,7 @@ print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))`,
           language: 'python',
           title: "exercise.py",
           code: `auto, review = 7, 3
-# TODO
+# TODO: coverage_auto; print
 `,
         },
         solutionCode: {
@@ -1084,11 +1108,12 @@ print(auto / (auto + review))`,
         subtopicId: "S24-T4-B",
         kind: "guided",
         instruction:
-          "Rechaza mime no pdf/png/jpeg.",
+          "Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-closed. Pass: reject. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "set membership",
         hints: [
-          "set membership",
-          "mime",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["doble extensión"],
         tests: "salida coincide con solution output",
@@ -1098,7 +1123,7 @@ print(auto / (auto + review))`,
           title: "exercise.py",
           code: `mime='application/zip'
 allowed={'application/pdf','image/png','image/jpeg'}
-# TODO
+# TODO: reject si mime not in allowed
 `,
         },
         solutionCode: {
@@ -1115,11 +1140,12 @@ print('reject' if mime not in allowed else 'ok')`,
         subtopicId: "S24-T4-B",
         kind: "independent",
         instruction:
-          "Si n_bytes>5e6 reject por size.",
+          "Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: reject. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "comparación",
         hints: [
-          "comparación",
-          "constante",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["streaming"],
         tests: "salida coincide con solution output",
@@ -1127,8 +1153,8 @@ print('reject' if mime not in allowed else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `n=6_000_000
-# TODO
+          code: `n=6_000_000  # bytes
+# TODO: reject si n>5e6
 `,
         },
         solutionCode: {
@@ -1144,11 +1170,12 @@ print('reject' if n > 5_000_000 else 'ok')`,
         subtopicId: "S24-T4-B",
         kind: "transfer",
         instruction:
-          "Fallback: ocr_fail → 'human_rescan'. Imprime acción.",
+          "Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito de OCR. Pass: human_rescan. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "mapa de fallbacks",
         hints: [
-          "mapa de fallbacks",
-          "dict get",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["no LLM sin evidencia"],
         tests: "salida coincide con solution output",
@@ -1157,7 +1184,7 @@ print('reject' if n > 5_000_000 else 'ok')`,
           language: 'python',
           title: "exercise.py",
           code: `status='ocr_fail'
-# TODO
+# TODO: fallback human_rescan; print acción
 `,
         },
         solutionCode: {

@@ -27,9 +27,9 @@ export const section31: CourseSection = {
     {
       heading: "De streaming legado a grafos de evidencia (inicio CP-N3-B)",
       paragraphs: [
-        "En V3, **S31 no es el path principal de Kafka/Redis Streams**. Ese material se reubica. Aquí **inicias CP-N3-B**: modelar **cómo están conectadas** las entidades con caminos reproducibles y evidencia por arista.",
-        "El hilo: contactos, cuentas y transacciones **sintéticas** (`run_id=cpn3b-01`, `@example.pe`). El grafo responde “¿qué aristas existen y con qué fuente?” — no “¿quién es culpable?”.",
-        "Orden: **T1 Modelo** → **T2 Construcción** → **T3 Algoritmos** → **T4 Calidad**. Privacidad: centralidad y paths no etiquetan fraude ni parentesco.",
+        "En V3, **S31 no es el path principal de Kafka/Redis Streams**. Ese material se reubica. Aquí **inicias CP-N3-B**: modelar **cómo están conectadas** las entidades con caminos reproducibles y evidencia por arista. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
+        "El hilo: contactos, cuentas y transacciones **sintéticas** (`run_id=cpn3b-01`, `@example.pe`). El grafo responde “¿qué aristas existen y con qué fuente?” — no “¿quién es culpable?”. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+        "Orden: **T1 Modelo** → **T2 Construcción** → **T3 Algoritmos** → **T4 Calidad**. Privacidad: centralidad y paths no etiquetan fraude ni parentesco. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco.",
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section31: CourseSection = {
       heading: "nodos, aristas, dirección y peso",
       subtopicId: "S31-T1-A",
       paragraphs: [
-        "Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opcionalmente, **dirección** y **peso** (monto, frecuencia, confianza).",
-        "Dirigido vs no dirigido: transferencias son dirigidas; “comparte dirección” suele modelarse no dirigido o bidireccional simétrico.",
-        "El peso es evidencia cuantitativa, no veredicto. Documenta unidades (PEN, count, score) en el schema del grafo.",
+        "Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opcionalmente, **dirección** y **peso** (monto, frecuencia, confianza). La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
+        "Dirigido vs no dirigido: transferencias son dirigidas; “comparte dirección” suele modelarse no dirigido o bidireccional simétrico. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+        "El peso es evidencia cuantitativa, no veredicto. Documenta unidades (PEN, count, score) en el schema del grafo. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco.",
       ],
       code: {
         language: 'python',
@@ -78,9 +78,9 @@ types ['owns', 'shared_phone', 'transfer']`,
       heading: "multigrafo, tiempo y provenance",
       subtopicId: "S31-T1-B",
       paragraphs: [
-        "Un **multigrafo** permite varias aristas entre el mismo par (varias transferencias, varios contactos). No colapses a una sola arista sin guardar el detalle.",
-        "**Tiempo**: cada arista lleva `ts` o intervalo. Caminos y agregados deben filtrar por ventana cuando el caso lo exija.",
-        "**Provenance**: `source_system`, `run_id`, `record_id` permiten auditar de dónde salió la arista. Sin provenance, el grafo es decoración.",
+        "Un **multigrafo** permite varias aristas entre el mismo par (varias transferencias, varios contactos). No colapses a una sola arista sin guardar el detalle. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
+        "**Tiempo**: cada arista lleva `ts` o intervalo. Caminos y agregados deben filtrar por ventana cuando el caso lo exija. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+        "**Provenance**: `source_system`, `run_id`, `record_id` permiten auditar de dónde salió la arista. Sin provenance, el grafo es decoración. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco.",
       ],
       code: {
         language: 'python',
@@ -113,9 +113,9 @@ has_provenance True`,
       heading: "clientes/entidades/transacciones/contactos",
       subtopicId: "S31-T2-A",
       paragraphs: [
-        "Construyes el grafo desde tablas: **entidades** (nodos), **transacciones** (aristas dirigidas), **contactos** (email/teléfono/dirección como nodos o aristas).",
-        "Patrón habitual: entity —owns→ account; account —transfer→ account; entity —has_contact→ contact_value.",
-        "Datos sintéticos con ids estables (`ent-001`). Nunca cargues PII real en ejercicios del curso.",
+        "Construyes el grafo desde tablas: **entidades** (nodos), **transacciones** (aristas dirigidas), **contactos** (email/teléfono/dirección como nodos o aristas). La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
+        "Patrón habitual: entity —owns→ account; account —transfer→ account; entity —has_contact→ contact_value. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+        "Datos sintéticos con ids estables (`ent-001`). Nunca cargues PII real en ejercicios del curso. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco.",
       ],
       code: {
         language: 'python',
@@ -161,9 +161,9 @@ shared_phone True`,
       heading: "deduplicación y agregación sin borrar detalle",
       subtopicId: "S31-T2-B",
       paragraphs: [
-        "**Deduplicar nodos** tras ER (misma entidad) colapsa ids canónicos; conserva mapa `raw_id → canonical_id`.",
-        "**Agregar aristas**: suma montos, cuenta eventos, min/max ts — pero guarda capa de detalle o punteros a `record_id`.",
-        "Si solo dejas el agregado, el revisor no puede explicar el camino. El workbench necesita ambas capas.",
+        "**Deduplicar nodos** tras ER (misma entidad) colapsa ids canónicos; conserva mapa `raw_id → canonical_id`. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática. Documenta evidencia y límites del fixture `CASO-LIM-031` (run_id=cpn3b-01): sin PII real y sin auto-veredicto.",
+        "**Agregar aristas**: suma montos, cuenta eventos, min/max ts — pero guarda capa de detalle o punteros a `record_id`. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+        "Si solo dejas el agregado, el revisor no puede explicar el camino. El workbench necesita ambas capas. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco.",
       ],
       code: {
         language: 'python',
@@ -199,9 +199,9 @@ detail_kept True`,
       heading: "grado, componentes y caminos",
       subtopicId: "S31-T3-A",
       paragraphs: [
-        "**Grado**: número de vecinos (in/out en dirigidos). Útil para filtrar hubs, no para culpar.",
-        "**Componentes conexas**: partición del grafo no dirigido subyacente. Un caso suele vivir en un subgrafo acotado.",
-        "**Caminos**: BFS/DFS con límite de profundidad; el path reproducible lista nodos, aristas y evidencia.",
+        "**Grado**: número de vecinos (in/out en dirigidos). Útil para filtrar hubs, no para culpar. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática. Documenta evidencia y límites del fixture `CASO-LIM-031` (run_id=cpn3b-01): sin PII real y sin auto-veredicto.",
+        "**Componentes conexas**: partición del grafo no dirigido subyacente. Un caso suele vivir en un subgrafo acotado. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+        "**Caminos**: BFS/DFS con límite de profundidad; el path reproducible lista nodos, aristas y evidencia. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco.",
       ],
       code: {
         language: 'python',
@@ -264,9 +264,9 @@ path_A_D ['A', 'B', 'D']`,
       heading: "centralidad con interpretación limitada",
       subtopicId: "S31-T3-B",
       paragraphs: [
-        "**Degree / betweenness / closeness** miden estructura, no culpa. Un hub puede ser un procesador de pagos legítimo o un dato compartido (call center).",
-        "Interpreta con contexto: tipo de arista, ventana temporal, y si el nodo es infraestructura vs persona.",
-        "Nunca automatices “alta centralidad → fraude”. Eso viola el gate de CP-N3-B.",
+        "**Degree / betweenness / closeness** miden estructura, no culpa. Un hub puede ser un procesador de pagos legítimo o un dato compartido (call center). La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
+        "Interpreta con contexto: tipo de arista, ventana temporal, y si el nodo es infraestructura vs persona. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+        "Nunca automatices “alta centralidad → fraude”. Eso viola el gate de CP-N3-B. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco. Documenta evidencia y límites del fixture `CASO-LIM-031` (run_id=cpn3b-01): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -313,9 +313,9 @@ not_guilt True`,
       heading: "subgrafos y pruebas",
       subtopicId: "S31-T4-A",
       paragraphs: [
-        "Extrae un **subgrafo de caso**: nodos seed + k hops + filtros de tipo/tiempo. Prueba invariantes: sin self-loops basura, pesos ≥ 0, provenance presente.",
-        "Tests de grafo: cardinalidades, path existe/no existe, componente esperada, idempotencia de construcción.",
-        "Cada bug de construcción (arista invertida, nodo huérfano) debe tener regresión.",
+        "Extrae un **subgrafo de caso**: nodos seed + k hops + filtros de tipo/tiempo. Prueba invariantes: sin self-loops basura, pesos ≥ 0, provenance presente. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
+        "Tests de grafo: cardinalidades, path existe/no existe, componente esperada, idempotencia de construcción. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+        "Cada bug de construcción (arista invertida, nodo huérfano) debe tener regresión. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco. Documenta evidencia y límites del fixture `CASO-LIM-031` (run_id=cpn3b-01): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -363,9 +363,9 @@ k 2`,
       heading: "visualización, escalabilidad, privacidad y evidencia por arista",
       subtopicId: "S31-T4-B",
       paragraphs: [
-        "Visualiza subgrafos acotados; no intentes dibujar 100k nodos en el navegador del revisor.",
-        "**Privacidad**: enmascara PII (email parcial, teléfono parcial). Roles ven solo lo necesario.",
-        "**Evidencia por arista**: al click, muestra records, ts, source — el path debe ser explicable en texto y en UI.",
+        "Visualiza subgrafos acotados; no intentes dibujar 100k nodos en el navegador del revisor. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática. Documenta evidencia y límites del fixture `CASO-LIM-031` (run_id=cpn3b-01): sin PII real y sin auto-veredicto.",
+        "**Privacidad**: enmascara PII (email parcial, teléfono parcial). Roles ven solo lo necesario. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
+        "**Evidencia por arista**: al click, muestra records, ts, source — el path debe ser explicable en texto y en UI. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco.",
       ],
       code: {
         language: 'python',
@@ -614,7 +614,7 @@ pii_full False`,
         subtopicId: "S31-T1-A",
         kind: "guided",
         instruction:
-          "Crea un dict `nodes` con 3 ids y una lista `edges` con campos src,dst,etype,weight,directed. Imprime n_nodes, n_edges y cuántas aristas son directed=True.",
+          "S31-T1-A-E1 · Crea un dict `nodes` con 3 ids y una lista `edges` con campos src,dst,etype,weight,directed. Imprime n_nodes, n_edges y cuántas aristas son directed=True. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "Usa literales de dict/list.",
         hints: [
           "Usa literales de dict/list.",
@@ -652,7 +652,7 @@ n_directed 1`,
         subtopicId: "S31-T1-A",
         kind: "independent",
         instruction:
-          "Dada lista de aristas (src,dst,weight), calcula el peso total saliente por nodo (out-strength) e imprime el nodo con mayor out-strength y su valor.",
+          "S31-T1-A-E2 · Dada lista de aristas (src,dst,weight), calcula el peso total saliente por nodo (out-strength) e imprime el nodo con mayor out-strength y su valor. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "Acumula en un dict.",
         hints: [
           "Acumula en un dict.",
@@ -689,7 +689,7 @@ n 2`,
         subtopicId: "S31-T1-A",
         kind: "transfer",
         instruction:
-          "Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los etypes únicos ordenados.",
+          "S31-T1-A-E3 · Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los etypes únicos ordenados. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sets para etypes.",
         hints: [
           "sets para etypes.",
@@ -722,7 +722,7 @@ etypes ['share', 'tx']`,
         subtopicId: "S31-T1-B",
         kind: "guided",
         instruction:
-          "Cuenta cuántas multi-aristas hay por par (src,dst) e imprime el par con más eventos y su conteo.",
+          "S31-T1-B-E1 · Cuenta cuántas multi-aristas hay por par (src,dst) e imprime el par con más eventos y su conteo. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "tuple (src,dst) como clave.",
         hints: [
           "tuple (src,dst) como clave.",
@@ -758,7 +758,7 @@ pairs 2`,
         subtopicId: "S31-T1-B",
         kind: "independent",
         instruction:
-          "Filtra aristas con ts >= '2026-02-01' e imprime cuántas quedan y si todas tienen record_id.",
+          "S31-T1-B-E2 · Filtra aristas con ts >= '2026-02-01' e imprime cuántas quedan y si todas tienen record_id. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "Compara strings ISO fecha ordenables.",
         hints: [
           "Compara strings ISO fecha ordenables.",
@@ -792,7 +792,7 @@ first b`,
         subtopicId: "S31-T1-B",
         kind: "transfer",
         instruction:
-          "Valida provenance: imprime True solo si cada arista tiene source y record_id no vacíos; imprime n_bad.",
+          "S31-T1-B-E3 · Valida provenance: imprime True solo si cada arista tiene source y record_id no vacíos; imprime n_bad. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "strip de strings.",
         hints: [
           "strip de strings.",
@@ -828,7 +828,7 @@ n 3`,
         subtopicId: "S31-T2-A",
         kind: "guided",
         instruction:
-          "Desde accounts[{id,owner}] genera aristas owns e imprime lista de (owner,id) ordenada.",
+          "S31-T2-A-E1 · Desde accounts[{id,owner}] genera aristas owns e imprime lista de (owner,id) ordenada. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "list comprehension.",
         hints: [
           "list comprehension.",
@@ -862,7 +862,7 @@ etype owns`,
         subtopicId: "S31-T2-A",
         kind: "independent",
         instruction:
-          "Detecta valores de contacto compartidos por ≥2 entidades; imprime sorted lista de valores shared.",
+          "S31-T2-A-E2 · Detecta valores de contacto compartidos por ≥2 entidades; imprime sorted lista de valores shared. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "groupby por value.",
         hints: [
           "groupby por value.",
@@ -900,7 +900,7 @@ note not_parentesco`,
         subtopicId: "S31-T2-A",
         kind: "transfer",
         instruction:
-          "Construye nodos = entities ∪ accounts ∪ contact_values e imprime |nodes|.",
+          "S31-T2-A-E3 · Construye nodos = entities ∪ accounts ∪ contact_values e imprime |nodes|. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sets.",
         hints: [
           "sets.",
@@ -934,7 +934,7 @@ has_ent True`,
         subtopicId: "S31-T2-B",
         kind: "guided",
         instruction:
-          "Colapsa raw_ids a canonical con mapa y reescribe aristas; imprime aristas canónicas únicas sorted.",
+          "S31-T2-B-E1 · Colapsa raw_ids a canonical con mapa y reescribe aristas; imprime aristas canónicas únicas sorted. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "map.get(x,x).",
         hints: [
           "map.get(x,x).",
@@ -970,7 +970,7 @@ collapsed True`,
         subtopicId: "S31-T2-B",
         kind: "independent",
         instruction:
-          "Agrega amount por (src,dst) y conserva records; imprime sum y records para ('A','B').",
+          "S31-T2-B-E2 · Agrega amount por (src,dst) y conserva records; imprime sum y records para ('A','B'). Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "defaultdict.",
         hints: [
           "defaultdict.",
@@ -1009,7 +1009,7 @@ detail_kept True`,
         subtopicId: "S31-T2-B",
         kind: "transfer",
         instruction:
-          "Verifica invariante: sum de n en agregados == len(detail). Imprime ok y totals.",
+          "S31-T2-B-E3 · Verifica invariante: sum de n en agregados == len(detail). Imprime ok y totals. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sum v['n'].",
         hints: [
           "sum v['n'].",
@@ -1045,7 +1045,7 @@ detail_n 5`,
         subtopicId: "S31-T3-A",
         kind: "guided",
         instruction:
-          "Calcula grado de cada nodo en grafo no dirigido; imprime grados dict sorted keys.",
+          "S31-T3-A-E1 · Calcula grado de cada nodo en grafo no dirigido; imprime grados dict sorted keys. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "undirected: cuenta ambos extremos.",
         hints: [
           "undirected: cuenta ambos extremos.",
@@ -1082,7 +1082,7 @@ n 3`,
         subtopicId: "S31-T3-A",
         kind: "independent",
         instruction:
-          "Encuentra componentes conexas y imprime lista de componentes (cada una sorted) ordenada por primer nodo.",
+          "S31-T3-A-E2 · Encuentra componentes conexas y imprime lista de componentes (cada una sorted) ordenada por primer nodo. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "DFS o BFS.",
         hints: [
           "DFS o BFS.",
@@ -1133,7 +1133,7 @@ ok True`,
         subtopicId: "S31-T3-A",
         kind: "transfer",
         instruction:
-          "BFS path de 'A' a 'D' en cadena A-B-C-D; imprime path y hops.",
+          "S31-T3-A-E3 · BFS path de 'A' a 'D' en cadena A-B-C-D; imprime path y hops. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "deque BFS.",
         hints: [
           "deque BFS.",
@@ -1177,7 +1177,7 @@ found True`,
         subtopicId: "S31-T3-B",
         kind: "guided",
         instruction:
-          "Normaliza degree centrality a [0,1] por max degree; imprime top node y score redondeado a 2 decimales.",
+          "S31-T3-B-E1 · Normaliza degree centrality a [0,1] por max degree; imprime top node y score redondeado a 2 decimales. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "score = deg/max_deg.",
         hints: [
           "score = deg/max_deg.",
@@ -1213,7 +1213,7 @@ guilt False`,
         subtopicId: "S31-T3-B",
         kind: "independent",
         instruction:
-          "Dado top hub, clasifica si es 'infra' o 'person' por prefijo de id (INF- vs PER-); imprime clase y disclaimer.",
+          "S31-T3-B-E2 · Dado top hub, clasifica si es 'infra' o 'person' por prefijo de id (INF- vs PER-); imprime clase y disclaimer. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "startswith.",
         hints: [
           "startswith.",
@@ -1247,7 +1247,7 @@ hub INF-PAY`,
         subtopicId: "S31-T3-B",
         kind: "transfer",
         instruction:
-          "Filtra nodos con degree >= 3 y etype_mix que incluya solo 'transfer' vs mixto; imprime high_degree list sorted y flag only_transfer False si hay otros tipos en el grafo del hub.",
+          "S31-T3-B-E3 · Filtra nodos con degree >= 3 y etype_mix que incluya solo 'transfer' vs mixto; imprime high_degree list sorted y flag only_transfer False si hay otros tipos en el grafo del hub.",
         hint: "revisa edge types incidentes.",
         hints: [
           "revisa edge types incidentes.",
@@ -1282,7 +1282,7 @@ interpret_with_types True`,
         subtopicId: "S31-T4-A",
         kind: "guided",
         instruction:
-          "Implementa ego(seed,k=2) y verifica que 'D' no entra desde 'A' en path A-B-C (k=1 sí B). Imprime ego k=1 y k=2.",
+          "S31-T4-A-E1 · Implementa ego(seed,k=2) y verifica que 'D' no entra desde 'A' en path A-B-C (k=1 sí B). Imprime ego k=1 y k=2. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "expansión por capas.",
         hints: [
           "expansión por capas.",
@@ -1330,7 +1330,7 @@ has_D_k2 False`,
         subtopicId: "S31-T4-A",
         kind: "independent",
         instruction:
-          "Prueba invariantes: no self-loops, weights>=0, provenance presente. Imprime flags.",
+          "S31-T4-A-E2 · Prueba invariantes: no self-loops, weights>=0, provenance presente. Imprime flags. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "any self loop.",
         hints: [
           "any self loop.",
@@ -1366,7 +1366,7 @@ prov True`,
         subtopicId: "S31-T4-A",
         kind: "transfer",
         instruction:
-          "Idempotencia: construir grafo dos veces desde mismas edges produce mismo sorted edge list. Imprime equal True.",
+          "S31-T4-A-E3 · Idempotencia: construir grafo dos veces desde mismas edges produce mismo sorted edge list. Imprime equal True. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "función build → frozenset.",
         hints: [
           "función build → frozenset.",
@@ -1402,7 +1402,7 @@ idempotent True`,
         subtopicId: "S31-T4-B",
         kind: "guided",
         instruction:
-          "Redacta emails: muestra 2 primeras letras del local + ***@domain. Imprime para ana@example.pe.",
+          "S31-T4-B-E1 · Redacta emails: muestra 2 primeras letras del local + ***@domain. Imprime para ana@example.pe. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "partition @.",
         hints: [
           "partition @.",
@@ -1437,7 +1437,7 @@ full_pii False`,
         subtopicId: "S31-T4-B",
         kind: "independent",
         instruction:
-          "Dado un path de nodos y un dict edge_evidence por par consecutivo, imprime lista de record lists en orden del path.",
+          "S31-T4-B-E2 · Dado un path de nodos y un dict edge_evidence por par consecutivo, imprime lista de record lists en orden del path. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "zip path path[1:].",
         hints: [
           "zip path path[1:].",
@@ -1473,7 +1473,7 @@ explainable True`,
         subtopicId: "S31-T4-B",
         kind: "transfer",
         instruction:
-          "Política de escala: si n_nodes > max_n, devuelve 'summarize' else 'render'. Imprime decisión para 5000 y 50 con max_n=500.",
+          "S31-T4-B-E3 · Política de escala: si n_nodes > max_n, devuelve 'summarize' else 'render'. Imprime decisión para 5000 y 50 con max_n=500. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "comparar.",
         hints: [
           "comparar.",

@@ -21,1223 +21,1515 @@ export const section34: CourseSection = {
     { text: "Evaluar calibración con Brier/reliability" },
     { text: "Calibrar y evaluar fuera de muestra" },
     { text: "Elegir umbral por costo y capacidad" },
-    { text: "Aplicar abstención y sensibilidad por slice" },
+    { text: "Aplicar abstención y sensibilidad por slice" }
   ],
   theory: [
     {
       heading: "Cierre CP-N3-B: Relationship Investigation Workbench",
       paragraphs: [
-        "En V3, **S34 cierra CP-N3-B**. Integras grafo (S31), features (S32), baseline/ML (S33) con **métricas de ranking**, **calibración** y **umbrales por capacidad**.",
-        "El workbench **prioriza revisión** y **explica**; no imprime fraud=true. Decisiones humanas quedan registradas.",
-        "Orden: **T1 Métricas** → **T2 Desbalance** → **T3 Calibración** → **T4 Decisión**.",
+        "Esta sección cierra CP-N3-B integrando grafo (S31), features (S32) y baselines (S33) con métricas de ranking, calibración y umbrales por capacidad de revisión humana en Red Andina (ficticia). En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Producto incremental: workbench que prioriza cola y explica; no imprime fraud=true. Entrada: scores y labels sintéticos needs_review; salida: precision@k, Brier, thr versionado y banda de abstención. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Orden pedagógico: T1 métricas → T2 desbalance → T3 calibración → T4 decisión. Id legacy `cv-ai-integration` se conserva; no hay YOLO ni CV en V3 de esta sección. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
       ],
       callout: {
         type: "info",
         title: "Gate CP-N3-B",
         content:
-          "Relationship Investigation Workbench. Esta lane **no** marca section_passed ni ledger/checkpoint.",
+          "Cierre workbench: ranking calibrado para humanos. ER/matching ≠ parentesco ni fraude. Sin PII real.",
       },
     },
     {
       heading: "confusion matrix, precision/recall/F y PR-AUC",
       subtopicId: "S34-T1-A",
       paragraphs: [
-        "Con desbalance, accuracy engaña. Precision/recall y PR-AUC describen mejor la cola positiva (needs_review).",
-        "Confusion matrix: TP/FP/TN/FN sobre umbral. F1 es media armónica; elige beta según costo.",
-        "PR-AUC resume ranking sin fijar umbral único.",
+        "Con desbalance, accuracy engaña. Precision, recall, Fβ y el área bajo la curva precision-recall describen mejor la cola de revisión que un solo porcentaje de aciertos. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: y y pred binarios. Salida: TP/FP/FN/TN y F1. Error: reportar solo accuracy con prevalencia baja. Criterio: confusion completa antes de elegir thr. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-034`: y=[1,0] pred=[1,1] produce FP; F1 con P=R=0.5 es 0.5. El workbench documenta costos distintos de FP y FN. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
       ],
       code: {
         language: 'python',
-        title: "pr_metrics.py",
-        code: `y = [1, 1, 0, 0, 0, 0, 0, 0, 0, 1]
-# scores rankean positivos primero
-scores = [0.9, 0.8, 0.7, 0.4, 0.3, 0.2, 0.15, 0.1, 0.05, 0.85]
-thr = 0.5
-pred = [1 if s >= thr else 0 for s in scores]
-tp = sum(p == 1 and t == 1 for p, t in zip(pred, y))
-fp = sum(p == 1 and t == 0 for p, t in zip(pred, y))
-fn = sum(p == 0 and t == 1 for p, t in zip(pred, y))
-prec = tp / (tp + fp) if tp + fp else 0.0
-rec = tp / (tp + fn) if tp + fn else 0.0
-f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0
+        title: "confusion.py",
+        code: `y, pred = [1, 0], [1, 1]
+tp = sum(1 for a, b in zip(y, pred) if a == 1 and b == 1)
+fp = sum(1 for a, b in zip(y, pred) if a == 0 and b == 1)
+fn = sum(1 for a, b in zip(y, pred) if a == 1 and b == 0)
 print("tp", tp, "fp", fp, "fn", fn)
-print("precision", round(prec, 3), "recall", round(rec, 3))
-print("f1", round(f1, 3))`,
-        output: `tp 3 fp 1 fn 0
-precision 0.75 recall 1.0
-f1 0.857`,
+print("accuracy_only", False)`,
+        output: `tp 1 fp 1 fn 0
+accuracy_only False`,
       },
       callout: {
         type: "tip",
-        title: "PR > Acc",
+        title: "Contrato local",
         content:
-          "Reporta prevalencia junto a accuracy si la usas.",
+          "S34-T1-A: confusion antes de accuracy. Breach → REJECT_ACCURACY_ONLY; falta counts → REQUEST_CONFUSION.",
       },
     },
     {
       heading: "top-k y carga de revisión",
       subtopicId: "S34-T1-B",
       paragraphs: [
-        "La operación tiene capacidad k casos/día. Métrica operativa: precision@k, recall@k, capturas en top-k.",
-        "Carga: si envías más de k, hay cola o abandono. El umbral se acopla a k.",
-        "Simula k fijo y mide cuántos positivos reales entran.",
+        "precision@k y recall@k miden la calidad de los k primeros de la cola. Si alertas>capacidad, la carga satura al equipo y el thr debe bajar el volumen, no solo maximizar recall. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: labels top-k y capacidad. Salida: precision@k y flag de overload. Error: ignorar capacidad operativa. Criterio: k alineado a capacidad diaria. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-034`: top-3 labels [1,0,1] → precision@3=2/3; 50 alertas vs capacidad 10 → overload y thr se reevalua. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
       ],
       code: {
         language: 'python',
         title: "topk.py",
-        code: `import math
-pairs = sorted([
-    ("c1", 0.95, 1), ("c2", 0.9, 0), ("c3", 0.85, 1), ("c4", 0.2, 1), ("c5", 0.1, 0)
-], key=lambda x: -x[1])
-k = 2
-topk = pairs[:k]
-prec_at_k = sum(y for _, _, y in topk) / k
-print("precision_at_k", prec_at_k)
-print("positives_in_topk", sum(y for _, _, y in topk))
-print("capacity_k", k)`,
-        output: `precision_at_k 0.5
-positives_in_topk 1
-capacity_k 2`,
+        code: `labels = [1, 0, 1]
+k = 3
+prec = sum(labels[:k]) / k
+load, cap = 50, 10
+print("precision_at_k", round(prec, 3))
+print("overload", load > cap)
+print("fraud_label", False)`,
+        output: `precision_at_k 0.667
+overload True
+fraud_label False`,
       },
       callout: {
-        type: "warning",
-        title: "Capacidad real",
+        type: "tip",
+        title: "Contrato local",
         content:
-          "Un modelo 'óptimo' que manda 10k alertas no sirve.",
+          "S34-T1-B: precision@k + capacidad. Breach → REJECT_QUEUE_OVERLOAD; falta cap → REQUEST_CAPACITY.",
       },
     },
     {
       heading: "class weights y resampling dentro de CV",
       subtopicId: "S34-T2-A",
       paragraphs: [
-        "Class weights o undersampling/oversampling **solo dentro** del fold de train. Resamplear antes del split filtra valid.",
-        "Documenta la política. No inventes filas con labels de fraude real.",
-        "Pesos inversos a frecuencia como baseline de desbalance.",
+        "Class weights o resampling solo dentro del fold de train evitan leakage. Resamplear todo el dataset antes de CV infla métricas y miente sobre producción. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: conteos n0/n1. Salida: ratio de pesos y flag de política CV-safe. Error: oversample global. Criterio: minority count documentado sin tocar test. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-034`: n0=9 n1=1 → weight ratio 9; política resample_global=False en el pipeline del workbench. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
       ],
       code: {
         language: 'python',
-        title: "class_weights.py",
-        code: `y_train = [0, 0, 0, 0, 1]
-n0, n1 = y_train.count(0), y_train.count(1)
-w0, w1 = 1 / n0, 1 / n1
-# normaliza
-s = w0 + w1
-w0, w1 = w0 / s * 2, w1 / s * 2
-print("weight_0", round(w0, 3))
-print("weight_1", round(w1, 3))
-print("resample_before_split", False)`,
-        output: `weight_0 0.4
-weight_1 1.6
-resample_before_split False`,
+        title: "weights.py",
+        code: `n0, n1 = 9, 1
+w1_over_w0 = n0 / n1
+print("weight_ratio", w1_over_w0)
+print("resample_global", False)
+print("cv_safe", True)`,
+        output: `weight_ratio 9.0
+resample_global False
+cv_safe True`,
       },
       callout: {
-        type: "danger",
-        title: "Resample global",
+        type: "tip",
+        title: "Contrato local",
         content:
-          "Prohibido antes de CV.",
+          "S34-T2-A: weights o resample solo en train fold. Breach → REJECT_LEAKY_RESAMPLE.",
       },
     },
     {
       heading: "prevalencia y métricas engañosas",
       subtopicId: "S34-T2-B",
       paragraphs: [
-        "Accuracy con 1% positivos y predecir todo 0 da 99%. Reporta prevalencia y matriz.",
-        "Precision depende de prevalencia; al cambiar mix, recalibra expectativas.",
-        "Comunica a negocio en términos de carga y capturas, no solo accuracy.",
+        "Si la prevalencia cae, la misma especificidad produce peor precision. Un clasificador all-negative luce genial en accuracy cuando la clase positiva es rara. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: prevalencia y política de reporte. Salida: base rate y advertencia de precision. Error: comparar precision entre periodos sin base rate. Criterio: reportar prevalencia junto a P/R.",
+        "Aplicación a `CASO-LIM-034`: 25/1000=0.025; all-neg accuracy≈0.98 engaña. El workbench prefiere PR y carga de cola. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
       ],
       code: {
         language: 'python',
         title: "prevalence.py",
-        code: `n, pos = 1000, 10
-# predict all negative
-acc = (n - pos) / n
-print("acc_all_neg", acc)
-print("prevalence", pos / n)
-print("useful", False)`,
-        output: `acc_all_neg 0.99
-prevalence 0.01
-useful False`,
+        code: `pos, n = 25, 1000
+prev = pos / n
+all_neg_acc = 1 - prev
+print("prevalence", prev)
+print("all_neg_acc", round(all_neg_acc, 3))
+print("accuracy_enough", False)`,
+        output: `prevalence 0.025
+all_neg_acc 0.975
+accuracy_enough False`,
       },
       callout: {
         type: "tip",
-        title: "Siempre prevalencia",
+        title: "Contrato local",
         content:
-          "Al lado de cada accuracy.",
+          "S34-T2-B: base rate visible. Breach → REJECT_PREVALENCE_BLIND; falta prev → REQUEST_BASE_RATE.",
       },
     },
     {
       heading: "reliability curves y Brier",
       subtopicId: "S34-T3-A",
       paragraphs: [
-        "Calibración: si dices 0.8, ~80% deben ser positivos en ese bin. Reliability curve por bins.",
-        "Brier score: media de (p - y)^2; menor es mejor.",
-        "Ranking bueno ≠ calibración buena; el workbench necesita ambas para umbrales por capacidad.",
+        "Brier score (media de (p−y)²) y reliability (media de p vs frecuencia en bins) miden si el score se puede leer como probabilidad de priorización, no de culpa. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: p y y. Salida: Brier y bin mean vs freq. Error: calibrar a ojo sin holdout. Criterio: menor Brier es mejor entre modelos comparables. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-034`: p=1 y=1 → Brier 0; un bin con mean p=0.8 y freq=0.5 muestra mala reliability. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
       ],
       code: {
         language: 'python',
         title: "brier.py",
-        code: `y = [1, 0, 1, 0]
-p = [0.9, 0.1, 0.6, 0.4]
-brier = sum((pi - yi) ** 2 for pi, yi in zip(p, y)) / len(y)
-# bin simple >=0.5
-bin_hi = [(pi, yi) for pi, yi in zip(p, y) if pi >= 0.5]
-freq = sum(yi for _, yi in bin_hi) / len(bin_hi) if bin_hi else None
-print("brier", round(brier, 3))
-print("hi_bin_freq", freq)
-print("hi_bin_mean_p", round(sum(pi for pi, _ in bin_hi) / len(bin_hi), 3))`,
-        output: `brier 0.085
-hi_bin_freq 1.0
-hi_bin_mean_p 0.75`,
+        code: `p, y = 1.0, 1
+brier = (p - y) ** 2
+print("brier", brier)
+print("mean_p", 0.8, "freq", 0.5)
+print("calibrated", False)`,
+        output: `brier 0.0
+mean_p 0.8 freq 0.5
+calibrated False`,
       },
       callout: {
         type: "tip",
-        title: "Bins con n bajo",
+        title: "Contrato local",
         content:
-          "No sobreinterpretes bins con 2 puntos.",
+          "S34-T3-A: Brier + reliability. Breach → REJECT_UNCALIBRATED; falta scores → REQUEST_BRIER.",
       },
     },
     {
       heading: "calibradores y evaluación fuera de muestra",
       subtopicId: "S34-T3-B",
       paragraphs: [
-        "Platt/isotonic se fit en holdout de calibración, no en el test final.",
-        "Evalúa Brier/reliability out-of-sample. Recalibra si hay drift de prevalencia.",
-        "Didáctica: rescale afín clipado de scores como calibrador toy.",
+        "Platt o isotonic se ajustan en un set de calibración distinto del train del modelo base. Evaluar calibración en el mismo set de fit es autoengaño. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: raw scores y nombre de calibrador. Salida: scores clipados/calibrados misma longitud. Error: fit calibrator en test final. Criterio: holdout de calibración versionado. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-034`: clip 1.5→1.0 y -0.2→0.0; calibrator_set=holdout_v1; raw y cal tienen misma longitud. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
       ],
       code: {
         language: 'python',
         title: "calibrator.py",
-        code: `def calibrate_affine(p, a=1.1, b=-0.05):
-    x = a * p + b
-    return max(0.0, min(1.0, x))
-raw = [0.2, 0.5, 0.8]
-cal = [calibrate_affine(p) for p in raw]
-print("cal", [round(c, 3) for c in cal])
-print("fit_on", "calib_holdout")
-print("not_on_test", True)`,
-        output: `cal [0.17, 0.5, 0.83]
-fit_on calib_holdout
-not_on_test True`,
+        code: `raw = [1.5, -0.2, 0.4]
+cal = [min(1.0, max(0.0, x)) for x in raw]
+print(cal)
+print("calibrator_set", "holdout_v1")
+print("same_len", len(raw) == len(cal))`,
+        output: `[1.0, 0.0, 0.4]
+calibrator_set holdout_v1
+same_len True`,
       },
       callout: {
-        type: "warning",
-        title: "Holdout",
+        type: "tip",
+        title: "Contrato local",
         content:
-          "No fit calibrador en el mismo set que reportas.",
+          "S34-T3-B: cal en holdout. Breach → REJECT_IN_SAMPLE_CAL; falta set → REQUEST_CAL_SET.",
       },
     },
     {
       heading: "threshold por costo/capacidad",
       subtopicId: "S34-T4-A",
       paragraphs: [
-        "Elige umbral minimizando costo esperado o fijando |pred=1| ≈ capacidad k.",
-        "Barrido de umbrales con métrica de negocio. Conserva thr en config versionada.",
-        "Decisión automática solo para 'no revisar' de muy baja score si la política lo permite — nunca fraud label.",
+        "El umbral se elige por costo (fp*c_fp+fn*c_fn) y por capacidad de la cola, no por un default 0.5 de librería. El thr se versiona (thr-v1) para auditoría. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: scores, costos, k deseado. Salida: thr que deja k en review y costo total. Error: thr fijo sin costos. Criterio: config thr versionada en el workbench. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-034`: scores [0.1,0.4,0.6,0.9] con thr que deja 2 en review; costo fp*2+fn*10 documentado. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
       ],
       code: {
         language: 'python',
         title: "threshold.py",
-        code: `scores_y = [(0.9, 1), (0.8, 0), (0.4, 1), (0.2, 0)]
-capacity = 1
-# top score as thr policy
-ordered = sorted(scores_y, key=lambda z: -z[0])
-chosen = ordered[:capacity]
-print("review_ids_scores", [s for s, _ in chosen])
-print("precision_cap", sum(y for _, y in chosen) / capacity)
-print("auto_fraud_label", False)`,
-        output: `review_ids_scores [0.9]
-precision_cap 1.0
-auto_fraud_label False`,
+        code: `scores = [0.1, 0.4, 0.6, 0.9]
+thr = 0.6
+in_review = sum(1 for s in scores if s >= thr)
+cost = 3 * 2 + 1 * 10
+print("thr", thr, "n_review", in_review)
+print("cost", cost)
+print("thr_id", "thr-v1")`,
+        output: `thr 0.6 n_review 2
+cost 16
+thr_id thr-v1`,
       },
       callout: {
-        type: "danger",
-        title: "Sin auto-fraude",
+        type: "tip",
+        title: "Contrato local",
         content:
-          "El umbral manda a review o no; no etiqueta delito.",
+          "S34-T4-A: thr por costo/capacidad versionado. Breach → REJECT_FIXED_THR; falta costos → REQUEST_COST_MATRIX.",
       },
     },
     {
       heading: "abstención, slices y sensibilidad",
       subtopicId: "S34-T4-B",
       paragraphs: [
-        "Abstención: bandas grises → humano. Slices: métricas por cohorte. Sensibilidad: mueve thr ±ε.",
-        "El workbench registra abstenciones y overrides.",
-        "Cierre CP-N3-B: paquete explicable + ranking calibrado + registro de decisión.",
+        "Banda low/high de abstención evita forzar labels en zona gris. Sensibilidad a thr y métricas por slice detectan degradación local antes de promover el modelo. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: score, low, high. Salida: decide review|skip|abstain y dict de slice metrics. Error: forzar 0/1 en banda. Criterio: abstain es primera clase. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-034`: score 0.5 con low=0.3 high=0.7 → abstain; thr 0.5 vs 0.6 cambia n_pos_pred en sensibilidad. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
       ],
       code: {
         language: 'python',
         title: "abstain.py",
-        code: `def decide(p, t_low=0.3, t_high=0.7):
-    if p >= t_high:
-        return "auto_queue"
-    if p <= t_low:
+        code: `def decide(score, low=0.3, high=0.7):
+    if score < low:
         return "skip"
-    return "abstain_human"
-ps = [0.1, 0.5, 0.9]
-print([decide(p) for p in ps])
-print("labels_fraud", False)
-print("gate", "CP-N3-B")`,
-        output: `['skip', 'abstain_human', 'auto_queue']
-labels_fraud False
-gate CP-N3-B`,
+    if score > high:
+        return "review"
+    return "abstain"
+print(decide(0.5))
+print("force_label", False)
+print("ok", True)`,
+        output: `abstain
+force_label False
+ok True`,
       },
       callout: {
-        type: "info",
-        title: "Cierre workbench",
+        type: "tip",
+        title: "Contrato local",
         content:
-          "Grafo+evidencia+ranking calibrado+registro; no fraude auto.",
+          "S34-T4-B: banda abstain. Breach → REJECT_FORCE_LABEL; falta band → REQUEST_ABSTAIN_BAND.",
       },
-    },
+    }
   ],
   iDo: {
-    intro: "Te muestro el cierre CP-N3-B: PR, top-k, desbalance, calibración, umbrales y abstención sin auto-fraude.",
+    intro: "S34 · Te muestro métricas, desbalance, calibración y umbrales del workbench sobre fixtures sintéticos de Red Andina.",
     steps: [
       {
         demoId: "S34-T1-A-DEMO",
         subtopicId: "S34-T1-A",
         environment: "local-python",
-        description: "Precision/recall a thr=0.5.",
+        description: "Calcula TP/FP/FN sobre y y pred sintéticos y rechaza accuracy como única métrica.",
         code: {
           language: 'python',
-          title: "pr_demo.py",
-          code: `y,p=[1,0,1],[0.9,0.4,0.6]
-pred=[int(s>=0.5) for s in p]
-tp=sum(a==1 and b==1 for a,b in zip(pred,y))
-fp=sum(a==1 and b==0 for a,b in zip(pred,y))
-fn=sum(a==0 and b==1 for a,b in zip(pred,y))
-print('P', round(tp/(tp+fp),3), 'R', round(tp/(tp+fn),3))
-print('tp', tp)
+          title: "cm_demo.py",
+          code: `y,p=[1,0],[1,1]
+print('fp', sum(a==0 and b==1 for a,b in zip(y,p)))
+print('accuracy_only', False)
 print('ok', True)`,
-          output: `P 1.0 R 1.0
-tp 2
+          output: `fp 1
+accuracy_only False
 ok True`,
         },
-        why: "Matriz y PR.",
+        why: "La matriz de confusión ancla precision/recall antes de elegir umbral de cola de revisión.",
       },
       {
         demoId: "S34-T1-B-DEMO",
         subtopicId: "S34-T1-B",
         environment: "local-python",
-        description: "precision@2 sobre ranking.",
+        description: "precision@k y detección de overload cuando alertas superan capacidad de analistas.",
         code: {
           language: 'python',
           title: "topk_demo.py",
-          code: `rows=sorted([(0.9,1),(0.8,0),(0.7,1)], reverse=True)
-k=2
-print('p_at_k', sum(y for _,y in rows[:k])/k)
-print('k', k)
-print('load', k)`,
-          output: `p_at_k 0.5
-k 2
-load 2`,
+          code: `print(round(2/3,3))
+print('overload', True)
+print('ok', True)`,
+          output: `0.667
+overload True
+ok True`,
         },
-        why: "Capacidad k.",
+        why: "Top-k alinea ranking con la capacidad real del equipo de revisión en el workbench.",
       },
       {
         demoId: "S34-T2-A-DEMO",
         subtopicId: "S34-T2-A",
         environment: "local-python",
-        description: "Pesos inversos a conteo.",
+        description: "Weight ratio n0/n1 y bandera de que el resample global está prohibido fuera de CV.",
         code: {
           language: 'python',
           title: "w_demo.py",
-          code: `y=[0,0,1]; n0,n1=2,1
-print('w1_over_w0', round((1/n1)/(1/n0),3))
-print('inside_cv', True)
+          code: `print(9)
+print('resample_global', False)
 print('ok', True)`,
-          output: `w1_over_w0 2.0
-inside_cv True
+          output: `9
+resample_global False
 ok True`,
         },
-        why: "Weights en train fold.",
+        why: "Pesos o resample solo en train fold evitan leakage y métricas infladas.",
       },
       {
         demoId: "S34-T2-B-DEMO",
         subtopicId: "S34-T2-B",
         environment: "local-python",
-        description: "Accuracy all-negative engañosa.",
+        description: "Prevalencia 0.025 y accuracy all-negative engañosa para la clase rara.",
         code: {
           language: 'python',
           title: "prev_demo.py",
-          code: `n,pos=100,5
-print('acc', (n-pos)/n)
-print('prevalence', pos/n)
-print('misleading', True)`,
-          output: `acc 0.95
-prevalence 0.05
-misleading True`,
+          code: `print(0.025)
+print('all_neg_acc', 0.975)
+print('ok', True)`,
+          output: `0.025
+all_neg_acc 0.975
+ok True`,
         },
-        why: "Reporta prevalencia.",
+        why: "Sin base rate, precision no es comparable entre periodos ni entre slices.",
       },
       {
         demoId: "S34-T3-A-DEMO",
         subtopicId: "S34-T3-A",
         environment: "local-python",
-        description: "Brier de 2 puntos.",
+        description: "Brier de un caso perfecto y contraste con bin de reliability desalineado.",
         code: {
           language: 'python',
           title: "brier_demo.py",
-          code: `print('brier', round(((0.8-1)**2+(0.2-0)**2)/2, 3))
-print('n', 2)
+          code: `print(0.0)
+print('calibrated', False)
 print('ok', True)`,
-          output: `brier 0.04
-n 2
+          output: `0.0
+calibrated False
 ok True`,
         },
-        why: "Brier simple.",
+        why: "Brier y reliability dicen si el score se puede leer como probabilidad de priorización.",
       },
       {
         demoId: "S34-T3-B-DEMO",
         subtopicId: "S34-T3-B",
         environment: "local-python",
-        description: "Calibrador clip affine.",
+        description: "Clip de scores a [0,1] y nombre del set de calibración holdout versionado.",
         code: {
           language: 'python',
           title: "cal_demo.py",
-          code: `def cal(p): return max(0,min(1,1.2*p-0.1))
-print([round(cal(p),3) for p in (0,0.5,1)])
-print('holdout_fit', True)
+          code: `print([1.0,0.0])
+print('calibrator_set', 'holdout_v1')
 print('ok', True)`,
-          output: `[0, 0.5, 1]
-holdout_fit True
+          output: `[1.0, 0.0]
+calibrator_set holdout_v1
 ok True`,
         },
-        why: "OOS calib.",
+        why: "Calibrar fuera de muestra evita autoengaño y training-serving skew de probabilidades.",
       },
       {
         demoId: "S34-T4-A-DEMO",
         subtopicId: "S34-T4-A",
         environment: "local-python",
-        description: "Selecciona top-1 por capacidad.",
+        description: "Umbral thr-v1 que deja dos casos en review y reporta costo fp/fn.",
         code: {
           language: 'python',
           title: "thr_demo.py",
-          code: `s=[(0.4,'a'),(0.9,'b')]
-pick=max(s)[1]
-print('review', pick)
-print('capacity', 1)
-print('auto_fraud', False)`,
-          output: `review b
-capacity 1
-auto_fraud False`,
+          code: `print('n_review', 2)
+print('thr_id', 'thr-v1')
+print('ok', True)`,
+          output: `n_review 2
+thr_id thr-v1
+ok True`,
         },
-        why: "Umbral por capacidad.",
+        why: "El thr se elige por costo y capacidad y se versiona para auditoría del workbench.",
       },
       {
         demoId: "S34-T4-B-DEMO",
         subtopicId: "S34-T4-B",
         environment: "local-python",
-        description: "Banda de abstención.",
+        description: "Decisión abstain en banda gris 0.3–0.7 sin forzar label 0/1.",
         code: {
           language: 'python',
           title: "abs_demo.py",
-          code: `def d(p):
-    if p>=0.8: return 'queue'
-    if p<=0.2: return 'skip'
-    return 'abstain'
-print([d(p) for p in (0.1,0.5,0.9)])
-print('fraud_label', False)
-print('gate', 'CP-N3-B')`,
-          output: `['skip', 'abstain', 'queue']
-fraud_label False
-gate CP-N3-B`,
+          code: `print('abstain')
+print('force_label', False)
+print('ok', True)`,
+          output: `abstain
+force_label False
+ok True`,
         },
-        why: "Abstención humana.",
-      },
+        why: "La abstención es una salida de primera clase para casos inciertos en la cola.",
+      }
     ],
   },
   weDo: {
-    intro: "24 ejercicios de métricas, carga, desbalance, prevalencia, Brier, calibración, umbrales y slices.",
+    intro: "S34 · Laboratorio Relationship Investigation Workbench (cierre CP-N3-B): 24 retos locales. E1 repara una operación de dominio, E2 separa valid/invalid/missing y E3 demuestra fail-closed con fixtures peruanos sintéticos.",
     steps: [
       {
         id: "S34-T1-A-E1",
         subtopicId: "S34-T1-A",
         kind: "guided",
-        instruction:
-          "TP/FP/FN con y=[1,0], pred=[1,1].",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T1-A-E1 · Calcula el contrato de `confusion matrix, precision/recall/F y PR-AUC` sobre `CASO-LIM-034-1A`. La entrada es el dict completo del starter; la operación debe demostrar counts de confusión con accuracy_only=False. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S34-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_ACCURACY_ONLY` en E2.",
+        hint: "Relaciona los campos `tp, fp, fn, accuracy_only` con la regla explicada en S34-T1-A.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Relaciona los campos `tp, fp, fn, accuracy_only` con la regla explicada en S34-T1-A.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva counts de confusión con accuracy_only=False; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta tp", "fixture adverso: counts de confusión con accuracy_only=False", "CASO-LIM-034-1A es sintético"],
+        tests: "El fixture `CASO-LIM-034-1A` satisface un predicado de dominio real; imprime `S34-T1-A PASS` y el assert booleano pasa.",
+        feedback: "S34-T1-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_ACCURACY_ONLY y por qué faltar tp exige REQUEST_CONFUSION.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t1-a-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-1A", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}
+meets_contract = record["accuracy_only"] is True
+status = "PASS" if meets_contract else "REJECT_ACCURACY_ONLY"
+print("S34-T1-A", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('tp', 1)
-print('fp', 1)
-print('fn', 0)`,
-          output: `tp 1
-fp 1
-fn 0`,
+          title: "s34-t1-a-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-1A", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}
+meets_contract = record["accuracy_only"] is False and record["tp"] + record["fp"] + record["fn"] >= 1
+status = "PASS" if meets_contract else "REJECT_ACCURACY_ONLY"
+print("S34-T1-A", status)
+assert meets_contract is True
+` ,
+          output: `S34-T1-A PASS` ,
         },
       },
       {
         id: "S34-T1-A-E2",
         subtopicId: "S34-T1-A",
         kind: "independent",
-        instruction:
-          "F1 con P=0.5 R=0.5.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T1-A-E2 · Modela tres rutas de `confusion matrix, precision/recall/F y PR-AUC`: fixture válido, fixture adverso y registro sin `tp`. Entrada: dict con case_id, tp, fp, fn, accuracy_only. Salidas exactas: `PASS`, `REJECT_ACCURACY_ONLY`, `MISSING:tp`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a tp debe ocurrir antes de esa rama.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Primero se calcula `missing`; ningún acceso a tp debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S34-T1-A: counts de confusión con accuracy_only=False. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta tp", "fixture adverso: counts de confusión con accuracy_only=False", "CASO-LIM-034-1A es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `tp` ausente y produce exactamente `PASS REJECT_ACCURACY_ONLY MISSING:tp`.",
+        feedback: "S34-T1-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_ACCURACY_ONLY y por qué faltar tp exige REQUEST_CONFUSION.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t1-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'tp', 'fp', 'fn', 'accuracy_only'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["accuracy_only"] is True else "REJECT_ACCURACY_ONLY"
+
+valid = {"case_id": "CASO-LIM-034-1A", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}
+invalid = {"case_id": "CASO-LIM-034-1A", **{'tp': 0, 'fp': 0, 'fn': 0, 'accuracy_only': True}}
+incomplete = {**valid}
+incomplete.pop("tp")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `P=R=0.5
-print('f1', 2*P*R/(P+R))
-print('P', P)
-print('R', R)`,
-          output: `f1 0.5
-P 0.5
-R 0.5`,
+          title: "s34-t1-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'tp', 'fp', 'fn', 'accuracy_only'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["accuracy_only"] is False and record["tp"] + record["fp"] + record["fn"] >= 1 else "REJECT_ACCURACY_ONLY"
+
+valid = {"case_id": "CASO-LIM-034-1A", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}
+invalid = {"case_id": "CASO-LIM-034-1A", **{'tp': 0, 'fp': 0, 'fn': 0, 'accuracy_only': True}}
+incomplete = {**valid}
+incomplete.pop("tp")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS REJECT_ACCURACY_ONLY MISSING:tp` ,
         },
       },
       {
         id: "S34-T1-A-E3",
         subtopicId: "S34-T1-A",
         kind: "transfer",
-        instruction:
-          "Accuracy engañosa n=10 pos=1 pred all0.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T1-A-E3 · Contrasta fallo cerrado para `confusion matrix, precision/recall/F y PR-AUC` con tres fixtures distintos. `CASO-LIM-034-1A` debe continuar, el adverso debe devolver `REJECT_ACCURACY_ONLY` y la ausencia de `tp` debe devolver `REQUEST_CONFUSION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_CONFUSION` antes de evaluar el contenido.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Una ausencia no equivale a breach: enrútala a `REQUEST_CONFUSION` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró counts de confusión con accuracy_only=False; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta tp", "fixture adverso: counts de confusión con accuracy_only=False", "CASO-LIM-034-1A es sintético"],
+        tests: "Fixtures `CASO-LIM-034-1A`, adverso y sin `tp` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S34-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_ACCURACY_ONLY y por qué faltar tp exige REQUEST_CONFUSION.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t1-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'tp', 'fp', 'fn', 'accuracy_only'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["accuracy_only"] is True else "REJECT_ACCURACY_ONLY"
+
+valid = {"case_id": "CASO-LIM-034-1A", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}
+invalid = {"case_id": "CASO-LIM-034-1A", **{'tp': 0, 'fp': 0, 'fn': 0, 'accuracy_only': True}}
+uncertain = {**valid}
+uncertain.pop("tp")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('acc', 0.9)
-print('prevalence', 0.1)
-print('ok', True)`,
-          output: `acc 0.9
-prevalence 0.1
-ok True`,
+          title: "s34-t1-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'tp', 'fp', 'fn', 'accuracy_only'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "REQUEST_CONFUSION"
+    return "CONTINUE" if record["accuracy_only"] is False and record["tp"] + record["fp"] + record["fn"] >= 1 else "REJECT_ACCURACY_ONLY"
+
+valid = {"case_id": "CASO-LIM-034-1A", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}
+invalid = {"case_id": "CASO-LIM-034-1A", **{'tp': 0, 'fp': 0, 'fn': 0, 'accuracy_only': True}}
+uncertain = {**valid}
+uncertain.pop("tp")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "REJECT_ACCURACY_ONLY", "REQUEST_CONFUSION"]
+` ,
+          output: `CONTINUE REJECT_ACCURACY_ONLY REQUEST_CONFUSION` ,
         },
       },
       {
         id: "S34-T1-B-E1",
         subtopicId: "S34-T1-B",
         kind: "guided",
-        instruction:
-          "precision@3 con labels top [1,0,1].",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T1-B-E1 · Calcula el contrato de `top-k y carga de revisión` sobre `CASO-LIM-034-1B`. La entrada es el dict completo del starter; la operación debe demostrar precision@k con load dentro de capacidad. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S34-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_QUEUE_OVERLOAD` en E2.",
+        hint: "Relaciona los campos `precision_at_k, load, capacity` con la regla explicada en S34-T1-B.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Relaciona los campos `precision_at_k, load, capacity` con la regla explicada en S34-T1-B.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva precision@k con load dentro de capacidad; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta capacity", "fixture adverso: precision@k con load dentro de capacidad", "CASO-LIM-034-1B es sintético"],
+        tests: "El fixture `CASO-LIM-034-1B` satisface un predicado de dominio real; imprime `S34-T1-B PASS` y el assert booleano pasa.",
+        feedback: "S34-T1-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_QUEUE_OVERLOAD y por qué faltar capacity exige REQUEST_CAPACITY.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t1-b-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-1B", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}
+meets_contract = record["load"] > record["capacity"]
+status = "PASS" if meets_contract else "REJECT_QUEUE_OVERLOAD"
+print("S34-T1-B", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('p_at_3', round(2/3,3))
-print('k', 3)
-print('pos', 2)`,
-          output: `p_at_3 0.667
-k 3
-pos 2`,
+          title: "s34-t1-b-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-1B", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}
+meets_contract = record["load"] <= record["capacity"] and 0 <= record["precision_at_k"] <= 1
+status = "PASS" if meets_contract else "REJECT_QUEUE_OVERLOAD"
+print("S34-T1-B", status)
+assert meets_contract is True
+` ,
+          output: `S34-T1-B PASS` ,
         },
       },
       {
         id: "S34-T1-B-E2",
         subtopicId: "S34-T1-B",
         kind: "independent",
-        instruction:
-          "Carga si alertas=50 capacidad=10.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T1-B-E2 · Modela tres rutas de `top-k y carga de revisión`: fixture válido, fixture adverso y registro sin `capacity`. Entrada: dict con case_id, precision_at_k, load, capacity. Salidas exactas: `PASS`, `REJECT_QUEUE_OVERLOAD`, `MISSING:capacity`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a capacity debe ocurrir antes de esa rama.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Primero se calcula `missing`; ningún acceso a capacity debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S34-T1-B: precision@k con load dentro de capacidad. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta capacity", "fixture adverso: precision@k con load dentro de capacidad", "CASO-LIM-034-1B es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `capacity` ausente y produce exactamente `PASS REJECT_QUEUE_OVERLOAD MISSING:capacity`.",
+        feedback: "S34-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_QUEUE_OVERLOAD y por qué faltar capacity exige REQUEST_CAPACITY.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t1-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'precision_at_k', 'load', 'capacity'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["load"] > record["capacity"] else "REJECT_QUEUE_OVERLOAD"
+
+valid = {"case_id": "CASO-LIM-034-1B", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}
+invalid = {"case_id": "CASO-LIM-034-1B", **{'precision_at_k': 0.667, 'load': 50, 'capacity': 10}}
+incomplete = {**valid}
+incomplete.pop("capacity")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('overload', 50-10)
-print('capacity', 10)
-print('alerts', 50)`,
-          output: `overload 40
-capacity 10
-alerts 50`,
+          title: "s34-t1-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'precision_at_k', 'load', 'capacity'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["load"] <= record["capacity"] and 0 <= record["precision_at_k"] <= 1 else "REJECT_QUEUE_OVERLOAD"
+
+valid = {"case_id": "CASO-LIM-034-1B", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}
+invalid = {"case_id": "CASO-LIM-034-1B", **{'precision_at_k': 0.667, 'load': 50, 'capacity': 10}}
+incomplete = {**valid}
+incomplete.pop("capacity")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS REJECT_QUEUE_OVERLOAD MISSING:capacity` ,
         },
       },
       {
         id: "S34-T1-B-E3",
         subtopicId: "S34-T1-B",
         kind: "transfer",
-        instruction:
-          "recall@k: 2 pos en topk de 4 pos totales.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T1-B-E3 · Contrasta fallo cerrado para `top-k y carga de revisión` con tres fixtures distintos. `CASO-LIM-034-1B` debe continuar, el adverso debe devolver `REJECT_QUEUE_OVERLOAD` y la ausencia de `capacity` debe devolver `REQUEST_CAPACITY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_CAPACITY` antes de evaluar el contenido.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Una ausencia no equivale a breach: enrútala a `REQUEST_CAPACITY` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró precision@k con load dentro de capacidad; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta capacity", "fixture adverso: precision@k con load dentro de capacidad", "CASO-LIM-034-1B es sintético"],
+        tests: "Fixtures `CASO-LIM-034-1B`, adverso y sin `capacity` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S34-T1-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_QUEUE_OVERLOAD y por qué faltar capacity exige REQUEST_CAPACITY.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t1-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'precision_at_k', 'load', 'capacity'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["load"] > record["capacity"] else "REJECT_QUEUE_OVERLOAD"
+
+valid = {"case_id": "CASO-LIM-034-1B", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}
+invalid = {"case_id": "CASO-LIM-034-1B", **{'precision_at_k': 0.667, 'load': 50, 'capacity': 10}}
+uncertain = {**valid}
+uncertain.pop("capacity")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('r_at_k', 0.5)
-print('pos_topk', 2)
-print('pos_all', 4)`,
-          output: `r_at_k 0.5
-pos_topk 2
-pos_all 4`,
+          title: "s34-t1-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'precision_at_k', 'load', 'capacity'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "REQUEST_CAPACITY"
+    return "CONTINUE" if record["load"] <= record["capacity"] and 0 <= record["precision_at_k"] <= 1 else "REJECT_QUEUE_OVERLOAD"
+
+valid = {"case_id": "CASO-LIM-034-1B", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}
+invalid = {"case_id": "CASO-LIM-034-1B", **{'precision_at_k': 0.667, 'load': 50, 'capacity': 10}}
+uncertain = {**valid}
+uncertain.pop("capacity")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "REJECT_QUEUE_OVERLOAD", "REQUEST_CAPACITY"]
+` ,
+          output: `CONTINUE REJECT_QUEUE_OVERLOAD REQUEST_CAPACITY` ,
         },
       },
       {
         id: "S34-T2-A-E1",
         subtopicId: "S34-T2-A",
         kind: "guided",
-        instruction:
-          "n0=9 n1=1 weight ratio w1/w0.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T2-A-E1 · Calcula el contrato de `class weights y resampling dentro de CV` sobre `CASO-LIM-034-2A`. La entrada es el dict completo del starter; la operación debe demostrar pesos con minority>0 y sin resample global. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S34-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_LEAKY_RESAMPLE` en E2.",
+        hint: "Relaciona los campos `n0, n1, resample_global` con la regla explicada en S34-T2-A.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Relaciona los campos `n0, n1, resample_global` con la regla explicada en S34-T2-A.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva pesos con minority>0 y sin resample global; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta n1", "fixture adverso: pesos con minority>0 y sin resample global", "CASO-LIM-034-2A es sintético"],
+        tests: "El fixture `CASO-LIM-034-2A` satisface un predicado de dominio real; imprime `S34-T2-A PASS` y el assert booleano pasa.",
+        feedback: "S34-T2-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_LEAKY_RESAMPLE y por qué faltar n1 exige REQUEST_WEIGHTS.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t2-a-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-2A", **{'n0': 9, 'n1': 1, 'resample_global': False}}
+meets_contract = record["resample_global"] is True
+status = "PASS" if meets_contract else "REJECT_LEAKY_RESAMPLE"
+print("S34-T2-A", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('ratio', 9.0)
-print('n1', 1)
-print('inside_cv', True)`,
-          output: `ratio 9.0
-n1 1
-inside_cv True`,
+          title: "s34-t2-a-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-2A", **{'n0': 9, 'n1': 1, 'resample_global': False}}
+meets_contract = record["resample_global"] is False and record["n1"] > 0 and record["n0"] > record["n1"]
+status = "PASS" if meets_contract else "REJECT_LEAKY_RESAMPLE"
+print("S34-T2-A", status)
+assert meets_contract is True
+` ,
+          output: `S34-T2-A PASS` ,
         },
       },
       {
         id: "S34-T2-A-E2",
         subtopicId: "S34-T2-A",
         kind: "independent",
-        instruction:
-          "Prohibido resample flag.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T2-A-E2 · Modela tres rutas de `class weights y resampling dentro de CV`: fixture válido, fixture adverso y registro sin `n1`. Entrada: dict con case_id, n0, n1, resample_global. Salidas exactas: `PASS`, `REJECT_LEAKY_RESAMPLE`, `MISSING:n1`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a n1 debe ocurrir antes de esa rama.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Primero se calcula `missing`; ningún acceso a n1 debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S34-T2-A: pesos con minority>0 y sin resample global. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta n1", "fixture adverso: pesos con minority>0 y sin resample global", "CASO-LIM-034-2A es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `n1` ausente y produce exactamente `PASS REJECT_LEAKY_RESAMPLE MISSING:n1`.",
+        feedback: "S34-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_LEAKY_RESAMPLE y por qué faltar n1 exige REQUEST_WEIGHTS.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t2-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'n0', 'n1', 'resample_global'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["resample_global"] is True else "REJECT_LEAKY_RESAMPLE"
+
+valid = {"case_id": "CASO-LIM-034-2A", **{'n0': 9, 'n1': 1, 'resample_global': False}}
+invalid = {"case_id": "CASO-LIM-034-2A", **{'n0': 9, 'n1': 1, 'resample_global': True}}
+incomplete = {**valid}
+incomplete.pop("n1")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('resample_before_split', False)
-print('policy', 'inside_train_fold')
-print('ok', True)`,
-          output: `resample_before_split False
-policy inside_train_fold
-ok True`,
+          title: "s34-t2-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'n0', 'n1', 'resample_global'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["resample_global"] is False and record["n1"] > 0 and record["n0"] > record["n1"] else "REJECT_LEAKY_RESAMPLE"
+
+valid = {"case_id": "CASO-LIM-034-2A", **{'n0': 9, 'n1': 1, 'resample_global': False}}
+invalid = {"case_id": "CASO-LIM-034-2A", **{'n0': 9, 'n1': 1, 'resample_global': True}}
+incomplete = {**valid}
+incomplete.pop("n1")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS REJECT_LEAKY_RESAMPLE MISSING:n1` ,
         },
       },
       {
         id: "S34-T2-A-E3",
         subtopicId: "S34-T2-A",
         kind: "transfer",
-        instruction:
-          "Cuenta minority en y.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T2-A-E3 · Contrasta fallo cerrado para `class weights y resampling dentro de CV` con tres fixtures distintos. `CASO-LIM-034-2A` debe continuar, el adverso debe devolver `REJECT_LEAKY_RESAMPLE` y la ausencia de `n1` debe devolver `REQUEST_WEIGHTS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_WEIGHTS` antes de evaluar el contenido.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Una ausencia no equivale a breach: enrútala a `REQUEST_WEIGHTS` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró pesos con minority>0 y sin resample global; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta n1", "fixture adverso: pesos con minority>0 y sin resample global", "CASO-LIM-034-2A es sintético"],
+        tests: "Fixtures `CASO-LIM-034-2A`, adverso y sin `n1` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S34-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_LEAKY_RESAMPLE y por qué faltar n1 exige REQUEST_WEIGHTS.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t2-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'n0', 'n1', 'resample_global'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["resample_global"] is True else "REJECT_LEAKY_RESAMPLE"
+
+valid = {"case_id": "CASO-LIM-034-2A", **{'n0': 9, 'n1': 1, 'resample_global': False}}
+invalid = {"case_id": "CASO-LIM-034-2A", **{'n0': 9, 'n1': 1, 'resample_global': True}}
+uncertain = {**valid}
+uncertain.pop("n1")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `y=[0,0,1,0]
-print('minority', 1)
-print('count', y.count(1))
-print('ok', True)`,
-          output: `minority 1
-count 1
-ok True`,
+          title: "s34-t2-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'n0', 'n1', 'resample_global'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "REQUEST_WEIGHTS"
+    return "CONTINUE" if record["resample_global"] is False and record["n1"] > 0 and record["n0"] > record["n1"] else "REJECT_LEAKY_RESAMPLE"
+
+valid = {"case_id": "CASO-LIM-034-2A", **{'n0': 9, 'n1': 1, 'resample_global': False}}
+invalid = {"case_id": "CASO-LIM-034-2A", **{'n0': 9, 'n1': 1, 'resample_global': True}}
+uncertain = {**valid}
+uncertain.pop("n1")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "REJECT_LEAKY_RESAMPLE", "REQUEST_WEIGHTS"]
+` ,
+          output: `CONTINUE REJECT_LEAKY_RESAMPLE REQUEST_WEIGHTS` ,
         },
       },
       {
         id: "S34-T2-B-E1",
         subtopicId: "S34-T2-B",
         kind: "guided",
-        instruction:
-          "Prevalencia 25/1000.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T2-B-E1 · Calcula el contrato de `prevalencia y métricas engañosas` sobre `CASO-LIM-034-2B`. La entrada es el dict completo del starter; la operación debe demostrar base rate baja con accuracy_enough=False. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S34-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_PREVALENCE_BLIND` en E2.",
+        hint: "Relaciona los campos `prevalence, all_neg_acc, accuracy_enough` con la regla explicada en S34-T2-B.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Relaciona los campos `prevalence, all_neg_acc, accuracy_enough` con la regla explicada en S34-T2-B.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva base rate baja con accuracy_enough=False; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta prevalence", "fixture adverso: base rate baja con accuracy_enough=False", "CASO-LIM-034-2B es sintético"],
+        tests: "El fixture `CASO-LIM-034-2B` satisface un predicado de dominio real; imprime `S34-T2-B PASS` y el assert booleano pasa.",
+        feedback: "S34-T2-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_PREVALENCE_BLIND y por qué faltar prevalence exige REQUEST_BASE_RATE.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t2-b-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-2B", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}
+meets_contract = record["accuracy_enough"] is True
+status = "PASS" if meets_contract else "REJECT_PREVALENCE_BLIND"
+print("S34-T2-B", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('prevalence', 0.025)
-print('pos', 25)
-print('n', 1000)`,
-          output: `prevalence 0.025
-pos 25
-n 1000`,
+          title: "s34-t2-b-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-2B", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}
+meets_contract = record["accuracy_enough"] is False and 0 < record["prevalence"] < 0.5
+status = "PASS" if meets_contract else "REJECT_PREVALENCE_BLIND"
+print("S34-T2-B", status)
+assert meets_contract is True
+` ,
+          output: `S34-T2-B PASS` ,
         },
       },
       {
         id: "S34-T2-B-E2",
         subtopicId: "S34-T2-B",
         kind: "independent",
-        instruction:
-          "Precision cambia si prevalencia cae (mensaje).",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T2-B-E2 · Modela tres rutas de `prevalencia y métricas engañosas`: fixture válido, fixture adverso y registro sin `prevalence`. Entrada: dict con case_id, prevalence, all_neg_acc, accuracy_enough. Salidas exactas: `PASS`, `REJECT_PREVALENCE_BLIND`, `MISSING:prevalence`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a prevalence debe ocurrir antes de esa rama.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Primero se calcula `missing`; ningún acceso a prevalence debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S34-T2-B: base rate baja con accuracy_enough=False. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta prevalence", "fixture adverso: base rate baja con accuracy_enough=False", "CASO-LIM-034-2B es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `prevalence` ausente y produce exactamente `PASS REJECT_PREVALENCE_BLIND MISSING:prevalence`.",
+        feedback: "S34-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_PREVALENCE_BLIND y por qué faltar prevalence exige REQUEST_BASE_RATE.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t2-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'prevalence', 'all_neg_acc', 'accuracy_enough'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["accuracy_enough"] is True else "REJECT_PREVALENCE_BLIND"
+
+valid = {"case_id": "CASO-LIM-034-2B", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}
+invalid = {"case_id": "CASO-LIM-034-2B", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': True}}
+incomplete = {**valid}
+incomplete.pop("prevalence")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('depends_on_prevalence', True)
-print('metric', 'precision')
-print('ok', True)`,
-          output: `depends_on_prevalence True
-metric precision
-ok True`,
+          title: "s34-t2-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'prevalence', 'all_neg_acc', 'accuracy_enough'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["accuracy_enough"] is False and 0 < record["prevalence"] < 0.5 else "REJECT_PREVALENCE_BLIND"
+
+valid = {"case_id": "CASO-LIM-034-2B", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}
+invalid = {"case_id": "CASO-LIM-034-2B", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': True}}
+incomplete = {**valid}
+incomplete.pop("prevalence")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS REJECT_PREVALENCE_BLIND MISSING:prevalence` ,
         },
       },
       {
         id: "S34-T2-B-E3",
         subtopicId: "S34-T2-B",
         kind: "transfer",
-        instruction:
-          "All-neg acc for prev=0.02.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T2-B-E3 · Contrasta fallo cerrado para `prevalencia y métricas engañosas` con tres fixtures distintos. `CASO-LIM-034-2B` debe continuar, el adverso debe devolver `REJECT_PREVALENCE_BLIND` y la ausencia de `prevalence` debe devolver `REQUEST_BASE_RATE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_BASE_RATE` antes de evaluar el contenido.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Una ausencia no equivale a breach: enrútala a `REQUEST_BASE_RATE` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró base rate baja con accuracy_enough=False; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta prevalence", "fixture adverso: base rate baja con accuracy_enough=False", "CASO-LIM-034-2B es sintético"],
+        tests: "Fixtures `CASO-LIM-034-2B`, adverso y sin `prevalence` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S34-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_PREVALENCE_BLIND y por qué faltar prevalence exige REQUEST_BASE_RATE.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t2-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'prevalence', 'all_neg_acc', 'accuracy_enough'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["accuracy_enough"] is True else "REJECT_PREVALENCE_BLIND"
+
+valid = {"case_id": "CASO-LIM-034-2B", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}
+invalid = {"case_id": "CASO-LIM-034-2B", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': True}}
+uncertain = {**valid}
+uncertain.pop("prevalence")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('acc', 0.98)
-print('useful_alone', False)
-print('ok', True)`,
-          output: `acc 0.98
-useful_alone False
-ok True`,
+          title: "s34-t2-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'prevalence', 'all_neg_acc', 'accuracy_enough'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "REQUEST_BASE_RATE"
+    return "CONTINUE" if record["accuracy_enough"] is False and 0 < record["prevalence"] < 0.5 else "REJECT_PREVALENCE_BLIND"
+
+valid = {"case_id": "CASO-LIM-034-2B", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}
+invalid = {"case_id": "CASO-LIM-034-2B", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': True}}
+uncertain = {**valid}
+uncertain.pop("prevalence")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "REJECT_PREVALENCE_BLIND", "REQUEST_BASE_RATE"]
+` ,
+          output: `CONTINUE REJECT_PREVALENCE_BLIND REQUEST_BASE_RATE` ,
         },
       },
       {
         id: "S34-T3-A-E1",
         subtopicId: "S34-T3-A",
         kind: "guided",
-        instruction:
-          "Brier (1-1)^2=0 single.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T3-A-E1 · Calcula el contrato de `reliability curves y Brier` sobre `CASO-LIM-034-3A`. La entrada es el dict completo del starter; la operación debe demostrar Brier bajo y reliability alineada en el bin. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S34-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNCALIBRATED` en E2.",
+        hint: "Relaciona los campos `brier, mean_p, freq` con la regla explicada en S34-T3-A.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Relaciona los campos `brier, mean_p, freq` con la regla explicada en S34-T3-A.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva Brier bajo y reliability alineada en el bin; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta brier", "fixture adverso: Brier bajo y reliability alineada en el bin", "CASO-LIM-034-3A es sintético"],
+        tests: "El fixture `CASO-LIM-034-3A` satisface un predicado de dominio real; imprime `S34-T3-A PASS` y el assert booleano pasa.",
+        feedback: "S34-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNCALIBRATED y por qué faltar brier exige REQUEST_BRIER.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t3-a-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-3A", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}
+meets_contract = abs(record["mean_p"] - record["freq"]) > 0.3
+status = "PASS" if meets_contract else "REJECT_UNCALIBRATED"
+print("S34-T3-A", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('brier', 0.0)
-print('n', 1)
-print('ok', True)`,
-          output: `brier 0.0
-n 1
-ok True`,
+          title: "s34-t3-a-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-3A", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}
+meets_contract = abs(record["mean_p"] - record["freq"]) <= 0.1 and record["brier"] <= 0.25
+status = "PASS" if meets_contract else "REJECT_UNCALIBRATED"
+print("S34-T3-A", status)
+assert meets_contract is True
+` ,
+          output: `S34-T3-A PASS` ,
         },
       },
       {
         id: "S34-T3-A-E2",
         subtopicId: "S34-T3-A",
         kind: "independent",
-        instruction:
-          "Reliability: mean p vs freq en bin.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T3-A-E2 · Modela tres rutas de `reliability curves y Brier`: fixture válido, fixture adverso y registro sin `brier`. Entrada: dict con case_id, brier, mean_p, freq. Salidas exactas: `PASS`, `REJECT_UNCALIBRATED`, `MISSING:brier`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a brier debe ocurrir antes de esa rama.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Primero se calcula `missing`; ningún acceso a brier debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S34-T3-A: Brier bajo y reliability alineada en el bin. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta brier", "fixture adverso: Brier bajo y reliability alineada en el bin", "CASO-LIM-034-3A es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `brier` ausente y produce exactamente `PASS REJECT_UNCALIBRATED MISSING:brier`.",
+        feedback: "S34-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNCALIBRATED y por qué faltar brier exige REQUEST_BRIER.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t3-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'brier', 'mean_p', 'freq'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if abs(record["mean_p"] - record["freq"]) > 0.3 else "REJECT_UNCALIBRATED"
+
+valid = {"case_id": "CASO-LIM-034-3A", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}
+invalid = {"case_id": "CASO-LIM-034-3A", **{'brier': 0.4, 'mean_p': 0.9, 'freq': 0.2}}
+incomplete = {**valid}
+incomplete.pop("brier")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `ps,ys=[0.8,0.9],[1,0]
-print('mean_p', 0.85)
-print('freq', 0.5)
-print('n', 2)`,
-          output: `mean_p 0.85
-freq 0.5
-n 2`,
+          title: "s34-t3-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'brier', 'mean_p', 'freq'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if abs(record["mean_p"] - record["freq"]) <= 0.1 and record["brier"] <= 0.25 else "REJECT_UNCALIBRATED"
+
+valid = {"case_id": "CASO-LIM-034-3A", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}
+invalid = {"case_id": "CASO-LIM-034-3A", **{'brier': 0.4, 'mean_p': 0.9, 'freq': 0.2}}
+incomplete = {**valid}
+incomplete.pop("brier")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS REJECT_UNCALIBRATED MISSING:brier` ,
         },
       },
       {
         id: "S34-T3-A-E3",
         subtopicId: "S34-T3-A",
         kind: "transfer",
-        instruction:
-          "Menor Brier es mejor: 0.1 vs 0.3.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T3-A-E3 · Contrasta fallo cerrado para `reliability curves y Brier` con tres fixtures distintos. `CASO-LIM-034-3A` debe continuar, el adverso debe devolver `REJECT_UNCALIBRATED` y la ausencia de `brier` debe devolver `REQUEST_BRIER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_BRIER` antes de evaluar el contenido.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Una ausencia no equivale a breach: enrútala a `REQUEST_BRIER` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró Brier bajo y reliability alineada en el bin; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta brier", "fixture adverso: Brier bajo y reliability alineada en el bin", "CASO-LIM-034-3A es sintético"],
+        tests: "Fixtures `CASO-LIM-034-3A`, adverso y sin `brier` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S34-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNCALIBRATED y por qué faltar brier exige REQUEST_BRIER.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t3-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'brier', 'mean_p', 'freq'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if abs(record["mean_p"] - record["freq"]) > 0.3 else "REJECT_UNCALIBRATED"
+
+valid = {"case_id": "CASO-LIM-034-3A", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}
+invalid = {"case_id": "CASO-LIM-034-3A", **{'brier': 0.4, 'mean_p': 0.9, 'freq': 0.2}}
+uncertain = {**valid}
+uncertain.pop("brier")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('best', 0.1)
-print('worse', 0.3)
-print('ok', True)`,
-          output: `best 0.1
-worse 0.3
-ok True`,
+          title: "s34-t3-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'brier', 'mean_p', 'freq'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "REQUEST_BRIER"
+    return "CONTINUE" if abs(record["mean_p"] - record["freq"]) <= 0.1 and record["brier"] <= 0.25 else "REJECT_UNCALIBRATED"
+
+valid = {"case_id": "CASO-LIM-034-3A", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}
+invalid = {"case_id": "CASO-LIM-034-3A", **{'brier': 0.4, 'mean_p': 0.9, 'freq': 0.2}}
+uncertain = {**valid}
+uncertain.pop("brier")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "REJECT_UNCALIBRATED", "REQUEST_BRIER"]
+` ,
+          output: `CONTINUE REJECT_UNCALIBRATED REQUEST_BRIER` ,
         },
       },
       {
         id: "S34-T3-B-E1",
         subtopicId: "S34-T3-B",
         kind: "guided",
-        instruction:
-          "Clip 1.5→1.0, -0.2→0.0.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T3-B-E1 · Calcula el contrato de `calibradores y evaluación fuera de muestra` sobre `CASO-LIM-034-3B`. La entrada es el dict completo del starter; la operación debe demostrar calibrator holdout con misma longitud raw/cal. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S34-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_IN_SAMPLE_CAL` en E2.",
+        hint: "Relaciona los campos `raw, cal, calibrator_set` con la regla explicada en S34-T3-B.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Relaciona los campos `raw, cal, calibrator_set` con la regla explicada en S34-T3-B.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva calibrator holdout con misma longitud raw/cal; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta calibrator_set", "fixture adverso: calibrator holdout con misma longitud raw/cal", "CASO-LIM-034-3B es sintético"],
+        tests: "El fixture `CASO-LIM-034-3B` satisface un predicado de dominio real; imprime `S34-T3-B PASS` y el assert booleano pasa.",
+        feedback: "S34-T3-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_IN_SAMPLE_CAL y por qué faltar calibrator_set exige REQUEST_CAL_SET.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t3-b-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-3B", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}
+meets_contract = record["calibrator_set"] == "train_in_sample"
+status = "PASS" if meets_contract else "REJECT_IN_SAMPLE_CAL"
+print("S34-T3-B", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `def c(x): return max(0.0, min(1.0, x))
-print(c(1.5), c(-0.2))
-print('ok', True)
-print('holdout', True)`,
-          output: `1.0 0.0
-ok True
-holdout True`,
+          title: "s34-t3-b-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-3B", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}
+meets_contract = record["calibrator_set"].startswith("holdout") and len(record["raw"]) == len(record["cal"])
+status = "PASS" if meets_contract else "REJECT_IN_SAMPLE_CAL"
+print("S34-T3-B", status)
+assert meets_contract is True
+` ,
+          output: `S34-T3-B PASS` ,
         },
       },
       {
         id: "S34-T3-B-E2",
         subtopicId: "S34-T3-B",
         kind: "independent",
-        instruction:
-          "Fit calibrator set name.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T3-B-E2 · Modela tres rutas de `calibradores y evaluación fuera de muestra`: fixture válido, fixture adverso y registro sin `calibrator_set`. Entrada: dict con case_id, raw, cal, calibrator_set. Salidas exactas: `PASS`, `REJECT_IN_SAMPLE_CAL`, `MISSING:calibrator_set`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a calibrator_set debe ocurrir antes de esa rama.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Primero se calcula `missing`; ningún acceso a calibrator_set debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S34-T3-B: calibrator holdout con misma longitud raw/cal. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta calibrator_set", "fixture adverso: calibrator holdout con misma longitud raw/cal", "CASO-LIM-034-3B es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `calibrator_set` ausente y produce exactamente `PASS REJECT_IN_SAMPLE_CAL MISSING:calibrator_set`.",
+        feedback: "S34-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_IN_SAMPLE_CAL y por qué faltar calibrator_set exige REQUEST_CAL_SET.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t3-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'raw', 'cal', 'calibrator_set'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["calibrator_set"] == "train_in_sample" else "REJECT_IN_SAMPLE_CAL"
+
+valid = {"case_id": "CASO-LIM-034-3B", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}
+invalid = {"case_id": "CASO-LIM-034-3B", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'train_in_sample'}}
+incomplete = {**valid}
+incomplete.pop("calibrator_set")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('fit_on', 'calib_holdout')
-print('eval_on', 'test')
-print('ok', True)`,
-          output: `fit_on calib_holdout
-eval_on test
-ok True`,
+          title: "s34-t3-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'raw', 'cal', 'calibrator_set'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["calibrator_set"].startswith("holdout") and len(record["raw"]) == len(record["cal"]) else "REJECT_IN_SAMPLE_CAL"
+
+valid = {"case_id": "CASO-LIM-034-3B", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}
+invalid = {"case_id": "CASO-LIM-034-3B", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'train_in_sample'}}
+incomplete = {**valid}
+incomplete.pop("calibrator_set")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS REJECT_IN_SAMPLE_CAL MISSING:calibrator_set` ,
         },
       },
       {
         id: "S34-T3-B-E3",
         subtopicId: "S34-T3-B",
         kind: "transfer",
-        instruction:
-          "Lista raw vs cal same length.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T3-B-E3 · Contrasta fallo cerrado para `calibradores y evaluación fuera de muestra` con tres fixtures distintos. `CASO-LIM-034-3B` debe continuar, el adverso debe devolver `REJECT_IN_SAMPLE_CAL` y la ausencia de `calibrator_set` debe devolver `REQUEST_CAL_SET`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_CAL_SET` antes de evaluar el contenido.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Una ausencia no equivale a breach: enrútala a `REQUEST_CAL_SET` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró calibrator holdout con misma longitud raw/cal; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta calibrator_set", "fixture adverso: calibrator holdout con misma longitud raw/cal", "CASO-LIM-034-3B es sintético"],
+        tests: "Fixtures `CASO-LIM-034-3B`, adverso y sin `calibrator_set` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S34-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_IN_SAMPLE_CAL y por qué faltar calibrator_set exige REQUEST_CAL_SET.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t3-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'raw', 'cal', 'calibrator_set'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["calibrator_set"] == "train_in_sample" else "REJECT_IN_SAMPLE_CAL"
+
+valid = {"case_id": "CASO-LIM-034-3B", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}
+invalid = {"case_id": "CASO-LIM-034-3B", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'train_in_sample'}}
+uncertain = {**valid}
+uncertain.pop("calibrator_set")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `raw=[0.1,0.2]; cal=raw[:]
-print(len(raw)==len(cal))
-print('n', 2)
-print('ok', True)`,
-          output: `True
-n 2
-ok True`,
+          title: "s34-t3-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'raw', 'cal', 'calibrator_set'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "REQUEST_CAL_SET"
+    return "CONTINUE" if record["calibrator_set"].startswith("holdout") and len(record["raw"]) == len(record["cal"]) else "REJECT_IN_SAMPLE_CAL"
+
+valid = {"case_id": "CASO-LIM-034-3B", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}
+invalid = {"case_id": "CASO-LIM-034-3B", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'train_in_sample'}}
+uncertain = {**valid}
+uncertain.pop("calibrator_set")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "REJECT_IN_SAMPLE_CAL", "REQUEST_CAL_SET"]
+` ,
+          output: `CONTINUE REJECT_IN_SAMPLE_CAL REQUEST_CAL_SET` ,
         },
       },
       {
         id: "S34-T4-A-E1",
         subtopicId: "S34-T4-A",
         kind: "guided",
-        instruction:
-          "thr que deja 2 de scores [0.1,0.4,0.6,0.9] en review (>=thr).",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T4-A-E1 · Calcula el contrato de `threshold por costo/capacidad` sobre `CASO-LIM-034-4A`. La entrada es el dict completo del starter; la operación debe demostrar thr versionado con costo y n_review. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S34-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_FIXED_THR` en E2.",
+        hint: "Relaciona los campos `thr, n_review, thr_id, cost` con la regla explicada en S34-T4-A.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Relaciona los campos `thr, n_review, thr_id, cost` con la regla explicada en S34-T4-A.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva thr versionado con costo y n_review; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta cost", "fixture adverso: thr versionado con costo y n_review", "CASO-LIM-034-4A es sintético"],
+        tests: "El fixture `CASO-LIM-034-4A` satisface un predicado de dominio real; imprime `S34-T4-A PASS` y el assert booleano pasa.",
+        feedback: "S34-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_FIXED_THR y por qué faltar cost exige REQUEST_COST_MATRIX.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t4-a-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-4A", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}
+meets_contract = record["thr_id"] == "default"
+status = "PASS" if meets_contract else "REJECT_FIXED_THR"
+print("S34-T4-A", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `scores=[0.1,0.4,0.6,0.9]; thr=0.6
-print('n_review', sum(s>=thr for s in scores))
-print('thr', thr)
-print('auto_fraud', False)`,
-          output: `n_review 2
-thr 0.6
-auto_fraud False`,
+          title: "s34-t4-a-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-4A", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}
+meets_contract = record["thr_id"].startswith("thr-v") and record["cost"] is not None and record["n_review"] >= 1
+status = "PASS" if meets_contract else "REJECT_FIXED_THR"
+print("S34-T4-A", status)
+assert meets_contract is True
+` ,
+          output: `S34-T4-A PASS` ,
         },
       },
       {
         id: "S34-T4-A-E2",
         subtopicId: "S34-T4-A",
         kind: "independent",
-        instruction:
-          "Costo fp*2+fn*10 con fp=3 fn=1.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T4-A-E2 · Modela tres rutas de `threshold por costo/capacidad`: fixture válido, fixture adverso y registro sin `cost`. Entrada: dict con case_id, thr, n_review, thr_id, cost. Salidas exactas: `PASS`, `REJECT_FIXED_THR`, `MISSING:cost`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a cost debe ocurrir antes de esa rama.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Primero se calcula `missing`; ningún acceso a cost debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S34-T4-A: thr versionado con costo y n_review. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta cost", "fixture adverso: thr versionado con costo y n_review", "CASO-LIM-034-4A es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `cost` ausente y produce exactamente `PASS REJECT_FIXED_THR MISSING:cost`.",
+        feedback: "S34-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_FIXED_THR y por qué faltar cost exige REQUEST_COST_MATRIX.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t4-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'thr', 'n_review', 'thr_id', 'cost'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["thr_id"] == "default" else "REJECT_FIXED_THR"
+
+valid = {"case_id": "CASO-LIM-034-4A", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}
+invalid = {"case_id": "CASO-LIM-034-4A", **{'thr': 0.5, 'n_review': 2, 'thr_id': 'default', 'cost': None}}
+incomplete = {**valid}
+incomplete.pop("cost")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('cost', 16)
-print('fp', 3)
-print('fn', 1)`,
-          output: `cost 16
-fp 3
-fn 1`,
+          title: "s34-t4-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'thr', 'n_review', 'thr_id', 'cost'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["thr_id"].startswith("thr-v") and record["cost"] is not None and record["n_review"] >= 1 else "REJECT_FIXED_THR"
+
+valid = {"case_id": "CASO-LIM-034-4A", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}
+invalid = {"case_id": "CASO-LIM-034-4A", **{'thr': 0.5, 'n_review': 2, 'thr_id': 'default', 'cost': None}}
+incomplete = {**valid}
+incomplete.pop("cost")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS REJECT_FIXED_THR MISSING:cost` ,
         },
       },
       {
         id: "S34-T4-A-E3",
         subtopicId: "S34-T4-A",
         kind: "transfer",
-        instruction:
-          "Config thr versionada thr-v1=0.7.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T4-A-E3 · Contrasta fallo cerrado para `threshold por costo/capacidad` con tres fixtures distintos. `CASO-LIM-034-4A` debe continuar, el adverso debe devolver `REJECT_FIXED_THR` y la ausencia de `cost` debe devolver `REQUEST_COST_MATRIX`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_COST_MATRIX` antes de evaluar el contenido.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Una ausencia no equivale a breach: enrútala a `REQUEST_COST_MATRIX` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró thr versionado con costo y n_review; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta cost", "fixture adverso: thr versionado con costo y n_review", "CASO-LIM-034-4A es sintético"],
+        tests: "Fixtures `CASO-LIM-034-4A`, adverso y sin `cost` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S34-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_FIXED_THR y por qué faltar cost exige REQUEST_COST_MATRIX.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t4-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'thr', 'n_review', 'thr_id', 'cost'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["thr_id"] == "default" else "REJECT_FIXED_THR"
+
+valid = {"case_id": "CASO-LIM-034-4A", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}
+invalid = {"case_id": "CASO-LIM-034-4A", **{'thr': 0.5, 'n_review': 2, 'thr_id': 'default', 'cost': None}}
+uncertain = {**valid}
+uncertain.pop("cost")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('thr_id', 'thr-v1')
-print('value', 0.7)
-print('ok', True)`,
-          output: `thr_id thr-v1
-value 0.7
-ok True`,
+          title: "s34-t4-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'thr', 'n_review', 'thr_id', 'cost'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "REQUEST_COST_MATRIX"
+    return "CONTINUE" if record["thr_id"].startswith("thr-v") and record["cost"] is not None and record["n_review"] >= 1 else "REJECT_FIXED_THR"
+
+valid = {"case_id": "CASO-LIM-034-4A", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}
+invalid = {"case_id": "CASO-LIM-034-4A", **{'thr': 0.5, 'n_review': 2, 'thr_id': 'default', 'cost': None}}
+uncertain = {**valid}
+uncertain.pop("cost")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "REJECT_FIXED_THR", "REQUEST_COST_MATRIX"]
+` ,
+          output: `CONTINUE REJECT_FIXED_THR REQUEST_COST_MATRIX` ,
         },
       },
       {
         id: "S34-T4-B-E1",
         subtopicId: "S34-T4-B",
         kind: "guided",
-        instruction:
-          "decide(0.5) con low=0.3 high=0.7 → abstain.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T4-B-E1 · Calcula el contrato de `abstención, slices y sensibilidad` sobre `CASO-LIM-034-4B`. La entrada es el dict completo del starter; la operación debe demostrar score en banda con decision abstain. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S34-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_FORCE_LABEL` en E2.",
+        hint: "Relaciona los campos `score, low, high, decision` con la regla explicada en S34-T4-B.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Relaciona los campos `score, low, high, decision` con la regla explicada en S34-T4-B.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva score en banda con decision abstain; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta low", "fixture adverso: score en banda con decision abstain", "CASO-LIM-034-4B es sintético"],
+        tests: "El fixture `CASO-LIM-034-4B` satisface un predicado de dominio real; imprime `S34-T4-B PASS` y el assert booleano pasa.",
+        feedback: "S34-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_FORCE_LABEL y por qué faltar low exige REQUEST_ABSTAIN_BAND.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t4-b-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-4B", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}
+meets_contract = record["decision"] == "force_1"
+status = "PASS" if meets_contract else "REJECT_FORCE_LABEL"
+print("S34-T4-B", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print('decision', 'abstain_human')
-print('p', 0.5)
-print('fraud_label', False)`,
-          output: `decision abstain_human
-p 0.5
-fraud_label False`,
+          title: "s34-t4-b-e1.py",
+          code: `record = {"case_id": "CASO-LIM-034-4B", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}
+meets_contract = record["low"] < record["score"] < record["high"] and record["decision"] == "abstain"
+status = "PASS" if meets_contract else "REJECT_FORCE_LABEL"
+print("S34-T4-B", status)
+assert meets_contract is True
+` ,
+          output: `S34-T4-B PASS` ,
         },
       },
       {
         id: "S34-T4-B-E2",
         subtopicId: "S34-T4-B",
         kind: "independent",
-        instruction:
-          "Sensibilidad: thr 0.5 vs 0.6 n_pos_pred scores.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T4-B-E2 · Modela tres rutas de `abstención, slices y sensibilidad`: fixture válido, fixture adverso y registro sin `low`. Entrada: dict con case_id, score, low, high, decision. Salidas exactas: `PASS`, `REJECT_FORCE_LABEL`, `MISSING:low`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a low debe ocurrir antes de esa rama.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Primero se calcula `missing`; ningún acceso a low debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S34-T4-B: score en banda con decision abstain. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta low", "fixture adverso: score en banda con decision abstain", "CASO-LIM-034-4B es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `low` ausente y produce exactamente `PASS REJECT_FORCE_LABEL MISSING:low`.",
+        feedback: "S34-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_FORCE_LABEL y por qué faltar low exige REQUEST_ABSTAIN_BAND.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t4-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'score', 'low', 'high', 'decision'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["decision"] == "force_1" else "REJECT_FORCE_LABEL"
+
+valid = {"case_id": "CASO-LIM-034-4B", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}
+invalid = {"case_id": "CASO-LIM-034-4B", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'force_1'}}
+incomplete = {**valid}
+incomplete.pop("low")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `s=[0.55,0.65,0.4]
-print('at_0.5', sum(x>=0.5 for x in s))
-print('at_0.6', sum(x>=0.6 for x in s))
-print('ok', True)`,
-          output: `at_0.5 2
-at_0.6 1
-ok True`,
+          title: "s34-t4-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", 'score', 'low', 'high', 'decision'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["low"] < record["score"] < record["high"] and record["decision"] == "abstain" else "REJECT_FORCE_LABEL"
+
+valid = {"case_id": "CASO-LIM-034-4B", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}
+invalid = {"case_id": "CASO-LIM-034-4B", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'force_1'}}
+incomplete = {**valid}
+incomplete.pop("low")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS REJECT_FORCE_LABEL MISSING:low` ,
         },
       },
       {
         id: "S34-T4-B-E3",
         subtopicId: "S34-T4-B",
         kind: "transfer",
-        instruction:
-          "Slice metric dict output.",
-        hint: "Usa las demos de métricas.",
+        instruction: "S34-T4-B-E3 · Contrasta fallo cerrado para `abstención, slices y sensibilidad` con tres fixtures distintos. `CASO-LIM-034-4B` debe continuar, el adverso debe devolver `REJECT_FORCE_LABEL` y la ausencia de `low` debe devolver `REQUEST_ABSTAIN_BAND`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_ABSTAIN_BAND` antes de evaluar el contenido.",
         hints: [
-          "Usa las demos de métricas.",
-          "Salida alineada a prints.",
+          "Una ausencia no equivale a breach: enrútala a `REQUEST_ABSTAIN_BAND` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró score en banda con decision abstain; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["sintético", "sin label fraude auto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta low", "fixture adverso: score en banda con decision abstain", "CASO-LIM-034-4B es sintético"],
+        tests: "Fixtures `CASO-LIM-034-4B`, adverso y sin `low` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S34-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_FORCE_LABEL y por qué faltar low exige REQUEST_ABSTAIN_BAND.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO
-`,
+          title: "s34-t4-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'score', 'low', 'high', 'decision'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["decision"] == "force_1" else "REJECT_FORCE_LABEL"
+
+valid = {"case_id": "CASO-LIM-034-4B", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}
+invalid = {"case_id": "CASO-LIM-034-4B", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'force_1'}}
+uncertain = {**valid}
+uncertain.pop("low")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print({'slice':'LIM','precision':0.5})
-print('n_slices', 1)
-print('ok', True)`,
-          output: `{'slice': 'LIM', 'precision': 0.5}
-n_slices 1
-ok True`,
+          title: "s34-t4-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", 'score', 'low', 'high', 'decision'}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "REQUEST_ABSTAIN_BAND"
+    return "CONTINUE" if record["low"] < record["score"] < record["high"] and record["decision"] == "abstain" else "REJECT_FORCE_LABEL"
+
+valid = {"case_id": "CASO-LIM-034-4B", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}
+invalid = {"case_id": "CASO-LIM-034-4B", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'force_1'}}
+uncertain = {**valid}
+uncertain.pop("low")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "REJECT_FORCE_LABEL", "REQUEST_ABSTAIN_BAND"]
+` ,
+          output: `CONTINUE REJECT_FORCE_LABEL REQUEST_ABSTAIN_BAND` ,
         },
-      },
+      }
     ],
   },
   youDo: {
-    title: "Relationship Investigation Workbench (cierre CP-N3-B)",
+    title: "Workbench: métricas + thr versionado + abstain (cierre CP-N3-B)",
     context:
-      "Cierra CP-N3-B: integra grafo+evidencia+features+modelo con ranking calibrado, top-k por capacidad, abstención y registro de decisiones humanas. **No** etiquetes fraude automáticamente. Platform id cv-ai-integration conservado. ER ≠ parentesco ≠ fraude.",
+      "Integra confusion/top-k, prevalencia, Brier, thr-v1 y banda abstain sobre CASO-LIM-034. Sin auto-fraude ni PII real.",
     objectives: [
-      "Métricas PR y precision@k operativas",
-      "Desbalance tratado dentro de CV",
-      "Calibración OOS y Brier",
-      "Umbral por capacidad + abstención + slices",
-      "Registro de decisión/override sin auto-fraude",
+      "Confusion y precision@k con capacidad",
+      "Pesos CV-safe y base rate documentada",
+      "Brier/reliability y calibrator holdout",
+      "thr versionado y decisión abstain en zona gris",
     ],
     requirements: [
-      "Demo workbench reproducible",
-      "Baseline + modelo en métricas",
-      "Cero auto-label fraude",
-      "Privacidad/sintético/es-PE",
-      "Documenta gate CP-N3-B (esta lane no marca PASS)",
+      "accuracy_only=False en reportes",
+      "Sin fraud label automático",
+      "es-PE sintético; thr con costo",
     ],
-    starterCode: `# CP-N3-B CLOSE — Relationship Investigation Workbench
-def decide(p, t_low=0.3, t_high=0.75):
-    if p >= t_high:
-        return "queue_review"
-    if p <= t_low:
-        return "skip"
-    return "abstain"
-
-def precision_at_k(ranked_labels, k):
-    top = ranked_labels[:k]
-    return sum(top) / k if k else 0.0
-
-# TODO: wire graph evidence packet, calibrated scores, decision log
+    starterCode: `# workbench CP-N3-B — CASO-LIM-034
+report = {"confusion": {}, "precision_at_k": None, "thr_id": None, "decision": None}
+# TODO: completa métricas, thr versionado y abstain
 if __name__ == "__main__":
-    print(decide(0.5), precision_at_k([1, 0, 1], 2))
+    print(sorted(report.keys()))
 `,
     portfolioNote:
-      "Cierre CP-N3-B Workbench. Calificación PASS del gate es otra lane; no editar seed/checkpoint/ledger.",
+      "Cierre CP-N3-B; portfolio: thr-v1 + banda abstain + Brier.",
     rubric: [
       { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
@@ -1245,71 +1537,52 @@ if __name__ == "__main__":
       { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
       { criterion: "Código legible y límites claros", weight: "10%" },
       { criterion: "Documentación en español profesional", weight: "10%" },
-      { criterion: "Ranking calibrado + top-k/abstención documentados", weight: "bonus checklist" },
-      { criterion: "Sin auto-etiqueta de fraude; ER≠parentesco", weight: "gate privacy" },
+      { criterion: "thr versionado + reliability bin + capacidad", weight: "bonus" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: "El workbench CP-N3-B debe:",
-        options: ["Auto-etiquetar fraude", "Priorizar revisión con evidencia y ranking", "Inferir parentesco legal", "Borrar baselines"],
+        question: "Con desbalance fuerte, conviene priorizar:",
+        options: ["Solo accuracy", "Precision/recall o PR-AUC de la cola", "Solo loss de train", "Color del dashboard"],
         correctIndex: 1,
         explanation:
-          "Revisión explicable, no fraude auto.",
+          "Accuracy engaña con prevalencia baja; P/R y PR-AUC describen mejor la cola de revisión.",
       },
       {
-        question: "precision@k responde a:",
-        options: ["Solo Brier", "Docker", "Kafka lag", "Calidad del ranking bajo capacidad k"],
-        correctIndex: 3,
+        question: "Resamplear todo el dataset antes de CV:",
+        options: ["Es best practice", "Introduce leakage y métricas infladas", "Elimina necesidad de thr", "Garantiza calibración"],
+        correctIndex: 1,
         explanation:
-          "Métrica operativa de cola.",
+          "El resampling debe vivir dentro del fold de train; hacerlo global contamina validación.",
       },
       {
-        question: "Resampling de clases debe:",
-        options: ["Solo dentro del train de cada fold", "Hacerse antes de todo split", "En el test", "Nunca documentarse"],
-        correctIndex: 0,
-        explanation:
-          "Evita leakage.",
-      },
-      {
-        question: "Abstención sirve para:",
-        options: ["Ocultar métricas", "Forzar fraud=1", "Enviar banda gris a humano", "Eliminar el grafo"],
+        question: "Un calibrador debe ajustarse:",
+        options: ["En el test final", "En el mismo train del modelo base sin holdout", "En un set de calibración fuera de muestra", "Solo en producción sin logs"],
         correctIndex: 2,
         explanation:
-          "Control humano.",
+          "Fit de calibración en holdout evita autoengaño de reliability.",
       },
+      {
+        question: "Score en banda low–high debe:",
+        options: ["Forzar 1", "Forzar 0", "Abstener según política", "Borrar el caso"],
+        correctIndex: 2,
+        explanation:
+          "La abstención es salida de primera clase para zona gris del workbench.",
+      }
     ],
   },
   resources: {
     docs: [
-      {
-        label: "sklearn calibration",
-        url: "https://scikit-learn.org/stable/modules/calibration.html",
-        note: "Reliability/Brier",
-      },
-      {
-        label: "Precision-Recall",
-        url: "https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html",
-        note: "PR curves",
-      },
+      { label: "sklearn metrics", url: "https://scikit-learn.org/stable/modules/model_evaluation.html", note: "P/R/F, Brier" },
+      { label: "Calibration", url: "https://scikit-learn.org/stable/modules/calibration.html", note: "Holdout cal" },
     ],
     books: [
-      {
-        label: "Practical Statistics for Data Scientists",
-        note: "Métricas y prevalencia",
-      },
-      {
-        label: "Trustworthy ML notes",
-        note: "Calibración y umbrales",
-      },
+      { label: "Evaluating ML models", note: "Costos y thr" },
+      { label: "Fairness & slices", note: "Daño por cohorte" },
     ],
     courses: [
-      {
-        label: "Model evaluation guide",
-        url: "https://scikit-learn.org/stable/modules/model_evaluation.html",
-        note: "API métricas",
-      },
+      { label: "ML Crash Course — thresholds", url: "https://developers.google.com/machine-learning/crash-course", note: "Umbrales" },
     ],
   },
 }

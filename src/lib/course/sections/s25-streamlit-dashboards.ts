@@ -27,9 +27,9 @@ export const section25: CourseSection = {
     {
       heading: "IA asistida evaluada para CP-N2-C",
       paragraphs: [
-        "Aquí construyes **AI assist**: elegir regla/modelo/LLM, operar un adapter HTTP local o Hugging Face, exigir JSON schema y ejecutar evals de seguridad.",
-        "Toda salida del generador debe traer **evidencia** (campos fuente, ids) y pasar **schema + golden**. No se acepta narrativa libre sin anclaje.",
-        "Orden: **T1 Selección** → **T2 Inferencia** → **T3 Prompting** → **T4 Evals/seguridad**.",
+        "Aquí construyes **AI assist**: elegir regla/modelo/LLM, operar un adapter HTTP local o Hugging Face, exigir JSON schema y ejecutar evals de seguridad. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo.",
+        "Toda salida del generador debe traer **evidencia** (campos fuente, ids) y pasar **schema + golden**. No se acepta narrativa libre sin anclaje. Contrato operativo: entrada texto/contexto sintético `CASO-LIM-025` (run_id=cpn2c-ai) → JSON con schema + model_id; `schema_fail` o injection → human_review (fail-closed).",
+        "Orden: **T1 Selección** → **T2 Inferencia** → **T3 Prompting** → **T4 Evals/seguridad**. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section25: CourseSection = {
       heading: "regla vs modelo especializado vs LLM",
       subtopicId: "S25-T1-A",
       paragraphs: [
-        "**Reglas** (regex, umbrales) son baratas y auditables. **Modelos especializados** (clasificador fine-tuned) para categorías estables. **LLM** para narrativa y extracción flexible con schema.",
-        "Árbol de decisión: ¿determinista? → regla; ¿label set fijo y volumen? → especializado; ¿lenguaje abierto con control? → LLM + validación.",
-        "Clasificar “posible fraude” con LLM autónomo **está prohibido** en este curso: solo señales para humano.",
+        "**Reglas** (regex, umbrales) son baratas y auditables. **Modelos especializados** (clasificador fine-tuned) para categorías estables. **LLM** para narrativa y extracción flexible con schema. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo.",
+        "Árbol de decisión: ¿determinista? → regla; ¿label set fijo y volumen? → especializado; ¿lenguaje abierto con control? → LLM + validación. Contrato operativo: entrada texto/contexto sintético `CASO-LIM-025` (run_id=cpn2c-ai) → JSON con schema + model_id; `schema_fail` o injection → human_review (fail-closed).",
+        "Clasificar “posible fraude” con LLM autónomo **está prohibido** en este curso: solo señales para humano. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -76,9 +76,9 @@ llm_structured`,
       heading: "model cards, licencias y local/cloud",
       subtopicId: "S25-T1-B",
       paragraphs: [
-        "Lee la **model card**: intended use, limitations, bias. Revisa **licencia** (comercial vs research).",
-        "**Local** si hay PII/sintéticos sensibles o costo predecible; **cloud** con DPA y minimización.",
-        "Registra decisión en metadata del run.",
+        "Lee la **model card**: intended use, limitations, bias. Revisa **licencia** (comercial vs research). El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+        "**Local** si hay PII/sintéticos sensibles o costo predecible; **cloud** con DPA y minimización. Contrato operativo: entrada texto/contexto sintético `CASO-LIM-025` (run_id=cpn2c-ai) → JSON con schema + model_id; `schema_fail` o injection → human_review (fail-closed).",
+        "Registra decisión en metadata del run. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -118,9 +118,9 @@ blocked_use True`,
       heading: "Hugging Face pipelines/endpoints",
       subtopicId: "S25-T2-A",
       paragraphs: [
-        "`pipeline('text-classification')` o Inference API. En el curso **mockeamos** el pipeline para ejecutar sin bajar pesos.",
-        "Contrato: input text → `{label, score}` o JSON schema. Log model_id y version.",
-        "Timeouts y errores de red se manejan en T2-B.",
+        "`pipeline('text-classification')` o Inference API. En el curso **mockeamos** el pipeline para ejecutar sin bajar pesos. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+        "Contrato: input text → `{label, score}` o JSON schema. Log model_id y version. Contrato operativo: entrada texto/contexto sintético `CASO-LIM-025` (run_id=cpn2c-ai) → JSON con schema + model_id; `schema_fail` o injection → human_review (fail-closed).",
+        "Timeouts y errores de red se manejan en T2-B. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -148,9 +148,9 @@ print(mock_pipeline(["Factura enero", "Hola mundo"]))`,
       heading: "batching, timeout, cache, costo y fallback",
       subtopicId: "S25-T2-B",
       paragraphs: [
-        "**Batch** reduce overhead. **Timeout** evita colgar el flujo. **Cache** por hash de input+model.",
-        "Estima **costo** (tokens o requests). **Fallback**: regla o human si el endpoint cae.",
-        "Circuit breaker simple tras N fallas.",
+        "**Batch** reduce overhead. **Timeout** evita colgar el flujo. **Cache** por hash de input+model. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+        "Estima **costo** (tokens o requests). **Fallback**: regla o human si el endpoint cae. Contrato operativo: entrada texto/contexto sintético `CASO-LIM-025` (run_id=cpn2c-ai) → JSON con schema + model_id; `schema_fail` o injection → human_review (fail-closed).",
+        "Circuit breaker simple tras N fallas. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -195,9 +195,9 @@ fallback rules_or_human`,
       heading: "objetivo, contexto, restricciones, ejemplos y salida estructurada",
       subtopicId: "S25-T3-A",
       paragraphs: [
-        "Prompt útil: **Objetivo** + **Contexto** + **Restricciones** + **Ejemplos** + **Schema JSON**.",
-        "Pide solo campos necesarios. Prohíbe inventar números no presentes en el contexto.",
-        "Valida con json.loads + keys required.",
+        "Prompt útil: **Objetivo** + **Contexto** + **Restricciones** + **Ejemplos** + **Schema JSON**. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+        "Pide solo campos necesarios. Prohíbe inventar números no presentes en el contexto. Contrato operativo: entrada texto/contexto sintético `CASO-LIM-025` (run_id=cpn2c-ai) → JSON con schema + model_id; `schema_fail` o injection → human_review (fail-closed).",
+        "Valida con json.loads + keys required. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -230,9 +230,9 @@ print(obj)`,
       heading: "thinking/tools/checkpoints controlados",
       subtopicId: "S25-T3-B",
       paragraphs: [
-        "Modos tipo **thinking** o **tools** (function calling) aumentan costo y superficie de ataque.",
-        "Usa **checkpoints**: pasos intermedios auditables (plan → tool → validar → narrar).",
-        "Tools permitidos en allowlist; sin shell libre en prod del curso.",
+        "Modos tipo **thinking** o **tools** (function calling) aumentan costo y superficie de ataque. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+        "Usa **checkpoints**: pasos intermedios auditables (plan → tool → validar → narrar). Contrato operativo: entrada texto/contexto sintético `CASO-LIM-025` (run_id=cpn2c-ai) → JSON con schema + model_id; `schema_fail` o injection → human_review (fail-closed).",
+        "Tools permitidos en allowlist; sin shell libre en prod del curso. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -269,9 +269,9 @@ print(run_checkpointed([
       heading: "golden set, schema y revisión humana",
       subtopicId: "S25-T4-A",
       paragraphs: [
-        "Evalúa el asistente contra **golden** (input→JSON esperado). Métricas: exact match, field F1, tasa de schema_fail.",
-        "Salidas borderline → **human review** obligatoria antes de informe final.",
-        "Baseline: reglas; el LLM debe ganar en utilidad **sin** perder anclaje.",
+        "Evalúa el asistente contra **golden** (input→JSON esperado). Métricas: exact match, field F1, tasa de schema_fail. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+        "Salidas borderline → **human review** obligatoria antes de informe final. Contrato operativo: entrada texto/contexto sintético `CASO-LIM-025` (run_id=cpn2c-ai) → JSON con schema + model_id; `schema_fail` o injection → human_review (fail-closed). Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+        "Baseline: reglas; el LLM debe ganar en utilidad **sin** perder anclaje. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -302,9 +302,9 @@ print(eval_rows(rows, ["h", "n"]))`,
       heading: "prompt injection, exfiltración, sesgo y minimización",
       subtopicId: "S25-T4-B",
       paragraphs: [
-        "**Injection**: el documento no confiable puede intentar dar órdenes. Delimítalo como datos, separa system/user, deshabilita herramientas por defecto y nunca eleves su texto al rol system.",
-        "Un regex solo sirve como **señal de telemetría**: variantes, encoding e instrucciones indirectas lo evaden. El control real combina privilegio mínimo, allowlists de acciones/salida, aprobación humana y logs. **Exfil**: nunca incluyas secretos en el contexto. **Minimiza** datos enviados.",
-        "Matching o scoring no se convierte en veredicto de fraude.",
+        "**Injection**: el documento no confiable puede intentar dar órdenes. Delimítalo como datos, separa system/user, deshabilita herramientas por defecto y nunca eleves su texto al rol system. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo.",
+        "Un regex solo sirve como **señal de telemetría**: variantes, encoding e instrucciones indirectas lo evaden. El control real combina privilegio mínimo, allowlists de acciones/salida, aprobación humana y logs. **Exfil**: nunca incluyas secretos en el contexto. **Minimiza** datos enviados. Contrato operativo: entrada texto/contexto sintético `CASO-LIM-025` (run_id=cpn2c-ai) → JSON con schema + model_id; `schema_fail` o injection → human_review (fail-closed).",
+        "Matching o scoring no se convierte en veredicto de fraude. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture `CASO-LIM-025` (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -477,7 +477,7 @@ print({k:1 for k in ("ruc",) })`,
         subtopicId: "S25-T1-A",
         kind: "guided",
         instruction:
-          "Si deterministic True imprime 'rules'.",
+          "S25-T1-A-E1 · Si deterministic True imprime 'rules'. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "if",
         hints: [
           "if",
@@ -506,7 +506,7 @@ print('rules' if d else 'llm')`,
         subtopicId: "S25-T1-A",
         kind: "independent",
         instruction:
-          "Elige specialized si label_set_fixed y n_train>=500.",
+          "S25-T1-A-E2 · Elige specialized si label_set_fixed y n_train>=500. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "and",
         hints: [
           "and",
@@ -535,7 +535,7 @@ print('specialized_model' if fixed and n>=500 else 'other')`,
         subtopicId: "S25-T1-A",
         kind: "transfer",
         instruction:
-          "Imprime 'no_auto_fraud' como política al usar LLM en riesgo.",
+          "S25-T1-A-E3 · Imprime 'no_auto_fraud' como política al usar LLM en riesgo. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "string política",
         hints: [
           "string política",
@@ -562,7 +562,7 @@ print('specialized_model' if fixed and n>=500 else 'other')`,
         subtopicId: "S25-T1-B",
         kind: "guided",
         instruction:
-          "Si license en {mit,apache-2.0} print 'reuse_ok'.",
+          "S25-T1-B-E1 · Si license en {mit,apache-2.0} print 'reuse_ok'. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "set",
         hints: [
           "set",
@@ -591,7 +591,7 @@ print('reuse_ok' if lic in {'mit','apache-2.0'} else 'review')`,
         subtopicId: "S25-T1-B",
         kind: "independent",
         instruction:
-          "has_pii_live True → 'local_or_private_vpc'.",
+          "S25-T1-B-E2 · has_pii_live True → 'local_or_private_vpc'. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "ternario",
         hints: [
           "ternario",
@@ -620,7 +620,7 @@ print('local_or_private_vpc' if has_pii else 'cloud_ok')`,
         subtopicId: "S25-T1-B",
         kind: "transfer",
         instruction:
-          "Detecta si 'fraud adjudication' está en not_for.",
+          "S25-T1-B-E3 · Detecta si 'fraud adjudication' está en not_for. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "in list",
         hints: [
           "in list",
@@ -649,7 +649,7 @@ print('fraud adjudication' in not_for)`,
         subtopicId: "S25-T2-A",
         kind: "guided",
         instruction:
-          "Mock: si 'factura' in text lower → label billing.",
+          "S25-T2-A-E1 · Mock: si 'factura' in text lower → label billing. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "lower",
         hints: [
           "lower",
@@ -678,7 +678,7 @@ print('billing' if 'factura' in t.lower() else 'other')`,
         subtopicId: "S25-T2-A",
         kind: "independent",
         instruction:
-          "Devuelve dict con model_id y label.",
+          "S25-T2-A-E2 · Devuelve dict con model_id y label. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "dict literal",
         hints: [
           "dict literal",
@@ -709,7 +709,7 @@ print({'model': model_id, 'label': label})`,
         subtopicId: "S25-T2-A",
         kind: "transfer",
         instruction:
-          "Procesa batch de 2 textos con list comp de labels.",
+          "S25-T2-A-E3 · Procesa batch de 2 textos con list comp de labels. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "map/list",
         hints: [
           "map/list",
@@ -738,7 +738,7 @@ print(['billing' if 'factura' in t else 'other' for t in texts])`,
         subtopicId: "S25-T2-B",
         kind: "guided",
         instruction:
-          "Cache hit: segunda lectura imprime True.",
+          "S25-T2-B-E1 · Cache hit: segunda lectura imprime True. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "dict cache",
         hints: [
           "dict cache",
@@ -770,7 +770,7 @@ print(k in cache)`,
         subtopicId: "S25-T2-B",
         kind: "independent",
         instruction:
-          "Costo = 0.002 * tokens/1000 para tokens=500.",
+          "S25-T2-B-E2 · Costo = 0.002 * tokens/1000 para tokens=500. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "aritmética",
         hints: [
           "aritmética",
@@ -799,7 +799,7 @@ print(0.002 * tokens / 1000)`,
         subtopicId: "S25-T2-B",
         kind: "transfer",
         instruction:
-          "Tras TimeoutError imprime fallback 'rules'.",
+          "S25-T2-B-E3 · Tras TimeoutError imprime fallback 'rules'. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "try/except",
         hints: [
           "try/except",
@@ -829,7 +829,7 @@ except TimeoutError:
         subtopicId: "S25-T3-A",
         kind: "guided",
         instruction:
-          "json.loads de '{\"n\":1}' e imprime n.",
+          "S25-T3-A-E1 · json.loads de '{\"n\":1}' e imprime n. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "json",
         hints: [
           "json",
@@ -858,7 +858,7 @@ print(json.loads('{"n":1}')['n'])`,
         subtopicId: "S25-T3-A",
         kind: "independent",
         instruction:
-          "Valida keys required {'h','n'} en obj.",
+          "S25-T3-A-E2 · Valida keys required {'h','n'} en obj. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "set subset",
         hints: [
           "set subset",
@@ -887,7 +887,7 @@ print(req.issubset(obj))`,
         subtopicId: "S25-T3-A",
         kind: "transfer",
         instruction:
-          "Si falta mediana en JSON, status='schema_fail'.",
+          "S25-T3-A-E3 · Si falta mediana en JSON, status='schema_fail'. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "guard",
         hints: [
           "guard",
@@ -916,7 +916,7 @@ print('schema_fail' if 'mediana' not in obj else 'ok')`,
         subtopicId: "S25-T3-B",
         kind: "guided",
         instruction:
-          "Niega tool 'shell' si allow solo calc.",
+          "S25-T3-B-E1 · Niega tool 'shell' si allow solo calc. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "not in",
         hints: [
           "not in",
@@ -945,7 +945,7 @@ print('deny' if name not in allow else 'ok')`,
         subtopicId: "S25-T3-B",
         kind: "independent",
         instruction:
-          "Log checkpoint ['think','tool'] e imprime len.",
+          "S25-T3-B-E2 · Log checkpoint ['think','tool'] e imprime len. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "lista",
         hints: [
           "lista",
@@ -975,7 +975,7 @@ print(len(log))`,
         subtopicId: "S25-T3-B",
         kind: "transfer",
         instruction:
-          "Detén el plan si tool denegado; imprime log final.",
+          "S25-T3-B-E3 · Detén el plan si tool denegado; imprime log final. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "break",
         hints: [
           "break",
@@ -1013,7 +1013,7 @@ print(log)`,
         subtopicId: "S25-T4-A",
         kind: "guided",
         instruction:
-          "exact match pred==gold.",
+          "S25-T4-A-E1 · exact match pred==gold. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "==",
         hints: [
           "==",
@@ -1042,7 +1042,7 @@ print(p==g)`,
         subtopicId: "S25-T4-A",
         kind: "independent",
         instruction:
-          "schema_rate: 1 de 2 tiene keys completas.",
+          "S25-T4-A-E2 · schema_rate: 1 de 2 tiene keys completas. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "fracción",
         hints: [
           "fracción",
@@ -1071,7 +1071,7 @@ print(sum(1 for r in rows if all(k in r for k in req))/len(rows))`,
         subtopicId: "S25-T4-A",
         kind: "transfer",
         instruction:
-          "Si schema_fail → 'human_review'.",
+          "S25-T4-A-E3 · Si schema_fail → 'human_review'. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "política",
         hints: [
           "política",
@@ -1100,7 +1100,7 @@ print('human_review' if schema_fail else 'auto')`,
         subtopicId: "S25-T4-B",
         kind: "guided",
         instruction:
-          "Construye una request segura para un documento hostil: conserva el texto como dato no confiable, allowed_tools vacío, límite 160 y aprobación humana; el regex solo marca telemetría.",
+          "S25-T4-B-E1 · Construye una request segura para un documento hostil: conserva el texto como dato no confiable, allowed_tools vacío, límite 160 y aprobación humana; el regex solo marca telemetría.",
         hint: "Devuelve un dict de política; no modifiques ni promociones el documento a system.",
         hints: [
           "Puedes usar re.search para `injection_signal`.",
@@ -1146,7 +1146,7 @@ print(request['max_output_chars'], request['requires_human_approval'])`,
         subtopicId: "S25-T4-B",
         kind: "independent",
         instruction:
-          "Minimiza payload a keys ruc y total.",
+          "S25-T4-B-E2 · Minimiza payload a keys ruc y total. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "dict comp",
         hints: [
           "dict comp",
@@ -1175,7 +1175,7 @@ print({k:p[k] for k in ('ruc','total') if k in p})`,
         subtopicId: "S25-T4-B",
         kind: "transfer",
         instruction:
-          "Imprime política 'score_no_es_fraude' junto a score 0.8.",
+          "S25-T4-B-E3 · Imprime política 'score_no_es_fraude' junto a score 0.8. Fixture sintético `CASO-LIM-025` (run_id=cpn2c-ai, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "tupla print",
         hints: [
           "tupla print",

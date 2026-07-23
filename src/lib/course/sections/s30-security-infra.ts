@@ -27,9 +27,9 @@ export const section30: CourseSection = {
     {
       heading: "Cierre CP-N3-A: Testable Entity Resolution Engine",
       paragraphs: [
-        "En V3, **S30 cierra CP-N3-A**. Entregas un motor **testeable**: benchmark etiquetado sintético, blocking medido, comparadores explicables y cola de revisión.",
-        "ER responde solo **¿misma entidad?** No infiere parentesco, colusión ni fraude. Scores son evidencia para humanos o para auto-match conservador.",
-        "Orden: **T1 Comparadores** → **T2 Blocking** → **T3 Matching** → **T4 Evaluación**. Integra contratos de S27–S29.",
+        "En V3, **S30 cierra CP-N3-A**. Entregas un motor **testeable**: benchmark etiquetado sintético, blocking medido, comparadores explicables y cola de revisión. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude.",
+        "ER responde solo **¿misma entidad?** No infiere parentesco, colusión ni fraude. Scores son evidencia para humanos o para auto-match conservador. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+        "Orden: **T1 Comparadores** → **T2 Blocking** → **T3 Matching** → **T4 Evaluación**. Integra contratos de S27–S29. Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable.",
       ],
       callout: {
         type: "info",
@@ -42,7 +42,7 @@ export const section30: CourseSection = {
       heading: "exact, edit/token y fecha",
       subtopicId: "S30-T1-A",
       paragraphs: [
-        "**Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: distancia en días con tolerancia.",
+        "**Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: distancia en días con tolerancia. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude.",
         "Cada comparador devuelve score en [0,1] o nivel ordinal (agree/disagree) para pesos tipo Fellegi–Sunter simplificado.",
         "Explica el score: guarda qué campo y qué función produjeron el valor (auditoría).",
       ],
@@ -104,9 +104,9 @@ date 0.5`,
       heading: "missingness informativa y frecuencia",
       subtopicId: "S30-T1-B",
       paragraphs: [
-        "**Missingness**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa estado `missing` en la comparación.",
-        "Missingness puede ser **informativa** (ciertas fuentes nunca traen teléfono) — modela por fuente, no asumas MCAR sin evidencia.",
-        "**Frecuencia**: valores muy comunes (nombre “María”, dominio genérico) bajan el peso de un acuerdo exacto (u-probability alta en FS).",
+        "**Missingness**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa estado `missing` en la comparación. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
+        "Missingness puede ser **informativa** (ciertas fuentes nunca traen teléfono) — modela por fuente, no asumas MCAR sin evidencia. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+        "**Frecuencia**: valores muy comunes (nombre “María”, dominio genérico) bajan el peso de un acuerdo exacto (u-probability alta en FS). Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable.",
       ],
       code: {
         language: 'python',
@@ -142,9 +142,9 @@ w_rare 0.5`,
       heading: "reglas y candidate recall",
       subtopicId: "S30-T2-A",
       paragraphs: [
-        "**Blocking** reduce pares: misma clave (apellido normalizado + CP, email local-part, teléfono últimos 6, etc.).",
-        "**Candidate recall**: de los pares verdaderamente match en el gold, ¿qué fracción pasó el blocking? Mide con etiquetas sintéticas.",
-        "Reglas múltiples en unión (OR) suben recall; intersección (AND) baja candidatos pero puede matar recall.",
+        "**Blocking** reduce pares: misma clave (apellido normalizado + CP, email local-part, teléfono últimos 6, etc.). Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
+        "**Candidate recall**: de los pares verdaderamente match en el gold, ¿qué fracción pasó el blocking? Mide con etiquetas sintéticas. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+        "Reglas múltiples en unión (OR) suben recall; intersección (AND) baja candidatos pero puede matar recall. Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable.",
       ],
       code: {
         language: 'python',
@@ -189,9 +189,9 @@ n_cand 0`,
       heading: "combinaciones, costo y pares imposibles",
       subtopicId: "S30-T2-B",
       paragraphs: [
-        "El **costo** es O(suma n_b^2) por bloque. Bloques enormes (clave débil) explotan CPU/memoria.",
-        "**Pares imposibles**: reglas de exclusión (tipo persona vs empresa, fechas de nacimiento incompatibles sintéticas) evitan comparar lo incomparable.",
-        "Combina blocking + filtros imposibles antes del scorer pesado.",
+        "El **costo** es O(suma n_b^2) por bloque. Bloques enormes (clave débil) explotan CPU/memoria. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
+        "**Pares imposibles**: reglas de exclusión (tipo persona vs empresa, fechas de nacimiento incompatibles sintéticas) evitan comparar lo incomparable. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+        "Combina blocking + filtros imposibles antes del scorer pesado. Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -223,9 +223,9 @@ policy filter_before_score`,
       heading: "pesos/probabilidad y thresholds",
       subtopicId: "S30-T3-A",
       paragraphs: [
-        "Modelo simple: score = suma de pesos por acuerdo/desacuerdo de campos (Fellegi–Sunter didáctico) o promedio ponderado de similitudes.",
-        "**Thresholds**: auto_match ≥ t_high; non_match ≤ t_low; en medio → **review**.",
-        "Estima pesos con frecuencias o a mano con documentación; valida en gold sintético (S30-T4).",
+        "Modelo simple: score = suma de pesos por acuerdo/desacuerdo de campos (Fellegi–Sunter didáctico) o promedio ponderado de similitudes. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude.",
+        "**Thresholds**: auto_match ≥ t_high; non_match ≤ t_low; en medio → **review**. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+        "Estima pesos con frecuencias o a mano con documentación; valida en gold sintético (S30-T4). Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable.",
       ],
       code: {
         language: 'python',
@@ -263,9 +263,9 @@ explain {'name': 0.95, 'email': 1.0, 'phone': 0.0}`,
       heading: "entrenamiento, clerical review y cluster consistency",
       subtopicId: "S30-T3-B",
       paragraphs: [
-        "**Entrenamiento/estimación**: ajusta pesos o umbrales con pares etiquetados sintéticos (no PII real).",
-        "**Clerical review**: cola con score, explicación y acciones match/non-match/uncertain + actor y timestamp.",
-        "**Cluster consistency**: si A=B y B=C entonces A=C en la misma entidad; resuelve con Union-Find y revisa contradicciones.",
+        "**Entrenamiento/estimación**: ajusta pesos o umbrales con pares etiquetados sintéticos (no PII real). Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
+        "**Clerical review**: cola con score, explicación y acciones match/non-match/uncertain + actor y timestamp. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+        "**Cluster consistency**: si A=B y B=C entonces A=C en la misma entidad; resuelve con Union-Find y revisa contradicciones. Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable.",
       ],
       code: {
         language: 'python',
@@ -310,9 +310,9 @@ note ER_not_fraud`,
       heading: "labeled pairs y splits por entidad",
       subtopicId: "S30-T4-A",
       paragraphs: [
-        "El **benchmark etiquetado** tiene pares match/non-match sintéticos. Nunca uses el mismo par en train y test de umbrales sin control.",
-        "**Split por entidad**: si una entidad aparece en train, sus pares no deben filtrar a test (leakage de identidad).",
-        "Documenta tamaños de split y prevalencia de matches (suele ser baja).",
+        "El **benchmark etiquetado** tiene pares match/non-match sintéticos. Nunca uses el mismo par en train y test de umbrales sin control. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude.",
+        "**Split por entidad**: si una entidad aparece en train, sus pares no deben filtrar a test (leakage de identidad). Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+        "Documenta tamaños de split y prevalencia de matches (suele ser baja). Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
       ],
       code: {
         language: 'python',
@@ -358,9 +358,9 @@ leakage_guard True`,
       heading: "precision/recall, pairwise/cluster metrics y error slices",
       subtopicId: "S30-T4-B",
       paragraphs: [
-        "**Pairwise**: precision/recall/F1 sobre pares predichos vs gold. **Cluster**: métricas a nivel entidad (p.ej. pair completeness/quality simplificado).",
-        "**Error slices**: corta por fuente, apellido frecuente, missing phone, ciudad — encuentra fallas sistemáticas.",
-        "Reporta con datos sintéticos; no conviertas errores en acusaciones de fraude.",
+        "**Pairwise**: precision/recall/F1 sobre pares predichos vs gold. **Cluster**: métricas a nivel entidad (p.ej. pair completeness/quality simplificado). Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude.",
+        "**Error slices**: corta por fuente, apellido frecuente, missing phone, ciudad — encuentra fallas sistemáticas. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+        "Reporta con datos sintéticos; no conviertas errores en acusaciones de fraude. Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable.",
       ],
       code: {
         language: 'python',
@@ -561,7 +561,7 @@ print(round(prec,2), round(rec,2), [i for i,(t,p) in enumerate(zip(yt,yp)) if t!
         subtopicId: "S30-T1-A",
         kind: "guided",
         instruction:
-          "Exact: imprime 1.0 si 'a'=='a' else 0.0.",
+          "S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "float comparación",
         hints: [
           "float comparación",
@@ -590,7 +590,7 @@ print(1.0 if a == b else 0.0)`,
         subtopicId: "S30-T1-A",
         kind: "independent",
         instruction:
-          "Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx.",
+          "S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sets",
         hints: [
           "sets",
@@ -618,7 +618,7 @@ print(len(ta&tb)/len(ta|tb))`,
         subtopicId: "S30-T1-A",
         kind: "transfer",
         instruction:
-          "date_sim: mismo día → 1.0; imprime para dos date(2026,1,1).",
+          "S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "datetime.date",
         hints: [
           "datetime.date",
@@ -648,7 +648,7 @@ print(1.0 if d == d else 0.0)`,
         subtopicId: "S30-T1-B",
         kind: "guided",
         instruction:
-          "Si a=='' o b=='' imprime 'missing'.",
+          "S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "guard",
         hints: [
           "guard",
@@ -677,7 +677,7 @@ print('missing' if (not a or not b) else 'cmp')`,
         subtopicId: "S30-T1-B",
         kind: "independent",
         instruction:
-          "Peso 1/freq para freq=10 → 0.1.",
+          "S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "división",
         hints: [
           "división",
@@ -706,7 +706,7 @@ print(1 / freq)`,
         subtopicId: "S30-T1-B",
         kind: "transfer",
         instruction:
-          "Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone.",
+          "S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "string",
         hints: [
           "string",
@@ -733,7 +733,7 @@ print(1 / freq)`,
         subtopicId: "S30-T2-A",
         kind: "guided",
         instruction:
-          "block_key = last + '|' + city para last='lopez' city='lima'.",
+          "S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "f-string",
         hints: [
           "f-string",
@@ -762,7 +762,7 @@ print(f'{last}|{city}')`,
         subtopicId: "S30-T2-A",
         kind: "independent",
         instruction:
-          "Candidate recall: gold 2, found 1 → 0.5.",
+          "S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "división",
         hints: [
           "división",
@@ -791,7 +791,7 @@ print(found / gold_n)`,
         subtopicId: "S30-T2-A",
         kind: "transfer",
         instruction:
-          "Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4.",
+          "S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "combinatoria",
         hints: [
           "combinatoria",
@@ -820,7 +820,7 @@ print(n*(n-1)//2)`,
         subtopicId: "S30-T2-B",
         kind: "guided",
         instruction:
-          "Costo total bloques [3,5] → 3+10=13.",
+          "S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sum n(n-1)/2",
         hints: [
           "sum n(n-1)/2",
@@ -849,7 +849,7 @@ print(sum(n*(n-1)//2 for n in sizes))`,
         subtopicId: "S30-T2-B",
         kind: "independent",
         instruction:
-          "Impossible si types difieren; imprime True para person vs org.",
+          "S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "!=",
         hints: [
           "!=",
@@ -878,7 +878,7 @@ print(ta != tb)`,
         subtopicId: "S30-T2-B",
         kind: "transfer",
         instruction:
-          "Política: imprime 'filter_before_score'.",
+          "S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "string",
         hints: [
           "string",
@@ -905,7 +905,7 @@ print(ta != tb)`,
         subtopicId: "S30-T3-A",
         kind: "guided",
         instruction:
-          "Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75.",
+          "S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "suma w*s / suma w",
         hints: [
           "suma w*s / suma w",
@@ -932,7 +932,7 @@ print(ta != tb)`,
         subtopicId: "S30-T3-A",
         kind: "independent",
         instruction:
-          "score=0.7 con t_high=0.9 t_low=0.5 → 'review'.",
+          "S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "umbrales",
         hints: [
           "umbrales",
@@ -961,7 +961,7 @@ print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))`,
         subtopicId: "S30-T3-A",
         kind: "transfer",
         instruction:
-          "Imprime explicación dict {'name':0.9,'email':1.0}.",
+          "S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "dict",
         hints: [
           "dict",
@@ -988,7 +988,7 @@ print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))`,
         subtopicId: "S30-T3-B",
         kind: "guided",
         instruction:
-          "Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple.",
+          "S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "parent dict",
         hints: [
           "parent dict",
@@ -1026,7 +1026,7 @@ print(find(1)==find(3))`,
         subtopicId: "S30-T3-B",
         kind: "independent",
         instruction:
-          "Review queue item: imprime action options match/non_match/uncertain.",
+          "S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "lista",
         hints: [
           "lista",
@@ -1053,7 +1053,7 @@ print(find(1)==find(3))`,
         subtopicId: "S30-T3-B",
         kind: "transfer",
         instruction:
-          "Imprime regla de privacidad: 'ER_only_same_entity'.",
+          "S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "string",
         hints: [
           "string",
@@ -1080,7 +1080,7 @@ print(find(1)==find(3))`,
         subtopicId: "S30-T4-A",
         kind: "guided",
         instruction:
-          "Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}.",
+          "S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "subset",
         hints: [
           "subset",
@@ -1111,7 +1111,7 @@ print('train' if {a,b} <= train_e else 'test')`,
         subtopicId: "S30-T4-A",
         kind: "independent",
         instruction:
-          "Prevalencia matches: 1 match de 5 pares → 0.2.",
+          "S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "división",
         hints: [
           "división",
@@ -1140,7 +1140,7 @@ print(matches / n)`,
         subtopicId: "S30-T4-A",
         kind: "transfer",
         instruction:
-          "Imprime 'entity_split' como política anti-leakage.",
+          "S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "string",
         hints: [
           "string",
@@ -1167,7 +1167,7 @@ print(matches / n)`,
         subtopicId: "S30-T4-B",
         kind: "guided",
         instruction:
-          "tp=2 fp=1 → precision 2/3 approx print round 2 decimals.",
+          "S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "tp/(tp+fp)",
         hints: [
           "tp/(tp+fp)",
@@ -1196,7 +1196,7 @@ print(round(tp/(tp+fp), 2))`,
         subtopicId: "S30-T4-B",
         kind: "independent",
         instruction:
-          "tp=2 fn=2 → recall 0.5.",
+          "S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "tp/(tp+fn)",
         hints: [
           "tp/(tp+fn)",
@@ -1225,7 +1225,7 @@ print(tp/(tp+fn))`,
         subtopicId: "S30-T4-B",
         kind: "transfer",
         instruction:
-          "Slice error: imprime ['missing_phone'] como slice con más errores sintéticos.",
+          "S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "lista",
         hints: [
           "lista",

@@ -27,9 +27,9 @@ export const section22: CourseSection = {
     {
       heading: "Email con aprobación humana e inicio CP-N2-C",
       paragraphs: [
-        "Aquí **inicias CP-N2-C**: construir mensajes MIME, sanitizar HTML, aplicar scopes mínimos, crear drafts con expiración, resolver destinatarios y encolar aprobación humana.",
-        "El hilo conductor es un **borrador sintético** (run_id `cpn2c-01`, contactos fakes `@example.pe`). **Ningún correo real se envía**: solo archivos `.eml` o drafts en sandbox.",
-        "Orden: **T1 Mensaje** → **T2 Proveedor** → **T3 Destinatario** → **T4 Workflow**. Matching de contactos es para **entrega correcta**, nunca para inferir fraude o parentesco.",
+        "En V3, **S22 no es RapidFuzz/ER probabilístico avanzado** (eso madura más adelante). El id `rapidfuzz-entity` se conserva; aquí **inicias CP-N2-C**: MIME, sanitización HTML, scopes mínimos, drafts con expiración, resolución de destinatarios sintéticos, privacidad de listas, cola de aprobación humana e idempotencia.",
+        "Hilo: borrador sintético `run_id=cpn2c-01`, contactos fake `@example.pe`. **Ningún correo real se envía**: solo `.eml` locales o drafts de sandbox. Matching de contactos es para **entrega correcta**, nunca para inferir fraude, parentesco o culpabilidad.",
+        "Orden: **T1 Mensaje** (MIME, templates seguros) → **T2 Proveedor** (OAuth/scopes, adaptadores de draft) → **T3 Destinatario** (resolución, verificación, CC/BCC, mínima divulgación) → **T4 Workflow** (state machine de aprobación, audit log, reintento sin duplicar). Fail-closed sin aprobación humana.",
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section22: CourseSection = {
       heading: "MIME, encoding, HTML/text y attachments",
       subtopicId: "S22-T1-A",
       paragraphs: [
-        "**MIME** (`email.mime`) arma mensajes multiparte: texto plano + HTML + adjuntos. El **charset** (UTF-8) evita mojibake en nombres y acentos del español peruano.",
-        "`MIMEMultipart('alternative')` ofrece text/plain y text/html; el cliente elige. Los attachments van en `MIMEBase` con Content-Disposition.",
-        "Nunca embeds secretos en el cuerpo. Marca adjuntos sintéticos y limita tamaño.",
+        "**MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake en nombres y acentos del español peruano. `MIMEMultipart('alternative')` ofrece ambas representaciones; el cliente elige. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato: `MIMEText(..., 'plain'|'html', 'utf-8')`; attachments con `Content-Disposition` y filename; nunca embeds de secretos (tokens, DNI) en el cuerpo. Limita tamaño de adjuntos sintéticos y márcalos como demo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: `MIMEText('Hola','plain','utf-8')` → content-type text/plain; mixed + `MIMEApplication` con `a.txt`. Contar headers `Content-Type` valida el árbol multiparte en weDo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
       ],
       code: {
         language: 'python',
@@ -83,9 +83,9 @@ has_attachment True`,
       heading: "templates y sanitización",
       subtopicId: "S22-T1-B",
       paragraphs: [
-        "Los **templates** de correo interpolan variables (nombre, run_id, montos). Cualquier input no confiable debe **sanitizarse** antes de HTML.",
-        "Política de links: allowlist de dominios o solo rutas relativas; bloquea `javascript:` y `data:`.",
-        "Autoescape o escape manual (`html.escape`) previene XSS en el cuerpo del correo.",
+        "Los **templates** interpolan variables (nombre, run_id, montos). Todo input no confiable se escapa (`html.escape`) o usa autoescape. Política de links: allowlist de dominios (`example.pe`) o rutas relativas; bloquea `javascript:` y `data:`.",
+        "Contrato: template `Hola {name}` con name `<b>Ana</b>` debe producir entidades escapadas, no HTML activo. Allowlist: url con `example.pe` → `ok`, otro host → `blocked`. XSS en correo es riesgo real de phishing interno. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso sintético: cuerpo con link a portal de revisión del run; sin allowlist, un template malicioso redirige a dominio externo. El gate de sanitización es obligatorio antes de encolar aprobación. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
       ],
       code: {
         language: 'python',
@@ -121,9 +121,9 @@ print(sanitize_html(user))`,
       heading: "OAuth/service account y scopes",
       subtopicId: "S22-T2-A",
       paragraphs: [
-        "**OAuth** y **service accounts** autorizan APIs de correo. Aplica **least privilege**: solo scopes de draft/read necesarios, nunca `mail.full` si basta `compose`.",
-        "Modela credenciales como objetos con `client_id`, `scopes` y `expires_at` — **nunca** commits de secretos reales.",
-        "En sandbox del curso usamos tokens sintéticos y un registro de scopes pedidos vs concedidos.",
+        "OAuth / service accounts operan con **scopes mínimos** (`mail.draft`, no `mail.full` ni `admin`). Modela credenciales con `client_id`, `scopes`, `expires_at` — **nunca** commits de secretos al repo del portfolio. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato: `requested ∩ allowed`; imprime True si granted no contiene scopes peligrosos. Tokens sintéticos del curso; registro de scopes pedidos vs concedidos como evidencia de least privilege. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: requested `mail.draft`+`mail.full` → filtrar a allowed; granted sin `mail.full`/`admin`. En sandbox, un scope de más es hallazgo de seguridad del diseño, no “detalle de config”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
       ],
       code: {
         language: 'python',
@@ -158,9 +158,9 @@ least_privilege_ok True`,
       heading: "drafts, expiración y adaptadores",
       subtopicId: "S22-T2-B",
       paragraphs: [
-        "Un **adaptador** de proveedor (`GmailAdapter`, `SmtpFileAdapter`) expone `create_draft` / `get_draft` sin acoplar el dominio al SDK.",
-        "Los drafts llevan **expiración**: tras `expires_at` no se pueden promover a envío sin regenerar y re-aprobar.",
-        "En el curso, el adaptador de archivo escribe `.eml` bajo `out/drafts/` (simulado en memoria).",
+        "Un **adaptador** (`GmailAdapter`, `SmtpFileAdapter`) expone `create_draft` / `get_draft` sin acoplar el workflow al SDK. Drafts llevan **expiración**: tras `expires_at` no se promueven a envío sin regenerar y reaprobar. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato: store en memoria o `out/drafts/`; ids secuenciales `d001`, `d002`; `is_usable` False si expiró. El curso escribe `.eml` simulados — cero SMTP real. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: draft `d001` status `draft`; expires_at = now−1s → no usable. create_draft idempotente a nivel de id secuencial en el ejercicio de transfer. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
       ],
       code: {
         language: 'python',
@@ -203,9 +203,9 @@ bytes 184`,
       heading: "resolución y verificación",
       subtopicId: "S22-T3-A",
       paragraphs: [
-        "**Resolver** un destinatario mapea un id interno o alias a un email canónico. **Verificar** chequea formato, dominio allowlist y señales de bounce sintéticas.",
-        "Un match fuzzy de nombres/emails es **evidencia de contacto**, no de identidad legal ni de fraude. Requiere confirmación humana antes de incluir en To.",
-        "Estados: `unresolved` → `candidate` → `verified` | `rejected`.",
+        "Resolución de destinatarios: valida formato de email, mapea `C001→email` desde dict sintético, verifica dominio permitido (`example.pe`). Estados: `unresolved` → `candidate` → `verified` | `rejected`. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato: match/score de similaridad de nombres, si se usa, lleva la nota explícita **`match_no_es_fraude`**. Un score 0.92 no autoriza claims de identidad legal ni parentesco; solo prioriza revisión de entrega. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: `ana@example.pe` ok, `bad` rejected; C001 verificado en dominio example.pe; imprimir score sintético 0.92 con la nota anti-claim. HITL si queda unresolved. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
       ],
       code: {
         language: 'python',
@@ -253,9 +253,9 @@ note: match≠fraude`,
       heading: "listas, CC/BCC, privacidad y mínima divulgación",
       subtopicId: "S22-T3-B",
       paragraphs: [
-        "**CC** expone destinatarios entre sí; **BCC** oculta la lista. Prefiere BCC o envíos individuales cuando hay terceros.",
-        "**Mínima divulgación**: no pongas PII extra en el cuerpo (DNI, teléfono) si el informe ya está adjunto con controles.",
-        "Higiene de listas: dedupe, opt-out sintético, y tope de tamaño.",
+        "**CC** expone destinatarios entre sí; **BCC** oculta la lista. Prefiere BCC o envíos individuales cuando hay externos. **Mínima divulgación**: no pongas DNI/teléfono en el cuerpo si el informe ya va adjunto cifrado o en portal. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato: dedupe preservando orden; role=`bcc` si dominio externo (`@other.test`); contar cuántos emails quedarían visibles (to+cc) tras mover externos a bcc. Opt-out sintético y tope de tamaño de lista. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: lista con duplicados y un externo → tras higiene, visibles reducidos; el audit registra la política aplicada. Privacidad operativa, no solo “compliance de slide”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
       ],
       code: {
         language: 'python',
@@ -296,9 +296,9 @@ to_visible_to_others ['ana@example.pe', 'luis@example.pe']`,
       heading: "approval queue y state machine",
       subtopicId: "S22-T4-A",
       paragraphs: [
-        "La **cola de aprobación** modela estados: `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`.",
-        "Transiciones explícitas con actor y timestamp. Sin transición, no hay envío ni promoción de draft.",
-        "En CP-N2-C, la aprobación humana es **obligatoria** antes de cualquier acción de envío (aunque el curso no envía).",
+        "La **cola de aprobación** es una state machine: `draft` → `pending_review` → `approved` | `rejected` | `needs_info`. Transiciones explícitas con actor y timestamp; sin transición válida, no hay envío ni promoción de draft. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato: tabla `TRANSITIONS`; `submit` desde draft → pending; `approve` desde draft → `invalid`. En CP-N2-C la aprobación humana es **obligatoria** antes de cualquier acción de envío (aunque el curso solo simule). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: log `{from,to,actor}` al aprobar pending→approved con actor `rev1`. El portfolio adjunta el log: evidencia de cumplimiento y de fail-closed. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
       ],
       code: {
         language: 'python',
@@ -340,9 +340,9 @@ reviewer approved`,
       heading: "idempotencia, audit log y reintento sin duplicar",
       subtopicId: "S22-T4-B",
       paragraphs: [
-        "Una **idempotency key** (p. ej. hash de run_id+destinatario+versión del cuerpo) evita drafts duplicados al reintentar.",
-        "El **audit log** registra create/submit/approve/retry con quién y cuándo. Es evidencia de cumplimiento.",
-        "Reintento seguro: si la key ya existe en estado terminal, devuelve el id previo; no crea otro mensaje.",
+        "Una **idempotency key** (p. ej. sha256 hex[:8] de `run_id|destinatario|versión del cuerpo`) evita drafts duplicados si el operador reintenta. El **audit log** registra create/submit/approve/retry con quién y cuándo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato de reintento: si la key ya existe en estado terminal o activo, devuelve el id previo; no crea otro mensaje. Eventos `create` luego `retry_hit` en la lista de audit. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: dos `create` con la misma key → igualdad True de ids; audit `['create','retry_hit']`. Cierra el inicio de CP-N2-C hacia browser RPA (S23) y el VP de automatización. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
       ],
       code: {
         language: 'python',
@@ -596,7 +596,7 @@ print(a, b, a==b, d1, d2)`,
         subtopicId: "S22-T1-A",
         kind: "guided",
         instruction:
-          "Crea MIMEText('Hola', 'plain', 'utf-8') y muestra el Content-Type del mensaje.",
+          "E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola', 'plain', 'utf-8'); print(msg.get_content_type()). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `text/plain | utf-8`.",
         hint: "from email.mime.text import MIMEText",
         hints: [
           "from email.mime.text import MIMEText",
@@ -609,7 +609,8 @@ print(a, b, a==b, d1, d2)`,
           language: 'python',
           title: "exercise.py",
           code: `from email.mime.text import MIMEText
-# TODO
+msg = MIMEText('Hola', 'plain', 'utf-8')
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -628,7 +629,7 @@ utf-8`,
         subtopicId: "S22-T1-A",
         kind: "independent",
         instruction:
-          "Arma MIMEMultipart mixed con Subject='Test' y un adjunto MIMEApplication(b'x', Name='a.txt'). Imprime si 'a.txt' está en as_string().",
+          "E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg = MIMEMultipart('mixed'); msg['Subject'] = 'Test'. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
         hint: "MIMEMultipart + attach",
         hints: [
           "MIMEMultipart + attach",
@@ -642,7 +643,12 @@ utf-8`,
           title: "exercise.py",
           code: `from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
-# TODO
+msg = MIMEMultipart('mixed')
+msg['Subject'] = 'Test'
+att = MIMEApplication(b'x', Name='a.txt')
+att['Content-Disposition'] = 'attachment; filename="a.txt"'
+msg.attach(att)
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -664,7 +670,7 @@ print('a.txt' in msg.as_string())`,
         subtopicId: "S22-T1-A",
         kind: "transfer",
         instruction:
-          "Construye alternative text+html bajo mixed; imprime cuántas veces aparece 'Content-Type:' en el raw.",
+          "E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = MIMEMultipart('mixed'); alt = MIMEMultipart('alternative'). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `4`.",
         hint: "alternative dentro de mixed",
         hints: [
           "alternative dentro de mixed",
@@ -676,7 +682,14 @@ print('a.txt' in msg.as_string())`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO multipart nested
+          code: `from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+msg = MIMEMultipart('mixed')
+alt = MIMEMultipart('alternative')
+alt.attach(MIMEText('t', 'plain', 'utf-8'))
+alt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))
+msg.attach(alt)
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -698,7 +711,7 @@ print(msg.as_string().count('Content-Type:'))`,
         subtopicId: "S22-T1-B",
         kind: "guided",
         instruction:
-          "Usa html.escape sobre '<script>x</script>' e imprime el resultado.",
+          "E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<script>x</script>')). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `&lt;script&gt;x&lt;/script&gt;`.",
         hint: "import html",
         hints: [
           "import html",
@@ -711,7 +724,7 @@ print(msg.as_string().count('Content-Type:'))`,
           language: 'python',
           title: "exercise.py",
           code: `import html
-# TODO
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -727,7 +740,7 @@ print(html.escape('<script>x</script>'))`,
         subtopicId: "S22-T1-B",
         kind: "independent",
         instruction:
-          "Dado template 'Hola {name}' y name con '<b>Ana</b>', imprime la versión escapada interpolada.",
+          "E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>Ana</b>'; print('Hola ' + html.escape(name)). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `Hola &lt;b&gt;Ana&lt;/b&gt;`.",
         hint: "escape antes de format",
         hints: [
           "escape antes de format",
@@ -739,8 +752,9 @@ print(html.escape('<script>x</script>'))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `name = '<b>Ana</b>'
-# TODO
+          code: `import html
+name = '<b>Ana</b>'
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -757,7 +771,7 @@ print('Hola ' + html.escape(name))`,
         subtopicId: "S22-T1-B",
         kind: "transfer",
         instruction:
-          "Implementa allowlist: si url contiene 'example.pe' imprime 'ok', si no 'blocked'. Prueba ambas urls.",
+          "E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = ['https://example.pe/a', 'https://evil.test']; for u in urls:. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `https://example.pe/a ok | https://evil.test blocked`.",
         hint: "if 'example.pe' in url",
         hints: [
           "if 'example.pe' in url",
@@ -770,7 +784,8 @@ print('Hola ' + html.escape(name))`,
           language: 'python',
           title: "exercise.py",
           code: `urls = ['https://example.pe/a', 'https://evil.test']
-# TODO
+for u in urls:
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -788,7 +803,7 @@ https://evil.test blocked`,
         subtopicId: "S22-T2-A",
         kind: "guided",
         instruction:
-          "De requested=['mail.draft','mail.full'] filtra solo los que están en allowed={'mail.draft','mail.readonly'} e imprime.",
+          "E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail.draft', 'mail.full']; allowed = {'mail.draft', 'mail.readonly'}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['mail.draft']`.",
         hint: "list comprehension",
         hints: [
           "list comprehension",
@@ -802,7 +817,7 @@ https://evil.test blocked`,
           title: "exercise.py",
           code: `requested = ['mail.draft', 'mail.full']
 allowed = {'mail.draft', 'mail.readonly'}
-# TODO
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -819,7 +834,7 @@ print([s for s in requested if s in allowed])`,
         subtopicId: "S22-T2-A",
         kind: "independent",
         instruction:
-          "Imprime True si granted no contiene 'mail.full' ni 'admin'.",
+          "E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = ['mail.draft']; bad = {'mail.full', 'admin'}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
         hint: "all(x not in granted for x in ...)",
         hints: [
           "all(x not in granted for x in ...)",
@@ -832,7 +847,8 @@ print([s for s in requested if s in allowed])`,
           language: 'python',
           title: "exercise.py",
           code: `granted = ['mail.draft']
-# TODO
+bad = {'mail.full', 'admin'}
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -849,7 +865,7 @@ print(bad.isdisjoint(granted))`,
         subtopicId: "S22-T2-A",
         kind: "transfer",
         instruction:
-          "Dado expires_at ISO en el pasado, imprime 'refresh'; si futuro, 'valid'. Usa datetime timezone-aware.",
+          "E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = datetime.now(timezone.utc); for exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `refresh | valid`.",
         hint: "datetime.fromisoformat",
         hints: [
           "datetime.fromisoformat",
@@ -862,7 +878,9 @@ print(bad.isdisjoint(granted))`,
           language: 'python',
           title: "exercise.py",
           code: `from datetime import datetime, timezone, timedelta
-# TODO prueba un past y un future
+now = datetime.now(timezone.utc)
+for exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -881,7 +899,7 @@ valid`,
         subtopicId: "S22-T2-B",
         kind: "guided",
         instruction:
-          "Simula store={} creando draft_id 'd001' con status 'draft'. Imprime el status.",
+          "E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d001'] = {'status': 'draft'}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `draft`.",
         hint: "dict assignment",
         hints: [
           "dict assignment",
@@ -894,7 +912,8 @@ valid`,
           language: 'python',
           title: "exercise.py",
           code: `store = {}
-# TODO
+store['d001'] = {'status': 'draft'}
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -911,7 +930,7 @@ print(store['d001']['status'])`,
         subtopicId: "S22-T2-B",
         kind: "independent",
         instruction:
-          "Con expires_at = now-1s, is_usable debe ser False. Imprime el booleano.",
+          "E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datetime.now(timezone.utc); expires_at = now - timedelta(seconds=1). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `False`.",
         hint: "timedelta",
         hints: [
           "timedelta",
@@ -924,7 +943,9 @@ print(store['d001']['status'])`,
           language: 'python',
           title: "exercise.py",
           code: `from datetime import datetime, timezone, timedelta
-# TODO
+now = datetime.now(timezone.utc)
+expires_at = now - timedelta(seconds=1)
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -942,7 +963,7 @@ print(now < expires_at)`,
         subtopicId: "S22-T2-B",
         kind: "transfer",
         instruction:
-          "Implementa create_draft que devuelve ids d001, d002 secuenciales e imprime ambos.",
+          "E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}; def create_draft():. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `d001 d002`.",
         hint: "len(store)+1",
         hints: [
           "len(store)+1",
@@ -955,10 +976,7 @@ print(now < expires_at)`,
           language: 'python',
           title: "exercise.py",
           code: `store = {}
-
-def create_draft():
-    # TODO
-    pass
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -979,7 +997,7 @@ print(create_draft(), create_draft())`,
         subtopicId: "S22-T3-A",
         kind: "guided",
         instruction:
-          "Valida email con regex simple ^[^@]+@[^@]+\\.[^@]+$ para 'ana@example.pe' y 'bad'.",
+          "E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\\\.[^@]+$'; for e in ('ana@example.pe', 'bad'):. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `ana@example.pe True | bad False`.",
         hint: "re.match",
         hints: [
           "re.match",
@@ -992,7 +1010,9 @@ print(create_draft(), create_draft())`,
           language: 'python',
           title: "exercise.py",
           code: `import re
-# TODO
+pat = r'^[^@]+@[^@]+\\\\.[^@]+$'
+for e in ('ana@example.pe', 'bad'):
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -1011,7 +1031,7 @@ bad False`,
         subtopicId: "S22-T3-A",
         kind: "independent",
         instruction:
-          "Resuelve C001→email desde dict y verifica dominio example.pe; imprime verified/rejected.",
+          "E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY = {'C001': 'ana@example.pe'}; em = DIRECTORY.get('C001'). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `verified`.",
         hint: "dict.get",
         hints: [
           "dict.get",
@@ -1024,7 +1044,8 @@ bad False`,
           language: 'python',
           title: "exercise.py",
           code: `DIRECTORY = {'C001': 'ana@example.pe'}
-# TODO
+em = DIRECTORY.get('C001')
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -1041,7 +1062,7 @@ print('verified' if em and em.endswith('@example.pe') else 'rejected')`,
         subtopicId: "S22-T3-A",
         kind: "transfer",
         instruction:
-          "Imprime la nota 'match_no_es_fraude' junto al score sintético de similaridad 0.92 entre dos strings (solo longitud de prefijo común / max len).",
+          "E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'; n = 0. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `0.86 match_no_es_fraude`.",
         hint: "os.path common o loop",
         hints: [
           "os.path common o loop",
@@ -1054,7 +1075,13 @@ print('verified' if em and em.endswith('@example.pe') else 'rejected')`,
           language: 'python',
           title: "exercise.py",
           code: `a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'
-# TODO score simple + nota
+n = 0
+for x, y in zip(a, b):
+    if x != y:
+        break
+    n += 1
+score = n / max(len(a), len(b))
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -1076,7 +1103,7 @@ print(round(score, 2), 'match_no_es_fraude')`,
         subtopicId: "S22-T3-B",
         kind: "guided",
         instruction:
-          "Dedupe lista ['a@x', 'b@x', 'a@x'] preservando orden e imprime.",
+          "E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@x', 'b@x', 'a@x']; print(list(dict.fromkeys(xs))). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['a@x', 'b@x']`.",
         hint: "dict.fromkeys",
         hints: [
           "dict.fromkeys",
@@ -1089,7 +1116,7 @@ print(round(score, 2), 'match_no_es_fraude')`,
           language: 'python',
           title: "exercise.py",
           code: `xs = ['a@x', 'b@x', 'a@x']
-# TODO
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -1105,7 +1132,7 @@ print(list(dict.fromkeys(xs)))`,
         subtopicId: "S22-T3-B",
         kind: "independent",
         instruction:
-          "Fuerza role='bcc' si el email termina en '@other.test'.",
+          "E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{'email': 'p@other.test', 'role': 'cc'}]; for r in rows:. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `bcc`.",
         hint: "endswith",
         hints: [
           "endswith",
@@ -1118,8 +1145,11 @@ print(list(dict.fromkeys(xs)))`,
           language: 'python',
           title: "exercise.py",
           code: `rows = [{'email': 'p@other.test', 'role': 'cc'}]
-# TODO
-print(rows)`,
+for r in rows:
+    if r['email'].endswith('@other.test'):
+        r['role'] = 'bcc'
+# TODO: completa el contrato del ejercicio (ver instruction)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1137,7 +1167,7 @@ print(rows[0]['role'])`,
         subtopicId: "S22-T3-B",
         kind: "transfer",
         instruction:
-          "Cuenta cuántos emails quedarían visibles (to+cc) tras mover externos a bcc.",
+          "E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a@example.pe','to'),('b@other.test','cc')]; vis = []. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `1 ['a@example.pe']`.",
         hint: "filtrar roles",
         hints: [
           "filtrar roles",
@@ -1150,7 +1180,13 @@ print(rows[0]['role'])`,
           language: 'python',
           title: "exercise.py",
           code: `rows = [('a@example.pe','to'),('b@other.test','cc')]
-# TODO
+vis = []
+for em, role in rows:
+    if em.endswith('@other.test'):
+        role = 'bcc'
+    if role in ('to', 'cc'):
+        vis.append(em)
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -1172,7 +1208,7 @@ print(len(vis), vis)`,
         subtopicId: "S22-T4-A",
         kind: "guided",
         instruction:
-          "Con TRANSITIONS draft--submit→pending, aplica submit e imprime el nuevo estado.",
+          "E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft': {'submit': 'pending'}}; state = 'draft'. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `pending`.",
         hint: "dict de dicts",
         hints: [
           "dict de dicts",
@@ -1186,7 +1222,8 @@ print(len(vis), vis)`,
           title: "exercise.py",
           code: `T = {'draft': {'submit': 'pending'}}
 state = 'draft'
-# TODO
+state = T[state]['submit']
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -1204,7 +1241,7 @@ print(state)`,
         subtopicId: "S22-T4-A",
         kind: "independent",
         instruction:
-          "Intenta approve desde draft; si no hay transición imprime 'invalid'.",
+          "E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}; state, action = 'draft', 'approve'. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `invalid`.",
         hint: "try/except o .get",
         hints: [
           "try/except o .get",
@@ -1218,7 +1255,8 @@ print(state)`,
           title: "exercise.py",
           code: `T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}
 state, action = 'draft', 'approve'
-# TODO
+nxt = T.get(state, {}).get(action)
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -1236,7 +1274,7 @@ print(nxt if nxt else 'invalid')`,
         subtopicId: "S22-T4-A",
         kind: "transfer",
         instruction:
-          "Registra un log de {from,to,actor} al aprobar pending→approved con actor='rev1'. Imprime el log.",
+          "E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []; log.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'}). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `[{'from': 'pending', 'to': 'approved', 'actor': 'rev1'}]`.",
         hint: "append dict",
         hints: [
           "append dict",
@@ -1249,7 +1287,8 @@ print(nxt if nxt else 'invalid')`,
           language: 'python',
           title: "exercise.py",
           code: `log = []
-# TODO
+log.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -1266,7 +1305,7 @@ print(log)`,
         subtopicId: "S22-T4-B",
         kind: "guided",
         instruction:
-          "Calcula idempotency key sha256 hex[:8] de b'run|to|v1' e imprime.",
+          "E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sha256(b'run|to|v1').hexdigest()[:8]). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `0da400d6`.",
         hint: "hashlib.sha256",
         hints: [
           "hashlib.sha256",
@@ -1279,7 +1318,7 @@ print(log)`,
           language: 'python',
           title: "exercise.py",
           code: `import hashlib
-# TODO
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -1295,7 +1334,7 @@ print(hashlib.sha256(b'run|to|v1').hexdigest()[:8])`,
         subtopicId: "S22-T4-B",
         kind: "independent",
         instruction:
-          "Dos llamadas create con la misma key deben devolver el mismo id. Imprime igualdad.",
+          "E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {}; def create(key):. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
         hint: "cache dict",
         hints: [
           "cache dict",
@@ -1308,10 +1347,7 @@ print(hashlib.sha256(b'run|to|v1').hexdigest()[:8])`,
           language: 'python',
           title: "exercise.py",
           code: `store = {}
-
-def create(key):
-    # TODO
-    pass
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -1333,7 +1369,7 @@ print(create('k') == create('k'))`,
         subtopicId: "S22-T4-B",
         kind: "transfer",
         instruction:
-          "Simula audit: create luego retry_hit; imprime la lista de eventos.",
+          "E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = []; store = {}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['create', 'retry_hit']`.",
         hint: "lista de event names",
         hints: [
           "lista de event names",
@@ -1347,7 +1383,14 @@ print(create('k') == create('k'))`,
           title: "exercise.py",
           code: `audit = []
 store = {}
-# TODO create + retry
+key = 'k1'
+for _ in range(2):
+    if key in store:
+        audit.append('retry_hit')
+    else:
+        store[key] = 'd1'
+        audit.append('create')
+# TODO: completa el contrato del ejercicio (ver instruction)
 `,
         },
         solutionCode: {
@@ -1435,6 +1478,20 @@ print("TODO pipeline email")
         explanation:
           "Reintento seguro no duplica.",
       },
+
+{
+  question: "Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de email de CP-N2-C?",
+  options: [
+    "Declarar fraude o parentesco y bloquear al cliente automáticamente",
+    "Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica",
+    "Enviar el correo sin aprobación porque el score supera 0.9",
+    "Publicar el DNI del contacto en el cuerpo para “confirmar identidad”",
+  ],
+  correctIndex: 1,
+  explanation:
+    "Matching apoya entrega correcta; no prueba fraude ni identidad legal. Aprobación humana e idempotencia siguen siendo obligatorias antes de cualquier envío (simulado).",
+},
+
     ],
   },
   resources: {

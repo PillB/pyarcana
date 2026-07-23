@@ -27,9 +27,9 @@ export const section23: CourseSection = {
     {
       heading: "Browser RPA contra una fixture local controlada",
       paragraphs: [
-        "Construyes el **web adapter** de CP-N2-C con `playwright.sync_api` contra un servidor HTTP local incluido en la práctica, con traces y downloads verificados.",
-        "Los ejemplos son contratos multiarchivo: `fixture_server.py` sirve HTML/CSV sintéticos y `robot.py` usa browser, context, page, locator, expect, download y tracing reales. Requieren Playwright y Chromium instalados localmente; no usan red externa.",
-        "Orden: **T1 Navegación** → **T2 Flujos** → **T3 Diagnóstico** → **T4 Límites**. RPA es el último recurso tras API/export.",
+        "Construyes el **web adapter** de CP-N2-C con la mentalidad Playwright: browser/context/page/locator/expect/download/tracing contra un **servidor HTTP local** de práctica (HTML/CSV sintéticos), sin red externa ni credenciales reales de bancos o SUNAT.",
+        "Los ejemplos multiarchivo del curso (`fixture_server.py` + `robot.py`) usan la API real cuando el runtime está instalado; los ejercicios graded pueden modelar DOM/sesión con dicts para ser reproducibles en CI sin Chromium. En ambos casos el contrato es el mismo: locators de usuario, traces de falla y downloads verificados.",
+        "Orden: **T1 Navegación** (locators, auto-wait) → **T2 Flujos** (forms, auth, Page Objects) → **T3 Diagnóstico** (trace, retries) → **T4 Límites** (API-first, ToS/CAPTCHA/handoff). RPA es último recurso tras API/export; nunca bypass de CAPTCHA ni términos.",
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section23: CourseSection = {
       heading: "DOM y locators orientados a usuario",
       subtopicId: "S23-T1-A",
       paragraphs: [
-        "Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario ve roles y nombres, no `#app > div:nth-child(3)`.",
-        "CSS queda como **último recurso** cuando no hay rol accesible — y entonces pide al equipo un `data-testid`.",
-        "Modelamos locators como consultas sobre un árbol DOM sintético.",
+        "Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibilidad — ve roles y nombres (“Descargar reporte”), no `#app > div:nth-child(3)`. En portales sintéticos PE de demo, pide data-testid si falta rol.",
+        "Orden de estrategia didáctico: role → testid → texto → CSS. CSS queda como último recurso; si solo hay CSS, el producto también es menos usable. Modelamos locators como consultas sobre lista de nodos {role, name, id}.",
+        "Caso sintético: botón “Descargar reporte” id b1 se resuelve por role+name; un logo img sin role de control interactivo no sustituye al botón de negocio. LookupError si no hay match enseña fallar ruidoso en setup, no click ciego.",
       ],
       code: {
         language: 'python',
@@ -80,9 +80,9 @@ prefer_role_over_css True`,
       heading: "auto-waiting y assertions",
       subtopicId: "S23-T1-B",
       paragraphs: [
-        "Playwright **auto-espera** a que el elemento sea actionable. Evita `time.sleep` fijos: usa expect con timeout explícito.",
-        "Assertions (`expect(locator).to_be_visible()`) documentan la postcondición del paso.",
-        "Simulamos un reloj y condiciones de readiness.",
+        "Playwright **auto-espera** a que el elemento sea actionable (visible, estable, enabled). Evita time.sleep fijos: un sleep de 5s falla en CI lento y desperdicia tiempo en CI rápido. Usa expect con timeout explícito y condiciones de readiness.",
+        "Las **assertions** (`expect(locator).to_be_visible()`, título esperado) documentan la postcondición del paso y fallan con mensaje útil. En el lab simulamos reloj y wait_until(pred) con step ms hasta timeout.",
+        "Caso: ready_at=250ms, timeout 500 → ready True. Si tras N intentos no ready → 'timeout' y adjunta trace. El robot del portal demo “Portal demo” asserta título antes de descargar el CSV sintético.",
       ],
       code: {
         language: 'python',
@@ -128,9 +128,9 @@ print("ready", ok, "t", clock.t)`,
       heading: "formularios, uploads/downloads y sesiones",
       subtopicId: "S23-T2-A",
       paragraphs: [
-        "Flujos típicos: **fill** campos, **set_input_files**, click, esperar **download** y verificar path/checksum.",
-        "**storage_state** persiste cookies/localStorage para no re-loguear en cada test.",
-        "Simulamos form + download en dicts.",
+        "Flujos típicos del adapter: **fill** campos (usuario, periodo), **set_input_files**/upload de plantilla, click, esperar **download** y verificar path, tamaño o hash. No basta con que el click no lance: valida el binario.",
+        "**storage_state** (cookies/localStorage) reutiliza sesión autenticada entre tests para no re-loguear en cada caso — en el lab un dict {token:'t'} modela reuse. Nunca hardcodees contraseñas reales; sandbox usa demo/sandbox.",
+        "Caso PE sintético: form periodo 2026-01, upload plantilla.xlsx sintética PK header, download con sha256 hex corto. Checksum mismatch → fallo de step y evidencia, no “éxito silencioso”.",
       ],
       code: {
         language: 'python',
@@ -171,9 +171,9 @@ download {'path': '/tmp/plantilla.xlsx', 'sha256': '0ea0879b8c50', 'n': 13}`,
       heading: "auth, estados y Page Objects",
       subtopicId: "S23-T2-B",
       paragraphs: [
-        "Un **Page Object** encapsula selectores y acciones de una pantalla (`LoginPage.submit`).",
-        "Separa **auth setup** (fixture con storage_state) del test de negocio.",
-        "Estados de página: anonymous, authenticated, mfa_pending.",
+        "Un **Page Object** encapsula selectores y acciones de una pantalla (`LoginPage.submit`, `ReportPage.open`). Separa **auth setup** (fixture storage_state) del test de negocio del reporte para no duplicar login en 20 tests.",
+        "Estados de página: anonymous → authenticated (o mfa_pending en sistemas reales; aquí sandbox simple). ReportPage.open lanza PermissionError si no auth — el robot captura y reporta 'denied' en vez de seguir al download.",
+        "Contrato lab: LoginPage con password 'sandbox' setea auth; mal password deja anonymous. El PO no contiene sleeps mágicos; expone acciones que el test compone. Facilita cambiar el selector del botón sin tocar 15 tests.",
       ],
       code: {
         language: 'python',
@@ -214,9 +214,9 @@ auth authenticated`,
       heading: "trace, screenshot y logs",
       subtopicId: "S23-T3-A",
       paragraphs: [
-        "En falla, captura **trace.zip**, **screenshot** y **console logs**. Son el expediente del robot.",
-        "Traces permiten replay; no subas traces con secretos a repos públicos.",
-        "Simulamos un paquete de evidencia de falla.",
+        "Ante falla, empaqueta **trace** (zip Playwright), **screenshot** y **error** string. Keys del paquete se ordenan para diffs estables en CI. Sin evidencia, el on-call en Lima no reproduce el flake del portal demo.",
+        "Filtra console logs por 'ERR' u otros marcadores; el ruido de info no debe ocultar el timeout. Si ok=False, adjunta trace path traces/{step}.zip al pkg del step. En PyArcana trabajamos con fixtures sintéticos de operaciones (Lima, America/Lima) y nunca PII real de clientes.",
+        "Caso: step s1 falla → pkg con trace+screenshot+error. Política: traces solo en fallo o sample rate bajo en éxito para no llenar disco del runner sintético. En PyArcana trabajamos con fixtures sintéticos de operaciones (Lima, America/Lima) y nunca PII real de clientes.",
       ],
       code: {
         language: 'python',
@@ -249,9 +249,9 @@ has_screenshot True`,
       heading: "selectores robustos, retries y recovery",
       subtopicId: "S23-T3-B",
       paragraphs: [
-        "**Retry policy**: reintenta solo errores transitorios (timeout de red, 429), no fallas de negocio (403, captcha).",
-        "**Recovery**: re-navegar a URL estable, rehidratar storage_state, reanudar desde checkpoint.",
-        "Estrategia de selectores: role → test id → texto → CSS.",
+        "Retries solo para errores **transitorios** (timeout, 429), no para captcha ni ToS. should_retry(kind) codifica la política. Tras max intentos de timeout → fail con conteo, no loop infinito.",
+        "Recovery: err=='stale' (DOM reemplazado) → action goto_home o re-nav al listado. Re-obtener locator tras navegación; no reuses handles viejos. Estrategia de selectores se reevalúa en recovery.",
+        "Caso sintético: tres timeouts seguidos → 'fail 3'. Un captcha en medio no se “reintenta con otro user-agent”: va a human_handoff en T4. El runbook documenta max_attempts=3 y backoff opcional.",
       ],
       code: {
         language: 'python',
@@ -287,9 +287,9 @@ print(run_with_retry(None, ["timeout", "timeout", "timeout"]))`,
       heading: "API/export primero",
       subtopicId: "S23-T4-A",
       paragraphs: [
-        "Antes de RPA, busca **API**, **export CSV/XLSX**, **reportes programados**. El robot UI es frágil y caro.",
-        "Decision tree: ¿hay endpoint? ¿export manual automatizable por URL firmada? Si no, RPA con límites.",
-        "Documenta por qué se eligió RPA en el runbook.",
+        "Jerarquía de preferencia: **api > export > rpa > human**. Si el sistema ofrece endpoint o CSV export del mismo reporte, úsalo: menos flakes, menos ToS grises, más barato de operar. RPA queda para huecos sin API.",
+        "Toda caída a RPA registra reason ('no_api', 'export_stale', etc.) en el decision dict del run. Documenta por qué se eligió RPA en el runbook del adapter web CP-N2-C. En PyArcana trabajamos con fixtures sintéticos de operaciones (Lima, America/Lima) y nunca PII real de clientes.",
+        "Caso: flags api=False, export=True, rpa=True → choice export. Si solo rpa → method rpa con reason no_api. El valor de negocio es el dato verificado, no “haber automatizado el click”.",
       ],
       code: {
         language: 'python',
@@ -322,9 +322,9 @@ human`,
       heading: "términos, CAPTCHA, desktop fallback y handoff humano",
       subtopicId: "S23-T4-B",
       paragraphs: [
-        "Respeta **ToS** del sitio. Si aparece **CAPTCHA**, detén el robot y crea tarea humana.",
-        "Desktop fallback (pyautogui etc.) solo con autorización y en entorno controlado; no es default del curso.",
-        "Handoff: payload con URL, screenshot, paso fallido y contexto de negocio.",
+        "Si **ToS forbidden** para automatización, action=abort (ToS gana sobre CAPTCHA). Si captcha=True y ToS permite humano, **human_handoff** con payload url/step/screenshot — nunca scripts de bypass ni granjas de captcha en el curso.",
+        "Desktop fallback (app nativa) solo si el contrato del sistema lo contempla y está en scope; no es excusa para evadir políticas web. El handoff incluye evidencia para que un analista continúe en minutos.",
+        "Caso PE: portal demo muestra captcha de prueba → handoff; tos_forbidden True → abort aunque haya captcha. Matching de datos posteriores al download sigue siendo evidencia, no prueba de fraude. El adaptador respeta límites legales y de producto.",
       ],
       code: {
         language: 'python',
@@ -504,11 +504,12 @@ print("human_handoff" if sig.get("captcha") or sig.get("tos") else "continue")`,
         subtopicId: "S23-T1-A",
         kind: "guided",
         instruction:
-          "En una lista de nodos, encuentra role=link name=Inicio e imprime su id.",
+          "Locator por rol: nodes=[{'role':'link','name':'Inicio','id':'n1'}]. Encuentra role=link y name=Inicio; imprime id. Contrato: next/generador o loop; Lookup si no hay. Pass: n1.",
         hint: "next(...)",
         hints: [
-          "next(...)",
-          "compara role y name",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["StopIteration si no existe"],
         tests: "salida coincide con solution output",
@@ -517,7 +518,7 @@ print("human_handoff" if sig.get("captcha") or sig.get("tos") else "continue")`,
           language: 'python',
           title: "exercise.py",
           code: `nodes=[{'role':'link','name':'Inicio','id':'n1'}]
-# TODO
+# TODO: id del link Inicio
 `,
         },
         solutionCode: {
@@ -533,11 +534,12 @@ print(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))
         subtopicId: "S23-T1-A",
         kind: "independent",
         instruction:
-          "Ordena estrategias ['css','role','testid'] priorizando role, testid, css e imprime.",
+          "Prioridad de estrategias: strats=['css','role','testid']. Ordena priorizando role, testid, css (preferred index). Imprime lista ordenada. Contrato: sorted key. Pass: ['role', 'testid', 'css'].",
         hint: "key=index en preferred",
         hints: [
-          "key=index en preferred",
-          "sorted",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["texto también válido"],
         tests: "salida coincide con solution output",
@@ -546,7 +548,8 @@ print(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))
           language: 'python',
           title: "exercise.py",
           code: `strats=['css','role','testid']
-# TODO
+preferred=['role','testid','css']
+# TODO: ordena strats por preferred; print
 `,
         },
         solutionCode: {
@@ -563,11 +566,12 @@ print(sorted(strats, key=lambda s: order[s]))`,
         subtopicId: "S23-T1-A",
         kind: "transfer",
         instruction:
-          "Si no hay role, devuelve 'need_testid' else el name del button.",
+          "Sin control button en nodes (solo img logo): al buscar button imprime 'need_testid' si no hay role button; si hubiera, su name. Contrato: fail-closed a testid. Pass: need_testid.",
         hint: "try/except LookupError",
         hints: [
-          "try/except LookupError",
-          "mensaje claro",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["coordina con frontend"],
         tests: "salida coincide con solution output",
@@ -576,7 +580,7 @@ print(sorted(strats, key=lambda s: order[s]))`,
           language: 'python',
           title: "exercise.py",
           code: `nodes=[{'role':'img','name':'logo'}]
-# TODO buscar button
+# TODO: buscar button → need_testid si falta
 `,
         },
         solutionCode: {
@@ -593,11 +597,12 @@ print(hits[0]['name'] if hits else 'need_testid')`,
         subtopicId: "S23-T1-B",
         kind: "guided",
         instruction:
-          "Simula wait: ready se vuelve True en intento 2; imprime el intento.",
+          "Auto-wait simulado: ready se vuelve True en el intento 2 de un loop 1..N. Imprime el número de intento cuando ready. Contrato: sin sleep real. Pass: 2.",
         hint: "for loop",
         hints: [
-          "for loop",
-          "break",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["timeout path"],
         tests: "salida coincide con solution output",
@@ -605,7 +610,8 @@ print(hits[0]['name'] if hits else 'need_testid')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# ready en intento 2
+# TODO: loop intentos; print intento cuando ready
 `,
         },
         solutionCode: {
@@ -624,11 +630,12 @@ print(hits[0]['name'] if hits else 'need_testid')`,
         subtopicId: "S23-T1-B",
         kind: "independent",
         instruction:
-          "Si tras 3 intentos no ready, imprime 'timeout'.",
+          "Timeout de espera: ready=False fijo; tras 3 intentos sin ready imprime 'timeout'. Contrato: no reintentar infinito. Pass: timeout. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "for-else",
         hints: [
-          "for-else",
-          "flag",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["timeout_ms en Playwright"],
         tests: "salida coincide con solution output",
@@ -637,7 +644,7 @@ print(hits[0]['name'] if hits else 'need_testid')`,
           language: 'python',
           title: "exercise.py",
           code: `ready = False
-# TODO
+# TODO: tras 3 intentos → timeout
 `,
         },
         solutionCode: {
@@ -658,11 +665,12 @@ else:
         subtopicId: "S23-T1-B",
         kind: "transfer",
         instruction:
-          "Assertion: expected título 'Portal demo' == actual; imprime pass/fail.",
+          "Assertion de título: expected=actual='Portal demo'. Imprime 'pass' si iguales else 'fail'. Contrato: postcondición de navegación. Pass: pass. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "comparación",
         hints: [
-          "comparación",
-          "mensaje",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["soft assertions fuera de alcance"],
         tests: "salida coincide con solution output",
@@ -671,7 +679,7 @@ else:
           language: 'python',
           title: "exercise.py",
           code: `expected, actual = 'Portal demo', 'Portal demo'
-# TODO
+# TODO: pass|fail
 `,
         },
         solutionCode: {
@@ -687,11 +695,12 @@ print('pass' if expected == actual else 'fail')`,
         subtopicId: "S23-T2-A",
         kind: "guided",
         instruction:
-          "Actualiza form={} con usuario='ana' e imprime form.",
+          "Fill de formulario sintético: form={}; asigna usuario='ana'; imprime form. Contrato: update/asignación. Pass: {'usuario': 'ana'}. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "update o index",
         hints: [
-          "update o index",
-          "dict",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["campos vacíos"],
         tests: "salida coincide con solution output",
@@ -699,8 +708,8 @@ print('pass' if expected == actual else 'fail')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `form = {}
-# TODO
+          code: `form = {}  # formulario sintético
+# TODO: usuario='ana'; print form
 `,
         },
         solutionCode: {
@@ -717,11 +726,12 @@ print(form)`,
         subtopicId: "S23-T2-A",
         kind: "independent",
         instruction:
-          "Calcula sha256 hex[:8] de b'data' como verificación de download.",
+          "Verificación de download: sha256 hex de b'data', primeros 8 chars. import hashlib. Contrato: hexdigest()[:8]. Pass: 3a6eb079. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "hashlib",
         hints: [
-          "hashlib",
-          "hexdigest",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["archivos grandes: hash streaming"],
         tests: "salida coincide con solution output",
@@ -730,7 +740,7 @@ print(form)`,
           language: 'python',
           title: "exercise.py",
           code: `import hashlib
-# TODO
+# TODO: sha256(b'data').hexdigest()[:8]
 `,
         },
         solutionCode: {
@@ -746,11 +756,12 @@ print(hashlib.sha256(b'data').hexdigest()[:8])`,
         subtopicId: "S23-T2-A",
         kind: "transfer",
         instruction:
-          "Simula storage_state={'token':'t'} reutilizado: imprime 'reuse' si token presente.",
+          "Reuso de sesión: state={'token':'t'}. Si token presente imprime 'reuse' (no re-login). Contrato: storage_state conceptual. Pass: reuse. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "dict get",
         hints: [
-          "dict get",
-          "auth fixture",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["expiry del token"],
         tests: "salida coincide con solution output",
@@ -758,8 +769,8 @@ print(hashlib.sha256(b'data').hexdigest()[:8])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `state={'token':'t'}
-# TODO
+          code: `state={'token':'t'}  # storage_state lab
+# TODO: reuse si token
 `,
         },
         solutionCode: {
@@ -775,11 +786,12 @@ print('reuse' if state.get('token') else 'login')`,
         subtopicId: "S23-T2-B",
         kind: "guided",
         instruction:
-          "LoginPage: si password=='sandbox' set auth True. Prueba e imprime auth.",
+          "Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prueba e imprime auth True. Contrato: clase con estado. Pass: True. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "clase simple",
         hints: [
-          "clase simple",
-          "método submit",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["no hardcodees secretos reales"],
         tests: "salida coincide con solution output",
@@ -788,7 +800,15 @@ print('reuse' if state.get('token') else 'login')`,
           language: 'python',
           title: "exercise.py",
           code: `class LoginPage:
-    pass  # TODO
+    def __init__(self):
+        self.auth = False
+    def submit(self, user, password):
+        # TODO: sandbox → auth True
+        pass
+
+p = LoginPage()
+p.submit('demo', 'sandbox')
+print(p.auth)
 `,
         },
         solutionCode: {
@@ -808,11 +828,12 @@ print(ctx['auth'])`,
         subtopicId: "S23-T2-B",
         kind: "independent",
         instruction:
-          "ReportPage.open lanza PermissionError si no auth; captura e imprime 'denied'.",
+          "ReportPage sin auth: ctx auth False; open debe denegar. Captura PermissionError e imprime 'denied'. Contrato: no continuar al reporte. Pass: denied. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "try/except",
         hints: [
-          "try/except",
-          "PermissionError",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["redirect a login en UI real"],
         tests: "salida coincide con solution output",
@@ -821,7 +842,7 @@ print(ctx['auth'])`,
           language: 'python',
           title: "exercise.py",
           code: `ctx={'auth':False}
-# TODO
+# TODO: open report si no auth → denied
 `,
         },
         solutionCode: {
@@ -842,11 +863,12 @@ except PermissionError:
         subtopicId: "S23-T2-B",
         kind: "transfer",
         instruction:
-          "Estados: anonymous→authenticated tras login. Imprime la transición.",
+          "Transición de estado: state='anonymous'; tras login ok imprime 'authenticated'. Contrato: máquina simple de estados. Pass: authenticated. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "variable state",
         hints: [
-          "variable state",
-          "asignación",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["mfa_pending intermedio"],
         tests: "salida coincide con solution output",
@@ -855,7 +877,7 @@ except PermissionError:
           language: 'python',
           title: "exercise.py",
           code: `state='anonymous'
-# TODO login ok
+# TODO: login ok → authenticated; print
 `,
         },
         solutionCode: {
@@ -874,11 +896,12 @@ print(state)`,
         subtopicId: "S23-T3-A",
         kind: "guided",
         instruction:
-          "Arma dict de evidencia con keys trace, screenshot, error e imprime keys sorted.",
+          "Paquete de evidencia: ev con trace, screenshot, error. Imprime sorted(keys). Contrato: keys estables para CI. Pass: ['error', 'screenshot', 'trace']. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "dict keys",
         hints: [
-          "dict keys",
-          "sorted",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["PII en screenshots"],
         tests: "salida coincide con solution output",
@@ -887,7 +910,7 @@ print(state)`,
           language: 'python',
           title: "exercise.py",
           code: `ev={'trace':'a.zip','screenshot':'b.png','error':'x'}
-# TODO
+# TODO: print sorted keys
 `,
         },
         solutionCode: {
@@ -903,11 +926,12 @@ print(sorted(ev.keys()))`,
         subtopicId: "S23-T3-A",
         kind: "independent",
         instruction:
-          "De console logs, imprime solo las líneas que contienen 'ERR'.",
+          "Filtro de console: logs=['ok','ERR timeout','nav']; imprime solo líneas que contienen 'ERR'. Contrato: list comp. Pass: ['ERR timeout']. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "list comp",
         hints: [
-          "list comp",
-          "in",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["niveles de log"],
         tests: "salida coincide con solution output",
@@ -916,7 +940,7 @@ print(sorted(ev.keys()))`,
           language: 'python',
           title: "exercise.py",
           code: `logs=['ok','ERR timeout','nav']
-# TODO
+# TODO: filtra 'ERR'
 `,
         },
         solutionCode: {
@@ -932,11 +956,12 @@ print([l for l in logs if 'ERR' in l])`,
         subtopicId: "S23-T3-A",
         kind: "transfer",
         instruction:
-          "Si ok=False adjunta trace path; imprime el paquete final.",
+          "Adjuntar trace en falla: ok=False, pkg={'step':'s1'}; si not ok añade trace 'traces/s1.zip'; imprime pkg. Contrato: path determinista. Pass: dict de solution.",
         hint: "condicional",
         hints: [
-          "condicional",
-          "dict update",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["retener traces N días"],
         tests: "salida coincide con solution output",
@@ -946,7 +971,7 @@ print([l for l in logs if 'ERR' in l])`,
           title: "exercise.py",
           code: `ok=False
 pkg={'step':'s1'}
-# TODO
+# TODO: adjuntar trace si not ok; print pkg
 `,
         },
         solutionCode: {
@@ -965,11 +990,12 @@ print(pkg)`,
         subtopicId: "S23-T3-B",
         kind: "guided",
         instruction:
-          "should_retry: True solo para 'timeout' y '429'. Prueba tres valores.",
+          "Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha, 429 e imprime tres líneas kind bool. Contrato: captcha no retry. Pass multi-línea de solution.",
         hint: "in set",
         hints: [
-          "in set",
-          "función",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["no reintentar 403"],
         tests: "salida coincide con solution output",
@@ -978,8 +1004,11 @@ print(pkg)`,
           language: 'python',
           title: "exercise.py",
           code: `def should_retry(k):
-    # TODO
+    # TODO: True solo timeout y 429
     pass
+
+for k in ['timeout','captcha','429']:
+    print(k, should_retry(k))
 `,
         },
         solutionCode: {
@@ -999,11 +1028,12 @@ captcha False
         subtopicId: "S23-T3-B",
         kind: "independent",
         instruction:
-          "Recovery: si err=='stale', re-navega (action='goto_home'). Imprime action.",
+          "Recovery stale DOM: err='stale' → action 'goto_home'. Imprime action. Contrato: re-nav, no click en handle viejo. Pass: goto_home. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "if/else",
         hints: [
-          "if/else",
-          "default continue",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["checkpoint de paso"],
         tests: "salida coincide con solution output",
@@ -1012,7 +1042,7 @@ captcha False
           language: 'python',
           title: "exercise.py",
           code: `err='stale'
-# TODO
+# TODO: recovery action goto_home
 `,
         },
         solutionCode: {
@@ -1028,11 +1058,12 @@ print('goto_home' if err=='stale' else 'continue')`,
         subtopicId: "S23-T3-B",
         kind: "transfer",
         instruction:
-          "Máx 3 intentos de timeout luego fail. Cuenta intentos e imprime resultado.",
+          "Máx 3 timeouts: errors lista de tres 'timeout' → imprime 'fail 3' con conteo. Contrato: exhaust retries. Pass: fail 3. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "loop",
         hints: [
-          "loop",
-          "break on success",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["backoff exponencial opcional"],
         tests: "salida coincide con solution output",
@@ -1041,7 +1072,7 @@ print('goto_home' if err=='stale' else 'continue')`,
           language: 'python',
           title: "exercise.py",
           code: `errors=['timeout','timeout','timeout']
-# TODO
+# TODO: max 3 → fail N
 `,
         },
         solutionCode: {
@@ -1062,11 +1093,12 @@ for i,e in enumerate(errors,1):
         subtopicId: "S23-T4-A",
         kind: "guided",
         instruction:
-          "Si api=True elige 'api'. Imprime la elección.",
+          "API-first gate: api=True → elige 'api'. Imprime la elección del método de obtención de datos. Contrato: preferencia sobre RPA. Pass: api. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "ternario",
         hints: [
-          "ternario",
-          "prioridad",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["feature flags"],
         tests: "salida coincide con solution output",
@@ -1075,7 +1107,7 @@ for i,e in enumerate(errors,1):
           language: 'python',
           title: "exercise.py",
           code: `api=True
-# TODO
+# TODO: elige api|rpa; print
 `,
         },
         solutionCode: {
@@ -1091,11 +1123,12 @@ print('api' if api else 'rpa')`,
         subtopicId: "S23-T4-A",
         kind: "independent",
         instruction:
-          "Orden de preferencia api > export > rpa > human. Dado flags, imprime choice.",
+          "Orden api>export>rpa: flags api False, export True, rpa True → imprime 'export'. Contrato: primera disponible en la jerarquía. Pass: export. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "if chain",
         hints: [
-          "if chain",
-          "dict flags",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["documenta la decisión"],
         tests: "salida coincide con solution output",
@@ -1104,7 +1137,7 @@ print('api' if api else 'rpa')`,
           language: 'python',
           title: "exercise.py",
           code: `f={'api':False,'export':True,'rpa':True}
-# TODO
+# TODO: api>export>rpa; print choice
 `,
         },
         solutionCode: {
@@ -1128,11 +1161,12 @@ print(c)`,
         subtopicId: "S23-T4-A",
         kind: "transfer",
         instruction:
-          "Registra reason='no_api' cuando caes a rpa. Imprime decision dict.",
+          "Decisión documentada: cae a rpa con reason 'no_api'. Imprime dict method/reason. Contrato: auditoría de por qué RPA. Pass: {'method': 'rpa', 'reason': 'no_api'}.",
         hint: "dict con method y reason",
         hints: [
-          "dict con method y reason",
-          "auditoría",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["ticket de reemplazo API"],
         tests: "salida coincide con solution output",
@@ -1140,7 +1174,8 @@ print(c)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Caída a RPA documentada
+# TODO: dict method rpa reason no_api
 `,
         },
         solutionCode: {
@@ -1156,11 +1191,12 @@ print(decision)`,
         subtopicId: "S23-T4-B",
         kind: "guided",
         instruction:
-          "Si captcha True imprime 'human_handoff'.",
+          "CAPTCHA en portal demo: captcha=True → imprime 'human_handoff' sin intentar bypass ni granja. Contrato: handoff humano obligatorio. Pass: human_handoff.",
         hint: "if",
         hints: [
-          "if",
-          "boolean",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["no resolver captcha en bot"],
         tests: "salida coincide con solution output",
@@ -1169,7 +1205,7 @@ print(decision)`,
           language: 'python',
           title: "exercise.py",
           code: `captcha=True
-# TODO
+# TODO: human_handoff (no bypass)
 `,
         },
         solutionCode: {
@@ -1185,11 +1221,12 @@ print('human_handoff' if captcha else 'continue')`,
         subtopicId: "S23-T4-B",
         kind: "independent",
         instruction:
-          "ToS forbidden → action abort. Imprime action.",
+          "ToS gana: sig con tos_forbidden True (y captcha True). action abort. Imprime action. Contrato: abort > handoff. Pass: abort. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
         hint: "signals dict",
         hints: [
-          "signals dict",
-          "priority tos",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["registro legal"],
         tests: "salida coincide con solution output",
@@ -1198,7 +1235,7 @@ print('human_handoff' if captcha else 'continue')`,
           language: 'python',
           title: "exercise.py",
           code: `sig={'tos_forbidden':True,'captcha':True}
-# TODO tos gana
+# TODO: tos gana → abort
 `,
         },
         solutionCode: {
@@ -1214,11 +1251,12 @@ print('abort' if sig.get('tos_forbidden') else 'human_handoff')`,
         subtopicId: "S23-T4-B",
         kind: "transfer",
         instruction:
-          "Arma payload de handoff con url, step, screenshot e imprime.",
+          "Payload handoff: arma estructura con url, step, screenshot; imprime keys sorted y marca export según solution output. Contrato: evidencia para analista humano. Pass debe coincidir solution.",
         hint: "dict",
         hints: [
-          "dict",
-          "campos mínimos",
+          "contrato I/O en instruction",
+          "compara output con solution",
+          "datos sintéticos only",
         ],
         edgeCases: ["sin cookies en el ticket público"],
         tests: "salida coincide con solution output",
@@ -1226,7 +1264,8 @@ print('abort' if sig.get('tos_forbidden') else 'human_handoff')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Handoff payload url/step/screenshot
+# TODO: print keys sorted (+ export per solution)
 `,
         },
         solutionCode: {

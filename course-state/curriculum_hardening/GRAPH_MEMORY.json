@@ -1,0 +1,36 @@
+{
+  "created_at": "2026-07-22T22:40:00Z",
+  "goal": "reverse_order_S52_to_S01_gold_standard",
+  "gold_peers": [
+    "s01-setup",
+    "s02-basics",
+    "s03-data-structures"
+  ],
+  "live_site": "https://pillb.github.io/pyarcana/",
+  "repo": "https://github.com/PillB/pyarcana",
+  "main_sha_at_start": "342c8dd",
+  "rule": "reverse_order_expand_non_gold_only",
+  "phases": {
+    "0": "gold_checklist_and_residual_ledger",
+    "1": "S52_to_S01_hardening_loop",
+    "2": "live_site_and_roadmap_consistency",
+    "3": "final_checkpoint"
+  },
+  "notes": [
+    "Master block S40\u2013S52 already passes test_master_curriculum_specificity on main",
+    "Primary residual stubs by depth: S32\u2013S39, S24, S26 and thin mid sections",
+    "S17+S16 expanded to gold depth (avg_para\u2265254, avg_instr\u2265203, thin=0, selfcheck=5); dossiers S17/S16 RESEARCH+DONE",
+    "S22\u2013S18 expanded to gold depth (avg_para\u2265378, avg_instr\u2265290, thin=0, selfcheck=5); dossiers S22/S21/S20/S19/S18 RESEARCH+DONE; reverse walk after S23/S17"
+  ],
+  "last_expanded": [
+    "S22",
+    "S21",
+    "S20",
+    "S19",
+    "S18"
+  ],
+  "updated_at": "2026-07-23T00:24:28.370611+00:00",
+  "all_gold": true,
+  "dossiers": 77,
+  "status": "complete_reverse_walk"
+}

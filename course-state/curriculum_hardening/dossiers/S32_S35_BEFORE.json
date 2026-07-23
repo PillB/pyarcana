@@ -1,0 +1,50 @@
+{
+  "32": {
+    "file": "s32-microservices.ts",
+    "kb": 41.3,
+    "n_para": 27,
+    "avg_para": 84.6,
+    "min_para": 32,
+    "n_instr": 24,
+    "avg_instr": 40.3,
+    "min_instr": 23,
+    "avg_starter": 28.5,
+    "todo_starters": 24
+  },
+  "33": {
+    "file": "s33-advanced-models.ts",
+    "kb": 38.5,
+    "n_para": 27,
+    "avg_para": 80.8,
+    "min_para": 44,
+    "n_instr": 24,
+    "avg_instr": 32.7,
+    "min_instr": 14,
+    "avg_starter": 7,
+    "todo_starters": 24
+  },
+  "34": {
+    "file": "s34-cv-ai-integration.ts",
+    "kb": 38.3,
+    "n_para": 27,
+    "avg_para": 81.5,
+    "min_para": 45,
+    "n_instr": 24,
+    "avg_instr": 32.2,
+    "min_instr": 19,
+    "avg_starter": 7,
+    "todo_starters": 24
+  },
+  "35": {
+    "file": "s35-system-design.ts",
+    "kb": 34.2,
+    "n_para": 27,
+    "avg_para": 75,
+    "min_para": 36,
+    "n_instr": 24,
+    "avg_instr": 24.7,
+    "min_instr": 17,
+    "avg_starter": 7,
+    "todo_starters": 24
+  }
+}

@@ -12,7 +12,7 @@ export const section16: CourseSection = {
   icon: "Monitor",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "Los equipos de datos en Perú necesitan **quality gates explicables**: null policies, duplicados con evidencia, normalización y cuarentena. Esta sección (id `wxpython-gui` conservado) retematiza a V3 **calidad/limpieza/contratos** e incrementa **CP-N2-A (quality)**.",
+    "Los equipos de datos en banca, fintech y retail en Perú necesitan **quality gates explicables**: null policies por campo, duplicados con evidencia, normalización con raw lateral, outliers con dominio y cuarentena con audit trail. Esta sección (id `wxpython-gui` conservado) retematiza a V3 **calidad/limpieza/contratos** e incrementa **CP-N2-A (quality)** — fail-closed, sin PII real, sin arreglos silenciosos.",
   learningOutcomes: [
     { text: "Definir políticas de null por campo" },
     { text: "Limitar imputación y usar indicadores de ausencia" },
@@ -27,9 +27,9 @@ export const section16: CourseSection = {
     {
       heading: "De “GUI wxPython” a calidad y contratos de datos (mapa)",
       paragraphs: [
-        "En V3, **S16 no es el path de wx.Frame ni sizers**. Aquí construyes el **quality gate de CP-N2-A**: políticas de null, imputación limitada, duplicados, normalización, outliers, contratos y cuarentena con audit trail.",
-        "Regla de oro: **nunca “arreglar” silenciosamente**. Toda transformación deja métrica o rastro.",
-        "Orden: **T1 Ausencia** → **T2 Duplicados** → **T3 Normalización** → **T4 Contratos**.",
+        "En V3, **S16 no es el path de wx.Frame ni sizers**. El id de plataforma `wxpython-gui` se conserva, pero el camino del estudiante es el **quality gate de CP-N2-A**: políticas de null, imputación limitada con indicadores, duplicados vs conflictos, normalización, outliers, contratos de schema/cross-field y cuarentena con audit trail.",
+        "Regla de oro: **nunca “arreglar” silenciosamente**. Toda transformación deja métrica, indicador o rastro en cuarentena. Datos sintéticos de clientes y montos (regiones Lima/Arequipa/Cusco, prefijos `S/`, ids `C00x`); nunca PII real ni DNIs de personas.",
+        "Orden pedagógico: **T1 Ausencia** (required/optional, indicadores, cap de imputación) → **T2 Duplicados** (exactos vs conflictos, evidencia de clave) → **T3 Normalización** (strings/números/fechas/cats, outliers) → **T4 Contratos** (schema, cross-field, métricas y audit). Solo pandas + stdlib de S01–S16.",
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section16: CourseSection = {
       heading: "nulls y políticas por campo",
       subtopicId: "S16-T1-A",
       paragraphs: [
-        "Cada campo tiene política: **required** (null ⇒ cuarentena/falla) u **optional** (null permitido con indicador).",
-        "`isna` / `notna` cuantifican ausencia. No imputes un required sin regla explícita.",
-        "Documenta la política en un dict `{campo: 'required'|'optional'}`.",
+        "Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente con indicador de ausencia). Mezclar ambas sin documentar es la causa clásica de “defaults mágicos” que envenenan el EDA de S17.",
+        "Contrato operativo: documenta un dict `{campo: 'required'|'optional'}`, mide con `isna`/`notna`, y arma un mapa `violations` solo para required con n>0. No imputes un required “para que pase el job”: eso oculta rotura de fuente y contamina el EDA posterior.",
+        "Caso sintético Perú: `cliente_id` y `monto` required; `email` optional. Filas con id o monto nulo entran a violaciones; la tasa de null de email se reporta como métrica pero no tumba el gate por sí sola. Imprime `violations` y `null_rate` de opcionales en el reporte del run.",
       ],
       code: {
         language: 'python',
@@ -78,9 +78,9 @@ null_rate_email 0.3333333333333333`,
       heading: "indicadores y límites de imputación",
       subtopicId: "S16-T1-B",
       paragraphs: [
-        "Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando imputas.",
-        "Límites: no imputar más del X% de una columna; no imputar llaves; usa mediana/constante documentada.",
-        "Si superas el cap, falla el gate.",
+        "Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando imputas un optional: el modelo, el auditor y el stakeholder de riesgo ven qué filas fueron tocadas. Imputar sin indicador borra evidencia y crea falsos ceros indistinguibles de ceros reales de negocio.",
+        "Límites del gate: no imputar más del **cap** (p. ej. 30–40% null en la columna), no imputar llaves de negocio (`cliente_id`), y documentar la regla (mediana, constante de dominio). Si `null_rate > cap`, el gate imprime `blocked`/`fail` y **no** rellena en silencio.",
+        "Caso: monto con 2/5 null y cap=0.4 → se permite `fillna(mediana)` + columna `was_null`. Si el rate supera el cap, no hay fill silencioso. La mediana se calcula solo sobre no-nulos **pre**-imputación; post-fill no se recalcula para “maquillar” el reporte.",
       ],
       code: {
         language: 'python',
@@ -113,9 +113,9 @@ else:
       heading: "duplicados exactos vs conflictos",
       subtopicId: "S16-T2-A",
       paragraphs: [
-        "**Exacto**: filas idénticas en todas las columnas relevantes. **Conflicto**: misma clave, valores distintos en atributos.",
-        "`duplicated` detecta exactos; groupby por clave + nunique detecta conflictos.",
-        "Políticas keep='first'|'last' solo tras clasificar.",
+        "**Duplicado exacto**: mismas columnas relevantes idénticas. **Conflicto**: misma clave de negocio con atributos distintos (p. ej. dos regiones para un `cliente_id`). Tratarlos igual con `drop_duplicates` ciego puede borrar el único rastro del conflicto y dejar un maestro mentiroso.",
+        "Contrato: usa `duplicated(keep=False)` para exactos y `groupby(clave)[attr].transform('nunique')>1` para conflictos. Solo después eliges política `keep='first'|'last'` o envío a cuarentena. **Clasifica antes de borrar**; el orden evita pérdida de evidencia.",
+        "Caso sintético: C001 repetido exacto (Lima, score 0.9); C002 con Cusco vs Arequipa. Salida esperada: `exact_rows` para C001 y `conflict_ids` para C002. El portfolio de calidad de CP-N2-A debe listar ambos tipos por separado en el memo.",
       ],
       code: {
         language: 'python',
@@ -145,9 +145,9 @@ conflict_ids ['C002']`,
       heading: "claves, cardinalidad y conservación de evidencia",
       subtopicId: "S16-T2-B",
       paragraphs: [
-        "Define la **clave de negocio** y la cardinalidad esperada (1 fila por cliente).",
-        "Duplicados de clave van a **cuarentena** con evidencia (todas las versiones), no se borran sin log.",
-        "El set limpio contiene una fila resuelta; el audit guarda el resto.",
+        "Define la **clave de negocio** y la cardinalidad esperada (típicamente 1 fila por cliente). Los duplicados de clave van a **cuarentena con evidencia completa** (todas las versiones + columnas de origen/batch), no se eliminan sin log append-only.",
+        "Contrato: `clean = drop_duplicates(key, keep=...)` con regla documentada; `quarantine = filas con clave duplicada` sin pérdida de columnas. El set limpio alimenta joins de S17; el audit permite reconstruir por qué se eligió una versión ante revisión humana.",
+        "Caso: C001 con scores 0.9 y 0.4 de src a/b. `keep='first'` deja 0.9 en clean; `quarantine_n=2` conserva ambas filas y columnas de evidencia. Sin esa evidencia, el gate no es auditable ante un stakeholder de riesgo o cumplimiento.",
       ],
       code: {
         language: 'python',
@@ -181,9 +181,9 @@ evidence_cols ['cliente_id', 'score', 'src']`,
       heading: "normalización de strings, números, fechas y categorías",
       subtopicId: "S16-T3-A",
       paragraphs: [
-        "Strings: strip, casefold/title, espacios dobles. Números: decimal latino, símbolos. Fechas: formatos múltiples. Cats: mapa de sinónimos.",
-        "Conserva **raw** en columna lateral si el valor normalizado puede disputarse.",
-        "Normalizar ≠ imputar.",
+        "Normalización: strings (`strip`, colapso de espacios, `title`/`casefold`), números (quitar `S/`, comas de miles, decimal latino), fechas multi-formato, categorías con mapa de sinónimos (LIM→Lima). **Normalizar ≠ imputar**: no inventes valores, solo canonicidad.",
+        "Contrato: conserva **raw** en columna lateral (`region_raw`, `monto_raw`) cuando el valor canónico puede disputarse o re-parsearse. Valida dtypes post-normalización **antes** del join de S17; un float mal parseado revienta cardinalidades.",
+        "Caso Perú sintético: ` lima `, `AREQUIPA`, montos `S/ 10.50` y textos con coma de miles. Salida canónica Lima/Arequipa y floats en PEN ficticios; raw intacto para auditoría. Nunca subas padrones reales ni PII al repo del curso.",
       ],
       code: {
         language: 'python',
@@ -217,9 +217,9 @@ print(df[["region", "monto"]].to_dict(orient="list"))`,
       heading: "outliers plausibles vs errores",
       subtopicId: "S16-T3-B",
       paragraphs: [
-        "Un outlier **plausible** está lejos estadísticamente pero dentro del dominio (monto alto legítimo). Un **error** viola bounds de negocio (edad 200, lat 999).",
-        "IQR/z-score señalan candidatos; **domain bounds** deciden error vs flag.",
-        "Flag vs drop: por defecto flag + cuarentena, no drop silencioso.",
+        "Un outlier **plausible** está lejos estadísticamente pero dentro del dominio de negocio (monto alto legítimo en una campaña). Un **error de dominio** viola bounds (monto < 0, lat 999, edad 200). IQR/z-score solo **candidatan**; el dominio de negocio **decide** error vs flag.",
+        "Contrato: mantén máscaras `stat_outlier` y `domain_error` por separado; por defecto flag + cuarentena, nunca drop silencioso solo por IQR. Documenta bounds en el memo del gate (p. ej. monto ∈ [0, 10000] PEN sintéticos del fixture de clase).",
+        "Caso: serie con 5000 (cola plausible) y -1 (error). `stat` marca ambos; `domain` solo -1; `plausible_extreme` = 5000. El EDA de S17 no debe perder la cola legítima de montos por un 1.5·IQR ciego sin revisión explícita de dominio.",
       ],
       code: {
         language: 'python',
@@ -250,9 +250,9 @@ plausible_extreme [5000]`,
       heading: "reglas de schema y cross-field",
       subtopicId: "S16-T4-A",
       paragraphs: [
-        "Contrato de **schema**: columnas presentes, dtypes, nullability. **Cross-field**: fecha_fin >= fecha_ini, monto>0 si estado=pagado.",
-        "Cada regla devuelve máscara de fallos + código de error.",
-        "Ante schema drift (columna faltante/extra), el gate falla con mensaje claro.",
+        "Contrato de **schema**: columnas presentes, dtypes esperados y nullability por campo. **Cross-field**: p. ej. `fecha_fin >= fecha_ini`, `monto > 0` si estado=pagado. Cada regla devuelve máscara de fallos + código de error legible para cuarentena.",
+        "Ante **schema drift** (columna required faltante o renombrada), el gate falla con el **nombre** de la columna — no con un `KeyError` opaco al final del pipeline. Columnas extra pueden warn o fail según política documentada en el runbook.",
+        "Caso: expected `{inicio, fin, monto}`; detecta cross-field `fin<inicio` e índices de monto negativo. Imprime `drift`, `cross_fail_idx` y `neg_idx` con códigos legibles. Este bloque es el puente al join validado y al portfolio de S17.",
       ],
       code: {
         language: 'python',
@@ -286,9 +286,9 @@ neg_idx [1]`,
       heading: "métricas, cuarentena y audit trail",
       subtopicId: "S16-T4-B",
       paragraphs: [
-        "Métricas: %null, %dup, %fail_schema, filas in/out, filas en cuarentena.",
-        "Cuarentena = tabla de filas rechazadas + razón. Audit trail = append-only de eventos.",
-        "El gate publica métricas aunque falle.",
+        "Métricas operables del run: `rows_in`, `rows_clean`, `rows_quarantine`, tasas de null/dup/fail_schema y `pass` booleano. Un fail **sin métricas** no se puede operar en un job nocturno ni explicar a negocio, riesgo o auditoría interna.",
+        "Cuarentena = tabla de filas rechazadas + razón codificada. **Audit trail** = lista append-only de eventos (`ingest`, `quarantine`, `promote`). El gate publica el reporte aunque `pass=False` (exit code ≠ 0 acompañado de JSON de métricas).",
+        "Caso: 2 filas in, 1 clean, 1 quarantine por `null_required_monto`; audit con evento quarantine. `metrics.pass` es false. S17 solo debe consumir `clean` y el memo debe declarar cuántas filas quedaron fuera del universo analítico.",
       ],
       code: {
         language: 'python',
@@ -516,7 +516,7 @@ print(len(audit), audit[-1]["event"])`,
         subtopicId: "S16-T1-A",
         kind: "guided",
         instruction:
-          "Dado policy required en 'id', cuenta nulls de id e imprime el entero.",
+          "E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un null. Cuenta nulls de `id` con `isna` e imprime el entero. Pass: el conteo exacto del fixture del starter (no imputes antes de contar).",
         hint: "isna().sum().",
         hints: [
           "isna().sum().",
@@ -529,8 +529,8 @@ print(len(audit), audit[-1]["event"])`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-df = pd.DataFrame({'id':['C001', None]})
-# TODO
+df = pd.DataFrame({"id": ["C001", None]})
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -547,7 +547,7 @@ print(int(df["id"].isna().sum()))`,
         subtopicId: "S16-T1-A",
         kind: "independent",
         instruction:
-          "Construye dict de violaciones solo para campos required con nulls.",
+          "E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` required/optional, construye dict solo con campos required que tengan nulls (valor = conteo). Imprime el dict. Pass: coincide con solution (sin opcionales en el mapa).",
         hint: "Itera policy.",
         hints: [
           "Itera policy.",
@@ -560,9 +560,9 @@ print(int(df["id"].isna().sum()))`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-policy={'a':'required','b':'optional'}
-df=pd.DataFrame({'a':[1,None],'b':[None,2]})
-# TODO
+policy = {"a": "required", "b": "optional"}
+df = pd.DataFrame({"a": [1, None], "b": [None, 2]})
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -581,7 +581,7 @@ print(viol)`,
         subtopicId: "S16-T1-A",
         kind: "transfer",
         instruction:
-          "Imprime 'fail' si hay violaciones required, si no 'pass'.",
+          "E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones required imprime exactamente `fail`; si no, `pass`. No rellenes nulls para forzar pass. Pass string: `fail` o `pass` según el fixture del starter.",
         hint: "Usa el dict viol.",
         hints: [
           "Usa el dict viol.",
@@ -594,7 +594,8 @@ print(viol)`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+df = pd.DataFrame({"id": [None]})
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -612,7 +613,7 @@ print("fail" if viol else "pass")`,
         subtopicId: "S16-T1-B",
         kind: "guided",
         instruction:
-          "Crea columna was_null booleana antes de fillna(0) sobre monto; imprime was_null list.",
+          "E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, crea `was_null` booleana, luego `fillna(0)`; imprime la lista de was_null. Pass: lista booleana alineada a filas (True donde había null).",
         hint: "was_null = isna.",
         hints: [
           "was_null = isna.",
@@ -625,8 +626,9 @@ print("fail" if viol else "pass")`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-df=pd.DataFrame({'monto':[1.0, None]})
-# TODO
+df = pd.DataFrame({"monto": [1.0, None]})
+df["was_null"] = df["monto"].isna()
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -645,7 +647,7 @@ print(df["was_null"].tolist())`,
         subtopicId: "S16-T1-B",
         kind: "independent",
         instruction:
-          "Si null_rate > 0.3 imprime 'blocked', si no 'ok'. Fixture 2 de 4 null.",
+          "E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (rate=0.5) con umbral 0.3. Si null_rate>0.3 imprime `blocked`, si no `ok`. Pass: `blocked`. No imputes si está bloqueado.",
         hint: "mean de isna.",
         hints: [
           "mean de isna.",
@@ -658,7 +660,9 @@ print(df["was_null"].tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+s = pd.Series([1.0, None, None, 2.0])
+rate = s.isna().mean()
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -676,7 +680,7 @@ print("blocked" if rate > 0.3 else "ok")`,
         subtopicId: "S16-T1-B",
         kind: "transfer",
         instruction:
-          "Imputa mediana y muestra que la mediana de no-null no cambia tras fill de un solo null en [1,2,None].",
+          "E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,None]: imputa mediana de no-nulos; demuestra que la mediana de valores originales no-nulos se preserva conceptualmente e imprime el vector final según solution. Pass: salida idéntica al oracle.",
         hint: "median skipna.",
         hints: [
           "median skipna.",
@@ -689,7 +693,9 @@ print("blocked" if rate > 0.3 else "ok")`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+s = pd.Series([1.0, 2.0, None])
+med = s.median()
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -708,7 +714,7 @@ print(float(med), filled.tolist())`,
         subtopicId: "S16-T2-A",
         kind: "guided",
         instruction:
-          "Cuenta filas marcadas por duplicated(keep=False) en un DF con una fila exacta repetida.",
+          "E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cuenta filas con `duplicated(keep=False)` True e imprime el entero. Pass: conteo del fixture (típicamente 2). No uses drop aún.",
         hint: "duplicated(keep=False).sum().",
         hints: [
           "duplicated(keep=False).sum().",
@@ -721,7 +727,8 @@ print(float(med), filled.tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+df = pd.DataFrame({"a": [1, 1, 2], "b": [0, 0, 9]})
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -738,7 +745,7 @@ print(int(df.duplicated(keep=False).sum()))`,
         subtopicId: "S16-T2-A",
         kind: "independent",
         instruction:
-          "Detecta cliente_id con más de una región distinta; imprime lista de ids en conflicto.",
+          "E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con más de una región distinta (`nunique>1`); imprime lista de ids en conflicto. Pass: lista del oracle (p. ej. `['C002']`).",
         hint: "groupby nunique > 1.",
         hints: [
           "groupby nunique > 1.",
@@ -751,7 +758,8 @@ print(int(df.duplicated(keep=False).sum()))`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+df = pd.DataFrame({"cliente_id": ["C001", "C001", "C002"], "region": ["Lima", "Cusco", "Lima"]})
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -769,7 +777,7 @@ print(ids[ids > 1].index.tolist())`,
         subtopicId: "S16-T2-A",
         kind: "transfer",
         instruction:
-          "Clasifica: si exact dup print 'exact', elif conflicto región print 'conflict', else 'clean' para id C001 en fixture de una fila.",
+          "E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C001 en el fixture: si dup exacto print `exact`; elif conflicto de región print `conflict`; else `clean`. Pass: una de esas tres cadenas según solution.",
         hint: "Lógica en orden.",
         hints: [
           "Lógica en orden.",
@@ -782,7 +790,9 @@ print(ids[ids > 1].index.tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+df = pd.DataFrame({"cliente_id": ["C001"], "region": ["Lima"], "score": [1.0]})
+sub = df[df.cliente_id == "C001"]
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -805,7 +815,7 @@ else:
         subtopicId: "S16-T2-B",
         kind: "guided",
         instruction:
-          "Separa quarantine (dup key keep=False) y clean drop_duplicates keep first; imprime lens.",
+          "E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup key keep=False) y clean con drop_duplicates keep first; imprime ambos lens. Pass: tupla/lens del oracle. Conserva evidencia en quarantine.",
         hint: "duplicated(key, keep=False).",
         hints: [
           "duplicated(key, keep=False).",
@@ -818,8 +828,8 @@ else:
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-df=pd.DataFrame({'id':['a','a','b'], 'v':[1,2,3]})
-# TODO
+df = pd.DataFrame({"id": ["a", "a", "b"], "v": [1, 2, 3]})
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -838,7 +848,7 @@ print(len(q), len(c))`,
         subtopicId: "S16-T2-B",
         kind: "independent",
         instruction:
-          "Asegura que quarantine conserve columna batch de evidencia; imprime columns del q.",
+          "E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine conserve la columna `batch` (o la de evidencia del fixture); imprime `columns.tolist()` del quarantine. Pass: lista de columnas del oracle.",
         hint: "copy del mask.",
         hints: [
           "copy del mask.",
@@ -851,7 +861,8 @@ print(len(q), len(c))`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+df = pd.DataFrame({"id": ["a", "a"], "batch": ["b1", "b2"]})
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -869,7 +880,7 @@ print(q.columns.tolist())`,
         subtopicId: "S16-T2-B",
         kind: "transfer",
         instruction:
-          "Imprime 'card_ok' si nunique(id)==len(df) en un DF sin dups de clave.",
+          "E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(df)` imprime `card_ok`; si no, otra señal según solution. Pass: `card_ok` en DF sin dups de clave. Prepara el join 1:1 de S17.",
         hint: "cardinalidad 1:1.",
         hints: [
           "cardinalidad 1:1.",
@@ -882,7 +893,8 @@ print(q.columns.tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+df = pd.DataFrame({"id": ["a", "b"], "v": [1, 2]})
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -899,7 +911,7 @@ print("card_ok" if df["id"].nunique() == len(df) else "card_bad")`,
         subtopicId: "S16-T3-A",
         kind: "guided",
         instruction:
-          "strip + title sobre [' lima ','CUSCO']; imprime lista.",
+          "E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` aplica strip + title; imprime la lista. Pass: `['Lima', 'Cusco']`. No borres el raw si el ejercicio lo pide en columnas separadas.",
         hint: "str.strip().str.title().",
         hints: [
           "str.strip().str.title().",
@@ -912,7 +924,8 @@ print("card_ok" if df["id"].nunique() == len(df) else "card_bad")`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+s = pd.Series([" lima ", "CUSCO"])
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -929,7 +942,7 @@ print(s.str.strip().str.title().tolist())`,
         subtopicId: "S16-T3-A",
         kind: "independent",
         instruction:
-          "Quita prefijo 'S/' y castea float en ['S/1.5','S/2']; imprime suma.",
+          "E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/` y castea float en `['S/1.5','S/2']`; imprime la suma. Pass: `3.5`. Normalizar no es imputar nulls.",
         hint: "str.replace.",
         hints: [
           "str.replace.",
@@ -942,7 +955,9 @@ print(s.str.strip().str.title().tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+s = pd.Series(["S/1.5", "S/2"])
+v = s.str.replace("S/", "", regex=False).astype(float)
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -960,7 +975,7 @@ print(float(v.sum()))`,
         subtopicId: "S16-T3-A",
         kind: "transfer",
         instruction:
-          "Conserva raw: crea region desde region_raw y verifica que region_raw sigue igual.",
+          "E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `region_raw` y verifica que `region_raw` sigue igual; imprime evidencia según solution (p. ej. igualdad booleana o dict). Pass: salida del oracle.",
         hint: "Nueva col no pisa raw.",
         hints: [
           "Nueva col no pisa raw.",
@@ -973,7 +988,9 @@ print(float(v.sum()))`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+df = pd.DataFrame({"region_raw": ["lima"]})
+df["region"] = df["region_raw"].str.title()
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -991,7 +1008,7 @@ print(df["region_raw"].tolist(), df["region"].tolist())`,
         subtopicId: "S16-T3-B",
         kind: "guided",
         instruction:
-          "Marca domain_error si monto < 0; imprime lista booleana.",
+          "E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprime lista booleana alineada. Pass: lista del fixture (True en negativos). No drops por IQR aquí.",
         hint: "s < 0.",
         hints: [
           "s < 0.",
@@ -1004,7 +1021,8 @@ print(df["region_raw"].tolist(), df["region"].tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+s = pd.Series([1.0, -2.0, 3.0])
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -1021,7 +1039,7 @@ print((s < 0).tolist())`,
         subtopicId: "S16-T3-B",
         kind: "independent",
         instruction:
-          "Dado [1,2,3,100], usa IQR 1.5 y lista valores stat-outlier.",
+          "E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], lista valores stat-outlier. Pass: lista del oracle (incluye 100). Domain bounds se evalúan aparte.",
         hint: "quantile 0.25/0.75.",
         hints: [
           "quantile 0.25/0.75.",
@@ -1034,7 +1052,11 @@ print((s < 0).tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+s = pd.Series([1.0, 2.0, 3.0, 100.0])
+q1, q3 = s.quantile(0.25), s.quantile(0.75)
+iqr = q3 - q1
+mask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -1054,7 +1076,7 @@ print(s[mask].tolist())`,
         subtopicId: "S16-T3-B",
         kind: "transfer",
         instruction:
-          "Etiqueta 'error' si domain, 'flag' si solo stat, 'ok' else para valor -1 en [1,2,-1].",
+          "E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]: `error` si domain, `flag` si solo stat, `ok` else. Pass: `error` (dominio). Prioriza domain sobre IQR.",
         hint: "Prioriza error.",
         hints: [
           "Prioriza error.",
@@ -1067,7 +1089,10 @@ print(s[mask].tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+s = pd.Series([1.0, 2.0, -1.0])
+val = s.iloc[2]
+label = "error" if val < 0 else "ok"
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -1086,7 +1111,7 @@ print(label)`,
         subtopicId: "S16-T4-A",
         kind: "guided",
         instruction:
-          "Lista columnas required faltantes respecto a ['id','monto'] en DF solo con id.",
+          "E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y DF solo con `id`; imprime lista de faltantes. Pass: `['monto']` (u orden del oracle). Mensaje de drift explicable.",
         hint: "list comprehension.",
         hints: [
           "list comprehension.",
@@ -1099,7 +1124,9 @@ print(label)`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+df = pd.DataFrame({"id": [1]})
+required = ["id", "monto"]
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -1117,7 +1144,7 @@ print([c for c in required if c not in df.columns])`,
         subtopicId: "S16-T4-A",
         kind: "independent",
         instruction:
-          "Encuentra índices donde fin < inicio.",
+          "E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fin < inicio`; imprime la lista de índices. Pass: índices del fixture. Cada regla devuelve máscara + significado.",
         hint: "máscara datetime.",
         hints: [
           "máscara datetime.",
@@ -1130,7 +1157,11 @@ print([c for c in required if c not in df.columns])`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+df = pd.DataFrame({
+    "inicio": pd.to_datetime(["2024-01-01", "2024-06-01"]),
+    "fin": pd.to_datetime(["2024-02-01", "2024-05-01"]),
+})
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -1150,7 +1181,7 @@ print(df.index[df["fin"] < df["inicio"]].tolist())`,
         subtopicId: "S16-T4-A",
         kind: "transfer",
         instruction:
-          "Si missing cols: print 'drift'; else print 'schema_ok'.",
+          "E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required imprime `drift`; else `schema_ok`. Pass: cadena del oracle según fixture. Fail-closed ante drift.",
         hint: "Usa lista missing.",
         hints: [
           "Usa lista missing.",
@@ -1163,7 +1194,9 @@ print(df.index[df["fin"] < df["inicio"]].tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-# TODO
+df = pd.DataFrame({"id": [1]})
+missing = [c for c in ["id", "monto"] if c not in df.columns]
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -1181,7 +1214,7 @@ print("drift" if missing else "schema_ok")`,
         subtopicId: "S16-T4-B",
         kind: "guided",
         instruction:
-          "Dado rows_in=10 y quarantine_n=3, imprime rows_clean.",
+          "E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime rows_clean = in - quarantine. Pass: `7`. Métrica básica del reporte del gate.",
         hint: "resta simple.",
         hints: [
           "resta simple.",
@@ -1193,9 +1226,9 @@ print("drift" if missing else "schema_ok")`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
-rows_in=10
-q=3
+          code: `rows_in = 10
+q = 3
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -1212,7 +1245,7 @@ print(rows_in - q)`,
         subtopicId: "S16-T4-B",
         kind: "independent",
         instruction:
-          "Append evento quarantine a audit list e imprime len(audit).",
+          "E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` a la lista audit e imprime `len(audit)`. Pass: longitud del oracle (n_prev+1). No reescribas el historial.",
         hint: "audit.append.",
         hints: [
           "audit.append.",
@@ -1224,8 +1257,8 @@ print(rows_in - q)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `audit=[{'event':'start'}]
-# TODO
+          code: `audit = [{"event": "start"}]
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -1242,7 +1275,7 @@ print(len(audit))`,
         subtopicId: "S16-T4-B",
         kind: "transfer",
         instruction:
-          "metrics pass=False si quarantine>0; imprime pass boolean para n_q=1.",
+          "E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False; imprime el booleano para n_q=1. Pass: `False`. Publica métricas aunque el gate falle.",
         hint: "pass = n_q==0.",
         hints: [
           "pass = n_q==0.",
@@ -1254,7 +1287,8 @@ print(len(audit))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `n_q = 1
+# TODO: completa según la instrucción; imprime la salida exacta del contrato
 `,
         },
         solutionCode: {
@@ -1271,7 +1305,7 @@ print(metrics["pass"])`,
   youDo: {
     title: "Quality gate explicable ante schema drift",
     context:
-      "Implementa una suite de checks sobre un dataset sintético de clientes/transacciones: null policies, duplicados con evidencia, normalización, outliers, contratos cross-field, cuarentena y audit trail. Nunca arregles silenciosamente un dato.",
+      "Implementa una suite de checks sobre un dataset sintético de clientes/transacciones (regiones Lima/Arequipa/Cusco, montos PEN ficticios): null policies required/optional, duplicados exactos vs conflictos con evidencia, normalización con raw lateral, outliers dominio+IQR, contratos schema/cross-field, cuarentena y audit trail append-only. El set clean alimenta S17/CP-N2-A. Fail-closed: nunca arregles silenciosamente un dato ni uses PII real.",
     objectives: [
       "Suite de checks que falla explicablemente ante drift",
       "Cuantificar pérdida de filas/campos",
@@ -1309,32 +1343,64 @@ if __name__ == "__main__":
   selfCheck: {
     questions: [
       {
-        question: "Un campo required con null debe:",
-        options: ["Rellenarse siempre con 0", "Ignorarse", "Convertirse en category", "Generar violación/cuarentena o fail del gate"],
-        correctIndex: 3,
-        explanation:
-          "Required no se imputa en silencio.",
-      },
-      {
-        question: "Conflicto de duplicados significa:",
-        options: ["Siempre filas idénticas", "Misma clave con atributos distintos", "Solo NaNs", "Schema drift de columnas"],
+        question: "Un campo marked required con nulls debe:",
+        options: [
+          "Imputarse siempre con 0",
+          "Provocar violación/cuarentena o fail del gate",
+          "Ignorarse si es <5% de filas",
+          "Convertirse a string vacío",
+        ],
         correctIndex: 1,
         explanation:
-          "Conflicto = misma key, valores distintos.",
+          "Required implica presencia: null no se “arregla” en silencio; va a violations/cuarentena o tumba el gate con métricas.",
       },
       {
-        question: "La cuarentena debe:",
-        options: ["Borrar evidencia", "Enviarse a producción sin marca", "Conservar filas rechazadas con razón", "Imputar siempre"],
-        correctIndex: 2,
+        question: "Duplicado exacto vs conflicto de clave:",
+        options: [
+          "Son lo mismo y siempre se drop_duplicates",
+          "Exacto = filas idénticas; conflicto = misma clave con atributos distintos",
+          "Conflicto solo existe en SQL, no en pandas",
+          "Exacto se resuelve con melt",
+        ],
+        correctIndex: 1,
         explanation:
-          "Evidencia + razón habilitan auditoría.",
+          "Clasifica antes de borrar: el conflicto requiere evidencia y regla de resolución; el exacto puede colapsarse tras log.",
       },
       {
-        question: "Ante schema drift (columna required faltante):",
-        options: ["Fallar de forma explicable con el nombre de la columna", "Continuar con defaults ocultos", "Inventar la columna con random", "Silenciar logs"],
-        correctIndex: 0,
+        question: "Conservar region_raw al normalizar sirve para:",
+        options: [
+          "Acelerar groupby",
+          "Auditar y disputar la forma canónica sin perder el valor original",
+          "Imputar nulls automáticamente",
+          "Validar one_to_one en merge",
+        ],
+        correctIndex: 1,
         explanation:
-          "Fail explicable es el estándar del gate V3.",
+          "Normalizar ≠ borrar historia: el raw lateral permite auditoría y rollback conceptual del transform.",
+      },
+      {
+        question: "IQR sin domain bounds es riesgoso porque:",
+        options: [
+          "No funciona con floats",
+          "Puede marcar (o borrar) colas legítimas de negocio como si fueran error",
+          "Siempre es más lento que z-score",
+          "Requiere MultiIndex",
+        ],
+        correctIndex: 1,
+        explanation:
+          "IQR solo candidata outliers estadísticos; los bounds de dominio deciden error vs flag plausible.",
+      },
+      {
+        question: "Un quality gate que falla debe:",
+        options: [
+          "Ocultar métricas para no alarmar",
+          "Publicar métricas y cuarentena aunque pass=False",
+          "Imputar todos los nulls y reintentar en silencio",
+          "Borrar el audit trail del run anterior",
+        ],
+        correctIndex: 1,
+        explanation:
+          "Operar un fail exige rows_in/clean/quarantine y razones; el audit es append-only y el exit code refleja pass.",
       },
     ],
   },

@@ -27,9 +27,9 @@ export const section11: CourseSection = {
     {
       heading: "De “Testing pytest/CI” a OOP y modelo de dominio (mapa)",
       paragraphs: [
-        "En V3, **S11 no es el path principal de pytest fixtures/coverage/CI** (ese material se reubica como soporte de calidad). Aquí modelas el **dominio de familiaridad**: `ClientRecord`, `ResolvedEntity`, `Transaction`, `RelationshipEvidence`.",
-        "Ninguna clase emite veredicto de **fraude** ni **parentesco**. Los scores son **datos**, no decisiones legales. Entorno **local-python**. Id de plataforma `testing` se conserva.",
-        "Orden: **T1 Objetos** → **T2 Encapsulación** → **T3 Diseño** → **T4 Límites** (repos/tests).",
+        "En V3, **S11 no es el path principal de pytest fixtures/coverage/CI** (ese material se reubica como soporte de calidad). Aquí modelas el **dominio de familiaridad**: `ClientRecord`, `ResolvedEntity`, `Transaction`, `RelationshipEvidence`. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+        "Ninguna clase emite veredicto de **fraude** ni **parentesco**. Los scores son **datos**, no decisiones legales. Entorno **local-python**. Id de plataforma `testing` se conserva. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+        "Orden: **T1 Objetos** → **T2 Encapsulación** → **T3 Diseño** → **T4 Límites** (repos/tests). Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section11: CourseSection = {
       heading: "Clases, instancias y dataclass",
       subtopicId: "S11-T1-A",
       paragraphs: [
-        "Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__init__`, `__repr__` y opcionalmente comparación.",
-        "Campos con **type hints** y `default_factory` para mutables (listas/dicts) evitan el clásico bug del default compartido.",
-        "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes en T1-B.",
+        "Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__init__`, `__repr__` y opcionalmente comparación. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+        "Campos con **type hints** y `default_factory` para mutables (listas/dicts) evitan el clásico bug del default compartido. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+        "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes en T1-B. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Clases, instancias y dataclass»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -74,9 +74,9 @@ ClientRecord C001`,
       heading: "Invariantes y estados válidos",
       subtopicId: "S11-T1-B",
       paragraphs: [
-        "`__post_init__` en dataclasses valida justo después de construir. Si el estado es inválido, **falla al crear** — no dejes objetos a medias.",
-        "Método `validate()` reutilizable ayuda en factories `from_dict`. Sin side-effects de negocio externos (no llama APIs al validar).",
-        "Ejemplo: `document_id` no vacío; en `Transaction`, `amount` es `Decimal` positivo y `currency` pertenece al allowlist explícito `{'PEN', 'USD'}`. Nunca conviertas moneda en silencio.",
+        "`__post_init__` en dataclasses valida justo después de construir. Si el estado es inválido, **falla al crear** — no dejes objetos a medias. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+        "Método `validate()` reutilizable ayuda en factories `from_dict`. Sin side-effects de negocio externos (no llama APIs al validar). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+        "Ejemplo: `document_id` no vacío; en `Transaction`, `amount` es `Decimal` positivo y `currency` pertenece al allowlist explícito `{'PEN', 'USD'}`. Nunca conviertas moneda en silencio. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Invariantes y estados válidos»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -113,9 +113,9 @@ reject document_id vacío`,
       heading: "Propiedades y métodos",
       subtopicId: "S11-T2-A",
       paragraphs: [
-        "`@property` expone campos calculados (`display_name`, `masked_email`) sin mutación peligrosa desde afuera.",
-        "Métodos de instancia encapsulan consultas (`age_days_since`). Evita exponer PII raw en la superficie pública si puedes ofrecer máscaras.",
-        "Setters validados solo cuando la mutación es parte del modelo; si no, prefiere frozen/nuevas instancias.",
+        "`@property` expone campos calculados (`display_name`, `masked_email`) sin mutación peligrosa desde afuera. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+        "Métodos de instancia encapsulan consultas (`age_days_since`). Evita exponer PII raw en la superficie pública si puedes ofrecer máscaras. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+        "Setters validados solo cuando la mutación es parte del modelo; si no, prefiere frozen/nuevas instancias. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Propiedades y métodos»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -152,9 +152,9 @@ print(c.display_name, c.masked_email)`,
       heading: "Igualdad, hash y mutabilidad consciente",
       subtopicId: "S11-T2-B",
       paragraphs: [
-        "La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `document_id`: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades por accidente. **`frozen=True`** habilita hash seguro para sets/dicts.",
-        "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas campos del eq.",
-        "Value objects (Evidence) suelen ser frozen; agregados con listas pueden ser mutables con cuidado.",
+        "La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `document_id`: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades por accidente. **`frozen=True`** habilita hash seguro para sets/dicts. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+        "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas campos del eq. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+        "Value objects (Evidence) suelen ser frozen; agregados con listas pueden ser mutables con cuidado. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Igualdad, hash y mutabilidad consciente»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -191,10 +191,10 @@ E1 in set True`,
       heading: "Composición antes que herencia",
       subtopicId: "S11-T3-A",
       paragraphs: [
-        "**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `RelationshipEvidence` y una `ResolvedEntity`.",
-        "Una evidencia usa un par canónico (`left_id < right_id`), ids distintos y score finito en [0, 1]. Así (E1,E2) y (E2,E1) no duplican la misma relación.",
-        "Herencia solo si hay **subtipo real** (is-a). Evita jerarquías frágiles `Client(Person(BaseEntity...))` solo para reutilizar un campo.",
-        "Mixins con cautela: complejidad invisible. Prefiere funciones o colaboración entre objetos.",
+        "**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `RelationshipEvidence` y una `ResolvedEntity`. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+        "Una evidencia usa un par canónico (`left_id < right_id`), ids distintos y score finito en [0, 1]. Así (E1,E2) y (E2,E1) no duplican la misma relación. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+        "Herencia solo si hay **subtipo real** (is-a). Evita jerarquías frágiles `Client(Person(BaseEntity...))` solo para reutilizar un campo. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Composición antes que herencia»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Mixins con cautela: complejidad invisible. Prefiere funciones o colaboración entre objetos. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
       ],
       code: {
         language: 'python',
@@ -238,9 +238,9 @@ print(len(cf.evidences), cf.evidences[0].signal_score)`,
       heading: "Protocolos y polimorfismo con propósito",
       subtopicId: "S11-T3-B",
       paragraphs: [
-        "`typing.Protocol` describe un **puerto** (EntityStore con get/save) sin forzar herencia. Duck typing estructural.",
-        "Útil para fakes en tests y para no acoplar dominio a una DB. Evita ABC pesados si Protocol basta.",
-        "No introduzcas Protocol 'por si acaso' con una sola implementación y sin tests — YAGNI.",
+        "`typing.Protocol` describe un **puerto** (EntityStore con get/save) sin forzar herencia. Duck typing estructural. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+        "Útil para fakes en tests y para no acoplar dominio a una DB. Evita ABC pesados si Protocol basta. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+        "No introduzcas Protocol 'por si acaso' con una sola implementación y sin tests — YAGNI. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Protocolos y polimorfismo con propósito»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -282,9 +282,9 @@ True`,
       heading: "Repositorios, servicios y serialización",
       subtopicId: "S11-T4-A",
       paragraphs: [
-        "**Repository** light: get/save. **Service** light: orquesta dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` en el borde.",
-        "Serializa sin password fields ni PII innecesaria. DTOs de borde no tienen que ser las entidades internas.",
-        "CLI (S10) llama al service; el service no imprime ni parsea argparse.",
+        "**Repository** light: get/save. **Service** light: orquesta dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` en el borde. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+        "Serializa sin password fields ni PII innecesaria. DTOs de borde no tienen que ser las entidades internas. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+        "CLI (S10) llama al service; el service no imprime ni parsea argparse. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Repositorios, servicios y serialización»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -333,9 +333,9 @@ print(svc.register("C001", "a@ejemplo.pe"))`,
       heading: "Dependencias y pruebas del dominio",
       subtopicId: "S11-T4-B",
       paragraphs: [
-        "Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan.",
-        "Assert de invariantes y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`).",
-        "Scores de resolución/relación son campos; un test verifica finitud/rango, par canónico y ausencia de métodos de veredicto.",
+        "Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+        "Assert de invariantes y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
+        "Scores de resolución/relación son campos; un test verifica finitud/rango, par canónico y ausencia de métodos de veredicto. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Dependencias y pruebas del dominio»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -634,7 +634,7 @@ pass`,
         subtopicId: "S11-T1-A",
         kind: "guided",
         instruction:
-          "Completa la dataclass ClientRecord con client_id, full_name y phones: list[str].",
+          "E1 (guiado) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Completa la dataclass ClientRecord con client_id, full_name y phones: list[str]. Salida/pass: primeros tokens de `ClientRecord(client_id='C001', full_name='Ana Pere…` según solution. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "Usa field(default_factory=list).",
         hints: [
           "Usa field(default_factory=list).",
@@ -647,7 +647,12 @@ pass`,
           language: 'python',
           title: "complete_client.py",
           code: `from dataclasses import dataclass, field
-# TODO`,
+
+@dataclass
+class ClientRecord:
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -669,7 +674,7 @@ print(ClientRecord("C001", "Ana Perez", ["999111222"]))`,
         subtopicId: "S11-T1-A",
         kind: "independent",
         instruction:
-          "Define Transaction con tx_id, client_id, amount: Decimal y currency: str obligatorios; usa Decimal desde texto y PEN en el caso visible.",
+          "E2 (independiente) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Define Transaction con tx_id, client_id, amount: Decimal y currency: str obligatorios; usa Decimal desde texto y PEN en el caso visible. Salida/pass: primeros tokens de `Transaction(tx_id='T1', client_id='C001', amount=D…` según solution. Conserva el contrato del.",
         hint: "Importa Decimal; sin defaults en campos obligatorios.",
         hints: [
           "Importa Decimal; sin defaults en campos obligatorios.",
@@ -683,7 +688,12 @@ print(ClientRecord("C001", "Ana Perez", ["999111222"]))`,
           title: "transaction.py",
           code: `from dataclasses import dataclass
 from decimal import Decimal
-# TODO`,
+
+@dataclass
+class Transaction:
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -707,7 +717,7 @@ print(Transaction("T1", "C001", Decimal("150.50"), "PEN"))`,
         subtopicId: "S11-T1-A",
         kind: "transfer",
         instruction:
-          "Migra un dict anónimo a ClientRecord vía from_dict.",
+          "E3 (transferencia) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Migra un dict anónimo a ClientRecord vía from_dict. Salida/pass: `ClientRecord C007`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "classmethod from_dict.",
         hints: [
           "classmethod from_dict.",
@@ -721,8 +731,11 @@ print(Transaction("T1", "C001", Decimal("150.50"), "PEN"))`,
           title: "migrate_dict.py",
           code: `from dataclasses import dataclass
 
-raw = {"client_id": "C007", "full_name": "Luis Ramos"}
-# TODO`,
+@dataclass
+class ClientRecord:
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -749,7 +762,7 @@ print(type(c).__name__, c.client_id)`,
         subtopicId: "S11-T1-B",
         kind: "guided",
         instruction:
-          "Añade invariantes: amount Decimal > 0, cuantizado a 0.01, y currency en {'PEN', 'USD'} sin conversión silenciosa.",
+          "E1 (guiado) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Añade invariantes: amount Decimal > 0, cuantizado a 0.01, y currency en {'PEN', 'USD'} sin conversión silenciosa. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19;.",
         hint: "__post_init__: isinstance Decimal, quantize(0.01), allowlist de currency.",
         hints: [
           "__post_init__: isinstance Decimal, quantize(0.01), allowlist de currency.",
@@ -766,10 +779,9 @@ from decimal import Decimal
 
 @dataclass
 class Transaction:
-    tx_id: str
-    amount: Decimal
-    currency: str
-    # TODO post_init`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -812,7 +824,7 @@ reject currency no soportada`,
         subtopicId: "S11-T1-B",
         kind: "independent",
         instruction:
-          "Factory from_dict con validación de client_id y document_id no vacíos.",
+          "E2 (independiente) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Factory from_dict con validación de client_id y document_id no vacíos. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "Raise ValueError con mensaje claro.",
         hints: [
           "Raise ValueError con mensaje claro.",
@@ -828,13 +840,9 @@ reject currency no soportada`,
 
 @dataclass
 class ClientRecord:
-    client_id: str
-    document_id: str
-
-    @classmethod
-    def from_dict(cls, d: dict) -> "ClientRecord":
-        # TODO
-        ...`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -870,7 +878,7 @@ document_id vacío`,
         subtopicId: "S11-T1-B",
         kind: "transfer",
         instruction:
-          "Lista en español 4 invariantes del dominio e imprímelas.",
+          "E3 (transferencia) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Lista en español 4 invariantes del dominio e imprímelas. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "ClientRecord, Transaction, Evidence, Entity.",
         hints: [
           "ClientRecord, Transaction, Evidence, Entity.",
@@ -882,7 +890,9 @@ document_id vacío`,
         starterCode: {
           language: 'python',
           title: "invariants_list.py",
-          code: `# TODO`,
+          code: `# fixture
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -905,7 +915,7 @@ INV: ResolvedEntity.entity_id único y no vacío`,
         subtopicId: "S11-T2-A",
         kind: "guided",
         instruction:
-          "Property full_name desde first_name y last_name.",
+          "E1 (guiado) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Property full_name desde first_name y last_name. Salida/pass: `Ana Perez`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "@property sin setter.",
         hints: [
           "@property sin setter.",
@@ -921,9 +931,9 @@ INV: ResolvedEntity.entity_id único y no vacío`,
 
 @dataclass
 class Person:
-    first_name: str
-    last_name: str
-    # TODO property`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -948,7 +958,7 @@ print(Person("Ana", "Perez").full_name)`,
         subtopicId: "S11-T2-A",
         kind: "independent",
         instruction:
-          "Método age_days_since(day: int) en Transaction con campo day_created: int (demo sin datetime).",
+          "E2 (independiente) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Método age_days_since(day: int) en Transaction con campo day_created: int (demo sin datetime). Salida/pass: `15`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "Retorna day - day_created.",
         hints: [
           "Retorna day - day_created.",
@@ -964,9 +974,9 @@ print(Person("Ana", "Perez").full_name)`,
 
 @dataclass
 class Transaction:
-    tx_id: str
-    day_created: int
-    # TODO`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -990,7 +1000,7 @@ print(Transaction("T1", 10).age_days_since(25))`,
         subtopicId: "S11-T2-A",
         kind: "transfer",
         instruction:
-          "Encapsula mutación de score con setter que solo acepta valores numéricos finitos entre 0 y 1.",
+          "E3 (transferencia) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Encapsula mutación de score con setter que solo clases, dataclass, composition (S01–S11).",
         hint: "Property score + math.isfinite antes del rango.",
         hints: [
           "Property score + math.isfinite antes del rango.",
@@ -1005,9 +1015,9 @@ print(Transaction("T1", 10).age_days_since(25))`,
           code: `from math import isfinite
 
 class Signal:
-    def __init__(self):
-        self._score = 0.0
-    # TODO property score`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1050,7 +1060,7 @@ reject_nan score fuera de rango`,
         subtopicId: "S11-T2-B",
         kind: "guided",
         instruction:
-          "Implementa ResolvedEntity frozen con igualdad/hash solo por entity_id; display_name puede cambiar sin cambiar identidad.",
+          "E1 (guiado) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Implementa ResolvedEntity frozen con igualdad/hash solo por entity_id; display_name puede cambiar sin cambiar identidad. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de.",
         hint: "dataclass(frozen=True) + field(compare=False) en display_name.",
         hints: [
           "dataclass(frozen=True) + field(compare=False) en display_name.",
@@ -1066,9 +1076,9 @@ reject_nan score fuera de rango`,
 
 @dataclass(frozen=True)
 class ResolvedEntity:
-    entity_id: str
-    display_name: str = field(compare=False)
-    # TODO post_init`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1098,7 +1108,7 @@ print(len({a, b, c}))`,
         subtopicId: "S11-T2-B",
         kind: "independent",
         instruction:
-          "Crea Evidence frozen value object y úsalo en un set.",
+          "E2 (independiente) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Crea Evidence frozen value object y úsalo en un set. Salida/pass: `2`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "frozen=True dataclass.",
         hints: [
           "frozen=True dataclass.",
@@ -1111,7 +1121,12 @@ print(len({a, b, c}))`,
           language: 'python',
           title: "frozen_evidence.py",
           code: `from dataclasses import dataclass
-# TODO`,
+
+@dataclass(frozen=True)
+class Evidence:
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1138,7 +1153,7 @@ print(len(s))`,
         subtopicId: "S11-T2-B",
         kind: "transfer",
         instruction:
-          "Demuestra el bug de entidad mutable como key de dict y la versión frozen segura.",
+          "E3 (transferencia) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Demuestra el bug de entidad mutable como key de dict y la versión frozen segura. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "Imprime BUG y SAFE.",
         hints: [
           "Imprime BUG y SAFE.",
@@ -1150,7 +1165,10 @@ print(len(s))`,
         starterCode: {
           language: 'python',
           title: "mutable_key_bug.py",
-          code: `# TODO demo bug + safe`,
+          code: `class MutableEntity:
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1188,7 +1206,7 @@ SAFE row`,
         subtopicId: "S11-T3-A",
         kind: "guided",
         instruction:
-          "Reemplaza herencia innecesaria Client(Person) por composición Client tiene person_info dict/objeto.",
+          "E1 (guiado) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Reemplaza herencia innecesaria Client(Person) por composición Client tiene person_info dict/objeto. Salida/pass: `C001 Ana | design=composition`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "Imprime el diseño final simple.",
         hints: [
           "Imprime el diseño final simple.",
@@ -1200,8 +1218,13 @@ SAFE row`,
         starterCode: {
           language: 'python',
           title: "replace_inheritance.py",
-          code: `# malo: class Client(Person): ...
-# TODO composición`,
+          code: `from dataclasses import dataclass
+
+@dataclass
+class PersonInfo:
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1230,7 +1253,7 @@ design=composition`,
         subtopicId: "S11-T3-A",
         kind: "independent",
         instruction:
-          "CaseFile agrega evidencias con add_evidence y cuenta.",
+          "E2 (independiente) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: CaseFile agrega evidencias con add_evidence y cuenta. Salida/pass: `n= 2`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "Lista interna.",
         hints: [
           "Lista interna.",
@@ -1246,9 +1269,9 @@ design=composition`,
 
 @dataclass
 class CaseFile:
-    case_id: str
-    evidences: list = field(default_factory=list)
-    # TODO add_evidence`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1275,7 +1298,7 @@ print("n=", len(cf.evidences))`,
         subtopicId: "S11-T3-A",
         kind: "transfer",
         instruction:
-          "Justifica en 2 líneas por qué no heredar Client de Person; imprime JUST: ...",
+          "E3 (transferencia) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Justifica en 2 líneas por qué no heredar Client de Person; imprime JUST: ... Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "Piensa en roles y evolución del modelo.",
         hints: [
           "Piensa en roles y evolución del modelo.",
@@ -1287,7 +1310,9 @@ print("n=", len(cf.evidences))`,
         starterCode: {
           language: 'python',
           title: "why_not_inherit.py",
-          code: `# TODO`,
+          code: `pass  # fixture vacío — usa solution contract
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1303,7 +1328,7 @@ JUST: la composición evita jerarquías frágiles cuando Person cambia sin ser C
         subtopicId: "S11-T3-B",
         kind: "guided",
         instruction:
-          "Define Protocol Scorer con score(pair: tuple[str,str]) -> float y un FakeScorer.",
+          "E1 (guiado) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Define Protocol Scorer con score(pair: tuple[str,str]) -> float y un FakeScorer. Salida/pass: `0.5`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "Imprime el score de un par sintético.",
         hints: [
           "Imprime el score de un par sintético.",
@@ -1316,7 +1341,11 @@ JUST: la composición evita jerarquías frágiles cuando Person cambia sin ser C
           language: 'python',
           title: "scorer_protocol.py",
           code: `from typing import Protocol
-# TODO`,
+
+class Scorer(Protocol):
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1340,7 +1369,7 @@ print(s.score(("E1", "E2")))`,
         subtopicId: "S11-T3-B",
         kind: "independent",
         instruction:
-          "Dos implementaciones de normalizer (strip vs casefold) usables por la misma función apply.",
+          "E2 (independiente) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Dos implementaciones de normalizer (strip vs casefold) usables por la misma función apply. Salida/pass: `Ana | ana`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "apply(norm, text) llama norm(text).",
         hints: [
           "apply(norm, text) llama norm(text).",
@@ -1353,9 +1382,9 @@ print(s.score(("E1", "E2")))`,
           language: 'python',
           title: "two_normalizers.py",
           code: `def apply(norm, text):
-    return norm(text)
-
-# TODO dos normalizers`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1380,7 +1409,7 @@ ana`,
         subtopicId: "S11-T3-B",
         kind: "transfer",
         instruction:
-          "Escribe 2 razones para NO introducir Protocol aún e imprime WHEN_NOT.",
+          "E3 (transferencia) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Escribe 2 razones para NO introducir Protocol aún e imprime WHEN_NOT. Salida/pass: primeros tokens de `WHEN_NOT: solo hay una implementación y no hay tes…` según solution. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de.",
         hint: "YAGNI / una sola implementación.",
         hints: [
           "YAGNI / una sola implementación.",
@@ -1392,7 +1421,9 @@ ana`,
         starterCode: {
           language: 'python',
           title: "when_not_protocol.py",
-          code: `# TODO`,
+          code: `pass  # fixture vacío — usa solution contract
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1408,7 +1439,7 @@ WHEN_NOT: el puerto aún no es estable y crear Protocol congela una API prematur
         subtopicId: "S11-T4-A",
         kind: "guided",
         instruction:
-          "to_dict de ClientRecord sin campos password/secret.",
+          "E1 (guiado) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: to_dict de ClientRecord sin campos password/secret. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "Aunque existan en el objeto, no serializarlos.",
         hints: [
           "Aunque existan en el objeto, no serializarlos.",
@@ -1424,10 +1455,9 @@ WHEN_NOT: el puerto aún no es estable y crear Protocol congela una API prematur
 
 @dataclass
 class ClientRecord:
-    client_id: str
-    email: str
-    password: str = ""
-    # TODO to_dict`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1452,7 +1482,7 @@ print(ClientRecord("C1", "a@ejemplo.pe", "secret").to_dict())`,
         subtopicId: "S11-T4-A",
         kind: "independent",
         instruction:
-          "Repository save/get con dict store en memoria.",
+          "E2 (independiente) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Repository save/get con dict store en memoria. Salida/pass: `{'client_id': 'C001', 'email': 'a@ejemplo.pe'}`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "Clase con save y get.",
         hints: [
           "Clase con save y get.",
@@ -1465,8 +1495,9 @@ print(ClientRecord("C1", "a@ejemplo.pe", "secret").to_dict())`,
           language: 'python',
           title: "mem_repo.py",
           code: `class Repo:
-    # TODO
-    ...`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1490,7 +1521,7 @@ print(r.get("C001"))`,
         subtopicId: "S11-T4-A",
         kind: "transfer",
         instruction:
-          "Dibuja en texto la frontera dominio vs CLI I/O (3 capas).",
+          "E3 (transferencia) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Dibuja en texto la frontera dominio vs CLI I/O (3 capas). Salida/pass: primeros tokens de `LAYER: cli — argparse, stdin/stdout, exit codes | …` según solution. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19 solo clases, dataclass, composition (S01–S11).",
         hint: "cli → service → domain/repo.",
         hints: [
           "cli → service → domain/repo.",
@@ -1502,7 +1533,9 @@ print(r.get("C001"))`,
         starterCode: {
           language: 'python',
           title: "boundary_layers.py",
-          code: `# TODO`,
+          code: `# fixture
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1523,7 +1556,7 @@ LAYER: domain/repo — entidades, invariantes, persistencia abstracta`,
         subtopicId: "S11-T4-B",
         kind: "guided",
         instruction:
-          "Test de invariante ClientRecord: document_id vacío lanza ValueError; imprime pass.",
+          "E1 (guiado) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Test de invariante ClientRecord: document_id vacío lanza ValueError; imprime pass. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "Usa assert en un try o pytest-style manual.",
         hints: [
           "Usa assert en un try o pytest-style manual.",
@@ -1539,13 +1572,9 @@ LAYER: domain/repo — entidades, invariantes, persistencia abstracta`,
 
 @dataclass
 class ClientRecord:
-    client_id: str
-    document_id: str
-    def __post_init__(self):
-        if not self.document_id.strip():
-            raise ValueError("document_id vacío")
-
-# TODO test`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1576,7 +1605,7 @@ print(test_empty_document_rejected())`,
         subtopicId: "S11-T4-B",
         kind: "independent",
         instruction:
-          "Fake repo en 3 tests de servicio (register, get, missing).",
+          "E2 (independiente) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Fake repo en 3 tests de servicio (register, get, missing). Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
         hint: "Imprime pass x3.",
         hints: [
           "Imprime pass x3.",
@@ -1589,21 +1618,9 @@ print(test_empty_document_rejected())`,
           language: 'python',
           title: "fake_repo_tests.py",
           code: `class FakeRepo:
-    def __init__(self):
-        self.d = {}
-    def save(self, row):
-        self.d[row["id"]] = row
-    def get(self, id):
-        return self.d.get(id)
-
-class Service:
-    def __init__(self, repo):
-        self.repo = repo
-    def register(self, id, name):
-        self.repo.save({"id": id, "name": name})
-        return self.repo.get(id)
-
-# TODO 3 tests`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1649,7 +1666,7 @@ pass`,
         subtopicId: "S11-T4-B",
         kind: "transfer",
         instruction:
-          "Revisa una clase con decide_fraud y propón extracción: imprime ANTES/DESPUÉS conceptual.",
+          "E3 (transferencia) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Revisa una clase con decide_fraud y propón extracción: imprime ANTES/DESPUÉS conceptual. Salida/pass: primeros tokens de `ANTES: Client.decide_fraud(score)->bool veredicto …` según solution. Conserva el contrato del starter (no borres asserts ni datos); no.",
         hint: "Mueve el score a Evidence; elimina el veredicto.",
         hints: [
           "Mueve el score a Evidence; elimina el veredicto.",
@@ -1662,9 +1679,9 @@ pass`,
           language: 'python',
           title: "extract_fraud.py",
           code: `class BadClient:
-    def decide_fraud(self, score):
-        return score > 0.9
-# TODO propuesta`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',

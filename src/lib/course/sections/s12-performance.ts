@@ -28,8 +28,8 @@ export const section12: CourseSection = {
       heading: "De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la sección)",
       paragraphs: [
         "En V3, **S12 no es el path principal de multiprocessing, profiling ni logging de producción**. Ese material se reubica conceptualmente hacia el tramo de sistemas/ops. Aquí construyes el **incremento CP-N1-C de adquisición y geoevidencia**: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado **sin PII bancaria a servicios públicos**.",
-        "El hilo conductor es un **adaptador de señales sintéticas** (listas de entidades, evidencias y coordenadas) con timeout, cache, provenance y fallback offline. Solo datos sintéticos latam (`example.com`, Lima/Arequipa, ids `C00x`).",
-        "Orden: **T1 HTTP** → **T2 Auth/cache/contracts** → **T3 SQL** → **T4 Geodatos responsables**.",
+        "El hilo conductor es un **adaptador de señales sintéticas** (listas de entidades, evidencias y coordenadas) con timeout, cache, provenance y fallback offline. Solo datos sintéticos latam (`example.com`, Lima/Arequipa, ids `C00x`). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no.",
+        "Orden: **T1 HTTP** → **T2 Auth/cache/contracts** → **T3 SQL** → **T4 Geodatos responsables**. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la sección)»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section12: CourseSection = {
       heading: "requests/responses, status y JSON",
       subtopicId: "S12-T1-A",
       paragraphs: [
-        "Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSON). En este curso usamos un **cliente mock** o `urllib` con fixtures: la pedagogía es status + parse, no la librería de red.",
-        "**2xx** = éxito; **4xx** = error del cliente (no reintentes a ciegas); **5xx** = error del servidor (candidatos a retry con límite). Siempre parsea con manejo de cuerpo vacío o JSON inválido.",
-        "**Timeout es obligatorio**: sin `timeout=` un socket colgado congela el pipeline. Headers (`Accept`, `User-Agent`) documentan el contrato del adaptador.",
+        "Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSON). En este curso usamos un **cliente mock** o `urllib` con fixtures: la pedagogía es status + parse, no la librería de red. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+        "**2xx** = éxito; **4xx** = error del cliente (no reintentes a ciegas); **5xx** = error del servidor (candidatos a retry con límite). Siempre parsea con manejo de cuerpo vacío o JSON inválido. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+        "**Timeout es obligatorio**: sin `timeout=` un socket colgado congela el pipeline. Headers (`Accept`, `User-Agent`) documentan el contrato del adaptador. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «requests/responses, status y JSON»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -80,9 +80,9 @@ print("404 status", miss.status_code, "body", miss.json())`,
       heading: "Timeout, paginación, retry/backoff y rate limit",
       subtopicId: "S12-T1-B",
       paragraphs: [
-        "**Timeout** acota la espera por request. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez.",
-        "**Retry/backoff** solo en errores **transitorios** (429, 503, timeouts). Un **400** o **404** no se reintenta. Respeta `Retry-After` y un **max_retries** duro.",
-        "Rate limit: duerme entre páginas o respeta cuotas del proveedor. En demo usamos `sleep` simbólico o contador de delays.",
+        "**Timeout** acota la espera por request. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+        "**Retry/backoff** solo en errores **transitorios** (429, 503, timeouts). Un **400** o **404** no se reintenta. Respeta `Retry-After` y un **max_retries** duro. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+        "Rate limit: duerme entre páginas o respeta cuotas del proveedor. En demo usamos `sleep` simbólico o contador de delays. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Timeout, paginación, retry/backoff y rate limit»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -121,9 +121,9 @@ print("items", all_items, "rate_limit_pauses", delays)`,
       heading: "Auth, secretos, cache y provenance",
       subtopicId: "S12-T2-A",
       paragraphs: [
-        "Autenticación **Bearer** o basic lee el token de **variable de entorno**, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro.",
-        "**Cache de GET** por hash de URL con **TTL** reduce costo y latencia; no caches respuestas de escritura ni datos sensibles sin política.",
-        "**Provenance**: cada fetch deja `source_url`, `fetched_at`, `status_code`, `cache_hit`. **Nunca loguees el token**.",
+        "Autenticación **Bearer** o basic lee el token de **variable de entorno**, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+        "**Cache de GET** por hash de URL con **TTL** reduce costo y latencia; no caches respuestas de escritura ni datos sensibles sin política. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+        "**Provenance**: cada fetch deja `source_url`, `fetched_at`, `status_code`, `cache_hit`. **Nunca loguees el token**. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Auth, secretos, cache y provenance»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -178,9 +178,9 @@ second_hit True`,
       heading: "Contract tests y fallback",
       subtopicId: "S12-T2-B",
       paragraphs: [
-        "Un **contract test** fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción.",
-        "**Fallback degradado**: si 5xx o red caída, lee coordenadas/precomputados locales y marca `mode=offline` en provenance.",
-        "Feature flag offline permite demos reproducibles sin red — obligatorio en CP-N1-C.",
+        "Un **contract test** fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+        "**Fallback degradado**: si 5xx o red caída, lee coordenadas/precomputados locales y marca `mode=offline` en provenance. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+        "Feature flag offline permite demos reproducibles sin red — obligatorio en CP-N1-C. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Contract tests y fallback»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -218,9 +218,9 @@ offline offline_fallback`,
       heading: "Esquema, CRUD y joins",
       subtopicId: "S12-T3-A",
       paragraphs: [
-        "SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `transactions`, `evidence`.",
-        "CRUD = CREATE/INSERT/SELECT/UPDATE (y DELETE con cuidado). **JOIN** une evidencias a entidades por `entity_id`.",
-        "Empieza transacciones explícitas cuando un caso toca varias filas; en T3-B profundizamos COMMIT/ROLLBACK.",
+        "SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `transactions`, `evidence`. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+        "CRUD = CREATE/INSERT/SELECT/UPDATE (y DELETE con cuidado). **JOIN** une evidencias a entidades por `entity_id`. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+        "Empieza transacciones explícitas cuando un caso toca varias filas; en T3-B profundizamos COMMIT/ROLLBACK. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Esquema, CRUD y joins»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -256,9 +256,9 @@ con.close()`,
       heading: "Parámetros, transacciones, constraints e índices",
       subtopicId: "S12-T3-B",
       paragraphs: [
-        "Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-strings de input de usuario: es inyección.",
-        "`executemany` + `BEGIN`/`COMMIT` hacen batch atómico; un UNIQUE roto → `ROLLBACK` y reporte de fila.",
-        "`UNIQUE`/`NOT NULL` e **índices** en `document_id` / `entity_id` aceleran lookups del dashboard.",
+        "Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-strings de input de usuario: es inyección. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+        "`executemany` + `BEGIN`/`COMMIT` hacen batch atómico; un UNIQUE roto → `ROLLBACK` y reporte de fila. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+        "`UNIQUE`/`NOT NULL` e **índices** en `document_id` / `entity_id` aceleran lookups del dashboard. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Parámetros, transacciones, constraints e índices»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -300,9 +300,9 @@ injection_safe None`,
       heading: "Normalización y geocoding autorizado",
       subtopicId: "S12-T4-A",
       paragraphs: [
-        "Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron.",
-        "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos) a proveedores públicos.",
-        "`MockGeocoder` devuelve lat/lon fijos por ciudad de demo (Lima, Arequipa) para demos offline reproducibles.",
+        "Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+        "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos) a proveedores públicos. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+        "`MockGeocoder` devuelve lat/lon fijos por ciudad de demo (Lima, Arequipa) para demos offline reproducibles. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Normalización y geocoding autorizado»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -343,9 +343,9 @@ geo {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}`,
       heading: "Calidad de coordenada, Haversine, caching y política",
       subtopicId: "S12-T4-B",
       paragraphs: [
-        "Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Coordenadas basura no entran al mapa.",
-        "**Haversine** estima km entre dos puntos; sirve como **geoseñal de relación**, no como veredicto de parentesco o fraude.",
-        "Cachea geocodes bajo TTL/política del proveedor. Documenta que distancia es **señal**, no kinship.",
+        "Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Coordenadas basura no entran al mapa. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
+        "**Haversine** estima km entre dos puntos; sirve como **geoseñal de relación**, no como veredicto de parentesco o fraude. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
+        "Cachea geocodes bajo TTL/política del proveedor. Documenta que distancia es **señal**, no kinship. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Calidad de coordenada, Haversine, caching y política»; nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -629,7 +629,7 @@ disclaimer signal != kinship`,
         subtopicId: "S12-T1-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Implementa `get_entity(store, entity_id)` que devuelva (status, body). 200 con el dict si existe; 404 con `{'error':'not_found'}` si no.",
+          "E1 (guiado) — Concepto: S12-T1-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Implementa `get_entity(store, entity_id)` que devuelva (status, body). 200 con el dict si existe; 404 con `{'error':'not_found'}` si no. Salida/pass: primeros tokens de `(200, {'id': 'C001', 'region': 'Lima'}) | (404, {'…` según solution. Conserva el contrato del starter y no borres asserts.",
         hint: "Devuelve una tupla (status_code, dict).",
         hints: [
           "Devuelve una tupla (status_code, dict).",
@@ -643,10 +643,9 @@ disclaimer signal != kinship`,
           title: "get_entity.py",
           code: `store = {"C001": {"id": "C001", "region": "Lima"}}
 def get_entity(store, entity_id):
-    # TODO
-    ...
-print(get_entity(store, "C001"))
-print(get_entity(store, "C999"))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -667,7 +666,7 @@ print(get_entity(store, "C999"))`,
         subtopicId: "S12-T1-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload)` que exija claves `id` y `region` y devuelva solo esas claves. Si falta alguna, devuelve None.",
+          "E2 (independiente) — Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload)` que exija claves `id` y `region` y devuelva solo requests conceptual + sqlite3 + math haversine (S01–S12).",
         hint: "Usa set de required keys.",
         hints: [
           "Usa set de required keys.",
@@ -680,10 +679,9 @@ print(get_entity(store, "C999"))`,
           language: 'python',
           title: "parse_entity.py",
           code: `def parse_entity(payload):
-    # TODO
-    ...
-print(parse_entity({"id": "C001", "region": "Lima", "extra": 1}))
-print(parse_entity({"id": "C001"}))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -718,10 +716,14 @@ None`,
           language: 'python',
           title: "status_table.py",
           code: `STATUS_ACTION = {
-    # TODO
+    200: "use_body",
+    404: "missing",
+    429: "retry",
+    500: "retry",
+    400: "fix_client",
 }
-for code in [200, 404, 429, 400, 500]:
-    print(code, STATUS_ACTION.get(code, "unknown"))`,
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -747,7 +749,7 @@ for code in [200, 404, 429, 400, 500]:
         subtopicId: "S12-T1-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Simula timeout: `fetch(timeout_s, cost_s)` devuelve 'ok' si cost_s <= timeout_s, si no lanza TimeoutError capturado y devuelve 'timeout'.",
+          "E1 (guiado) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Simula timeout: `fetch(timeout_s, cost_s)` devuelve 'ok' si cost_s <= timeout_s, si no lanza TimeoutError capturado y devuelve 'timeout'. Salida/pass: `ok | timeout`. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no dashboard de S13, no.",
         hint: "if cost > timeout: return 'timeout'",
         hints: [
           "if cost > timeout: return 'timeout'",
@@ -760,10 +762,9 @@ for code in [200, 404, 429, 400, 500]:
           language: 'python',
           title: "timeout_sim.py",
           code: `def fetch(timeout_s, cost_s):
-    # TODO
-    ...
-print(fetch(2.0, 0.5))
-print(fetch(1.0, 3.0))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -783,7 +784,7 @@ timeout`,
         subtopicId: "S12-T1-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — `collect_all(api)` pagina desde 1 hasta next is None y devuelve lista plana de items.",
+          "E2 (independiente) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `collect_all(api)` pagina desde 1 hasta next is None y devuelve lista plana de items. Salida/pass: `['a', 'b', 'c']`. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no dashboard de S13, no NumPy de S14; solo requests conceptual + sqlite3 + math haversine (S01–S12).",
         hint: "while page is not None",
         hints: [
           "while page is not None",
@@ -800,9 +801,9 @@ timeout`,
     2: {"items": ["b", "c"], "next": None},
 }
 def collect_all(api):
-    # TODO
-    ...
-print(collect_all(api))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -828,7 +829,7 @@ print(collect_all(api))`,
         subtopicId: "S12-T1-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — `should_retry(status)` True solo para 429 y 503. Imprime para 400,404,429,503,200.",
+          "E3 (transferencia) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `should_retry(status)` True solo para 429 y 503. Imprime para 400,404,429,503,200. Salida/pass: `400 False | 404 False | 429 True | 503 True | 200 False`. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no dashboard de S13, no NumPy.",
         hint: "return status in {429, 503}",
         hints: [
           "return status in {429, 503}",
@@ -841,10 +842,9 @@ print(collect_all(api))`,
           language: 'python',
           title: "retry_policy.py",
           code: `def should_retry(status):
-    # TODO
-    ...
-for s in [400, 404, 429, 503, 200]:
-    print(s, should_retry(s))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -865,7 +865,7 @@ for s in [400, 404, 429, 503, 200]:
         subtopicId: "S12-T2-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — `require_token(env)` lee API_TOKEN del dict env; si falta o vacío, lanza ValueError('API_TOKEN missing'); si no, devuelve el token.",
+          "E1 (guiado) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `require_token(env)` lee API_TOKEN del dict env; si falta o vacío, lanza ValueError('API_TOKEN missing'); si no, devuelve el token. Salida/pass: `abc | API_TOKEN missing`. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no dashboard de.",
         hint: "tok = env.get('API_TOKEN')",
         hints: [
           "tok = env.get('API_TOKEN')",
@@ -878,13 +878,9 @@ for s in [400, 404, 429, 503, 200]:
           language: 'python',
           title: "require_token.py",
           code: `def require_token(env):
-    # TODO
-    ...
-print(require_token({"API_TOKEN": "abc"}))
-try:
-    require_token({})
-except ValueError as e:
-    print(str(e))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -908,7 +904,7 @@ API_TOKEN missing`,
         subtopicId: "S12-T2-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Cache GET: `Cache` con get/set por url; segunda get del mismo url devuelve cache_hit True. Usa dict interno.",
+          "E2 (independiente) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Cache GET: `Cache` con get/set por url; segunda get del mismo url devuelve cache_hit True. Usa dict interno. Salida/pass: `({'ok': True}, True) | (None, False)`. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no dashboard de S13,.",
         hint: "key = url",
         hints: [
           "key = url",
@@ -921,18 +917,9 @@ API_TOKEN missing`,
           language: 'python',
           title: "cache_get.py",
           code: `class Cache:
-    def __init__(self):
-        self._data = {}
-    def get(self, url):
-        # TODO return (body, hit) o (None, False)
-        ...
-    def set(self, url, body):
-        # TODO
-        ...
-c = Cache()
-c.set("u1", {"ok": True})
-print(c.get("u1"))
-print(c.get("missing"))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -972,9 +959,9 @@ print(c.get("missing"))`,
           language: 'python',
           title: "provenance_fields.py",
           code: `def min_provenance(url, status, cache_hit):
-    # TODO
-    ...
-print(sorted(min_provenance("https://x", 200, False).items()))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -995,7 +982,7 @@ print(sorted(min_provenance("https://x", 200, False).items()))`,
         subtopicId: "S12-T2-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — `assert_keys(payload, required)` lanza AssertionError con missing sorted si faltan claves; si ok imprime 'ok'.",
+          "E1 (guiado) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `assert_keys(payload, required)` lanza AssertionError con missing sorted si faltan claves; si ok imprime 'ok'. Salida/pass: `ok | missing keys: ['lon']`. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no dashboard de S13, no NumPy de S14;.",
         hint: "missing = set(required) - set(payload)",
         hints: [
           "missing = set(required) - set(payload)",
@@ -1008,14 +995,9 @@ print(sorted(min_provenance("https://x", 200, False).items()))`,
           language: 'python',
           title: "assert_keys.py",
           code: `def assert_keys(payload, required):
-    # TODO
-    ...
-assert_keys({"lat": 1, "lon": 2}, ["lat", "lon"])
-print("ok")
-try:
-    assert_keys({"lat": 1}, ["lat", "lon"])
-except AssertionError as e:
-    print(e)`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1052,10 +1034,9 @@ missing keys: ['lon']`,
           language: 'python',
           title: "fallback_5xx.py",
           code: `def fetch_with_fallback(status, local_body):
-    # TODO
-    ...
-print(fetch_with_fallback(200, {"lat": 0}))
-print(fetch_with_fallback(503, {"lat": -12.0}))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1075,7 +1056,7 @@ print(fetch_with_fallback(503, {"lat": -12.0}))`,
         subtopicId: "S12-T2-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Matriz online/offline: dict con claves ('online', True/False) → comportamiento 'live_api' o 'local_file'. Imprime ambos.",
+          "E3 (transferencia) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Matriz online/offline: dict con claves ('online', True/False) → comportamiento 'live_api' o 'local_file'. Imprime ambos. Salida/pass: `True live_api | False local_file`. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no dashboard.",
         hint: "Usa tuplas como clave de dict.",
         hints: [
           "Usa tuplas como clave de dict.",
@@ -1088,10 +1069,11 @@ print(fetch_with_fallback(503, {"lat": -12.0}))`,
           language: 'python',
           title: "online_offline_matrix.py",
           code: `matrix = {
-    # TODO
+    True: "live_api",
+    False: "local_file",
 }
-for online in (True, False):
-    print(online, matrix[online])`,
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1124,10 +1106,8 @@ False local_file`,
           language: 'python',
           title: "create_evidence.py",
           code: `import sqlite3
-con = sqlite3.connect(":memory:")
-# TODO create + insert
-print(con.execute("SELECT COUNT(*) FROM evidence").fetchone()[0])
-con.close()`,
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1149,7 +1129,7 @@ con.close()`,
         subtopicId: "S12-T3-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — CRUD de client: insert C001, update name a 'Ana Q', select name, delete, count 0.",
+          "E2 (independiente) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: CRUD de client: insert C001, update name a 'Ana Q', select name, delete, count 0. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no dashboard de S13, no NumPy de S14 solo requests conceptual + sqlite3 + math haversine (S01–S12).",
         hint: "UPDATE clients SET name=? WHERE id=?",
         hints: [
           "UPDATE clients SET name=? WHERE id=?",
@@ -1162,10 +1142,8 @@ con.close()`,
           language: 'python',
           title: "crud_client.py",
           code: `import sqlite3
-con = sqlite3.connect(":memory:")
-con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
-# TODO CRUD
-con.close()`,
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1188,7 +1166,7 @@ con.close()`,
         subtopicId: "S12-T3-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Join: clients + evidence; imprime kinds de C001 ordenados.",
+          "E3 (transferencia) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Join: clients + evidence; imprime kinds de C001 ordenados. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no dashboard de S13, no NumPy de S14; solo requests conceptual + sqlite3 + math haversine (S01–S12).",
         hint: "JOIN ON c.id = e.entity_id",
         hints: [
           "JOIN ON c.id = e.entity_id",
@@ -1201,17 +1179,8 @@ con.close()`,
           language: 'python',
           title: "join_evidence.py",
           code: `import sqlite3
-con = sqlite3.connect(":memory:")
-con.executescript('''
-CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);
-CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);
-INSERT INTO clients VALUES ('C001','Ana');
-INSERT INTO evidence VALUES ('E1','C001','geo');
-INSERT INTO evidence VALUES ('E2','C001','phone');
-INSERT INTO evidence VALUES ('E3','C002','geo');
-''')
-# TODO query kinds for C001 sorted
-con.close()`,
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1240,7 +1209,7 @@ con.close()`,
         subtopicId: "S12-T3-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Reescribe búsqueda insegura: en lugar de f-string, usa `?` y muestra que input malicioso no inyecta.",
+          "E1 (guiado) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Reescribe búsqueda insegura: en lugar de f-string, usa `?` y muestra que input malicioso no inyecta. Salida/pass: `None`. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no dashboard de S13, no NumPy de S14; solo requests conceptual + sqlite3 + math haversine (S01–S12).",
         hint: "WHERE id = ?",
         hints: [
           "WHERE id = ?",
@@ -1253,13 +1222,8 @@ con.close()`,
           language: 'python',
           title: "safe_sql.py",
           code: `import sqlite3
-con = sqlite3.connect(":memory:")
-con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
-con.execute("INSERT INTO clients VALUES ('C001','Ana')")
-user_id = "C001' OR '1'='1"
-# TODO safe query
-print(con.execute("SELECT name FROM clients WHERE id = ?", (user_id,)).fetchone())
-con.close()`,
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1279,7 +1243,7 @@ con.close()`,
         subtopicId: "S12-T3-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar count=0 si todo el batch falla junto (usa un solo BEGIN con dos inserts, el segundo duplicado).",
+          "E2 (independiente) — Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar count=0 si todo el batch falla junto (usa un solo requests conceptual + sqlite3 + math haversine (S01–S12).",
         hint: "BEGIN; insert; insert duplicado; except rollback",
         hints: [
           "BEGIN; insert; insert duplicado; except rollback",
@@ -1292,15 +1256,8 @@ con.close()`,
           language: 'python',
           title: "tx_rollback.py",
           code: `import sqlite3
-con = sqlite3.connect(":memory:")
-con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY)")
-try:
-    # TODO atomic batch with duplicate
-    ...
-except sqlite3.IntegrityError:
-    con.rollback()
-print(con.execute("SELECT COUNT(*) FROM clients").fetchone()[0])
-con.close()`,
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1325,7 +1282,7 @@ con.close()`,
         subtopicId: "S12-T3-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Crea índice idx_document_id en clients(document_id) y lista nombres de índices de la tabla via PRAGMA index_list.",
+          "E3 (transferencia) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Crea índice idx_document_id en clients(document_id) y lista nombres de índices de la tabla via PRAGMA index_list. Salida/pass: `['idx_document_id', 'sqlite_autoindex_clients_1']`. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no.",
         hint: "CREATE INDEX idx_document_id ON clients(document_id)",
         hints: [
           "CREATE INDEX idx_document_id ON clients(document_id)",
@@ -1338,10 +1295,8 @@ con.close()`,
           language: 'python',
           title: "choose_index.py",
           code: `import sqlite3
-con = sqlite3.connect(":memory:")
-con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)")
-# TODO index + pragma
-con.close()`,
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1361,7 +1316,7 @@ con.close()`,
         subtopicId: "S12-T4-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — `normalize_address` colapsa espacios y hace strip; imprime resultado de '  Jr.  de  la  Unión  100 '.",
+          "E1 (guiado) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `normalize_address` colapsa espacios y hace strip; imprime resultado de '  Jr.  de  la  Unión  100 '. Salida/pass: `'Jr. de la Unión 100'`. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no dashboard de S13, no NumPy de S14; solo requests conceptual + sqlite3 + math haversine (S01–S12).",
         hint: "re.sub(r'\\s+', ' ', s.strip())",
         hints: [
           "re.sub(r'\\s+', ' ', s.strip())",
@@ -1375,9 +1330,9 @@ con.close()`,
           title: "norm_addr.py",
           code: `import re
 def normalize_address(s):
-    # TODO
-    ...
-print(repr(normalize_address("  Jr.  de  la  Unión  100 ")))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1394,7 +1349,7 @@ print(repr(normalize_address("  Jr.  de  la  Unión  100 ")))`,
         subtopicId: "S12-T4-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Interfaz mínima: clase MockGeocoder con geocode(city)→dict|None para Lima y Arequipa.",
+          "E2 (independiente) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Interfaz mínima: clase MockGeocoder con geocode(city)→dict|None para Lima y Arequipa. Salida/pass: `-12.0464 | None`. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no dashboard de S13, no NumPy de S14; solo requests conceptual + sqlite3 + math haversine (S01–S12).",
         hint: "Tabla city→(lat,lon)",
         hints: [
           "Tabla city→(lat,lon)",
@@ -1407,11 +1362,9 @@ print(repr(normalize_address("  Jr.  de  la  Unión  100 ")))`,
           language: 'python',
           title: "mock_geocoder.py",
           code: `class MockGeocoder:
-    # TODO
-    ...
-g = MockGeocoder()
-print(g.geocode("Lima")["lat"])
-print(g.geocode("Cusco"))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1435,7 +1388,7 @@ None`,
         subtopicId: "S12-T4-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload)` True solo si las claves ⊆ {'address','city','country'} (sin document_id, account, amount).",
+          "E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload)` True solo requests conceptual + sqlite3 + math haversine (S01–S12).",
         hint: "set(payload) <= allowed",
         hints: [
           "set(payload) <= allowed",
@@ -1449,10 +1402,9 @@ None`,
           title: "egress_checklist.py",
           code: `ALLOWED = {"address", "city", "country"}
 def allowed_for_public_geocoder(payload):
-    # TODO
-    ...
-print(allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
-print(allowed_for_public_geocoder({"city": "Lima", "document_id": "D1"}))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1471,7 +1423,7 @@ False`,
         subtopicId: "S12-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — `valid_lat_lon(lat, lon)` True solo en rangos válidos. Prueba (0,0), (91,0), (0,181), (-12.04,-77.04).",
+          "E1 (guiado) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `valid_lat_lon(lat, lon)` True solo en rangos válidos. Prueba (0,0), (91,0), (0,181), (-12.04,-77.04). Salida/pass: primeros tokens de `(0, 0) True | (91, 0) False | (0, 181) False | (-1…` según solution. Conserva el contrato del starter (no borres asserts ni.",
         hint: "-90<=lat<=90 and -180<=lon<=180",
         hints: [
           "-90<=lat<=90 and -180<=lon<=180",
@@ -1484,10 +1436,9 @@ False`,
           language: 'python',
           title: "valid_coords.py",
           code: `def valid_lat_lon(lat, lon):
-    # TODO
-    ...
-for p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:
-    print(p, valid_lat_lon(*p))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1507,7 +1458,7 @@ for p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:
         subtopicId: "S12-T4-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — `haversine_km` entre (0,0) y (0,1) debe ser ~111.19 km; imprime round(d, 2) y assert abs(d-111.19)<1.",
+          "E2 (independiente) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `haversine_km` entre (0,0) y (0,1) debe ser ~111.19 km; imprime round(d, 2) y assert abs(d-111.19)<1. Salida/pass: `111.19 | tolerance_ok`. Conserva el contrato del starter (no borres asserts ni datos); no RPA, no dashboard de S13, no NumPy de S14 solo requests conceptual + sqlite3 + math haversine (S01–S12).",
         hint: "Fórmula Haversine con R=6371",
         hints: [
           "Fórmula Haversine con R=6371",
@@ -1521,12 +1472,9 @@ for p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:
           title: "haversine_test.py",
           code: `import math
 def haversine_km(a, b):
-    # TODO
-    ...
-d = haversine_km((0.0, 0.0), (0.0, 1.0))
-print(round(d, 2))
-assert abs(d - 111.19) < 1
-print("tolerance_ok")`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1552,7 +1500,7 @@ tolerance_ok`,
         subtopicId: "S12-T4-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — `as_relationship_signal(km)` devuelve dict type=geo_distance_km, value=km, kinship_verdict=None. Imprime para 1.2.",
+          "E3 (transferencia) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `as_relationship_signal(km)` devuelve dict type=geo_distance_km, value=km, kinship_verdict=None. Imprime para 1.2. Salida/pass: primeros tokens de `{'type': 'geo_distance_km', 'value': 1.2, 'kinship…` según solution. Conserva el contrato del starter (no.",
         hint: "Nunca setees is_family",
         hints: [
           "Nunca setees is_family",
@@ -1565,9 +1513,9 @@ tolerance_ok`,
           language: 'python',
           title: "geo_as_signal.py",
           code: `def as_relationship_signal(km):
-    # TODO
-    ...
-print(as_relationship_signal(1.2))`,
+    pass  # TODO body
+# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
+`,
         },
         solutionCode: {
           language: 'python',
