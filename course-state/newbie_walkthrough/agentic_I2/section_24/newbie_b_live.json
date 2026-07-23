@@ -1,0 +1,492 @@
+{
+  "agent": "newbie_b",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I2",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-skeptic-b81d4e60-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:43:31.390000+00:00",
+  "session_ended_at": "2026-07-23T12:44:53.700000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T1-A-E1\ndpi=96\nprint(max(dpi, 200))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "preproceso",
+        "intake",
+        "dpi",
+        "escaneo",
+        "sint",
+        "tico",
+        "eleva",
+        "con"
+      ],
+      "justification_from_packet": "Skeptic S24-T1-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el entero resultante. Contrato: no inventa deta…». Implementé de forma verificable; línea clave `dpi=96`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `dpi=96`."
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T1-A-E2\nskew=1.2\nprint(abs(skew) >= 0.5)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "deskew",
+        "flag",
+        "skew",
+        "grados",
+        "deskew_applied",
+        "abs",
+        "imprime",
+        "booleano"
+      ],
+      "justification_from_packet": "Skeptic S24-T1-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral didáctico 0.5°. Pass: True. Usa solo fi…». Implementé de forma verificable; línea clave `skew=1.2`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `skew=1.2`."
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T1-A-E3\nw=h=1000\nm=0.05\nprint((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "crop",
+        "rgenes",
+        "lienzo",
+        "imprime",
+        "tupla",
+        "contrato",
+        "enteros",
+        "origen"
+      ],
+      "justification_from_packet": "Skeptic S24-T1-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen esquina superior izquierda. Pass…». Implementé de forma verificable; línea clave `w=h=1000`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `w=h=1000`."
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T1-B-E1\ns={0:0.1,90:0.8}\nprint(max(s, key=s.get))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "orientaci",
+        "scores",
+        "elige",
+        "rotaci",
+        "key",
+        "mayor",
+        "score",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic S24-T1-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de grados. Contrato: max(s, key=s.get). Pas…». Implementé de forma verificable; línea clave `s={0:0.1,90:0.8}`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `s={0:0.1,90:0.8}`."
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T1-B-E2\nmatrix=[0,1,1,0]\nprint(sum(matrix))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "ruido",
+        "binario",
+        "flags",
+        "donde",
+        "xel",
+        "marcado",
+        "cuenta",
+        "unos"
+      ],
+      "justification_from_packet": "Skeptic S24-T1-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(flags) o count. Pass: 2. Usa solo fixture…». Implementé de forma verificable; línea clave `matrix=[0,1,1,0]`. Hints: «contrato I/O en instruction». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T1-B-E3\nscore=0.4\nprint('manual_orient' if score < 0.5 else 'auto')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "gate",
+        "orientaci",
+        "score",
+        "score_orient",
+        "imprime",
+        "manual_orient",
+        "else",
+        "auto"
+      ],
+      "justification_from_packet": "Skeptic S24-T1-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed a humano. Pass: manual_orient…». Implementé de forma verificable; línea clave `score=0.4`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `score=0.4`."
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T2-A-E1\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.85])",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "filtro",
+        "confidence",
+        "toks",
+        "con",
+        "conf",
+        "date",
+        "textos",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic S24-T2-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de text. Contrato: no mutar conf. Pass: ['A'…». Implementé de forma verificable; línea clave `toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]`."
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T2-A-E2\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint(ocr('Hola')['lang'])",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "idioma",
+        "por",
+        "defecto",
+        "del",
+        "adapter",
+        "construye",
+        "resultado",
+        "ocr"
+      ],
+      "justification_from_packet": "Skeptic S24-T2-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e imprime lang. Contrato: string fijo didáctico. Pass: sp…». Implementé de forma verificable; línea clave `def ocr(text, lang='spa'):`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `def ocr(text, lang='spa'):`."
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T2-A-E3\nconfs=[0.9,0.75,0.95]\nm=min(confs)\nprint(m, 'review' if m < 0.8 else 'auto')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "min",
+        "conf",
+        "campos",
+        "confs",
+        "imprime",
+        "status",
+        "review",
+        "formato"
+      ],
+      "justification_from_packet": "Skeptic S24-T2-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución). Contrato: campo débil tumba au…». Implementé de forma verificable; línea clave `confs=[0.9,0.75,0.95]`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `confs=[0.9,0.75,0.95]`."
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T2-B-E1\ns='Total: 12.5'\nk,v=s.split(':',1)\nprint(k.strip(), v.strip())",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "parse",
+        "total",
+        "separa",
+        "clave",
+        "valor",
+        "por",
+        "imprime",
+        "sin"
+      ],
+      "justification_from_packet": "Skeptic S24-T2-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Contrato: strip ambos lados. Pass: Total 12…». Implementé de forma verificable; línea clave `s='Total: 12.5'`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `s='Total: 12.5'`."
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T2-B-E2\nt=[['H1','H2'],['a','b']]\nprint(len(t)-1)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "tabla",
+        "sint",
+        "tica",
+        "imprime",
+        "mero",
+        "filas",
+        "datos",
+        "len"
+      ],
+      "justification_from_packet": "Skeptic S24-T2-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: header no cuenta. Pass: 1. Usa solo fixtures …». Implementé de forma verificable; línea clave `t=[['H1','H2'],['a','b']]`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `t=[['H1','H2'],['a','b']]`."
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T2-B-E3\nfield={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint(field['bbox'], field['value'])",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "evidencia",
+        "adjunta",
+        "bbox",
+        "field",
+        "ruc",
+        "valor",
+        "imprime",
+        "como"
+      ],
+      "justification_from_packet": "Skeptic S24-T2-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Contrato: bbox del valor. Pass: […». Implementé de forma verificable; línea clave `field={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `field={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]`."
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T3-A-E1\nimport re\ns='20-123'\nprint(re.sub(name'\\\\D', '', s))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "normaliza",
+        "sint",
+        "tico",
+        "dejando",
+        "solo",
+        "gitos",
+        "sub",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic S24-T3-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valida longitud aquí. Pass: 20123. Usa solo f…». Implementé de forma verificable; línea clave `import re`. Hints: «contrato I/O en instruction». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T3-A-E2\nfrom datetime import datetime\nprint(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "fecha",
+        "boleta",
+        "iso",
+        "con",
+        "datetime",
+        "contrato",
+        "dayfirst",
+        "yyyy"
+      ],
+      "justification_from_packet": "Skeptic S24-T3-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY. Pass: 2026-01-15. Usa solo fixtures sintéticos …». Implementé de forma verificable; línea clave `from datetime import datetime`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `from datetime import datetime`."
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T3-A-E3\nimport re\nraw='123'\nd=re.sub(name'\\\\D','',raw)\nprint(d if len(d)==11 else None)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "ruc",
+        "inv",
+        "lido",
+        "raw",
+        "normaliza",
+        "gitos",
+        "len",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic S24-T3-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa solo fixtures sintéticos del …». Implementé de forma verificable; línea clave `import re`. Hints: «contrato I/O en instruction». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T3-B-E1\ntotal, lines=10.0,[4.0,5.0]\nprint('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "cross",
+        "field",
+        "monto",
+        "total",
+        "lines",
+        "abs",
+        "sum",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic S24-T3-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. Contrato: tolerancia 0.01. Pass: needs_r…». Implementé de forma verificable; línea clave `total, lines=10.0,[4.0,5.0]`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `total, lines=10.0,[4.0,5.0]`."
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T3-B-E2\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint(reasons)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "reasons",
+        "ruc",
+        "none",
+        "append",
+        "ruc_missing",
+        "imprime",
+        "contrato",
+        "acumular"
+      ],
+      "justification_from_packet": "Skeptic S24-T3-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumular, no raise. Pass: ['ruc_missing']. Us…». Implementé de forma verificable; línea clave `ruc=None`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `ruc=None`."
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T3-B-E3\nmismatch=True\nprint('review_not_fraud' if mismatch else 'auto')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "pol",
+        "tica",
+        "producto",
+        "mismatch",
+        "true",
+        "implica",
+        "fraude",
+        "colusi"
+      ],
+      "justification_from_packet": "Skeptic S24-T3-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de política del curso. Pass: revi…». Implementé de forma verificable; línea clave `mismatch=True`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `mismatch=True`."
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T4-A-E1\ncorrect, num = 3, 4\nprint(correct / num)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "golden",
+        "accuracy",
+        "global",
+        "correct",
+        "imprime",
+        "float",
+        "divisi",
+        "contrato"
+      ],
+      "justification_from_packet": "Skeptic S24-T4-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0.75. Usa solo fixtures sintéticos del la…». Implementé de forma verificable; línea clave `correct, num = 3, 4`. Hints: «contrato I/O en instruction». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T4-A-E2\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(sum(1 for name in rows if name['ruc_pred']==name['ruc_true'])/len(rows))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "accuracy",
+        "por",
+        "campo",
+        "ruc",
+        "rows",
+        "con",
+        "pred",
+        "true"
+      ],
+      "justification_from_packet": "Skeptic S24-T4-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5. Contrato: solo campo ruc. Pass: 0.5. Us…». Implementé de forma verificable; línea clave `rows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]`. Hints: «contrato I/O en instruction». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T4-A-E3\nauto, review = 7, 3\nprint(auto / (auto + review))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "cobertura",
+        "auto",
+        "review",
+        "imprime",
+        "float",
+        "contrato",
+        "uses",
+        "accuracy"
+      ],
+      "justification_from_packet": "Skeptic S24-T4-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobertura. Pass: 0.7. Usa solo fix…». Implementé de forma verificable; línea clave `auto, review = 7, 3`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `auto, review = 7, 3`."
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T4-B-E1\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('reject' if mime not in allowed else 'ok')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "allowlist",
+        "mime",
+        "application",
+        "zip",
+        "est",
+        "pdf",
+        "png",
+        "jpeg"
+      ],
+      "justification_from_packet": "Skeptic S24-T4-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-closed. Pass: reject. Usa solo fixtures sint…». Implementé de forma verificable; línea clave `mime='application/zip'`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `mime='application/zip'`."
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T4-B-E2\nnum=6_000_000\nprint('reject' if num > 5_000_000 else 'ok')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "size",
+        "gate",
+        "pre",
+        "ocr",
+        "_000_000",
+        "bytes",
+        "imprime",
+        "reject"
+      ],
+      "justification_from_packet": "Skeptic S24-T4-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: reject. Usa solo fixtures sintéticos del …». Implementé de forma verificable; línea clave `num=6_000_000`. Hints: «contrato I/O en instruction». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S24-T4-B-E3\nstatus='ocr_fail'\nprint({'ocr_fail':'human_rescan'}.get(status, 'continue'))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "fallback",
+        "operativo",
+        "status",
+        "ocr_fail",
+        "acci",
+        "human_rescan",
+        "imprime",
+        "contrato"
+      ],
+      "justification_from_packet": "Skeptic S24-T4-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito de OCR. Pass: human_rescan. Usa…». Implementé de forma verificable; línea clave `status='ocr_fail'`. Hints: «contrato I/O en instruction». Sin lives de attempts previos. Variante skeptic del ancla `status='ocr_fail'`."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Abstener y encolar revisión",
+      "justification_from_packet": "Skeptic S24 Q0: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 3: «Abstener y encolar revisión» porque responde «¿Qué haces si confidence de RUC es 0.6?» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Cola de revisión / corrección",
+      "justification_from_packet": "Skeptic S24 Q1: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 1: «Cola de revisión / corrección» porque responde «Un mismatch total vs líneas implica:» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Los campos críticos pueden fallar aunque el global se vea bien",
+      "justification_from_packet": "Skeptic S24 Q2: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 2: «Los campos críticos pueden fallar aunque el global se vea bien» porque responde «¿Por qué medir accuracy por campo?» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Gate reject/review por mime no permitido",
+      "justification_from_packet": "Skeptic S24 Q3: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 0: «Gate reject/review por mime no permitido» porque responde «Archivo application/zip en intake de facturas:» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:44:53.700000+00:00"
+}

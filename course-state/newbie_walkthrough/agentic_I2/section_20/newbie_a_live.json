@@ -1,0 +1,500 @@
+{
+  "agent": "newbie_a",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 20,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-explorer-7f3a9c2e-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:31:49.390000+00:00",
+  "session_ended_at": "2026-07-23T12:32:57.340000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S20-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T1-A-E1\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"dept\"\nprint(wb.sheetnames)\nprint(ws[\"A1\"].value)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "crear",
+        "hoja",
+        "celda",
+        "encabezado",
+        "fixture",
+        "s20"
+      ],
+      "justification_from_packet": "Explorer S20-T1-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: crear hoja y celda de encabezado. Fixture `S20-T1-A-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Complet…». Completé el contrato Pass con código ancla `from openpyxl import Workbook`. Pista del paquete: «ws.title y ws['A1'].». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S20-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T1-A-E2\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"dept\", \"monto\"])\nws.append([\"Lima\", 10.0])\nprint(ws.max_row)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "append",
+        "filas",
+        "datos",
+        "fixture",
+        "s20",
+        "sint"
+      ],
+      "justification_from_packet": "Explorer S20-T1-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: append de filas de datos. Fixture `S20-T1-A-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa…». Completé el contrato Pass con código ancla `from openpyxl import Workbook`. Pista del paquete: «ws.append.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S20-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T1-A-E3\nfrom openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\nprint(wb.sheetnames)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "ltiples",
+        "sheetnames",
+        "estables",
+        "fixture",
+        "s20",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S20-T1-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: múltiples sheetnames estables. Fixture `S20-T1-A-E3` / datos sintéticos: wb = Workbook(); wb.active.title = \"…». Completé el contrato Pass con código ancla `from openpyxl import Workbook`. Pista del paquete: «create_sheet.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from openpyxl import Workbook`."
+    },
+    {
+      "exercise_id": "S20-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T1-B-E1\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A3\"] = \"=A1+A2\"\nprint(str(ws[\"A3\"].value).startswith(\"=\"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "escribir",
+        "rmula",
+        "celda",
+        "fixture",
+        "s20",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S20-T1-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: escribir fórmula en celda. Fixture `S20-T1-B-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TO…». Completé el contrato Pass con código ancla `from openpyxl import Workbook`. Pista del paquete: «cell value string.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from openpyxl import Workbook`."
+    },
+    {
+      "exercise_id": "S20-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T1-B-E2\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 3\nws[\"A2\"] = 4\nprint(ws[\"A1\"].value + ws[\"A2\"].value)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "materializar",
+        "valor",
+        "rmula",
+        "fixture",
+        "s20",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S20-T1-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: materializar valor vs fórmula. Fixture `S20-T1-B-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Com…». Completé el contrato Pass con código ancla `from openpyxl import Workbook`. Pista del paquete: «Suma .value numéricos.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from openpyxl import Workbook`."
+    },
+    {
+      "exercise_id": "S20-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T1-B-E3\ndef es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\nprint(es_formula(\"=A1\"))\nprint(es_formula(3))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "detectar",
+        "celda",
+        "con",
+        "prefijo",
+        "fixture",
+        "s20"
+      ],
+      "justification_from_packet": "Explorer S20-T1-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: detectar celda con prefijo =. Fixture `S20-T1-B-E3` / datos sintéticos: def es_formula(v):; return isinstance…». Completé el contrato Pass con código ancla `def es_formula(v):`. Pista del paquete: «isinstance str.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def es_formula(v):`."
+    },
+    {
+      "exercise_id": "S20-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T2-A-E1\nfrom openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"KPI\"\nws[\"A1\"].font = Font(bold=True)\nprint(ws[\"A1\"].font.bold)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "aplicar",
+        "estilo",
+        "fuente",
+        "header",
+        "fixture",
+        "s20"
+      ],
+      "justification_from_packet": "Explorer S20-T2-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: aplicar estilo de fuente a header. Fixture `S20-T2-A-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Comple…». Completé el contrato Pass con código ancla `from openpyxl import Workbook`. Pista del paquete: «Font(bold=True).». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from openpyxl import Workbook`."
+    },
+    {
+      "exercise_id": "S20-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T2-A-E2\nfrom openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(ws[\"A1\"].fill.fgColor is not None)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "freeze_panes",
+        "dimensi",
+        "fixture",
+        "s20",
+        "datos",
+        "sint"
+      ],
+      "justification_from_packet": "Explorer S20-T2-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: freeze_panes o dimensión de print. Fixture `S20-T2-A-E2` / datos sintéticos: wb = Workbook(); ws = wb.active.…». Completé el contrato Pass con código ancla `from openpyxl import Workbook`. Pista del paquete: «PatternFill.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from openpyxl import Workbook`."
+    },
+    {
+      "exercise_id": "S20-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T2-A-E3\nfrom openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n\ndef header_style(ws, coord):\n    c = ws[coord]\n    c.font = Font(bold=True, color=\"FFFFFF\")\n    c.fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"H\"\nheader_style(ws, \"A1\")\nprint(ws[\"A1\"].font.bold)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "plantilla",
+        "con",
+        "hoja",
+        "fija",
+        "cat",
+        "logo"
+      ],
+      "justification_from_packet": "Explorer S20-T2-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: plantilla con hoja fija de catálogo. Fixture `S20-T2-A-E3` / datos sintéticos: def header_style(ws, coord):; …». Completé el contrato Pass con código ancla `from openpyxl import Workbook`. Pista del paquete: «Función mutadora.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from openpyxl import Workbook`."
+    },
+    {
+      "exercise_id": "S20-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T2-B-E1\nfrom openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value.isoformat())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "fecha",
+        "iso",
+        "celda",
+        "metadata",
+        "fixture",
+        "s20"
+      ],
+      "justification_from_packet": "Explorer S20-T2-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: fecha ISO en celda de metadata. Fixture `S20-T2-B-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa …». Completé el contrato Pass con código ancla `from openpyxl import Workbook`. Pista del paquete: «datetime.date.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from openpyxl import Workbook`."
+    },
+    {
+      "exercise_id": "S20-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T2-B-E2\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\nprint(ws[\"C1\"].value)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "evitar",
+        "merge",
+        "rango",
+        "datos",
+        "fixture",
+        "s20"
+      ],
+      "justification_from_packet": "Explorer S20-T2-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: evitar merge en rango de datos. Fixture `S20-T2-B-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Co…». Completé el contrato Pass con código ancla `from openpyxl import Workbook`. Pista del paquete: «merge_cells.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from openpyxl import Workbook`."
+    },
+    {
+      "exercise_id": "S20-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T2-B-E3\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "protecci",
+        "flag",
+        "writable",
+        "fixture",
+        "s20",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S20-T2-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: protección / flag writable. Fixture `S20-T2-B-E3` / datos sintéticos: wb = Workbook(); ws = wb.active. Comple…». Completé el contrato Pass con código ancla `from openpyxl import Workbook`. Pista del paquete: «len(ws.merged_cells.ranges).». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from openpyxl import Workbook`."
+    },
+    {
+      "exercise_id": "S20-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T3-A-E1\ndet = 10 + 5\nportada = 15\nprint(abs(det - portada) < 0.01)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "suma",
+        "reconciliada",
+        "hoja",
+        "fixture",
+        "s20",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S20-T3-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: suma reconciliada df vs hoja. Fixture `S20-T3-A-E1` / datos sintéticos: det = 10 + 5; portada = 15. Completa el TODO…». Completé el contrato Pass con código ancla `det = 10 + 5`. Pista del paquete: «abs(diff)<0.01.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `det = 10 + 5`."
+    },
+    {
+      "exercise_id": "S20-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T3-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"dept\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(df.groupby(\"dept\")[\"monto\"].sum().to_dict())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "conteo",
+        "filas",
+        "datos",
+        "fixture",
+        "s20",
+        "sint"
+      ],
+      "justification_from_packet": "Explorer S20-T3-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: conteo n filas de datos. Fixture `S20-T3-A-E2` / datos sintéticos: df = pd.DataFrame({\"region\": [\"Lima\", \"Lim…». Completé el contrato Pass con código ancla `import pandas as pd`. Pista del paquete: «groupby sum.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S20-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T3-A-E3\ndef reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\nprint(reconcile(22.0, 22.005))\nprint(reconcile(22.0, 23.0))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "pivot",
+        "materializado",
+        "regi",
+        "suma",
+        "fixture",
+        "s20"
+      ],
+      "justification_from_packet": "Explorer S20-T3-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: pivot materializado región→suma. Fixture `S20-T3-A-E3` / datos sintéticos: def reconcile(det_sum, portada, to…». Completé el contrato Pass con código ancla `def reconcile(det_sum, portada, tol=0.01):`. Pista del paquete: «abs <= tol o <.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def reconcile(det_sum, portada, tol=0.01):`."
+    },
+    {
+      "exercise_id": "S20-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T3-B-E1\nexpected = [\"dept\", \"monto\"]\ngot = [\"dept\", \"monto\"]\nprint(expected == got)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "validar",
+        "encabezados",
+        "requeridos",
+        "fixture",
+        "s20",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S20-T3-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: validar encabezados requeridos. Fixture `S20-T3-B-E1` / datos sintéticos: expected = [\"region\", \"monto\"]; got = [\"re…». Completé el contrato Pass con código ancla `expected = [\"dept\", \"monto\"]`. Pista del paquete: «list compare.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S20-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T3-B-E2\nallowed = {\"Lima\", \"Cusco\"}\nregs = [\"Lima\", \"Piura\"]\nprint([dept for dept in regs if dept not in allowed])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "structural_ok",
+        "sheetnames",
+        "fixture",
+        "s20",
+        "datos",
+        "sint"
+      ],
+      "justification_from_packet": "Explorer S20-T3-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: structural_ok de sheetnames. Fixture `S20-T3-B-E2` / datos sintéticos: allowed = {\"Lima\", \"Cusco\"}; regs = [\"…». Completé el contrato Pass con código ancla `allowed = {\"Lima\", \"Cusco\"}`. Pista del paquete: «list comp.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S20-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T3-B-E3\ndef validate_rows(rows, allowed):\n    return [dept[\"dept\"] for dept in rows if dept[\"dept\"] not in allowed]\nprint(validate_rows([{\"dept\": \"Lima\"}, {\"dept\": \"Ica\"}], {\"Lima\", \"Cusco\"}))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "preservar",
+        "hoja",
+        "cat",
+        "logo",
+        "fixture",
+        "s20"
+      ],
+      "justification_from_packet": "Explorer S20-T3-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: preservar hoja de catálogo. Fixture `S20-T3-B-E3` / datos sintéticos: def validate_rows(rows, allowed):; retu…». Completé el contrato Pass con código ancla `def validate_rows(rows, allowed):`. Pista del paquete: «Comprensión.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S20-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T4-A-E1\nst = [\"ok\", \"corrupt\", \"ok\"]\nprint(sum(x == \"ok\" for x in st))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "contadores",
+        "batch",
+        "skip",
+        "fixture",
+        "s20",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S20-T4-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: contadores batch ok/skip. Fixture `S20-T4-A-E1` / datos sintéticos: st = [\"ok\", \"corrupt\", \"ok\"]; print(sum(x == \"ok…». Completé el contrato Pass con código ancla `st = [\"ok\", \"corrupt\", \"ok\"]`. Pista del paquete: «sum genexp.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `st = [\"ok\", \"corrupt\", \"ok\"]`."
+    },
+    {
+      "exercise_id": "S20-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T4-A-E2\nname = \"report.lock\"\nprint(\"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "aislar",
+        "archivo",
+        "corrupto",
+        "fixture",
+        "s20",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S20-T4-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: aislar archivo corrupto. Fixture `S20-T4-A-E2` / datos sintéticos: name = \"report.lock\"; print(\"locked\" if na…». Completé el contrato Pass con código ancla `name = \"report.lock\"`. Pista del paquete: «Regla simple didáctica.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `name = \"report.lock\"`."
+    },
+    {
+      "exercise_id": "S20-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T4-A-E3\nfrom collections import Counter\nfiles = {\"a\": \"ok\", \"b\": \"corrupt\"}\nprint(dict(Counter(files.values())))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "resumen",
+        "json",
+        "corrida",
+        "batch",
+        "fixture",
+        "s20"
+      ],
+      "justification_from_packet": "Explorer S20-T4-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: resumen JSON de corrida batch. Fixture `S20-T4-A-E3` / datos sintéticos: files = {\"a\": \"ok\", \"b\": \"corrupt\"};…». Completé el contrato Pass con código ancla `from collections import Counter`. Pista del paquete: «Counter o dict.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from collections import Counter`."
+    },
+    {
+      "exercise_id": "S20-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T4-B-E1\nprint({\"backup\": \"out/prev.bak\", \"idempotent\": True})",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "backup",
+        "path",
+        "versionado",
+        "fixture",
+        "s20",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S20-T4-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: backup path versionado. Fixture `S20-T4-B-E1` / datos sintéticos: print({\"backup\": \"out/prev.bak\", \"idempotent\": Tru…». Completé el contrato Pass con código ancla `print({\"backup\": \"out/prev.bak\", \"idempotent\": True})`. Pista del paquete: «dict.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `print({\"backup\": \"out/prev.bak\", \"idempotent\": True})`."
+    },
+    {
+      "exercise_id": "S20-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T4-B-E2\nimport hashlib\n\ndef dig(rows):\n    s = \"\\\\valor\".join(f\"{a},{b}\" for a, b in sorted(rows))\n    return hashlib.sha1(s.encode()).hexdigest()\nprint(dig([(\"Lima\", 1), (\"Cusco\", 2)]) == dig([(\"Cusco\", 2), (\"Lima\", 1)]))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "digest",
+        "can",
+        "nico",
+        "filas",
+        "fixture",
+        "s20"
+      ],
+      "justification_from_packet": "Explorer S20-T4-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: digest canónico de filas. Fixture `S20-T4-B-E2` / datos sintéticos: def dig(rows):; s = \"\\\\n\".join(f\"{a},{b}\"…». Completé el contrato Pass con código ancla `import hashlib`. Pista del paquete: «sorted + sha1.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S20-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S20-T4-B-E3\ndef structural_ok(sheetnames, need):\n    return set(sheetnames) >= set(need)\nprint(structural_ok([\"Entrada\", \"Salida\", \"Log\"], [\"Entrada\", \"Salida\"]))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "structural_ok",
+        "need",
+        "sheets",
+        "fixture",
+        "s20",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S20-T4-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: structural_ok need ⊆ sheets. Fixture `S20-T4-B-E3` / datos sintéticos: def structural_ok(sheetnames, need):; …». Completé el contrato Pass con código ancla `def structural_ok(sheetnames, need):`. Pista del paquete: «set issuperset.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def structural_ok(sheetnames, need):`."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "No; suele devolver la fórmula o cache si existe",
+      "justification_from_packet": "Explorer S20 Q0: leí la teoría del quiz_card («{\"subtopicId\": \"S20-T1-A\", \"heading\": \"sheets, celdas, tablas y named ranges\", \"paragraphs\": [\"Un libro es un grafo de *…») y la pregunta «openpyxl sin Excel instalado evalúa fórmulas automáticamente:». La opción [3] «No; suele devolver la fórmula o cache si existe» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Escribir en la celda ancla (top-left)",
+      "justification_from_packet": "Explorer S20 Q1: leí la teoría del quiz_card («{\"subtopicId\": \"S20-T1-A\", \"heading\": \"sheets, celdas, tablas y named ranges\", \"paragraphs\": [\"Un libro es un grafo de *…») y la pregunta «Al escribir en celdas combinadas debes:». La opción [1] «Escribir en la celda ancla (top-left)» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Estados de batch, conciliación y backups",
+      "justification_from_packet": "Explorer S20 Q2: leí la teoría del quiz_card («{\"subtopicId\": \"S20-T1-A\", \"heading\": \"sheets, celdas, tablas y named ranges\", \"paragraphs\": [\"Un libro es un grafo de *…») y la pregunta «Un manifest del excel factory debe permitir auditar:». La opción [2] «Estados de batch, conciliación y backups» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Misma entrada → mismo resultado lógico",
+      "justification_from_packet": "Explorer S20 Q3: leí la teoría del quiz_card («{\"subtopicId\": \"S20-T1-A\", \"heading\": \"sheets, celdas, tablas y named ranges\", \"paragraphs\": [\"Un libro es un grafo de *…») y la pregunta «Idempotencia significa:». La opción [0] «Misma entrada → mismo resultado lógico» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolerancia de redondeo documentada)",
+      "justification_from_packet": "Explorer S20 Q4: leí la teoría del quiz_card («{\"subtopicId\": \"S20-T1-A\", \"heading\": \"sheets, celdas, tablas y named ranges\", \"paragraphs\": [\"Un libro es un grafo de *…») y la pregunta «Al materializar un Excel de salida del reporting factory, la suma de montos en la hoja no cuadra con». La opción [3] «Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolerancia de redondeo documentada)» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:32:57.340000+00:00"
+}

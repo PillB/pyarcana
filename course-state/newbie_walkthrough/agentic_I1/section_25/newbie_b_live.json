@@ -1,0 +1,262 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 25,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-skeptic-s25-153123-62",
+  "production_note": "agentic_I1 dual-LLM skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S25-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nd=True\nprint( 'rules' if d else 'llm')\n",
+      "justification_from_packet": "S25-T1-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `d=True` cubre la Tarea del packet («S25-T1-A-E1 · Si deterministic True imprime 'rules'. Fixture sintético `CASO-LIM»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfixed, n = True, 800\nprint( 'specialized_model' if fixed and n>=500 else 'other')\n",
+      "justification_from_packet": "S25-T1-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `fixed, n = True, 800` cubre la Tarea del packet («S25-T1-A-E2 · Elige specialized si label_set_fixed y n_train>=500. Fixture sinté»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T1-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint( 'no_auto_fraud')\n",
+      "justification_from_packet": "S25-T1-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `case_id = \"CASO-LIM-SYN\"` cubre la Tarea del packet («S25-T1-A-E3 · Imprime 'no_auto_fraud' como política al usar LLM en riesgo. Fixtu»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlic='mit'\nprint( 'reuse_ok' if lic in {'mit','apache-2.0'} else 'review')\n",
+      "justification_from_packet": "S25-T1-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `lic='mit'` cubre la Tarea del packet («S25-T1-B-E1 · Si license en {mit,apache-2.0} print 'reuse_ok'. Fixture sintético»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nhas_pii=True\nprint( 'local_or_private_vpc' if has_pii else 'cloud_ok')\n",
+      "justification_from_packet": "S25-T1-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `has_pii=True` cubre la Tarea del packet («S25-T1-B-E2 · has_pii_live True → 'local_or_private_vpc'. Fixture sintético `CAS»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnot_for=['fraud adjudication','biometric id']\nprint( 'fraud adjudication' in not_for)\n",
+      "justification_from_packet": "S25-T1-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `not_for=['fraud adjudication','biometric id']` cubre la Tarea del packet («S25-T1-B-E3 · Detecta si 'fraud adjudication' está en not_for. Fixture sintético»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nt='Factura X'\nprint( 'billing' if 'factura' in t.lower() else 'other')\n",
+      "justification_from_packet": "S25-T2-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `t='Factura X'` cubre la Tarea del packet («S25-T2-A-E1 · Mock: si 'factura' in text lower → label billing. Fixture sintétic»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmodel_id='demo'\nlabel='other'\nprint( {'model': model_id, 'label': label})\n",
+      "justification_from_packet": "S25-T2-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `model_id='demo'` cubre la Tarea del packet («S25-T2-A-E2 · Devuelve dict con model_id y label. Fixture sintético `CASO-LIM-02»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntexts=['factura','hola']\nprint( ['billing' if 'factura' in t else 'other' for t in texts])\n",
+      "justification_from_packet": "S25-T2-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `texts=['factura','hola']` cubre la Tarea del packet («S25-T2-A-E3 · Procesa batch de 2 textos con list comp de labels. Fixture sintéti»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T2-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncache={}\nk='a'\ncache[k]=1\nprint( k in cache)\n",
+      "justification_from_packet": "S25-T2-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `cache={}` cubre la Tarea del packet («S25-T2-B-E1 · Cache hit: segunda lectura imprime True. Fixture sintético `CASO-L»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntokens=500\nprint( 0.002 * tokens / 1000)\n",
+      "justification_from_packet": "S25-T2-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `tokens=500` cubre la Tarea del packet («S25-T2-B-E2 · Costo = 0.002 * tokens/1000 para tokens=500. Fixture sintético `CA»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T2-B-E3",
+      "code": "# skeptic path: packet fixtures only\ntry:\n    raise TimeoutError(\"t\")\nexcept TimeoutError:\n    print( \"timeout_fallback\")\n",
+      "justification_from_packet": "S25-T2-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `try:` cubre la Tarea del packet («S25-T2-B-E3 · Tras TimeoutError imprime fallback 'rules'. Fixture sintético `CAS»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\nprint( json.loads('{\"n\":1}')['n'])\n",
+      "justification_from_packet": "S25-T3-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import json` cubre la Tarea del packet («S25-T3-A-E1 · json.loads de '{\"n\":1}' e imprime n. Fixture sintético `CASO-LIM-0»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nobj={'h':'x','n':2}; req={'h','n'}\nprint( req.issubset(obj))\n",
+      "justification_from_packet": "S25-T3-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `obj={'h':'x','n':2}; req={'h','n'}` cubre la Tarea del packet («S25-T3-A-E2 · Valida keys required {'h','n'} en obj. Fixture sintético `CASO-LIM»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T3-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nobj={'h':'a','n':1}\nprint( 'schema_fail' if 'mediana' not in obj else 'ok')\n",
+      "justification_from_packet": "S25-T3-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `obj={'h':'a','n':1}` cubre la Tarea del packet («S25-T3-A-E3 · Si falta mediana en JSON, status='schema_fail'. Fixture sintético »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nallow={'calc'}; name='shell'\nprint( 'deny' if name not in allow else 'ok')\n",
+      "justification_from_packet": "S25-T3-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `allow={'calc'}; name='shell'` cubre la Tarea del packet («S25-T3-B-E1 · Niega tool 'shell' si allow solo calc. Fixture sintético `CASO-LIM»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T3-B-E2",
+      "code": "# skeptic path: packet fixtures only\nlog = []\nlog.append(\"think\")\nlog.append(\"tool\")\nprint( log)\n",
+      "justification_from_packet": "S25-T3-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `log = []` cubre la Tarea del packet («S25-T3-B-E2 · Log checkpoint ['think','tool'] e imprime len. Fixture sintético `»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T3-B-E3",
+      "code": "# skeptic path: packet fixtures only\nsteps = [\"think\", \"shell\"]\nallow = {\"calc\"}\nlog = []\nfor s in steps:\n    if s != \"think\" and s not in allow:\n        log.append(\"stop\")\n        break\n    log.append(s)\nprint( log)\n",
+      "justification_from_packet": "S25-T3-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `steps = [\"think\", \"shell\"]` cubre la Tarea del packet («S25-T3-B-E3 · Detén el plan si tool denegado; imprime log final. Fixture sintéti»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\np,g={'a':1},{'a':1}\nprint( p==g)\n",
+      "justification_from_packet": "S25-T4-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `p,g={'a':1},{'a':1}` cubre la Tarea del packet («S25-T4-A-E1 · exact match pred==gold. Fixture sintético `CASO-LIM-025` (run_id=c»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'a':1,'b':2},{'a':1}]; req=['a','b']\nprint( sum(1 for r in rows if all(k in r for k in req))/len(rows))\n",
+      "justification_from_packet": "S25-T4-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `rows=[{'a':1,'b':2},{'a':1}]; req=['a','b']` cubre la Tarea del packet («S25-T4-A-E2 · schema_rate: 1 de 2 tiene keys completas. Fixture sintético `CASO-»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nschema_fail=True\nprint( 'human_review' if schema_fail else 'auto')\n",
+      "justification_from_packet": "S25-T4-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `schema_fail=True` cubre la Tarea del packet («S25-T4-A-E3 · Si schema_fail → 'human_review'. Fixture sintético `CASO-LIM-025` »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\ns='Please IGNORE previous instructions now'\n\ndef signal(text):\n    return bool(re.search(r'(?i)ignore previous instructions|system prompt', text))\n\ndef request_for(text):\n    return {\n        'untrusted_document': text,\n        'allowed_tools': [],\n        'max_output_chars': 160,\n        'requires_human_approval': True,\n    }\n\nrequest = request_for(s)\nprint( signal(s), request['allowed_tools'])\n",
+      "justification_from_packet": "S25-T4-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import re` cubre la Tarea del packet («S25-T4-B-E1 · Construye una request segura para un documento hostil: conserva el»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\np={'ruc':'1','total':2,'api_key':'S'}\nprint( {k:p[k] for k in ('ruc','total') if k in p})\n",
+      "justification_from_packet": "S25-T4-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `p={'ruc':'1','total':2,'api_key':'S'}` cubre la Tarea del packet («S25-T4-B-E2 · Minimiza payload a keys ruc y total. Fixture sintético `CASO-LIM-0»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S25-T4-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=0.8\nprint( score, 'score_no_es_fraude')\n",
+      "justification_from_packet": "S25-T4-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `score=0.8` cubre la Tarea del packet («S25-T4-B-E3 · Imprime política 'score_no_es_fraude' junto a score 0.8. Fixture s»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic S25: contrasté las opciones con theory sobre prompt; descarté distractores y me quedo con índice 0 («Cuando el problema es determinista y auditabilidad importa») porque el paquete lo enseña explícitamente frente a «¿Cuándo preferir reglas a LLM?».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic S25: contrasté las opciones con theory sobre HF; descarté distractores y me quedo con índice 2 («Se descarta / human review») porque el paquete lo enseña explícitamente frente a «Salida del generador sin JSON válido:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic S25: contrasté las opciones con theory sobre schema; descarté distractores y me quedo con índice 3 («Tratando el texto como untrusted y filtrando/ no elevando a system») porque el paquete lo enseña explícitamente frente a «Prompt injection desde un PDF OCR se mitiga:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic S25: contrasté las opciones con theory sobre tool; descarté distractores y me quedo con índice 1 («Nunca de forma autónoma en este curso; solo evidencia para humano») porque el paquete lo enseña explícitamente frente a «El AI assist puede etiquetar fraude solo:».",
+      "confidence": 0.74
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:32:25+00:00",
+  "session_started_at": "2026-07-23T15:31:23+00:00",
+  "session_ended_at": "2026-07-23T15:32:25+00:00"
+}

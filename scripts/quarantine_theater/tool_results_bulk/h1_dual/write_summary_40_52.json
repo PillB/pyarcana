@@ -1,0 +1,180 @@
+{
+  "sections_done": [
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52
+  ],
+  "n_sections": 13,
+  "n_lives": 26,
+  "duration_samples": [
+    {
+      "section": 40,
+      "agent": "newbie_a",
+      "duration_s": 26.0,
+      "persona": "explorer"
+    },
+    {
+      "section": 40,
+      "agent": "newbie_b",
+      "duration_s": 24.94,
+      "persona": "skeptic"
+    },
+    {
+      "section": 41,
+      "agent": "newbie_a",
+      "duration_s": 24.25,
+      "persona": "explorer"
+    },
+    {
+      "section": 41,
+      "agent": "newbie_b",
+      "duration_s": 27.64,
+      "persona": "skeptic"
+    },
+    {
+      "section": 42,
+      "agent": "newbie_a",
+      "duration_s": 22.92,
+      "persona": "explorer"
+    },
+    {
+      "section": 42,
+      "agent": "newbie_b",
+      "duration_s": 28.26,
+      "persona": "skeptic"
+    },
+    {
+      "section": 43,
+      "agent": "newbie_a",
+      "duration_s": 27.22,
+      "persona": "explorer"
+    },
+    {
+      "section": 43,
+      "agent": "newbie_b",
+      "duration_s": 22.44,
+      "persona": "skeptic"
+    },
+    {
+      "section": 44,
+      "agent": "newbie_a",
+      "duration_s": 18.17,
+      "persona": "explorer"
+    },
+    {
+      "section": 44,
+      "agent": "newbie_b",
+      "duration_s": 29.48,
+      "persona": "skeptic"
+    },
+    {
+      "section": 45,
+      "agent": "newbie_a",
+      "duration_s": 21.05,
+      "persona": "explorer"
+    },
+    {
+      "section": 45,
+      "agent": "newbie_b",
+      "duration_s": 32.52,
+      "persona": "skeptic"
+    },
+    {
+      "section": 46,
+      "agent": "newbie_a",
+      "duration_s": 24.07,
+      "persona": "explorer"
+    },
+    {
+      "section": 46,
+      "agent": "newbie_b",
+      "duration_s": 20.22,
+      "persona": "skeptic"
+    },
+    {
+      "section": 47,
+      "agent": "newbie_a",
+      "duration_s": 28.86,
+      "persona": "explorer"
+    },
+    {
+      "section": 47,
+      "agent": "newbie_b",
+      "duration_s": 24.67,
+      "persona": "skeptic"
+    },
+    {
+      "section": 48,
+      "agent": "newbie_a",
+      "duration_s": 22.75,
+      "persona": "explorer"
+    },
+    {
+      "section": 48,
+      "agent": "newbie_b",
+      "duration_s": 26.58,
+      "persona": "skeptic"
+    },
+    {
+      "section": 49,
+      "agent": "newbie_a",
+      "duration_s": 25.08,
+      "persona": "explorer"
+    },
+    {
+      "section": 49,
+      "agent": "newbie_b",
+      "duration_s": 28.95,
+      "persona": "skeptic"
+    },
+    {
+      "section": 50,
+      "agent": "newbie_a",
+      "duration_s": 24.32,
+      "persona": "explorer"
+    },
+    {
+      "section": 50,
+      "agent": "newbie_b",
+      "duration_s": 28.86,
+      "persona": "skeptic"
+    },
+    {
+      "section": 51,
+      "agent": "newbie_a",
+      "duration_s": 20.16,
+      "persona": "explorer"
+    },
+    {
+      "section": 51,
+      "agent": "newbie_b",
+      "duration_s": 30.55,
+      "persona": "skeptic"
+    },
+    {
+      "section": 52,
+      "agent": "newbie_a",
+      "duration_s": 20.56,
+      "persona": "explorer"
+    },
+    {
+      "section": 52,
+      "agent": "newbie_b",
+      "duration_s": 25.64,
+      "persona": "skeptic"
+    }
+  ],
+  "production_note": "packet-only sequential no stamps; quiz_card+slim_packet agentic_H1",
+  "attempt_id": "agentic_H1",
+  "issues": []
+}

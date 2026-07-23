@@ -1,0 +1,262 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_I1",
+  "section_index": 23,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-explorer-s23-151220-49",
+  "production_note": "agentic_I1 dual-LLM explorer: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n",
+      "justification_from_packet": "Ejercicio S23-T1-A-E1: seguí instruction del paquete («Locator por rol: nodes=[{'role':'link','name':'Inicio','id':'n1'}]. Encuentra role=link y name=Inicio; imprime id. Contr…») y el starter/fixture; implementé con `nodes=[{'role':'link','name':'Inicio','id':'n1'}]` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))\n",
+      "justification_from_packet": "Ejercicio S23-T1-A-E2: seguí instruction del paquete («Prioridad de estrategias: strats=['css','role','testid']. Ordena priorizando role, testid, css (preferred index). Imprim…») y el starter/fixture; implementé con `strats=['css','role','testid']` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint(hits[0]['name'] if hits else 'need_testid')\n",
+      "justification_from_packet": "Ejercicio S23-T1-A-E3: seguí instruction del paquete («Sin control button en nodes (solo img logo): al buscar button imprime 'need_testid' si no hay role button; si hubiera, s…») y el starter/fixture; implementé con `nodes=[{'role':'img','name':'logo'}]` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        break\nprint(i)\n",
+      "justification_from_packet": "Ejercicio S23-T1-B-E1: seguí instruction del paquete («Auto-wait simulado: ready se vuelve True en el intento 2 de un loop 1..N. Imprime el número de intento cuando ready. Con…») y el starter/fixture; implementé con `for i in range(1, 4):` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nready = False\nfor i in range(3):\n    if ready:\n        break\nelse:\n    print('ok')\n",
+      "justification_from_packet": "Ejercicio S23-T1-B-E2: seguí instruction del paquete («Timeout de espera: ready=False fijo; tras 3 intentos sin ready imprime 'timeout'. Contrato: no reintentar infinito. Pass…») y el starter/fixture; implementé con `ready = False` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected, actual = 'Portal demo', 'Portal demo'\nprint('pass' if expected == actual else 'fail')\n",
+      "justification_from_packet": "Ejercicio S23-T1-B-E3: seguí instruction del paquete («Assertion de título: expected=actual='Portal demo'. Imprime 'pass' si iguales else 'fail'. Contrato: postcondición de na…») y el starter/fixture; implementé con `expected, actual = 'Portal demo', 'Portal demo'` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nform = {}\nform['usuario'] = 'ana'\nprint(form)\n",
+      "justification_from_packet": "Ejercicio S23-T2-A-E1: seguí instruction del paquete («Fill de formulario sintético: form={}; asigna usuario='ana'; imprime form. Contrato: update/asignación. Pass: {'usuario'…») y el starter/fixture; implementé con `form = {}` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])\n",
+      "justification_from_packet": "Ejercicio S23-T2-A-E2: seguí instruction del paquete («Verificación de download: sha256 hex de b'data', primeros 8 chars. import hashlib. Contrato: hexdigest()[:8]. Pass: 3a6e…») y el starter/fixture; implementé con `import hashlib` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'token':'t'}\nprint('reuse' if state.get('token') else 'login')\n",
+      "justification_from_packet": "Ejercicio S23-T2-A-E3: seguí instruction del paquete («Reuso de sesión: state={'token':'t'}. Si token presente imprime 'reuse' (no re-login). Contrato: storage_state conceptua…») y el starter/fixture; implementé con `state={'token':'t'}` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "code": "class LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        if password == \"sandbox\":\n            self.auth = True\n\np = LoginPage()\np.submit(\"demo\", \"sandbox\")\nprint(p.auth)\n",
+      "justification_from_packet": "Ejercicio S23-T2-B-E1: seguí instruction del paquete («Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prueba e imprime auth True. Contrato: clase …») y el starter/fixture; implementé con `class LoginPage:` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\nexcept PermissionError:\n    print('ok')\n",
+      "justification_from_packet": "Ejercicio S23-T2-B-E2: seguí instruction del paquete («ReportPage sin auth: ctx auth False; open debe denegar. Captura PermissionError e imprime 'denied'. Contrato: no continu…») y el starter/fixture; implementé con `ctx={'auth':False}` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint(state)\n",
+      "justification_from_packet": "Ejercicio S23-T2-B-E3: seguí instruction del paquete («Transición de estado: state='anonymous'; tras login ok imprime 'authenticated'. Contrato: máquina simple de estados. Pas…») y el starter/fixture; implementé con `state='anonymous'` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.keys()))\n",
+      "justification_from_packet": "Ejercicio S23-T3-A-E1: seguí instruction del paquete («Paquete de evidencia: ev con trace, screenshot, error. Imprime sorted(keys). Contrato: keys estables para CI. Pass: ['er…») y el starter/fixture; implementé con `ev={'trace':'a.zip','screenshot':'b.png','error':'x'}` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlogs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])\n",
+      "justification_from_packet": "Ejercicio S23-T3-A-E2: seguí instruction del paquete («Filtro de console: logs=['ok','ERR timeout','nav']; imprime solo líneas que contienen 'ERR'. Contrato: list comp. Pass: …») y el starter/fixture; implementé con `logs=['ok','ERR timeout','nav']` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint(pkg)\n",
+      "justification_from_packet": "Ejercicio S23-T3-A-E3: seguí instruction del paquete («Adjuntar trace en falla: ok=False, pkg={'step':'s1'}; si not ok añade trace 'traces/s1.zip'; imprime pkg. Contrato: path…») y el starter/fixture; implementé con `ok=False` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "code": "def should_retry(k):\n    return k in (\"timeout\", \"429\")\n\nfor k in [\"timeout\", \"captcha\", \"429\"]:\n    print(k, should_retry(k))\n",
+      "justification_from_packet": "Ejercicio S23-T3-B-E1: seguí instruction del paquete («Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha, 429 e imprime tres líneas kind bool. C…») y el starter/fixture; implementé con `def should_retry(k):` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nerr='stale'\nprint('goto_home' if err=='stale' else 'continue')\n",
+      "justification_from_packet": "Ejercicio S23-T3-B-E2: seguí instruction del paquete («Recovery stale DOM: err='stale' → action 'goto_home'. Imprime action. Contrato: re-nav, no click en handle viejo. Pass: …») y el starter/fixture; implementé con `err='stale'` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "code": "errors = [\"timeout\", \"timeout\", \"timeout\"]\nfor i, e in enumerate(errors, 1):\n    if e != \"timeout\":\n        break\n    if i == 3:\n        print(\"fail\", i)\n        break\nelse:\n    print(\"ok\", i)\n",
+      "justification_from_packet": "Ejercicio S23-T3-B-E3: seguí instruction del paquete («Máx 3 timeouts: errors lista de tres 'timeout' → imprime 'fail 3' con conteo. Contrato: exhaust retries. Pass: fail 3. U…») y el starter/fixture; implementé con `errors = [\"timeout\", \"timeout\", \"timeout\"]` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\napi=True\nprint('api' if api else 'rpa')\n",
+      "justification_from_packet": "Ejercicio S23-T4-A-E1: seguí instruction del paquete («API-first gate: api=True → elige 'api'. Imprime la elección del método de obtención de datos. Contrato: preferencia sobr…») y el starter/fixture; implementé con `api=True` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint(c)\n",
+      "justification_from_packet": "Ejercicio S23-T4-A-E2: seguí instruction del paquete («Orden api>export>rpa: flags api False, export True, rpa True → imprime 'export'. Contrato: primera disponible en la jera…») y el starter/fixture; implementé con `f={'api':False,'export':True,'rpa':True}` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndecision={'method':'rpa','reason':'no_api'}\nprint(decision)\n",
+      "justification_from_packet": "Ejercicio S23-T4-A-E3: seguí instruction del paquete («Decisión documentada: cae a rpa con reason 'no_api'. Imprime dict method/reason. Contrato: auditoría de por qué RPA. Pas…») y el starter/fixture; implementé con `decision={'method':'rpa','reason':'no_api'}` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncaptcha=True\nprint('human_handoff' if captcha else 'continue')\n",
+      "justification_from_packet": "Ejercicio S23-T4-B-E1: seguí instruction del paquete («CAPTCHA en portal demo: captcha=True → imprime 'human_handoff' sin intentar bypass ni granja. Contrato: handoff humano o…») y el starter/fixture; implementé con `captcha=True` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsig={'tos_forbidden':True,'captcha':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')\n",
+      "justification_from_packet": "Ejercicio S23-T4-B-E2: seguí instruction del paquete («ToS gana: sig con tos_forbidden True (y captcha True). action abort. Imprime action. Contrato: abort > handoff. Pass: ab…») y el starter/fixture; implementé con `sig={'tos_forbidden':True,'captcha':True}` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])\n",
+      "justification_from_packet": "Ejercicio S23-T4-B-E3: seguí instruction del paquete («Payload handoff: arma estructura con url, step, screenshot; imprime keys sorted y marca export según solution output. Co…») y el starter/fixture; implementé con `payload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.84
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "En theory/iDo del paquete S23 se define Playwright: para «¿Por qué preferir get_by_role a CSS nth-child?» la opción «Refleja la UI accesible y suele ser más estable» (índice 2) es la que alinea con el contrato pedagógico del packet activo.",
+      "confidence": 0.86
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "En theory/iDo del paquete S23 se define selector: para «Ante un CAPTCHA el robot debe:» la opción «Detenerse y hacer handoff humano» (índice 0) es la que alinea con el contrato pedagógico del packet activo.",
+      "confidence": 0.86
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "En theory/iDo del paquete S23 se define retry: para «API/export primero significa:» la opción «Buscar integración no-UI antes de automatizar el browser» (índice 1) es la que alinea con el contrato pedagógico del packet activo.",
+      "confidence": 0.86
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "En theory/iDo del paquete S23 se define screenshot: para «Un retry seguro reintenta:» la opción «Solo fallas transitorias (timeout/red), no captcha/403 de negocio» (índice 3) es la que alinea con el contrato pedagógico del packet activo.",
+      "confidence": 0.86
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:13:09+00:00",
+  "session_started_at": "2026-07-23T15:12:20+00:00",
+  "session_ended_at": "2026-07-23T15:13:09+00:00"
+}

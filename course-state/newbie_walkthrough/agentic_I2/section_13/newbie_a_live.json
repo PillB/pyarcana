@@ -1,0 +1,500 @@
+{
+  "agent": "newbie_a",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 13,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-explorer-7f3a9c2e-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:16:36.190000+00:00",
+  "session_ended_at": "2026-07-23T12:17:24.220000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S13-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T1-A-E1\nimport re\ndef norm_name(valor):\n    return re.sub(dept\"\\\\s+\", \" \", valor.casefold().strip())\ndef norm_doc(d):\n    return re.sub(dept\"[^a-z0-9]\", \"\", d.casefold())\nprint(norm_name(\" Ana  QUISPE \"))\nprint(norm_doc(\"D-12.34\"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T1-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolu…». Completé el contrato Pass con código ancla `import re`. Pista del paquete: «re.sub para espacios y no alfanuméricos». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S13-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T1-A-E2\ndef blocking_key(rec):\n    parts = rec[\"name\"].casefold().split()\n    ap = parts[1] if len(parts) >= 2 else parts[0]\n    return f\"{ap}|{rec['dept'].casefold()}\"\nprint(blocking_key({\"name\": \"Luis Huamán Soto\", \"dept\": \"Cusco\"}))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T1-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `def blocking_key(rec):`. Pista del paquete: «Último token no; usa el segundo token como apellido paterno o el último: documen». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S13-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T1-A-E3\nimport re\ndef norm_doc(d):\n    return re.sub(dept\"[^a-z0-9]\", \"\", d.casefold())\ndef bkey(dept):\n    ap = dept[\"name\"].casefold().split()[-1]\n    return f\"{ap}|{dept['dept'].casefold()}\"\ndef er_score(a, b):\n    same_doc = norm_doc(a[\"document_id\"]) == norm_doc(b[\"document_id\"])\n    same_block = bkey(a) == bkey(b)\n    if same_doc and same_block:\n        return 1.0\n    if same_doc:\n        return 0.5\n    return 0.0\nA = {\"name\": \"Ana Quispe\", \"document_id\": \"X1\", \"dept\": \"Lima\"}\nB = {\"name\": \"Ana Quispe\", \"document_id\": \"X1\", \"dept\": \"Lima\"}\nC = {\"name\": \"Ana Other\", \"document_id\": \"X1\", \"dept\": \"Cusco\"}\nD = {\"name\": \"Ana Quispe\", \"document_id\": \"Z9\", \"dept\": \"Lima\"}\nprint(er_score(A, B), er_score(A, C), er_score(A, D))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "er_score",
+        "norm_doc",
+        "igual",
+        "mismo",
+        "blocking_key",
+        "solo",
+        "stdlib"
+      ],
+      "justification_from_packet": "Explorer S13-T1-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — `er_score(a,b)`: 1.0 si norm_doc igual y mismo blocking_key; 0.5 si solo stdlib + reglas deterministas S01–S13. Documen…». Completé el contrato Pass con código ancla `import re`. Pista del paquete: «Combina igualdad de doc y block». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S13-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T1-B-E1\ntp, fp, fn = 8, 2, 2\nprint(\"precision\", round(tp / (tp + fp), 3))\nprint(\"recall\", round(tp / (tp + fn), 3))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T1-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolu…». Completé el contrato Pass con código ancla `tp, fp, fn = 8, 2, 2`. Pista del paquete: «precision = tp/(tp+fp)». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `tp, fp, fn = 8, 2, 2`."
+    },
+    {
+      "exercise_id": "S13-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T1-B-E2\npairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\ndef clerical_queue(pairs, low=0.4, high=0.7):\n    return [p[\"id\"] for p in pairs if low <= p[\"score\"] <= high]\nprint(clerical_queue(pairs))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T1-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `pairs = [`. Pista del paquete: «list comprehension con filtro de banda». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `pairs = [`."
+    },
+    {
+      "exercise_id": "S13-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T1-B-E3\nprint(\"fp_not_fraud:\", \"False positive de matching no es evidencia de delito\")\nprint(\"ops_action:\", \"needs_review\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T1-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `print(\"fp_not_fraud:\", \"False positive de matching no es evidencia de delito\")`. Pista del paquete: «Mensajes fijos cortos». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `print(\"fp_not_fraud:\", \"False positive de matching no es evi`."
+    },
+    {
+      "exercise_id": "S13-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T2-A-E1\ndef shared_email(a, b):\n    if not a or not b:\n        return False\n    return a.casefold() == b.casefold()\nprint(shared_email(\"Ana@Example.com\", \"ana@example.com\"))\nprint(shared_email(\"\", \"\"))\nprint(shared_email(\"a@x.com\", \"b@x.com\"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T2-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolu…». Completé el contrato Pass con código ancla `def shared_email(a, b):`. Pista del paquete: «a and b and a.casefold()==b.casefold()». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def shared_email(a, b):`."
+    },
+    {
+      "exercise_id": "S13-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T2-A-E2\ndef rel_score(km, surname_jaccard):\n    geo = 1.0 if km < 2 else 0.0\n    return round(0.6 * geo + 0.4 * surname_jaccard, 3)\nprint(rel_score(1.2, 0.5))\nprint(rel_score(5.0, 0.5))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T2-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `def rel_score(km, surname_jaccard):`. Pista del paquete: «Combina distancia y apellido». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def rel_score(km, surname_jaccard):`."
+    },
+    {
+      "exercise_id": "S13-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T2-A-E3\nprint(\"relationship_signal_score no implica parentesco ni colusión\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T2-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `print(\"relationship_signal_score no implica parentesco ni colusión\")`. Pista del paquete: «Un solo print». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `print(\"relationship_signal_score no implica parentesco ni co`."
+    },
+    {
+      "exercise_id": "S13-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T2-B-E1\nmovimientos = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]\ndef direct_txs(movimientos, a, b):\n    return [m for x, y, m in movimientos if {x, y} == {a, b}]\nprint(direct_txs(movimientos, \"A\", \"B\"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T2-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolu…». Completé el contrato Pass con código ancla `movimientos = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]`. Pista del paquete: «set equality de endpoints». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S13-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T2-B-E2\nmovimientos = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]\ndef neighbors(movimientos, node):\n    s = set()\n    for x, y, _ in movimientos:\n        if x == node:\n            s.add(y)\n        if y == node:\n            s.add(x)\n    return s\ndef common_counterparties(movimientos, a, c):\n    return sorted(neighbors(movimientos, a) & neighbors(movimientos, c))\nprint(common_counterparties(movimientos, \"A\", \"C\"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T2-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `movimientos = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]`. Pista del paquete: «Intersección de vecinos». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S13-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T2-B-E3\nprint(\"no_collusion: contraparte común no prueba acuerdo ilícito\")\nprint(\"no_kinship: contraparte común no prueba parentesco\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T2-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `print(\"no_collusion: contraparte común no prueba acuerdo ilícito\")`. Pista del paquete: «Mensajes explícitos». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `print(\"no_collusion: contraparte común no prueba acuerdo ilí`."
+    },
+    {
+      "exercise_id": "S13-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T3-A-E1\ndef explanation_bullets(er, rel, missing):\n    return [\n        f\"entity_resolution_score={er}\",\n        f\"relationship_signal_score={rel}\",\n        f\"missing={missing}\",\n    ]\nprint(explanation_bullets(0.9, 0.4, [\"phone\"]))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T3-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolu…». Completé el contrato Pass con código ancla `def explanation_bullets(er, rel, missing):`. Pista del paquete: «f-strings con los tres inputs». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def explanation_bullets(er, rel, missing):`."
+    },
+    {
+      "exercise_id": "S13-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T3-A-E2\ndef uncertainty_band(missing, conflict):\n    if conflict or len(missing) >= 2:\n        return \"high\"\n    if missing:\n        return \"med\"\n    return \"low\"\nprint(uncertainty_band([], False))\nprint(uncertainty_band([\"email\"], False))\nprint(uncertainty_band([\"email\", \"phone\"], False))\nprint(uncertainty_band([], True))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T3-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `def uncertainty_band(missing, conflict):`. Pista del paquete: «Orden de ifs: conflict primero». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def uncertainty_band(missing, conflict):`."
+    },
+    {
+      "exercise_id": "S13-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T3-A-E3\ner, rel = 0.9, 0.1\nscore = round(0.6 * er + 0.4 * rel, 3)\nconflict = abs(er - rel) > 0.5\nprint(\"evidence_score\", score)\nprint(\"uncertainty\", \"high\" if conflict else \"low\")\nprint(\"note\", \"señales conflictivas\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T3-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `er, rel = 0.9, 0.1`. Pista del paquete: «abs(er-rel)>0.5 → conflict». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `er, rel = 0.9, 0.1`."
+    },
+    {
+      "exercise_id": "S13-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T3-B-E1\nthresholds = {\n    \"accept_min\": 0.8,\n    \"review_low\": 0.4,\n}\nassert 0 <= thresholds[\"review_low\"] < thresholds[\"accept_min\"] <= 1\nprint(sorted(thresholds.items()))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T3-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolu…». Completé el contrato Pass con código ancla `thresholds = {`. Pista del paquete: «Dos límites forman tres intervalos contiguos». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `thresholds = {`."
+    },
+    {
+      "exercise_id": "S13-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T3-B-E2\nfrom math import isfinite\n\nth = {\"accept_min\": 0.8, \"review_low\": 0.4}\ndef decide_ops_status(score, unc, th):\n    if isinstance(score, bool) or not isinstance(score, (int, float)):\n        return \"invalid_input\"\n    if not isfinite(score) or not 0.0 <= score <= 1.0 or unc not in {\"low\", \"med\", \"high\"}:\n        return \"invalid_input\"\n    if unc == \"high\":\n        return \"needs_review\"\n    if score < th[\"review_low\"]:\n        return \"abstain\"\n    if score < th[\"accept_min\"]:\n        return \"needs_review\"\n    return \"accept_pair\"\nfor s, u in [(-0.1, \"low\"), (0.399, \"low\"), (0.4, \"low\"), (0.799, \"med\"), (0.8, \"low\"), (0.9, \"high\"), (float(\"nan\"), \"low\")]:\n    print(s, u, decide_ops_status(s, u, th))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "implementa",
+        "matriz",
+        "total",
+        "input",
+        "inv",
+        "lido",
+        "invalid_input"
+      ],
+      "justification_from_packet": "Explorer S13-T3-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Implementa la matriz total: input inválido→invalid_input; high→needs_review; score<review_low→abstain; score<accept_min…». Completé el contrato Pass con código ancla `from math import isfinite`. Pista del paquete: «Implementa la matriz de decisión». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from math import isfinite`."
+    },
+    {
+      "exercise_id": "S13-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T3-B-E3\nout = {\"status\": \"needs_review\", \"is_family\": True, \"auto_fraud\": True, \"score\": 0.5}\nforbidden = {\"is_family\", \"auto_fraud\"}\nclean = {k: v for k, v in out.items() if k not in forbidden}\nprint(sorted(clean.keys()))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T3-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `out = {\"status\": \"needs_review\", \"is_family\": True, \"auto_fraud\": True, \"score\": 0.5}`. Pista del paquete: «pop o dict comprehension». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `out = {\"status\": \"needs_review\", \"is_family\": True, \"auto_fr`."
+    },
+    {
+      "exercise_id": "S13-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T4-A-E1\ndef pseudonymize(name):\n    return \" \".join(p[0] + \"***\" for p in name.split() if p)\nprint(pseudonymize(\"Ana Quispe Rojas\"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T4-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolu…». Completé el contrato Pass con código ancla `def pseudonymize(name):`. Pista del paquete: «primer char + *** por token». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def pseudonymize(name):`."
+    },
+    {
+      "exercise_id": "S13-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T4-A-E2\ndef case_sheet(er, rel):\n    return {\n        \"entity_resolution_score\": er,\n        \"relationship_signal_score\": rel,\n    }\nprint(case_sheet(0.9, 0.4))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T4-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `def case_sheet(er, rel):`. Pista del paquete: «Claves entity_resolution_score y relationship_signal_score». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def case_sheet(er, rel):`."
+    },
+    {
+      "exercise_id": "S13-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T4-A-E3\ndef map_tooltip(lat, lon, km, source):\n    return f\"lat={lat},lon={lon},geo_distance_km={km},source={source}\"\nprint(map_tooltip(-12.04, -77.04, 1.2, \"mock\"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T4-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `def map_tooltip(lat, lon, km, source):`. Pista del paquete: «Incluye source=». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def map_tooltip(lat, lon, km, source):`."
+    },
+    {
+      "exercise_id": "S13-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T4-B-E1\nprivacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nprint(sorted(privacy.keys()))\nprint(privacy[\"pii_real\"])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T4-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolu…». Completé el contrato Pass con código ancla `privacy = {`. Pista del paquete: «Tres campos mínimos CF-1». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `privacy = {`."
+    },
+    {
+      "exercise_id": "S13-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T4-B-E2\ndef demo_command():\n    return \"python -m demo_n1_dashboard --synthetic\"\nprint(demo_command())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T4-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `def demo_command():`. Pista del paquete: «String fijo documentado en runbook». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def demo_command():`."
+    },
+    {
+      "exercise_id": "S13-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S13-T4-B-E3\nactions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\nprint(\"|\".join(actions))\nprint(\"level1_regression: re-check S01-S13 critical paths after incident\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s13",
+        "familiarity",
+        "evidence",
+        "dashboard",
+        "entrada",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S13-T4-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity…». Completé el contrato Pass con código ancla `actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]`. Pista del paquete: «Orden fijo de respuesta». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]`."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Mantenerse separados en la ficha de caso",
+      "justification_from_packet": "Explorer S13 Q0: leí la teoría del quiz_card («{\"subtopicId\": \"S13-T1-A\", \"heading\": \"Normalización, blocking y entity resolution\", \"paragraphs\": [\"Normaliza nombres y…») y la pregunta «entity_resolution_score y relationship_signal_score deben…». La opción [0] «Mantenerse separados en la ficha de caso» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Error de matching; no es veredicto legal de fraude",
+      "justification_from_packet": "Explorer S13 Q1: leí la teoría del quiz_card («{\"subtopicId\": \"S13-T1-A\", \"heading\": \"Normalización, blocking y entity resolution\", \"paragraphs\": [\"Normaliza nombres y…») y la pregunta «Un false positive de ER implica…». La opción [2] «Error de matching; no es veredicto legal de fraude» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Encolar needs_review / abstenerse según política",
+      "justification_from_packet": "Explorer S13 Q2: leí la teoría del quiz_card («{\"subtopicId\": \"S13-T1-A\", \"heading\": \"Normalización, blocking y entity resolution\", \"paragraphs\": [\"Normaliza nombres y…») y la pregunta «En zona gris de score el sistema debe…». La opción [3] «Encolar needs_review / abstenerse según política» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Privacy sheet, acceso, tests, demo y runbook",
+      "justification_from_packet": "Explorer S13 Q3: leí la teoría del quiz_card («{\"subtopicId\": \"S13-T1-A\", \"heading\": \"Normalización, blocking y entity resolution\", \"paragraphs\": [\"Normaliza nombres y…») y la pregunta «CF-1 en S13 incluye…». La opción [1] «Privacy sheet, acceso, tests, demo y runbook» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)",
+      "justification_from_packet": "Explorer S13 Q4: leí la teoría del quiz_card («{\"subtopicId\": \"S13-T1-A\", \"heading\": \"Normalización, blocking y entity resolution\", \"paragraphs\": [\"Normaliza nombres y…») y la pregunta «Level-1 regression notes en el You Do exigen…». La opción [0] «Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:17:24.220000+00:00"
+}

@@ -1,0 +1,500 @@
+{
+  "agent": "newbie_a",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 3,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-explorer-7f3a9c2e-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:01:57.890000+00:00",
+  "session_ended_at": "2026-07-23T12:02:20.370000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S03-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T1-A-E1\nyears = 25\ndept = \"Cusco\"\n\nprint(years >= 18)\nprint(years < 65)\nprint(18 <= years <= 65)\nprint(dept == \"Lima\")\nprint(dept != \"Piura\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "con",
+        "edad",
+        "region",
+        "cusco",
+        "imprime",
+        "booleano",
+        "lima"
+      ],
+      "justification_from_packet": "Explorer S03-T1-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Con `edad = 25` y `region = \"Cusco\"`, imprime el booleano de: `edad >= 18`, `edad < 65`, `18 <= edad <= 65`, `region == \"Lima\"…». Completé el contrato Pass con código ancla `years = 25`. Pista del paquete: «Usa print(expresion) directamente; no hace falta if todavía.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S03-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T1-A-E2\nTIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t in TIPOS_DOC)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "define",
+        "tipos_doc",
+        "dni",
+        "pas",
+        "para",
+        "cada",
+        "valor"
+      ],
+      "justification_from_packet": "Explorer S03-T1-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Define `TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}`. Para cada valor en `[\"DNI\", \"dni\", \"RUC\"]`, imprime si está en la allowlist …». Completé el contrato Pass con código ancla `TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}`. Pista del paquete: «for t in lista: print(t, \"→\", t in TIPOS_DOC)». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}`."
+    },
+    {
+      "exercise_id": "S03-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T1-A-E3\nvalor = None\nprint(\"valor is None →\", valor is None)\nprint(\"True == 1 →\", True == 1)\nprint(\"True is 1 →\", True is 1)\nprint(\"Nota:\", \"usa is solo para None; == para valores de negocio\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "diagn",
+        "stico",
+        "imprime",
+        "valor",
+        "none",
+        "con",
+        "luego"
+      ],
+      "justification_from_packet": "Explorer S03-T1-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Diagnóstico: imprime `valor is None` con `valor = None`, luego `True == 1` y `True is 1`. Explica en un print cuándo us…». Completé el contrato Pass con código ancla `valor = None`. Pista del paquete: «is None para ausencia; == para valores de negocio. No uses is con enteros.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `valor = None`."
+    },
+    {
+      "exercise_id": "S03-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T1-B-E1\nvals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", bool(v))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "tabla",
+        "truthiness",
+        "imprime",
+        "bool",
+        "para",
+        "none",
+        "false"
+      ],
+      "justification_from_packet": "Explorer S03-T1-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Tabla truthiness: imprime `bool(v)` para `None`, `False`, `0`, `0.0`, `\"\"`, `[]`, `{}`, `set()`, `range(0)`, `\"x\"`, `1`, `[0]`…». Completé el contrato Pass con código ancla `vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]`. Pista del paquete: «for v in lista: print(repr(v), \"→\", bool(v))». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x`."
+    },
+    {
+      "exercise_id": "S03-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T1-B-E2\nprint(\"'' or 'default' →\", \"\" or \"default\")\nprint(\"'Lima' or 'default' →\", \"Lima\" or \"default\")\nprint(\"0 and 99 →\", 0 and 99)\nprint(\"5 and 99 →\", 5 and 99)\nprint(\"None or 0 →\", None or 0)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "predice",
+        "imprime",
+        "default",
+        "lima",
+        "none",
+        "agentic_i2",
+        "explorer"
+      ],
+      "justification_from_packet": "Explorer S03-T1-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Predice e imprime: `'' or 'default'`, `'Lima' or 'default'`, `0 and 99`, `5 and 99`, `None or 0`.…». Completé el contrato Pass con código ancla `print(\"'' or 'default' →\", \"\" or \"default\")`. Pista del paquete: «and/or devuelven operando, no necesariamente bool. Short-circuit: or se detiene ». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `print(\"'' or 'default' →\", \"\" or \"default\")`."
+    },
+    {
+      "exercise_id": "S03-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T1-B-E3\ndef validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "bug",
+        "validador",
+        "hace",
+        "not",
+        "monto",
+        "return",
+        "reject"
+      ],
+      "justification_from_packet": "Explorer S03-T1-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Bug: un validador hace `if not monto: return \"reject\"`. Reescribe `validate_monto(m)` con `is None` para review, `< 0` …». Completé el contrato Pass con código ancla `def validate_monto(m):`. Pista del paquete: «Nunca uses truthiness para montos. if m is None primero.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def validate_monto(m):`."
+    },
+    {
+      "exercise_id": "S03-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T2-A-E1\ndef classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "completa",
+        "classify_score",
+        "accept",
+        "review",
+        "else",
+        "reject",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer S03-T2-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Completa `classify_score`: ≥80 accept, ≥50 review, else reject. Imprime resultados para 80, 50, 49, 100.…». Completé el contrato Pass con código ancla `def classify_score(score: int) -> str:`. Pista del paquete: «if score >= 80: ... elif score >= 50: ... else: ...». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def classify_score(score: int) -> str:`."
+    },
+    {
+      "exercise_id": "S03-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T2-A-E2\ndef bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "funci",
+        "bad",
+        "usa",
+        "ifs",
+        "independientes",
+        "clasifica",
+        "mal"
+      ],
+      "justification_from_packet": "Explorer S03-T2-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — La función `bad` usa ifs independientes y clasifica mal el 95 (queda review). Reescribe `good` con if/elif/else y compa…». Completé el contrato Pass con código ancla `def bad(score):`. Pista del paquete: «El segundo if score >= 50 pisa el accept. Usa elif para exclusión mutua.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def bad(score):`."
+    },
+    {
+      "exercise_id": "S03-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T2-A-E3\ndef band(valor):\n    if valor > 100:\n        return \"alto\"\n    elif valor > 50:\n        return \"medio\"\n    elif valor > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor valor in [150, 75, 10, 0, -3]:\n    print(valor, \"→\", band(valor))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "traza",
+        "mentalmente",
+        "luego",
+        "implementa",
+        "band",
+        "alto",
+        "medio"
+      ],
+      "justification_from_packet": "Explorer S03-T2-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Traza mentalmente y luego implementa `band(n)`: `>100` alto, `>50` medio, `>0` bajo, else nulo. Verifica 150, 75, 10, 0…». Completé el contrato Pass con código ancla `def band(valor):`. Pista del paquete: «Orden: primero el umbral más alto. else cubre 0 y negativos.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S03-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T2-B-E1\ndef validate_edad(years):\n    if years is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(years, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if years < 0 or years > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if years < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "completa",
+        "guards",
+        "validate_edad",
+        "none",
+        "missing",
+        "review",
+        "int"
+      ],
+      "justification_from_packet": "Explorer S03-T2-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Completa guards en `validate_edad`: None → MISSING/review; no int → BAD_TYPE/reject; luego OUT_OF_RANGE / NEEDS_REVIEW / OK co…». Completé el contrato Pass con código ancla `def validate_edad(years):`. Pista del paquete: «if edad is None primero; luego isinstance; no compares None con <.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S03-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T2-B-E2\ndef validate_monto_nested(m):\n    if m is not None:\n        if isinstance(m, int):\n            if m >= 0:\n                if m <= 10000:\n                    return \"accept\"\n                else:\n                    return \"review\"\n            else:\n                return \"reject\"\n        else:\n            return \"reject\"\n    else:\n        return \"review\"\n\ndef validate_monto_guards(m):\n    if m is None:\n        return \"review\"\n    if not isinstance(m, int):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m <= 10000:\n        return \"accept\"\n    return \"review\"\n\nfor v in [None, \"x\", -1, 0, 500, 20000]:\n    a, b = validate_monto_nested(v), validate_monto_guards(v)\n    print(v, a, b, \"ok=\", a == b)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "refactoriza",
+        "pir",
+        "mide",
+        "anidada",
+        "validate_monto_nested",
+        "guards",
+        "lineales"
+      ],
+      "justification_from_packet": "Explorer S03-T2-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Refactoriza la pirámide anidada de `validate_monto_nested` a guards lineales con la misma semántica: None review, no in…». Completé el contrato Pass con código ancla `def validate_monto_nested(m):`. Pista del paquete: «Invierte el anidamiento: un if + return por precondición.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def validate_monto_nested(m):`."
+    },
+    {
+      "exercise_id": "S03-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T2-B-E3\ndef etiqueta_bug(x):\n    if x != 0:\n        if x > 0:\n            return \"positivo\"\n        return \"negativo\"\n    elif x == 0:\n        return \"cero\"\n    return \"???\"\n\nprint(\"bug 0 →\", etiqueta_bug(0))\nprint(\"bug 3 →\", etiqueta_bug(3))\nprint(\"nota: elif x==0 SÍ se alcanza aquí porque el if es x!=0; \"\n      \"ejemplo clásico de muerto: if x>=0 / elif x>5\")\n\ndef etiqueta_ok(x):\n    if x > 0:\n        return \"positivo\"\n    elif x < 0:\n        return \"negativo\"\n    else:\n        return \"cero\"\n\nprint(\"ok 0 →\", etiqueta_ok(0))\nprint(\"ok 3 →\", etiqueta_ok(3))\nprint(\"ok -2 →\", etiqueta_ok(-2))\n\n# Demostración de rama realmente muerta:\ndef muerto(x):\n    if x >= 0:\n        return \"no-negativo\"\n    elif x > 5:  # inalcanzable\n        return \"nunca\"\n    else:\n        return \"negativo\"\n\nprint(\"muerto(6) →\", muerto(6), \"(nunca no aparece)\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "snippet",
+        "identifica",
+        "rama",
+        "muerta",
+        "imprime",
+        "elif",
+        "nunca"
+      ],
+      "justification_from_packet": "Explorer S03-T2-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — En el snippet, identifica la rama muerta: imprime cuál `elif` nunca corre y por qué. Luego reordena/corrige para que `x…». Completé el contrato Pass con código ancla `def etiqueta_bug(x):`. Pista del paquete: «Mira el orden: cualquier condición ya cubierta por un if anterior es inalcanzabl». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def etiqueta_bug(x):`."
+    },
+    {
+      "exercise_id": "S03-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T3-A-E1\nALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(dept):\n    if dept is None:\n        return \"review\"\n    if dept not in ALLOWED:\n        return \"review\"\n    return \"accept\"\n\nfor dept in [\"Lima\", \"Tacna\", None]:\n    print(dept, \"→\", check_region(dept))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "allowed",
+        "lima",
+        "arequipa",
+        "cusco",
+        "piura",
+        "escribe",
+        "check_region"
+      ],
+      "justification_from_packet": "Explorer S03-T3-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — `ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}`. Escribe `check_region(r)`: None → review; not in ALLOWED → review; else ac…». Completé el contrato Pass con código ancla `ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}`. Pista del paquete: «if r is None / if r not in ALLOWED / return accept». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S03-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T3-A-E2\ndef monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "monto_ingreso",
+        "none",
+        "review",
+        "reject",
+        "outlier",
+        "else",
+        "accept"
+      ],
+      "justification_from_packet": "Explorer S03-T3-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — `monto_ingreso(m)`: None → review; <0 → reject; >50000 → review (outlier); else accept (incluye 0). Casos: None, -1, 0,…». Completé el contrato Pass con código ancla `def monto_ingreso(m):`. Pista del paquete: «Orden: ausencia, hard reject, outlier review, accept.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def monto_ingreso(m):`."
+    },
+    {
+      "exercise_id": "S03-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T3-A-E3\nALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}\nDOC_LEN = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef tipo_doc_len(tipo, numero):\n    if tipo is None or numero is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if tipo not in ALLOWED_DOC:\n        return {\"status\": \"reject\", \"code\": \"NOT_IN_ALLOWLIST\"}\n    if len(str(numero)) != DOC_LEN[tipo]:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor t, valor in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]:\n    print(t, valor, \"→\", tipo_doc_len(t, valor))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "combina",
+        "allowlist",
+        "tipo_doc",
+        "dni",
+        "pas",
+        "con",
+        "longitudes"
+      ],
+      "justification_from_packet": "Explorer S03-T3-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Combina allowlist de tipo_doc `{\"DNI\",\"CE\",\"PAS\"}` con longitudes DNI=8, CE=9, PAS=9. Devuelve dict status/code: MISSIN…». Completé el contrato Pass con código ancla `ALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}`. Pista del paquete: «Primero None, luego not in allowlist, luego len != esperado.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S03-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T3-B-E1\nTABLE = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"review\",\n    \"OUT_OF_RANGE\": \"reject\",\n}\n\ndef apply(code):\n    return TABLE.get(code, \"review\")\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\"]:\n    print(c, \"→\", apply(c))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "completa",
+        "decision",
+        "table",
+        "como",
+        "dict",
+        "codigo",
+        "status"
+      ],
+      "justification_from_packet": "Explorer S03-T3-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Completa la decision table como dict `codigo → status` para OK→accept, MISSING→review, OUT_OF_RANGE→reject, _default→review. I…». Completé el contrato Pass con código ancla `TABLE = {`. Pista del paquete: «table.get(code, \"review\") si no incluyes _default como clave de negocio.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `TABLE = {`."
+    },
+    {
+      "exercise_id": "S03-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T3-B-E2\ndef status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NOT_IN_ALLOWLIST\" | \"BAD_TYPE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\", \"NEEDS_REVIEW\"]:\n    print(c, \"→\", status_match(c))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "implementa",
+        "misma",
+        "tabla",
+        "con",
+        "match",
+        "case",
+        "patterns"
+      ],
+      "justification_from_packet": "Explorer S03-T3-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Implementa la misma tabla con `match/case`, OR patterns para MISSING|NEEDS_REVIEW y OUT_OF_RANGE|NOT_IN_ALLOWLIST|BAD_T…». Completé el contrato Pass con código ancla `def status_match(code: str) -> str:`. Pista del paquete: «case \"A\" | \"B\": en una sola rama. case _: al final.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def status_match(code: str) -> str:`."
+    },
+    {
+      "exercise_id": "S03-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T3-B-E3\ndef map_code(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\":\n            return \"review\"\n        case \"OUT_OF_RANGE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\ndef map_edad(years):\n    if years is None:\n        return \"review\"\n    if 18 <= years <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(map_code(\"OK\"), map_code(\"MISSING\"))\nprint(map_edad(None), map_edad(30), map_edad(10))\nprint(\"Justificación:\", \"match para códigos finitos; if para rangos numéricos\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "para",
+        "digos",
+        "error",
+        "finitos",
+        "rango",
+        "edad",
+        "elige"
+      ],
+      "justification_from_packet": "Explorer S03-T3-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Para (a) códigos de error finitos y (b) rango de edad 18–65, elige if o match, implementa ambos validadores y justifica…». Completé el contrato Pass con código ancla `def map_code(code: str) -> str:`. Pista del paquete: «match brilla en literales; rangos numéricos son más claros con if y comparacione». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S03-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T4-A-E1\ndef validate_edad(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"accept\"\n\nexamples = [\n    {\"value\": 30, \"expected\": \"accept\"},\n    {\"value\": -1, \"expected\": \"reject\"},\n    {\"value\": None, \"expected\": \"review\"},\n    {\"value\": \"x\", \"expected\": \"reject\"},\n]\nfor ex in examples:\n    got = validate_edad(ex[\"value\"])\n    print(ex[\"value\"], got, got == ex[\"expected\"])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "completa",
+        "examples",
+        "para",
+        "campo",
+        "edad",
+        "con",
+        "expected"
+      ],
+      "justification_from_packet": "Explorer S03-T4-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Completa `examples` para el campo `edad` con expected accept/reject/review/missing (usa value None para missing/review según t…». Completé el contrato Pass con código ancla `def validate_edad(e):`. Pista del paquete: «Cuatro dicts {value, expected}. None → review; -1 reject; 30 accept; \"x\" reject.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def validate_edad(e):`."
+    },
+    {
+      "exercise_id": "S03-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T4-A-E2\ndef validate_apellidos(ap, am):\n    def empty(x):\n        return x is None or (isinstance(x, str) and not x.strip())\n\n    if empty(ap) and empty(am):\n        return \"reject\"\n    if empty(ap) or empty(am):\n        return \"review\"\n    return \"accept\"\n\ninvariant_text = (\n    \"ambos apellidos presentes y no vacíos → accept; \"\n    \"uno ausente/vacío → review; ambos vacíos → reject\"\n)\nexamples = [\n    {\"ap\": \"Quispe\", \"am\": \"Ñahui\", \"expected\": \"accept\"},\n    {\"ap\": \"Quispe\", \"am\": None, \"expected\": \"review\"},\n    {\"ap\": \"  \", \"am\": \"\", \"expected\": \"reject\"},\n]\nprint(invariant_text)\nfor ex in examples:\n    got = validate_apellidos(ex[\"ap\"], ex[\"am\"])\n    print(ex[\"ap\"], ex[\"am\"], \"→\", got, got == ex[\"expected\"])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "escribe",
+        "invariante",
+        "multi",
+        "campo",
+        "apellido_paterno",
+        "apellido_materno",
+        "vac"
+      ],
+      "justification_from_packet": "Explorer S03-T4-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Escribe invariante multi-campo: `apellido_paterno` y `apellido_materno` no vacíos (tras strip) para accept; si uno falt…». Completé el contrato Pass con código ancla `def validate_apellidos(ap, am):`. Pista del paquete: «strip y trata \"\" como vacío. None en uno → review.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def validate_apellidos(ap, am):`."
+    },
+    {
+      "exercise_id": "S03-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T4-A-E3\ndef validate_edad_strict(e):\n    if isinstance(e, int) and 18 <= e <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(\"strict 15 →\", validate_edad_strict(15))\nprint(\"strict None →\", validate_edad_strict(None))\n\ndef validate_edad_fixed(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    if e < 18:\n        return \"review\"\n    if e <= 65:\n        return \"accept\"\n    return \"review\"\n\nprint(\"fixed 15 →\", validate_edad_fixed(15))\nprint(\"fixed None →\", validate_edad_fixed(None))\nprint(\"fixed 30 →\", validate_edad_fixed(30))\nprint(\"Invariante:\", \"menores y ausentes → review; solo fuera de 0-120 o tipo mal → reject\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "invariante",
+        "dice",
+        "edad",
+        "siempre",
+        "entre",
+        "inclusive",
+        "reject"
+      ],
+      "justification_from_packet": "Explorer S03-T4-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — El invariante dice “edad siempre entre 18 y 65 inclusive (reject si no)”. Encuentra el contraejemplo que rompe la polít…». Completé el contrato Pass con código ancla `def validate_edad_strict(e):`. Pista del paquete: «edad 15 no debería ser reject duro si la política es review para menores.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def validate_edad_strict(e):`."
+    },
+    {
+      "exercise_id": "S03-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T4-B-E1\naccionables = [\n    \"Campo 'years' ausente: envía un entero 0–120 o marca desconocido.\",\n    \"Campo 'years' inválido: se recibió un valor no entero; corrige el tipo.\",\n    \"Campo 'years'=-3 fuera de rango; usa un entero entre 0 y 120.\",\n]\nfor a in accionables:\n    print(a)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "reescribe",
+        "mensajes",
+        "vagos",
+        "plantilla",
+        "campo",
+        "problema",
+        "acci"
+      ],
+      "justification_from_packet": "Explorer S03-T4-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Reescribe 3 mensajes vagos a plantilla campo+problema+acción: (1) \"Error\", (2) \"inválido\", (3) \"bad age\". Usa el campo `edad` …». Completé el contrato Pass con código ancla `accionables = [`. Pista del paquete: «Incluye nombre del campo y qué hacer. No agregues PII real.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S03-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T4-B-E2\ndef classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\ncases = [\n    (90, \"accept\"),\n    (55, \"review\"),\n    (10, \"reject\"),\n    (80, \"accept\"),\n    (50, \"review\"),\n]\nfor val, expected in cases:\n    got = classify_score(val)\n    assert got == expected, (val, got, expected)\n    print(\"PASS\", val, got)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "dado",
+        "classify_score",
+        "accept",
+        "review",
+        "reject",
+        "escribe",
+        "una"
+      ],
+      "justification_from_packet": "Explorer S03-T4-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Dado `classify_score` (accept/review/reject), escribe una lista `cases` con un input por cada rama (incl. frontera) y u…». Completé el contrato Pass con código ancla `def classify_score(score: int) -> str:`. Pista del paquete: «Al menos 3 casos: p.ej. 90, 55, 10. Opcional 80 y 50.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def classify_score(score: int) -> str:`."
+    },
+    {
+      "exercise_id": "S03-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S03-T4-B-E3\ndef rango_edad(e):\n    if e is None:\n        return \"review\"\n    if 18 <= e <= 65:\n        return \"accept\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"review\"\n\ncases = [(18, \"accept\"), (17, \"review\"), (None, \"review\"), (30, \"accept\")]\nfor val, expected in cases:\n    got = rango_edad(val)\n    assert got == expected\n    print(\"PASS\", val, got)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "test",
+        "rojo",
+        "regla",
+        "usa",
+        "edad",
+        "falla",
+        "para"
+      ],
+      "justification_from_packet": "Explorer S03-T4-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Test rojo: la regla usa `edad > 18` y falla para 18 (espera accept). Arregla a `>= 18` y deja la suite en verde (18 acc…». Completé el contrato Pass con código ancla `def rango_edad(e):`. Pista del paquete: «Off-by-one clásico en frontera inferior inclusiva.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def rango_edad(e):`."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "if campo is None:",
+      "justification_from_packet": "Explorer S03 Q0: leí la teoría del quiz_card («{\"subtopicId\": \"S03-T1-A\", \"heading\": \"Comparaciones y el operador in\", \"paragraphs\": [\"Un **booleano de negocio** nace …») y la pregunta «¿Cuál es la forma correcta de chequear ausencia de un campo opcional en un validador?». La opción [2] «if campo is None:» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Se ejecuta esa rama y se omiten las siguientes",
+      "justification_from_packet": "Explorer S03 Q1: leí la teoría del quiz_card («{\"subtopicId\": \"S03-T1-A\", \"heading\": \"Comparaciones y el operador in\", \"paragraphs\": [\"Un **booleano de negocio** nace …») y la pregunta «En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es verdadera?». La opción [0] «Se ejecuta esa rama y se omiten las siguientes» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "\"default\"",
+      "justification_from_packet": "Explorer S03 Q2: leí la teoría del quiz_card («{\"subtopicId\": \"S03-T1-A\", \"heading\": \"Comparaciones y el operador in\", \"paragraphs\": [\"Un **booleano de negocio** nace …») y la pregunta «¿Qué devuelve la expresión `\"\" or \"default\"` en Python?». La opción [1] «\"default\"» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Un set de literales y el operador in",
+      "justification_from_packet": "Explorer S03 Q3: leí la teoría del quiz_card («{\"subtopicId\": \"S03-T1-A\", \"heading\": \"Comparaciones y el operador in\", \"paragraphs\": [\"Un **booleano de negocio** nace …») y la pregunta «Una allowlist de tipos de documento se implementa mejor como…». La opción [3] «Un set de literales y el operador in» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Cuando el sujeto es un literal/estado finito (códigos) y hay case _",
+      "justification_from_packet": "Explorer S03 Q4: leí la teoría del quiz_card («{\"subtopicId\": \"S03-T1-A\", \"heading\": \"Comparaciones y el operador in\", \"paragraphs\": [\"Un **booleano de negocio** nace …») y la pregunta «¿Cuándo aporta más claridad `match/case` que `if` en un motor de reglas introductorio?». La opción [2] «Cuando el sujeto es un literal/estado finito (códigos) y hay case _» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:02:20.370000+00:00"
+}

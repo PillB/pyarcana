@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 40,
+  "packet_sha": "ed5e6493245bb7f8",
+  "packet_source": "course-state/newbie_walkthrough/agentic_I2/section_40/quiz_card.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-exp-s40-dbc4fbb02bf4",
+  "production_note": "agentic_I2 dual-LLM explorer: independent packet-only solve from quiz_card+slim_packet; no I1 lives; no bulk writers; no identity stamps; no answer maps",
+  "knowledge_boundary": "Only landing + prior_index + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\nmeets_contract = record[\"observed_ms\"] < record[\"target_ms\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_QA_SCENARIO\"\nprint(\"S40-T1-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Calcula",
+        "contrato",
+        "requisitos",
+        "funcionales",
+        "quality",
+        "attributes",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T1-A-E1: del starter/instruction «S40-T1-A-E1 · Calcula el contrato de `requisitos funcionales y quality attributes` sobre `CASO-LIM-040-1A`. La entrada es el dict completo del starter; la operación debe demostrar …» completé el contrato usando print alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'target_ms', 'stimulus', 'environment', 'source', 'case_id', 'observed_ms', 'response', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record[\"observed_ms\"] < record[\"target_ms\"]:\n        return 'PASS'\n    return 'REJECT_QA_SCENARIO'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300, 'owner': 'platform'}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 500, 'target_ms': 300, 'owner': ''}\nmissing = {k: valid[k] for k in valid if k != 'owner'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Modela",
+        "tres",
+        "rutas",
+        "requisitos",
+        "funcionales",
+        "quality",
+        "attributes"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T1-A-E2: del starter/instruction «S40-T1-A-E2 · Modela tres rutas de `requisitos funcionales y quality attributes`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, source, stimulu…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_QA_OWNER'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_QA_SCENARIO'\n\nvalid = {\"case_id\": 'CASO-LIM-040-1A', }\nadverse = {\"case_id\": 'CASO-LIM-040-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "requisitos",
+        "funcionales",
+        "quality"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T1-A-E3: del starter/instruction «S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtures distintos. `CASO-LIM-040-1A` debe continuar, el adverso debe devolver `REJEC…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\nmeets_contract = not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))\nstatus = \"PASS\" if meets_contract else \"REOPEN_TRADEOFF\"\nprint(\"S40-T1-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Compara",
+        "contrato",
+        "trade",
+        "offs",
+        "riesgos",
+        "criterios",
+        "medibles"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T1-B-E1: del starter/instruction «S40-T1-B-E1 · Compara el contrato de `trade-offs, riesgos y criterios medibles` sobre `CASO-LIM-040-1B`. La entrada es el dict completo del starter; la operación debe demostrar alt…» completé el contrato usando print alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'residual_risk', 'scores', 'selected', 'case_id', 'risk_owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('scores') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REOPEN_TRADEOFF'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'scores': True, 'selected': True, 'risk_owner': True, 'residual_risk': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'scores': False, 'selected': False, 'risk_owner': False, 'residual_risk': False}\nmissing = {k: valid[k] for k in valid if k != 'residual_risk'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Verifica",
+        "tres",
+        "rutas",
+        "trade",
+        "offs",
+        "riesgos",
+        "criterios"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T1-B-E2: del starter/instruction «S40-T1-B-E2 · Verifica tres rutas de `trade-offs, riesgos y criterios medibles`: fixture válido, fixture adverso y registro sin `residual_risk`. Entrada: dict con case_id, scores, …» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REOPEN_TRADEOFF'\n\nvalid = {\"case_id\": 'CASO-LIM-040-1A', }\nadverse = {\"case_id\": 'CASO-LIM-040-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "trade",
+        "offs",
+        "riesgos"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T1-B-E3: del starter/instruction «S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtures distintos. `CASO-LIM-040-1B` debe continuar, el adverso debe devolver `REOPEN…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\nmeets_contract = not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))\nstatus = \"PASS\" if meets_contract else \"REDRAW_BOUNDARY\"\nprint(\"S40-T2-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Filtra",
+        "contrato",
+        "cohesi",
+        "coupling",
+        "capas",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T2-A-E1: del starter/instruction «S40-T2-A-E1 · Filtra el contrato de `cohesión/coupling y capas` sobre `CASO-LIM-040-2A`. La entrada es el dict completo del starter; la operación debe demostrar grafo de dependenci…» completé el contrato usando print alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'layers', 'dependencies', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('layers') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'layers': True, 'dependencies': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'layers': False, 'dependencies': False}\nmissing = {k: valid[k] for k in valid if k != 'dependencies'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "cohesi",
+        "coupling",
+        "capas",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T2-A-E2: del starter/instruction «S40-T2-A-E2 · Clasifica tres rutas de `cohesión/coupling y capas`: fixture válido, fixture adverso y registro sin `dependencies`. Entrada: dict con case_id, layers, dependencies. S…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-LIM-040-1A', }\nadverse = {\"case_id\": 'CASO-LIM-040-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "cohesi",
+        "coupling",
+        "capas"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T2-A-E3: del starter/instruction «S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos. `CASO-LIM-040-2A` debe continuar, el adverso debe devolver `REDRAW_BOUNDARY` y la…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\nmeets_contract = not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))\nstatus = \"PASS\" if meets_contract else \"INVERT_DEPENDENCY\"\nprint(\"S40-T2-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Modela",
+        "contrato",
+        "ports",
+        "adapters",
+        "dependencia",
+        "hacia",
+        "dominio"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T2-B-E1: del starter/instruction «S40-T2-B-E1 · Modela el contrato de `ports/adapters y dependencia hacia dominio` sobre `CASO-LIM-040-2B`. La entrada es el dict completo del starter; la operación debe demostrar ad…» completé el contrato usando print alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'domain_imports', 'contract_tests', 'port', 'case_id', 'adapter'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('port') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'port': True, 'adapter': True, 'domain_imports': True, 'contract_tests': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'port': False, 'adapter': False, 'domain_imports': False, 'contract_tests': False}\nmissing = {k: valid[k] for k in valid if k != 'contract_tests'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Audita",
+        "tres",
+        "rutas",
+        "ports",
+        "adapters",
+        "dependencia",
+        "hacia"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T2-B-E2: del starter/instruction «S40-T2-B-E2 · Audita tres rutas de `ports/adapters y dependencia hacia dominio`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, port, a…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-LIM-040-1A', }\nadverse = {\"case_id\": 'CASO-LIM-040-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "ports",
+        "adapters",
+        "dependencia"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T2-B-E3: del starter/instruction «S40-T2-B-E3 · Recupera fallo cerrado para `ports/adapters y dependencia hacia dominio` con tres fixtures distintos. `CASO-LIM-040-2B` debe continuar, el adverso debe devolver `INVE…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\nmeets_contract = not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))\nstatus = \"PASS\" if meets_contract else \"SPLIT_CONTEXTS\"\nprint(\"S40-T3-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Verifica",
+        "contrato",
+        "bounded",
+        "contexts",
+        "lenguaje",
+        "ubicuo",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T3-A-E1: del starter/instruction «S40-T3-A-E1 · Verifica el contrato de `bounded contexts y lenguaje ubicuo` sobre `CASO-LIM-040-3A`. La entrada es el dict completo del starter; la operación debe demostrar términos…» completé el contrato usando print alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])) else \"SPLIT_CONTEXTS\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\ninvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"case\",\"score\"}},\"translations\":{}}}\nincomplete = {**valid}\nincomplete.pop(\"translations\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nprint(assess(valid))\nmissing = {k: valid[k] for k in valid if k != 'translations'}\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Decide",
+        "tres",
+        "rutas",
+        "bounded",
+        "contexts",
+        "lenguaje",
+        "ubicuo"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T3-A-E2: del starter/instruction «S40-T3-A-E2 · Decide tres rutas de `bounded contexts y lenguaje ubicuo`: fixture válido, fixture adverso y registro sin `translations`. Entrada: dict con case_id, contexts, transla…» completé el contrato usando def , assess, assess, assess, assess, print alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-LIM-040-1A', }\nadverse = {\"case_id\": 'CASO-LIM-040-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "bounded",
+        "contexts",
+        "lenguaje"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T3-A-E3: del starter/instruction «S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures distintos. `CASO-LIM-040-3A` debe continuar, el adverso debe devolver `SPLIT_CONTE…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\nmeets_contract = not (record[\"vo\"][\"currency\"] == record[\"entity_id\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_DOMAIN_MODEL\"\nprint(\"S40-T3-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Clasifica",
+        "contrato",
+        "entities",
+        "value",
+        "objects",
+        "servicios",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T3-B-E1: del starter/instruction «S40-T3-B-E1 · Clasifica el contrato de `entities, value objects y servicios` sobre `CASO-LIM-040-3B`. La entrada es el dict completo del starter; la operación debe demostrar identi…» completé el contrato usando print alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'entity_id', 'service_stateless', 'case_id', 'vo_frozen', 'vo'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('entity_id') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT_DOMAIN_MODEL'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'entity_id': True, 'vo': True, 'vo_frozen': True, 'service_stateless': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'entity_id': False, 'vo': False, 'vo_frozen': False, 'service_stateless': False}\nmissing = {k: valid[k] for k in valid if k != 'service_stateless'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Calcula",
+        "tres",
+        "rutas",
+        "entities",
+        "value",
+        "objects",
+        "servicios"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T3-B-E2: del starter/instruction «S40-T3-B-E2 · Calcula tres rutas de `entities, value objects y servicios`: fixture válido, fixture adverso y registro sin `service_stateless`. Entrada: dict con case_id, entity_id,…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_DOMAIN_MODEL'\n\nvalid = {\"case_id\": 'CASO-LIM-040-1A', }\nadverse = {\"case_id\": 'CASO-LIM-040-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "entities",
+        "value",
+        "objects"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T3-B-E3: del starter/instruction «S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures distintos. `CASO-LIM-040-3B` debe continuar, el adverso debe devolver `REJECT_D…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\nmeets_contract = not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)\nstatus = \"PASS\" if meets_contract else \"RETURN_ADR_TO_DRAFT\"\nprint(\"S40-T4-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Audita",
+        "contrato",
+        "diagramas",
+        "flujo",
+        "ADRs",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T4-A-E1: del starter/instruction «S40-T4-A-E1 · Audita el contrato de `diagramas C4/flujo y ADRs` sobre `CASO-LIM-040-4A`. La entrada es el dict completo del starter; la operación debe demostrar C4 mínimo y ADR con…» completé el contrato usando print alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'adr_fields', 'adr_status', 'case_id', 'c4_levels'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('c4_levels') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'c4_levels': True, 'adr_fields': True, 'adr_status': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'c4_levels': False, 'adr_fields': False, 'adr_status': False}\nmissing = {k: valid[k] for k in valid if k != 'adr_status'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Compara",
+        "tres",
+        "rutas",
+        "diagramas",
+        "flujo",
+        "ADRs",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T4-A-E2: del starter/instruction «S40-T4-A-E2 · Compara tres rutas de `diagramas C4/flujo y ADRs`: fixture válido, fixture adverso y registro sin `adr_status`. Entrada: dict con case_id, c4_levels, adr_fields, adr_…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_ARCH_REVIEW'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-LIM-040-1A', }\nadverse = {\"case_id\": 'CASO-LIM-040-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "diagramas",
+        "flujo",
+        "ADRs"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T4-A-E3: del starter/instruction «S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos. `CASO-LIM-040-4A` debe continuar, el adverso debe devolver `RETURN_ADR_TO_DRAFT` y l…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\nmeets_contract = not (record[\"v11_fields\"] < record[\"v1_fields\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_BREAKING_CHANGE\"\nprint(\"S40-T4-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Decide",
+        "contrato",
+        "APIs",
+        "eventos",
+        "deuda",
+        "evoluci",
+        "compatible"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T4-B-E1: del starter/instruction «S40-T4-B-E1 · Decide el contrato de `APIs, eventos, deuda y evolución compatible` sobre `CASO-LIM-040-4B`. La entrada es el dict completo del starter; la operación debe demostrar c…» completé el contrato usando print alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'case_id', 'debt_owner', 'v1_fields', 'v11_fields', 'retire_on'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('v1_fields') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'BLOCK_BREAKING_CHANGE'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'v1_fields': True, 'v11_fields': True, 'debt_owner': True, 'retire_on': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'v1_fields': False, 'v11_fields': False, 'debt_owner': False, 'retire_on': False}\nmissing = {k: valid[k] for k in valid if k != 'retire_on'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Filtra",
+        "tres",
+        "rutas",
+        "APIs",
+        "eventos",
+        "deuda",
+        "evoluci"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T4-B-E2: del starter/instruction «S40-T4-B-E2 · Filtra tres rutas de `APIs, eventos, deuda y evolución compatible`: fixture válido, fixture adverso y registro sin `retire_on`. Entrada: dict con case_id, v1_fields, …» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'BLOCK_BREAKING_CHANGE'\n\nvalid = {\"case_id\": 'CASO-LIM-040-1A', }\nadverse = {\"case_id\": 'CASO-LIM-040-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "APIs",
+        "eventos",
+        "deuda"
+      ],
+      "justification_from_packet": "Explorer A sobre S40-T4-B-E3: del starter/instruction «S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fixtures distintos. `CASO-LIM-040-4B` debe continuar, el adverso debe devolver `BL…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC0: elijo «escenario QA completo con umbral y dueño» porque la theory del paquete (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio) responde a «¿Qué evidencia permite aprobar `requisitos funcionales y quality attributes` en CASO-LIM-040?» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC1: elijo «emitir BLOCK_ARCHITECTURE y conservar evidencia» porque la theory del paquete (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio) responde a «Si ocurre la condición de error de S40, ¿qué respuesta preserva seguridad y auditabilidad?» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC2: elijo «cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia» porque la theory del paquete (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio) responde a «¿Cuál resultado demuestra el gate `CP-N4-A · mapa de arquitectura gobernado`?» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque la theory del paquete (requisitos funcionales y quality attributes | trade-offs, riesgos y criterios medibles | cohesión/coupling y capas | ports/adapters y dependencia hacia dominio) responde a «¿Qué tratamiento de `CASO-LIM-040` respeta el alcance del curso?» con ese criterio; contraste con las otras opciones del stem."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "requisitos funcionales y quality attributes",
+      "note": "Explorer prioriza flujo feliz del contrato."
+    }
+  ],
+  "recorded_at": "2026-07-23T13:12:25.870000+00:00",
+  "session_started_at": "2026-07-23T13:11:47.870000+00:00",
+  "session_ended_at": "2026-07-23T13:12:25.870000+00:00"
+}

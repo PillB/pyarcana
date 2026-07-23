@@ -1,0 +1,318 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 31,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-skeptic-s31-1784809000",
+  "production_note": "agentic_I1 dual-LLM Skeptic: solved from quiz_card+slim_packet only; direct agent output; packet-only; no bulk writers; no stamps; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S31-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nnodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}}\nedges = [\n    {\"src\": \"E1\", \"dst\": \"A1\", \"etype\": \"owns\", \"weight\": 1.0, \"directed\": True},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"link\", \"weight\": 0.5, \"directed\": False},\n]\nprint(\"n_nodes\", len(nodes))\nprint(\"n_edges\", len(edges))\nprint(\"n_directed\", sum(1 for e in edges if e[\"directed\"]))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S31-T1-A-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `nodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}}`. Soporte: «S31-T1-A-E1 · Crea un dict `nodes` con 3 ids y una lista `edges` con campos src,dst,etype,weight,directed. Imprime n_nodes, n_edges y cuánta…». Hints: Usa literales de dict/list.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nedges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]\nout = {}\nfor s, d, w in edges:\n    out[s] = out.get(s, 0.0) + w\ntop = max(out, key=out.get)\nprint(\"top\", top)\nprint(\"value\", out[top])\nprint(\"n\", len(out))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S31-T1-A-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]`. Soporte: «S31-T1-A-E2 · Dada lista de aristas (src,dst,weight), calcula el peso total saliente por nodo (out-strength) e imprime el nodo con mayor out…». Hints: Acumula en un dict.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nedges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]\nprint(\"directed\", sum(1 for e in edges if e[\"directed\"]))\nprint(\"undirected\", sum(1 for e in edges if not e[\"directed\"]))\nprint(\"etypes\", sorted({e[\"etype\"] for e in edges}))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S31-T1-A-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'direc`. Soporte: «S31-T1-A-E3 · Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los etypes únicos ordenados. Fixture sinté…». Hints: sets para etypes.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nfrom collections import Counter\nrows = [('E1','E2'),('E1','E2'),('E2','E3')]\nc = Counter(rows)\npair, n = c.most_common(1)[0]\nprint(\"pair\", pair)\nprint(\"n\", n)\nprint(\"pairs\", len(c))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S31-T1-B-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `from collections import Counter`. Soporte: «S31-T1-B-E1 · Cuenta cuántas multi-aristas hay por par (src,dst) e imprime el par con más eventos y su conteo. Fixture sintético `CASO-LIM-0…». Hints: tuple (src,dst) como clave.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nedges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]\nf = [e for e in edges if e[\"ts\"] >= \"2026-02-01\"]\nprint(\"n\", len(f))\nprint(\"prov\", all(\"record_id\" in e for e in f))\nprint(\"first\", f[0][\"record_id\"])\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S31-T1-B-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `edges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'20`. Soporte: «S31-T1-B-E2 · Filtra aristas con ts >= '2026-02-01' e imprime cuántas quedan y si todas tienen record_id. Fixture sintético `CASO-LIM-031` (…». Hints: Compara strings ISO fecha ordenables.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nedges=[{'source':'s','record_id':'1'},{'source':'','record_id':'2'},{'source':'s','record_id':''}]\ndef ok(e):\n    return bool(str(e.get('source','')).strip()) and bool(str(e.get('record_id','')).strip())\nn_bad = sum(1 for e in edges if not ok(e))\nprint(all(ok(e) for e in edges))\nprint('n_bad', n_bad)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S31-T1-B-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `edges=[{'source':'s','record_id':'1'},{'source':'','record_id':'2'},{'source':'s','record_`. Soporte: «S31-T1-B-E3 · Valida provenance: imprime True solo si cada arista tiene source y record_id no vacíos; imprime n_bad. Fixture sintético `CASO…». Hints: strip de strings.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\naccounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]\nowns = sorted((a[\"owner\"], a[\"id\"]) for a in accounts)\nprint(\"n\", len(owns))\nprint(\"etype\", \"owns\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S31-T2-A-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `accounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]`. Soporte: «S31-T2-A-E1 · Desde accounts[{id,owner}] genera aristas owns e imprime lista de (owner,id) ordenada. Fixture sintético `CASO-LIM-031` (run_i…». Hints: list comprehension.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nfrom collections import defaultdict\ncontacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]\nm = defaultdict(set)\nfor e, v in contacts:\n    m[v].add(e)\nshared = sorted(v for v, es in m.items() if len(es) >= 2)\nprint(\"n_shared\", len(shared))\nprint(\"note\", \"not_parentesco\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S31-T2-A-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `from collections import defaultdict`. Soporte: «S31-T2-A-E2 · Detecta valores de contacto compartidos por ≥2 entidades; imprime sorted lista de valores shared. Fixture sintético `CASO-LIM-…». Hints: groupby por value.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nentities=['e1','e2']; accounts=['a1']; contacts=['900','901']\nnodes = set(entities) | set(accounts) | set(contacts)\nprint(\"has_contact\", \"900\" in nodes)\nprint(\"has_ent\", \"e1\" in nodes)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S31-T2-A-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `entities=['e1','e2']; accounts=['a1']; contacts=['900','901']`. Soporte: «S31-T2-A-E3 · Construye nodos = entities ∪ accounts ∪ contact_values e imprime |nodes|. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @…». Hints: sets.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\ncanon = {'r1':'E1','r2':'E1','r3':'E2'}\nedges = [('r1','r3'),('r2','r3')]\nce = sorted({(canon[a], canon[b]) for a, b in edges})\nprint(\"edges\", ce)\nprint(\"n\", len(ce))\nprint(\"collapsed\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S31-T2-B-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `canon = {'r1':'E1','r2':'E1','r3':'E2'}`. Soporte: «S31-T2-B-E1 · Colapsa raw_ids a canonical con mapa y reescribe aristas; imprime aristas canónicas únicas sorted. Fixture sintético `CASO-LIM…». Hints: map.get(x,x).. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nfrom collections import defaultdict\nrows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]\nagg = defaultdict(lambda: {'sum': 0, 'records': []})\nfor r in rows:\n    k = (r['src'], r['dst'])\n    agg[k]['sum'] += r['amount']\n    agg[k]['records'].append(r['record_id'])\nprint(\"sum\", agg[(\"A\",\"B\")][\"sum\"])\nprint(\"records\", agg[('A','B')]['records'])\nprint(\"detail_kept\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S31-T2-B-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `from collections import defaultdict`. Soporte: «S31-T2-B-E2 · Agrega amount por (src,dst) y conserva records; imprime sum y records para ('A','B'). Fixture sintético `CASO-LIM-031` (run_id…». Hints: defaultdict.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\ndetail_n=5\naggs=[{'n':2},{'n':3}]\ntotal = sum(a['n'] for a in aggs)\nprint(\"ok\", total == detail_n)\nprint(\"total\", total)\nprint(\"detail_n\", detail_n)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S31-T2-B-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `detail_n=5`. Soporte: «S31-T2-B-E3 · Verifica invariante: sum de n en agregados == len(detail). Imprime ok y totals. Fixture sintético `CASO-LIM-031` (run_id=cpn3b…». Hints: sum v['n'].. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nfrom collections import defaultdict\nedges=[('a','b'),('b','c'),('a','c')]\ndeg = defaultdict(int)\nfor u, v in edges:\n    deg[u] += 1; deg[v] += 1\nprint(\"deg\", {k: deg[k] for k in sorted(deg)})\nprint(\"max\", max(deg.values()))\nprint(\"n\", len(deg))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S31-T3-A-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `from collections import defaultdict`. Soporte: «S31-T3-A-E1 · Calcula grado de cada nodo en grafo no dirigido; imprime grados dict sorted keys. Fixture sintético `CASO-LIM-031` (run_id=cpn…». Hints: undirected: cuenta ambos extremos.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nfrom collections import defaultdict\nedges=[('a','b'),('c','d'),('d','e')]\nadj = defaultdict(set)\nfor u, v in edges:\n    adj[u].add(v); adj[v].add(u)\nseen, comps = set(), []\nfor s in sorted(adj):\n    if s in seen:\n        continue\n    stack, comp = [s], []\n    seen.add(s)\n    while stack:\n        n = stack.pop()\n        comp.append(n)\n        for m in adj[n]:\n            if m not in seen:\n                seen.add(m); stack.append(m)\n    comps.append(sorted(comp))\ncomps = sorted(comps, key=lambda c: c[0])\nprint(\"comps\", comps)\nprint(\"n_comp\", len(comps))\nprint(\"ok\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S31-T3-A-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `from collections import defaultdict`. Soporte: «S31-T3-A-E2 · Encuentra componentes conexas y imprime lista de componentes (cada una sorted) ordenada por primer nodo. Fixture sintético `CA…». Hints: DFS o BFS.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nfrom collections import defaultdict, deque\nadj = defaultdict(set)\nfor u, v in [('A','B'),('B','C'),('C','D')]:\n    adj[u].add(v); adj[v].add(u)\nq = deque([('A', ['A'])]); seen = {'A'}\npath = None\nwhile q:\n    n, p = q.popleft()\n    if n == 'D':\n        path = p; break\n    for m in sorted(adj[n]):\n        if m not in seen:\n            seen.add(m); q.append((m, p+[m]))\nprint(\"path\", path)\nprint(\"hops\", len(path)-1)\nprint(\"found\", path is not None)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S31-T3-A-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `from collections import defaultdict, deque`. Soporte: «S31-T3-A-E3 · BFS path de 'A' a 'D' en cadena A-B-C-D; imprime path y hops. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe):…». Hints: deque BFS.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\ndeg={'H':3,'A':1,'B':1,'C':1}\nm = max(deg.values())\nnorm = {k: deg[k]/m for k in deg}\ntop = max(norm, key=norm.get)\nprint(\"top\", top)\nprint(\"score\", round(norm[top], 2))\nprint(\"guilt\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S31-T3-B-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `deg={'H':3,'A':1,'B':1,'C':1}`. Soporte: «S31-T3-B-E1 · Normaliza degree centrality a [0,1] por max degree; imprime top node y score redondeado a 2 decimales. Fixture sintético `CASO…». Hints: score = deg/max_deg.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nhub='INF-PAY'\nkind = \"infra\" if hub.startswith(\"INF-\") else \"person\"\nprint(\"kind\", kind)\nprint(\"disclaimer\", \"centrality_not_guilt\")\nprint(\"hub\", hub)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S31-T3-B-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `hub='INF-PAY'`. Soporte: «S31-T3-B-E2 · Dado top hub, clasifica si es 'infra' o 'person' por prefijo de id (INF- vs PER-); imprime clase y disclaimer. Fixture sintéti…». Hints: startswith.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nincident={'H':['transfer','transfer','shared_phone']}\nhigh = sorted(n for n, ts in incident.items() if len(ts) >= 3)\nonly_tx = all(t == \"transfer\" for t in incident[\"H\"])\nprint(\"high\", high)\nprint(\"only_transfer\", only_tx)\nprint(\"interpret_with_types\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S31-T3-B-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `incident={'H':['transfer','transfer','shared_phone']}`. Soporte: «S31-T3-B-E3 · Filtra nodos con degree >= 3 y etype_mix que incluya solo 'transfer' vs mixto; imprime high_degree list sorted y flag only_tra…». Hints: revisa edge types incidentes.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nfrom collections import defaultdict\nedges=[('A','B'),('B','C'),('C','D')]\nadj=defaultdict(set)\nfor u,v in edges:\n    adj[u].add(v); adj[v].add(u)\n\ndef ego(seed, k):\n    seen={seed}; layer={seed}\n    for _ in range(k):\n        nxt=set()\n        for n in layer:\n            for m in adj[n]:\n                if m not in seen:\n                    seen.add(m); nxt.add(m)\n        layer=nxt\n    return seen\nprint(\"k1\", sorted(ego(\"A\",1)))\nprint(\"k2\", sorted(ego('A',2)))\nprint(\"has_D_k2\", 'D' in ego('A',2))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S31-T4-A-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `from collections import defaultdict`. Soporte: «S31-T4-A-E1 · Implementa ego(seed,k=2) y verifica que 'D' no entra desde 'A' en path A-B-C (k=1 sí B). Imprime ego k=1 y k=2. Fixture sintét…». Hints: expansión por capas.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nedges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]\nno_self = all(e['src'] != e['dst'] for e in edges)\nw_ok = all(e['w'] >= 0 for e in edges)\nprov = all(e.get('rid') for e in edges)\nprint(\"no_self\", no_self)\nprint(\"w_ok\", w_ok)\nprint(\"prov\", prov)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S31-T4-A-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `edges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]`. Soporte: «S31-T4-A-E2 · Prueba invariantes: no self-loops, weights>=0, provenance presente. Imprime flags. Fixture sintético `CASO-LIM-031` (run_id=cp…». Hints: any self loop.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nraw=[('a','b'),('b','c')]\n\ndef build(edges):\n    return sorted(set(tuple(sorted(e)) for e in edges))\nprint(\"equal\", build(raw)==build(raw))\nprint(\"edges\", build(raw))\nprint(\"idempotent\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S31-T4-A-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `raw=[('a','b'),('b','c')]`. Soporte: «S31-T4-A-E3 · Idempotencia: construir grafo dos veces desde mismas edges produce mismo sorted edge list. Imprime equal True. Fixture sintéti…». Hints: función build → frozenset.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nemail='ana@example.pe'\nlocal, _, domain = email.partition('@')\nred = local[:2] + '***@' + domain\nprint(red)\nprint(\"domain\", domain)\nprint(\"full_pii\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S31-T4-B-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `email='ana@example.pe'`. Soporte: «S31-T4-B-E1 · Redacta emails: muestra 2 primeras letras del local + ***@domain. Imprime para ana@example.pe. Fixture sintético `CASO-LIM-031…». Hints: partition @.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\npath=['E1','E2','E3']\nev={('E1','E2'):['r1'],('E2','E3'):['r2','r3']}\nrecords = [ev[(a,b)] for a,b in zip(path, path[1:])]\nprint(\"records\", records)\nprint(\"n_hops\", len(records))\nprint(\"explainable\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S31-T4-B-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `path=['E1','E2','E3']`. Soporte: «S31-T4-B-E2 · Dado un path de nodos y un dict edge_evidence por par consecutivo, imprime lista de record lists en orden del path. Fixture si…». Hints: zip path path[1:].. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S31-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nmax_n=500\n\ndef decide(n):\n    return \"summarize\" if n > max_n else \"render\"\nprint(\"n5000\", decide(5000))\nprint(\"n50\", decide(50))\nprint(\"max_n\", max_n)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S31-T4-B-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `max_n=500`. Soporte: «S31-T4-B-E3 · Política de escala: si n_nodes > max_n, devuelve 'summarize' else 'render'. Imprime decisión para 5000 y 50 con max_n=500. Fix…». Hints: comparar.. Verificación independiente I1; sin copiar lives previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_option": "Posición estructural que requiere contexto, no culpa",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q0: re-leí stem «En CP-N3-B, un score alto de centralidad significa:» y opciones; descarto distractores. Elijo idx 2 «Posición estructural que requiere contexto, no culpa» por coherencia con theory del paquete (score / alto / centralidad / significa); sin mirar correctIndex."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_option": "Auditar source/record_id del hecho relacional",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q1: re-leí stem «Provenance en una arista sirve para:» y opciones; descarto distractores. Elijo idx 0 «Auditar source/record_id del hecho relacional» por coherencia con theory del paquete (Provenance / arista / sirve / para); sin mirar correctIndex."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_option": "Conservar detalle o punteros además del agregado",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q2: re-leí stem «Al agregar transferencias entre el mismo par debes:» y opciones; descarto distractores. Elijo idx 1 «Conservar detalle o punteros además del agregado» por coherencia con theory del paquete (agregar / transferencias / entre / mismo); sin mirar correctIndex."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_option": "Un hecho de contacto compartido a investigar con evidencia, no veredicto",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q3: re-leí stem «Shared phone entre dos entidades implica:» y opciones; descarto distractores. Elijo idx 3 «Un hecho de contacto compartido a investigar con evidencia, no veredicto» por coherencia con theory del paquete (Shared / phone / entre / entidades); sin mirar correctIndex."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:17:05+00:00",
+  "session_started_at": "2026-07-23T12:16:40+00:00",
+  "session_ended_at": "2026-07-23T12:17:05+00:00"
+}

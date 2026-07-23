@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I2",
+  "section_index": 27,
+  "packet_sha": "effa396a740261f6",
+  "packet_source": "course-state/newbie_walkthrough/agentic_I2/section_27/quiz_card.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-ske-s27-709c6b7c3b0c",
+  "production_note": "agentic_I2 dual-LLM skeptic: independent packet-only solve from quiz_card+slim_packet; no I1 lives; no bulk writers; no identity stamps; no answer maps",
+  "knowledge_boundary": "Only landing + prior_index + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Dado",
+        "impact",
+        "likelihood",
+        "imprime",
+        "score",
+        "impact",
+        "likelihood"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T1-A-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; imple…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Ordena",
+        "reas",
+        "por",
+        "score",
+        "desc",
+        "imprime",
+        "solo"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T1-A-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Imprime",
+        "True",
+        "capa",
+        "top",
+        "unit",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T1-A-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T1-A-E3 · Imprime True si la capa top es 'unit'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/def…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Implementa",
+        "normalize",
+        "casefold",
+        "join",
+        "split",
+        "imprime",
+        "resultado"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T1-B-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el start…»; código usa print, casefold. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "AAA",
+        "assert",
+        "normalizado",
+        "ana",
+        "para",
+        "ANA",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T1-B-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; imple…»; código usa assert , casefold, print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "culo",
+        "matching",
+        "exacto",
+        "imprime",
+        "True",
+        "normalizados",
+        "son"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T1-B-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter …»; código usa print, casefold, casefold. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Filtra",
+        "nombres",
+        "que",
+        "empiezan",
+        "con",
+        "test_",
+        "lista"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T2-A-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T2-A-E1 · Filtra nombres que empiezan con 'test_' de la lista dada. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implemen…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "left",
+        "right",
+        "imprime",
+        "fail",
+        "else",
+        "assert",
+        "blando"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T2-A-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implement…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Parametriza",
+        "mentalmente",
+        "imprime",
+        "pares",
+        "input",
+        "expected",
+        "para"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T2-A-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el …»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\nfrom copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Copia",
+        "profunda",
+        "lista",
+        "dicts",
+        "muta",
+        "copia",
+        "original"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T2-B-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starte…»; código usa deepcopy, deepcopy, print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Imprime",
+        "function",
+        "como",
+        "scope",
+        "por",
+        "defecto",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T2-B-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T2-B-E2 · Imprime 'function' como scope por defecto de fixture. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa s…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\ndef make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Factory",
+        "define",
+        "make",
+        "que",
+        "devuelve",
+        "contactos",
+        "sint"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T2-B-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el s…»; código usa def , print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Usa",
+        "math",
+        "isclose",
+        "imprime",
+        "booleano",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T3-A-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa s…»; código usa print, isclose. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Captura",
+        "ValueError",
+        "int",
+        "imprime",
+        "bad",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T3-A-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\nimport tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Escribe",
+        "NamedTemporaryFile",
+        "texto",
+        "reimprime",
+        "contenido",
+        "strip",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T3-A-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T3-A-E3 · Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip(). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starte…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\nemail=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(e)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "email",
+        "lanza",
+        "ValueError",
+        "email",
+        "vac",
+        "caza",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T3-B-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter c…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Valida",
+        "que",
+        "contenga",
+        "imprime",
+        "invalid",
+        "else",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T3-B-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; imp…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Construye",
+        "mensaje",
+        "campo",
+        "score",
+        "inv",
+        "lido",
+        "con"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T3-B-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter compl…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Funci",
+        "retorna",
+        "else",
+        "Imprime",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T4-A-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T4-A-E1 · Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; i…»; código usa def , print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Dado",
+        "set",
+        "ramas",
+        "cubiertas",
+        "auto",
+        "review",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T4-A-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter compl…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Imprime",
+        "porcentaje",
+        "ramas",
+        "cubiertas",
+        "redondeado",
+        "int",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T4-A-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo;…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Mutante",
+        "good",
+        "usa",
+        "strip",
+        "mutant",
+        "Imprime",
+        "True"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T4-B-E1: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrad…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Falla",
+        "til",
+        "imprime",
+        "dict",
+        "con",
+        "keys",
+        "expected"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T4-B-E2: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T4-B-E2 · Falla útil: imprime dict con keys expected, actual para expected=1 actual=2. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter…»; código usa print. No ejecuté ni copié lives previos."
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: only packet-taught patterns; explicit I/O contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S27",
+        "Imprime",
+        "pol",
+        "tica",
+        "bug_repro",
+        "regression_test",
+        "inicio",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic B en S27-T4-B-E3: verifiqué hints y el fixture sintético; implementé solo lo enseñado en theory (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) e iDo (step | step | step | step). Instruction pide «S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; …»; código usa print. No ejecuté ni copié lives previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B SC0: descarto distractores del stem «En la pirámide de pruebas, la base más ancha suele ser:»; la opción «Pruebas unitarias» es la que el texto de theory/iDo (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) respalda de forma explícita."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B SC1: descarto distractores del stem «Un oráculo confiable es:»; la opción «Una fuente de verdad determinista para el assert» es la que el texto de theory/iDo (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) respalda de forma explícita."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B SC2: descarto distractores del stem «Si mutas un casefold y ningún test falla:»; la opción «El contrato es débil; el mutante sobrevivió» es la que el texto de theory/iDo (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) respalda de forma explícita."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B SC3: descarto distractores del stem «Las pruebas de matching en CP-N3-A demuestran:»; la opción «Contratos de misma entidad / normalización — no riesgo ni relación» es la que el texto de theory/iDo (riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | discovery y assertions | fixtures, scopes y aislamiento) respalda de forma explícita."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "riesgos y pirámide de pruebas",
+      "note": "Skeptic prioriza fallo cerrado y campos missing antes de PASS."
+    }
+  ],
+  "recorded_at": "2026-07-23T12:52:24.890000+00:00",
+  "session_started_at": "2026-07-23T12:51:38.150000+00:00",
+  "session_ended_at": "2026-07-23T12:52:24.890000+00:00"
+}

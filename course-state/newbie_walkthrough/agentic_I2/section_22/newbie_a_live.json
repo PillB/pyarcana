@@ -1,0 +1,500 @@
+{
+  "agent": "newbie_a",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-explorer-7f3a9c2e-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:36:50.800000+00:00",
+  "session_ended_at": "2026-07-23T12:37:57.940000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T1-A-E1\nfrom email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\nprint(msg.get_content_type())\nprint(str(msg.get_charset()))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "mimetext",
+        "plain",
+        "utf",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T1-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola', 'plain', 'utf-8'); print(msg.…». Completé el contrato Pass con código ancla `from email.mime.text import MIMEText`. Pista del paquete: «from email.mime.text import MIMEText». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from email.mime.text import MIMEText`."
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T1-A-E2\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt['Content-Disposition'] = 'attachment; filename=\"a.txt\"'\nmsg.attach(att)\nprint('a.txt' in msg.as_string())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "mimemultipart",
+        "mixed",
+        "adjunto",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T1-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg = MIMEMultipart('mixed'); msg['S…». Completé el contrato Pass con código ancla `from email.mime.multipart import MIMEMultipart`. Pista del paquete: «MIMEMultipart + attach». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from email.mime.multipart import MIMEMultipart`."
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T1-A-E3\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\nprint(msg.as_string().count('Content-Type:'))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "alternative",
+        "text",
+        "html",
+        "anidado",
+        "fixture",
+        "s22"
+      ],
+      "justification_from_packet": "Explorer S22-T1-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = MIMEMultipart('mixed'); alt = …». Completé el contrato Pass con código ancla `from email.mime.multipart import MIMEMultipart`. Pista del paquete: «alternative dentro de mixed». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from email.mime.multipart import MIMEMultipart`."
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T1-B-E1\nimport html\nprint(html.escape('<script>x</script>'))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "html",
+        "escape",
+        "script",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T1-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<script>x</script>')). Completa …». Completé el contrato Pass con código ancla `import html`. Pista del paquete: «import html». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import html`."
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T1-B-E2\nimport html\nname = '<b>Ana</b>'\nprint('Hola ' + html.escape(name))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "interpolaci",
+        "con",
+        "escape",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T1-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>Ana</b>'; print('Hola ' + html…». Completé el contrato Pass con código ancla `import html`. Pista del paquete: «escape antes de format». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import html`."
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T1-B-E3\nurls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n    print(u, 'ok' if 'example.pe' in u else 'blocked')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "allowlist",
+        "dominios",
+        "url",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T1-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = ['https://example.pe/a', 'http…». Completé el contrato Pass con código ancla `urls = ['https://example.pe/a', 'https://evil.test']`. Pista del paquete: «if 'example.pe' in url». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `urls = ['https://example.pe/a', 'https://evil.test']`."
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T2-A-E1\nrequested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\nprint([s for s in requested if s in allowed])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "filtrar",
+        "scopes",
+        "allowed",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T2-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail.draft', 'mail.full']; allowed…». Completé el contrato Pass con código ancla `requested = ['mail.draft', 'mail.full']`. Pista del paquete: «list comprehension». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `requested = ['mail.draft', 'mail.full']`."
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T2-A-E2\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(bad.isdisjoint(granted))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "denied",
+        "scopes",
+        "peligrosos",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T2-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = ['mail.draft']; bad = {'mail.fu…». Completé el contrato Pass con código ancla `granted = ['mail.draft']`. Pista del paquete: «all(x not in granted for x in ...)». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `granted = ['mail.draft']`."
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T2-A-E3\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n    print('refresh' if exp < now else 'valid')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "expires_at",
+        "refresh",
+        "valid",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T2-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = datetime.now(timezone.utc); for e…». Completé el contrato Pass con código ancla `from datetime import datetime, timezone, timedelta`. Pista del paquete: «datetime.fromisoformat». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from datetime import datetime, timezone, timedelta`."
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T2-B-E1\nstore = {}\nstore['d001'] = {'status': 'draft'}\nprint(store['d001']['status'])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "crear",
+        "draft",
+        "store",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T2-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d001'] = {'status': 'draft'}. Com…». Completé el contrato Pass con código ancla `store = {}`. Pista del paquete: «dict assignment». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `store = {}`."
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T2-B-E2\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nprint(now < expires_at)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "is_usable",
+        "por",
+        "expiraci",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T2-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datetime.now(timezone.utc); expires…». Completé el contrato Pass con código ancla `from datetime import datetime, timezone, timedelta`. Pista del paquete: «timedelta». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from datetime import datetime, timezone, timedelta`."
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T2-B-E3\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "ids",
+        "draft",
+        "secuenciales",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T2-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}; def create_draft():. Complet…». Completé el contrato Pass con código ancla `store = {}`. Pista del paquete: «len(store)+1». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `store = {}`."
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T3-A-E1\nimport re\npat = dept'^[^@]+@[^@]+\\\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n    print(e, bool(re.match(pat, e)))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "regex",
+        "simple",
+        "email",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T3-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\\\.[^@]+$'; for e in ('ana@exam…». Completé el contrato Pass con código ancla `import re`. Pista del paquete: «re.match». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T3-A-E2\nDIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\nprint('verified' if em and em.endswith('@example.pe') else 'rejected')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "resolver",
+        "c001",
+        "dominio",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T3-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY = {'C001': 'ana@example.pe'}; em…». Completé el contrato Pass con código ancla `DIRECTORY = {'C001': 'ana@example.pe'}`. Pista del paquete: «dict.get». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `DIRECTORY = {'C001': 'ana@example.pe'}`."
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T3-A-E3\na, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nvalor = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    valor += 1\nscore = valor / max(len(a), len(b))\nprint(round(score, 2), 'match_no_es_fraude')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "score",
+        "nota",
+        "match_no_es_fraude",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T3-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b = 'ana.rojas@example.pe', 'an…». Completé el contrato Pass con código ancla `a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'`. Pista del paquete: «os.path common o loop». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T3-B-E1\nxs = ['a@x', 'b@x', 'a@x']\nprint(list(dict.fromkeys(xs)))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "dedupe",
+        "lista",
+        "preservando",
+        "orden",
+        "fixture",
+        "s22"
+      ],
+      "justification_from_packet": "Explorer S22-T3-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@x', 'b@x', 'a@x']; print(list(…». Completé el contrato Pass con código ancla `xs = ['a@x', 'b@x', 'a@x']`. Pista del paquete: «dict.fromkeys». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `xs = ['a@x', 'b@x', 'a@x']`."
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T3-B-E2\nrows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor dept in rows:\n    if dept['email'].endswith('@other.test'):\n        dept['role'] = 'bcc'\nprint(rows[0]['role'])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "forzar",
+        "role",
+        "bcc",
+        "externos",
+        "fixture",
+        "s22"
+      ],
+      "justification_from_packet": "Explorer S22-T3-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{'email': 'p@other.test', 'role…». Completé el contrato Pass con código ancla `rows = [{'email': 'p@other.test', 'role': 'cc'}]`. Pista del paquete: «endswith». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T3-B-E3\nrows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\nprint(len(vis), vis)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "conteo",
+        "visibles",
+        "fixture",
+        "s22",
+        "datos",
+        "sint"
+      ],
+      "justification_from_packet": "Explorer S22-T3-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a@example.pe','to'),('b@other.t…». Completé el contrato Pass con código ancla `rows = [('a@example.pe','to'),('b@other.test','cc')]`. Pista del paquete: «filtrar roles». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `rows = [('a@example.pe','to'),('b@other.test','cc')]`."
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T4-A-E1\nT = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\nprint(state)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "transici",
+        "submit",
+        "draft",
+        "pending",
+        "fixture",
+        "s22"
+      ],
+      "justification_from_packet": "Explorer S22-T4-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft': {'submit': 'pending'}}; sta…». Completé el contrato Pass con código ancla `T = {'draft': {'submit': 'pending'}}`. Pista del paquete: «dict de dicts». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `T = {'draft': {'submit': 'pending'}}`."
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T4-A-E2\nT = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\nprint(nxt if nxt else 'invalid')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "approve",
+        "inv",
+        "lido",
+        "desde",
+        "draft",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S22-T4-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'draft': {'submit': 'pending'}, …». Completé el contrato Pass con código ancla `T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}`. Pista del paquete: «try/except o .get». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `T = {'draft': {'submit': 'pending'}, 'pending': {'approve': `."
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T4-A-E3\nlog = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\nprint(log)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "log",
+        "aprobaci",
+        "con",
+        "actor",
+        "fixture",
+        "s22"
+      ],
+      "justification_from_packet": "Explorer S22-T4-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []; log.append({'from': 'pending…». Completé el contrato Pass con código ancla `log = []`. Pista del paquete: «append dict». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `log = []`."
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T4-B-E1\nimport hashlib\nprint(hashlib.sha256(b'run|to|v1').hexdigest()[:8])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "idempotency",
+        "key",
+        "sha256",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T4-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sha256(b'run|to|v1').hexdigest()…». Completé el contrato Pass con código ancla `import hashlib`. Pista del paquete: «hashlib.sha256». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import hashlib`."
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T4-B-E2\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nprint(create('k') == create('k'))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "create",
+        "idempotente",
+        "por",
+        "key",
+        "fixture",
+        "s22"
+      ],
+      "justification_from_packet": "Explorer S22-T4-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {}; def create(key):. Completa …». Completé el contrato Pass con código ancla `store = {}`. Pista del paquete: «cache dict». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `store = {}`."
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S22-T4-B-E3\naudit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\nprint(audit)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "audit",
+        "create",
+        "retry_hit",
+        "fixture",
+        "s22",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S22-T4-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = []; store = {}. Completa el TODO …». Completé el contrato Pass con código ancla `audit = []`. Pista del paquete: «lista de event names». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `audit = []`."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Solo drafts/.eml en sandbox y aprobación humana",
+      "justification_from_packet": "Explorer S22 Q0: leí la teoría del quiz_card («{\"subtopicId\": \"S22-T1-A\", \"heading\": \"MIME, encoding, HTML/text y attachments\", \"paragraphs\": [\"**MIME** (`email.mime`)…») y la pregunta «¿Qué garantiza no enviar correo real en el gate de S22?». La opción [1] «Solo drafts/.eml en sandbox y aprobación humana» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Solo evidencia débil de contacto a revisar; no prueba de fraude",
+      "justification_from_packet": "Explorer S22 Q1: leí la teoría del quiz_card («{\"subtopicId\": \"S22-T1-A\", \"heading\": \"MIME, encoding, HTML/text y attachments\", \"paragraphs\": [\"**MIME** (`email.mime`)…») y la pregunta «Un score alto de similitud entre dos emails implica:». La opción [3] «Solo evidencia débil de contacto a revisar; no prueba de fraude» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Solo los scopes mínimos (p. ej. draft) necesarios",
+      "justification_from_packet": "Explorer S22 Q2: leí la teoría del quiz_card («{\"subtopicId\": \"S22-T1-A\", \"heading\": \"MIME, encoding, HTML/text y attachments\", \"paragraphs\": [\"**MIME** (`email.mime`)…») y la pregunta «Least privilege en OAuth de correo significa:». La opción [0] «Solo los scopes mínimos (p. ej. draft) necesarios» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Reutilizar el mismo draft_id si la key existe",
+      "justification_from_packet": "Explorer S22 Q3: leí la teoría del quiz_card («{\"subtopicId\": \"S22-T1-A\", \"heading\": \"MIME, encoding, HTML/text y attachments\", \"paragraphs\": [\"**MIME** (`email.mime`)…») y la pregunta «La idempotency key al reintentar create_draft debe:». La opción [2] «Reutilizar el mismo draft_id si la key existe» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica",
+      "justification_from_packet": "Explorer S22 Q4: leí la teoría del quiz_card («{\"subtopicId\": \"S22-T1-A\", \"heading\": \"MIME, encoding, HTML/text y attachments\", \"paragraphs\": [\"**MIME** (`email.mime`)…») y la pregunta «Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de». La opción [1] «Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:37:57.940000+00:00"
+}

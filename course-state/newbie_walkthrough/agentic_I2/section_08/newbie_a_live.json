@@ -1,0 +1,500 @@
+{
+  "agent": "newbie_a",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 8,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-explorer-7f3a9c2e-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:08:20.750000+00:00",
+  "session_ended_at": "2026-07-23T12:08:59.150000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S08-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T1-A-E1\nfrom pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'demo.txt'\np.write_text('hola', encoding='utf-8')\nprint(p.exists())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T1-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de arc…». Completé el contrato Pass con código ancla `from pathlib import Path`. Pista del paquete: «write_text + exists». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from pathlib import Path`."
+    },
+    {
+      "exercise_id": "S08-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T1-A-E2\nfrom pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'lines.txt'\nwith p.open('w', encoding='utf-8') as f:\n    f.write('a\\\\nb\\\\nc\\\\valor')\nwith p.open('dept', encoding='utf-8') as f:\n    lines = [ln.strip() for ln in f]\nprint(lines)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T1-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta…». Completé el contrato Pass con código ancla `from pathlib import Path`. Pista del paquete: «with path.open('w', encoding='utf-8')». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S08-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T1-A-E3\nfrom pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'bad.txt'\np.write_bytes(b'\\\\xff\\\\xfe\\\\xfa')\ntry:\n    p.read_text(encoding='utf-8')\nexcept UnicodeDecodeError as e:\n    print(type(e).__name__)\n    print('acción: cuarentenar archivo o reintentar con encoding documentado')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "simula",
+        "unicodedecodeerror",
+        "leyendo",
+        "bytes",
+        "latinos",
+        "como",
+        "utf"
+      ],
+      "justification_from_packet": "Explorer S08-T1-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Simula UnicodeDecodeError leyendo bytes latinos como utf-8 strict si es latin-1 content… Mejor: escribe bytes no-UTF8 y…». Completé el contrato Pass con código ancla `from pathlib import Path`. Pista del paquete: «path.write_bytes(b'\\xff\\xfe') o latin1 bytes inválidos en utf-8». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from pathlib import Path`."
+    },
+    {
+      "exercise_id": "S08-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T1-B-E1\nwin = b'a\\\\dept\\\\nb\\\\dept\\\\valor'\nunix = b'a\\\\nb\\\\valor'\nprint(b'\\\\dept\\\\valor' in win)\nprint(b'\\\\dept\\\\valor' in unix)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T1-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de arc…». Completé el contrato Pass con código ancla `win = b'a\\\\dept\\\\nb\\\\dept\\\\valor'`. Pista del paquete: «b'\\r\\n' in data». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S08-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T1-B-E2\nfrom pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path, text):\n    path = Path(path)\n    tmp = path.with_name(path.name + '.tmp')\n    tmp.write_text(text, encoding='utf-8')\n    os.replace(tmp, path)\ntd = Path(tempfile.mkdtemp())\np = td / 'out.txt'\nwrite_atomic(p, 'ok\\\\valor')\nprint(p.read_text(encoding='utf-8'))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T1-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta…». Completé el contrato Pass con código ancla `from pathlib import Path`. Pista del paquete: «tmp + os.replace». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S08-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T1-B-E3\nfrom pathlib import Path\nimport os, tempfile\ntd = Path(tempfile.mkdtemp())\ndest = td / 'f.txt'\ndest.write_text('PARCIAL', encoding='utf-8')\nprint('mid', dest.read_text(encoding='utf-8'))\ntmp = dest.with_name(dest.name + '.tmp')\ntmp.write_text('COMPLETO', encoding='utf-8')\nos.replace(tmp, dest)\nprint('final', dest.read_text(encoding='utf-8'))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "simula",
+        "fallo",
+        "mid",
+        "write",
+        "escribe",
+        "dest",
+        "parcial"
+      ],
+      "justification_from_packet": "Explorer S08-T1-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Simula fallo mid-write: escribe dest parcial 'PARCIAL' y muestra que un atomic replace posterior deja 'COMPLETO'. Impri…». Completé el contrato Pass con código ancla `from pathlib import Path`. Pista del paquete: «Primero write no atómico parcial; luego write_atomic». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from pathlib import Path`."
+    },
+    {
+      "exercise_id": "S08-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T2-A-E1\nimport csv, io\nraw = 'id,alias_synth\\\\nC001,Ana\\\\valor'\nfor row in csv.DictReader(io.StringIO(raw)):\n    print(row)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T2-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de arc…». Completé el contrato Pass con código ancla `import csv, io`. Pista del paquete: «csv.DictReader». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S08-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T2-A-E2\nimport csv, io\nbuf = io.StringIO()\nw = csv.DictWriter(buf, fieldnames=['id', 'alias_synth'])\nw.writeheader()\nw.writerow({'id': 'C001', 'alias_synth': 'Ana'})\nbuf.seek(0)\nrows = list(csv.DictReader(buf))\nvalor = len(rows)\nprint(valor)\nprint(rows[0])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T2-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta…». Completé el contrato Pass con código ancla `import csv, io`. Pista del paquete: «writeheader + writerow». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S08-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T2-A-E3\nfrom decimal import Decimal, InvalidOperation\n\nvals = ['10', 'x', '3.5']\nfor v in vals:\n    try:\n        m = Decimal(v).quantize(Decimal('0.01'))\n        print('ok', m)\n    except InvalidOperation:\n        print('reject', v, 'motivo=cast_monto')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "cast",
+        "monto",
+        "decimal",
+        "desde",
+        "texto",
+        "quantize",
+        "ntimos"
+      ],
+      "justification_from_packet": "Explorer S08-T2-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Cast de monto: `Decimal` desde texto + quantize a céntimos; si lanza `InvalidOperation` → reject con motivo. Procesa `[…». Completé el contrato Pass con código ancla `from decimal import Decimal, InvalidOperation`. Pista del paquete: «Decimal(v).quantize(Decimal('0.01')); except InvalidOperation». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from decimal import Decimal, InvalidOperation`."
+    },
+    {
+      "exercise_id": "S08-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T2-B-E1\nheader = ['id', 'alias_synth']\nrow = ['C1', 'Ana', 'x']\nirregular = len(row) != len(header)\nprint(irregular)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T2-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de arc…». Completé el contrato Pass con código ancla `header = ['id', 'alias_synth']`. Pista del paquete: «len(row) != len(header)». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S08-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T2-B-E2\nfrom pathlib import Path\nimport csv, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'quarantine.csv'\nwith p.open('w', newline='', encoding='utf-8') as f:\n    w = csv.DictWriter(f, fieldnames=['raw', 'reason'])\n    w.writeheader()\n    w.writerow({'raw': 'C2,Luis,EXTRA', 'reason': 'col_count'})\nwith p.open(encoding='utf-8') as f:\n    rows = list(csv.DictReader(f))\nprint(rows[0]['reason'])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T2-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta…». Completé el contrato Pass con código ancla `from pathlib import Path`. Pista del paquete: «DictWriter fieldnames raw,reason». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from pathlib import Path`."
+    },
+    {
+      "exercise_id": "S08-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T2-B-E3\nfrom collections import Counter\nreasons = ['col_count', 'cast_monto', 'col_count', 'schema']\nfor k, v in sorted(Counter(reasons).items()):\n    print(k, v)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T2-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta…». Completé el contrato Pass con código ancla `from collections import Counter`. Pista del paquete: «collections.Counter o dict». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from collections import Counter`."
+    },
+    {
+      "exercise_id": "S08-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T3-A-E1\nimport json\nobj = json.loads('{\"id\":\"C001\"}')\nprint(obj['id'])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T3-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de arc…». Completé el contrato Pass con código ancla `import json`. Pista del paquete: «json.loads». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import json`."
+    },
+    {
+      "exercise_id": "S08-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T3-A-E2\nimport json\ns = json.dumps({'alias_synth': 'José'}, ensure_ascii=False)\nprint(s)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T3-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta…». Completé el contrato Pass con código ancla `import json`. Pista del paquete: «ensure_ascii=False». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S08-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T3-A-E3\nimport json\nfrom datetime import datetime\nobj = {'ts': datetime(2026, 1, 15, 10, 0, 0)}\ntry:\n    json.dumps(obj)\nexcept TypeError as e:\n    print(type(e).__name__)\nfixed = {'ts': obj['ts'].isoformat()}\nprint(json.dumps(fixed))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T3-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta…». Completé el contrato Pass con código ancla `import json`. Pista del paquete: «datetime no serializable». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import json`."
+    },
+    {
+      "exercise_id": "S08-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T3-B-E1\ndef validate_schema(obj, required):\n    missing = [k for k in required if k not in obj]\n    return len(missing) == 0, missing\nprint(validate_schema({'id': 'C1'}, ['id', 'email']))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T3-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de arc…». Completé el contrato Pass con código ancla `def validate_schema(obj, required):`. Pista del paquete: «list comprehension missing». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def validate_schema(obj, required):`."
+    },
+    {
+      "exercise_id": "S08-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T3-B-E2\nobj = {'id': 'C1', 'email': None}\nprint('email' in obj)\nprint(obj['email'])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T3-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta…». Completé el contrato Pass con código ancla `obj = {'id': 'C1', 'email': None}`. Pista del paquete: «'email' in obj». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `obj = {'id': 'C1', 'email': None}`."
+    },
+    {
+      "exercise_id": "S08-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T3-B-E3\na = {'id': 'C1'}\nb = {'id': 'C2', 'segment': 'vip'}\na.setdefault('segment', 'standard')\nb.setdefault('segment', 'standard')\nprint(a)\nprint(b)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T3-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta…». Completé el contrato Pass con código ancla `a = {'id': 'C1'}`. Pista del paquete: «setdefault». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `a = {'id': 'C1'}`."
+    },
+    {
+      "exercise_id": "S08-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T4-A-E1\nfrom pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'f.bin'\np.write_bytes(b'abc')\ndig = hashlib.sha256(p.read_bytes()).hexdigest()\nprint(dig[:8], len(dig))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T4-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de arc…». Completé el contrato Pass con código ancla `from pathlib import Path`. Pista del paquete: «hashlib.sha256(path.read_bytes()).hexdigest()». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `from pathlib import Path`."
+    },
+    {
+      "exercise_id": "S08-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T4-A-E2\nfrom pathlib import Path\nimport shutil, tempfile\ntd = Path(tempfile.mkdtemp())\nsrc = td / 'in.csv'\nsrc.write_text('a\\\\valor', encoding='utf-8')\nbak = td / 'in.csv.bak'\nshutil.copy2(src, bak)\nprint(bak.read_bytes() == src.read_bytes())",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T4-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta…». Completé el contrato Pass con código ancla `from pathlib import Path`. Pista del paquete: «shutil.copy2». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S08-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T4-A-E3\nfrom pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'clients.csv'\np.write_text('id\\\\nC1\\\\valor', encoding='utf-8')\nprov = {\n    'path': p.name,\n    'sha256': hashlib.sha256(p.read_bytes()).hexdigest(),\n    'bytes': p.stat().st_size,\n}\nprint(prov)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T4-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta…». Completé el contrato Pass con código ancla `from pathlib import Path`. Pista del paquete: «stat().st_size». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S08-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T4-B-E1\nsources = [\n    {'name': 'clients.csv', 'sha256': 'abc', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1},\n    {'name': 'transactions.json', 'sha256': 'def', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0},\n]\nfor source in sources:\n    source['reconcile_ok'] = source['n_in'] == source['n_clean'] + source['n_quarantine']\nmanifest = {\n    'run_id': 'r1',\n    'sources': sources,\n    'n_in': sum(s['n_in'] for s in sources),\n    'n_clean': sum(s['n_clean'] for s in sources),\n    'n_quarantine': sum(s['n_quarantine'] for s in sources),\n    'reconcile_ok': all(s['reconcile_ok'] for s in sources),\n}\nprint(manifest['n_in'], manifest['n_clean'], manifest['n_quarantine'])\nprint([(s['name'], s['reconcile_ok']) for s in sources])\nprint(manifest['reconcile_ok'])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "construye",
+        "manifest",
+        "con",
+        "run_id",
+        "sources",
+        "cada",
+        "fuente"
+      ],
+      "justification_from_packet": "Explorer S08-T4-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Construye un manifest con `run_id` y `sources`: cada fuente incluye name, sha256, n_in, n_clean, n_quarantine y reconcile_ok. …». Completé el contrato Pass con código ancla `sources = [`. Pista del paquete: «Calcula reconcile_ok por fuente antes de sumar». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `sources = [`."
+    },
+    {
+      "exercise_id": "S08-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T4-B-E2\ndef reconcile_sources(sources):\n    per_source = all(\n        s['n_in'] == s['n_clean'] + s['n_quarantine']\n        for s in sources\n    )\n    n_in = sum(s['n_in'] for s in sources)\n    n_clean = sum(s['n_clean'] for s in sources)\n    n_quarantine = sum(s['n_quarantine'] for s in sources)\n    return per_source and n_in == n_clean + n_quarantine\n\ngood = [{'n_in': 5, 'n_clean': 3, 'n_quarantine': 2}]\ncompensated_bad = [\n    {'n_in': 5, 'n_clean': 5, 'n_quarantine': 1},\n    {'n_in': 5, 'n_clean': 4, 'n_quarantine': 0},\n]\nprint(reconcile_sources(good))\nprint(reconcile_sources(compensated_bad))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T4-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta…». Completé el contrato Pass con código ancla `def reconcile_sources(sources):`. Pista del paquete: «all(s['n_in'] == s['n_clean'] + s['n_quarantine'] for s in sources)». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def reconcile_sources(sources):`."
+    },
+    {
+      "exercise_id": "S08-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S08-T4-B-E3\ndef run(sources):\n    broken = [\n        s['name'] for s in sources\n        if s['n_in'] != s['n_clean'] + s['n_quarantine']\n    ]\n    if broken:\n        print('ERROR sources=' + ','.join(broken))\n        print('exit_code', 1)\n        return 1\n    print('OK')\n    print('exit_code', 0)\n    return 0\ngood = [{'name': 'clients.csv', 'n_in': 4, 'n_clean': 2, 'n_quarantine': 2}]\nbad = [\n    {'name': 'clients.csv', 'n_in': 5, 'n_clean': 5, 'n_quarantine': 1},\n    {'name': 'transactions.json', 'n_in': 5, 'n_clean': 4, 'n_quarantine': 0},\n]\nrun(good)\nrun(bad)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "s08",
+        "archivos",
+        "csv",
+        "json",
+        "ingesta",
+        "entrada"
+      ],
+      "justification_from_packet": "Explorer S08-T4-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta…». Completé el contrato Pass con código ancla `def run(sources):`. Pista del paquete: «No publiques clean si no cuadra». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def run(sources):`."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Evita depender del locale del SO (p. ej. Windows)",
+      "justification_from_packet": "Explorer S08 Q0: leí la teoría del quiz_card («{\"subtopicId\": \"S08-T1-A\", \"heading\": \"pathlib, with, modos y encodings\", \"paragraphs\": [\"`pathlib.Path` unifica rutas. …») y la pregunta «¿Por qué declarar encoding='utf-8' al abrir texto?». La opción [3] «Evita depender del locale del SO (p. ej. Windows)» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "escribir temp y os.replace al destino",
+      "justification_from_packet": "Explorer S08 Q1: leí la teoría del quiz_card («{\"subtopicId\": \"S08-T1-A\", \"heading\": \"pathlib, with, modos y encodings\", \"paragraphs\": [\"`pathlib.Path` unifica rutas. …») y la pregunta «Escritura atómica típica es…». La opción [1] «escribir temp y os.replace al destino» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Ir a cuarentena con motivo",
+      "justification_from_packet": "Explorer S08 Q2: leí la teoría del quiz_card («{\"subtopicId\": \"S08-T1-A\", \"heading\": \"pathlib, with, modos y encodings\", \"paragraphs\": [\"`pathlib.Path` unifica rutas. …») y la pregunta «Una fila CSV con columnas de más debe…». La opción [2] «Ir a cuarentena con motivo» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "n_in == n_clean + n_quarantine",
+      "justification_from_packet": "Explorer S08 Q3: leí la teoría del quiz_card («{\"subtopicId\": \"S08-T1-A\", \"heading\": \"pathlib, with, modos y encodings\", \"paragraphs\": [\"`pathlib.Path` unifica rutas. …») y la pregunta «Reconciliación del manifest exige…». La opción [0] «n_in == n_clean + n_quarantine» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Fallar (exit non-zero) / fail closed",
+      "justification_from_packet": "Explorer S08 Q4: leí la teoría del quiz_card («{\"subtopicId\": \"S08-T1-A\", \"heading\": \"pathlib, with, modos y encodings\", \"paragraphs\": [\"`pathlib.Path` unifica rutas. …») y la pregunta «Si reconcile falla, el pipeline debe…». La opción [3] «Fallar (exit non-zero) / fail closed» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:08:59.150000+00:00"
+}

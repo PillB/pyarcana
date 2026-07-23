@@ -1,0 +1,541 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 43,
+  "packet_sha": "a94c58728e1bc959",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-I1-s43-live",
+  "production_note": "packet-only dual-LLM solve from quiz_card/packet; no bulk writers; no prior-attempt maps; no stamps",
+  "knowledge_boundary": "Only landing + prior sequential packets + active section packet.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S43-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-1A\", **{\"lock_copied_before_source\":True,\"dependency_layer_reused\":True,\"source_change_rebuilds\":1,\"digest_stable\":True}}\nmeets_contract = bool(not (not record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] > 3))\nstatus = (\"PASS\" if meets_contract else \"REORDER_DOCKERFILE\")\nprint(\"S43-T1-A\", status)\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T1-A-E1",
+        "Calcula",
+        "contrato",
+        "Dockerfile",
+        "layers",
+        "cache",
+        "sobre",
+        "CASO-TRU-043-1A"
+      ],
+      "justification_from_packet": "Skeptic en S43-T1-A-E1: desconfío del predicado del starter en «Dockerfile, layers y cache»; valido missing antes de dominio. Predicado: `not (not record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] > 3)`. Instrucción: S43-T1-A-E1 · Calcula el contrato de `Dockerfile, layers y cache` sobre `CASO-TRU-043-1A`. La entrada es el dict completo del starter; la operación debe demostrar layer de dependencias reutilizable y … Paquete: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el build depen"
+    },
+    {
+      "exercise_id": "S43-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'lock_copied_before_source', 'dependency_layer_reused', 'source_change_rebuilds', 'digest_stable'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] > 3)\n    return \"PASS\" if ok else \"REORDER_DOCKERFILE\"\n\nvalid = {'case_id': 'CASO-TRU-043-1A', 'lock_copied_before_source': True, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True}\ninvalid = {'case_id': 'CASO-TRU-043-1A', 'lock_copied_before_source': False, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True}\nincomplete = dict(valid)\nif \"digest_stable\" in incomplete:\n    del incomplete[\"digest_stable\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T1-A-E2",
+        "Modela",
+        "tres",
+        "rutas",
+        "Dockerfile",
+        "layers",
+        "cache",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic en S43-T1-A-E2: desconfío del predicado del starter en «Dockerfile, layers y cache»; valido missing antes de dominio. Predicado: `not (not record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] > 3)`. Instrucción: S43-T1-A-E2 · Modela tres rutas de `Dockerfile, layers y cache`: fixture válido, fixture adverso y registro sin `digest_stable`. Entrada: dict con case_id, lock_copied_before_source, dependency_layer_… Paquete: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el build depen"
+    },
+    {
+      "exercise_id": "S43-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'lock_copied_before_source', 'dependency_layer_reused', 'source_change_rebuilds', 'digest_stable'}\n    if any(k not in record for k in required):\n        return \"INSPECT_CACHE_INVALIDATION\"\n    if not (not record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] > 3):\n        return \"CONTINUE\"\n    return \"REORDER_DOCKERFILE\"\n\nfixture_ok = {'case_id': 'CASO-TRU-043-1A', 'lock_copied_before_source': True, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True}\nfixture_bad = {'case_id': 'CASO-TRU-043-1A', 'lock_copied_before_source': False, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"digest_stable\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T1-A-E3",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "Dockerfile",
+        "layers",
+        "cache",
+        "tres"
+      ],
+      "justification_from_packet": "Skeptic en S43-T1-A-E3: desconfío del predicado del starter en «Dockerfile, layers y cache»; valido missing antes de dominio. Predicado: `not (not record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] > 3)`. Instrucción: S43-T1-A-E3 · Simula fallo cerrado para `Dockerfile, layers y cache` con tres fixtures distintos. `CASO-TRU-043-1A` debe continuar, el adverso debe devolver `REORDER_DOCKERFILE` y la ausencia de `dige… Paquete: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el build depen"
+    },
+    {
+      "exercise_id": "S43-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-1B\", **{\"base_pinned\":True,\"uid\":10001,\"capabilities\":set(),\"runtime_mb\":118,\"max_mb\":150}}\nmeets_contract = bool(not (record[\"uid\"] == 0 or bool(record[\"capabilities\"])))\nstatus = (\"PASS\" if meets_contract else \"REBUILD_NONROOT\")\nprint(\"S43-T1-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T1-B-E1",
+        "Compara",
+        "contrato",
+        "bases",
+        "usuarios",
+        "root",
+        "tamaño",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S43-T1-B-E1: desconfío del predicado del starter en «bases, usuarios no root y tamaño»; valido missing antes de dominio. Predicado: `not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))`. Instrucción: S43-T1-B-E1 · Compara el contrato de `bases, usuarios no root y tamaño` sobre `CASO-TRU-043-1B`. La entrada es el dict completo del starter; la operación debe demostrar base fijada, UID non-root, cero… Paquete: Una base mínima reduce superficie, pero debe seguir parchable; fija versión/digest y ejecuta con UID sin privilegios, fi"
+    },
+    {
+      "exercise_id": "S43-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'base_pinned', 'uid', 'capabilities', 'runtime_mb', 'max_mb'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))\n    return \"PASS\" if ok else \"REBUILD_NONROOT\"\n\nvalid = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}\ninvalid = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': False, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}\nincomplete = dict(valid)\nif \"max_mb\" in incomplete:\n    del incomplete[\"max_mb\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T1-B-E2",
+        "Verifica",
+        "tres",
+        "rutas",
+        "bases",
+        "usuarios",
+        "root",
+        "tamaño"
+      ],
+      "justification_from_packet": "Skeptic en S43-T1-B-E2: desconfío del predicado del starter en «bases, usuarios no root y tamaño»; valido missing antes de dominio. Predicado: `not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))`. Instrucción: S43-T1-B-E2 · Verifica tres rutas de `bases, usuarios no root y tamaño`: fixture válido, fixture adverso y registro sin `max_mb`. Entrada: dict con case_id, base_pinned, uid, capabilities, runtime_mb,… Paquete: Una base mínima reduce superficie, pero debe seguir parchable; fija versión/digest y ejecuta con UID sin privilegios, fi"
+    },
+    {
+      "exercise_id": "S43-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'base_pinned', 'uid', 'capabilities', 'runtime_mb', 'max_mb'}\n    if any(k not in record for k in required):\n        return \"SELECT_PATCHABLE_BASE\"\n    if not (record[\"uid\"] == 0 or bool(record[\"capabilities\"])):\n        return \"CONTINUE\"\n    return \"REBUILD_NONROOT\"\n\nfixture_ok = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}\nfixture_bad = {'case_id': 'CASO-TRU-043-1B', 'base_pinned': False, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"max_mb\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T1-B-E3",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "bases",
+        "usuarios",
+        "root",
+        "tamaño"
+      ],
+      "justification_from_packet": "Skeptic en S43-T1-B-E3: desconfío del predicado del starter en «bases, usuarios no root y tamaño»; valido missing antes de dominio. Predicado: `not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))`. Instrucción: S43-T1-B-E3 · Extiende fallo cerrado para `bases, usuarios no root y tamaño` con tres fixtures distintos. `CASO-TRU-043-1B` debe continuar, el adverso debe devolver `REBUILD_NONROOT` y la ausencia de … Paquete: Una base mínima reduce superficie, pero debe seguir parchable; fija versión/digest y ejecuta con UID sin privilegios, fi"
+    },
+    {
+      "exercise_id": "S43-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-2A\", **{\"secret_baked\":False,\"runtime_secret\":True,\"config_declared\":True,\"durable_volumes\":{\"db\"},\"ephemeral_volumes\":{\"cache\"}}}\nmeets_contract = bool(not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"]))\nstatus = (\"PASS\" if meets_contract else \"REMOVE_BAKED_SECRET\")\nprint(\"S43-T2-A\", status)\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T2-A-E1",
+        "Filtra",
+        "contrato",
+        "config",
+        "secrets",
+        "volumes",
+        "sobre",
+        "CASO-TRU-043-2A"
+      ],
+      "justification_from_packet": "Skeptic en S43-T2-A-E1: desconfío del predicado del starter en «config, secrets y volumes»; valido missing antes de dominio. Predicado: `not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])`. Instrucción: S43-T2-A-E1 · Filtra el contrato de `config, secrets y volumes` sobre `CASO-TRU-043-2A`. La entrada es el dict completo del starter; la operación debe demostrar secretos runtime y estado durable/efíme… Paquete: Config no secreta puede declararse; secretos se inyectan, rotan y no se hornean. Volumes distinguen estado durable de da"
+    },
+    {
+      "exercise_id": "S43-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'secret_baked', 'runtime_secret', 'config_declared', 'durable_volumes', 'ephemeral_volumes'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])\n    return \"PASS\" if ok else \"REMOVE_BAKED_SECRET\"\n\nvalid = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': False, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}\ninvalid = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': True, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}\nincomplete = dict(valid)\nif \"ephemeral_volumes\" in incomplete:\n    del incomplete[\"ephemeral_volumes\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T2-A-E2",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "config",
+        "secrets",
+        "volumes",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic en S43-T2-A-E2: desconfío del predicado del starter en «config, secrets y volumes»; valido missing antes de dominio. Predicado: `not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])`. Instrucción: S43-T2-A-E2 · Clasifica tres rutas de `config, secrets y volumes`: fixture válido, fixture adverso y registro sin `ephemeral_volumes`. Entrada: dict con case_id, secret_baked, runtime_secret, config_d… Paquete: Config no secreta puede declararse; secretos se inyectan, rotan y no se hornean. Volumes distinguen estado durable de da"
+    },
+    {
+      "exercise_id": "S43-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'secret_baked', 'runtime_secret', 'config_declared', 'durable_volumes', 'ephemeral_volumes'}\n    if any(k not in record for k in required):\n        return \"CLASSIFY_VOLUME\"\n    if not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"]):\n        return \"CONTINUE\"\n    return \"REMOVE_BAKED_SECRET\"\n\nfixture_ok = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': False, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}\nfixture_bad = {'case_id': 'CASO-TRU-043-2A', 'secret_baked': True, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"ephemeral_volumes\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T2-A-E3",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "config",
+        "secrets",
+        "volumes",
+        "tres"
+      ],
+      "justification_from_packet": "Skeptic en S43-T2-A-E3: desconfío del predicado del starter en «config, secrets y volumes»; valido missing antes de dominio. Predicado: `not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])`. Instrucción: S43-T2-A-E3 · Defiende fallo cerrado para `config, secrets y volumes` con tres fixtures distintos. `CASO-TRU-043-2A` debe continuar, el adverso debe devolver `REMOVE_BAKED_SECRET` y la ausencia de `ep… Paquete: Config no secreta puede declararse; secretos se inyectan, rotan y no se hornean. Volumes distinguen estado durable de da"
+    },
+    {
+      "exercise_id": "S43-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-2B\", **{\"private_network\":True,\"readiness_db\":True,\"liveness_loop\":True,\"sigterm_drains\":True,\"grace_seconds\":30}}\nmeets_contract = bool(not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"]))\nstatus = (\"PASS\" if meets_contract else \"DRAIN_AND_ISOLATE\")\nprint(\"S43-T2-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T2-B-E1",
+        "Modela",
+        "contrato",
+        "networking",
+        "health",
+        "checks",
+        "signals",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S43-T2-B-E1: desconfío del predicado del starter en «networking, health checks y signals»; valido missing antes de dominio. Predicado: `not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])`. Instrucción: S43-T2-B-E1 · Modela el contrato de `networking, health checks y signals` sobre `CASO-TRU-043-2B`. La entrada es el dict completo del starter; la operación debe demostrar network privada, health semán… Paquete: Redes limitan quién habla con quién; readiness expresa capacidad de servir, liveness bloqueo, y SIGTERM drena trabajo an"
+    },
+    {
+      "exercise_id": "S43-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'private_network', 'readiness_db', 'liveness_loop', 'sigterm_drains', 'grace_seconds'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])\n    return \"PASS\" if ok else \"DRAIN_AND_ISOLATE\"\n\nvalid = {'case_id': 'CASO-TRU-043-2B', 'private_network': True, 'readiness_db': True, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}\ninvalid = {'case_id': 'CASO-TRU-043-2B', 'private_network': True, 'readiness_db': False, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}\nincomplete = dict(valid)\nif \"grace_seconds\" in incomplete:\n    del incomplete[\"grace_seconds\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T2-B-E2",
+        "Audita",
+        "tres",
+        "rutas",
+        "networking",
+        "health",
+        "checks",
+        "signals"
+      ],
+      "justification_from_packet": "Skeptic en S43-T2-B-E2: desconfío del predicado del starter en «networking, health checks y signals»; valido missing antes de dominio. Predicado: `not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])`. Instrucción: S43-T2-B-E2 · Audita tres rutas de `networking, health checks y signals`: fixture válido, fixture adverso y registro sin `grace_seconds`. Entrada: dict con case_id, private_network, readiness_db, live… Paquete: Redes limitan quién habla con quién; readiness expresa capacidad de servir, liveness bloqueo, y SIGTERM drena trabajo an"
+    },
+    {
+      "exercise_id": "S43-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'private_network', 'readiness_db', 'liveness_loop', 'sigterm_drains', 'grace_seconds'}\n    if any(k not in record for k in required):\n        return \"DIAGNOSE_HEALTH_SIGNAL\"\n    if not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"]):\n        return \"CONTINUE\"\n    return \"DRAIN_AND_ISOLATE\"\n\nfixture_ok = {'case_id': 'CASO-TRU-043-2B', 'private_network': True, 'readiness_db': True, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}\nfixture_bad = {'case_id': 'CASO-TRU-043-2B', 'private_network': True, 'readiness_db': False, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"grace_seconds\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T2-B-E3",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "networking",
+        "health",
+        "checks",
+        "signals"
+      ],
+      "justification_from_packet": "Skeptic en S43-T2-B-E3: desconfío del predicado del starter en «networking, health checks y signals»; valido missing antes de dominio. Predicado: `not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])`. Instrucción: S43-T2-B-E3 · Recupera fallo cerrado para `networking, health checks y signals` con tres fixtures distintos. `CASO-TRU-043-2B` debe continuar, el adverso debe devolver `DRAIN_AND_ISOLATE` y la ausenci… Paquete: Redes limitan quién habla con quién; readiness expresa capacidad de servir, liveness bloqueo, y SIGTERM drena trabajo an"
+    },
+    {
+      "exercise_id": "S43-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-3A\", **{\"services\":{\"api\",\"worker\",\"db\",\"cache\"},\"healthy\":{\"api\",\"worker\",\"db\",\"cache\"},\"api_retries_db\":True,\"networks\":{\"front\",\"back\"}}}\nmeets_contract = bool(not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"]))\nstatus = (\"PASS\" if meets_contract else \"STOP_UNHEALTHY_STACK\")\nprint(\"S43-T3-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T3-A-E1",
+        "Verifica",
+        "contrato",
+        "API",
+        "worker",
+        "cache",
+        "sobre",
+        "CASO-TRU-043-3A"
+      ],
+      "justification_from_packet": "Skeptic en S43-T3-A-E1: desconfío del predicado del starter en «API/worker/DB/cache»; valido missing antes de dominio. Predicado: `not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])`. Instrucción: S43-T3-A-E1 · Verifica el contrato de `API/worker/DB/cache` sobre `CASO-TRU-043-3A`. La entrada es el dict completo del starter; la operación debe demostrar cuatro servicios sanos, retries y redes seg… Paquete: Compose hace explícitos API, worker, DB y cache con redes y health dependencies; `depends_on` no reemplaza retries de ap"
+    },
+    {
+      "exercise_id": "S43-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'services', 'healthy', 'api_retries_db', 'networks'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])\n    return \"PASS\" if ok else \"STOP_UNHEALTHY_STACK\"\n\nvalid = {'case_id': 'CASO-TRU-043-3A', 'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True, 'networks': {'back', 'front'}}\ninvalid = {'case_id': 'CASO-TRU-043-3A', 'services': set(), 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True, 'networks': {'back', 'front'}}\nincomplete = dict(valid)\nif \"networks\" in incomplete:\n    del incomplete[\"networks\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T3-A-E2",
+        "Decide",
+        "tres",
+        "rutas",
+        "API",
+        "worker",
+        "cache",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic en S43-T3-A-E2: desconfío del predicado del starter en «API/worker/DB/cache»; valido missing antes de dominio. Predicado: `not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])`. Instrucción: S43-T3-A-E2 · Decide tres rutas de `API/worker/DB/cache`: fixture válido, fixture adverso y registro sin `networks`. Entrada: dict con case_id, services, healthy, api_retries_db, networks. Salidas exa… Paquete: Compose hace explícitos API, worker, DB y cache con redes y health dependencies; `depends_on` no reemplaza retries de ap"
+    },
+    {
+      "exercise_id": "S43-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'services', 'healthy', 'api_retries_db', 'networks'}\n    if any(k not in record for k in required):\n        return \"WAIT_FOR_DEPENDENCY\"\n    if not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"]):\n        return \"CONTINUE\"\n    return \"STOP_UNHEALTHY_STACK\"\n\nfixture_ok = {'case_id': 'CASO-TRU-043-3A', 'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True, 'networks': {'back', 'front'}}\nfixture_bad = {'case_id': 'CASO-TRU-043-3A', 'services': set(), 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True, 'networks': {'back', 'front'}}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"networks\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T3-A-E3",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "API",
+        "worker",
+        "cache",
+        "tres"
+      ],
+      "justification_from_packet": "Skeptic en S43-T3-A-E3: desconfío del predicado del starter en «API/worker/DB/cache»; valido missing antes de dominio. Predicado: `not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])`. Instrucción: S43-T3-A-E3 · Contrasta fallo cerrado para `API/worker/DB/cache` con tres fixtures distintos. `CASO-TRU-043-3A` debe continuar, el adverso debe devolver `STOP_UNHEALTHY_STACK` y la ausencia de `networ… Paquete: Compose hace explícitos API, worker, DB y cache con redes y health dependencies; `depends_on` no reemplaza retries de ap"
+    },
+    {
+      "exercise_id": "S43-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-3B\", **{\"migration\":\"expand\",\"old_code_compatible\":True,\"ephemeral_reset\":True,\"backup_restored\":True}}\nmeets_contract = bool(not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"]))\nstatus = (\"PASS\" if meets_contract else \"ROLL_BACK_MIGRATION\")\nprint(\"S43-T3-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T3-B-E1",
+        "Clasifica",
+        "contrato",
+        "dependencias",
+        "migrations",
+        "datos",
+        "efímeros",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S43-T3-B-E1: desconfío del predicado del starter en «dependencias, migrations y datos efímeros»; valido missing antes de dominio. Predicado: `not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])`. Instrucción: S43-T3-B-E1 · Clasifica el contrato de `dependencias, migrations y datos efímeros` sobre `CASO-TRU-043-3B`. La entrada es el dict completo del starter; la operación debe demostrar expand compatible, e… Paquete: Migraciones son jobs controlados con compatibilidad expand/contract; datos efímeros se recrean y los durables tienen bac"
+    },
+    {
+      "exercise_id": "S43-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'migration', 'old_code_compatible', 'ephemeral_reset', 'backup_restored'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])\n    return \"PASS\" if ok else \"ROLL_BACK_MIGRATION\"\n\nvalid = {'case_id': 'CASO-TRU-043-3B', 'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}\ninvalid = {'case_id': 'CASO-TRU-043-3B', 'migration': 'INVALID', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}\nincomplete = dict(valid)\nif \"backup_restored\" in incomplete:\n    del incomplete[\"backup_restored\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T3-B-E2",
+        "Calcula",
+        "tres",
+        "rutas",
+        "dependencias",
+        "migrations",
+        "datos",
+        "efímeros"
+      ],
+      "justification_from_packet": "Skeptic en S43-T3-B-E2: desconfío del predicado del starter en «dependencias, migrations y datos efímeros»; valido missing antes de dominio. Predicado: `not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])`. Instrucción: S43-T3-B-E2 · Calcula tres rutas de `dependencias, migrations y datos efímeros`: fixture válido, fixture adverso y registro sin `backup_restored`. Entrada: dict con case_id, migration, old_code_compat… Paquete: Migraciones son jobs controlados con compatibilidad expand/contract; datos efímeros se recrean y los durables tienen bac"
+    },
+    {
+      "exercise_id": "S43-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'migration', 'old_code_compatible', 'ephemeral_reset', 'backup_restored'}\n    if any(k not in record for k in required):\n        return \"RUN_RESTORE_DRILL\"\n    if not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"]):\n        return \"CONTINUE\"\n    return \"ROLL_BACK_MIGRATION\"\n\nfixture_ok = {'case_id': 'CASO-TRU-043-3B', 'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}\nfixture_bad = {'case_id': 'CASO-TRU-043-3B', 'migration': 'INVALID', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"backup_restored\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T3-B-E3",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "dependencias",
+        "migrations",
+        "datos",
+        "efímeros"
+      ],
+      "justification_from_packet": "Skeptic en S43-T3-B-E3: desconfío del predicado del starter en «dependencias, migrations y datos efímeros»; valido missing antes de dominio. Predicado: `not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])`. Instrucción: S43-T3-B-E3 · Instrumenta fallo cerrado para `dependencias, migrations y datos efímeros` con tres fixtures distintos. `CASO-TRU-043-3B` debe continuar, el adverso debe devolver `ROLL_BACK_MIGRATION` y… Paquete: Migraciones son jobs controlados con compatibilidad expand/contract; datos efímeros se recrean y los durables tienen bac"
+    },
+    {
+      "exercise_id": "S43-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-4A\", **{\"lock_hash\":\"sha256:abc\",\"stages\":{\"builder\",\"runtime\"},\"compiler_in_runtime\":False,\"runtime_deps_locked\":True}}\nmeets_contract = bool(not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"]))\nstatus = (\"PASS\" if meets_contract else \"BLOCK_UNPINNED_BUILD\")\nprint(\"S43-T4-A\", status)\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T4-A-E1",
+        "Audita",
+        "contrato",
+        "locks",
+        "multi-stage",
+        "builds",
+        "sobre",
+        "CASO-TRU-043-4A"
+      ],
+      "justification_from_packet": "Skeptic en S43-T4-A-E1: desconfío del predicado del starter en «locks y multi-stage builds»; valido missing antes de dominio. Predicado: `not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])`. Instrucción: S43-T4-A-E1 · Audita el contrato de `locks y multi-stage builds` sobre `CASO-TRU-043-4A`. La entrada es el dict completo del starter; la operación debe demostrar lock con hash y runtime sin toolchain.… Paquete: Locks fijan resolución completa y multi-stage separa toolchain de runtime; el artefacto final contiene solo lo necesario"
+    },
+    {
+      "exercise_id": "S43-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'lock_hash', 'stages', 'compiler_in_runtime', 'runtime_deps_locked'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])\n    return \"PASS\" if ok else \"BLOCK_UNPINNED_BUILD\"\n\nvalid = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': False, 'runtime_deps_locked': True}\ninvalid = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': True, 'runtime_deps_locked': True}\nincomplete = dict(valid)\nif \"runtime_deps_locked\" in incomplete:\n    del incomplete[\"runtime_deps_locked\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T4-A-E2",
+        "Compara",
+        "tres",
+        "rutas",
+        "locks",
+        "multi-stage",
+        "builds",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic en S43-T4-A-E2: desconfío del predicado del starter en «locks y multi-stage builds»; valido missing antes de dominio. Predicado: `not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])`. Instrucción: S43-T4-A-E2 · Compara tres rutas de `locks y multi-stage builds`: fixture válido, fixture adverso y registro sin `runtime_deps_locked`. Entrada: dict con case_id, lock_hash, stages, compiler_in_runtim… Paquete: Locks fijan resolución completa y multi-stage separa toolchain de runtime; el artefacto final contiene solo lo necesario"
+    },
+    {
+      "exercise_id": "S43-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'lock_hash', 'stages', 'compiler_in_runtime', 'runtime_deps_locked'}\n    if any(k not in record for k in required):\n        return \"REGENERATE_LOCK\"\n    if not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"]):\n        return \"CONTINUE\"\n    return \"BLOCK_UNPINNED_BUILD\"\n\nfixture_ok = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': False, 'runtime_deps_locked': True}\nfixture_bad = {'case_id': 'CASO-TRU-043-4A', 'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': True, 'runtime_deps_locked': True}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"runtime_deps_locked\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T4-A-E3",
+        "Aísla",
+        "fallo",
+        "cerrado",
+        "locks",
+        "multi-stage",
+        "builds",
+        "tres"
+      ],
+      "justification_from_packet": "Skeptic en S43-T4-A-E3: desconfío del predicado del starter en «locks y multi-stage builds»; valido missing antes de dominio. Predicado: `not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])`. Instrucción: S43-T4-A-E3 · Aísla fallo cerrado para `locks y multi-stage builds` con tres fixtures distintos. `CASO-TRU-043-4A` debe continuar, el adverso debe devolver `BLOCK_UNPINNED_BUILD` y la ausencia de `run… Paquete: Locks fijan resolución completa y multi-stage separa toolchain de runtime; el artefacto final contiene solo lo necesario"
+    },
+    {
+      "exercise_id": "S43-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-4B\", **{\"critical_cves\":0,\"memory_limit_mb\":512,\"cpu_limit\":1.0,\"debug_shell\":False,\"logs_redacted\":True}}\nmeets_contract = bool(not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"]))\nstatus = (\"PASS\" if meets_contract else \"QUARANTINE_IMAGE\")\nprint(\"S43-T4-B\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T4-B-E1",
+        "Decide",
+        "contrato",
+        "scanning",
+        "resource",
+        "limits",
+        "debugging",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S43-T4-B-E1: desconfío del predicado del starter en «scanning, resource limits y debugging»; valido missing antes de dominio. Predicado: `not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])`. Instrucción: S43-T4-B-E1 · Decide el contrato de `scanning, resource limits y debugging` sobre `CASO-TRU-043-4B`. La entrada es el dict completo del starter; la operación debe demostrar scan limpio, límites defini… Paquete: Scanning alimenta una política, límites evitan noisy neighbors y debugging usa logs/metrics controlados, nunca un shell "
+    },
+    {
+      "exercise_id": "S43-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'critical_cves', 'memory_limit_mb', 'cpu_limit', 'debug_shell', 'logs_redacted'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])\n    return \"PASS\" if ok else \"QUARANTINE_IMAGE\"\n\nvalid = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 0, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}\ninvalid = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 1000000, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}\nincomplete = dict(valid)\nif \"logs_redacted\" in incomplete:\n    del incomplete[\"logs_redacted\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T4-B-E2",
+        "Filtra",
+        "tres",
+        "rutas",
+        "scanning",
+        "resource",
+        "limits",
+        "debugging"
+      ],
+      "justification_from_packet": "Skeptic en S43-T4-B-E2: desconfío del predicado del starter en «scanning, resource limits y debugging»; valido missing antes de dominio. Predicado: `not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])`. Instrucción: S43-T4-B-E2 · Filtra tres rutas de `scanning, resource limits y debugging`: fixture válido, fixture adverso y registro sin `logs_redacted`. Entrada: dict con case_id, critical_cves, memory_limit_mb, c… Paquete: Scanning alimenta una política, límites evitan noisy neighbors y debugging usa logs/metrics controlados, nunca un shell "
+    },
+    {
+      "exercise_id": "S43-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'critical_cves', 'memory_limit_mb', 'cpu_limit', 'debug_shell', 'logs_redacted'}\n    if any(k not in record for k in required):\n        return \"TRIAGE_SCAN_FINDING\"\n    if not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"]):\n        return \"CONTINUE\"\n    return \"QUARANTINE_IMAGE\"\n\nfixture_ok = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 0, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}\nfixture_bad = {'case_id': 'CASO-TRU-043-4B', 'critical_cves': 1000000, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"logs_redacted\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S43-T4-B-E3",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "scanning",
+        "resource",
+        "limits",
+        "debugging"
+      ],
+      "justification_from_packet": "Skeptic en S43-T4-B-E3: desconfío del predicado del starter en «scanning, resource limits y debugging»; valido missing antes de dominio. Predicado: `not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])`. Instrucción: S43-T4-B-E3 · Demuestra fallo cerrado para `scanning, resource limits y debugging` con tres fixtures distintos. `CASO-TRU-043-4B` debe continuar, el adverso debe devolver `QUARANTINE_IMAGE` y la ausen… Paquete: Scanning alimenta una política, límites evitan noisy neighbors y debugging usa logs/metrics controlados, nunca un shell "
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "dos builds producen el mismo digest lógico",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic · selfcheck[0]: elijo «dos builds producen el mismo digest lógico» (fail-closed + evidencia medible). Pregunta: ¿Qué evidencia permite aprobar `Dockerfile, layers y cache` en CASO-TRU-043? Fragmento: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el build dependiente de estado oculto. Contrato operativo. Entrada: código"
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "emitir BLOCK_IMAGE y conservar evidencia",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic · selfcheck[1]: elijo «emitir BLOCK_IMAGE y conservar evidencia» (fail-closed + evidencia medible). Pregunta: Si ocurre la condición de error de S43, ¿qué respuesta preserva seguridad y auditabilidad? Fragmento: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el build dependiente de estado oculto. Contrato operativo. Entrada: código"
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic · selfcheck[2]: elijo «build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo» (fail-closed + evidencia medible). Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-A · servicio reproducible en contenedores`? Fragmento: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el build dependiente de estado oculto. Contrato operativo. Entrada: código"
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic · selfcheck[3]: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» (fail-closed + evidencia medible). Pregunta: ¿Qué tratamiento de `CASO-TRU-043` respeta el alcance del curso? Fragmento: Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el build dependiente de estado oculto. Contrato operativo. Entrada: código"
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43
+    ],
+    "note": "Skeptic rejects inverted predicates and missing-field continues."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T10:27:45+00:00",
+  "session_started_at": "2026-07-23T10:27:20+00:00",
+  "session_ended_at": "2026-07-23T10:27:45+00:00"
+}

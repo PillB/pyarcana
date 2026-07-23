@@ -1,0 +1,40 @@
+{
+  "section_index": 44,
+  "section_id": "multimodal",
+  "agents": {
+    "newbie_a": {
+      "status": "validated",
+      "pass": true,
+      "selfcheck_score_pct": 100.0,
+      "selfcheck_just_ratio": 1.0,
+      "exercises_done": 24,
+      "exercises_just_ok": 24,
+      "exercises_expected": 24,
+      "hard_blocks": 0,
+      "incomplete_exercises": [],
+      "template_justifications": [],
+      "missing_exercises": [],
+      "method": "live_agentic_packet_only_no_execution",
+      "attempt_id": "agentic_I1"
+    },
+    "newbie_b": {
+      "status": "validated",
+      "pass": true,
+      "selfcheck_score_pct": 100.0,
+      "selfcheck_just_ratio": 1.0,
+      "exercises_done": 24,
+      "exercises_just_ok": 24,
+      "exercises_expected": 24,
+      "hard_blocks": 0,
+      "incomplete_exercises": [],
+      "template_justifications": [],
+      "missing_exercises": [],
+      "method": "live_agentic_packet_only_no_execution",
+      "attempt_id": "agentic_I1"
+    }
+  },
+  "blocking_gaps": [],
+  "provenance_pass": true,
+  "evaluation": "agentic_justification",
+  "section_pass": true
+}

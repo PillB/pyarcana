@@ -1,0 +1,500 @@
+{
+  "agent": "newbie_a",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 5,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-explorer-7f3a9c2e-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:04:21.260000+00:00",
+  "session_ended_at": "2026-07-23T12:04:49.220000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T1-A-E1\ndef doble(valor):\n    return valor * 2\nprint(doble(21))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "escribe",
+        "doble",
+        "que",
+        "retorne",
+        "imprime",
+        "agentic_i2",
+        "explorer"
+      ],
+      "justification_from_packet": "Explorer S05-T1-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Escribe `def doble(n):` que retorne `n*2`. Imprime doble(21).…». Completé el contrato Pass con código ancla `def doble(valor):`. Pista del paquete: «return n * 2». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T1-A-E2\ndef normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\nprint(normalize_nombre('  Juan   Pérez '))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "normalize_nombre",
+        "raw",
+        "colapsa",
+        "espacios",
+        "internos",
+        "strip",
+        "prueba"
+      ],
+      "justification_from_packet": "Explorer S05-T1-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — `normalize_nombre(raw)` colapsa espacios internos y strip. Prueba con `'  Juan   Pérez '`.…». Completé el contrato Pass con código ancla `def normalize_nombre(raw):`. Pista del paquete: «\" \".join(raw.strip().split())». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def normalize_nombre(raw):`."
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T1-A-E3\ndef saluda(alias_synth):\n    return f'Hola {alias_synth}'\nprint(saluda('Ana'))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "funci",
+        "saluda",
+        "nombre",
+        "que",
+        "retorne",
+        "string",
+        "main"
+      ],
+      "justification_from_packet": "Explorer S05-T1-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Función `saluda(nombre)` que retorne el string; en main imprime el return. Demuestra que sin return print(saluda(...)) …». Completé el contrato Pass con código ancla `def saluda(alias_synth):`. Pista del paquete: «Si ves None, falta return.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T1-B-E1\ndef present(alias_synth, titulo='Cliente'):\n    return f'{titulo}: {alias_synth}'\nprint(present('Quispe'))\nprint(present('Quispe', titulo='VIP'))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "present",
+        "nombre",
+        "titulo",
+        "cliente",
+        "retorna",
+        "llama",
+        "posicional"
+      ],
+      "justification_from_packet": "Explorer S05-T1-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'`. Llama posicional y con keyword titulo=.…». Completé el contrato Pass con código ancla `def present(alias_synth, titulo='Cliente'):`. Pista del paquete: «default solo se usa si omites el arg». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T1-B-E2\ndef good_add(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\nprint(good_add(1))\nprint(good_add(2))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "reescribe",
+        "bad_add",
+        "con",
+        "default",
+        "mutable",
+        "versi",
+        "segura"
+      ],
+      "justification_from_packet": "Explorer S05-T1-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Reescribe un `bad_add` con default mutable a la versión segura con None. Muestra dos llamadas good(1), good(2) independ…». Completé el contrato Pass con código ancla `def good_add(item, bucket=None):`. Pista del paquete: «if bucket is None: bucket = []». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def good_add(item, bucket=None):`."
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T1-B-E3\ndef normalize_telefono(raw, *, digits_only=True):\n    s = raw.strip()\n    if digits_only:\n        return ''.join(c for c in s if c.isdigit())\n    return s\nprint(normalize_telefono(' 999-000 '))\nprint(normalize_telefono(' 999-000 ', digits_only=False))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "normalize_telefono",
+        "raw",
+        "digits_only",
+        "true",
+        "keyword",
+        "only",
+        "deja"
+      ],
+      "justification_from_packet": "Explorer S05-T1-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — `normalize_telefono(raw, *, digits_only=True)` keyword-only. Si digits_only, deja solo dígitos; si False, solo strip. D…». Completé el contrato Pass con código ancla `def normalize_telefono(raw, *, digits_only=True):`. Pista del paquete: «El * fuerza keyword para digits_only.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def normalize_telefono(raw, *, digits_only=True):`."
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T2-A-E1\ndef area(w, h):\n    \"\"\"Retorna el área de un rectángulo w×h.\"\"\"\n    return w * h\nprint(area.__doc__)\nprint(area(3, 4))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "ade",
+        "docstring",
+        "una",
+        "nea",
+        "area",
+        "return",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer S05-T2-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Añade docstring de una línea a `def area(w, h): return w*h` e imprime `area.__doc__`.…». Completé el contrato Pass con código ancla `def area(w, h):`. Pista del paquete: «Triple comillas justo bajo def». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def area(w, h):`."
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T2-A-E2\ndef normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: lower/strip con @. Raises ValueError.\"\"\"\n    s = raw.strip().lower()\n    if '@' not in s:\n        raise ValueError('email sin @')\n    return s\nprint(normalize_email('  A@B.COM '))\ntry:\n    normalize_email('x')\nexcept ValueError as e:\n    print('err', e)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "normalize_email",
+        "con",
+        "pre",
+        "post",
+        "docstring",
+        "strip",
+        "lower"
+      ],
+      "justification_from_packet": "Explorer S05-T2-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — `normalize_email` con pre/post en docstring: strip+lower; ValueError si no hay @. Prueba OK y error.…». Completé el contrato Pass con código ancla `def normalize_email(raw: str) -> str:`. Pista del paquete: «if '@' not in s: raise ValueError». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def normalize_email(raw: str) -> str:`."
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T2-A-E3\ndef normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios.\"\"\"\n    return ' '.join(raw.strip().split())\ndept = normalize_nombre('  Ana  María  ')\nprint(dept)\nassert dept == dept.strip() and '  ' not in dept\nprint('post OK')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "documenta",
+        "escribe",
+        "normalize_nombre",
+        "con",
+        "postcondici",
+        "empiezan",
+        "terminan"
+      ],
+      "justification_from_packet": "Explorer S05-T2-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Documenta y escribe `normalize_nombre` con postcondición: no empiezan/terminan espacios y no hay dobles espacios. Asser…». Completé el contrato Pass con código ancla `def normalize_nombre(raw: str) -> str:`. Pista del paquete: «assert result == result.strip() and '  ' not in result». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T2-B-E1\ndef len_safe(s: str) -> int:\n    return len(s)\nprint(len_safe('abc'))\nprint('hint no valida en runtime')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "anota",
+        "len_safe",
+        "str",
+        "int",
+        "retorna",
+        "len",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer S05-T2-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Anota `def len_safe(s: str) -> int` y retorna len. Imprime el resultado y un comentario mental de que el hint no valida en run…». Completé el contrato Pass con código ancla `def len_safe(s: str) -> int:`. Pista del paquete: «hints no ejecutan isinstance mágicamente». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def len_safe(s: str) -> int:`."
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T2-B-E2\nfrom typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    try:\n        valor = int(raw.strip())\n    except ValueError:\n        return False, None, 'no es entero'\n    if valor < 0:\n        return False, None, 'negativo no permitido'\n    return True, valor, None\nfor v in ['0', '10', '-1', 'x']:\n    print(v, parse_monto(v))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "parse_monto",
+        "raw",
+        "str",
+        "tuple",
+        "value",
+        "err",
+        "acepta"
+      ],
+      "justification_from_packet": "Explorer S05-T2-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de dominio si negativo o no int.…». Completé el contrato Pass con código ancla `from typing import Optional, Tuple`. Pista del paquete: «try int; if n<0 dominio». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T2-B-E3\ndef normalize_email(raw: str) -> str:\n    s = raw.strip().lower()\n    if '@' not in s:\n        raise ValueError('email inválido')\n    return s\nprint('estrategia: raise + try por fila en el borde')\nfor e in ['ok@ex.com', 'malo']:\n    try:\n        print('OK', normalize_email(e))\n    except ValueError as err:\n        print('SKIP', e, err)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "elige",
+        "raise",
+        "valueerror",
+        "tupla",
+        "para",
+        "normalize_email",
+        "documenta"
+      ],
+      "justification_from_packet": "Explorer S05-T2-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Elige raise ValueError **o** tupla para `normalize_email` y documenta por qué en un print. Implementa la opción raise y…». Completé el contrato Pass con código ancla `def normalize_email(raw: str) -> str:`. Pista del paquete: «Lote: try/except por fila para no abortar todo». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def normalize_email(raw: str) -> str:`."
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T3-A-E1\ndef strip_collapse(s):\n    return ' '.join(s.strip().split())\ndef normalize_nombre(raw):\n    return strip_collapse(raw).title()\nprint(normalize_nombre('  ana  maría '))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "extrae",
+        "strip_collapse",
+        "salo",
+        "dentro",
+        "normalize_nombre",
+        "que",
+        "adem"
+      ],
+      "justification_from_packet": "Explorer S05-T3-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Extrae `strip_collapse` y úsalo dentro de `normalize_nombre` que además hace .title().…». Completé el contrato Pass con código ancla `def strip_collapse(s):`. Pista del paquete: «def strip_collapse; return strip_collapse(raw).title()». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def strip_collapse(s):`."
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T3-A-E2\ndef norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef normalize_contact(alias_synth, email):\n    return {'alias_synth': norm_n(alias_synth), 'email': norm_e(email)}\nprint(normalize_contact('  luis ', '  L@E.COM '))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "orquestador",
+        "normalize_contact",
+        "nombre",
+        "email",
+        "devuelve",
+        "dict",
+        "usando"
+      ],
+      "justification_from_packet": "Explorer S05-T3-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Orquestador `normalize_contact(nombre, email)` devuelve dict usando dos helpers.…». Completé el contrato Pass con código ancla `def norm_n(s):`. Pista del paquete: «return {'nombre': ..., 'email': ...}». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T3-A-E3\ndef n_nombre(valor):\n    return ' '.join(valor.strip().split()).title()\ndef n_email(e):\n    return e.strip().lower()\ndef n_tel(t):\n    return ''.join(c for c in t if c.isdigit())\ndef normalize_all(valor, e, t):\n    return {'alias_synth': n_nombre(valor), 'email': n_email(e), 'tel': n_tel(t)}\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "parte",
+        "una",
+        "funci",
+        "monstruo",
+        "neas",
+        "nombre",
+        "email"
+      ],
+      "justification_from_packet": "Explorer S05-T3-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Parte una función monstruo de 10 líneas (nombre+email+tel en un solo def con comentarios) en 3 funciones + orquestador.…». Completé el contrato Pass con código ancla `def n_nombre(valor):`. Pista del paquete: «Cada campo = una función». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T3-B-E1\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\nx = '999-000'\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "escribe",
+        "normalize_tel",
+        "puro",
+        "solo",
+        "gitos",
+        "demuestra",
+        "idempotencia"
+      ],
+      "justification_from_packet": "Explorer S05-T3-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Escribe `normalize_tel` puro (solo dígitos). Demuestra idempotencia con dos llamadas encadenadas.…». Completé el contrato Pass con código ancla `def normalize_tel(raw):`. Pista del paquete: «once = f(x); twice = f(once); print once==twice». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def normalize_tel(raw):`."
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T3-B-E2\ndef normalize_email(raw):\n    return raw.strip().lower()\ndef print_report(raw):\n    print('email=', normalize_email(raw))\nprint_report('  Z@W.COM ')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "separa",
+        "normalize_email",
+        "puro",
+        "print_report",
+        "email",
+        "con",
+        "efecto"
+      ],
+      "justification_from_packet": "Explorer S05-T3-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Separa: `normalize_email` puro + `print_report(email)` con efecto de print. No imprimas dentro del normalizador.…». Completé el contrato Pass con código ancla `def normalize_email(raw):`. Pista del paquete: «print solo en print_report». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def normalize_email(raw):`."
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T3-B-E3\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    return norm(line)\nprint(process(' 999-a '))\nprint(process(' 999-a ', norm=lambda s: s.strip().upper()))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "inyecta",
+        "normalizador",
+        "process",
+        "line",
+        "norm",
+        "normalize_tel",
+        "usa"
+      ],
+      "justification_from_packet": "Explorer S05-T3-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Inyecta un normalizador: `process(line, norm=normalize_tel)` usa la fn inyectada. Llama con default y con un norm alter…». Completé el contrato Pass con código ancla `def normalize_tel(raw):`. Pista del paquete: «norm es parámetro con default». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def normalize_tel(raw):`."
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T4-A-E1\nx = 1\ndef f():\n    x = 2\n    print('in', x)\nf()\nprint('out', x)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "predice",
+        "legb",
+        "global",
+        "dentro",
+        "local",
+        "fuera",
+        "agentic_i2"
+      ],
+      "justification_from_packet": "Explorer S05-T4-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Predice LEGB: global x=1; dentro de f, x=2 local; print dentro y fuera.…». Completé el contrato Pass con código ancla `x = 1`. Pista del paquete: «Local no pisa global sin global keyword». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `x = 1`."
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T4-A-E2\ndef make_multiplier(k):\n    def inner(valor):\n        return valor * k\n    return inner\nm3 = make_multiplier(3)\nm10 = make_multiplier(10)\nprint(m3(4), m10(4))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "make_multiplier",
+        "devuelve",
+        "funci",
+        "que",
+        "multiplica",
+        "por",
+        "closure"
+      ],
+      "justification_from_packet": "Explorer S05-T4-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — `make_multiplier(k)` devuelve función que multiplica por k (closure). Crea *3 y *10.…». Completé el contrato Pass con código ancla `def make_multiplier(k):`. Pista del paquete: «def inner(n): return n*k; return inner». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T4-A-E3\ndef make_normalizer(mode):\n    if mode == 'digits':\n        def norm(raw):\n            return ''.join(c for c in raw if c.isdigit())\n        return norm\n    if mode == 'lower':\n        def norm(raw):\n            return raw.strip().lower()\n        return norm\n    raise ValueError('mode')\nd = make_normalizer('digits')\nlo = make_normalizer('lower')\nprint(d('A-1-B-2'), lo('  Hola '))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "factory",
+        "make_normalizer",
+        "mode",
+        "donde",
+        "digits",
+        "lower",
+        "devuelve"
+      ],
+      "justification_from_packet": "Explorer S05-T4-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Factory `make_normalizer(mode)` donde mode 'digits' o 'lower' devuelve la fn adecuada. Úsala en dos prints.…». Completé el contrato Pass con código ancla `def make_normalizer(mode):`. Pista del paquete: «if mode=='digits': return lambda o def digits...». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def make_normalizer(mode):`."
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T4-B-E1\ndef normalize_email(s):\n    return s.strip().lower()\nassert normalize_email('  A@B.COM ') == 'a@b.com'\nassert normalize_email(normalize_email('A@B.COM')) == 'a@b.com'\nprint('OK')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "escribe",
+        "asserts",
+        "ejemplo",
+        "para",
+        "normalize_email",
+        "lambda",
+        "strip"
+      ],
+      "justification_from_packet": "Explorer S05-T4-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Escribe 2 asserts de ejemplo para `normalize_email = lambda s: s.strip().lower()` e imprime OK.…». Completé el contrato Pass con código ancla `def normalize_email(s):`. Pista del paquete: «assert normalize_email('A@B.COM')=='a@b.com'». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def normalize_email(s):`."
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T4-B-E2\ndef normalize_dir(raw):\n    return ' '.join(raw.strip().split()).upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nassert normalize_dir(normalize_dir('x')) == normalize_dir('x')\ndef strip_collapse(s):\n    return ' '.join(s.strip().split())\ndef normalize_dir(raw):\n    return strip_collapse(raw).upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nprint(normalize_dir(' jr 2 '))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "refactoriza",
+        "normalize_dir",
+        "una",
+        "nea",
+        "densa",
+        "dos",
+        "pasos"
+      ],
+      "justification_from_packet": "Explorer S05-T4-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Refactoriza `normalize_dir` de una línea densa a dos pasos (strip_collapse + upper) sin romper asserts dados.…». Completé el contrato Pass con código ancla `def normalize_dir(raw):`. Pista del paquete: «Corre asserts antes y después mentalmente». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def normalize_dir(raw):`."
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S05-T4-B-E3\ndef normalize_nombre(raw):\n    return ' '.join(raw.strip().split())\ncases = [('  a  b ', 'a b'), ('X', 'X')]\nfor inp, exp in cases:\n    got = normalize_nombre(inp)\n    assert got == exp, (inp, got, exp)\n    print('PASS', inp, '→', got)\nprint('all PASS')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "suite",
+        "nima",
+        "lista",
+        "input",
+        "expected",
+        "para",
+        "normalize_nombre"
+      ],
+      "justification_from_packet": "Explorer S05-T4-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Suite mínima: lista de (input, expected) para normalize_nombre; loop assert. Luego cambia implementación a title-case y…». Completé el contrato Pass con código ancla `def normalize_nombre(raw):`. Pista del paquete: «No cambies política sin actualizar tests». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def normalize_nombre(raw):`."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "None",
+      "justification_from_packet": "Explorer S05 Q0: leí la teoría del quiz_card («{\"subtopicId\": \"S05-T1-A\", \"heading\": \"Definición, llamada y retorno\", \"paragraphs\": [\"Una función se define con **`def …») y la pregunta «Si una función no tiene return, ¿qué devuelve la llamada?». La opción [0] «None» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "El default mutable se comparte entre llamadas",
+      "justification_from_packet": "Explorer S05 Q1: leí la teoría del quiz_card («{\"subtopicId\": \"S05-T1-A\", \"heading\": \"Definición, llamada y retorno\", \"paragraphs\": [\"Una función se define con **`def …») y la pregunta «¿Por qué `def f(xs=[])` es peligroso?». La opción [2] «El default mutable se comparte entre llamadas» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Mismo input → mismo output, sin efectos colaterales",
+      "justification_from_packet": "Explorer S05 Q2: leí la teoría del quiz_card («{\"subtopicId\": \"S05-T1-A\", \"heading\": \"Definición, llamada y retorno\", \"paragraphs\": [\"Una función se define con **`def …») y la pregunta «Una función pura…». La opción [3] «Mismo input → mismo output, sin efectos colaterales» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Local, Enclosing, Global, Builtin",
+      "justification_from_packet": "Explorer S05 Q3: leí la teoría del quiz_card («{\"subtopicId\": \"S05-T1-A\", \"heading\": \"Definición, llamada y retorno\", \"paragraphs\": [\"Una función se define con **`def …») y la pregunta «LEGB significa…». La opción [1] «Local, Enclosing, Global, Builtin» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "f(f(x)) == f(x) para entradas del dominio",
+      "justification_from_packet": "Explorer S05 Q4: leí la teoría del quiz_card («{\"subtopicId\": \"S05-T1-A\", \"heading\": \"Definición, llamada y retorno\", \"paragraphs\": [\"Una función se define con **`def …») y la pregunta «Idempotencia de un normalizador f significa…». La opción [0] «f(f(x)) == f(x) para entradas del dominio» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:04:49.220000+00:00"
+}

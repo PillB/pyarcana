@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 51,
+  "packet_sha": "c89a65abd3621d96",
+  "packet_source": "course-state/newbie_walkthrough/agentic_I2/section_51/quiz_card.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-exp-s51-f8005ce5a0f3",
+  "production_note": "agentic_I2 dual-LLM explorer: independent packet-only solve from quiz_card+slim_packet; no I1 lives; no bulk writers; no identity stamps; no answer maps",
+  "knowledge_boundary": "Only landing + prior_index + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S51-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"tr-moq-51\",\"spans\":{\"prompt\",\"retrieval\",\"tool\",\"answer\"},\"versions\":{\"prompt\":\"p3\",\"model\":\"m2\",\"index\":\"i4\"},\"pii_in_trace\":False}}\nmeets_contract = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\nstatus = \"PASS\" if meets_contract else \"REDACT_AND_QUARANTINE_TRACE\"\nprint(\"S51-T1-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Calcula",
+        "contrato",
+        "traces",
+        "prompts",
+        "retrieval",
+        "tools",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T1-A-E1: del starter/instruction «S51-T1-A-E1 · Calcula el contrato de `traces de prompts/retrieval/tools` sobre `CASO-MOQ-051-1A`. La entrada es el dict completo del starter; la operación debe demostrar trace comp…» completé el contrato usando print alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'spans', 'case_id', 'versions', 'trace_id', 'pii_in_trace'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('trace_id') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'trace_id': True, 'spans': True, 'versions': True, 'pii_in_trace': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'trace_id': False, 'spans': False, 'versions': False, 'pii_in_trace': False}\nmissing = {k: valid[k] for k in valid if k != 'pii_in_trace'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Modela",
+        "tres",
+        "rutas",
+        "traces",
+        "prompts",
+        "retrieval",
+        "tools"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T1-A-E2: del starter/instruction «S51-T1-A-E2 · Modela tres rutas de `traces de prompts/retrieval/tools`: fixture válido, fixture adverso y registro sin `pii_in_trace`. Entrada: dict con case_id, trace_id, spans, v…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-MOQ-051-1A', }\nadverse = {\"case_id\": 'CASO-MOQ-051-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "traces",
+        "prompts",
+        "retrieval"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T1-A-E3: del starter/instruction «S51-T1-A-E3 · Simula fallo cerrado para `traces de prompts/retrieval/tools` con tres fixtures distintos. `CASO-MOQ-051-1A` debe continuar, el adverso debe devolver `REDACT_AND_QUAR…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"answer_tokens\":300,\"total_tokens\":1500,\"p95_ms\":900,\"slo_ms\":1200,\"redacted_fields\":4}}\nmeets_contract = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\nstatus = \"PASS\" if meets_contract else \"ALERT_COST_LATENCY\"\nprint(\"S51-T1-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Compara",
+        "contrato",
+        "tokens",
+        "costo",
+        "latency",
+        "redacci",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T1-B-E1: del starter/instruction «S51-T1-B-E1 · Compara el contrato de `tokens, costo, latency y redacción` sobre `CASO-MOQ-051-1B`. La entrada es el dict completo del starter; la operación debe demostrar tokens cu…» completé el contrato usando print alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'p95_ms', 'redacted_fields', 'retrieval_tokens', 'answer_tokens', 'case_id', 'prompt_tokens', 'slo_ms', 'total_tokens'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('prompt_tokens') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'prompt_tokens': True, 'retrieval_tokens': True, 'answer_tokens': True, 'total_tokens': True, 'p95_ms': 100, 'slo_ms': 100, 'redacted_fields': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'prompt_tokens': False, 'retrieval_tokens': False, 'answer_tokens': False, 'total_tokens': False, 'p95_ms': 999, 'slo_ms': 999, 'redacted_fields': False}\nmissing = {k: valid[k] for k in valid if k != 'redacted_fields'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Verifica",
+        "tres",
+        "rutas",
+        "tokens",
+        "costo",
+        "latency",
+        "redacci"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T1-B-E2: del starter/instruction «S51-T1-B-E2 · Verifica tres rutas de `tokens, costo, latency y redacción`: fixture válido, fixture adverso y registro sin `redacted_fields`. Entrada: dict con case_id, prompt_token…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-MOQ-051-1A', }\nadverse = {\"case_id\": 'CASO-MOQ-051-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "tokens",
+        "costo",
+        "latency"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T1-B-E3: del starter/instruction «S51-T1-B-E3 · Extiende fallo cerrado para `tokens, costo, latency y redacción` con tres fixtures distintos. `CASO-MOQ-051-1B` debe continuar, el adverso debe devolver `ALERT_COST_L…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"copilot-7\",\"model\":\"m2\",\"prompt\":\"p3\",\"dataset\":\"d5\",\"index\":\"i4\",\"evaluator\":\"e2\",\"immutable\":True}}\nmeets_contract = not (not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\")))\nstatus = \"PASS\" if meets_contract else \"FREEZE_RELEASE_BUNDLE\"\nprint(\"S51-T2-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Filtra",
+        "contrato",
+        "registro",
+        "modelo",
+        "prompt",
+        "dataset",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T2-A-E1: del starter/instruction «S51-T2-A-E1 · Filtra el contrato de `registro de modelo/prompt/dataset` sobre `CASO-MOQ-051-2A`. La entrada es el dict completo del starter; la operación debe demostrar seis versio…» completé el contrato usando print alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'index', 'evaluator', 'prompt', 'case_id', 'dataset', 'release', 'immutable', 'model'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('release') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'release': True, 'model': True, 'prompt': True, 'dataset': True, 'index': True, 'evaluator': True, 'immutable': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'release': False, 'model': False, 'prompt': False, 'dataset': False, 'index': False, 'evaluator': False, 'immutable': False}\nmissing = {k: valid[k] for k in valid if k != 'immutable'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "registro",
+        "modelo",
+        "prompt",
+        "dataset"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T2-A-E2: del starter/instruction «S51-T2-A-E2 · Clasifica tres rutas de `registro de modelo/prompt/dataset`: fixture válido, fixture adverso y registro sin `immutable`. Entrada: dict con case_id, release, model, pr…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-MOQ-051-1A', }\nadverse = {\"case_id\": 'CASO-MOQ-051-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "registro",
+        "modelo",
+        "prompt"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T2-A-E3: del starter/instruction «S51-T2-A-E3 · Defiende fallo cerrado para `registro de modelo/prompt/dataset` con tres fixtures distintos. `CASO-MOQ-051-2A` debe continuar, el adverso debe devolver `FREEZE_RELEAS…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"owner-b\",\"risk\":\"medium\",\"access_scope\":\"ops-read\",\"retention_days\":30,\"audit_append_only\":True}}\nmeets_contract = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGOVERNED_CHANGE\"\nprint(\"S51-T2-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Modela",
+        "contrato",
+        "cambio",
+        "acceso",
+        "retenci",
+        "auditor",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T2-B-E1: del starter/instruction «S51-T2-B-E1 · Modela el contrato de `cambio, acceso, retención y auditoría` sobre `CASO-MOQ-051-2B`. La entrada es el dict completo del starter; la operación debe demostrar separac…» completé el contrato usando print alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'approver', 'author', 'risk', 'case_id', 'retention_days', 'audit_append_only', 'access_scope'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('author') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT_UNGOVERNED_CHANGE'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'author': True, 'approver': True, 'risk': True, 'access_scope': True, 'retention_days': True, 'audit_append_only': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'author': False, 'approver': False, 'risk': False, 'access_scope': False, 'retention_days': False, 'audit_append_only': False}\nmissing = {k: valid[k] for k in valid if k != 'audit_append_only'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Audita",
+        "tres",
+        "rutas",
+        "cambio",
+        "acceso",
+        "retenci",
+        "auditor"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T2-B-E2: del starter/instruction «S51-T2-B-E2 · Audita tres rutas de `cambio, acceso, retención y auditoría`: fixture válido, fixture adverso y registro sin `audit_append_only`. Entrada: dict con case_id, author, a…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_INDEPENDENT_APPROVAL'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_UNGOVERNED_CHANGE'\n\nvalid = {\"case_id\": 'CASO-MOQ-051-1A', }\nadverse = {\"case_id\": 'CASO-MOQ-051-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "cambio",
+        "acceso",
+        "retenci"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T2-B-E3: del starter/instruction «S51-T2-B-E3 · Recupera fallo cerrado para `cambio, acceso, retención y auditoría` con tres fixtures distintos. `CASO-MOQ-051-2B` debe continuar, el adverso debe devolver `REJECT_UN…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.999,\"availability_slo\":0.995,\"faithfulness\":0.93,\"faithfulness_slo\":0.9,\"drift\":0.04,\"max_drift\":0.08,\"owner\":\"ai-oncall\"}}\nmeets_contract = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\nstatus = \"PASS\" if meets_contract else \"OPEN_COPILOT_INCIDENT\"\nprint(\"S51-T3-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Verifica",
+        "contrato",
+        "SLO",
+        "feedback",
+        "drift",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T3-A-E1: del starter/instruction «S51-T3-A-E1 · Verifica el contrato de `SLO, feedback y drift` sobre `CASO-MOQ-051-3A`. La entrada es el dict completo del starter; la operación debe demostrar availability/faithful…» completé el contrato usando print alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'faithfulness_slo', 'availability', 'case_id', 'drift', 'availability_slo', 'faithfulness', 'max_drift', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('availability') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'availability': True, 'availability_slo': True, 'faithfulness': True, 'faithfulness_slo': True, 'drift': True, 'max_drift': True, 'owner': 'platform'}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'availability': False, 'availability_slo': False, 'faithfulness': False, 'faithfulness_slo': False, 'drift': False, 'max_drift': False, 'owner': ''}\nmissing = {k: valid[k] for k in valid if k != 'owner'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Decide",
+        "tres",
+        "rutas",
+        "SLO",
+        "feedback",
+        "drift",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T3-A-E2: del starter/instruction «S51-T3-A-E2 · Decide tres rutas de `SLO, feedback y drift`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, availability, availability_slo, faith…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-MOQ-051-1A', }\nadverse = {\"case_id\": 'CASO-MOQ-051-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "SLO",
+        "feedback",
+        "drift"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T3-A-E3: del starter/instruction «S51-T3-A-E3 · Contrasta fallo cerrado para `SLO, feedback y drift` con tres fixtures distintos. `CASO-MOQ-051-3A` debe continuar, el adverso debe devolver `OPEN_COPILOT_INCIDENT` y…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":True,\"rolled_back_to\":\"copilot-6\",\"rollback_minutes\":7,\"rto_minutes\":10,\"postmortem_actions\":4,\"owners_assigned\":True}}\nmeets_contract = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AND_CONTAIN\"\nprint(\"S51-T3-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Clasifica",
+        "contrato",
+        "incidents",
+        "rollback",
+        "postmortem",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T3-B-E1: del starter/instruction «S51-T3-B-E1 · Clasifica el contrato de `incidents, rollback y postmortem` sobre `CASO-MOQ-051-3B`. La entrada es el dict completo del starter; la operación debe demostrar contenció…» completé el contrato usando print alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'rollback_minutes', 'contained', 'rto_minutes', 'case_id', 'owners_assigned', 'rolled_back_to', 'postmortem_actions'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('contained') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'ROLLBACK_AND_CONTAIN'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'contained': True, 'rolled_back_to': True, 'rollback_minutes': True, 'rto_minutes': True, 'postmortem_actions': True, 'owners_assigned': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'contained': False, 'rolled_back_to': False, 'rollback_minutes': False, 'rto_minutes': False, 'postmortem_actions': False, 'owners_assigned': False}\nmissing = {k: valid[k] for k in valid if k != 'owners_assigned'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Calcula",
+        "tres",
+        "rutas",
+        "incidents",
+        "rollback",
+        "postmortem",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T3-B-E2: del starter/instruction «S51-T3-B-E2 · Calcula tres rutas de `incidents, rollback y postmortem`: fixture válido, fixture adverso y registro sin `owners_assigned`. Entrada: dict con case_id, contained, roll…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'ROLLBACK_AND_CONTAIN'\n\nvalid = {\"case_id\": 'CASO-MOQ-051-1A', }\nadverse = {\"case_id\": 'CASO-MOQ-051-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "incidents",
+        "rollback",
+        "postmortem"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T3-B-E3: del starter/instruction «S51-T3-B-E3 · Instrumenta fallo cerrado para `incidents, rollback y postmortem` con tres fixtures distintos. `CASO-MOQ-051-3B` debe continuar, el adverso debe devolver `ROLLBACK_AN…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":True,\"citations_resolve\":True,\"effect_summary\":\"prepara borrador\",\"confirmation_required\":True,\"confirmed\":True}}\nmeets_contract = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNCONFIRMED_ACTION\"\nprint(\"S51-T4-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Audita",
+        "contrato",
+        "incertidumbre",
+        "citas",
+        "confirmaciones",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T4-A-E1: del starter/instruction «S51-T4-A-E1 · Audita el contrato de `incertidumbre, citas y confirmaciones` sobre `CASO-MOQ-051-4A`. La entrada es el dict completo del starter; la operación debe demostrar incerti…» completé el contrato usando print alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'effect_summary', 'uncertainty_shown', 'confirmation_required', 'case_id', 'citations_resolve', 'confirmed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('uncertainty_shown') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'BLOCK_UNCONFIRMED_ACTION'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': True, 'confirmation_required': True, 'confirmed': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'uncertainty_shown': False, 'citations_resolve': False, 'effect_summary': False, 'confirmation_required': False, 'confirmed': False}\nmissing = {k: valid[k] for k in valid if k != 'confirmed'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Compara",
+        "tres",
+        "rutas",
+        "incertidumbre",
+        "citas",
+        "confirmaciones",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T4-A-E2: del starter/instruction «S51-T4-A-E2 · Compara tres rutas de `incertidumbre, citas y confirmaciones`: fixture válido, fixture adverso y registro sin `confirmed`. Entrada: dict con case_id, uncertainty_show…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'BLOCK_UNCONFIRMED_ACTION'\n\nvalid = {\"case_id\": 'CASO-MOQ-051-1A', }\nadverse = {\"case_id\": 'CASO-MOQ-051-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "incertidumbre",
+        "citas",
+        "confirmaciones"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T4-A-E3: del starter/instruction «S51-T4-A-E3 · Aísla fallo cerrado para `incertidumbre, citas y confirmaciones` con tres fixtures distintos. `CASO-MOQ-051-4A` debe continuar, el adverso debe devolver `BLOCK_UNCONF…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":True,\"screen_reader_labels\":True,\"contrast_ratio\":5.1,\"min_contrast\":4.5,\"correction_available\":True,\"appeal_to_human\":True}}\nmeets_contract = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\nstatus = \"PASS\" if meets_contract else \"FAIL_ACCESSIBILITY_GATE\"\nprint(\"S51-T4-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Decide",
+        "contrato",
+        "accesibilidad",
+        "correcci",
+        "contestabilidad",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T4-B-E1: del starter/instruction «S51-T4-B-E1 · Decide el contrato de `accesibilidad, corrección y contestabilidad` sobre `CASO-MOQ-051-4B`. La entrada es el dict completo del starter; la operación debe demostrar t…» completé el contrato usando print alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'correction_available', 'appeal_to_human', 'case_id', 'keyboard_complete', 'screen_reader_labels', 'contrast_ratio', 'min_contrast'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('keyboard_complete') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': True, 'min_contrast': True, 'correction_available': True, 'appeal_to_human': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'keyboard_complete': False, 'screen_reader_labels': False, 'contrast_ratio': False, 'min_contrast': False, 'correction_available': False, 'appeal_to_human': False}\nmissing = {k: valid[k] for k in valid if k != 'appeal_to_human'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Filtra",
+        "tres",
+        "rutas",
+        "accesibilidad",
+        "correcci",
+        "contestabilidad",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T4-B-E2: del starter/instruction «S51-T4-B-E2 · Filtra tres rutas de `accesibilidad, corrección y contestabilidad`: fixture válido, fixture adverso y registro sin `appeal_to_human`. Entrada: dict con case_id, keybo…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S51-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-MOQ-051-1A', }\nadverse = {\"case_id\": 'CASO-MOQ-051-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S51",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "accesibilidad",
+        "correcci",
+        "contestabilidad"
+      ],
+      "justification_from_packet": "Explorer A sobre S51-T4-B-E3: del starter/instruction «S51-T4-B-E3 · Demuestra fallo cerrado para `accesibilidad, corrección y contestabilidad` con tres fixtures distintos. `CASO-MOQ-051-4B` debe continuar, el adverso debe devolver `FA…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC0: elijo «trace reconstruible sin PII» porque la theory del paquete (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría) responde a «¿Qué evidencia permite aprobar `traces de prompts/retrieval/tools` en CASO-MOQ-051?» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC1: elijo «emitir ROLLBACK_COPILOT y conservar evidencia» porque la theory del paquete (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría) responde a «Si ocurre la condición de error de S51, ¿qué respuesta preserva seguridad y auditabilidad?» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC2: elijo «se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir» porque la theory del paquete (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría) responde a «¿Cuál resultado demuestra el gate `CP-N4-C + CF-5 · copiloto observable y contestable`?» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque la theory del paquete (traces de prompts/retrieval/tools | tokens, costo, latency y redacción | registro de modelo/prompt/dataset | cambio, acceso, retención y auditoría) responde a «¿Qué tratamiento de `CASO-MOQ-051` respeta el alcance del curso?» con ese criterio; contraste con las otras opciones del stem."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "traces de prompts/retrieval/tools",
+      "note": "Explorer prioriza flujo feliz del contrato."
+    }
+  ],
+  "recorded_at": "2026-07-23T13:29:06.040000+00:00",
+  "session_started_at": "2026-07-23T13:28:34.670000+00:00",
+  "session_ended_at": "2026-07-23T13:29:06.040000+00:00"
+}

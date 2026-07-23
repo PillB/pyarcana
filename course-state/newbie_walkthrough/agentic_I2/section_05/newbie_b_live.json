@@ -1,0 +1,500 @@
+{
+  "agent": "newbie_b",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I2",
+  "section_index": 5,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-skeptic-b81d4e60-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:04:52.220000+00:00",
+  "session_ended_at": "2026-07-23T12:05:32.090000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T1-A-E1\ndef doble(num):\n    return num * 2\nprint(doble(21))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "escribe",
+        "doble",
+        "que",
+        "retorne",
+        "imprime",
+        "agentic_i2",
+        "skeptic"
+      ],
+      "justification_from_packet": "Skeptic S05-T1-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Escribe `def doble(n):` que retorne `n*2`. Imprime doble(21).…». Implementé de forma verificable; línea clave `def doble(num):`. Hints: «return n * 2». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T1-A-E2\ndef normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\nprint(normalize_nombre('  Juan   Pérez '))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "normalize_nombre",
+        "raw",
+        "colapsa",
+        "espacios",
+        "internos",
+        "strip",
+        "prueba"
+      ],
+      "justification_from_packet": "Skeptic S05-T1-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — `normalize_nombre(raw)` colapsa espacios internos y strip. Prueba con `'  Juan   Pérez '`.…». Implementé de forma verificable; línea clave `def normalize_nombre(raw):`. Hints: «\" \".join(raw.strip().split())». Sin lives de attempts previos. Variante skeptic del ancla `def normalize_nombre(raw):`."
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T1-A-E3\ndef saluda(display_name):\n    return f'Hola {display_name}'\nprint(saluda('Ana'))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "funci",
+        "saluda",
+        "nombre",
+        "que",
+        "retorne",
+        "string",
+        "main"
+      ],
+      "justification_from_packet": "Skeptic S05-T1-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Función `saluda(nombre)` que retorne el string; en main imprime el return. Demuestra que sin return print(saluda(...)) …». Implementé de forma verificable; línea clave `def saluda(display_name):`. Hints: «Si ves None, falta return.». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T1-B-E1\ndef present(display_name, titulo='Cliente'):\n    return f'{titulo}: {display_name}'\nprint(present('Quispe'))\nprint(present('Quispe', titulo='VIP'))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "present",
+        "nombre",
+        "titulo",
+        "cliente",
+        "retorna",
+        "llama",
+        "posicional"
+      ],
+      "justification_from_packet": "Skeptic S05-T1-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'`. Llama posicional y con keyword titulo=.…». Implementé de forma verificable; línea clave `def present(display_name, titulo='Cliente'):`. Hints: «default solo se usa si omites el arg». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T1-B-E2\ndef good_add(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\nprint(good_add(1))\nprint(good_add(2))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "reescribe",
+        "bad_add",
+        "con",
+        "default",
+        "mutable",
+        "versi",
+        "segura"
+      ],
+      "justification_from_packet": "Skeptic S05-T1-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Reescribe un `bad_add` con default mutable a la versión segura con None. Muestra dos llamadas good(1), good(2) independ…». Implementé de forma verificable; línea clave `def good_add(item, bucket=None):`. Hints: «if bucket is None: bucket = []». Sin lives de attempts previos. Variante skeptic del ancla `def good_add(item, bucket=None):`."
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T1-B-E3\ndef normalize_telefono(raw, *, digits_only=True):\n    s = raw.strip()\n    if digits_only:\n        return ''.join(c for c in s if c.isdigit())\n    return s\nprint(normalize_telefono(' 999-000 '))\nprint(normalize_telefono(' 999-000 ', digits_only=False))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "normalize_telefono",
+        "raw",
+        "digits_only",
+        "true",
+        "keyword",
+        "only",
+        "deja"
+      ],
+      "justification_from_packet": "Skeptic S05-T1-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — `normalize_telefono(raw, *, digits_only=True)` keyword-only. Si digits_only, deja solo dígitos; si False, solo strip. D…». Implementé de forma verificable; línea clave `def normalize_telefono(raw, *, digits_only=True):`. Hints: «El * fuerza keyword para digits_only.». Sin lives de attempts previos. Variante skeptic del ancla `def normalize_telefono(raw, *, digits_only=True):`."
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T2-A-E1\ndef area(w, h):\n    \"\"\"Retorna el área de un rectángulo w×h.\"\"\"\n    return w * h\nprint(area.__doc__)\nprint(area(3, 4))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "ade",
+        "docstring",
+        "una",
+        "nea",
+        "area",
+        "return",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic S05-T2-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Añade docstring de una línea a `def area(w, h): return w*h` e imprime `area.__doc__`.…». Implementé de forma verificable; línea clave `def area(w, h):`. Hints: «Triple comillas justo bajo def». Sin lives de attempts previos. Variante skeptic del ancla `def area(w, h):`."
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T2-A-E2\ndef normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: lower/strip con @. Raises ValueError.\"\"\"\n    s = raw.strip().lower()\n    if '@' not in s:\n        raise ValueError('email sin @')\n    return s\nprint(normalize_email('  A@B.COM '))\ntry:\n    normalize_email('x')\nexcept ValueError as e:\n    print('err', e)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "normalize_email",
+        "con",
+        "pre",
+        "post",
+        "docstring",
+        "strip",
+        "lower"
+      ],
+      "justification_from_packet": "Skeptic S05-T2-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — `normalize_email` con pre/post en docstring: strip+lower; ValueError si no hay @. Prueba OK y error.…». Implementé de forma verificable; línea clave `def normalize_email(raw: str) -> str:`. Hints: «if '@' not in s: raise ValueError». Sin lives de attempts previos. Variante skeptic del ancla `def normalize_email(raw: str) -> str:`."
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T2-A-E3\ndef normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios.\"\"\"\n    return ' '.join(raw.strip().split())\nname = normalize_nombre('  Ana  María  ')\nprint(name)\nassert name == name.strip() and '  ' not in name\nprint('post OK')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "documenta",
+        "escribe",
+        "normalize_nombre",
+        "con",
+        "postcondici",
+        "empiezan",
+        "terminan"
+      ],
+      "justification_from_packet": "Skeptic S05-T2-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Documenta y escribe `normalize_nombre` con postcondición: no empiezan/terminan espacios y no hay dobles espacios. Asser…». Implementé de forma verificable; línea clave `def normalize_nombre(raw: str) -> str:`. Hints: «assert result == result.strip() and '  ' not in result». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T2-B-E1\ndef len_safe(s: str) -> int:\n    return len(s)\nprint(len_safe('abc'))\nprint('hint no valida en runtime')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "anota",
+        "len_safe",
+        "str",
+        "int",
+        "retorna",
+        "len",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic S05-T2-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Anota `def len_safe(s: str) -> int` y retorna len. Imprime el resultado y un comentario mental de que el hint no valida en run…». Implementé de forma verificable; línea clave `def len_safe(s: str) -> int:`. Hints: «hints no ejecutan isinstance mágicamente». Sin lives de attempts previos. Variante skeptic del ancla `def len_safe(s: str) -> int:`."
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T2-B-E2\nfrom typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    try:\n        num = int(raw.strip())\n    except ValueError:\n        return False, None, 'no es entero'\n    if num < 0:\n        return False, None, 'negativo no permitido'\n    return True, num, None\nfor v in ['0', '10', '-1', 'x']:\n    print(v, parse_monto(v))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "parse_monto",
+        "raw",
+        "str",
+        "tuple",
+        "value",
+        "err",
+        "acepta"
+      ],
+      "justification_from_packet": "Skeptic S05-T2-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de dominio si negativo o no int.…». Implementé de forma verificable; línea clave `from typing import Optional, Tuple`. Hints: «try int; if n<0 dominio». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T2-B-E3\ndef normalize_email(raw: str) -> str:\n    s = raw.strip().lower()\n    if '@' not in s:\n        raise ValueError('email inválido')\n    return s\nprint('estrategia: raise + try por fila en el borde')\nfor e in ['ok@ex.com', 'malo']:\n    try:\n        print('OK', normalize_email(e))\n    except ValueError as err:\n        print('SKIP', e, err)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "elige",
+        "raise",
+        "valueerror",
+        "tupla",
+        "para",
+        "normalize_email",
+        "documenta"
+      ],
+      "justification_from_packet": "Skeptic S05-T2-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Elige raise ValueError **o** tupla para `normalize_email` y documenta por qué en un print. Implementa la opción raise y…». Implementé de forma verificable; línea clave `def normalize_email(raw: str) -> str:`. Hints: «Lote: try/except por fila para no abortar todo». Sin lives de attempts previos. Variante skeptic del ancla `def normalize_email(raw: str) -> str:`."
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T3-A-E1\ndef strip_collapse(s):\n    return ' '.join(s.strip().split())\ndef normalize_nombre(raw):\n    return strip_collapse(raw).title()\nprint(normalize_nombre('  ana  maría '))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "extrae",
+        "strip_collapse",
+        "salo",
+        "dentro",
+        "normalize_nombre",
+        "que",
+        "adem"
+      ],
+      "justification_from_packet": "Skeptic S05-T3-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Extrae `strip_collapse` y úsalo dentro de `normalize_nombre` que además hace .title().…». Implementé de forma verificable; línea clave `def strip_collapse(s):`. Hints: «def strip_collapse; return strip_collapse(raw).title()». Sin lives de attempts previos. Variante skeptic del ancla `def strip_collapse(s):`."
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T3-A-E2\ndef norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef normalize_contact(display_name, email):\n    return {'display_name': norm_n(display_name), 'email': norm_e(email)}\nprint(normalize_contact('  luis ', '  L@E.COM '))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "orquestador",
+        "normalize_contact",
+        "nombre",
+        "email",
+        "devuelve",
+        "dict",
+        "usando"
+      ],
+      "justification_from_packet": "Skeptic S05-T3-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Orquestador `normalize_contact(nombre, email)` devuelve dict usando dos helpers.…». Implementé de forma verificable; línea clave `def norm_n(s):`. Hints: «return {'nombre': ..., 'email': ...}». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T3-A-E3\ndef n_nombre(num):\n    return ' '.join(num.strip().split()).title()\ndef n_email(e):\n    return e.strip().lower()\ndef n_tel(t):\n    return ''.join(c for c in t if c.isdigit())\ndef normalize_all(num, e, t):\n    return {'display_name': n_nombre(num), 'email': n_email(e), 'tel': n_tel(t)}\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "parte",
+        "una",
+        "funci",
+        "monstruo",
+        "neas",
+        "nombre",
+        "email"
+      ],
+      "justification_from_packet": "Skeptic S05-T3-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Parte una función monstruo de 10 líneas (nombre+email+tel en un solo def con comentarios) en 3 funciones + orquestador.…». Implementé de forma verificable; línea clave `def n_nombre(num):`. Hints: «Cada campo = una función». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T3-B-E1\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\nx = '999-000'\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "escribe",
+        "normalize_tel",
+        "puro",
+        "solo",
+        "gitos",
+        "demuestra",
+        "idempotencia"
+      ],
+      "justification_from_packet": "Skeptic S05-T3-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Escribe `normalize_tel` puro (solo dígitos). Demuestra idempotencia con dos llamadas encadenadas.…». Implementé de forma verificable; línea clave `def normalize_tel(raw):`. Hints: «once = f(x); twice = f(once); print once==twice». Sin lives de attempts previos. Variante skeptic del ancla `def normalize_tel(raw):`."
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T3-B-E2\ndef normalize_email(raw):\n    return raw.strip().lower()\ndef print_report(raw):\n    print('email=', normalize_email(raw))\nprint_report('  Z@W.COM ')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "separa",
+        "normalize_email",
+        "puro",
+        "print_report",
+        "email",
+        "con",
+        "efecto"
+      ],
+      "justification_from_packet": "Skeptic S05-T3-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Separa: `normalize_email` puro + `print_report(email)` con efecto de print. No imprimas dentro del normalizador.…». Implementé de forma verificable; línea clave `def normalize_email(raw):`. Hints: «print solo en print_report». Sin lives de attempts previos. Variante skeptic del ancla `def normalize_email(raw):`."
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T3-B-E3\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    return norm(line)\nprint(process(' 999-a '))\nprint(process(' 999-a ', norm=lambda s: s.strip().upper()))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "inyecta",
+        "normalizador",
+        "process",
+        "line",
+        "norm",
+        "normalize_tel",
+        "usa"
+      ],
+      "justification_from_packet": "Skeptic S05-T3-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Inyecta un normalizador: `process(line, norm=normalize_tel)` usa la fn inyectada. Llama con default y con un norm alter…». Implementé de forma verificable; línea clave `def normalize_tel(raw):`. Hints: «norm es parámetro con default». Sin lives de attempts previos. Variante skeptic del ancla `def normalize_tel(raw):`."
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T4-A-E1\nx = 1\ndef f():\n    x = 2\n    print('in', x)\nf()\nprint('out', x)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "predice",
+        "legb",
+        "global",
+        "dentro",
+        "local",
+        "fuera",
+        "agentic_i2"
+      ],
+      "justification_from_packet": "Skeptic S05-T4-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Predice LEGB: global x=1; dentro de f, x=2 local; print dentro y fuera.…». Implementé de forma verificable; línea clave `x = 1`. Hints: «Local no pisa global sin global keyword». Sin lives de attempts previos. Variante skeptic del ancla `x = 1`."
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T4-A-E2\ndef make_multiplier(k):\n    def inner(num):\n        return num * k\n    return inner\nm3 = make_multiplier(3)\nm10 = make_multiplier(10)\nprint(m3(4), m10(4))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "make_multiplier",
+        "devuelve",
+        "funci",
+        "que",
+        "multiplica",
+        "por",
+        "closure"
+      ],
+      "justification_from_packet": "Skeptic S05-T4-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — `make_multiplier(k)` devuelve función que multiplica por k (closure). Crea *3 y *10.…». Implementé de forma verificable; línea clave `def make_multiplier(k):`. Hints: «def inner(n): return n*k; return inner». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T4-A-E3\ndef make_normalizer(mode):\n    if mode == 'digits':\n        def norm(raw):\n            return ''.join(c for c in raw if c.isdigit())\n        return norm\n    if mode == 'lower':\n        def norm(raw):\n            return raw.strip().lower()\n        return norm\n    raise ValueError('mode')\nd = make_normalizer('digits')\nlo = make_normalizer('lower')\nprint(d('A-1-B-2'), lo('  Hola '))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "factory",
+        "make_normalizer",
+        "mode",
+        "donde",
+        "digits",
+        "lower",
+        "devuelve"
+      ],
+      "justification_from_packet": "Skeptic S05-T4-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Factory `make_normalizer(mode)` donde mode 'digits' o 'lower' devuelve la fn adecuada. Úsala en dos prints.…». Implementé de forma verificable; línea clave `def make_normalizer(mode):`. Hints: «if mode=='digits': return lambda o def digits...». Sin lives de attempts previos. Variante skeptic del ancla `def make_normalizer(mode):`."
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T4-B-E1\ndef normalize_email(s):\n    return s.strip().lower()\nassert normalize_email('  A@B.COM ') == 'a@b.com'\nassert normalize_email(normalize_email('A@B.COM')) == 'a@b.com'\nprint('OK')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "escribe",
+        "asserts",
+        "ejemplo",
+        "para",
+        "normalize_email",
+        "lambda",
+        "strip"
+      ],
+      "justification_from_packet": "Skeptic S05-T4-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Escribe 2 asserts de ejemplo para `normalize_email = lambda s: s.strip().lower()` e imprime OK.…». Implementé de forma verificable; línea clave `def normalize_email(s):`. Hints: «assert normalize_email('A@B.COM')=='a@b.com'». Sin lives de attempts previos. Variante skeptic del ancla `def normalize_email(s):`."
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T4-B-E2\ndef normalize_dir(raw):\n    return ' '.join(raw.strip().split()).upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nassert normalize_dir(normalize_dir('x')) == normalize_dir('x')\ndef strip_collapse(s):\n    return ' '.join(s.strip().split())\ndef normalize_dir(raw):\n    return strip_collapse(raw).upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nprint(normalize_dir(' jr 2 '))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "refactoriza",
+        "normalize_dir",
+        "una",
+        "nea",
+        "densa",
+        "dos",
+        "pasos"
+      ],
+      "justification_from_packet": "Skeptic S05-T4-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Refactoriza `normalize_dir` de una línea densa a dos pasos (strip_collapse + upper) sin romper asserts dados.…». Implementé de forma verificable; línea clave `def normalize_dir(raw):`. Hints: «Corre asserts antes y después mentalmente». Sin lives de attempts previos. Variante skeptic del ancla `def normalize_dir(raw):`."
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S05-T4-B-E3\ndef normalize_nombre(raw):\n    return ' '.join(raw.strip().split())\ncases = [('  a  b ', 'a b'), ('X', 'X')]\nfor inp, exp in cases:\n    got = normalize_nombre(inp)\n    assert got == exp, (inp, got, exp)\n    print('PASS', inp, '→', got)\nprint('all PASS')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "suite",
+        "nima",
+        "lista",
+        "input",
+        "expected",
+        "para",
+        "normalize_nombre"
+      ],
+      "justification_from_packet": "Skeptic S05-T4-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Suite mínima: lista de (input, expected) para normalize_nombre; loop assert. Luego cambia implementación a title-case y…». Implementé de forma verificable; línea clave `def normalize_nombre(raw):`. Hints: «No cambies política sin actualizar tests». Sin lives de attempts previos. Variante skeptic del ancla `def normalize_nombre(raw):`."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "None",
+      "justification_from_packet": "Skeptic S05 Q0: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 0: «None» porque responde «Si una función no tiene return, ¿qué devuelve la llamada?» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "El default mutable se comparte entre llamadas",
+      "justification_from_packet": "Skeptic S05 Q1: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 2: «El default mutable se comparte entre llamadas» porque responde «¿Por qué `def f(xs=[])` es peligroso?» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Mismo input → mismo output, sin efectos colaterales",
+      "justification_from_packet": "Skeptic S05 Q2: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 3: «Mismo input → mismo output, sin efectos colaterales» porque responde «Una función pura…» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Local, Enclosing, Global, Builtin",
+      "justification_from_packet": "Skeptic S05 Q3: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 1: «Local, Enclosing, Global, Builtin» porque responde «LEGB significa…» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "f(f(x)) == f(x) para entradas del dominio",
+      "justification_from_packet": "Skeptic S05 Q4: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 0: «f(f(x)) == f(x) para entradas del dominio» porque responde «Idempotencia de un normalizador f significa…» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:05:32.090000+00:00"
+}

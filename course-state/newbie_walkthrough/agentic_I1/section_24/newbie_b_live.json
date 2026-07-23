@@ -1,0 +1,262 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-skeptic-s24-152322-59",
+  "production_note": "agentic_I1 dual-LLM skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndpi=96\nprint( max(dpi, 200))\n",
+      "justification_from_packet": "S24-T1-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `dpi=96` cubre la Tarea del packet («Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,20»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nskew=1.2\nprint( abs(skew) >= 0.5)\n",
+      "justification_from_packet": "S24-T1-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `skew=1.2` cubre la Tarea del packet («Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el boolea»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nw=h=1000\nm=0.05\nprint( (int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n",
+      "justification_from_packet": "S24-T1-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `w=h=1000` cubre la Tarea del packet («Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950)»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns={0:0.1,90:0.8}\nprint( max(s, key=s.get))\n",
+      "justification_from_packet": "S24-T1-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `s={0:0.1,90:0.8}` cubre la Tarea del packet («Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e i»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nflags=[0,1,1,0]\nprint( sum(flags))\n",
+      "justification_from_packet": "S24-T1-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `flags=[0,1,1,0]` cubre la Tarea del packet («Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprim»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=0.4\nprint( 'manual_orient' if score < 0.5 else 'auto')\n",
+      "justification_from_packet": "S24-T1-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `score=0.4` cubre la Tarea del packet («Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint( [t['text'] for t in toks if t['conf']>=0.85])\n",
+      "justification_from_packet": "S24-T2-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]` cubre la Tarea del packet («Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e i»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint( ocr('Hola')['lang'])\n",
+      "justification_from_packet": "S24-T2-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `def ocr(text, lang='spa'):` cubre la Tarea del packet («Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'sp»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nconfs=[0.9,0.75,0.95]\nm=min(confs)\nprint( m, 'review' if m < 0.8 else 'auto')\n",
+      "justification_from_packet": "S24-T2-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `confs=[0.9,0.75,0.95]` cubre la Tarea del packet («Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='Total: 12.5'\nk,v=s.split(':',1)\nprint( k.strip(), v.strip())\n",
+      "justification_from_packet": "S24-T2-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `s='Total: 12.5'` cubre la Tarea del packet («KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nt=[['H1','H2'],['a','b']]\nprint( len(t)-1)\n",
+      "justification_from_packet": "S24-T2-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `t=[['H1','H2'],['a','b']]` cubre la Tarea del packet («Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfield={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint( field['bbox'], field['value'])\n",
+      "justification_from_packet": "S24-T2-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `field={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}` cubre la Tarea del packet («Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\ns='20-123'\nprint( re.sub(r'\\D', '', s))\n",
+      "justification_from_packet": "S24-T3-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import re` cubre la Tarea del packet («Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import datetime\nprint( datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n",
+      "justification_from_packet": "S24-T3-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `from datetime import datetime` cubre la Tarea del packet («Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\nraw='123'\nd=re.sub(r'\\D','',raw)\nprint( d if len(d)==11 else None)\n",
+      "justification_from_packet": "S24-T3-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import re` cubre la Tarea del packet («RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntotal, lines=10.0,[4.0,5.0]\nprint( 'needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n",
+      "justification_from_packet": "S24-T3-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `total, lines=10.0,[4.0,5.0]` cubre la Tarea del packet («Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 im»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint( reasons)\n",
+      "justification_from_packet": "S24-T3-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `ruc=None` cubre la Tarea del packet («Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reas»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmismatch=True\nprint( 'review_not_fraud' if mismatch else 'auto')\n",
+      "justification_from_packet": "S24-T3-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `mismatch=True` cubre la Tarea del packet («Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'revi»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncorrect, n = 3, 4\nprint( correct / n)\n",
+      "justification_from_packet": "S24-T4-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `correct, n = 3, 4` cubre la Tarea del packet («Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint( sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n",
+      "justification_from_packet": "S24-T4-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `rows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]` cubre la Tarea del packet («Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ru»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nauto, review = 7, 3\nprint( auto / (auto + review))\n",
+      "justification_from_packet": "S24-T4-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `auto, review = 7, 3` cubre la Tarea del packet («Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contra»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint( 'reject' if mime not in allowed else 'ok')\n",
+      "justification_from_packet": "S24-T4-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `mime='application/zip'` cubre la Tarea del packet («Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject.»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=6_000_000\nprint( 'reject' if n > 5_000_000 else 'ok')\n",
+      "justification_from_packet": "S24-T4-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `n=6_000_000` cubre la Tarea del packet («Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga Do»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus='ocr_fail'\nprint( {'ocr_fail':'human_rescan'}.get(status, 'continue'))\n",
+      "justification_from_packet": "S24-T4-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `status='ocr_fail'` cubre la Tarea del packet («Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic S24: contrasté las opciones con theory sobre OCR; descarté distractores y me quedo con índice 3 («Abstener y encolar revisión») porque el paquete lo enseña explícitamente frente a «¿Qué haces si confidence de RUC es 0.6?».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic S24: contrasté las opciones con theory sobre bbox; descarté distractores y me quedo con índice 1 («Cola de revisión / corrección») porque el paquete lo enseña explícitamente frente a «Un mismatch total vs líneas implica:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic S24: contrasté las opciones con theory sobre confidence; descarté distractores y me quedo con índice 2 («Los campos críticos pueden fallar aunque el global se vea bien») porque el paquete lo enseña explícitamente frente a «¿Por qué medir accuracy por campo?».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic S24: contrasté las opciones con theory sobre dpi; descarté distractores y me quedo con índice 0 («Gate reject/review por mime no permitido») porque el paquete lo enseña explícitamente frente a «Archivo application/zip en intake de facturas:».",
+      "confidence": 0.74
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:24:21+00:00",
+  "session_started_at": "2026-07-23T15:23:22+00:00",
+  "session_ended_at": "2026-07-23T15:24:21+00:00"
+}

@@ -1,0 +1,11 @@
+{
+  "attempt_id": "agentic_H2",
+  "scope": "sections_1_26",
+  "lives_count": 52,
+  "section_both_pass": 26,
+  "duration_min_s": 22.946383,
+  "duration_max_s": 47.708368,
+  "wall_clock_minutes": 31.24,
+  "attempt_gates_pass": true,
+  "selfcheck_note": "S26 at 75% (pass threshold 70); S01-S25 100%"
+}

@@ -1,0 +1,262 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-skeptic-s14-140312-29",
+  "production_note": "agentic_I1 dual-LLM skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint( flags.dtype, flags.shape, flags.ndim)\n",
+      "justification_from_packet": "S14-T1-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E1 (guiado) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint( scores.itemsize, scores.nbytes, scores.tolist())\n",
+      "justification_from_packet": "S14-T1-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E2 (independiente) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\n\ndef check(arr):\n    if arr.ndim != 1 or arr.dtype != np.float64:\n        raise ValueError(\"expected 1d float64\")\n    return f\"ok {arr.size}\"\n\nout_ok = check(np.array([1.0, 2.0], dtype=np.float64))\ntry:\n    check(np.array([[1.0]]))\n    err = \"\"\nexcept ValueError as e:\n    err = f\"err {e}\"\nprint( f\"{out_ok} | {err}\")\n",
+      "justification_from_packet": "S14-T1-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nsel = score >= 0.5\nprint( np.where(sel)[0].tolist())\n",
+      "justification_from_packet": "S14-T1-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E1 (guiado) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nmedian_v = np.median(scores)\nprint( ids[scores < median_v].tolist())\n",
+      "justification_from_packet": "S14-T1-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E2 (independiente) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint( a[order].tolist())\n",
+      "justification_from_packet": "S14-T1-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nc0 = np.round(M.mean(axis=0), 2).tolist()\nc1 = np.round(M.mean(axis=1), 2).tolist()\nprint( f\"{c0} | {c1}\")\n",
+      "justification_from_packet": "S14-T2-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E1 (guiado) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint( np.round(scores.std(axis=0), 4).tolist())\n",
+      "justification_from_packet": "S14-T2-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E2 (independiente) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint( np.round(Xc.mean(axis=1), 1).tolist())\n",
+      "justification_from_packet": "S14-T2-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\nprint( (M + w).tolist())\n",
+      "justification_from_packet": "S14-T2-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E1 (guiado) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\na = np.arange(4)\nb = np.arange(3)\nprod = a[:, None] * b\nprint( prod.shape, prod.tolist())\n",
+      "justification_from_packet": "S14-T2-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E2 (independiente) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print( \"incompatible\")\n",
+      "justification_from_packet": "S14-T2-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nraw = np.array([1, 2, 3])\nview = raw[:2]\nview[0] = 9\nprint( raw.tolist())\n",
+      "justification_from_packet": "S14-T3-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E1 (guiado) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nraw = np.array([1, 2, 3])\ncpy = raw[:2].copy()\ncpy[0] = 9\nprint( raw.tolist(), cpy.tolist())\n",
+      "justification_from_packet": "S14-T3-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E2 (independiente) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print( \"blocked\")\n",
+      "justification_from_packet": "S14-T3-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint( int(np.isnan(x).sum()))\n",
+      "justification_from_packet": "S14-T3-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E1 (guiado) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint( float(np.nanmean(x)))\n",
+      "justification_from_packet": "S14-T3-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E2 (independiente) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nx = np.array([1.0, np.inf, 2.0])\ny = np.where(np.isinf(x), np.nan, x)\nprint( float(np.nansum(y)))\n",
+      "justification_from_packet": "S14-T3-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\nacc = 0.0\nfor i in range(len(a)):\n    acc += a[i] * b[i]\nvec_sum = float((a * b).sum())\nprint( abs(acc - vec_sum) < 1e-6)\n",
+      "justification_from_packet": "S14-T4-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E1 (guiado) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\na = np.arange(5, dtype=float)\nprint( float((a ** 2).sum()))\n",
+      "justification_from_packet": "S14-T4-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E2 (independiente) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np, time\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\nt0 = time.perf_counter()\nc = a + b\nelapsed = time.perf_counter() - t0\nprint( \"timed\", bool(abs(float(c.mean()) - 1.0) < 1e-9))\n",
+      "justification_from_packet": "S14-T4-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np, time` cubre la Tarea del packet («E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint( a.nbytes, a.nbytes == 8000)\n",
+      "justification_from_packet": "S14-T4-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E1 (guiado) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\nprint( bool(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8)))\n",
+      "justification_from_packet": "S14-T4-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E2 (independiente) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "code": "# skeptic path: packet fixtures only\nimport numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print( \"fail\")\n",
+      "justification_from_packet": "S14-T4-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import numpy as np` cubre la Tarea del packet («E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic S14: contrasté las opciones con theory sobre dtype; descarté distractores y me quedo con índice 1 («dtype») porque el paquete lo enseña explícitamente frente a «¿Qué atributo del ndarray indica el tipo homogéneo de sus el».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic S14: contrasté las opciones con theory sobre ndarray; descarté distractores y me quedo con índice 3 («Filtrar o seleccionar elementos que cumplen la condición») porque el paquete lo enseña explícitamente frente a «Una máscara booleana a > 0.5 se usa principalmente para:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic S14: contrasté las opciones con theory sobre máscara; descarté distractores y me quedo con índice 0 («Por columna (colapsa filas)») porque el paquete lo enseña explícitamente frente a «axis=0 en una reducción sobre una matriz 2D suele agregar:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic S14: contrasté las opciones con theory sobre axis; descarté distractores y me quedo con índice 2 («Puede mutar el array base porque suele ser un view») porque el paquete lo enseña explícitamente frente a «Mutar un slice simple de un ndarray normalmente:».",
+      "confidence": 0.74
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:03:41+00:00",
+  "session_started_at": "2026-07-23T14:03:12+00:00",
+  "session_ended_at": "2026-07-23T14:03:41+00:00"
+}

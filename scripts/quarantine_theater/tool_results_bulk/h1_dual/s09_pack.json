@@ -1,0 +1,409 @@
+{
+  "section_index": 9,
+  "title": "Excepciones, debugging y logging seguro",
+  "theory_text": "[S09-T1-A] Tipos específicos, raise y chaining\nPrefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `KeyError` (clave ausente), `OSError`/`FileNotFoundError` (I/O). `except Exception` genérico oculta la causa y complica el triage. `raise ValueError('monto no numérico: …')` da contexto accionable. Para montos mantenemos el contrato previo: **`Decimal` desde texto**, `quantize(Decimal('0.01'))` y rechazo de valores no finitos; no volvemos a `float`. **`raise NewError(...) from e`** encadena la causa (`__cause__`) sin perder el traceback original. Una **custom Exception ligera** (`class DataLoadError(Exception): ...`) nombra el borde de tu capa sin reinventar la jerarquía de la stdlib.\n\n[S09-T1-B] Fronteras de recuperación y cleanup\n`try/except/else/finally`: **else** corre solo si no hubo excepción; **finally** siempre (cleanup). `with` garantiza cierre de handles vía context managers. No uses **`except:` bare** ni tragues `Exception` sin re-raise o cuarentena documentada. Decide: **manejar** (recuperable: fila mala) vs **propagar** (fatal: config inválida). Config rota → fail-fast. Fila de datos inválida → cuarentena y continúa el lote. El borde del job es un contrato operativo, no un gusto de estilo.\n\n[S09-T2-A] Traceback y debugger\nUn **traceback** lista frames del más reciente al más profundo (o viceversa según herramienta). El frame útil suele ser **tu código**, no el de la stdlib. `breakpoint()` / `pdb` inspeccionan variables en vivo. En demos del curso usamos **`traceback` + prints controlados** cuando no hay TTY interactivo. Al loguear stacks, **nunca** imprimas secretos ni PII completa que haya en locals. Redacta o omite.\n\n[S09-T2-B] Reproducción mínima, hipótesis y causa raíz\n**Minimal repro**: reduce 200 filas a la **menor entrada** que dispara el bug. Facilita tests de regresión y code review. Formula **hipótesis falsables** («si el apellido2 vacío rompe el join, entonces con apellido2='X' pasa»). Descartar es progreso. Un **test de regresión** rojo→verde documenta la causa raíz y evita reintroducir el fallo. 5-whys ligero: no pares en el síntoma.\n\n[S09-T3-A] Niveles y estructura de logging\nNiveles: **DEBUG** (detalle dev), **INFO** (progreso), **WARNING** (anomalía recuperable), **ERROR** (fallo de unidad), **CRITICAL** (job/proceso). Usa un **Logger de módulo** (`logging.getLogger(__name__)`) en vez de configurar el root a ciegas. Handlers y formatters se arman una vez en el entrypoint. Logs **estructurados** (`key=value` o JSON) con campos estables (`stage`, `record_id`, `duration_ms`) se pueden buscar en agregadores. Los prints libres no escalan.\n\n[S09-T3-B] Correlation IDs y redacción de PII\nUn **correlation_id** (o request_id) viaja por capas (CLI → service → repo) para unir logs del mismo job/lote. **Nunca** loguees email, teléfono o dirección completos. Usa máscaras: `a***@ejemplo.pe`, `***4567`. Helpers `mask_email` / `mask_phone` deben ser el **único** camino a logs; audits fallan si alguien hace `log.info(row)`.\n\n[S09-T4-A] Fallar rápido vs continuar con cuarentena\nTaxonomía: **data** (fila), **config** (delimiter, schema path), **provider** (timeout de API/archivo remoto). La política difiere. **Fail-fast** en config: seguir procesando con schema roto multiplica basura. **Cuarentena** en data: una fila mala no debe tumbar el lote entero. Éxito parcial es válido si el manifest contabiliza `ok + quarantined = input`. Documenta la política en README del job.\n\n[S09-T4-B] Idempotencia, retries y cuarentena\n**Retry solo errores transitorios** (`TimeoutError`, 503). `ValueError` de datos **no** se reintenta: va a cuarentena. Operaciones **idempotentes** (misma clave de escritura) permiten re-correr un job sin duplicar side-effects. Clave típica: `(source, record_id, version)`. Backoff simple (sleep creciente) reduce thundering herd. Tras max_attempts → cuarentena o fail según la política.",
+  "ido_steps": [
+    {
+      "demoId": "S09-T1-A-DEMO",
+      "subtopicId": "S09-T1-A",
+      "environment": "local-python",
+      "description": "Validar fila de intake y encadenar ParseError → ValidationError.",
+      "why": "El chaining preserva la causa de parse al subir a validación de dominio.",
+      "code": "from decimal import Decimal, InvalidOperation\n\nclass ParseError(Exception):\n    pass\n\nclass ValidationError(Exception):\n    pass\n\ndef parse_monto(raw: object) -> Decimal:\n    try:\n        monto = Decimal(str(raw).strip().replace(\",\", \".\")).quantize(Decimal(\"0.01\"))\n        if not monto.is_finite():\n            raise InvalidOperation\n        return monto\n    except (InvalidOperation, ValueError) as e:\n        raise ParseError(f\"monto no parseable: {raw!r}\") from e\n\ndef validate_intake(row: dict) -> dict:\n    try:\n        monto = parse_monto(row.get(\"monto\"))\n    except ParseError as e:\n        raise ValidationError(f\"id={row.get('id')}: validación falló\") from e\n    if monto < Decimal(\"0\"):\n        raise ValidationError(f\"id={row.get('id')}: monto negativo\")\n    return {\"id\": row[\"id\"], \"monto\": monto}\n\nprint(validate_intake({\"id\": \"C001\", \"monto\": \"12,50\"}))\ntry:\n    validate_intake({\"id\": \"C002\", \"monto\": \"N/A\"})\nexcept ValidationError as e:\n    print(type(e).__name__, \"->\", e)\n    print(\"cause\", type(e.__cause__).__name__, e.__cause__)",
+      "language": "python",
+      "output": "{'id': 'C001', 'monto': Decimal('12.50')}\nValidationError -> id=C002: validación falló\ncause ParseError monto no parseable: 'N/A'"
+    },
+    {
+      "demoId": "S09-T1-B-DEMO",
+      "subtopicId": "S09-T1-B",
+      "environment": "local-python",
+      "description": "Leer lote con finally que cierra handle; re-raise si config inválida.",
+      "why": "finally corre siempre; config inválida no se traga — se propaga.",
+      "code": "from __future__ import annotations\n\nfrom io import StringIO\nfrom typing import List, Optional\n\nclass ConfigError(Exception):\n    pass\n\ndef leer_lote(payload: str, encoding: Optional[str]) -> List[str]:\n    if not encoding:\n        raise ConfigError(\"encoding requerido\")\n    handle = StringIO(payload)\n    try:\n        return [ln.rstrip(\"\\n\") for ln in handle]\n    finally:\n        handle.close()\n        print(\"finally: recurso cerrado\")\n\nprint(\"ok\", leer_lote(\"fila1\\nfila2\\n\", \"utf-8\"))\ntry:\n    leer_lote(\"x\", None)\nexcept ConfigError as e:\n    print(\"fatal config:\", e)",
+      "language": "python",
+      "output": "finally: recurso cerrado\nok ['fila1', 'fila2']\nfatal config: encoding requerido"
+    },
+    {
+      "demoId": "S09-T2-A-DEMO",
+      "subtopicId": "S09-T2-A",
+      "environment": "local-python",
+      "description": "Reproducir KeyError en normalizer y ubicar frame con traceback.",
+      "why": "El frame útil es normalize_email: falta la clave email en C002.",
+      "code": "import traceback\n\ndef normalize_email(row: dict) -> str:\n    return row[\"email\"].strip().lower()\n\ndef run_batch(rows: list[dict]) -> list[str]:\n    return [normalize_email(r) for r in rows]\n\nrows = [{\"id\": \"C001\", \"email\": \"a@ejemplo.pe\"}, {\"id\": \"C002\"}]\ntry:\n    run_batch(rows)\nexcept KeyError as e:\n    print(\"error:\", type(e).__name__, e)\n    # simula inspección de debugger: frames relevantes\n    for fr in traceback.extract_tb(e.__traceback__):\n        if fr.name in {\"normalize_email\", \"run_batch\", \"<module>\"}:\n            print(f\"frame={fr.name} line={fr.lineno} -> {fr.line}\")",
+      "language": "python",
+      "output": "error: KeyError 'email'\nframe=<module> line=12 -> \nframe=run_batch line=8 -> \nframe=normalize_email line=5 -> "
+    },
+    {
+      "demoId": "S09-T2-B-DEMO",
+      "subtopicId": "S09-T2-B",
+      "environment": "local-python",
+      "description": "De un lote de 200 filas sintéticas al caso mínimo de apellidos.",
+      "why": "Reducir a 'Solo' permite un test de regresión de una línea.",
+      "code": "def apellidos(nombre: str) -> list[str]:\n    toks = [t for t in nombre.split() if t.lower() not in {\"de\", \"del\", \"la\"}]\n    if len(toks) < 3:  # nombre + 2 apellidos\n        raise ValueError(f\"nombre incompleto: {nombre!r}\")\n    return toks[-2:]\n\n# simula 200 filas: casi todas ok\nlote = [f\"Ana Perez Lopez {i}\" for i in range(198)]\nlote += [\"Juan Perez\", \"Solo\"]\nfallos = []\nfor n in lote:\n    try:\n        apellidos(n)\n    except ValueError as e:\n        fallos.append(str(e))\nprint(\"total_fallos\", len(fallos))\n# minimal repro: la entrada más corta\nminimal = min((f.split(\": \", 1)[-1].strip(\"'\") for f in fallos), key=len)\nprint(\"minimal_repro\", repr(minimal))\ntry:\n    apellidos(minimal)\nexcept ValueError as e:\n    print(\"root_symptom\", e)",
+      "language": "python",
+      "output": "total_fallos 2\nminimal_repro 'Solo'\nroot_symptom nombre incompleto: 'Solo'"
+    },
+    {
+      "demoId": "S09-T3-A-DEMO",
+      "subtopicId": "S09-T3-A",
+      "environment": "local-python",
+      "description": "Logger de pipeline con campos stage, record_id, duration_ms.",
+      "why": "Campos estables permiten filtrar por stage y record_id en operación.",
+      "code": "import logging, io\n\nbuf = io.StringIO()\nlog = logging.getLogger(\"familiarity.pipeline\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\n\ndef stage_normalize(record_id: str, clock_ns) -> None:\n    t0 = clock_ns()\n    log.info(\"stage=normalize record_id=%s event=start\", record_id)\n    _ = record_id.lower()\n    ms = (clock_ns() - t0) // 1_000_000\n    log.info(\n        \"stage=normalize record_id=%s event=done duration_ms=%s\",\n        record_id, ms,\n    )\n\nticks = iter([1_000_000_000, 1_007_000_000])\nstage_normalize(\"C001\", lambda: next(ticks))\nprint(buf.getvalue().strip())",
+      "language": "python",
+      "output": "INFO stage=normalize record_id=C001 event=start\nINFO stage=normalize record_id=C001 event=done duration_ms=7"
+    },
+    {
+      "demoId": "S09-T3-B-DEMO",
+      "subtopicId": "S09-T3-B",
+      "environment": "local-python",
+      "description": "Log de error con email enmascarado y correlation_id.",
+      "why": "El log es accionable sin filtrar PII completa.",
+      "code": "import logging, io\n\ndef mask_email(email: str) -> str:\n    local, _, domain = email.partition(\"@\")\n    return f\"{(local[:1] or '*')}***@{domain}\" if domain else \"***\"\n\nbuf = io.StringIO()\nlog = logging.getLogger(\"familiarity.audit\")\nlog.handlers.clear()\nlog.setLevel(logging.ERROR)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\n\ncorr = \"corr-9c2e\"\nraw_email = \"lucia.mendez@ejemplo.pe\"\nlog.error(\n    \"correlation_id=%s stage=validate error_class=data email=%s msg=formato\",\n    corr, mask_email(raw_email),\n)\nout = buf.getvalue().strip()\nprint(out)\nassert \"@ejemplo.pe\" in out and \"lucia.mendez\" not in out\nprint(\"pii_completa_ausente=True\")",
+      "language": "python",
+      "output": "correlation_id=corr-9c2e stage=validate error_class=data email=l***@ejemplo.pe msg=formato\npii_completa_ausente=True"
+    },
+    {
+      "demoId": "S09-T4-A-DEMO",
+      "subtopicId": "S09-T4-A",
+      "environment": "local-python",
+      "description": "Lote: 1 fila mala a cuarentena; config rota aborta.",
+      "why": "Data → cuarentena; config → fail-fast. Conteos reconciliados.",
+      "code": "def process_batch(rows, config):\n    if config.get(\"required_fields\") is None:\n        raise RuntimeError(\"config: required_fields ausente\")\n    req = config[\"required_fields\"]\n    ok, q = [], []\n    for r in rows:\n        missing = [k for k in req if not r.get(k)]\n        if missing:\n            q.append({\"id\": r.get(\"id\"), \"reason\": f\"data:missing:{','.join(missing)}\"})\n        else:\n            ok.append(r)\n    return {\"ok\": ok, \"quarantined\": q, \"in\": len(rows)}\n\nrows = [\n    {\"id\": \"C001\", \"email\": \"a@ejemplo.pe\"},\n    {\"id\": \"C002\"},\n]\nr = process_batch(rows, {\"required_fields\": [\"id\", \"email\"]})\nprint(r)\nassert len(r[\"ok\"]) + len(r[\"quarantined\"]) == r[\"in\"]\ntry:\n    process_batch(rows, {})\nexcept RuntimeError as e:\n    print(\"abort\", e)",
+      "language": "python",
+      "output": "{'ok': [{'id': 'C001', 'email': 'a@ejemplo.pe'}], 'quarantined': [{'id': 'C002', 'reason': 'data:missing:email'}], 'in': 2}\nabort config: required_fields ausente"
+    },
+    {
+      "demoId": "S09-T4-B-DEMO",
+      "subtopicId": "S09-T4-B",
+      "environment": "local-python",
+      "description": "Retry 3× en TimeoutError; ValueError va a cuarentena sin retry.",
+      "why": "Transitorio se reintenta; error de datos no gasta reintentos.",
+      "code": "def with_retry(fn, max_attempts=3):\n    for attempt in range(1, max_attempts + 1):\n        try:\n            return (\"ok\", fn(attempt))\n        except TimeoutError:\n            if attempt == max_attempts:\n                return (\"fail_timeout\", None)\n        except ValueError as e:\n            return (\"quarantine\", str(e))\n    return (\"fail\", None)\n\nstate = {\"t\": 0}\n\ndef flaky(attempt):\n    state[\"t\"] += 1\n    if attempt < 3:\n        raise TimeoutError(\"red\")\n    return \"payload\"\n\nprint(with_retry(flaky), \"attempts\", state[\"t\"])\nprint(with_retry(lambda a: (_ for _ in ()).throw(ValueError(\"monto\"))))",
+      "language": "python",
+      "output": "('ok', 'payload') attempts 3\n('quarantine', 'monto')"
+    }
+  ],
+  "selfCheck": [
+    {
+      "question": "¿Para qué sirve `raise NewError(...) from e`?",
+      "options": [
+        "Encadenar la causa en __cause__ sin perder contexto",
+        "Ignorar el error original",
+        "Convertir todo a SystemExit",
+        "Silenciar el traceback"
+      ]
+    },
+    {
+      "question": "Un delimiter vacío en config del job debería…",
+      "options": [
+        "Cuarentenar una fila y seguir",
+        "Reintentar 3 veces siempre",
+        "Fail-fast (abortar el job)",
+        "Loguear el row completo con PII"
+      ]
+    },
+    {
+      "question": "¿Qué va a stdout en una CLI bien diseñada?",
+      "options": [
+        "Logs DEBUG y el JSON de salida mezclados",
+        "Solo tracebacks",
+        "Secretos de config",
+        "Solo datos; diagnóstico a stderr"
+      ]
+    },
+    {
+      "question": "mask_email('ana@ejemplo.pe') de forma segura podría ser…",
+      "options": [
+        "ana@ejemplo.pe sin cambios",
+        "a***@ejemplo.pe",
+        "None",
+        "El hash MD5 del password"
+      ]
+    },
+    {
+      "question": "TimeoutError en un fetch remoto típico…",
+      "options": [
+        "Puede reintentarse con backoff; ValueError de datos no",
+        "Nunca se reintenta",
+        "Se convierte en KeyError",
+        "Implica fraude"
+      ]
+    },
+    {
+      "question": "¿Cuál es un buen minimal repro?",
+      "options": [
+        "Todo el CSV de producción",
+        "Reiniciar el servidor tres veces",
+        "La entrada más pequeña que reproduce el bug",
+        "Borrar los tests"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S09-T1-A-E1",
+      "instruction": "Mapea 5 fallos sintéticos al tipo de excepción más adecuado e imprime `fallo -> Tipo`.",
+      "starterCode": "fallos = [\n    \"int('x')\",\n    \"sumar str + int\",\n    \"dict sin clave email\",\n    \"abrir archivo inexistente\",\n    \"regla de negocio: monto < 0\",\n]\n# TODO: imprimir fallo -> ExceptionType",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "guided",
+      "hints": [
+        "Piensa: tipo incorrecto vs valor ilegal vs clave ausente vs I/O vs genérico de dominio.",
+        "Usa TypeError, ValueError, KeyError, FileNotFoundError y un custom ValidationError."
+      ]
+    },
+    {
+      "id": "S09-T1-A-E2",
+      "instruction": "Implementa `parse_monto(raw)` con `Decimal`: normaliza coma decimal, cuantiza a 0.01 y hace raise ValueError con mensaje accionable si no parsea, no es finito o es negativo.",
+      "starterCode": "from decimal import Decimal, InvalidOperation\n\ndef parse_monto(raw):\n    # TODO\n    ...\n\nfor v in [\"10.5\", \"3,25\", \"abc\", \"-1\"]:\n    try:\n        print(v, \"->\", parse_monto(v))\n    except ValueError as e:\n        print(v, \"ERR\", e)",
+      "tests": "Contrato exacto: 10.5→Decimal('10.50'); 3,25→Decimal('3.25'); abc da 'monto no numérico'; -1 da 'monto negativo'; NaN e Infinity fallan; no se permite float().",
+      "kind": "independent",
+      "hints": [
+        "Decimal desde str; captura InvalidOperation. Mensaje debe incluir el raw.",
+        "Rechaza NaN/Infinity con is_finite y compara contra Decimal('0')."
+      ]
+    },
+    {
+      "id": "S09-T1-A-E3",
+      "instruction": "Define `DataLoadError` y `load_text(path_fn)` que captura OSError del lector y re-lanza DataLoadError con `from`.",
+      "starterCode": "class DataLoadError(Exception):\n    pass\n\ndef load_text(path_fn):\n    # TODO\n    ...\n\ndef bad_reader():\n    raise OSError(\"no such file: data/clientes.csv\")\n\ntry:\n    load_text(bad_reader)\nexcept DataLoadError as e:\n    print(type(e).__name__, e)\n    print(type(e.__cause__).__name__, e.__cause__)",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "transfer",
+      "hints": [
+        "path_fn es un callable que simula open y puede lanzar OSError.",
+        "Imprime type del error y de __cause__."
+      ]
+    },
+    {
+      "id": "S09-T1-B-E1",
+      "instruction": "Completa el `finally` para marcar el recurso como cerrado aunque haya excepción.",
+      "starterCode": "state = {\"closed\": False}\n\ndef work(fail: bool):\n    try:\n        if fail:\n            raise RuntimeError(\"boom\")\n        return \"ok\"\n    finally:\n        # TODO: cerrar\n        pass\n\nprint(work(False), state)\ntry:\n    work(True)\nexcept RuntimeError:\n    print(\"err\", state)",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "guided",
+      "hints": [
+        "El flag `closed` debe quedar True siempre.",
+        "Usa try/finally; no captures la excepción."
+      ]
+    },
+    {
+      "id": "S09-T1-B-E2",
+      "instruction": "Clasifica 6 errores en recover o fail-fast e imprime `nombre: política`.",
+      "starterCode": "errores = [\n    \"delimiter vacío en config\",\n    \"monto no numérico en fila\",\n    \"schema_path no existe\",\n    \"email mal formado en fila\",\n    \"API_TOKEN ausente\",\n    \"timeout leyendo un record remoto\",\n]\n# TODO",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "independent",
+      "hints": [
+        "Config y secretos ausentes → fail-fast. Fila mala / parse → recover.",
+        "Timeout de red de un registro puede ser recover+retry (marca recover)."
+      ]
+    },
+    {
+      "id": "S09-T1-B-E3",
+      "instruction": "Refactoriza el handler bare: captura ValueError (cuarentena) y deja propagar el resto.",
+      "starterCode": "def bad_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except:  # noqa: E722 — malo a propósito\n        return (\"swallowed\", None)\n\ndef good_handler(fn):\n    # TODO\n    ...\n\ndef v():\n    raise ValueError(\"fila\")\n\ndef r():\n    raise RuntimeError(\"config\")\n\nprint(\"bad\", bad_handler(v), bad_handler(r))\nprint(\"good_v\", good_handler(v))\ntry:\n    print(good_handler(r))\nexcept RuntimeError as e:\n    print(\"good_r raised\", e)",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "transfer",
+      "hints": [
+        "No uses except desnudo.",
+        "Imprime ok/quarantine/raised según el caso."
+      ]
+    },
+    {
+      "id": "S09-T2-A-E1",
+      "instruction": "Dado un traceback sintético en string, anota 3 frames (nombre de función) de afuera hacia adentro.",
+      "starterCode": "tb = '''Traceback (most recent call last):\n  File \"cli.py\", line 10, in main\n    run()\n  File \"pipeline.py\", line 4, in run\n    normalize(row)\n  File \"normalize.py\", line 2, in normalize\n    return row[\"email\"]\nKeyError: 'email'\n'''\n# TODO: extraer main, run, normalize",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "guided",
+      "hints": [
+        "Busca líneas 'File' o patrones 'in nombre'.",
+        "Imprime frame1, frame2, frame3."
+      ]
+    },
+    {
+      "id": "S09-T2-A-E2",
+      "instruction": "Simula un 'breakpoint': en normalize, si falta email, imprime locals seguros (solo id) y lanza KeyError.",
+      "starterCode": "DEBUG = True\n\ndef normalize(row: dict) -> str:\n    # TODO\n    ...\n\ntry:\n    print(normalize({\"id\": \"C009\"}))\nexcept KeyError as e:\n    print(\"raised\", e)",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "independent",
+      "hints": [
+        "No imprimas el row completo si pudiera tener PII.",
+        "Usa un flag DEBUG."
+      ]
+    },
+    {
+      "id": "S09-T2-A-E3",
+      "instruction": "Solo con el traceback, imprime la causa raíz en una frase (función + clave faltante).",
+      "starterCode": "tb = '''Traceback (most recent call last):\n  File \"app.py\", line 1, in <module>\n    normalize({\"id\": 1})\n  File \"app.py\", line 1, in normalize\n    return row[\"email\"].lower()\nKeyError: 'email'\n'''\n# TODO",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "transfer",
+      "hints": [
+        "No re-ejecutes el código original; parsea el texto.",
+        "Formato: causa_raiz=normalize falta clave email"
+      ]
+    },
+    {
+      "id": "S09-T2-B-E1",
+      "instruction": "Recorta la fixture a la fila mínima que hace fallar `parse_dni` (debe ser 8 dígitos).",
+      "starterCode": "def parse_dni(d: str) -> str:\n    if not (d.isdigit() and len(d) == 8):\n        raise ValueError(f\"dni inválido: {d!r}\")\n    return d\n\nfixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"]\n# TODO: minimal repro del primer fallo",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "guided",
+      "hints": [
+        "Encuentra el primer fallido y re-ejecuta solo ese.",
+        "Imprime minimal=..."
+      ]
+    },
+    {
+      "id": "S09-T2-B-E2",
+      "instruction": "Un reporte afirma que `normalize_phone` perdió el código de país +51. Formula 2 hipótesis y experimentos que distingan el símbolo `+` de los dígitos de país `51`, según el contrato de S07.",
+      "starterCode": "def normalize_phone(p: str) -> str:\n    # contrato S07: solo dígitos, incluido el prefijo de país si llegó\n    return \"\".join(c for c in p if c.isdigit())\n\n# TODO: hipótesis + experimentos",
+      "tests": "Contrato exacto: '+51 999 111 222'→'51999111222'; '999 111 222'→'999111222'; afirmar country_digits_preserved=True y plus_symbol_expected=False.",
+      "kind": "independent",
+      "hints": [
+        "El formato normalizado contiene solo dígitos: debe conservar 51, no el carácter +.",
+        "Compara +51 999 111 222 con 999 111 222 para aislar el prefijo de país."
+      ]
+    },
+    {
+      "id": "S09-T2-B-E3",
+      "instruction": "Añade un test de regresión: falla en rojo con la función bugueada y pasa tras el fix.",
+      "starterCode": "def bad_title(s: str) -> str:\n    return s.title()\n\ndef good_title(s: str) -> str:\n    # TODO: no capitalizar partículas de/del/la\n    ...\n\ndef test(fn):\n    out = fn(\"juan de la cruz\")\n    assert out == \"Juan de la Cruz\", out\n    return \"pass\"\n\n# TODO: red then green",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "transfer",
+      "hints": [
+        "Imprime RED luego GREEN.",
+        "Bug: title-case rompe 'de la'."
+      ]
+    },
+    {
+      "id": "S09-T3-A-E1",
+      "instruction": "Asigna el nivel correcto (DEBUG/INFO/WARNING/ERROR) a 6 eventos e imprime `evento: NIVEL`.",
+      "starterCode": "eventos = [\n    \"job iniciado\",\n    \"valor de variable i en loop\",\n    \"fila sin email opcional\",\n    \"no se pudo parsear monto\",\n    \"archivo de config ilegible\",\n    \"lote terminado con conteos\",\n]\n# TODO",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "guided",
+      "hints": [
+        "Progreso normal → INFO; detalle de loop → DEBUG; fila rara → WARNING; fallo de unidad → ERROR.",
+        "Config inválida al arrancar también ERROR (o CRITICAL; usa ERROR aquí)."
+      ]
+    },
+    {
+      "id": "S09-T3-A-E2",
+      "instruction": "Configura un logger de módulo con StreamHandler a un StringIO y emite un INFO estructurado.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport logging, io\nbuf = io.StringIO()\nlog = logging.getLogger(\"familiarity.ingest\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\nlog.info(\"stage=ingest event=start\")\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(buf.getvalue().strip())\n",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "independent",
+      "hints": [
+        "propagate=False; formatter simple.",
+        "Mensaje: stage=ingest event=start"
+      ]
+    },
+    {
+      "id": "S09-T3-A-E3",
+      "instruction": "Convierte prints de un CLI stub a logs estructurados; stdout final solo con el resultado.",
+      "starterCode": "import logging, io, sys\n\ndef cli_stub_bad(n):\n    print(\"empezando\")\n    print(\"sumando\")\n    print(n + 1)\n\n# TODO: cli_stub_good",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "transfer",
+      "hints": [
+        "Progreso a logger; resultado con print o stdout data.",
+        "Debe verse un log INFO y la línea RESULT=3."
+      ]
+    },
+    {
+      "id": "S09-T3-B-E1",
+      "instruction": "Implementa `mask_email` y `mask_phone` y demuéstralos con datos sintéticos peruanos.",
+      "starterCode": "def mask_email(email: str) -> str:\n    ...\n\ndef mask_phone(phone: str) -> str:\n    ...\n\nprint(mask_email(\"carlos@ejemplo.pe\"))\nprint(mask_phone(\"+51 988 777 666\"))",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "guided",
+      "hints": [
+        "email: primer char + ***@dominio; phone: *** + últimos 4 dígitos.",
+        "Imprime ambas máscaras."
+      ]
+    },
+    {
+      "id": "S09-T3-B-E2",
+      "instruction": "Propaga `correlation_id` por 3 capas (cli → service → repo) e imprime el id en cada una.",
+      "starterCode": "def repo_save(corr, item):\n    ...\n\ndef service_upsert(corr, item):\n    ...\n\ndef cli_main(corr, item):\n    ...\n\ncli_main(\"corr-42\", {\"id\": \"C001\"})",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "independent",
+      "hints": [
+        "Pasa el id como argumento explícito (sin global).",
+        "Mismo id en las 3 líneas."
+      ]
+    },
+    {
+      "id": "S09-T3-B-E3",
+      "instruction": "Audita estáticamente el helper inseguro sin ejecutarlo ni imprimir PII raw; luego emite únicamente el log seguro redactado.",
+      "starterCode": "def unsafe_log(row):\n    return f\"error en {row['email']} tel={row['phone']}\"\n\nrow = {\"email\": \"a@ejemplo.pe\", \"phone\": \"999111222\"}\nprint(\"detected_unsafe\", \"email\" in unsafe_log.__code__.co_consts and \"phone\" in unsafe_log.__code__.co_consts)\n# TODO: safe_log; no llames unsafe_log(row)",
+      "tests": "Contrato exacto: stdout contiene solo 'detected_unsafe True' y 'SAFE error en a***@ejemplo.pe tel=***1222'; stdout no contiene a@ejemplo.pe ni 999111222.",
+      "kind": "transfer",
+      "hints": [
+        "Detecta email/teléfono en el mensaje.",
+        "Imprime detected_unsafe=True y SAFE: con email/teléfono redactados."
+      ]
+    },
+    {
+      "id": "S09-T4-A-E1",
+      "instruction": "Clasifica 8 fallos en data|config|provider e imprime `fallo: clase`.",
+      "starterCode": "fallos = [\n    \"monto NaN en CSV\",\n    \"YAML de config corrupto\",\n    \"timeout S3\",\n    \"email vacío en fila\",\n    \"required_fields no definido\",\n    \"HTTP 503 del proveedor\",\n    \"dni con letras\",\n    \"variable de entorno ROOT_PATH vacía\",\n]\n# TODO",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "guided",
+      "hints": [
+        "Config = arranque/schema; data = fila; provider = red/IO externo.",
+        "Sé consistente con la taxonomía de la teoría."
+      ]
+    },
+    {
+      "id": "S09-T4-A-E2",
+      "instruction": "Implementa `process_batch` que envía filas sin `id` a quarantine y retorna conteos.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef process_batch(rows):\n    ok, q = [], []\n    for r in rows:\n        if not r.get(\"id\"):\n            q.append({\"row\": r, \"reason\": \"data:missing_id\"})\n        else:\n            ok.append(r)\n    return {\"ok\": ok, \"quarantined\": q, \"in\": len(rows)}\n\nrows = [{\"id\": 1}, {}, {\"id\": 2}]\nr = process_batch(rows)\nassert r[\"in\"] == len(r[\"ok\"]) + len(r[\"quarantined\"])\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(r)\n",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "independent",
+      "hints": [
+        "Retorno: ok, quarantined, in.",
+        "Reconciliación in = len(ok)+len(quarantined)."
+      ]
+    },
+    {
+      "id": "S09-T4-A-E3",
+      "instruction": "Escribe una política en 3 líneas: cuándo abortar el job (imprime POLICY:...).",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrules = [\n    \"POLICY: abortar si falta config crítica (schema, delimiter, paths)\",\n    \"POLICY: abortar si quarantined/in > 0.5 en el lote\",\n    \"POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data\",\n]\nfor r in rules:\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(r)\n",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "transfer",
+      "hints": [
+        "Cubre config, umbral de cuarentena y provider total down.",
+        "Texto claro para operadores no dev."
+      ]
+    },
+    {
+      "id": "S09-T4-B-E1",
+      "instruction": "Tabla error → retry sí/no para 5 tipos e imprime `error: yes|no`.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nretry = {\n    \"TimeoutError\": \"yes\",\n    \"ValueError\": \"no\",\n    \"ConnectionError\": \"yes\",\n    \"KeyError\": \"no\",\n    \"PermissionError\": \"no\",\n}\nfor e, r in retry.items():\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(f\"{e}: {r}\")\n",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "guided",
+      "hints": [
+        "Solo transitorios: TimeoutError, ConnectionError.",
+        "ValueError/KeyError/PermissionError → no."
+      ]
+    },
+    {
+      "id": "S09-T4-B-E2",
+      "instruction": "Implementa `retry_call(fn, max_attempts=3)` que reintenta solo TimeoutError.",
+      "starterCode": "def retry_call(fn, max_attempts=3):\n    # TODO\n    ...\n\nn = {\"c\": 0}\n\ndef flaky():\n    n[\"c\"] += 1\n    if n[\"c\"] < 3:\n        raise TimeoutError(\"x\")\n    return \"done\"\n\nprint(retry_call(flaky), \"calls\", n[\"c\"])",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "independent",
+      "hints": [
+        "Devuelve el resultado o relanza el último TimeoutError.",
+        "Cuenta intentos en un cierre."
+      ]
+    },
+    {
+      "id": "S09-T4-B-E3",
+      "instruction": "Diseña la clave de idempotencia para re-ingesta e imprímela para un ejemplo.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib, json\nrecord = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"m\": 1}}\npayload_hash = hashlib.sha256(\n    json.dumps(record[\"payload\"], sort_keys=True).encode()\n).hexdigest()[:12]\nkey = f\"{record['source']}:{record['id']}:v{record['version']}:{payload_hash}\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"idem_key=\" + key)\n",
+      "tests": "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+      "kind": "transfer",
+      "hints": [
+        "Incluye source, record_id y content_hash o version.",
+        "Formato: idem_key=..."
+      ]
+    }
+  ]
+}

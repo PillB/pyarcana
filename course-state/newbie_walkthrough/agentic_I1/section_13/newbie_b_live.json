@@ -1,0 +1,268 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 13,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-s13-skeptic-13b7e",
+  "production_note": "agentic_I1 dual-LLM packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S13-T1-A-E1",
+      "code": "import re\ndef norm_name(n):\n    n = n.casefold()\n    n = re.sub(r\"[^\\w\\s]\", \" \", n, flags=re.UNICODE)\n    return re.sub(r\"\\s+\", \" \", n).strip()\nprint(norm_name(\"  Ana, María  \"))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T1-A-E1 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T1-A-E2",
+      "code": "def blocking_key(rec):\n    parts = rec.get(\"name\", \"\").split()\n    if len(parts) >= 2:\n        return parts[1].casefold()  # segundo token ~ apellido paterno\n    return parts[0].casefold() if parts else \"\"\nprint(blocking_key({\"name\": \"Ana Ramos\"}))\nprint(blocking_key({\"name\": \"Luis\"}))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T1-A-E2 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T1-A-E3",
+      "code": "import re\ndef norm_doc(d):\n    return re.sub(r\"\\D\", \"\", str(d))\n\ndef blocking_key(rec):\n    parts = str(rec.get(\"name\", \"\")).split()\n    return parts[1].casefold() if len(parts) >= 2 else (parts[0].casefold() if parts else \"\")\n\ndef er_score(a, b):\n    if norm_doc(a.get(\"doc\")) and norm_doc(a.get(\"doc\")) == norm_doc(b.get(\"doc\")) and blocking_key(a) == blocking_key(b):\n        return 1.0\n    if blocking_key(a) and blocking_key(a) == blocking_key(b):\n        return 0.5\n    return 0.0\nprint(er_score({\"doc\": \"12345678\", \"name\": \"Ana Ramos\"}, {\"doc\": \"12345678\", \"name\": \"Ana Ramos\"}))\nprint(er_score({\"doc\": \"1\", \"name\": \"Ana Ramos\"}, {\"doc\": \"2\", \"name\": \"Luis Ramos\"}))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T1-A-E3 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T1-B-E1",
+      "code": "tp, fp, fn = 8, 2, 2\nprecision = tp / (tp + fp)\nrecall = tp / (tp + fn)\nprint(round(precision, 3), round(recall, 3))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T1-B-E1 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T1-B-E2",
+      "code": "pairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\ndef clerical_queue(pairs, low=0.4, high=0.7):\n    return [p for p in pairs if low <= p[\"score\"] < high]\nprint(clerical_queue(pairs))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T1-B-E2 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T1-B-E3",
+      "code": "print(\"false positive ER = error de matching; no es veredicto legal de fraude\")\nprint(\"zona gris → needs_review / abstenerse según política\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T1-B-E3 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T2-A-E1",
+      "code": "def shared_email(a, b):\n    return bool(a and b and a.casefold() == b.casefold())\nprint(shared_email(\"A@B.PE\", \"a@b.pe\"))\nprint(shared_email(None, \"a@b.pe\"))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T2-A-E1 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T2-A-E2",
+      "code": "def rel_score(km, surname_jaccard):\n    geo = max(0.0, 1.0 - (km or 99) / 10.0)\n    return round(0.5 * geo + 0.5 * surname_jaccard, 3)\nprint(rel_score(1.0, 0.8))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T2-A-E2 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T2-A-E3",
+      "code": "print(\"ER score y relationship_signal_score se mantienen separados en la ficha de caso\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T2-A-E3 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T2-B-E1",
+      "code": "txs = [(\"A\", \"B\", 10), (\"C\", \"D\", 1), (\"B\", \"A\", 5)]\ndef direct_txs(txs, a, b):\n    return [t for t in txs if set(t[:2]) == {a, b}]\nprint(direct_txs(txs, \"A\", \"B\"))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T2-B-E1 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T2-B-E2",
+      "code": "txs = [(\"A\", \"D\", 1), (\"C\", \"D\", 1), (\"A\", \"E\", 1), (\"C\", \"F\", 1)]\ndef neighbors(txs, node):\n    n = set()\n    for a, b, _ in txs:\n        if a == node:\n            n.add(b)\n        if b == node:\n            n.add(a)\n    return n\nprint(neighbors(txs, \"A\") & neighbors(txs, \"C\"))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T2-B-E2 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T2-B-E3",
+      "code": "print(\"grafo de txs: co-neighbors son señal débil; no auto-familia\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T2-B-E3 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T3-A-E1",
+      "code": "def explanation_bullets(er, rel, missing):\n    return [\n        f\"entity_resolution_score={er}\",\n        f\"relationship_signal_score={rel}\",\n        f\"missing_fields={missing}\",\n    ]\nprint(explanation_bullets(0.8, 0.3, [\"phone\"]))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T3-A-E1 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T3-A-E2",
+      "code": "def uncertainty_band(missing, conflict):\n    if conflict:\n        return \"conflict\"\n    if missing:\n        return \"missing_data\"\n    return \"clear\"\nprint(uncertainty_band(True, False), uncertainty_band(False, True), uncertainty_band(False, False))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T3-A-E2 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T3-A-E3",
+      "code": "er, rel = 0.9, 0.1\nconflict = abs(er - rel) > 0.5\nprint(\"conflict\", conflict)\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T3-A-E3 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T3-B-E1",
+      "code": "thresholds = {\n    \"accept_min\": 0.8,\n    \"review_low\": 0.4,\n}\nprint(\"bands: below review_low -> abstain; review_low to accept_min -> needs_review; >= accept_min -> accept\")\nprint(thresholds)\n",
+      "justification_from_packet": "Skeptic: thresholds del ops status S13-T3-B; imprimí límites y política de bandas sin dejar brackets desbalanceados en strings.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T3-B-E2",
+      "code": "from math import isfinite\n\nth = {\"accept_min\": 0.8, \"review_low\": 0.4}\n\ndef decide_ops_status(score, unc, th):\n    if score is None or not isfinite(score) or not (0 <= score <= 1):\n        return \"invalid_input\"\n    if unc == \"high\":\n        return \"needs_review\"\n    if score < th[\"review_low\"]:\n        return \"abstain\"\n    if score < th[\"accept_min\"]:\n        return \"needs_review\"\n    return \"accept_partial\"\n\nfor s, u in [(None, \"clear\"), (0.2, \"clear\"), (0.5, \"clear\"), (0.9, \"clear\"), (0.9, \"high\")]:\n    print(s, u, \"→\", decide_ops_status(s, u, th))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T3-B-E2 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T3-B-E3",
+      "code": "row = {\"score\": 0.9, \"password\": \"x\", \"token\": \"y\"}\nsafe = {k: v for k, v in row.items() if k not in {\"password\", \"token\"}}\nprint(safe)\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T3-B-E3 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T4-A-E1",
+      "code": "def pseudonymize(name):\n    parts = name.split()\n    return \" \".join((p[0] + \"***\") if p else p for p in parts)\nprint(pseudonymize(\"Ana Ramos\"))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T4-A-E1 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T4-A-E2",
+      "code": "def case_sheet(er, rel):\n    return {\n        \"entity_resolution_score\": er,\n        \"relationship_signal_score\": rel,\n    }\nprint(case_sheet(0.8, 0.3))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T4-A-E2 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T4-A-E3",
+      "code": "def map_tooltip(lat, lon, km, source):\n    return f\"lat={lat} lon={lon} km={km} source={source}\"\nprint(map_tooltip(-12.0, -77.0, 1.2, \"synthetic_geo\"))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T4-A-E3 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T4-B-E1",
+      "code": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nprint(privacy)\nprint(\"CF-1: privacy sheet + acceso + tests + demo + runbook\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T4-B-E1 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T4-B-E2",
+      "code": "def demo_command():\n    return \"python -m familiarity_dashboard.demo --synthetic\"\nprint(demo_command())\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T4-B-E2 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S13-T4-B-E3",
+      "code": "actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\nfor a in actions:\n    print(a)\nprint(\"level1 regression: re-chequear paths S01–S13 en runbook\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S13-T4-B-E3 con theory S13 (entity resolution, señales, ops status y CF-1); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S13"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic: no fusionar ER y rel en un solo número sin etiqueta en el dashboard.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "FP de matching ≠ fraude; el revisor ve evidencia, no sentencia.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Zona gris → clerical queue / abstain; nunca auto_fraud.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "CF-1 exige paquete de entrega: privacy, acceso, tests, demo, runbook.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Regresión de nivel 1 repasa caminos S01–S13 en el runbook de cierre.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T11:24:20Z",
+  "session_started_at": "2026-07-23T11:22:56Z",
+  "session_ended_at": "2026-07-23T11:24:20Z"
+}

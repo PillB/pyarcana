@@ -278,6 +278,8 @@ INCOMPLETE_CODE_PATTERNS = [
     r"elif x\s*$",
     r"nombre = [\"']x[\"']",  # produce_agent placeholder
     r"print\(r3\[\"errors\"\]\)\s*\n\s*print\(x,",  # known broken S02 scaffold
+    r"#\s*exploratory pass\b",
+    r"Transfer / protocolo",
 ]
 
 
@@ -584,21 +586,30 @@ def attempt_level_gates(attempt_id: str) -> list[dict]:
                 "detail": f"live mtime span {span_sec/60.0:.1f}m < 30m",
             })
 
-    # Mechanical identity-stamp ban (g2_agent / h_agent diversification)
+    # Mechanical identity-stamp ban (any dual-attempt diversification stamps)
     stamp_hits = 0
+    stamp_re = re.compile(
+        r"(g2_agent\s*=|h_agent\s*=|h1_out\s*=|h2_out\s*=|"
+        r"#\s*dual explorer-H|#\s*dual skeptic-H|"
+        r"#\s*dual explorer-|#\s*dual skeptic-|"
+        r"diversify_code|exploratory pass)",
+        re.I,
+    )
+    # identity stamp assignment (not "no identity stamps" denials)
+    identity_assign = re.compile(r"(?<!no )(?<!without )identity.?stamps?\s*=", re.I)
     for i in range(1, 53):
         for lab in ("newbie_a_live.json", "newbie_b_live.json"):
             lp = root / f"section_{i:02d}" / lab
             if not lp.exists():
                 continue
             blob = lp.read_text(encoding="utf-8", errors="ignore")
-            if re.search(r"\bg2_agent\s*=", blob) or re.search(r"\bh_agent\s*=", blob):
+            if stamp_re.search(blob) or identity_assign.search(blob):
                 stamp_hits += 1
     if stamp_hits:
         issues.append({
             "tag": "MECHANICAL_IDENTITY_STAMP",
             "severity": "P0",
-            "detail": f"files_with_g2_agent_or_h_agent_stamp={stamp_hits}",
+            "detail": f"files_with_identity_stamps={stamp_hits}",
         })
 
     # Independence vs prior_clean if declared

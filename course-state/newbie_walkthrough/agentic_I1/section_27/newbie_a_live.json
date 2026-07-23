@@ -1,0 +1,318 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer",
+  "attempt_id": "agentic_I1",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-explorer-s27-1784808000",
+  "production_note": "agentic_I1 dual-LLM Explorer: solved from quiz_card+slim_packet only; direct agent output; packet-only; no bulk writers; no stamps; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Explorer S27-T1-A-E1: leí instruction del quiz_card «S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): …» y completé el starter del slim_packet. Línea ancla: `impact, likelihood = 5, 4`. Hint del paquete: Multiplica enteros. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Explorer S27-T1-A-E2: leí instruction del quiz_card «S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la en…» y completé el starter del slim_packet. Línea ancla: `rows=[('e2e',2,1),('unit',5,5)]`. Hint del paquete: sorted reverse. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Explorer S27-T1-A-E3: leí instruction del quiz_card «S27-T1-A-E3 · Imprime True si la capa top es 'unit'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el start…» y completé el starter del slim_packet. Línea ancla: `top_layer='unit'`. Hint del paquete: compara layer. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Explorer S27-T1-B-E1: leí instruction del quiz_card «S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A  B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-…» y completé el starter del slim_packet. Línea ancla: `s=' A  B '`. Hint del paquete: casefold. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Explorer S27-T1-B-E2: leí instruction del quiz_card «S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): …» y completé el starter del slim_packet. Línea ancla: `raw='ANA'`. Hint del paquete: assert luego print. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Explorer S27-T1-B-E3: leí instruction del quiz_card «S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01,…» y completé el starter del slim_packet. Línea ancla: `a,b='X Y','x  y'`. Hint del paquete: normaliza ambos. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Explorer S27-T2-A-E1: leí instruction del quiz_card «S27-T2-A-E1 · Filtra nombres que empiezan con 'test_' de la lista dada. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la …» y completé el starter del slim_packet. Línea ancla: `names=['test_a','helper','test_b']`. Hint del paquete: startswith. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Explorer S27-T2-A-E2: leí instruction del quiz_card «S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la e…» y completé el starter del slim_packet. Línea ancla: `left,right='a','b'`. Hint del paquete: ternario. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Explorer S27-T2-A-E3: leí instruction del quiz_card «S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=c…» y completé el starter del slim_packet. Línea ancla: `case_id = \"CASO-LIM-SYN\"`. Hint del paquete: lista de tuplas. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nassert orig[0]['n']==1\nprint(orig[0]['n'])\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Explorer S27-T2-B-E1: leí instruction del quiz_card «S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-0…» y completé el starter del slim_packet. Línea ancla: `from copy import deepcopy`. Hint del paquete: deepcopy. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Explorer S27-T2-B-E2: leí instruction del quiz_card «S27-T2-B-E2 · Imprime 'function' como scope por defecto de fixture. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entr…» y completé el starter del slim_packet. Línea ancla: `case_id = \"CASO-LIM-SYN\"`. Hint del paquete: literal. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Explorer S27-T2-B-E3: leí instruction del quiz_card «S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cp…» y completé el starter del slim_packet. Línea ancla: `def make(n):`. Hint del paquete: list comp. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Explorer S27-T3-A-E1: leí instruction del quiz_card «S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entr…» y completé el starter del slim_packet. Línea ancla: `import math`. Hint del paquete: import math. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Explorer S27-T3-A-E2: leí instruction del quiz_card «S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es…» y completé el starter del slim_packet. Línea ancla: `try:`. Hint del paquete: try/except. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Explorer S27-T3-A-E3: leí instruction del quiz_card «S27-T3-A-E3 · Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip(). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-0…» y completé el starter del slim_packet. Línea ancla: `import tempfile`. Hint del paquete: tempfile. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "email=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(e)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Explorer S27-T3-B-E1: leí instruction del quiz_card «S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, …» y completé el starter del slim_packet. Línea ancla: `email=''`. Hint del paquete: raise ValueError. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Explorer S27-T3-B-E2: leí instruction del quiz_card «S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe)…» y completé el starter del slim_packet. Línea ancla: `s='sin-arroba'`. Hint del paquete: in. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Explorer S27-T3-B-E3: leí instruction del quiz_card «S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @exa…» y completé el starter del slim_packet. Línea ancla: `v=-1`. Hint del paquete: f-string !r. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Explorer S27-T4-A-E1: leí instruction del quiz_card «S27-T4-A-E1 · Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.p…» y completé el starter del slim_packet. Línea ancla: `def f(x):`. Hint del paquete: if/else. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Explorer S27-T4-A-E2: leí instruction del quiz_card «S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @exa…» y completé el starter del slim_packet. Línea ancla: `hit={'auto','review'}`. Hint del paquete: membership. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Explorer S27-T4-A-E3: leí instruction del quiz_card «S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example…» y completé el starter del slim_packet. Línea ancla: `k,n=2,3`. Hint del paquete: int(100*k/n). Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Explorer S27-T4-B-E1: leí instruction del quiz_card «S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (…» y completé el starter del slim_packet. Línea ancla: `raw=' a '`. Hint del paquete: compara. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Explorer S27-T4-B-E2: leí instruction del quiz_card «S27-T4-B-E2 · Falla útil: imprime dict con keys expected, actual para expected=1 actual=2. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01…» y completé el starter del slim_packet. Línea ancla: `case_id = \"CASO-LIM-SYN\"`. Hint del paquete: dict. Solo packet I1; sin lives de intentos previos."
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Explorer S27-T4-B-E3: leí instruction del quiz_card «S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.…» y completé el starter del slim_packet. Línea ancla: `case_id = \"CASO-LIM-SYN\"`. Hint del paquete: string. Solo packet I1; sin lives de intentos previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_option": "Pruebas unitarias",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q0: del stem «En la pirámide de pruebas, la base más ancha suele ser:» elijo «Pruebas unitarias» (idx 2). En theory/iDo del slim_packet activo se alinea con pirámide / pruebas / base / ancha; no usé correctIndex."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_option": "Una fuente de verdad determinista para el assert",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q1: del stem «Un oráculo confiable es:» elijo «Una fuente de verdad determinista para el assert» (idx 0). En theory/iDo del slim_packet activo se alinea con oráculo / confiable; no usé correctIndex."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_option": "El contrato es débil; el mutante sobrevivió",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q2: del stem «Si mutas un casefold y ningún test falla:» elijo «El contrato es débil; el mutante sobrevivió» (idx 1). En theory/iDo del slim_packet activo se alinea con mutas / casefold / ningún / test; no usé correctIndex."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_option": "Contratos de misma entidad / normalización — no riesgo ni relación",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q3: del stem «Las pruebas de matching en CP-N3-A demuestran:» elijo «Contratos de misma entidad / normalización — no riesgo ni relación» (idx 3). En theory/iDo del slim_packet activo se alinea con pruebas / matching / demuestran; no usé correctIndex."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:00:22+00:00",
+  "session_started_at": "2026-07-23T12:00:00+00:00",
+  "session_ended_at": "2026-07-23T12:00:22+00:00"
+}

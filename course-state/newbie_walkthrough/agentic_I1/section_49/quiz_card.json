@@ -1,0 +1,494 @@
+{
+  "section_index": 49,
+  "title": "Agentes, herramientas y context engineering",
+  "outcomes": [
+    "Elige workflow vs agente",
+    "Diseña routing planner/evaluator",
+    "Define tools de responsabilidad única",
+    "Esquema, permisos e idempotencia de tools",
+    "Minimiza contexto con JIT y checkpoints",
+    "Compacta memoria y conserva LKG",
+    "Define stops y budgets",
+    "Sandbox, aprobación humana y recovery"
+  ],
+  "theory": [
+    {
+      "subtopicId": "S49-T1-A",
+      "heading": "workflow vs agente",
+      "paragraphs": [
+        "Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable.",
+        "Contrato operativo. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida de este subtema: ADR workflow/agente con baseline. Error: tool no permitida, argumento inválido, presupuesto agotado o estado incierto detiene el run. Criterio de éxito: cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible.",
+        "Aplicación de `workflow vs agente` al caso peruano sintético `CASO-AYA-049`: un workflow sintético de preparación de reportes para una entidad ficticia en Ayacucho. La evidencia esperada es ADR workflow/agente con baseline. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S49-T1-B",
+      "heading": "routing, planner/worker y evaluator–optimizer",
+      "paragraphs": [
+        "Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto entre roles.",
+        "Contrato operativo. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida de este subtema: trayectoria con roles y máximo de iteraciones. Error: tool no permitida, argumento inválido, presupuesto agotado o estado incierto detiene el run. Criterio de éxito: cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible.",
+        "Aplicación de `routing, planner/worker y evaluator–optimizer` al caso peruano sintético `CASO-AYA-049`: un workflow sintético de preparación de reportes para una entidad ficticia en Ayacucho. La evidencia esperada es trayectoria con roles y máximo de iteraciones. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S49-T2-A",
+      "heading": "funciones de responsabilidad única",
+      "paragraphs": [
+        "Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede autoridad.",
+        "Contrato operativo. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida de este subtema: tool contract con casos válidos/inválidos. Error: tool no permitida, argumento inválido, presupuesto agotado o estado incierto detiene el run. Criterio de éxito: cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible.",
+        "Aplicación de `funciones de responsabilidad única` al caso peruano sintético `CASO-AYA-049`: un workflow sintético de preparación de reportes para una entidad ficticia en Ayacucho. La evidencia esperada es tool contract con casos válidos/inválidos. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S49-T2-B",
+      "heading": "schema, permisos, idempotencia y errores",
+      "paragraphs": [
+        "Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin filtrar secretos.",
+        "Contrato operativo. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida de este subtema: replay y denegación de tool probados. Error: tool no permitida, argumento inválido, presupuesto agotado o estado incierto detiene el run. Criterio de éxito: cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible.",
+        "Aplicación de `schema, permisos, idempotencia y errores` al caso peruano sintético `CASO-AYA-049`: un workflow sintético de preparación de reportes para una entidad ficticia en Ayacucho. La evidencia esperada es replay y denegación de tool probados. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S49-T3-A",
+      "heading": "contexto mínimo, retrieval JIT y checkpoints",
+      "paragraphs": [
+        "Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras efectos durables.",
+        "Contrato operativo. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida de este subtema: reanudación desde checkpoint consistente. Error: tool no permitida, argumento inválido, presupuesto agotado o estado incierto detiene el run. Criterio de éxito: cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible.",
+        "Aplicación de `contexto mínimo, retrieval JIT y checkpoints` al caso peruano sintético `CASO-AYA-049`: un workflow sintético de preparación de reportes para una entidad ficticia en Ayacucho. La evidencia esperada es reanudación desde checkpoint consistente. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S49-T3-B",
+      "heading": "memoria, compaction y last-known-good",
+      "paragraphs": [
+        "Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good permite volver a estado seguro.",
+        "Contrato operativo. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida de este subtema: compaction no pierde restricción crítica. Error: tool no permitida, argumento inválido, presupuesto agotado o estado incierto detiene el run. Criterio de éxito: cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible.",
+        "Aplicación de `memoria, compaction y last-known-good` al caso peruano sintético `CASO-AYA-049`: un workflow sintético de preparación de reportes para una entidad ficticia en Ayacucho. La evidencia esperada es compaction no pierde restricción crítica. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S49-T4-A",
+      "heading": "stopping conditions y budgets",
+      "paragraphs": [
+        "Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explícito, no continuación infinita.",
+        "Contrato operativo. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida de este subtema: budget exhaustion termina con razón. Error: tool no permitida, argumento inválido, presupuesto agotado o estado incierto detiene el run. Criterio de éxito: cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible.",
+        "Aplicación de `stopping conditions y budgets` al caso peruano sintético `CASO-AYA-049`: un workflow sintético de preparación de reportes para una entidad ficticia en Ayacucho. La evidencia esperada es budget exhaustion termina con razón. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S49-T4-B",
+      "heading": "sandbox, human approval y recuperación",
+      "paragraphs": [
+        "Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con efecto.",
+        "Contrato operativo. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida de este subtema: acción de producción imposible sin aprobación. Error: tool no permitida, argumento inválido, presupuesto agotado o estado incierto detiene el run. Criterio de éxito: cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible.",
+        "Aplicación de `sandbox, human approval y recuperación` al caso peruano sintético `CASO-AYA-049`: un workflow sintético de preparación de reportes para una entidad ficticia en Ayacucho. La evidencia esperada es acción de producción imposible sin aprobación. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    }
+  ],
+  "iDo": {
+    "steps": [
+      {
+        "demoId": "S49-T1-A-DEMO",
+        "subtopicId": "S49-T1-A",
+        "environment": "local-python",
+        "description": "Demo: workflow vs agente",
+        "why": "Hace observable `workflow vs agente` con un caso local pequeño y deja como evidencia ADR workflow/agente con baseline; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S49-T1-B-DEMO",
+        "subtopicId": "S49-T1-B",
+        "environment": "local-python",
+        "description": "Demo: routing, planner/worker y evaluator–optimizer",
+        "why": "Hace observable `routing, planner/worker y evaluator–optimizer` con un caso local pequeño y deja como evidencia trayectoria con roles y máximo de iteraciones; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S49-T2-A-DEMO",
+        "subtopicId": "S49-T2-A",
+        "environment": "local-python",
+        "description": "Demo: funciones de responsabilidad única",
+        "why": "Hace observable `funciones de responsabilidad única` con un caso local pequeño y deja como evidencia tool contract con casos válidos/inválidos; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S49-T2-B-DEMO",
+        "subtopicId": "S49-T2-B",
+        "environment": "local-python",
+        "description": "Demo: schema, permisos, idempotencia y errores",
+        "why": "Hace observable `schema, permisos, idempotencia y errores` con un caso local pequeño y deja como evidencia replay y denegación de tool probados; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S49-T3-A-DEMO",
+        "subtopicId": "S49-T3-A",
+        "environment": "local-python",
+        "description": "Demo: contexto mínimo, retrieval JIT y checkpoints",
+        "why": "Hace observable `contexto mínimo, retrieval JIT y checkpoints` con un caso local pequeño y deja como evidencia reanudación desde checkpoint consistente; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S49-T3-B-DEMO",
+        "subtopicId": "S49-T3-B",
+        "environment": "local-python",
+        "description": "Demo: memoria, compaction y last-known-good",
+        "why": "Hace observable `memoria, compaction y last-known-good` con un caso local pequeño y deja como evidencia compaction no pierde restricción crítica; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S49-T4-A-DEMO",
+        "subtopicId": "S49-T4-A",
+        "environment": "local-python",
+        "description": "Demo: stopping conditions y budgets",
+        "why": "Hace observable `stopping conditions y budgets` con un caso local pequeño y deja como evidencia budget exhaustion termina con razón; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S49-T4-B-DEMO",
+        "subtopicId": "S49-T4-B",
+        "environment": "local-python",
+        "description": "Demo: sandbox, human approval y recuperación",
+        "why": "Hace observable `sandbox, human approval y recuperación` con un caso local pequeño y deja como evidencia acción de producción imposible sin aprobación; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      }
+    ]
+  },
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049?",
+      "options": [
+        "ADR workflow/agente con baseline",
+        "un print sin assert ni versión",
+        "una captura de pantalla sin fuente",
+        "datos personales reales para que parezca auténtico"
+      ]
+    },
+    {
+      "question": "Si ocurre la condición de error de S49, ¿qué respuesta preserva seguridad y auditabilidad?",
+      "options": [
+        "continuar y ocultar el warning",
+        "inventar evidencia faltante",
+        "emitir STOP_AGENT y conservar evidencia",
+        "borrar el trace para reducir ruido"
+      ]
+    },
+    {
+      "question": "¿Cuál resultado demuestra el gate `CP-N4-C · agente acotado con aprobación humana`?",
+      "options": [
+        "el archivo S49 existe, aunque no pruebe el gate",
+        "el README afirma que funciona",
+        "se usó la herramienta más nueva",
+        "cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible"
+      ]
+    },
+    {
+      "question": "¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso?",
+      "options": [
+        "reemplazarlo por datos reales sin consentimiento",
+        "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+        "subir secretos para facilitar la demo",
+        "inferir fraude o parentesco desde ER"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S49-T1-A-E1",
+      "instruction": "S49-T1-A-E1 · Calcula el contrato de `workflow vs agente` sobre `CASO-AYA-049-1A`. La entrada es el dict completo del starter; la operación debe demostrar workflow preferido cuando pasos conocidos y baseline gana. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S49-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `KEEP_DETERMINISTIC_WORKFLOW` en E2.",
+      "hints": [
+        "Relaciona los campos `known_steps`, `branch_count`, `tool_choice_uncertain`, `baseline_success`, `agent_success` con la regla explicada en S49-T1-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva ADR workflow/agente con baseline; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-AYA-049-1A` satisface un predicado de dominio real; imprime `S49-T1-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"tool_choice_uncertain\":False,\"baseline_success\":0.96,\"agent_success\":0.9}}\nmeets_contract = not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"]\nstatus = \"PASS\" if meets_contract else \"KEEP_DETERMINISTIC_WORKFLOW\"\nprint(\"S49-T1-A\", status)\n"
+    },
+    {
+      "id": "S49-T1-A-E2",
+      "instruction": "S49-T1-A-E2 · Modela tres rutas de `workflow vs agente`: fixture válido, fixture adverso y registro sin `agent_success`. Entrada: dict con case_id, known_steps, branch_count, tool_choice_uncertain, baseline_success, agent_success. Salidas exactas: `PASS`, `KEEP_DETERMINISTIC_WORKFLOW`, `MISSING:agent_success`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a agent_success debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S49-T1-A: workflow preferido cuando pasos conocidos y baseline gana. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `agent_success` ausente y produce exactamente `PASS KEEP_DETERMINISTIC_WORKFLOW MISSING:agent_success`.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T1-A-E3",
+      "instruction": "S49-T1-A-E3 · Simula fallo cerrado para `workflow vs agente` con tres fixtures distintos. `CASO-AYA-049-1A` debe continuar, el adverso debe devolver `KEEP_DETERMINISTIC_WORKFLOW` y la ausencia de `agent_success` debe devolver `RUN_AGENT_BASELINE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `RUN_AGENT_BASELINE` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró workflow preferido cuando pasos conocidos y baseline gana; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-AYA-049-1A`, adverso y sin `agent_success` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T1-B-E1",
+      "instruction": "S49-T1-B-E1 · Compara el contrato de `routing, planner/worker y evaluator–optimizer` sobre `CASO-AYA-049-1B`. La entrada es el dict completo del starter; la operación debe demostrar ruta válida, plan acotado, outputs completos y evaluación. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S49-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `STOP_AGENT_LOOP` en E2.",
+      "hints": [
+        "Relaciona los campos `route`, `plan_steps`, `max_steps`, `worker_outputs`, `evaluator_pass` con la regla explicada en S49-T1-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva trayectoria con roles y máximo de iteraciones; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-AYA-049-1B` satisface un predicado de dominio real; imprime `S49-T1-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_steps\":5,\"worker_outputs\":3,\"evaluator_pass\":True}}\nmeets_contract = record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"]\nstatus = \"PASS\" if meets_contract else \"STOP_AGENT_LOOP\"\nprint(\"S49-T1-B\", status)\n"
+    },
+    {
+      "id": "S49-T1-B-E2",
+      "instruction": "S49-T1-B-E2 · Verifica tres rutas de `routing, planner/worker y evaluator–optimizer`: fixture válido, fixture adverso y registro sin `evaluator_pass`. Entrada: dict con case_id, route, plan_steps, max_steps, worker_outputs, evaluator_pass. Salidas exactas: `PASS`, `STOP_AGENT_LOOP`, `MISSING:evaluator_pass`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a evaluator_pass debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S49-T1-B: ruta válida, plan acotado, outputs completos y evaluación. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `evaluator_pass` ausente y produce exactamente `PASS STOP_AGENT_LOOP MISSING:evaluator_pass`.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T1-B-E3",
+      "instruction": "S49-T1-B-E3 · Extiende fallo cerrado para `routing, planner/worker y evaluator–optimizer` con tres fixtures distintos. `CASO-AYA-049-1B` debe continuar, el adverso debe devolver `STOP_AGENT_LOOP` y la ausencia de `evaluator_pass` debe devolver `REPLAN_WITH_BOUNDS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REPLAN_WITH_BOUNDS` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró ruta válida, plan acotado, outputs completos y evaluación; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-AYA-049-1B`, adverso y sin `evaluator_pass` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T2-A-E1",
+      "instruction": "S49-T2-A-E1 · Filtra el contrato de `funciones de responsabilidad única` sobre `CASO-AYA-049-2A`. La entrada es el dict completo del starter; la operación debe demostrar una responsabilidad, schema estrecho y error tipado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S49-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `DISABLE_OVERBROAD_TOOL` en E2.",
+      "hints": [
+        "Relaciona los campos `tool`, `responsibilities`, `schema_fields`, `side_effect`, `typed_errors` con la regla explicada en S49-T2-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva tool contract con casos válidos/inválidos; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-AYA-049-2A` satisface un predicado de dominio real; imprime `S49-T2-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibilities\":1,\"schema_fields\":{\"case_id\"},\"side_effect\":False,\"typed_errors\":True}}\nmeets_contract = record[\"responsibilities\"] > 1 or record[\"side_effect\"]\nstatus = \"PASS\" if meets_contract else \"DISABLE_OVERBROAD_TOOL\"\nprint(\"S49-T2-A\", status)\n"
+    },
+    {
+      "id": "S49-T2-A-E2",
+      "instruction": "S49-T2-A-E2 · Clasifica tres rutas de `funciones de responsabilidad única`: fixture válido, fixture adverso y registro sin `typed_errors`. Entrada: dict con case_id, tool, responsibilities, schema_fields, side_effect, typed_errors. Salidas exactas: `PASS`, `DISABLE_OVERBROAD_TOOL`, `MISSING:typed_errors`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a typed_errors debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S49-T2-A: una responsabilidad, schema estrecho y error tipado. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `typed_errors` ausente y produce exactamente `PASS DISABLE_OVERBROAD_TOOL MISSING:typed_errors`.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T2-A-E3",
+      "instruction": "S49-T2-A-E3 · Defiende fallo cerrado para `funciones de responsabilidad única` con tres fixtures distintos. `CASO-AYA-049-2A` debe continuar, el adverso debe devolver `DISABLE_OVERBROAD_TOOL` y la ausencia de `typed_errors` debe devolver `SPLIT_TOOL_CONTRACT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `SPLIT_TOOL_CONTRACT` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró una responsabilidad, schema estrecho y error tipado; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-AYA-049-2A`, adverso y sin `typed_errors` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T2-B-E1",
+      "instruction": "S49-T2-B-E1 · Modela el contrato de `schema, permisos, idempotencia y errores` sobre `CASO-AYA-049-2B`. La entrada es el dict completo del starter; la operación debe demostrar schema/scope válidos y retry con un solo efecto. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S49-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `DENY_TOOL_CALL` en E2.",
+      "hints": [
+        "Relaciona los campos `schema_valid`, `scope`, `granted`, `idempotency_key`, `attempts`, `effects`, `error_kind` con la regla explicada en S49-T2-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva replay y denegación de tool probados; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-AYA-049-2B` satisface un predicado de dominio real; imprime `S49-T2-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:prepare\",\"granted\":{\"report:prepare\"},\"idempotency_key\":\"tool-1\",\"attempts\":2,\"effects\":1,\"error_kind\":\"retryable\"}}\nmeets_contract = record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1\nstatus = \"PASS\" if meets_contract else \"DENY_TOOL_CALL\"\nprint(\"S49-T2-B\", status)\n"
+    },
+    {
+      "id": "S49-T2-B-E2",
+      "instruction": "S49-T2-B-E2 · Audita tres rutas de `schema, permisos, idempotencia y errores`: fixture válido, fixture adverso y registro sin `error_kind`. Entrada: dict con case_id, schema_valid, scope, granted, idempotency_key, attempts, effects, error_kind. Salidas exactas: `PASS`, `DENY_TOOL_CALL`, `MISSING:error_kind`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a error_kind debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S49-T2-B: schema/scope válidos y retry con un solo efecto. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `error_kind` ausente y produce exactamente `PASS DENY_TOOL_CALL MISSING:error_kind`.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T2-B-E3",
+      "instruction": "S49-T2-B-E3 · Recupera fallo cerrado para `schema, permisos, idempotencia y errores` con tres fixtures distintos. `CASO-AYA-049-2B` debe continuar, el adverso debe devolver `DENY_TOOL_CALL` y la ausencia de `error_kind` debe devolver `CLASSIFY_TOOL_ERROR`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `CLASSIFY_TOOL_ERROR` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró schema/scope válidos y retry con un solo efecto; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-AYA-049-2B`, adverso y sin `error_kind` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T3-A-E1",
+      "instruction": "S49-T3-A-E1 · Verifica el contrato de `contexto mínimo, retrieval JIT y checkpoints` sobre `CASO-AYA-049-3A`. La entrada es el dict completo del starter; la operación debe demostrar contexto bajo presupuesto, JIT, provenance y checkpoint. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S49-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `COMPACT_AND_CHECKPOINT` en E2.",
+      "hints": [
+        "Relaciona los campos `context_tokens`, `max_context_tokens`, `retrieved_just_in_time`, `checkpoint_after_effect`, `provenance` con la regla explicada en S49-T3-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva reanudación desde checkpoint consistente; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-AYA-049-3A` satisface un predicado de dominio real; imprime `S49-T3-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_tokens\":2000,\"retrieved_just_in_time\":True,\"checkpoint_after_effect\":True,\"provenance\":True}}\nmeets_contract = record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"]\nstatus = \"PASS\" if meets_contract else \"COMPACT_AND_CHECKPOINT\"\nprint(\"S49-T3-A\", status)\n"
+    },
+    {
+      "id": "S49-T3-A-E2",
+      "instruction": "S49-T3-A-E2 · Decide tres rutas de `contexto mínimo, retrieval JIT y checkpoints`: fixture válido, fixture adverso y registro sin `provenance`. Entrada: dict con case_id, context_tokens, max_context_tokens, retrieved_just_in_time, checkpoint_after_effect, provenance. Salidas exactas: `PASS`, `COMPACT_AND_CHECKPOINT`, `MISSING:provenance`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a provenance debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S49-T3-A: contexto bajo presupuesto, JIT, provenance y checkpoint. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `provenance` ausente y produce exactamente `PASS COMPACT_AND_CHECKPOINT MISSING:provenance`.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T3-A-E3",
+      "instruction": "S49-T3-A-E3 · Contrasta fallo cerrado para `contexto mínimo, retrieval JIT y checkpoints` con tres fixtures distintos. `CASO-AYA-049-3A` debe continuar, el adverso debe devolver `COMPACT_AND_CHECKPOINT` y la ausencia de `provenance` debe devolver `RETRIEVE_MINIMUM_CONTEXT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `RETRIEVE_MINIMUM_CONTEXT` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró contexto bajo presupuesto, JIT, provenance y checkpoint; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-AYA-049-3A`, adverso y sin `provenance` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T3-B-E1",
+      "instruction": "S49-T3-B-E1 · Clasifica el contrato de `memoria, compaction y last-known-good` sobre `CASO-AYA-049-3B`. La entrada es el dict completo del starter; la operación debe demostrar compaction conserva restricciones, retención y LKG. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S49-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `RESTORE_LAST_KNOWN_GOOD` en E2.",
+      "hints": [
+        "Relaciona los campos `facts_before`, `facts_after`, `memory_retention_days`, `last_known_good` con la regla explicada en S49-T3-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva compaction no pierde restricción crítica; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-AYA-049-3B` satisface un predicado de dominio real; imprime `S49-T3-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"no_prod_write\"},\"facts_after\":{\"case_id\",\"budget\",\"no_prod_write\"},\"memory_retention_days\":7,\"last_known_good\":\"cp-7\"}}\nmeets_contract = not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"]\nstatus = \"PASS\" if meets_contract else \"RESTORE_LAST_KNOWN_GOOD\"\nprint(\"S49-T3-B\", status)\n"
+    },
+    {
+      "id": "S49-T3-B-E2",
+      "instruction": "S49-T3-B-E2 · Calcula tres rutas de `memoria, compaction y last-known-good`: fixture válido, fixture adverso y registro sin `last_known_good`. Entrada: dict con case_id, facts_before, facts_after, memory_retention_days, last_known_good. Salidas exactas: `PASS`, `RESTORE_LAST_KNOWN_GOOD`, `MISSING:last_known_good`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a last_known_good debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S49-T3-B: compaction conserva restricciones, retención y LKG. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `last_known_good` ausente y produce exactamente `PASS RESTORE_LAST_KNOWN_GOOD MISSING:last_known_good`.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T3-B-E3",
+      "instruction": "S49-T3-B-E3 · Instrumenta fallo cerrado para `memoria, compaction y last-known-good` con tres fixtures distintos. `CASO-AYA-049-3B` debe continuar, el adverso debe devolver `RESTORE_LAST_KNOWN_GOOD` y la ausencia de `last_known_good` debe devolver `REVIEW_COMPACTION_LOSS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REVIEW_COMPACTION_LOSS` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró compaction conserva restricciones, retención y LKG; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-AYA-049-3B`, adverso y sin `last_known_good` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T4-A-E1",
+      "instruction": "S49-T4-A-E1 · Audita el contrato de `stopping conditions y budgets` sobre `CASO-AYA-049-4A`. La entrada es el dict completo del starter; la operación debe demostrar meta lograda dentro de pasos, tokens y costo. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S49-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `STOP_BUDGET_EXHAUSTED` en E2.",
+      "hints": [
+        "Relaciona los campos `goal_met`, `steps`, `max_steps`, `tokens`, `max_tokens`, `cost_pen`, `max_cost_pen` con la regla explicada en S49-T4-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva budget exhaustion termina con razón; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-AYA-049-4A` satisface un predicado de dominio real; imprime `S49-T4-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\":6,\"tokens\":3200,\"max_tokens\":5000,\"cost_pen\":0.04,\"max_cost_pen\":0.06}}\nmeets_contract = record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]\nstatus = \"PASS\" if meets_contract else \"STOP_BUDGET_EXHAUSTED\"\nprint(\"S49-T4-A\", status)\n"
+    },
+    {
+      "id": "S49-T4-A-E2",
+      "instruction": "S49-T4-A-E2 · Compara tres rutas de `stopping conditions y budgets`: fixture válido, fixture adverso y registro sin `max_cost_pen`. Entrada: dict con case_id, goal_met, steps, max_steps, tokens, max_tokens, cost_pen, max_cost_pen. Salidas exactas: `PASS`, `STOP_BUDGET_EXHAUSTED`, `MISSING:max_cost_pen`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a max_cost_pen debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S49-T4-A: meta lograda dentro de pasos, tokens y costo. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `max_cost_pen` ausente y produce exactamente `PASS STOP_BUDGET_EXHAUSTED MISSING:max_cost_pen`.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T4-A-E3",
+      "instruction": "S49-T4-A-E3 · Aísla fallo cerrado para `stopping conditions y budgets` con tres fixtures distintos. `CASO-AYA-049-4A` debe continuar, el adverso debe devolver `STOP_BUDGET_EXHAUSTED` y la ausencia de `max_cost_pen` debe devolver `ASK_FOR_SCOPE_REDUCTION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `ASK_FOR_SCOPE_REDUCTION` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró meta lograda dentro de pasos, tokens y costo; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-AYA-049-4A`, adverso y sin `max_cost_pen` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T4-B-E1",
+      "instruction": "S49-T4-B-E1 · Decide el contrato de `sandbox, human approval y recuperación` sobre `CASO-AYA-049-4B`. La entrada es el dict completo del starter; la operación debe demostrar sandbox mínimo, aprobación y reanudación sin repetir efectos. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S49-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `SANDBOX_AND_STOP` en E2.",
+      "hints": [
+        "Relaciona los campos `network`, `filesystem`, `sensitive_action`, `approval_required`, `approval_present`, `checkpoint`, `replayed_effects` con la regla explicada en S49-T4-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva acción de producción imposible sin aprobación; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-AYA-049-4B` satisface un predicado de dominio real; imprime `S49-T4-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"workspace-read\",\"sensitive_action\":\"prepare-draft\",\"approval_required\":True,\"approval_present\":True,\"checkpoint\":\"cp-9\",\"replayed_effects\":0}}\nmeets_contract = record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0\nstatus = \"PASS\" if meets_contract else \"SANDBOX_AND_STOP\"\nprint(\"S49-T4-B\", status)\n"
+    },
+    {
+      "id": "S49-T4-B-E2",
+      "instruction": "S49-T4-B-E2 · Filtra tres rutas de `sandbox, human approval y recuperación`: fixture válido, fixture adverso y registro sin `replayed_effects`. Entrada: dict con case_id, network, filesystem, sensitive_action, approval_required, approval_present, checkpoint, replayed_effects. Salidas exactas: `PASS`, `SANDBOX_AND_STOP`, `MISSING:replayed_effects`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a replayed_effects debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S49-T4-B: sandbox mínimo, aprobación y reanudación sin repetir efectos. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `replayed_effects` ausente y produce exactamente `PASS SANDBOX_AND_STOP MISSING:replayed_effects`.",
+      "starterCode": null
+    },
+    {
+      "id": "S49-T4-B-E3",
+      "instruction": "S49-T4-B-E3 · Demuestra fallo cerrado para `sandbox, human approval y recuperación` con tres fixtures distintos. `CASO-AYA-049-4B` debe continuar, el adverso debe devolver `SANDBOX_AND_STOP` y la ausencia de `replayed_effects` debe devolver `REQUEST_HUMAN_APPROVAL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_APPROVAL` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró sandbox mínimo, aprobación y reanudación sin repetir efectos; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-AYA-049-4B`, adverso y sin `replayed_effects` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    }
+  ],
+  "packet_sha": "2864233a4f8e529b",
+  "attempt_id": "agentic_I1"
+}
