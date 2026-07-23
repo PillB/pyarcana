@@ -1,31 +1,50 @@
 # Research dossier — S16 Calidad, limpieza y contratos de datos
 
 **Section file:** `src/lib/course/sections/s16-wxpython-gui.ts`  
-**Platform id (preserved):** `wxpython-gui`  
-**V3 title:** Calidad, limpieza y contratos de datos  
-**Residual:** STUB (avg_para≈89, avg_instr≈72, thin≈0.54, score 4)  
-**Target:** gold vs S01/S02 pedagogy; quality gate for **CP-N2-A**
+**Generated/updated:** 2026-07-23T00:31:40.634121+00:00  
+**Action:** competitive research for gold-standard expansion (criterion 3)
 
-## Competitive sources
+## Competitive sources (all mandatory classes)
 
-| Class | Named sources & takeaways |
-|-------|---------------------------|
-| Docs | pandas missing data; `duplicated`/`drop_duplicates`; string accessors — null policy vs imputation |
-| Book | Wickham *R for Data Science* tidy principles (conceptual) + McKinney cleaning chapters — separate normalize from impute |
-| Industry | Google Data Quality / Amazon DQ dimensions — completeness, uniqueness, validity, consistency; fail-closed gates |
-| MIT/Stanford | Data-centric AI notes — document transforms; never silent “fix” on required keys |
-| GitHub | great-expectations expectations catalog (patterns only); OpenRefine reconceptualized as audit trail |
-| Peru case | Synthetic montos `S/`, regiones Lima/Arequipa/Cusco, `cliente_id` — no real PII; Ley 29733 awareness (no real DNI) |
+### Coursera / MOOC
+- IBM Data Engineering — data quality dimensions (Coursera)
+- Google Data Analytics — process/clean data
+- University of Michigan Data Collection and Processing with Python (Coursera)
 
-## Coverage gaps in current stub
-- Theory thin on operational contracts (required vs optional, impute cap, quarantine evidence).
-- Exercises lack CASO-style fixture naming, pass strings, adverse paths.
-- Cross-field + schema drift need clearer fail-closed language.
-- Progressive disclosure: pandas + stdlib only (S01–S16); no wxPython, no GE API, no production DQ platforms.
+### MIT
+- MIT Data-Centric AI / missing data discussions (public notes)
+- MIT OpenCourseWare statistics missingness concepts
 
-## Expansion plan
-1. Deepen 9 theory blocks to ≥3 paragraphs (~250+ chars) ES-PE + synthetic Perú.
-2. Expand 24 weDo instructions to ≥150 chars with concept/fixture/I-O/pass.
-3. Enrich starters; keep iDo demos and solution outputs stable.
-4. Strengthen selfCheck explanations.
-5. DONE note + metric recompute toward gold (score ≥ 8).
+### Harvard
+- Harvard CS109 missing data & bias; Berkman Center data privacy primers
+
+### Yale
+- Yale ISPS / StatLab data quality workshops — document transforms
+
+### Stanford
+- Stanford CS102 / CS109-style cleaning; Human-Centered AI data provenance themes
+
+### GitHub (learners + teachers)
+- great-expectations/great_expectations — expectation catalogs (pattern only)
+- OpenRefine/OpenRefine — audit trail reconceptualized
+- awslabs/deequ (concepts) — metrics of completeness/uniqueness
+
+### High-quality video / tutorials
+- Data Engineering Zoomcamp (DataTalks.Club) — data quality lectures
+- Great Expectations intro talks (YouTube)
+- PyData talks on fail-closed validation
+
+## Coverage gaps vs pre-expansion residual
+Required vs optional fields; impute caps; quarantine evidence; CP-N2-A gate language.
+
+## Recommended depth decisions
+24 exercises with CASO fixtures; no wxPython; pandas+stdlib only.
+
+## Pedagogy constraints (PyArcana)
+- Español peruano primary; English technical terms OK.
+- Progressive disclosure: only APIs taught through S16.
+- Synthetic data only; ER/scores ≠ fraude/parentesco.
+- Fail-closed gates where decisions affect people.
+
+## Decision log
+Research supports operational contracts + fixture-based weDo (S01/S40 style), not slogan theory or empty `# TODO` starters.

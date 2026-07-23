@@ -723,8 +723,10 @@ print(msg.as_string().count('Content-Type:'))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import html
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import html
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(html.escape('<script>x</script>'))
 `,
         },
         solutionCode: {
@@ -752,9 +754,11 @@ print(html.escape('<script>x</script>'))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import html
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import html
 name = '<b>Ana</b>'
-# TODO: completa el contrato del ejercicio (ver instruction)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('Hola ' + html.escape(name))
 `,
         },
         solutionCode: {
@@ -846,9 +850,11 @@ print([s for s in requested if s in allowed])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `granted = ['mail.draft']
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+granted = ['mail.draft']
 bad = {'mail.full', 'admin'}
-# TODO: completa el contrato del ejercicio (ver instruction)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(bad.isdisjoint(granted))
 `,
         },
         solutionCode: {
@@ -911,9 +917,11 @@ valid`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `store = {}
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+store = {}
 store['d001'] = {'status': 'draft'}
-# TODO: completa el contrato del ejercicio (ver instruction)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(store['d001']['status'])
 `,
         },
         solutionCode: {
@@ -975,8 +983,15 @@ print(now < expires_at)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `store = {}
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+store = {}
+
+def create_draft():
+    i = f"d{len(store)+1:03d}"
+    store[i] = {'status': 'draft'}
+    return i
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(create_draft(), create_draft())
 `,
         },
         solutionCode: {
@@ -1115,8 +1130,10 @@ print(round(score, 2), 'match_no_es_fraude')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `xs = ['a@x', 'b@x', 'a@x']
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+xs = ['a@x', 'b@x', 'a@x']
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(list(dict.fromkeys(xs)))
 `,
         },
         solutionCode: {
@@ -1317,8 +1334,10 @@ print(log)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import hashlib
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import hashlib
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(hashlib.sha256(b'run|to|v1').hexdigest()[:8])
 `,
         },
         solutionCode: {
@@ -1346,8 +1365,16 @@ print(hashlib.sha256(b'run|to|v1').hexdigest()[:8])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `store = {}
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+store = {}
+
+def create(key):
+    if key in store:
+        return store[key]
+    store[key] = 'd1'
+    return store[key]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(create('k') == create('k'))
 `,
         },
         solutionCode: {

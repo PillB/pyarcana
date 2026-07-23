@@ -642,8 +642,19 @@ IQR 4.0`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import numpy as np
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import numpy as np
+
+def resumen(x):
+    x = np.asarray(x, dtype=float)
+    return {
+        "n": int(x.size),
+        "mean": round(float(x.mean()), 4),
+        "median": round(float(np.median(x)), 4),
+        "std": round(float(x.std(ddof=1)), 4),
+    }
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(resumen([1, 2, 3, 4, 5]))
 `,
         },
         solutionCode: {
@@ -816,9 +827,11 @@ print("share_Lima", round(share_lima, 2))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `share = 8 / 10
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+share = 8 / 10
 pob = 0.5
-# TODO: completa el contrato del ejercicio (ver instruction)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("bias_Lima_pp", round(share - pob, 2))
 `,
         },
         solutionCode: {
@@ -916,8 +929,10 @@ print("margen", round(margen, 3))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `d = (13 - 10) / 2
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+d = (13 - 10) / 2
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("d", round(d, 2))
 `,
         },
         solutionCode: {
@@ -1009,8 +1024,10 @@ print("r", round(float(np.corrcoef(x, y)[0, 1]), 3))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `r = 0.82
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+r = 0.82
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("asociacion_observada" if abs(r) > 0.5 else "asociacion_debil")
 `,
         },
         solutionCode: {
@@ -1231,8 +1248,10 @@ print(evidencia["pregunta"])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `median = 12
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+median = 12
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("solo_hallazgo" if median < 15 else "candidato_decision")
 `,
         },
         solutionCode: {
@@ -1301,8 +1320,10 @@ L: solo web`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `note = {"n_raw": 5, "n_final": 4, "filtros": ["monto>0"]}
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+note = {"n_raw": 5, "n_final": 4, "filtros": ["monto>0"]}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(note)
 `,
         },
         solutionCode: {
@@ -1330,8 +1351,10 @@ print(note)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import hashlib
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import hashlib
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(hashlib.sha1(b"a,b\\n1,2\\n").hexdigest()[:8])
 `,
         },
         solutionCode: {

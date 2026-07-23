@@ -962,9 +962,11 @@ print(len(ws.merged_cells.ranges))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `det = 10 + 5
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+det = 10 + 5
 portada = 15
-# TODO: completa el contrato del ejercicio (ver instruction)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(abs(det - portada) < 0.01)
 `,
         },
         solutionCode: {
@@ -1059,9 +1061,11 @@ False`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `expected = ["region", "monto"]
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+expected = ["region", "monto"]
 got = ["region", "monto"]
-# TODO: completa el contrato del ejercicio (ver instruction)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(expected == got)
 `,
         },
         solutionCode: {
@@ -1090,9 +1094,11 @@ print(expected == got)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `allowed = {"Lima", "Cusco"}
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+allowed = {"Lima", "Cusco"}
 regs = ["Lima", "Piura"]
-# TODO: completa el contrato del ejercicio (ver instruction)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print([r for r in regs if r not in allowed])
 `,
         },
         solutionCode: {
@@ -1153,8 +1159,10 @@ print(validate_rows([{"region": "Lima"}, {"region": "Ica"}], {"Lima", "Cusco"}))
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `st = ["ok", "corrupt", "ok"]
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+st = ["ok", "corrupt", "ok"]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(sum(x == "ok" for x in st))
 `,
         },
         solutionCode: {
@@ -1182,8 +1190,10 @@ print(sum(x == "ok" for x in st))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `name = "report.lock"
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+name = "report.lock"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("locked" if name.endswith(".lock") or "lock" in name else "ok")
 `,
         },
         solutionCode: {
@@ -1242,8 +1252,11 @@ print(dict(Counter(files.values())))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print({"backup": "out/prev.bak", "idempotent": True})
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print({"backup": "out/prev.bak", "idempotent": True})
 `,
         },
         solutionCode: {
@@ -1270,8 +1283,14 @@ print(dict(Counter(files.values())))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import hashlib
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import hashlib
+
+def dig(rows):
+    s = "\\n".join(f"{a},{b}" for a, b in sorted(rows))
+    return hashlib.sha1(s.encode()).hexdigest()
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(dig([("Lima", 1), ("Cusco", 2)]) == dig([("Cusco", 2), ("Lima", 1)]))
 `,
         },
         solutionCode: {

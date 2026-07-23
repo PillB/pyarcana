@@ -573,8 +573,10 @@ print(round(prec,2), round(rec,2), [i for i,(t,p) in enumerate(zip(yt,yp)) if t!
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `a=b='a'
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+a=b='a'
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(1.0 if a == b else 0.0)
 `,
         },
         solutionCode: {
@@ -602,7 +604,10 @@ print(1.0 if a == b else 0.0)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+ta,tb=set('a b'.split()),set('b c'.split())
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(len(ta&tb)/len(ta|tb))
 `,
         },
         solutionCode: {
@@ -630,8 +635,11 @@ print(len(ta&tb)/len(ta|tb))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from datetime import date
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+from datetime import date
+d=date(2026,1,1)
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(1.0 if d == d else 0.0)
 `,
         },
         solutionCode: {
@@ -660,8 +668,10 @@ print(1.0 if d == d else 0.0)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `a,b='', 'x'
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+a,b='', 'x'
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('missing' if (not a or not b) else 'cmp')
 `,
         },
         solutionCode: {
@@ -689,8 +699,10 @@ print('missing' if (not a or not b) else 'cmp')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `freq=10
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+freq=10
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(1 / freq)
 `,
         },
         solutionCode: {
@@ -718,7 +730,11 @@ print(1 / freq)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('informative_missing')
 `,
         },
         solutionCode: {
@@ -745,8 +761,10 @@ print(1 / freq)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `last,city='lopez','lima'
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+last,city='lopez','lima'
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(f'{last}|{city}')
 `,
         },
         solutionCode: {
@@ -774,8 +792,10 @@ print(f'{last}|{city}')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `found,gold_n=1,2
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+found,gold_n=1,2
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(found / gold_n)
 `,
         },
         solutionCode: {
@@ -803,8 +823,10 @@ print(found / gold_n)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `n=4
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+n=4
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(n*(n-1)//2)
 `,
         },
         solutionCode: {
@@ -832,8 +854,10 @@ print(n*(n-1)//2)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `sizes=[3,5]
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+sizes=[3,5]
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(sum(n*(n-1)//2 for n in sizes))
 `,
         },
         solutionCode: {
@@ -861,8 +885,10 @@ print(sum(n*(n-1)//2 for n in sizes))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ta,tb='person','org'
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+ta,tb='person','org'
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(ta != tb)
 `,
         },
         solutionCode: {
@@ -890,7 +916,11 @@ print(ta != tb)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('filter_before_score')
 `,
         },
         solutionCode: {
@@ -917,7 +947,11 @@ print(ta != tb)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))
 `,
         },
         solutionCode: {
@@ -944,8 +978,10 @@ print(ta != tb)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `s,t_high,t_low=0.7,0.9,0.5
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+s,t_high,t_low=0.7,0.9,0.5
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))
 `,
         },
         solutionCode: {
@@ -973,7 +1009,11 @@ print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print({'name': 0.9, 'email': 1.0})
 `,
         },
         solutionCode: {
@@ -1004,7 +1044,10 @@ print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))`,
 def find(x):
     while p[x]!=x: x=p[x]
     return x
-# TODO unions and print
+def union(a,b):
+    p[find(b)]=find(a)
+union(1,2); union(2,3)
+# TODO: imprime la salida contractual (ver instruction / solution output)
 `,
         },
         solutionCode: {
@@ -1038,7 +1081,11 @@ print(find(1)==find(3))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(['match', 'non_match', 'uncertain'])
 `,
         },
         solutionCode: {
@@ -1065,7 +1112,11 @@ print(find(1)==find(3))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('ER_only_same_entity')
 `,
         },
         solutionCode: {
@@ -1092,9 +1143,11 @@ print(find(1)==find(3))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `a,b='e1','e2'
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+a,b='e1','e2'
 train_e={'e1','e2','e3'}
-# TODO
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('train' if {a,b} <= train_e else 'test')
 `,
         },
         solutionCode: {
@@ -1123,8 +1176,10 @@ print('train' if {a,b} <= train_e else 'test')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `matches,n=1,5
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+matches,n=1,5
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(matches / n)
 `,
         },
         solutionCode: {
@@ -1152,7 +1207,11 @@ print(matches / n)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('entity_split')
 `,
         },
         solutionCode: {
@@ -1179,8 +1238,10 @@ print(matches / n)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `tp,fp=2,1
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+tp,fp=2,1
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(round(tp/(tp+fp), 2))
 `,
         },
         solutionCode: {
@@ -1208,8 +1269,10 @@ print(round(tp/(tp+fp), 2))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `tp,fn=2,2
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+tp,fn=2,2
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(tp/(tp+fn))
 `,
         },
         solutionCode: {
@@ -1237,7 +1300,11 @@ print(tp/(tp+fn))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(['missing_phone'])
 `,
         },
         solutionCode: {

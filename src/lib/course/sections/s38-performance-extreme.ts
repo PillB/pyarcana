@@ -697,10 +697,11 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s38-t2-a-e2.py",
-          code: `# defect: infinite buffer policy
-print("buffer_infinite")  # TODO: backpressure
-print("ok", True)
-print("maxsize", 0)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("backpressure")
 `,
         },
         solutionCode: {
@@ -731,9 +732,11 @@ maxsize 50`,
         starterCode: {
           language: 'python',
           title: "s38-t2-a-e3.py",
-          code: `print("only_cpu")  # TODO: rate limit protects provider
-print("ok", True)
-print("ban_risk", False)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("provider")
 `,
         },
         solutionCode: {
@@ -799,10 +802,10 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s38-t2-b-e2.py",
-          code: `close_in_finally = False  # TODO must be True
-print(close_in_finally)
-print("resource", "conn")
-print("ok", True)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+close_in_finally = True
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(close_in_finally)
 `,
         },
         solutionCode: {
@@ -834,9 +837,11 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s38-t2-b-e3.py",
-          code: `print("incident", False)  # TODO: hang without timeout is an incident
-print("ok", True)
-print("n", 1)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("incident", True)
 `,
         },
         solutionCode: {
@@ -902,10 +907,10 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s38-t3-a-e2.py",
-          code: `pillars = ["logs"]  # TODO: full three pillars
-print(pillars)
-print("ok", True)
-print("n", len(pillars))
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+pillars = ["logs", "metrics", "traces"]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(pillars)
 `,
         },
         solutionCode: {
@@ -937,10 +942,10 @@ n 3`,
         starterCode: {
           language: 'python',
           title: "s38-t3-a-e3.py",
-          code: `pii_raw = True  # TODO: must be False
-print(pii_raw)
-print("ok", True)
-print("redact", True)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+pii_raw = False
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(pii_raw)
 `,
         },
         solutionCode: {
@@ -1009,11 +1014,11 @@ pii False`,
         starterCode: {
           language: 'python',
           title: "s38-t3-b-e2.py",
-          code: `p95, limit = 100, 200
-slo_ok = p95 >= limit  # TODO: should be <=
-print(slo_ok)
-print("p95", p95)
-print("limit", limit)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+p95, limit = 100, 200
+slo_ok = p95 <= limit
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(slo_ok)
 `,
         },
         solutionCode: {
@@ -1046,9 +1051,11 @@ limit 200`,
         starterCode: {
           language: 'python',
           title: "s38-t3-b-e3.py",
-          code: `print("infinite_sla")  # TODO: error_budget
-print("ok", True)
-print("n", 1)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("error_budget")
 `,
         },
         solutionCode: {
@@ -1079,10 +1086,10 @@ n 1`,
         starterCode: {
           language: 'python',
           title: "s38-t4-a-e1.py",
-          code: `states = ["pending", "running", "done"]  # TODO: include failed
-print(states)
-print("ok", True)
-print("n", len(states))
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+states = ["pending", "running", "done", "failed"]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(states)
 `,
         },
         solutionCode: {
@@ -1114,9 +1121,11 @@ n 4`,
         starterCode: {
           language: 'python',
           title: "s38-t4-a-e2.py",
-          code: `print("case")  # TODO: case:step:ver
-print("ok", True)
-print("dup", True)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("case:step:ver")
 `,
         },
         solutionCode: {
@@ -1219,9 +1228,11 @@ attempt 3`,
         starterCode: {
           language: 'python',
           title: "s38-t4-b-e2.py",
-          code: `print("delete_always")  # TODO: poison + controlled replay
-print("ok", True)
-print("replay", "blind")
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("poison")
 `,
         },
         solutionCode: {
@@ -1252,9 +1263,11 @@ replay controlled`,
         starterCode: {
           language: 'python',
           title: "s38-t4-b-e3.py",
-          code: `print(False)  # TODO: runbook required
-print("oncall", True)
-print("ok", True)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(True)
 `,
         },
         solutionCode: {

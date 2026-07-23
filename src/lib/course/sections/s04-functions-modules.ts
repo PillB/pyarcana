@@ -552,9 +552,12 @@ skipped_first [20, 30]`,
         starterCode: {
           language: 'python',
           title: "for_regiones.py",
-          code: `regiones = ["Lima", "Cusco", "Piura"]
-# TODO: for + print cada región
-# TODO: print list(range(3))`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+regiones = ["Lima", "Cusco", "Piura"]
+for r in regiones:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(r)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -586,10 +589,15 @@ Piura
         starterCode: {
           language: 'python',
           title: "contar_mayores.py",
-          code: `edades = [30, 17, 45, 22]
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+edades = [30, 17, 45, 22]
 n = 0
-# TODO
-print(n)`,
+for e in edades:
+    if e >= 18:
+        n += 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(n)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -620,8 +628,13 @@ print(n)`,
         starterCode: {
           language: 'python',
           title: "filtrar_montos.py",
-          code: `lote = [{"id": "C1", "monto": 10}, {"id": "C2", "monto": 0}, {"id": "C3", "monto": -2}, {"id": "C4", "monto": 5}]
-# TODO`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+lote = [{"id": "C1", "monto": 10}, {"id": "C2", "monto": 0}, {"id": "C3", "monto": -2}, {"id": "C4", "monto": 5}]
+for reg in lote:
+    if reg["monto"] > 0:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(reg["id"])
+`,
         },
         solutionCode: {
           language: 'python',
@@ -653,8 +666,12 @@ n_original 4`,
         starterCode: {
           language: 'python',
           title: "enumerate_filas.py",
-          code: `ids = ["A", "B", "C"]
-# TODO enumerate start=1`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+ids = ["A", "B", "C"]
+for i, x in enumerate(ids, start=1):
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(f"fila {i}: {x}")
+`,
         },
         solutionCode: {
           language: 'python',
@@ -684,10 +701,13 @@ fila 3: C`,
         starterCode: {
           language: 'python',
           title: "zip_columnas.py",
-          code: `nombres = ["Ana", "Luis", "María"]
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+nombres = ["Ana", "Luis", "María"]
 edades = [30, 25, 40]
-# TODO zip print
-# TODO zip con edades[:1]`,
+for n, e in zip(nombres, edades):
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(f"{n}={e}")
+`,
         },
         solutionCode: {
           language: 'python',
@@ -770,11 +790,19 @@ OK`,
         starterCode: {
           language: 'python',
           title: "while_vacio.py",
-          code: `lines = ["r1", "r2", "", "r3"]
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+lines = ["r1", "r2", "", "r3"]
 i = 0
 out = []
-# TODO while
-print(out)`,
+while i < len(lines):
+    line = lines[i]
+    i += 1
+    if line == "":
+        break
+    out.append(line)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(out)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -809,10 +837,14 @@ print(out)`,
         starterCode: {
           language: 'python',
           title: "while_reintentos.py",
-          code: `intentos = 0
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+intentos = 0
 MAX = 3
-# TODO
-print("done", intentos)`,
+while intentos < MAX:
+    intentos += 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(f"intento {intentos}")
+`,
         },
         solutionCode: {
           language: 'python',
@@ -846,9 +878,15 @@ done 3`,
         starterCode: {
           language: 'python',
           title: "while_cola.py",
-          code: `cola = ["job1", "job2", "job3"]
-# TODO
-print("rest", cola)`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+cola = ["job1", "job2", "job3"]
+while cola:
+    job = cola.pop(0)
+    if job == "job2":
+        break
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(job)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -884,10 +922,14 @@ rest ['job3']`,
         starterCode: {
           language: 'python',
           title: "continue_vacios.py",
-          code: `raw = ["  ", "Lima", "", "Cusco"]
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+raw = ["  ", "Lima", "", "Cusco"]
 for x in raw:
-    # TODO
-    print(x)`,
+    if not x.strip():
+        continue
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(x)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -918,10 +960,16 @@ Cusco`,
         starterCode: {
           language: 'python',
           title: "break_fatal.py",
-          code: `codes = [200, 200, 500, 200]
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+codes = [200, 200, 500, 200]
 n_ok = 0
-# TODO
-print("n_ok", n_ok)`,
+for c in codes:
+    if c >= 500:
+        break
+    n_ok += 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("STOP")
+`,
         },
         solutionCode: {
           language: 'python',
@@ -958,11 +1006,21 @@ n_ok 2`,
         starterCode: {
           language: 'python',
           title: "while_true_guard.py",
-          code: `buf = ["a", "b", "END"]
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+buf = ["a", "b", "END"]
 i = 0
 out = []
-# TODO while True
-print(out)`,
+while True:
+    if i > 10:
+        raise RuntimeError("guard")
+    item = buf[i]
+    i += 1
+    if item == "END":
+        break
+    out.append(item)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(out)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -999,10 +1057,18 @@ print(out)`,
         starterCode: {
           language: 'python',
           title: "contadores_base.py",
-          code: `sts = ["accept", "reject", "accept"]
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+sts = ["accept", "reject", "accept"]
 n_accept = n_reject = n_total = 0
-# TODO
-print(n_accept, n_reject, n_total)`,
+for s in sts:
+    n_total += 1
+    if s == "accept":
+        n_accept += 1
+    elif s == "reject":
+        n_reject += 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(n_accept, n_reject, n_total)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1036,11 +1102,16 @@ print(n_accept, n_reject, n_total)`,
         starterCode: {
           language: 'python',
           title: "tasa_segura.py",
-          code: `def tasa_reject(sts):
-    # TODO
-    ...
-print(tasa_reject(["accept", "reject", "accept"]))
-print(tasa_reject([]))`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+def tasa_reject(sts):
+    n_total = len(sts)
+    if n_total == 0:
+        return None
+    n_reject = sum(1 for s in sts if s == "reject")
+    return n_reject / n_total
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(round(tasa_reject(["accept", "reject", "accept"]), 4))
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1074,8 +1145,18 @@ None`,
         starterCode: {
           language: 'python',
           title: "buscar_review.py",
-          code: `rows = [{"id": "C1", "status": "accept"}, {"id": "C2", "status": "review"}, {"id": "C3", "status": "review"}]
-# TODO`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+rows = [{"id": "C1", "status": "accept"}, {"id": "C2", "status": "review"}, {"id": "C3", "status": "review"}]
+idx = -1
+for i, r in enumerate(rows):
+    if r["status"] == "review":
+        idx = i
+        break
+if idx == -1:
+else:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(-1)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1110,8 +1191,11 @@ else:
         starterCode: {
           language: 'python',
           title: "comp_basica.py",
-          code: `nums = [1, 2, 3, 4, 5]
-# TODO`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+nums = [1, 2, 3, 4, 5]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print([x * x for x in nums])
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1140,8 +1224,11 @@ print([x for x in nums if x % 2 == 0])`,
         starterCode: {
           language: 'python',
           title: "comp_set_status.py",
-          code: `rows = [{"status": "reject"}, {"status": "accept"}, {"status": "reject"}, {"status": "review"}]
-# TODO print sorted set`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+rows = [{"status": "reject"}, {"status": "accept"}, {"status": "reject"}, {"status": "review"}]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(sorted({r["status"] for r in rows}))
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1168,8 +1255,14 @@ print(sorted({r["status"] for r in rows}))`,
         starterCode: {
           language: 'python',
           title: "comp_resumen.py",
-          code: `rows = [{"id": "C1", "status": "accept"}, {"id": "C2", "status": "reject"}, {"id": "C3", "status": "accept"}, {"id": "C4", "status": "reject"}]
-# TODO`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+rows = [{"id": "C1", "status": "accept"}, {"id": "C2", "status": "reject"}, {"id": "C3", "status": "accept"}, {"id": "C4", "status": "reject"}]
+by = {r["id"]: r["status"] for r in rows}
+rejects = [i for i, st in by.items() if st == "reject"]
+tasa = len(rejects) / len(rows)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(by["C2"], rejects, tasa)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1199,10 +1292,15 @@ print(by["C2"], rejects, tasa)`,
         starterCode: {
           language: 'python',
           title: "traza_acum.py",
-          code: `vals = [2, -1, 3]
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+vals = [2, -1, 3]
 s = 0
-# TODO traza
-print("final", s)`,
+for i, val in enumerate(vals):
+    if val > 0:
+        s += val
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(i, val, s)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1237,12 +1335,14 @@ final 5`,
         starterCode: {
           language: 'python',
           title: "fix_doble_count.py",
-          code: `filas = ["a", "b", "c"]
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+filas = ["a", "b", "c"]
 n = 0
 for f in filas:
     n += 1
-    n += 1  # BUG?
-print(n)  # debería ser 3`,
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(n)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1272,9 +1372,14 @@ print(n)`,
         starterCode: {
           language: 'python',
           title: "traza_dict.py",
-          code: `regs = ["accept", "reject", "accept"]
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+regs = ["accept", "reject", "accept"]
 counts = {"accept": 0, "reject": 0}
-# TODO`,
+for i, st in enumerate(regs):
+    counts[st] = counts.get(st, 0) + 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("TRACE", i, st, dict(counts))
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1308,10 +1413,17 @@ FINAL {'accept': 2, 'reject': 1}`,
         starterCode: {
           language: 'python',
           title: "count_steps.py",
-          code: `n = 5
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+n = 5
 lin = quad = 0
-# TODO
-print(lin, quad)`,
+for i in range(n):
+    lin += 1
+for i in range(n):
+    for j in range(n):
+        quad += 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(lin, quad)
+`,
         },
         solutionCode: {
           language: 'python',

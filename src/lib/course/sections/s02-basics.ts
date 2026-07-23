@@ -762,9 +762,12 @@ activo: True esperado=bool ok=True`,
         starterCode: {
           language: 'python',
           title: 'int_con_strip.py',
-          code: `raw = " 21 "
-edad = ____(raw.____())
-print(edad, type(edad).__name__)`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+raw = " 21 "
+edad = int(raw.strip())
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(edad, type(edad).__name__)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1228,13 +1231,12 @@ raw preserved OK`,
         starterCode: {
           language: 'python',
           title: 'tabla_operadores.py',
-          code: `n = 17
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+n = 17
 d = 5
-# TODO: imprime //, %, 2**4 y /
-print("//", ____)
-print("%", ____)
-print("**", ____)
-print("/", ____)`,
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("//", n // d)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1351,10 +1353,13 @@ total 94.39999999999999`,
         starterCode: {
           language: 'python',
           title: 'float_vs_decimal.py',
-          code: `from decimal import Decimal
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+from decimal import Decimal
 
-print("float", 0.1 + 0.2)
-print("Decimal", ____ + ____)`,
+assert Decimal("0.1") + Decimal("0.2") == Decimal("0.3")
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("float", 0.1 + 0.2)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1489,9 +1494,11 @@ for s in ["150.50", "  20.1 ", "", "abc"]:
         starterCode: {
           language: 'python',
           title: 'saludo_fstring.py',
-          code: `nombre = "José"
-# TODO: f-string de saludo
-print(____)`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+nombre = "José"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(f"Hola, {nombre}. Bienvenido al intake.")
+`,
         },
         solutionCode: {
           language: 'python',

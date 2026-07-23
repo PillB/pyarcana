@@ -619,8 +619,10 @@ policy regression_on_bug`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `impact, likelihood = 5, 4
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+impact, likelihood = 5, 4
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(impact * likelihood)
 `,
         },
         solutionCode: {
@@ -648,8 +650,10 @@ print(impact * likelihood)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `rows=[('e2e',2,1),('unit',5,5)]
-# TODO print names
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+rows=[('e2e',2,1),('unit',5,5)]
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])
 `,
         },
         solutionCode: {
@@ -677,8 +681,10 @@ print([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `top_layer='unit'
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+top_layer='unit'
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(top_layer == 'unit')
 `,
         },
         solutionCode: {
@@ -706,8 +712,10 @@ print(top_layer == 'unit')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `s=' A  B '
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+s=' A  B '
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(' '.join(s.casefold().split()))
 `,
         },
         solutionCode: {
@@ -735,8 +743,11 @@ print(' '.join(s.casefold().split()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `raw='ANA'
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+raw='ANA'
+assert raw.casefold() == 'ana'
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('pass')
 `,
         },
         solutionCode: {
@@ -765,8 +776,10 @@ print('pass')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `a,b='X Y','x  y'
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+a,b='X Y','x  y'
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))
 `,
         },
         solutionCode: {
@@ -794,8 +807,10 @@ print(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `names=['test_a','helper','test_b']
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+names=['test_a','helper','test_b']
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print([n for n in names if n.startswith('test_')])
 `,
         },
         solutionCode: {
@@ -823,8 +838,10 @@ print([n for n in names if n.startswith('test_')])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `left,right='a','b'
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+left,right='a','b'
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('ok' if left == right else 'fail')
 `,
         },
         solutionCode: {
@@ -852,7 +869,11 @@ print('ok' if left == right else 'fail')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO print table
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print([(' x ', 'x')])
 `,
         },
         solutionCode: {
@@ -881,8 +902,10 @@ print('ok' if left == right else 'fail')`,
           title: "exercise.py",
           code: `from copy import deepcopy
 orig=[{'n':1}]
-# TODO
-print(orig[0]['n'])`,
+c=deepcopy(orig)
+c[0]['n']=9
+# TODO: imprime la salida contractual (ver instruction / solution output)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -912,7 +935,11 @@ print(orig[0]['n'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('function')
 `,
         },
         solutionCode: {
@@ -939,7 +966,9 @@ print(orig[0]['n'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `def make(n):
+    return [{'id': f'c{i}'} for i in range(n)]
+# TODO: imprime la salida contractual (ver instruction / solution output)
 `,
         },
         solutionCode: {
@@ -968,8 +997,10 @@ print(len(make(3)))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import math
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import math
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(math.isclose(0.1 + 0.2, 0.3))
 `,
         },
         solutionCode: {
@@ -997,7 +1028,12 @@ print(math.isclose(0.1 + 0.2, 0.3))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+try:
+    int('x')
+except ValueError:
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('bad')
 `,
         },
         solutionCode: {
@@ -1029,7 +1065,10 @@ except ValueError:
           title: "exercise.py",
           code: `import tempfile
 from pathlib import Path
-# TODO
+with tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:
+    f.write('ok')
+    path=f.name
+# TODO: imprime la salida contractual (ver instruction / solution output)
 `,
         },
         solutionCode: {
@@ -1062,7 +1101,11 @@ print(Path(path).read_text(encoding='utf-8').strip())`,
           language: 'python',
           title: "exercise.py",
           code: `email=''
-# TODO
+try:
+    if email == '':
+        raise ValueError('email vacío')
+except ValueError as e:
+# TODO: imprime la salida contractual (ver instruction / solution output)
 `,
         },
         solutionCode: {
@@ -1094,8 +1137,10 @@ except ValueError as e:
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `s='sin-arroba'
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+s='sin-arroba'
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('ok' if '@' in s else 'invalid')
 `,
         },
         solutionCode: {
@@ -1123,8 +1168,10 @@ print('ok' if '@' in s else 'invalid')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `v=-1
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+v=-1
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(f'campo score inválido: {v!r}')
 `,
         },
         solutionCode: {
@@ -1152,7 +1199,11 @@ print(f'campo score inválido: {v!r}')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+def f(x):
+    return 'hi' if x > 0 else 'lo'
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(f(1), f(-1))
 `,
         },
         solutionCode: {
@@ -1181,8 +1232,10 @@ print(f(1), f(-1))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `hit={'auto','review'}
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+hit={'auto','review'}
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('non' not in hit)
 `,
         },
         solutionCode: {
@@ -1210,8 +1263,10 @@ print('non' not in hit)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `k,n=2,3
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+k,n=2,3
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(int(100 * k / n))
 `,
         },
         solutionCode: {
@@ -1239,8 +1294,12 @@ print(int(100 * k / n))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `raw=' a '
-# TODO detectar debilidad conceptual
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+raw=' a '
+good=raw.strip()
+mutant=raw
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(good == 'a' and mutant != 'a')
 `,
         },
         solutionCode: {
@@ -1270,7 +1329,11 @@ print(good == 'a' and mutant != 'a')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print({'expected': 1, 'actual': 2})
 `,
         },
         solutionCode: {
@@ -1297,7 +1360,11 @@ print(good == 'a' and mutant != 'a')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('bug_repro → regression_test')
 `,
         },
         solutionCode: {

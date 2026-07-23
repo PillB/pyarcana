@@ -552,10 +552,12 @@ print("refactor OK", normalize_direccion("  jr. unión 5 "))`,
         starterCode: {
           language: 'python',
           title: "doble.py",
-          code: `def doble(n):
-    # TODO
-    ...
-print(doble(21))`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+def doble(n):
+    return n * 2
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(doble(21))
+`,
         },
         solutionCode: {
           language: 'python',
@@ -583,10 +585,12 @@ print(doble(21))`,
         starterCode: {
           language: 'python',
           title: "norm_nombre.py",
-          code: `def normalize_nombre(raw):
-    # TODO
-    ...
-print(normalize_nombre('  Juan   Pérez '))`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+def normalize_nombre(raw):
+    return " ".join(raw.strip().split())
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(normalize_nombre('  Juan   Pérez '))
+`,
         },
         solutionCode: {
           language: 'python',
@@ -614,9 +618,12 @@ print(normalize_nombre('  Juan   Pérez '))`,
         starterCode: {
           language: 'python',
           title: "return_none.py",
-          code: `def saluda(nombre):
-    f'Hola {nombre}'  # BUG?
-print(saluda('Ana'))`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+def saluda(nombre):
+    return f'Hola {nombre}'
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(saluda('Ana'))
+`,
         },
         solutionCode: {
           language: 'python',
@@ -678,11 +685,15 @@ VIP: Quispe`,
         starterCode: {
           language: 'python',
           title: "safe_default.py",
-          code: `def good_add(item, bucket=None):
-    # TODO
-    ...
-print(good_add(1))
-print(good_add(2))`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+def good_add(item, bucket=None):
+    if bucket is None:
+        bucket = []
+    bucket.append(item)
+    return bucket
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(good_add(1))
+`,
         },
         solutionCode: {
           language: 'python',
@@ -752,11 +763,13 @@ print(normalize_telefono(' 999-000 ', digits_only=False))`,
         starterCode: {
           language: 'python',
           title: "doc_area.py",
-          code: `def area(w, h):
-    # TODO docstring
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+def area(w, h):
+    """Retorna el área de un rectángulo w×h."""
     return w * h
-print(area.__doc__)
-print(area(3, 4))`,
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(area.__doc__)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -872,9 +885,12 @@ post OK`,
         starterCode: {
           language: 'python',
           title: "hint_len.py",
-          code: `def len_safe(s: str) -> int:
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+def len_safe(s: str) -> int:
     return len(s)
-print(len_safe('abc'))`,
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(len_safe('abc'))
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1214,12 +1230,14 @@ print(process(' 999-a ', norm=lambda s: s.strip().upper()))`,
         starterCode: {
           language: 'python',
           title: "legb_local.py",
-          code: `x = 1
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+x = 1
 def f():
     x = 2
-    print('in', x)
 f()
-print('out', x)`,
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('in', x)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1251,12 +1269,16 @@ out 1`,
         starterCode: {
           language: 'python',
           title: "closure_mul.py",
-          code: `def make_multiplier(k):
-    # TODO
-    ...
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+def make_multiplier(k):
+    def inner(n):
+        return n * k
+    return inner
 m3 = make_multiplier(3)
 m10 = make_multiplier(10)
-print(m3(4), m10(4))`,
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(m3(4), m10(4))
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1331,10 +1353,14 @@ print(d('A-1-B-2'), lo('  Hola '))`,
         starterCode: {
           language: 'python',
           title: "examples_email.py",
-          code: `def normalize_email(s):
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+def normalize_email(s):
     return s.strip().lower()
-# TODO asserts
-print('OK')`,
+assert normalize_email('  A@B.COM ') == 'a@b.com'
+assert normalize_email(normalize_email('A@B.COM')) == 'a@b.com'
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('OK')
+`,
         },
         solutionCode: {
           language: 'python',

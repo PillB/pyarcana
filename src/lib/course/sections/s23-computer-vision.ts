@@ -517,8 +517,10 @@ print("human_handoff" if sig.get("captcha") or sig.get("tos") else "continue")`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `nodes=[{'role':'link','name':'Inicio','id':'n1'}]
-# TODO: id del link Inicio
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+nodes=[{'role':'link','name':'Inicio','id':'n1'}]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))
 `,
         },
         solutionCode: {
@@ -547,9 +549,11 @@ print(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `strats=['css','role','testid']
-preferred=['role','testid','css']
-# TODO: ordena strats por preferred; print
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+strats=['css','role','testid']
+order={'role':0,'testid':1,'css':2}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(sorted(strats, key=lambda s: order[s]))
 `,
         },
         solutionCode: {
@@ -579,8 +583,11 @@ print(sorted(strats, key=lambda s: order[s]))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `nodes=[{'role':'img','name':'logo'}]
-# TODO: buscar button → need_testid si falta
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+nodes=[{'role':'img','name':'logo'}]
+hits=[n for n in nodes if n['role']=='button']
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(hits[0]['name'] if hits else 'need_testid')
 `,
         },
         solutionCode: {
@@ -610,8 +617,13 @@ print(hits[0]['name'] if hits else 'need_testid')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# ready en intento 2
-# TODO: loop intentos; print intento cuando ready
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+for i in range(1, 4):
+    ready = i >= 2
+    if ready:
+        break
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(i)
 `,
         },
         solutionCode: {
@@ -643,8 +655,14 @@ print(hits[0]['name'] if hits else 'need_testid')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ready = False
-# TODO: tras 3 intentos → timeout
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+ready = False
+for i in range(3):
+    if ready:
+        break
+else:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('ok')
 `,
         },
         solutionCode: {
@@ -678,8 +696,10 @@ else:
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `expected, actual = 'Portal demo', 'Portal demo'
-# TODO: pass|fail
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+expected, actual = 'Portal demo', 'Portal demo'
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('pass' if expected == actual else 'fail')
 `,
         },
         solutionCode: {
@@ -708,8 +728,11 @@ print('pass' if expected == actual else 'fail')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `form = {}  # formulario sintético
-# TODO: usuario='ana'; print form
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+form = {}
+form['usuario'] = 'ana'
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(form)
 `,
         },
         solutionCode: {
@@ -739,8 +762,10 @@ print(form)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import hashlib
-# TODO: sha256(b'data').hexdigest()[:8]
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import hashlib
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(hashlib.sha256(b'data').hexdigest()[:8])
 `,
         },
         solutionCode: {
@@ -769,8 +794,10 @@ print(hashlib.sha256(b'data').hexdigest()[:8])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `state={'token':'t'}  # storage_state lab
-# TODO: reuse si token
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+state={'token':'t'}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('reuse' if state.get('token') else 'login')
 `,
         },
         solutionCode: {
@@ -841,8 +868,14 @@ print(ctx['auth'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ctx={'auth':False}
-# TODO: open report si no auth → denied
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+ctx={'auth':False}
+try:
+    if not ctx.get('auth'):
+        raise PermissionError('login required')
+except PermissionError:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('ok')
 `,
         },
         solutionCode: {
@@ -876,8 +909,13 @@ except PermissionError:
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `state='anonymous'
-# TODO: login ok → authenticated; print
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+state='anonymous'
+login_ok=True
+if login_ok:
+    state='authenticated'
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(state)
 `,
         },
         solutionCode: {
@@ -909,8 +947,10 @@ print(state)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ev={'trace':'a.zip','screenshot':'b.png','error':'x'}
-# TODO: print sorted keys
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+ev={'trace':'a.zip','screenshot':'b.png','error':'x'}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(sorted(ev.keys()))
 `,
         },
         solutionCode: {
@@ -939,8 +979,10 @@ print(sorted(ev.keys()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `logs=['ok','ERR timeout','nav']
-# TODO: filtra 'ERR'
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+logs=['ok','ERR timeout','nav']
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print([l for l in logs if 'ERR' in l])
 `,
         },
         solutionCode: {
@@ -969,9 +1011,13 @@ print([l for l in logs if 'ERR' in l])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ok=False
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+ok=False
 pkg={'step':'s1'}
-# TODO: adjuntar trace si not ok; print pkg
+if not ok:
+    pkg['trace']='traces/s1.zip'
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(pkg)
 `,
         },
         solutionCode: {
@@ -1041,8 +1087,10 @@ captcha False
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `err='stale'
-# TODO: recovery action goto_home
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+err='stale'
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('goto_home' if err=='stale' else 'continue')
 `,
         },
         solutionCode: {
@@ -1071,8 +1119,14 @@ print('goto_home' if err=='stale' else 'continue')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `errors=['timeout','timeout','timeout']
-# TODO: max 3 → fail N
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+errors=['timeout','timeout','timeout']
+for i,e in enumerate(errors,1):
+    if e!='timeout':
+        break
+    if i==3:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('ok', i)
 `,
         },
         solutionCode: {
@@ -1106,8 +1160,10 @@ for i,e in enumerate(errors,1):
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `api=True
-# TODO: elige api|rpa; print
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+api=True
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('api' if api else 'rpa')
 `,
         },
         solutionCode: {
@@ -1136,8 +1192,18 @@ print('api' if api else 'rpa')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `f={'api':False,'export':True,'rpa':True}
-# TODO: api>export>rpa; print choice
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+f={'api':False,'export':True,'rpa':True}
+if f.get('api'):
+    c='api'
+elif f.get('export'):
+    c='export'
+elif f.get('rpa'):
+    c='rpa'
+else:
+    c='human'
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(c)
 `,
         },
         solutionCode: {
@@ -1174,8 +1240,10 @@ print(c)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Caída a RPA documentada
-# TODO: dict method rpa reason no_api
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+decision={'method':'rpa','reason':'no_api'}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(decision)
 `,
         },
         solutionCode: {
@@ -1204,8 +1272,10 @@ print(decision)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `captcha=True
-# TODO: human_handoff (no bypass)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+captcha=True
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('human_handoff' if captcha else 'continue')
 `,
         },
         solutionCode: {
@@ -1234,8 +1304,10 @@ print('human_handoff' if captcha else 'continue')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `sig={'tos_forbidden':True,'captcha':True}
-# TODO: tos gana → abort
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+sig={'tos_forbidden':True,'captcha':True}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('abort' if sig.get('tos_forbidden') else 'human_handoff')
 `,
         },
         solutionCode: {
@@ -1264,8 +1336,10 @@ print('abort' if sig.get('tos_forbidden') else 'human_handoff')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Handoff payload url/step/screenshot
-# TODO: print keys sorted (+ export per solution)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+payload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(sorted(payload.keys()), payload['step'])
 `,
         },
         solutionCode: {

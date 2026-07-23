@@ -574,7 +574,10 @@ print(R(c).pending())`,
           language: 'python',
           title: "exercise.py",
           code: `import sqlite3
-# TODO
+c=sqlite3.connect(':memory:')
+c.execute('create table entities(id text primary key)')
+c.execute("insert into entities values ('e1')")
+# TODO: imprime la salida contractual (ver instruction / solution output)
 `,
         },
         solutionCode: {
@@ -641,7 +644,11 @@ except sqlite3.IntegrityError:
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('e1' < 'e2')
 `,
         },
         solutionCode: {
@@ -668,10 +675,13 @@ except sqlite3.IntegrityError:
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import sqlite3
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import sqlite3
 c=sqlite3.connect(':memory:')
 c.execute('create table d(pair text, label text)')
-# TODO
+c.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(c.execute("select count(*) from d where pair='p1'").fetchone()[0])
 `,
         },
         solutionCode: {
@@ -702,7 +712,11 @@ print(c.execute("select count(*) from d where pair='p1'").fetchone()[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print({'source': 'crm_synth', 'record': 'r9'})
 `,
         },
         solutionCode: {
@@ -729,8 +743,10 @@ print(c.execute("select count(*) from d where pair='p1'").fetchone()[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `valid_to=None
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+valid_to=None
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('open' if valid_to is None else 'closed')
 `,
         },
         solutionCode: {
@@ -791,8 +807,10 @@ print([r[0] for r in c.execute('select id from pairs where id not in (select pai
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `scores=[0.2,0.9,0.5]
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+scores=[0.2,0.9,0.5]
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(sorted(scores, reverse=True)[0])
 `,
         },
         solutionCode: {
@@ -820,7 +838,11 @@ print(sorted(scores, reverse=True)[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('ranked')
 `,
         },
         solutionCode: {
@@ -847,8 +869,10 @@ print(sorted(scores, reverse=True)[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `n=5
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+n=5
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(n*(n-1)//2)
 `,
         },
         solutionCode: {
@@ -876,7 +900,11 @@ print(n*(n-1)//2)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(None is None)
 `,
         },
         solutionCode: {
@@ -903,7 +931,11 @@ print(n*(n-1)//2)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('SCAN')
 `,
         },
         solutionCode: {
@@ -933,7 +965,10 @@ print(n*(n-1)//2)`,
           code: `import sqlite3
 c=sqlite3.connect(':memory:')
 c.execute('create table t(x int)')
-# TODO
+c.execute('begin')
+c.execute('insert into t values (1)')
+c.execute('rollback')
+# TODO: imprime la salida contractual (ver instruction / solution output)
 `,
         },
         solutionCode: {
@@ -966,7 +1001,11 @@ print(c.execute('select count(*) from t').fetchone()[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('A,C,I,D')
 `,
         },
         solutionCode: {
@@ -993,8 +1032,10 @@ print(c.execute('select count(*) from t').fetchone()[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `evidence_ok=False
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+evidence_ok=False
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('abort' if not evidence_ok else 'commit')
 `,
         },
         solutionCode: {
@@ -1058,7 +1099,11 @@ print(c.execute("select name from e where id='1'").fetchone()[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print({'job': 'er_block', 'status': 'pending'}['status'])
 `,
         },
         solutionCode: {
@@ -1085,8 +1130,10 @@ print(c.execute("select name from e where id='1'").fetchone()[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `conflict=True
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+conflict=True
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('retry' if conflict else 'ok')
 `,
         },
         solutionCode: {
@@ -1150,7 +1197,11 @@ print(c.execute('select max(v) from schema_migrations').fetchone()[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('idx_pairs_block_key')
 `,
         },
         solutionCode: {
@@ -1177,7 +1228,11 @@ print(c.execute('select max(v) from schema_migrations').fetchone()[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('no_drop_without_backup')
 `,
         },
         solutionCode: {
@@ -1204,8 +1259,10 @@ print(c.execute('select max(v) from schema_migrations').fetchone()[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `store={'e1':'Ana'}
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+store={'e1':'Ana'}
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(store.get('e1'))
 `,
         },
         solutionCode: {
@@ -1233,7 +1290,11 @@ print(store.get('e1'))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print({'pool_size': 5}['pool_size'])
 `,
         },
         solutionCode: {
@@ -1260,8 +1321,10 @@ print(store.get('e1'))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `pending_count=1
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+pending_count=1
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(pending_count)
 `,
         },
         solutionCode: {

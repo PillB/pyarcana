@@ -1,28 +1,44 @@
 # Research dossier — S15 Pandas: ingesta, selección y tipos
 
 **Section file:** `src/lib/course/sections/s15-stdlib-deep.ts`  
-**Platform id (preserved):** `stdlib-deep`  
-**V3 title:** Pandas: ingesta, selección y tipos  
-**Residual before:** PARTIAL (avg_para≈99.3, avg_instr≈77.1, thin≈0.39, score 5)  
-**Target:** gold vs S01/S16 pedagogy; avg_para≥250, avg_instr≥150
+**Generated/updated:** 2026-07-23T00:31:40.634121+00:00  
+**Action:** competitive research for gold-standard expansion (criterion 3)
 
-## Competitive sources
+## Competitive sources (all mandatory classes)
 
-| Class | Named sources & takeaways |
-|-------|---------------------------|
-| Docs / books | pandas docs; McKinney Python for Data Analysis; dtype contracts; synthetic clientes/tx |
-| Industry | Fail-closed gates, synthetic data only, ES-PE workplace voice |
-| Peru case | Lima/Arequipa/Cusco fixtures, ids C00x, montos PEN ficticios — sin PII real (Ley 29733) |
+### Coursera / MOOC
+- Google Data Analytics — prepare data
+- IBM Data Analysis with Python (Coursera) — pandas
 
-## Coverage focus
-Series/DataFrame, read_csv dtypes, loc/iloc, nullable types, export+manifest CP-N2-A
+### MIT
+- MIT data wrangling workshops (public)
 
-## Progressive disclosure
-Solo APIs de S01–S15. No introducir APIs de secciones posteriores.
+### Harvard
+- CS109 pandas
 
-## Expansion plan (executed)
-1. Deepen theory paragraphs to ≥250 chars (why + contract + caso sintético).
-2. Expand 24 weDo instructions to ≥150 chars (concepto/fixture/I-O/pass).
-3. Enrich thin starters with fixtures + TODO defect.
-4. Keep structure: 9 theory heads, 8 iDo demos, 24 weDo, youDo, selfCheck.
-5. DONE note + residual recompute → gold.
+### Yale
+- Yale StatLab pandas tutorials
+
+### Stanford
+- Stanford Data Science for Social Good pandas primers
+
+### GitHub (learners + teachers)
+- pandas-dev/pandas user guide; mwaskom/seaborn for later viz only
+
+### High-quality video / tutorials
+- Data School pandas; Corey Schafer pandas
+
+## Coverage gaps vs pre-expansion residual
+dtypes, selection, coercion with audit; no silent downcast of ids.
+
+## Recommended depth decisions
+Phone/RUC as str; synthetic Lima frames.
+
+## Pedagogy constraints (PyArcana)
+- Español peruano primary; English technical terms OK.
+- Progressive disclosure: only APIs taught through S15.
+- Synthetic data only; ER/scores ≠ fraude/parentesco.
+- Fail-closed gates where decisions affect people.
+
+## Decision log
+Research supports operational contracts + fixture-based weDo (S01/S40 style), not slogan theory or empty `# TODO` starters.

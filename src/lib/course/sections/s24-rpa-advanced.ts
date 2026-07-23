@@ -477,8 +477,10 @@ print("ok" if meta["mime"]=="application/pdf" and meta["n"]<5_000_000 else "reje
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `dpi=96  # escaneo sintético bajo
-# TODO: eleva a >=200 con max; print
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+dpi=96
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(max(dpi, 200))
 `,
         },
         solutionCode: {
@@ -507,8 +509,10 @@ print(max(dpi, 200))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `skew=1.2  # grados de inclinación
-# TODO: deskew_applied = abs(skew)>=0.5; print
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+skew=1.2
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(abs(skew) >= 0.5)
 `,
         },
         solutionCode: {
@@ -537,8 +541,11 @@ print(abs(skew) >= 0.5)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `w=h=1000  # lienzo sintético
-# TODO: crop 5% → (x0,y0,x1,y1); print
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+w=h=1000
+m=0.05
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))
 `,
         },
         solutionCode: {
@@ -568,8 +575,10 @@ print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `s={0:0.1,90:0.8}  # scores por rotación
-# TODO: print rotación de mayor score
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+s={0:0.1,90:0.8}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(max(s, key=s.get))
 `,
         },
         solutionCode: {
@@ -598,8 +607,10 @@ print(max(s, key=s.get))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `flags=[0,1,1,0]  # 1=ruido marcado
-# TODO: cuenta ruido; print
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+flags=[0,1,1,0]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(sum(flags))
 `,
         },
         solutionCode: {
@@ -628,8 +639,10 @@ print(sum(flags))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `score=0.4  # score_orient
-# TODO: manual_orient si <0.5 else auto
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+score=0.4
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('manual_orient' if score < 0.5 else 'auto')
 `,
         },
         solutionCode: {
@@ -658,8 +671,10 @@ print('manual_orient' if score < 0.5 else 'auto')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]
-# TODO: textos con conf>=0.85
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print([t['text'] for t in toks if t['conf']>=0.85])
 `,
         },
         solutionCode: {
@@ -688,8 +703,11 @@ print([t['text'] for t in toks if t['conf']>=0.85])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# OCR simulado PE
-# TODO: resultado con lang spa; print lang
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+def ocr(text, lang='spa'):
+    return {'text': text, 'lang': lang}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(ocr('Hola')['lang'])
 `,
         },
         solutionCode: {
@@ -719,8 +737,11 @@ print(ocr('Hola')['lang'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `confs=[0.9,0.75,0.95]
-# TODO: min conf + status review si min<0.8
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+confs=[0.9,0.75,0.95]
+m=min(confs)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(m, 'review' if m < 0.8 else 'auto')
 `,
         },
         solutionCode: {
@@ -750,8 +771,11 @@ print(m, 'review' if m < 0.8 else 'auto')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `s='Total: 12.5'  # línea KV
-# TODO: split clave/valor; print
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+s='Total: 12.5'
+k,v=s.split(':',1)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(k.strip(), v.strip())
 `,
         },
         solutionCode: {
@@ -781,8 +805,10 @@ print(k.strip(), v.strip())`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `t=[['H1','H2'],['a','b']]
-# TODO: filas de datos (sin header)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+t=[['H1','H2'],['a','b']]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(len(t)-1)
 `,
         },
         solutionCode: {
@@ -811,8 +837,10 @@ print(len(t)-1)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Field RUC con evidencia bbox
-# TODO: adjunta [0,0,10,10] y valor; print
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+field={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(field['bbox'], field['value'])
 `,
         },
         solutionCode: {
@@ -841,9 +869,11 @@ print(field['bbox'], field['value'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import re
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import re
 s='20-123'
-# TODO: solo dígitos; print
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(re.sub(r'\\D', '', s))
 `,
         },
         solutionCode: {
@@ -873,8 +903,10 @@ print(re.sub(r'\\D', '', s))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from datetime import datetime
-# TODO: '15/01/2026' → ISO; print
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+from datetime import datetime
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())
 `,
         },
         solutionCode: {
@@ -903,9 +935,12 @@ print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import re
-raw='123'  # RUC incompleto sintético
-# TODO: None si len!=11 tras dígitos
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import re
+raw='123'
+d=re.sub(r'\\D','',raw)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(d if len(d)==11 else None)
 `,
         },
         solutionCode: {
@@ -936,8 +971,10 @@ print(d if len(d)==11 else None)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `total, lines=10.0,[4.0,5.0]
-# TODO: needs_review si |sum-total|>0.01
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+total, lines=10.0,[4.0,5.0]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')
 `,
         },
         solutionCode: {
@@ -966,10 +1003,13 @@ print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ruc=None
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+ruc=None
 reasons=[]
-# TODO: append ruc_missing; print reasons
-print(reasons)
+if ruc is None:
+    reasons.append('ruc_missing')
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(reasons)
 `,
         },
         solutionCode: {
@@ -1001,8 +1041,10 @@ print(reasons)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `mismatch=True  # totales no cierran
-# TODO: política review_not_fraud
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+mismatch=True
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('review_not_fraud' if mismatch else 'auto')
 `,
         },
         solutionCode: {
@@ -1031,8 +1073,10 @@ print('review_not_fraud' if mismatch else 'auto')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `correct, n = 3, 4
-# TODO: accuracy = correct/n; print
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+correct, n = 3, 4
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(correct / n)
 `,
         },
         solutionCode: {
@@ -1061,8 +1105,10 @@ print(correct / n)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `rows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]
-# TODO: acc campo ruc; print
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+rows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))
 `,
         },
         solutionCode: {
@@ -1091,8 +1137,10 @@ print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `auto, review = 7, 3
-# TODO: coverage_auto; print
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+auto, review = 7, 3
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(auto / (auto + review))
 `,
         },
         solutionCode: {
@@ -1121,9 +1169,11 @@ print(auto / (auto + review))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `mime='application/zip'
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+mime='application/zip'
 allowed={'application/pdf','image/png','image/jpeg'}
-# TODO: reject si mime not in allowed
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('reject' if mime not in allowed else 'ok')
 `,
         },
         solutionCode: {
@@ -1153,8 +1203,10 @@ print('reject' if mime not in allowed else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `n=6_000_000  # bytes
-# TODO: reject si n>5e6
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+n=6_000_000
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('reject' if n > 5_000_000 else 'ok')
 `,
         },
         solutionCode: {
@@ -1183,8 +1235,10 @@ print('reject' if n > 5_000_000 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `status='ocr_fail'
-# TODO: fallback human_rescan; print acción
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+status='ocr_fail'
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print({'ocr_fail':'human_rescan'}.get(status, 'continue'))
 `,
         },
         solutionCode: {

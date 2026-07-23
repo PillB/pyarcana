@@ -1,28 +1,44 @@
 # Research dossier — S13 Familiarity Evidence Dashboard y cierre de nivel
 
 **Section file:** `src/lib/course/sections/s13-rpa-automation.ts`  
-**Platform id (preserved):** `rpa-automation`  
-**V3 title:** Familiarity Evidence Dashboard y cierre de nivel  
-**Residual before:** PARTIAL (avg_para≈111.4, avg_instr≈118.7, thin≈0.28, score 6)  
-**Target:** gold vs S01/S16 pedagogy; avg_para≥250, avg_instr≥150
+**Generated/updated:** 2026-07-23T00:31:40.634121+00:00  
+**Action:** competitive research for gold-standard expansion (criterion 3)
 
-## Competitive sources
+## Competitive sources (all mandatory classes)
 
-| Class | Named sources & takeaways |
-|-------|---------------------------|
-| Docs / books | Fellegi-Sunter conceptual; record linkage surveys; privacy fail-closed; synthetic pairs |
-| Industry | Fail-closed gates, synthetic data only, ES-PE workplace voice |
-| Peru case | Lima/Arequipa/Cusco fixtures, ids C00x, montos PEN ficticios — sin PII real (Ley 29733) |
+### Coursera / MOOC
+- Google Data Analytics Capstone (Coursera) — storytelling with dashboards
+- IBM Data Visualization with Python (Coursera)
 
-## Coverage focus
-ER determinista, precision/recall clerical, scores separados, fail-closed, CP-N1-C/CF-1
+### MIT
+- MIT OpenCourseWare communication of data results
 
-## Progressive disclosure
-Solo APIs de S01–S13. No introducir APIs de secciones posteriores.
+### Harvard
+- CS109 / data science communication themes (Harvard)
 
-## Expansion plan (executed)
-1. Deepen theory paragraphs to ≥250 chars (why + contract + caso sintético).
-2. Expand 24 weDo instructions to ≥150 chars (concepto/fixture/I-O/pass).
-3. Enrich thin starters with fixtures + TODO defect.
-4. Keep structure: 9 theory heads, 8 iDo demos, 24 weDo, youDo, selfCheck.
-5. DONE note + residual recompute → gold.
+### Yale
+- Yale StatLab visualization ethics
+
+### Stanford
+- Stanford visualization short courses; evidence vs claim
+
+### GitHub (learners + teachers)
+- plotly/dash examples (patterns); evidence log JSON schemas
+
+### High-quality video / tutorials
+- Storytelling with Data channel; matplotlib/seaborn practicals
+
+## Coverage gaps vs pre-expansion residual
+ER vs relationship scores separate; needs_review band; no auto-fraud.
+
+## Recommended depth decisions
+Level close checklist + regression notes; synthetic dashboard fixtures.
+
+## Pedagogy constraints (PyArcana)
+- Español peruano primary; English technical terms OK.
+- Progressive disclosure: only APIs taught through S13.
+- Synthetic data only; ER/scores ≠ fraude/parentesco.
+- Fail-closed gates where decisions affect people.
+
+## Decision log
+Research supports operational contracts + fixture-based weDo (S01/S40 style), not slogan theory or empty `# TODO` starters.

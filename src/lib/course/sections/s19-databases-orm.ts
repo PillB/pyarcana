@@ -494,9 +494,11 @@ alt_words 12`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `pregunta = "comparar regiones"
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+pregunta = "comparar regiones"
 chart = "bar"
-# TODO: completa el contrato del ejercicio (ver instruction)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(chart)
 `,
         },
         solutionCode: {
@@ -588,9 +590,11 @@ bar`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `truco = (50 - 45) / (50 - 40)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+truco = (50 - 45) / (50 - 40)
 hon = (50 - 45) / 50
-# TODO: completa el contrato del ejercicio (ver instruction)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("factor", round(truco / hon, 2))
 `,
         },
         solutionCode: {
@@ -619,8 +623,10 @@ print("factor", round(truco / hon, 2))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ylim_bottom = 0
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+ylim_bottom = 0
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("honesto" if ylim_bottom == 0 else "revisar")
 `,
         },
         solutionCode: {
@@ -648,8 +654,10 @@ print("honesto" if ylim_bottom == 0 else "revisar")`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `encoding = "dual_axis"
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+encoding = "dual_axis"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("riesgo_alto" if encoding == "dual_axis" else "ok")
 `,
         },
         solutionCode: {
@@ -796,8 +804,11 @@ print(meta_bar(["A", "B"], [3, 4]))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print({"fmt": "png", "dpi": 120, "panels": 2})
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print({"fmt": "png", "dpi": 120, "panels": 2})
 `,
         },
         solutionCode: {
@@ -824,8 +835,10 @@ print(meta_bar(["A", "B"], [3, 4]))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `version = 3
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+version = 3
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(f"fig_cpn2b_v{version}.png")
 `,
         },
         solutionCode: {
@@ -922,8 +935,11 @@ print(next(r for r in rows if r["region"] == "Lima")["median"])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(f"Lima: {28} PEN (n={40})")
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(f"Lima: {28} PEN (n={40})")
 `,
         },
         solutionCode: {
@@ -982,9 +998,11 @@ print(tooltip({"region": "Cusco", "median": 22.5, "n": 32}))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `chart = {"Lima": 1}
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+chart = {"Lima": 1}
 table = [{"region": "Lima", "v": 1}]
-# TODO: completa el contrato del ejercicio (ver instruction)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(chart["Lima"] == table[0]["v"])
 `,
         },
         solutionCode: {
@@ -1013,8 +1031,10 @@ print(chart["Lima"] == table[0]["v"])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import json
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import json
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(json.dumps({"filtro_region": "Lima"}, ensure_ascii=False))
 `,
         },
         solutionCode: {
@@ -1071,8 +1091,11 @@ print("; ".join(f"{r['region']}={r['v']} PEN" for r in table))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print("unidad=PEN | fuente=sintetico")
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("unidad=PEN | fuente=sintetico")
 `,
         },
         solutionCode: {
@@ -1160,8 +1183,10 @@ print(pie({"unidad": "PEN", "n": 10}))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `claim = "Lima es la mejor del Perú"
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+claim = "Lima es la mejor del Perú"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("RECHAZADO" if ("del Perú" in claim and "muestra" not in claim) else "OK")
 `,
         },
         solutionCode: {
@@ -1189,8 +1214,10 @@ print("RECHAZADO" if ("del Perú" in claim and "muestra" not in claim) else "OK"
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `alt = "Lima 28 PEN n=40"
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+alt = "Lima 28 PEN n=40"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("n=" in alt or "n=" in alt.replace("n=", "n="))
 `,
         },
         solutionCode: {

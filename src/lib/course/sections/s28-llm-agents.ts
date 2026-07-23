@@ -544,7 +544,9 @@ print(run(3)[0])`,
           language: 'python',
           title: "exercise.py",
           code: `import random
-# TODO
+random.seed(0); a=random.random()
+random.seed(0); b=random.random()
+# TODO: imprime la salida contractual (ver instruction / solution output)
 `,
         },
         solutionCode: {
@@ -574,8 +576,10 @@ print(a == b)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `scores=[0,0.5,1]
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+scores=[0,0.5,1]
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(all(0 <= s <= 1 for s in scores))
 `,
         },
         solutionCode: {
@@ -603,8 +607,11 @@ print(all(0 <= s <= 1 for s in scores))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `s='  x '
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+s='  x '
+f=lambda x: x.strip()
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(f(f(s)) == f(s))
 `,
         },
         solutionCode: {
@@ -633,8 +640,10 @@ print(f(f(s)) == f(s))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `a,b='x','x'
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+a,b='x','x'
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print((a == b) == (b == a))
 `,
         },
         solutionCode: {
@@ -662,7 +671,11 @@ print((a == b) == (b == a))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('Ana'.casefold() == 'ANA'.casefold())
 `,
         },
         solutionCode: {
@@ -689,8 +702,10 @@ print((a == b) == (b == a))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `a,b=1,1
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+a,b=1,1
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print((a == b) == (b == a))
 `,
         },
         solutionCode: {
@@ -718,8 +733,10 @@ print((a == b) == (b == a))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `r={}
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+r={}
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('id requerido' if not r.get('id') else 'ok')
 `,
         },
         solutionCode: {
@@ -747,8 +764,10 @@ print('id requerido' if not r.get('id') else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `score=1.2
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+score=1.2
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('score' if not (0 <= score <= 1) else 'ok')
 `,
         },
         solutionCode: {
@@ -776,8 +795,10 @@ print('score' if not (0 <= score <= 1) else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `rows=[{'id':'1'},{'id':''}]
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+rows=[{'id':'1'},{'id':''}]
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(sum(1 for r in rows if not r.get('id')))
 `,
         },
         solutionCode: {
@@ -805,8 +826,10 @@ print(sum(1 for r in rows if not r.get('id')))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `golden,current={'n':1},{'n':2}
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+golden,current={'n':1},{'n':2}
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('drift' if golden != current else 'ok')
 `,
         },
         solutionCode: {
@@ -834,8 +857,10 @@ print('drift' if golden != current else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `diff, approved = True, False
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+diff, approved = True, False
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('blocked' if diff and not approved else 'ok')
 `,
         },
         solutionCode: {
@@ -863,7 +888,11 @@ print('blocked' if diff and not approved else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print({'golden_version': 3}['golden_version'])
 `,
         },
         solutionCode: {
@@ -890,8 +919,10 @@ print('blocked' if diff and not approved else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `db={'e1':{'name':'Ana'}}
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+db={'e1':{'name':'Ana'}}
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(db['e1']['name'])
 `,
         },
         solutionCode: {
@@ -919,8 +950,10 @@ print(db['e1']['name'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from datetime import date
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+from datetime import date
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(date(2026, 7, 20).isoformat())
 `,
         },
         solutionCode: {
@@ -948,8 +981,10 @@ print(date(2026, 7, 20).isoformat())`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `status=503
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+status=503
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('retry' if status >= 500 else 'ok')
 `,
         },
         solutionCode: {
@@ -977,7 +1012,11 @@ print('retry' if status >= 500 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('A'.casefold() == 'a'.casefold())
 `,
         },
         solutionCode: {
@@ -1004,8 +1043,10 @@ print('retry' if status >= 500 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `f=lambda a,b: True
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+f=lambda a,b: True
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('weak' if f('x','y') and f('1','2') else 'ok')
 `,
         },
         solutionCode: {
@@ -1033,7 +1074,11 @@ print('weak' if f('x','y') and f('1','2') else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print({'rows_written': 1}['rows_written'])
 `,
         },
         solutionCode: {
@@ -1061,7 +1106,10 @@ print('weak' if f('x','y') and f('1','2') else 'ok')`,
           language: 'python',
           title: "exercise.py",
           code: `import sqlite3
-# TODO
+c=sqlite3.connect(':memory:')
+c.execute('create table t(x int)')
+c.execute('insert into t values (1)')
+# TODO: imprime la salida contractual (ver instruction / solution output)
 `,
         },
         solutionCode: {
@@ -1092,8 +1140,10 @@ print(c.execute('select count(*) from t').fetchone()[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `n=4
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+n=4
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(n * (n - 1) // 2)
 `,
         },
         solutionCode: {
@@ -1121,8 +1171,10 @@ print(n * (n - 1) // 2)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `done, items={'a'}, ['a','b']
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+done, items={'a'}, ['a','b']
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print([i for i in items if i not in done])
 `,
         },
         solutionCode: {
@@ -1150,7 +1202,11 @@ print([i for i in items if i not in done])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print(sorted(['b', 'a']))
 `,
         },
         solutionCode: {
@@ -1177,8 +1233,10 @@ print([i for i in items if i not in done])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `flake_rate=0.01
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+flake_rate=0.01
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('fail_job' if flake_rate > 0 else 'ok')
 `,
         },
         solutionCode: {
@@ -1206,7 +1264,11 @@ print('fail_job' if flake_rate > 0 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `# Fixture sintético (CASO-PE) — no PII real
+case_id = "CASO-LIM-SYN"
+run_id = "cp-local"
+# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
+# forma esperada (referencia): print('unit→data→integration')
 `,
         },
         solutionCode: {

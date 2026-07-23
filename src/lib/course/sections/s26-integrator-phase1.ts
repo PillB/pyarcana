@@ -504,8 +504,11 @@ print("alert_success_rate" if slo_ok else "ok")`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `nodes=['a','b','c']  # path lineal sintético
-# TODO: edges = list(zip(...)); print len y edges
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+nodes=['a','b','c']
+edges=list(zip(nodes, nodes[1:]))
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(len(edges), edges)
 `,
         },
         solutionCode: {
@@ -535,8 +538,10 @@ print(len(edges), edges)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `tasks={'a':'success','b':'failed'}  # agregación global
-# TODO: print 'failed' si any failed else 'success'
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+tasks={'a':'success','b':'failed'}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('failed' if any(v=='failed' for v in tasks.values()) else 'success')
 `,
         },
         solutionCode: {
@@ -565,8 +570,10 @@ print('failed' if any(v=='failed' for v in tasks.values()) else 'success')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `m={'run_id':'cpn2c-1','trigger':'manual'}  # metadata run
-# TODO: imprime solo run_id
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+m={'run_id':'cpn2c-1'}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(m['run_id'])
 `,
         },
         solutionCode: {
@@ -595,8 +602,10 @@ print(m['run_id'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `api_rpm=90  # preflight límite adapter sintético
-# TODO: too_high si >60 else ok
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+api_rpm=90
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('too_high' if api_rpm>60 else 'ok')
 `,
         },
         solutionCode: {
@@ -625,8 +634,11 @@ print('too_high' if api_rpm>60 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Schedule días hábiles 06:00 Lima
-# TODO: print cron y America/Lima
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('0 6 * * 1-5', 'America/Lima')
 `,
         },
         solutionCode: {
@@ -654,8 +666,10 @@ print('too_high' if api_rpm>60 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `attempt, base = 3, 100  # backoff sin cap en lab
-# TODO: print base * 2**(attempt-1)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+attempt, base = 3, 100
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(base * (2 ** (attempt - 1)))
 `,
         },
         solutionCode: {
@@ -684,9 +698,13 @@ print(base * (2 ** (attempt - 1)))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `dlq=[]
-fail=True  # item irrecuperable → DLQ
-# TODO: append 'x' si fail; print dlq
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+dlq=[]
+fail=True
+if fail:
+    dlq.append('x')
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(dlq)
 `,
         },
         solutionCode: {
@@ -718,8 +736,10 @@ print(dlq)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ckpt={'a'}; items=['a','b']  # reanudación
-# TODO: print ids no en ckpt
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+ckpt={'a'}; items=['a','b']
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print([i for i in items if i not in ckpt])
 `,
         },
         solutionCode: {
@@ -789,9 +809,11 @@ print(store['r'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `state={'report':'ok','draft':'ok'}  # side-effects
-# TODO: rollback draft; print state
-print(state)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+state={'report':'ok','draft':'ok'}
+state.pop('draft', None)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(state)
 `,
         },
         solutionCode: {
@@ -821,8 +843,10 @@ print(state)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `locked=True  # otro worker en entidad
-# TODO: print busy|enter
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+locked=True
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('busy' if locked else 'enter')
 `,
         },
         solutionCode: {
@@ -851,8 +875,10 @@ print('busy' if locked else 'enter')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `analysis=[{'status':'pending'},{'status':'done'}]
-# TODO: cuenta pending e imprime int
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+analysis=[{'status':'pending'},{'status':'done'}]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(sum(1 for x in analysis if x['status']=='pending'))
 `,
         },
         solutionCode: {
@@ -881,8 +907,10 @@ print(sum(1 for x in analysis if x['status']=='pending'))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `q={'analysis':1,'report':0,'recipient':0}
-# TODO: print True si any>0 (blocked)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+q={'analysis':1,'report':0,'recipient':0}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(any(v>0 for v in q.values()))
 `,
         },
         solutionCode: {
@@ -911,8 +939,11 @@ print(any(v>0 for v in q.values()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Checklist HITL mínima del VP
-# TODO: print ['metrics','narrative','recipient']
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(['metrics','narrative','recipient'])
 `,
         },
         solutionCode: {
@@ -940,9 +971,11 @@ print(any(v>0 for v in q.values()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `audit=[]  # append-only
-# TODO: registra approve+actor; expón action
-print(audit)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+audit=[]
+audit.append({'action':'approve','actor':'rev'})
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(audit[0]['action'])
 `,
         },
         solutionCode: {
@@ -972,8 +1005,10 @@ print(audit[0]['action'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `action, reason = 'reject', None
-# TODO: invalid si reject sin reason
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+action, reason = 'reject', None
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('invalid' if action=='reject' and not reason else 'ok')
 `,
         },
         solutionCode: {
@@ -1002,8 +1037,11 @@ print('invalid' if action=='reject' and not reason else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ver=1  # versión de informe sintético
-# TODO: edit → ver+1; print ver
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+ver=1
+ver += 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(ver)
 `,
         },
         solutionCode: {
@@ -1033,8 +1071,10 @@ print(ver)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `rate=0.9  # success_rate ventana diaria
-# TODO: alert si <0.95 else ok
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+rate=0.9
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('alert' if rate < 0.95 else 'ok')
 `,
         },
         solutionCode: {
@@ -1063,8 +1103,10 @@ print('alert' if rate < 0.95 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `n=1  # sends_without_approve
-# TODO: P0_unapproved_send si n>0
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+n=1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('P0_unapproved_send' if n>0 else 'ok')
 `,
         },
         solutionCode: {
@@ -1093,8 +1135,11 @@ print('P0_unapproved_send' if n>0 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Runbook contención
-# TODO: print disable_schedule -> drain -> page
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('disable_schedule -> drain -> page')
 `,
         },
         solutionCode: {
@@ -1122,9 +1167,11 @@ print('P0_unapproved_send' if n>0 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `steps=['ingest','validate','draft']
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+steps=['ingest','validate','draft']
 status={s:'success' for s in steps}
-# TODO: print True si all success
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(all(status[s]=='success' for s in steps))
 `,
         },
         solutionCode: {
@@ -1154,8 +1201,10 @@ print(all(status[s]=='success' for s in steps))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `fraud_labels=0  # VP no auto-etiqueta fraude
-# TODO: ok si 0 else fail
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+fraud_labels=0
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('ok' if fraud_labels==0 else 'fail')
 `,
         },
         solutionCode: {
@@ -1184,8 +1233,11 @@ print('ok' if fraud_labels==0 else 'fail')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Notas regresión N2 + valor estimado
-# TODO: print dict n2_regression / value / cf2
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-re
 `,
         },
         solutionCode: {

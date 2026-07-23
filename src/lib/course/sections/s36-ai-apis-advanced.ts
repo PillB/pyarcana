@@ -412,10 +412,10 @@ auto_guilt False`,
         starterCode: {
           language: 'python',
           title: "s36-t1-a-e1.py",
-          code: `xs = [1, 2]
-print(sum(xs))  # TODO mean
-print("n", len(xs))
-print("ok", True)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+xs = [1, 2]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(sum(xs)/len(xs))
 `,
         },
         solutionCode: {
@@ -444,10 +444,10 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s36-t1-a-e2.py",
-          code: `x, mu, sd = 4, 0, 2
-print(x - mu)  # TODO / sd
-print("sd", sd)
-print("ok", True)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+x, mu, sd = 4, 0, 2
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print((x - mu) / sd)
 `,
         },
         solutionCode: {
@@ -476,9 +476,11 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s36-t1-a-e3.py",
-          code: `print("verdict", True)  # TODO False
-print("ok", True)
-print("task", "cluster")
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("verdict", False)
 `,
         },
         solutionCode: {
@@ -540,9 +542,11 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s36-t1-b-e2.py",
-          code: `print("seeds", [0])  # TODO [0,1,2]
-print("ok", True)
-print("stable", "skip")
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("seeds", [0, 1, 2])
 `,
         },
         solutionCode: {
@@ -570,9 +574,11 @@ stable check`,
         starterCode: {
           language: 'python',
           title: "s36-t1-b-e3.py",
-          code: `print("limit", False)  # TODO True
-print("ok", True)
-print("n", 1)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("limit", True)
 `,
         },
         solutionCode: {
@@ -600,9 +606,11 @@ n 1`,
         starterCode: {
           language: 'python',
           title: "s36-t2-a-e1.py",
-          code: `print(round(0.5*2 + 0.5*2, 1))  # TODO 0.5*2+0.5*4
-print("ok", True)
-print("pca", True)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(round(0.5*2 + 0.5*4, 1))
 `,
         },
         solutionCode: {
@@ -630,9 +638,11 @@ pca True`,
         starterCode: {
           language: 'python',
           title: "s36-t2-a-e2.py",
-          code: `print("decision_model", True)  # TODO False
-print("ok", True)
-print("use", "judge")
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("decision_model", False)
 `,
         },
         solutionCode: {
@@ -660,9 +670,11 @@ use viz`,
         starterCode: {
           language: 'python',
           title: "s36-t2-a-e3.py",
-          code: `print(10)  # TODO 2 for viz
-print("ok", True)
-print("explore", False)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(2)
 `,
         },
         solutionCode: {
@@ -690,9 +702,11 @@ explore True`,
         starterCode: {
           language: 'python',
           title: "s36-t2-b-e1.py",
-          code: `print(True)  # TODO False
-print("ok", True)
-print("prudent", False)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(False)
 `,
         },
         solutionCode: {
@@ -720,9 +734,11 @@ prudent True`,
         starterCode: {
           language: 'python',
           title: "s36-t2-b-e2.py",
-          code: `print("check_scale", False)
-print("ok", True)
-print("auto_label", True)  # TODO invert
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("check_scale", True)
 `,
         },
         solutionCode: {
@@ -750,9 +766,11 @@ auto_label False`,
         starterCode: {
           language: 'python',
           title: "s36-t2-b-e3.py",
-          code: `print("production_judge")  # TODO exploratory
-print("ok", True)
-print("n", 1)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("exploratory")
 `,
         },
         solutionCode: {
@@ -780,10 +798,10 @@ n 1`,
         starterCode: {
           language: 'python',
           title: "s36-t3-a-e1.py",
-          code: `flags = [0, 0, 1]
-print(len(flags))  # TODO sum
-print("misconduct", True)
-print("ok", True)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+flags = [0, 0, 1]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(sum(flags))
 `,
         },
         solutionCode: {
@@ -812,9 +830,11 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s36-t3-a-e2.py",
-          code: `print(["score"])  # TODO rule+score
-print("ok", True)
-print("n", 1)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(["rule", "score"])
 `,
         },
         solutionCode: {
@@ -842,9 +862,11 @@ n 2`,
         starterCode: {
           language: 'python',
           title: "s36-t3-a-e3.py",
-          code: `print("guilt", True)  # TODO False
-print("route", "auto_ban")
-print("ok", True)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("guilt", False)
 `,
         },
         solutionCode: {
@@ -872,9 +894,11 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s36-t3-b-e1.py",
-          code: `print(["outlier"])  # TODO both
-print("ok", True)
-print("n", 1)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(["outlier", "novelty"])
 `,
         },
         solutionCode: {
@@ -902,10 +926,10 @@ n 2`,
         starterCode: {
           language: 'python',
           title: "s36-t3-b-e2.py",
-          code: `c, n = 0.1, 50
-print(int(n * c))
-print("is_fraud_rate", True)  # TODO False
-print("ok", True)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+c, n = 0.1, 50
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(int(n * c))
 `,
         },
         solutionCode: {
@@ -934,9 +958,11 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s36-t3-b-e3.py",
-          code: `print("capacity_link", False)  # TODO True
-print("ok", True)
-print("n", 1)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("capacity_link", True)
 `,
         },
         solutionCode: {
@@ -964,10 +990,10 @@ n 1`,
         starterCode: {
           language: 'python',
           title: "s36-t4-a-e1.py",
-          code: `rates = [0.1, 0.2]
-print(sum(rates))  # TODO mean
-print("backtest", True)
-print("ok", True)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+rates = [0.1, 0.2]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(sum(rates)/len(rates))
 `,
         },
         solutionCode: {
@@ -996,9 +1022,11 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s36-t4-a-e2.py",
-          code: `print("leakage", True)  # TODO False
-print("ok", True)
-print("split", "random")
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("leakage", False)
 `,
         },
         solutionCode: {
@@ -1026,9 +1054,11 @@ split time`,
         starterCode: {
           language: 'python',
           title: "s36-t4-a-e3.py",
-          code: `print(1)  # TODO 3 windows
-print("ok", True)
-print("temporal", False)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(3)
 `,
         },
         solutionCode: {
@@ -1056,10 +1086,10 @@ temporal True`,
         starterCode: {
           language: 'python',
           title: "s36-t4-b-e1.py",
-          code: `ranked, k = [1, 0, 1], 3  # TODO k=2
-print(sum(ranked[:k])/k)
-print("k", k)
-print("auto_guilt", False)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+ranked, k = [1, 0, 1], 2
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(sum(ranked[:k])/k)
 `,
         },
         solutionCode: {
@@ -1088,9 +1118,11 @@ auto_guilt False`,
         starterCode: {
           language: 'python',
           title: "s36-t4-b-e2.py",
-          code: `print(False)  # TODO human review True
-print("ok", True)
-print("labels", "abundant")
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(True)
 `,
         },
         solutionCode: {
@@ -1118,9 +1150,11 @@ labels scarce`,
         starterCode: {
           language: 'python',
           title: "s36-t4-b-e3.py",
-          code: `print("global_accuracy")  # TODO precision_at_k
-print("ok", True)
-print("n", 1)
+          code: `# Fixture sintético CASO-PE — sin PII real
+case_id = "CASO-LIM-SYN"
+run_id = "local-check"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("precision_at_k")
 `,
         },
         solutionCode: {

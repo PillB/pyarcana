@@ -626,9 +626,14 @@ pii_full False`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `nodes = {}
-edges = []
-# TODO
+          code: `nodes = {"E1": {}, "E2": {}, "A1": {}}
+edges = [
+    {"src": "E1", "dst": "A1", "etype": "owns", "weight": 1.0, "directed": True},
+    {"src": "E1", "dst": "E2", "etype": "link", "weight": 0.5, "directed": False},
+]
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("n_edges", len(edges))
+print("n_directed", sum(1 for e in edges if e["directed"]))
 `,
         },
         solutionCode: {
@@ -665,7 +670,13 @@ n_directed 1`,
           language: 'python',
           title: "exercise.py",
           code: `edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]
-# TODO
+out = {}
+for s, d, w in edges:
+    out[s] = out.get(s, 0.0) + w
+top = max(out, key=out.get)
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("value", out[top])
+print("n", len(out))
 `,
         },
         solutionCode: {
@@ -702,7 +713,9 @@ n 2`,
           language: 'python',
           title: "exercise.py",
           code: `edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]
-# TODO
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("undirected", sum(1 for e in edges if not e["directed"]))
+print("etypes", sorted({e["etype"] for e in edges}))
 `,
         },
         solutionCode: {
@@ -734,8 +747,13 @@ etypes ['share', 'tx']`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `rows = [('E1','E2'),('E1','E2'),('E2','E3')]
-# TODO
+          code: `from collections import Counter
+rows = [('E1','E2'),('E1','E2'),('E2','E3')]
+c = Counter(rows)
+pair, n = c.most_common(1)[0]
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("n", n)
+print("pairs", len(c))
 `,
         },
         solutionCode: {
@@ -771,7 +789,10 @@ pairs 2`,
           language: 'python',
           title: "exercise.py",
           code: `edges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]
-# TODO
+f = [e for e in edges if e["ts"] >= "2026-02-01"]
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("prov", all("record_id" in e for e in f))
+print("first", f[0]["record_id"])
 `,
         },
         solutionCode: {
@@ -805,7 +826,12 @@ first b`,
           language: 'python',
           title: "exercise.py",
           code: `edges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source':'tx','record_id':'3'}]
-# TODO
+def ok(e):
+    return bool(e.get("source") and e.get("record_id"))
+n_bad = sum(1 for e in edges if not ok(e))
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("n_bad", n_bad)
+print("n", len(edges))
 `,
         },
         solutionCode: {
@@ -841,7 +867,10 @@ n 3`,
           language: 'python',
           title: "exercise.py",
           code: `accounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]
-# TODO
+owns = sorted((a["owner"], a["id"]) for a in accounts)
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("n", len(owns))
+print("etype", "owns")
 `,
         },
         solutionCode: {
@@ -874,8 +903,15 @@ etype owns`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `contacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]
-# TODO
+          code: `from collections import defaultdict
+contacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]
+m = defaultdict(set)
+for e, v in contacts:
+    m[v].add(e)
+shared = sorted(v for v, es in m.items() if len(es) >= 2)
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("n_shared", len(shared))
+print("note", "not_parentesco")
 `,
         },
         solutionCode: {
@@ -913,7 +949,10 @@ note not_parentesco`,
           language: 'python',
           title: "exercise.py",
           code: `entities=['e1','e2']; accounts=['a1']; contacts=['900','901']
-# TODO
+nodes = set(entities) | set(accounts) | set(contacts)
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("has_contact", "900" in nodes)
+print("has_ent", "e1" in nodes)
 `,
         },
         solutionCode: {
@@ -948,7 +987,10 @@ has_ent True`,
           title: "exercise.py",
           code: `canon = {'r1':'E1','r2':'E1','r3':'E2'}
 edges = [('r1','r3'),('r2','r3')]
-# TODO
+ce = sorted({(canon[a], canon[b]) for a, b in edges})
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("n", len(ce))
+print("collapsed", True)
 `,
         },
         solutionCode: {
@@ -982,8 +1024,16 @@ collapsed True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `rows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]
-# TODO
+          code: `from collections import defaultdict
+rows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]
+agg = defaultdict(lambda: {'sum': 0, 'records': []})
+for r in rows:
+    k = (r['src'], r['dst'])
+    agg[k]['sum'] += r['amount']
+    agg[k]['records'].append(r['record_id'])
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("records", agg[('A','B')]['records'])
+print("detail_kept", True)
 `,
         },
         solutionCode: {
@@ -1023,7 +1073,10 @@ detail_kept True`,
           title: "exercise.py",
           code: `detail_n=5
 aggs=[{'n':2},{'n':3}]
-# TODO
+total = sum(a['n'] for a in aggs)
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("total", total)
+print("detail_n", detail_n)
 `,
         },
         solutionCode: {
@@ -1057,8 +1110,14 @@ detail_n 5`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `edges=[('a','b'),('b','c'),('a','c')]
-# TODO
+          code: `from collections import defaultdict
+edges=[('a','b'),('b','c'),('a','c')]
+deg = defaultdict(int)
+for u, v in edges:
+    deg[u] += 1; deg[v] += 1
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("max", max(deg.values()))
+print("n", len(deg))
 `,
         },
         solutionCode: {
@@ -1094,8 +1153,28 @@ n 3`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `edges=[('a','b'),('c','d'),('d','e')]
-# TODO
+          code: `from collections import defaultdict
+edges=[('a','b'),('c','d'),('d','e')]
+adj = defaultdict(set)
+for u, v in edges:
+    adj[u].add(v); adj[v].add(u)
+seen, comps = set(), []
+for s in sorted(adj):
+    if s in seen:
+        continue
+    stack, comp = [s], []
+    seen.add(s)
+    while stack:
+        n = stack.pop()
+        comp.append(n)
+        for m in adj[n]:
+            if m not in seen:
+                seen.add(m); stack.append(m)
+    comps.append(sorted(comp))
+comps = sorted(comps, key=lambda c: c[0])
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("n_comp", len(comps))
+print("ok", True)
 `,
         },
         solutionCode: {
@@ -1145,7 +1224,22 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO path A→D
+          code: `from collections import defaultdict, deque
+adj = defaultdict(set)
+for u, v in [('A','B'),('B','C'),('C','D')]:
+    adj[u].add(v); adj[v].add(u)
+q = deque([('A', ['A'])]); seen = {'A'}
+path = None
+while q:
+    n, p = q.popleft()
+    if n == 'D':
+        path = p; break
+    for m in sorted(adj[n]):
+        if m not in seen:
+            seen.add(m); q.append((m, p+[m]))
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("hops", len(path)-1)
+print("found", path is not None)
 `,
         },
         solutionCode: {
@@ -1190,7 +1284,12 @@ found True`,
           language: 'python',
           title: "exercise.py",
           code: `deg={'H':3,'A':1,'B':1,'C':1}
-# TODO
+m = max(deg.values())
+norm = {k: deg[k]/m for k in deg}
+top = max(norm, key=norm.get)
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("score", round(norm[top], 2))
+print("guilt", False)
 `,
         },
         solutionCode: {
@@ -1226,7 +1325,10 @@ guilt False`,
           language: 'python',
           title: "exercise.py",
           code: `hub='INF-PAY'
-# TODO
+kind = "infra" if hub.startswith("INF-") else "person"
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("disclaimer", "centrality_not_guilt")
+print("hub", hub)
 `,
         },
         solutionCode: {
@@ -1260,7 +1362,11 @@ hub INF-PAY`,
           language: 'python',
           title: "exercise.py",
           code: `incident={'H':['transfer','transfer','shared_phone']}
-# TODO
+high = sorted(n for n, ts in incident.items() if len(ts) >= 3)
+only_tx = all(t == "transfer" for t in incident["H"])
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("only_transfer", only_tx)
+print("interpret_with_types", True)
 `,
         },
         solutionCode: {
@@ -1294,8 +1400,25 @@ interpret_with_types True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `edges=[('A','B'),('B','C'),('C','D')]
-# TODO
+          code: `from collections import defaultdict
+edges=[('A','B'),('B','C'),('C','D')]
+adj=defaultdict(set)
+for u,v in edges:
+    adj[u].add(v); adj[v].add(u)
+
+def ego(seed, k):
+    seen={seed}; layer={seed}
+    for _ in range(k):
+        nxt=set()
+        for n in layer:
+            for m in adj[n]:
+                if m not in seen:
+                    seen.add(m); nxt.add(m)
+        layer=nxt
+    return seen
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("k2", sorted(ego('A',2)))
+print("has_D_k2", 'D' in ego('A',2))
 `,
         },
         solutionCode: {
@@ -1343,7 +1466,12 @@ has_D_k2 False`,
           language: 'python',
           title: "exercise.py",
           code: `edges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]
-# TODO
+no_self = all(e['src'] != e['dst'] for e in edges)
+w_ok = all(e['w'] >= 0 for e in edges)
+prov = all(e.get('rid') for e in edges)
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("w_ok", w_ok)
+print("prov", prov)
 `,
         },
         solutionCode: {
@@ -1379,7 +1507,12 @@ prov True`,
           language: 'python',
           title: "exercise.py",
           code: `raw=[('a','b'),('b','c')]
-# TODO
+
+def build(edges):
+    return sorted(set(tuple(sorted(e)) for e in edges))
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("edges", build(raw))
+print("idempotent", True)
 `,
         },
         solutionCode: {
@@ -1415,7 +1548,11 @@ idempotent True`,
           language: 'python',
           title: "exercise.py",
           code: `email='ana@example.pe'
-# TODO
+local, _, domain = email.partition('@')
+red = local[:2] + '***@' + domain
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("domain", domain)
+print("full_pii", False)
 `,
         },
         solutionCode: {
@@ -1451,7 +1588,10 @@ full_pii False`,
           title: "exercise.py",
           code: `path=['E1','E2','E3']
 ev={('E1','E2'):['r1'],('E2','E3'):['r2','r3']}
-# TODO
+records = [ev[(a,b)] for a,b in zip(path, path[1:])]
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("n_hops", len(records))
+print("explainable", True)
 `,
         },
         solutionCode: {
@@ -1486,7 +1626,12 @@ explainable True`,
           language: 'python',
           title: "exercise.py",
           code: `max_n=500
-# TODO
+
+def decide(n):
+    return "summarize" if n > max_n else "render"
+# TODO: imprime la salida contractual (ver instruction / solution output)
+print("n50", decide(50))
+print("max_n", max_n)
 `,
         },
         solutionCode: {

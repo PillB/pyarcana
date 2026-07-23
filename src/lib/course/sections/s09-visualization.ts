@@ -1382,8 +1382,20 @@ lote terminado con conteos: INFO`,
         starterCode: {
           language: 'python',
           title: "module_logger.py",
-          code: `import logging, io
-# TODO`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import logging, io
+buf = io.StringIO()
+log = logging.getLogger("familiarity.ingest")
+log.handlers.clear()
+log.setLevel(logging.INFO)
+h = logging.StreamHandler(buf)
+h.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
+log.addHandler(h)
+log.propagate = False
+log.info("stage=ingest event=start")
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(buf.getvalue().strip())
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1668,12 +1680,22 @@ variable de entorno ROOT_PATH vacía: config`,
         starterCode: {
           language: 'python',
           title: "process_batch.py",
-          code: `def process_batch(rows):
-    # TODO
-    ...
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+def process_batch(rows):
+    ok, q = [], []
+    for r in rows:
+        if not r.get("id"):
+            q.append({"row": r, "reason": "data:missing_id"})
+        else:
+            ok.append(r)
+    return {"ok": ok, "quarantined": q, "in": len(rows)}
 
 rows = [{"id": 1}, {}, {"id": 2}]
-print(process_batch(rows))`,
+r = process_batch(rows)
+assert r["in"] == len(r["ok"]) + len(r["quarantined"])
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(r)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1711,7 +1733,16 @@ assert r["in"] == len(r["ok"]) + len(r["quarantined"])`,
         starterCode: {
           language: 'python',
           title: "abort_policy.py",
-          code: `# TODO: imprimir 3 reglas`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+rules = [
+    "POLICY: abortar si falta config crítica (schema, delimiter, paths)",
+    "POLICY: abortar si quarantined/in > 0.5 en el lote",
+    "POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data",
+]
+for r in rules:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(r)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1745,8 +1776,18 @@ POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data
         starterCode: {
           language: 'python',
           title: "retry_table.py",
-          code: `errores = ["TimeoutError", "ValueError", "ConnectionError", "KeyError", "PermissionError"]
-# TODO`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+retry = {
+    "TimeoutError": "yes",
+    "ValueError": "no",
+    "ConnectionError": "yes",
+    "KeyError": "no",
+    "PermissionError": "no",
+}
+for e, r in retry.items():
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(f"{e}: {r}")
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1839,8 +1880,16 @@ print(retry_call(flaky), "calls", n["c"])`,
         starterCode: {
           language: 'python',
           title: "idempotency_key.py",
-          code: `record = {"source": "banco_a", "id": "C001", "version": 3, "payload": {"m": 1}}
-# TODO`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import hashlib, json
+record = {"source": "banco_a", "id": "C001", "version": 3, "payload": {"m": 1}}
+payload_hash = hashlib.sha256(
+    json.dumps(record["payload"], sort_keys=True).encode()
+).hexdigest()[:12]
+key = f"{record['source']}:{record['id']}:v{record['version']}:{payload_hash}"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("idem_key=" + key)
+`,
         },
         solutionCode: {
           language: 'python',

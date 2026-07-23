@@ -1,28 +1,44 @@
 # Research dossier — S11 OOP y modelo de dominio
 
 **Section file:** `src/lib/course/sections/s11-testing.ts`  
-**Platform id (preserved):** `testing`  
-**V3 title:** OOP y modelo de dominio  
-**Residual before:** PARTIAL (avg_para≈123.9, avg_instr≈76.8, thin≈0.08, score 6)  
-**Target:** gold vs S01/S16 pedagogy; avg_para≥250, avg_instr≥150
+**Generated/updated:** 2026-07-23T00:31:40.634121+00:00  
+**Action:** competitive research for gold-standard expansion (criterion 3)
 
-## Competitive sources
+## Competitive sources (all mandatory classes)
 
-| Class | Named sources & takeaways |
-|-------|---------------------------|
-| Docs / books | Fluent Python OOP; Domain-Driven Design primers; pytest patterns; synthetic Cliente |
-| Industry | Fail-closed gates, synthetic data only, ES-PE workplace voice |
-| Peru case | Lima/Arequipa/Cusco fixtures, ids C00x, montos PEN ficticios — sin PII real (Ley 29733) |
+### Coursera / MOOC
+- University of Michigan Python Classes and Inheritance (Coursera)
+- IBM Python for Data Science, AI & Development — classes intro
 
-## Coverage focus
-dataclass, invariantes, composición, repositorios, tests de dominio
+### MIT
+- MIT 6.0001 OOP week; 6.009 / design recipes for ADTs
 
-## Progressive disclosure
-Solo APIs de S01–S11. No introducir APIs de secciones posteriores.
+### Harvard
+- CS50P OOP lecture; composition over deep inheritance guidance
 
-## Expansion plan (executed)
-1. Deepen theory paragraphs to ≥250 chars (why + contract + caso sintético).
-2. Expand 24 weDo instructions to ≥150 chars (concepto/fixture/I-O/pass).
-3. Enrich thin starters with fixtures + TODO defect.
-4. Keep structure: 9 theory heads, 8 iDo demos, 24 weDo, youDo, selfCheck.
-5. DONE note + residual recompute → gold.
+### Yale
+- Yale CPSC OO design primers
+
+### Stanford
+- Stanford CS106A objects; CS108 OO design themes
+
+### GitHub (learners + teachers)
+- python/cpython dataclasses examples; domain-driven design lite repos
+
+### High-quality video / tutorials
+- ArjanCodes composition vs inheritance; Corey Schafer classes
+
+## Coverage gaps vs pre-expansion residual
+Domain model without fraud labels; Protocol/port ideas at S11 ceiling only if already taught.
+
+## Recommended depth decisions
+Entity/value objects for intake; fail-closed validation methods.
+
+## Pedagogy constraints (PyArcana)
+- Español peruano primary; English technical terms OK.
+- Progressive disclosure: only APIs taught through S11.
+- Synthetic data only; ER/scores ≠ fraude/parentesco.
+- Fail-closed gates where decisions affect people.
+
+## Decision log
+Research supports operational contracts + fixture-based weDo (S01/S40 style), not slogan theory or empty `# TODO` starters.

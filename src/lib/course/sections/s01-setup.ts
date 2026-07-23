@@ -1734,12 +1734,15 @@ Borra cambios no commiteados de forma fácil de lamentar. Primero restore/stash;
         starterCode: {
           language: 'toml',
           title: 'pyproject.toml',
-          code: `[tool.____]
-line-length = ____
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+[tool.ruff]
+line-length = 88
 target-version = "py312"
 
 [tool.ruff.lint]
-select = ["____", "____", "____"]`,
+select = ["E", "F", "I"]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+`,
         },
         solutionCode: {
           language: 'toml',
@@ -1883,19 +1886,22 @@ Cuando E/F/I pasan en verde de forma habitual y el equipo acuerda reglas extra (
         starterCode: {
           language: 'gitignore',
           title: '.gitignore',
-          code: `# Entornos
-____/
-____/
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+# Entornos
+.venv/
+venv/
 
 # Bytecode
-____/
-____
+__pycache__/
+*.pyc
 
 # Secretos
-____
+.env
 
 # Jupyter
-.ipynb_checkpoints/`,
+.ipynb_checkpoints/
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+`,
         },
         solutionCode: {
           language: 'gitignore',

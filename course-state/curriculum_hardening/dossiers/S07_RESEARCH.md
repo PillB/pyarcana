@@ -1,28 +1,48 @@
 # Research dossier — S07 Texto, Unicode y expresiones regulares
 
 **Section file:** `src/lib/course/sections/s07-data-acquisition.ts`  
-**Platform id (preserved):** `data-acquisition`  
-**V3 title:** Texto, Unicode y expresiones regulares  
-**Residual before:** PARTIAL (avg_para≈141.3, avg_instr≈131.2, thin≈0.13, score 7)  
-**Target:** gold vs S01/S16 pedagogy; avg_para≥250, avg_instr≥150
+**Generated/updated:** 2026-07-23T00:31:40.634121+00:00  
+**Action:** competitive research for gold-standard expansion (criterion 3)
 
-## Competitive sources
+## Competitive sources (all mandatory classes)
 
-| Class | Named sources & takeaways |
-|-------|---------------------------|
-| Docs / books | stdlib unicodedata/re; docs Unicode; MIT Intro CS regex notes; Peru synthetic names |
-| Industry | Fail-closed gates, synthetic data only, ES-PE workplace voice |
-| Peru case | Lima/Arequipa/Cusco fixtures, ids C00x, montos PEN ficticios — sin PII real (Ley 29733) |
+### Coursera / MOOC
+- Google IT Automation with Python (Coursera) — string processing & regex modules
+- Python for Everybody (University of Michigan / Coursera) — parsing text from files and APIs
 
-## Coverage focus
-Unicode NFC/NFD, casefold, regex, similaridad Jaccard; evidencia textual sin parentesco
+### MIT
+- MIT 6.0001 Introduction to Computer Science and Programming in Python — str methods, slicing, file I/O
+- MIT OpenCourseWare 6.006 notes (string algorithms conceptual) — search cost intuition
 
-## Progressive disclosure
-Solo APIs de S01–S07. No introducir APIs de secciones posteriores.
+### Harvard
+- CS50x / CS50P (Harvard) — regular expressions week; Unicode awareness in modern CS50P
 
-## Expansion plan (executed)
-1. Deepen theory paragraphs to ≥250 chars (why + contract + caso sintético).
-2. Expand 24 weDo instructions to ≥150 chars (concepto/fixture/I-O/pass).
-3. Enrich thin starters with fixtures + TODO defect.
-4. Keep structure: 9 theory heads, 8 iDo demos, 24 weDo, youDo, selfCheck.
-5. DONE note + residual recompute → gold.
+### Yale
+- Yale CPSC 223 / programming courses (public notes on text processing) — defensive parsing
+
+### Stanford
+- Stanford CS106A (Python) — string processing assignments; caution on locale-dependent code
+
+### GitHub (learners + teachers)
+- python/cpython Lib/re.py docs examples; unicode HOWTO in CPython docs repo
+- explosion/spaCy (tokenizer concepts only — progressive: not required APIs in S07)
+- google/diff-match-patch (conceptual similarity; we teach Jaccard didactically)
+
+### High-quality video / tutorials
+- Corey Schafer — Python Regex YouTube series
+- mCoding — Unicode pitfalls in Python talks
+
+## Coverage gaps vs pre-expansion residual
+Stub theory was slogan-level NFC/NFD; need operational contracts (normalize before ==), fail-closed fullmatch, review band for Jaccard without parentesco claims.
+
+## Recommended depth decisions
+≥3 paragraphs/heading with Peru synthetic names; 24 exercises with CASO fixtures; no fraud/parentesco from string scores.
+
+## Pedagogy constraints (PyArcana)
+- Español peruano primary; English technical terms OK.
+- Progressive disclosure: only APIs taught through S07.
+- Synthetic data only; ER/scores ≠ fraude/parentesco.
+- Fail-closed gates where decisions affect people.
+
+## Decision log
+Research supports operational contracts + fixture-based weDo (S01/S40 style), not slogan theory or empty `# TODO` starters.

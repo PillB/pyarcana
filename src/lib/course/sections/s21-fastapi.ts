@@ -501,8 +501,10 @@ ready_for_review True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from jinja2 import Template
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+from jinja2 import Template
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(Template("Hola {{ nombre }}").render(nombre="Ana"))
 `,
         },
         solutionCode: {
@@ -530,8 +532,10 @@ print(Template("Hola {{ nombre }}").render(nombre="Ana"))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from jinja2 import Template
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+from jinja2 import Template
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(Template("{{ m }} PEN (n={{ n }})").render(m=28, n=40))
 `,
         },
         solutionCode: {
@@ -559,8 +563,13 @@ print(Template("{{ m }} PEN (n={{ n }})").render(m=28, n=40))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from jinja2 import Template
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+from jinja2 import Template
+
+def render_kpi(ctx):
+    return Template("{{ region }}: {{ median }} PEN (n={{ n }})").render(**ctx)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(render_kpi({"region": "Cusco", "median": 22.5, "n": 32}))
 `,
         },
         solutionCode: {
@@ -591,8 +600,10 @@ print(render_kpi({"region": "Cusco", "median": 22.5, "n": 32}))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `median = None
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+median = None
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("—" if median is None else median)
 `,
         },
         solutionCode: {
@@ -620,8 +631,10 @@ print("—" if median is None else median)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `x = 28.456
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+x = 28.456
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(f"{x:.2f}")
 `,
         },
         solutionCode: {
@@ -982,8 +995,10 @@ print({"needs_ocr": not bool(text.strip()), "n_chars": len(text)})`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `h = {"id": "H1", "evidencia": "Tabla1"}
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+h = {"id": "H1", "evidencia": "Tabla1"}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(h["id"])
 `,
         },
         solutionCode: {
@@ -1011,8 +1026,10 @@ print(h["id"])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `s = "mediana 28 PEN n=40"
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+s = "mediana 28 PEN n=40"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("n=" in s)
 `,
         },
         solutionCode: {
@@ -1072,9 +1089,11 @@ print(sorted(pack_report(["a"], {}, []).keys()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `dash = {"median_Lima": 28.0}
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+dash = {"median_Lima": 28.0}
 doc = {"median_Lima": 28.0}
-# TODO: completa el contrato del ejercicio (ver instruction)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(dash == doc)
 `,
         },
         solutionCode: {
@@ -1103,8 +1122,10 @@ print(dash == doc)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `cap = "Fig1 | Fuente: sintetico | n=10"
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+cap = "Fig1 | Fuente: sintetico | n=10"
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("Fuente" in cap)
 `,
         },
         solutionCode: {
@@ -1167,8 +1188,10 @@ False`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `vals = [28.04, 28.0]
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+vals = [28.04, 28.0]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print([round(v, 1) for v in vals])
 `,
         },
         solutionCode: {
@@ -1263,8 +1286,10 @@ False`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `approval = {"status": "pending_review"}
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+approval = {"status": "pending_review"}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(approval["status"])
 `,
         },
         solutionCode: {
@@ -1292,8 +1317,10 @@ print(approval["status"])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import hashlib
-# TODO: completa el contrato del ejercicio (ver instruction)
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import hashlib
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(hashlib.sha1(b"synthetic").hexdigest()[:8])
 `,
         },
         solutionCode: {

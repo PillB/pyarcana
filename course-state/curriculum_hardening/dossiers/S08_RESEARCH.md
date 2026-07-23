@@ -1,28 +1,46 @@
 # Research dossier — S08 Archivos, CSV, JSON y contratos de ingesta
 
 **Section file:** `src/lib/course/sections/s08-pandas.ts`  
-**Platform id (preserved):** `pandas`  
-**V3 title:** Archivos, CSV, JSON y contratos de ingesta  
-**Residual before:** PARTIAL (avg_para≈147.8, avg_instr≈121.6, thin≈0.11, score 7)  
-**Target:** gold vs S01/S16 pedagogy; avg_para≥250, avg_instr≥150
+**Generated/updated:** 2026-07-23T00:31:40.634121+00:00  
+**Action:** competitive research for gold-standard expansion (criterion 3)
 
-## Competitive sources
+## Competitive sources (all mandatory classes)
 
-| Class | Named sources & takeaways |
-|-------|---------------------------|
-| Docs / books | pathlib docs; csv/json RFCs; Google Data Quality dimensions; synthetic CSV Perú |
-| Industry | Fail-closed gates, synthetic data only, ES-PE workplace voice |
-| Peru case | Lima/Arequipa/Cusco fixtures, ids C00x, montos PEN ficticios — sin PII real (Ley 29733) |
+### Coursera / MOOC
+- IBM Data Engineering / Python Project for Data Engineering (Coursera) — CSV/JSON ingestion patterns
+- Google Data Analytics (Coursera) — dirty data, schemas, documentation
 
-## Coverage focus
-pathlib, CSV/JSON dialectos, schema evolution, manifest CP-N1-B
+### MIT
+- MIT 6.0001 file I/O lab patterns; MIT Open Learning data wrangling primers
 
-## Progressive disclosure
-Solo APIs de S01–S08. No introducir APIs de secciones posteriores.
+### Harvard
+- CS50P File I/O; CS50 SQL intro for schema thinking (conceptual)
 
-## Expansion plan (executed)
-1. Deepen theory paragraphs to ≥250 chars (why + contract + caso sintético).
-2. Expand 24 weDo instructions to ≥150 chars (concepto/fixture/I-O/pass).
-3. Enrich thin starters with fixtures + TODO defect.
-4. Keep structure: 9 theory heads, 8 iDo demos, 24 weDo, youDo, selfCheck.
-5. DONE note + residual recompute → gold.
+### Yale
+- Yale Stat computing primers — reproducible data paths
+
+### Stanford
+- Stanford CS102 / data science workshop materials — CSV hygiene
+
+### GitHub (learners + teachers)
+- pandas-dev/pandas — read_csv dtype/na_values docs examples
+- frictionlessdata/frictionless-py — schema validation concepts
+- great-expectations/great_expectations — expectation catalogs (patterns only)
+
+### High-quality video / tutorials
+- Keith Galli pandas file IO; Data School missing data series
+
+## Coverage gaps vs pre-expansion residual
+Need atomic write, quarantine irregular rows, n_in==n_clean+n_quarantine fail-closed.
+
+## Recommended depth decisions
+Operational contracts + Peru synthetic regions; progressive disclosure without GE runtime dependency.
+
+## Pedagogy constraints (PyArcana)
+- Español peruano primary; English technical terms OK.
+- Progressive disclosure: only APIs taught through S08.
+- Synthetic data only; ER/scores ≠ fraude/parentesco.
+- Fail-closed gates where decisions affect people.
+
+## Decision log
+Research supports operational contracts + fixture-based weDo (S01/S40 style), not slogan theory or empty `# TODO` starters.

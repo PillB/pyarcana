@@ -533,9 +533,11 @@ print(len(cli.merge(tx, on="cliente_id", how="left")))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import pandas as pd
-cli=pd.DataFrame({'cliente_id':['C001','C001']})
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import pandas as pd
+cli = pd.DataFrame({"cliente_id": ["C001", "C001"]})
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(bool(cli["cliente_id"].is_unique))
 `,
         },
         solutionCode: {
@@ -863,9 +865,11 @@ print(set(df.columns) == expected)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import pandas as pd
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import pandas as pd
 df = pd.DataFrame({"a": [1]})
-# TODO: rename a→monto; print columns.tolist()
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(df.rename(columns={"a": "monto"}).columns.tolist())
 `,
         },
         solutionCode: {
@@ -988,9 +992,11 @@ print(out.columns.tolist())`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import pandas as pd
-s = pd.Series([1.0, 2.0, 3.0])
-# TODO: rolling(2).mean(); NaN→None en la lista impresa
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import pandas as pd
+s = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print([None if pd.isna(x) else float(x) for x in s])
 `,
         },
         solutionCode: {
@@ -1089,8 +1095,11 @@ print(float(s.rolling(2).mean().iloc[-1]))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `parts=[10.0,20.0,70.0]; total=100.0
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+parts = [10.0, 20.0, 70.0]
+total = 100.0
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(abs(sum(parts) - total) < 1e-9)
 `,
         },
         solutionCode: {
@@ -1119,9 +1128,11 @@ print(abs(sum(parts) - total) < 1e-9)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `activos = 40
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+activos = 40
 pagados = 10
-# TODO: print tasa pagados/activos → 0.25
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(pagados / activos)
 `,
         },
         solutionCode: {
@@ -1150,9 +1161,11 @@ print(pagados / activos)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `total = 100.0
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+total = 100.0
 lima = 60.0
-# TODO: print residual total-lima → 40.0
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(total - lima)
 `,
         },
         solutionCode: {

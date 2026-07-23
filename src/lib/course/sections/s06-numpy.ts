@@ -568,10 +568,14 @@ determinista: True`,
         starterCode: {
           language: 'python',
           title: "slice_n.py",
-          code: `txs = [10, 20, 30, 40, 50]
-# TODO
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+txs = [10, 20, 30, 40, 50]
+ventana = txs[-2:]
 empty = []
-# TODO empty`,
+v0 = empty[-2:]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(ventana)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -607,11 +611,13 @@ print(len(v0))`,
         starterCode: {
           language: 'python',
           title: "list_tuple.py",
-          code: `headers = ['id', 'monto']
-# TODO
-print('KEYS', KEYS)
-# TODO extend conceptual
-print('KEYS sigue', KEYS)`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+headers = ['id', 'monto']
+KEYS = tuple(headers)
+more = KEYS + ('canal',)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('KEYS', KEYS)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -683,9 +689,12 @@ except AttributeError as e:
         starterCode: {
           language: 'python',
           title: "unpack_row.py",
-          code: `fila = ('C001', 'Lima', 10)
-# TODO unpack
-print(cid, region, monto)`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+fila = ('C001', 'Lima', 10)
+cid, region, monto = fila
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(cid, region, monto)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -713,9 +722,15 @@ print(cid, region, monto)`,
         starterCode: {
           language: 'python',
           title: "alias_copy.py",
-          code: `xs = [1, 2]
-# TODO
-print('xs', xs, 'copia', copia)`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+xs = [1, 2]
+alias = xs
+copia = xs.copy()
+alias.append(3)
+copia.append(4)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('tras alias', xs, copia)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -789,10 +804,12 @@ deep [{'id': 'C1', 'tags': ['a', 's', 'd']}]`,
         starterCode: {
           language: 'python',
           title: "dict_from_pairs.py",
-          code: `pares = [('C001', 'Lima'), ('C002', 'Cusco')]
-# TODO
-print(d)
-print(d['C002'])`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+pares = [('C001', 'Lima'), ('C002', 'Cusco')]
+d = dict(pares)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(d)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -822,9 +839,13 @@ Cusco`,
         starterCode: {
           language: 'python',
           title: "get_vs_keyerror.py",
-          code: `idx = {'C001': 'Ana'}
-# TODO get
-# TODO KeyError`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+idx = {'C001': 'Ana'}
+try:
+except KeyError as e:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(idx.get('C001', 'N/A'))
+`,
         },
         solutionCode: {
           language: 'python',
@@ -897,9 +918,12 @@ via copy+update {'retry': 5, 'timeout': 30}`,
         starterCode: {
           language: 'python',
           title: "dedup_emails.py",
-          code: `emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']
-# TODO
-print(unicos)`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']
+unicos = sorted(set(emails))
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(unicos)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -927,9 +951,12 @@ print(unicos)`,
         starterCode: {
           language: 'python',
           title: "set_inter.py",
-          code: `a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}
 b = {'b@ex.com', 'c@ex.com', 'd@ex.com'}
-# TODO`,
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('inter', sorted(a & b))
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1010,11 +1037,15 @@ print(dedup_report(rows))`,
         starterCode: {
           language: 'python',
           title: "count_contacts.py",
-          code: `clients = [
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+clients = [
     {'id': 'C001', 'contacts': [1, 2]},
     {'id': 'C002', 'contacts': []},
 ]
-# TODO`,
+for c in clients:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(c['id'], '→', len(c['contacts']))
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1085,12 +1116,18 @@ print(flat)`,
         starterCode: {
           language: 'python',
           title: "shape_check.py",
-          code: `clients = [
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+clients = [
     {'id': 'C001', 'txs': []},
     {'id': 'C002'},
     {'id': 'C003', 'txs': 'oops'},
 ]
-# TODO`,
+for c in clients:
+    txs = c.get('txs')
+    ok = isinstance(txs, list)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(c['id'], 'ok' if ok else 'review')
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1167,12 +1204,20 @@ N/A`,
         starterCode: {
           language: 'python',
           title: "mark_missing.py",
-          code: `clients = [
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+clients = [
     {'id': 'C001', 'email': 'a@ex.com'},
     {'id': 'C002', 'email': None},
     {'id': 'C003'},
 ]
-# TODO`,
+for c in clients:
+    if 'email' not in c or c['email'] is None:
+        flag = 'missing'
+    else:
+        flag = 'present'
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(f"{c['id']}: {flag}")
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1210,8 +1255,12 @@ C003: missing`,
         starterCode: {
           language: 'python',
           title: "falsy_table.py",
-          code: `vals = [None, '', 0, []]
-# TODO para cada: falsy? missing?`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+vals = [None, '', 0, []]
+for v in vals:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1242,9 +1291,12 @@ for v in vals:
         starterCode: {
           language: 'python',
           title: "sort_monto.py",
-          code: `rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]
-# TODO
-print([r['id'] for r in ordered])`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]
+ordered = sorted(rows, key=lambda r: r['monto'])
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print([r['id'] for r in ordered])
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1311,9 +1363,14 @@ Lima Zed`,
         starterCode: {
           language: 'python',
           title: "sort_inplace.py",
-          code: `rows = [3, 1, 2]
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+rows = [3, 1, 2]
 base = [3, 1, 2]
-# TODO`,
+ret = rows.sort()
+copy_sorted = sorted(base)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('ret', ret)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1386,10 +1443,14 @@ emails únicos de un lote → set`,
         starterCode: {
           language: 'python',
           title: "deterministic_json.py",
-          code: `import json
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+import json
 payload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}
-# TODO
-print(s)`,
+payload['ids'] = sorted(payload['ids'])
+s = json.dumps(payload, sort_keys=True, ensure_ascii=False)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(s)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1419,8 +1480,12 @@ print(s)`,
         starterCode: {
           language: 'python',
           title: "tradeoff.py",
-          code: `ids = ['C001', 'C002', 'C003', 'C004', 'C005']
-# TODO set + membership + prints de complejidad`,
+          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+ids = ['C001', 'C002', 'C003', 'C004', 'C005']
+s = set(ids)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('list membership: O(n) por chequeo')
+`,
         },
         solutionCode: {
           language: 'python',
