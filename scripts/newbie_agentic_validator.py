@@ -953,6 +953,38 @@ def attempt_level_gates(attempt_id: str) -> list[dict]:
                     })
 
 
+    # === STRUCTURAL OPENING MASS (formulaic bulk openers, not phrase-bank) ===
+    # e.g. 312× "Como skeptic contrasté la instruction con …" on one agent.
+    for agent_lab, agent_tag in (
+        ("newbie_a_live.json", "newbie_a"),
+        ("newbie_b_live.json", "newbie_b"),
+    ):
+        opens: list[str] = []
+        for i in range(1, 53):
+            lp = root / f"section_{i:02d}" / agent_lab
+            if not lp.exists():
+                continue
+            try:
+                live = json.loads(lp.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            for e in live.get("exercises") or []:
+                j = (e.get("justification_from_packet") or "").strip()
+                if j:
+                    opens.append(j[:35].lower())
+        if len(opens) >= 100:
+            oc = Counter(opens)
+            top_o, top_n = oc.most_common(1)[0]
+            if top_n >= max(50, int(0.18 * len(opens))):
+                issues.append({
+                    "tag": "STRUCTURAL_OPENING_MASS",
+                    "severity": "P0",
+                    "detail": (
+                        f"{agent_tag} top_opening_mass={top_n}/{len(opens)} "
+                        f"prefix={top_o!r}"
+                    ),
+                })
+
     # === PHRASE-BANK / SC_KEYS BULK THEATER (K1/K2 generator fingerprints) ===
     # Permanent anti-theater: detect combinatorial phrase banks and hardcoded
     # SC_CORRECT/SC_KEYS maps used by quarantined bulk writers.

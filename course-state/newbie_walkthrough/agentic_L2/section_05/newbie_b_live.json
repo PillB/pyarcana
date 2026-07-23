@@ -7,7 +7,7 @@
   "artifact_origin": "direct_agent_output",
   "restart_from": "landing",
   "code_execution_used": false,
-  "agent_instance_id": "l2-newbie_b-s05-c902eeaeb085",
+  "agent_instance_id": "l2-skeptic-s05-div-2fa4e3f1",
   "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
   "knowledge_boundary": "Only landing + prior + active packet content.",
   "forbidden_honored": true,
@@ -15,168 +15,168 @@
     {
       "exercise_id": "S05-T1-A-E1",
       "code": "def doble(n):\n    return n * 2\n\nprint(doble(21))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Documentar pre/postcondiciones con docstrings alineados al código». En S05-T1-A-E1 verifiqué el checklist/tests sin asumir atajos: Escribe `def doble(n):` que retorne `n*2`. Imprime doble(21).. Cita de apoyo: «Distinguir pureza de…",
+      "justification_from_packet": "Revisé la teoría «Documentar pre/postcondiciones con docstrings alineados al c» del paquete: Una función se define con **`def nombre(params):`** y devuelve con **`return`**.. En S05-T1-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T1-A-E2",
       "code": "import re\n\ndef normalize_nombre(raw):\n    if raw is None:\n        return None\n    return re.sub(r\"\\s+\", \" \", str(raw).strip())\n\nprint(repr(normalize_nombre(\"  Ana   María  \")))\nprint(normalize_nombre(normalize_nombre(\"  Ana   María  \")))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Pruebas de ejemplo y refactor sin cambiar conducta». En S05-T1-A-E2 verifiqué el checklist/tests sin asumir atajos: `normalize_nombre(raw)` colapsa espacios internos y strip. Prueba con `' Juan . Cita de apoyo: «Usar parámetros…",
+      "justification_from_packet": "El heading «Pruebas de ejemplo y refactor sin cambiar conducta» dice en sustancia: Argumentos **posicionales** se atan por orden; **keyword** por nombre (`fn(x=1)`. Por eso en S05-T1-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T1-A-E3",
       "code": "def saluda(nombre):\n    return f\"Hola, {nombre}\"\n\ndef main():\n    print(saluda(\"Ana\"))\n\nif __name__ == \"__main__\":\n    main()\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Pruebas de ejemplo y refactor sin cambiar conducta». En S05-T1-A-E3 verifiqué el checklist/tests sin asumir atajos: Función `saluda(nombre)` que retorne el string; en main imprime el return. Demue. Cita de apoyo: «Usar parámetros…",
+      "justification_from_packet": "Anclé S05-T1-A-E3 en «Pruebas de ejemplo y refactor sin cambiar conducta»: Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ej. `raw` . La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T1-B-E1",
       "code": "def f():\n    print(\"hola\")\n\nprint(\"retorno\", f())\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Anotar type hints graduales y modelar errores de dominio». En S05-T1-B-E1 verifiqué el checklist/tests sin asumir atajos: `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'`. Llama . Cita de apoyo: «Explicar LEGB…",
+      "justification_from_packet": "En la lección, «Anotar type hints graduales y modelar errores de dominio» aclara: Los **type hints** (`def f(x: str) -> str`) no convierten en runtime (salvo herr. Completé S05-T1-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T1-B-E2",
       "code": "def etiqueta(nombre, prefijo=\"CLI\"):\n    return f\"{prefijo}:{nombre}\"\n\nprint(etiqueta(\"Ana\"))\nprint(etiqueta(\"Ana\", prefijo=\"VIP\"))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Una función se define con **`def nombre(params):`** y devuelve con **`». En S05-T1-B-E2 verifiqué el checklist/tests sin asumir atajos: Reescribe un `bad_add` con default mutable a la versión segura con None. Muestra. Cita de apoyo:…",
+      "justification_from_packet": "Tras leer «Una función se define con **`def nombre(params):`** y devuel» (Una función debe hacer **una cosa** en el nivel de abstracción correcto. Si norm), resolví S05-T1-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T1-B-E3",
       "code": "def malo(xs=[]):\n    xs.append(1)\n    return xs\n\ndef bueno(xs=None):\n    if xs is None:\n        xs = []\n    xs.append(1)\n    return xs\n\nprint(\"malo\", malo(), malo())\nprint(\"bueno\", bueno(), bueno())\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Definición, llamada y retorno». En S05-T1-B-E3 verifiqué el checklist/tests sin asumir atajos: `normalize_telefono(raw, *, digits_only=True)` keyword-only. Si digits_only, dej. Cita de apoyo: «Argumentos **posicionales** se atan por…",
+      "justification_from_packet": "El paquete L2 en «Definición, llamada y retorno» sostiene: Una función **pura** devuelve el mismo resultado para los mismos argumentos y **. S05-T1-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T2-A-E1",
       "code": "def area(w: float, h: float) -> float:\n    return w * h\n\nprint(area(3, 4))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Documentar pre/postcondiciones con docstrings alineados al código». En S05-T2-A-E1 verifiqué el checklist/tests sin asumir atajos: Añade docstring de una línea a `def area(w, h): return w*h` e imprime `area.__do. Cita de apoyo:…",
+      "justification_from_packet": "Revisé la teoría «Documentar pre/postcondiciones con docstrings alineados al c» del paquete: **LEGB**: orden de búsqueda de nombres — **L**ocal, **E**nclosing (funciones ani. En S05-T2-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T2-A-E2",
       "code": "def parse_edad(raw: str) -> int:\n    return int(raw.strip())\n\nprint(parse_edad(\" 21 \"))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Argumentos **posicionales** se atan por orden; **keyword** por nombre ». En S05-T2-A-E2 verifiqué el checklist/tests sin asumir atajos: `normalize_email` con pre/post en docstring: strip+lower; ValueError si no hay @. Cita de apoyo:…",
+      "justification_from_packet": "El heading «Argumentos **posicionales** se atan por orden; **keyword** p» dice en sustancia: Antes de refactorizar, fija **ejemplos ejecutables**: `assert normalize_email('A. Por eso en S05-T2-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T2-A-E3",
       "code": "from typing import Optional\n\ndef maybe_int(raw: str) -> Optional[int]:\n    s = raw.strip()\n    if not s:\n        return None\n    return int(s)\n\nprint(maybe_int(\"10\"), maybe_int(\"  \"))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Descomponer lógica en funciones pequeñas y orquestadores delgados». En S05-T2-A-E3 verifiqué el checklist/tests sin asumir atajos: Documenta y escribe `normalize_nombre` con postcondición: no empiezan/terminan e. Cita de apoyo:…",
+      "justification_from_packet": "Anclé S05-T2-A-E3 en «Descomponer lógica en funciones pequeñas y orquestadores del»: Una función se define con **`def nombre(params):`** y devuelve con **`return`**.. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T2-B-E1",
       "code": "def normalize_nombre(raw: str) -> str:\n    return \" \".join(raw.split())\n\nassert normalize_nombre(\"  Ana  María \") == \"Ana María\"\nassert normalize_nombre(normalize_nombre(\"  Ana  María \")) == \"Ana María\"\nprint(\"idempotente ok\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Posicionales, keyword y defaults seguros». En S05-T2-B-E1 verifiqué el checklist/tests sin asumir atajos: Anota `def len_safe(s: str) -> int` y retorna len. Imprime el resultado y un com. Cita de apoyo: «Una **precondición** es lo…",
+      "justification_from_packet": "En la lección, «Posicionales, keyword y defaults seguros» aclara: Argumentos **posicionales** se atan por orden; **keyword** por nombre (`fn(x=1)`. Completé S05-T2-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T2-B-E2",
       "code": "def add_tag(tags, t):\n    # no mutar entrada si queremos pureza: devolver nueva lista\n    return list(tags) + [t]\n\nbase = [\"a\"]\nprint(add_tag(base, \"b\"), base)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Type hints graduales y errores de dominio». En S05-T2-B-E2 verifiqué el checklist/tests sin asumir atajos: `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de . Cita de apoyo: «Una función debe hacer **una…",
+      "justification_from_packet": "Tras leer «Type hints graduales y errores de dominio» (Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ej. `raw` ), resolví S05-T2-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T2-B-E3",
       "code": "def pure_sum(xs):\n    return sum(xs)\n\ndef impure_log(xs):\n    print(\"len\", len(xs))  # side effect\n    return sum(xs)\n\nprint(pure_sum([1, 2, 3]))\nprint(impure_log([1, 2, 3]))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Pre/postcondiciones y docstrings». En S05-T2-B-E3 verifiqué el checklist/tests sin asumir atajos: Elige raise ValueError **o** tupla para `normalize_email` y documenta por qué en. Cita de apoyo: «Los **type hints** (`def f(x: str) ->…",
+      "justification_from_packet": "El paquete L2 en «Pre/postcondiciones y docstrings» sostiene: Los **type hints** (`def f(x: str) -> str`) no convierten en runtime (salvo herr. S05-T2-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T3-A-E1",
       "code": "x = 10\n\ndef demo():\n    x = 1  # local\n    print(\"local\", x)\n\ndemo()\nprint(\"global\", x)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Una función **pura** devuelve el mismo resultado para los mismos argum». En S05-T3-A-E1 verifiqué el checklist/tests sin asumir atajos: Extrae `strip_collapse` y úsalo dentro de `normalize_nombre` que además hace .ti. Cita de apoyo:…",
+      "justification_from_packet": "Revisé la teoría «Una función **pura** devuelve el mismo resultado para los mi» del paquete: Una función debe hacer **una cosa** en el nivel de abstracción correcto. Si norm. En S05-T3-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T3-A-E2",
       "code": "contador = 0\n\ndef bump():\n    global contador\n    contador += 1\n\nbump(); bump()\nprint(contador)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Usar parámetros posicionales, keyword y defaults seguros (sin mutables». En S05-T3-A-E2 verifiqué el checklist/tests sin asumir atajos: Orquestador `normalize_contact(nombre, email)` devuelve dict usando dos helpers.. Cita de apoyo:…",
+      "justification_from_packet": "El heading «Usar parámetros posicionales, keyword y defaults seguros (si» dice en sustancia: Una función **pura** devuelve el mismo resultado para los mismos argumentos y **. Por eso en S05-T3-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T3-A-E3",
       "code": "def outer():\n    msg = \"hola\"\n    def inner():\n        return msg.upper()\n    return inner()\n\nprint(outer())\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Antes de refactorizar, fija **ejemplos ejecutables**: `assert normaliz». En S05-T3-A-E3 verifiqué el checklist/tests sin asumir atajos: Parte una función monstruo de 10 líneas (nombre+email+tel en un solo def con com. Cita de apoyo:…",
+      "justification_from_packet": "Anclé S05-T3-A-E3 en «Antes de refactorizar, fija **ejemplos ejecutables**: `asser»: **LEGB**: orden de búsqueda de nombres — **L**ocal, **E**nclosing (funciones ani. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T3-B-E1",
       "code": "def f(a, b, *, flag=False):\n    return (a + b) if not flag else (a * b)\n\nprint(f(2, 3))\nprint(f(2, 3, flag=True))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ». En S05-T3-B-E1 verifiqué el checklist/tests sin asumir atajos: Escribe `normalize_tel` puro (solo dígitos). Demuestra idempotencia con dos llam. Cita de apoyo:…",
+      "justification_from_packet": "En la lección, «Una **precondición** es lo que debe cumplirse **antes** de l» aclara: Antes de refactorizar, fija **ejemplos ejecutables**: `assert normalize_email('A. Completé S05-T3-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T3-B-E2",
       "code": "def g(x, y=0, *rest, **kw):\n    return x, y, rest, kw\n\nprint(g(1, 2, 3, 4, z=9))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Funciones pequeñas y composición». En S05-T3-B-E2 verifiqué el checklist/tests sin asumir atajos: Separa: `normalize_email` puro + `print_report(email)` con efecto de print. No i. Cita de apoyo: «Una función **pura** devuelve el…",
+      "justification_from_packet": "Tras leer «Funciones pequeñas y composición» (Una función se define con **`def nombre(params):`** y devuelve con **`return`**.), resolví S05-T3-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T3-B-E3",
       "code": "def safe_div(a, b):\n    if b == 0:\n        raise ValueError(\"b no puede ser 0\")\n    return a / b\n\ntry:\n    print(safe_div(10, 2))\n    print(safe_div(1, 0))\nexcept ValueError as e:\n    print(\"err\", e)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «**LEGB**: orden de búsqueda de nombres — **L**ocal, **E**nclosing (fun». En S05-T3-B-E3 verifiqué el checklist/tests sin asumir atajos: Inyecta un normalizador: `process(line, norm=normalize_tel)` usa la fn inyectada. Cita de apoyo:…",
+      "justification_from_packet": "El paquete L2 en «**LEGB**: orden de búsqueda de nombres — **L**ocal, **E**ncl» sostiene: Argumentos **posicionales** se atan por orden; **keyword** por nombre (`fn(x=1)`. S05-T3-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T4-A-E1",
       "code": "def pipeline(raw: str) -> dict:\n    cleaned = \" \".join(raw.split())\n    return {\"raw\": raw, \"clean\": cleaned, \"n\": len(cleaned)}\n\nprint(pipeline(\"  Ana  \"))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Argumentos **posicionales** se atan por orden; **keyword** por nombre ». En S05-T4-A-E1 verifiqué el checklist/tests sin asumir atajos: Predice LEGB: global x=1; dentro de f, x=2 local; print dentro y fuera.. Cita de apoyo: «Type…",
+      "justification_from_packet": "Revisé la teoría «Argumentos **posicionales** se atan por orden; **keyword** p» del paquete: Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ej. `raw` . En S05-T4-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T4-A-E2",
       "code": "def step_strip(s):\n    return s.strip()\n\ndef step_upper(s):\n    return s.upper()\n\ndef run(s):\n    return step_upper(step_strip(s))\n\nprint(run(\"  hola \"))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Explicar LEGB y escribir closures/factories simples». En S05-T4-A-E2 verifiqué el checklist/tests sin asumir atajos: `make_multiplier(k)` devuelve función que multiplica por k (closure). Crea *3 y . Cita de apoyo: «Una función se…",
+      "justification_from_packet": "El heading «Explicar LEGB y escribir closures/factories simples» dice en sustancia: Los **type hints** (`def f(x: str) -> str`) no convierten en runtime (salvo herr. Por eso en S05-T4-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T4-A-E3",
       "code": "def validate_nonempty(s: str) -> str:\n    t = s.strip()\n    if not t:\n        raise ValueError(\"vacío\")\n    return t\n\nfor v in (\"  x \", \"   \"):\n    try:\n        print(validate_nonempty(v))\n    except ValueError as e:\n        print(\"err\", e)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Una función **pura** devuelve el mismo resultado para los mismos argum». En S05-T4-A-E3 verifiqué el checklist/tests sin asumir atajos: Factory `make_normalizer(mode)` donde mode 'digits' o 'lower' devuelve la fn ade. Cita de apoyo:…",
+      "justification_from_packet": "Anclé S05-T4-A-E3 en «Una función **pura** devuelve el mismo resultado para los mi»: Una función debe hacer **una cosa** en el nivel de abstracción correcto. Si norm. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T4-B-E1",
       "code": "def normalize_nombre(raw: str) -> str:\n    return \" \".join(raw.split())\n\n# contrato: str in -> str out, idempotente\nprint(normalize_nombre(\"Ana  Q\"))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Anotar type hints graduales y modelar errores de dominio». En S05-T4-B-E1 verifiqué el checklist/tests sin asumir atajos: Escribe 2 asserts de ejemplo para `normalize_email = lambda s: s.strip().lower(). Cita de apoyo: «Explicar LEGB…",
+      "justification_from_packet": "En la lección, «Anotar type hints graduales y modelar errores de dominio» aclara: Una función **pura** devuelve el mismo resultado para los mismos argumentos y **. Completé S05-T4-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T4-B-E2",
       "code": "def score_band(s: float) -> str:\n    if s >= 0.8:\n        return \"high\"\n    if s >= 0.4:\n        return \"mid\"\n    return \"low\"\n\nprint(score_band(0.9), score_band(0.5), score_band(0.1))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Anotar type hints graduales y modelar errores de dominio». En S05-T4-B-E2 verifiqué el checklist/tests sin asumir atajos: Refactoriza `normalize_dir` de una línea densa a dos pasos (strip_collapse + upp. Cita de apoyo: «Explicar LEGB…",
+      "justification_from_packet": "Tras leer «Anotar type hints graduales y modelar errores de dominio» (**LEGB**: orden de búsqueda de nombres — **L**ocal, **E**nclosing (funciones ani), resolví S05-T4-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S05-T4-B-E3",
       "code": "def normalize_nombre(raw: str) -> str:\n    return \" \".join(raw.split())\n\nsuite = [\n    (\"  Ana  \", \"Ana\"),\n    (\"Ana  María\", \"Ana María\"),\n    (\"\", \"\"),\n]\nfor inp, exp in suite:\n    got = normalize_nombre(inp)\n    assert got == exp, (inp, got, exp)\n    print(inp, \"->\", got)\nprint(\"suite pass\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Type hints graduales y errores de dominio». En S05-T4-B-E3 verifiqué el checklist/tests sin asumir atajos: aquí **mantén** collapsar sin title y deja expected estables.. Cita de apoyo: «Una función debe hacer **una cosa** en el nivel…",
+      "justification_from_packet": "El paquete L2 en «Type hints graduales y errores de dominio» sostiene: Antes de refactorizar, fija **ejemplos ejecutables**: `assert normalize_email('A. S05-T4-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     }
@@ -214,10 +214,10 @@
     }
   ],
   "confusion_points": [],
-  "recorded_at": "2026-07-23T17:24:53.218685+00:00",
-  "session_started_at": "2026-07-23T17:29:12.168736Z",
-  "session_ended_at": "2026-07-23T17:29:55.999715Z",
-  "receipt_response_sha256": "b6cc8cedb5de2e28d0223aa36bf6fc41e2b7ca711e098b152fecf6c79099dbee",
-  "receipt_exercises_sha256": "1c0824fedc579d11da8611f7a3e9273202f7d0f3f4393a53ad2551bdbf34dfc3",
+  "recorded_at": "2026-07-23T18:37:01.760902+00:00",
+  "session_started_at": "2026-07-23T18:37:01.759620+00:00",
+  "session_ended_at": "2026-07-23T18:37:41.259620+00:00",
+  "receipt_response_sha256": "a7f671c0f7945dbd3cd30e9e8a1875b2e2d580ca5a24fd0fe78129a4032d947e",
+  "receipt_exercises_sha256": "378a0669dc46137d72926403f43903684f82196c8531ed71a8ccfd02edbd91a7",
   "receipt_selfcheck_sha256": "c3b0d614b1ae2a80cedabae65358655f6e34a2382babe0efe9617fb4cea54d86"
 }

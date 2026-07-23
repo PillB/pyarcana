@@ -34,6 +34,8 @@ def test_agentic_k2_fails_phrase_bank_gate_if_present():
         return
     tags = {i.get("tag") for i in attempt_level_gates("agentic_K2")}
     assert "PHRASE_BANK_JUSTIFICATION" in tags, tags
+    # Must NOT be empty gates — receipt bind alone is insufficient for bulk theater
+    assert tags, "K2 bulk theater must fail at least one attempt_level_gate"
 
 
 def test_agentic_k1_fails_reseal_or_sc_keys_if_present():
@@ -46,6 +48,37 @@ def test_agentic_k1_fails_reseal_or_sc_keys_if_present():
         "SC_KEYS_MAP_LINEAGE",
         "PHRASE_BANK_JUSTIFICATION",
     }, tags
+    assert tags, "K1 reseal/SC_KEYS theater must fail attempt_level_gates"
+
+
+def test_agentic_l1_l2_pass_forensic_gates_if_present():
+    """Honest L* path must not trip phrase-bank / reseal / opening-mass theater."""
+    for att in ("agentic_L1", "agentic_L2"):
+        root = ROOT / "course-state/newbie_walkthrough" / att
+        if not root.exists():
+            continue
+        tags = {i.get("tag") for i in attempt_level_gates(att)}
+        ban = {
+            "PHRASE_BANK_JUSTIFICATION",
+            "ADMITTED_BULK_OR_RESEAL",
+            "STRUCTURAL_OPENING_MASS",
+            "RECEIPT_EXERCISES_MISMATCH",
+            "SYNTHETIC_DURATION_STAIRCASE",
+        }
+        assert not (tags & ban), f"{att} failed theater gates: {tags}"
+
+
+def test_quarantined_k2_generator_has_sc_correct_map():
+    """Regression: known bulk generator file must remain quarantined with SC_CORRECT."""
+    p = (
+        ROOT
+        / "scripts/quarantine_theater/tool_results_bulk/k2_newbie_b_s01_s13.py"
+    )
+    if not p.exists():
+        return
+    text = p.read_text(encoding="utf-8")
+    assert "SC_CORRECT" in text
+    assert "Sigo dudando de atajos" in text or "releer con desconfianza" in text
 
 
 def test_phrase_bank_gate_on_synthetic_corpus(tmp_path, monkeypatch):

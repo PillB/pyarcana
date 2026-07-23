@@ -7,7 +7,7 @@
   "artifact_origin": "direct_agent_output",
   "restart_from": "landing",
   "code_execution_used": false,
-  "agent_instance_id": "l2-newbie_b-s01-c70b9195f66d",
+  "agent_instance_id": "l2-skeptic-s01-div-838015ee",
   "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
   "knowledge_boundary": "Only landing + prior + active packet content.",
   "forbidden_honored": true,
@@ -15,168 +15,168 @@
     {
       "exercise_id": "S01-T1-A-E1",
       "code": "# Transcript REPL (no .py ejecutable)\n# >>> 2 + 2\n# 4\n# >>> type(\"x\")\n# <class 'str'>\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.12.3'\n# >>> quit()\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Cuando instalas Python, lo que realmente instalas es un **intérprete**». En S01-T1-A-E1 verifiqué el checklist/tests sin asumir atajos: Completa el transcript de una sesión REPL: suma, type() e import de sys. No cree. Cita de apoyo:…",
+      "justification_from_packet": "Revisé la teoría «Cuando instalas Python, lo que realmente instalas es un **in» del paquete: Cuando instalas Python, lo que realmente instalas es un **intérprete**: un progr. En S01-T1-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T1-A-E2",
       "code": "import sys\n\ndef main() -> None:\n    nombre = \"Ana Demo\"\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n    return 0\n\nif __name__ == \"__main__\":\n    raise SystemExit(main() or 0)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Seleccionar el intérprete Python correcto (el programa que ejecuta tu ». En S01-T1-A-E2 verifiqué el checklist/tests sin asumir atajos: Crea `hello_sys.py` que imprima tu nombre sintético y la versión de Python con s. Cita de apoyo:…",
+      "justification_from_packet": "El heading «Seleccionar el intérprete Python correcto (el programa que e» dice en sustancia: La **terminal** (bash, zsh o PowerShell) es el lugar donde lanzas procesos: `pyt. Por eso en S01-T1-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T1-A-E3",
       "code": "# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. En Windows: desactivar alias de Microsoft Store (App execution aliases) y/o reinstalar desde https://www.python.org/downloads/ marcando \"Add python.exe to PATH\".\n2. Cerrar y reabrir la terminal; en PowerShell probar `py -3 --version` y `where.exe python`.\n3. En macOS/Linux: usar de forma consistente `python3 --version` y/o instalar 3.12+ desde python.org o el gestor del SO.\n4. Verificar el ejecutable real: `python3 -c \"import sys; print(sys.executable, sys.version)\"`.\n5. (opcional) Crear alias `python=python3` solo en el shell del proyecto, no global ciego.\n6. (opcional) Documentar en README el comando canónico del curso (`python3`).\n\n## Verificación final\n- Comando: `python3 --version` (o `py -3 --version` en Windows)\n- Resultado esperado: Python 3.12+ (o 3.x del curso)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, J». En S01-T1-A-E3 verifiqué el checklist/tests sin asumir atajos: Diagnóstico: en una laptop Windows el usuario escribe `python --version` y obtie. Cita de apoyo:…",
+      "justification_from_packet": "Anclé S01-T1-A-E3 en «Configurar VS Code con extensiones Python esenciales (Pylanc»: Un **entorno virtual** es una carpeta autocontenida con su propio intérprete Pyt. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T1-B-E1",
       "code": "# Transcript de códigos de salida (zsh)\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\n# codigo_ok=0\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# codigo_fail=1\n# SHELL_USADA=zsh\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Git: commits y lectura de diffs». En S01-T1-B-E1 verifiqué el checklist/tests sin asumir atajos: Completa el transcript de terminal: ejecuta un Python que sale con 0, otro con 1. Cita de apoyo: «Trabajar siempre en `main` es el atajo…",
+      "justification_from_packet": "En la lección, «Git: commits y lectura de diffs» aclara: Con el `.venv` activado, instalas dependencias de **terceros** con **`python -m . Completé S01-T1-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T1-B-E2",
       "code": "import sys\n\ndef main() -> None:\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Cuando instalas Python, lo que realmente instalas es un **intérprete**». En S01-T1-B-E2 verifiqué el checklist/tests sin asumir atajos: Escribe `check_arg.py`: si recibe exactamente un argumento de línea de comandos,. Cita de apoyo:…",
+      "justification_from_packet": "Tras leer «Cuando instalas Python, lo que realmente instalas es un **in» (Git es un **sistema de control de versiones**: registra *quién cambió qué y por ), resolví S01-T1-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T1-B-E3",
       "code": "# Diagnóstico pip vs intérprete\n\n## Escenario A — \"pip no se reconoce como comando\"\nClase: PATH / ejecutable ausente en la shell.\n1. `which pip` / `where pip` y `echo $PATH`.\n2. Preferir `python3 -m pip --version` (no depende de un shim `pip` suelto).\n3. Si falla, activar `.venv` o instalar ensurepip sobre el mismo Python verificado.\n\n## Escenario B — pip corre pero `import pandas` da ModuleNotFoundError\nClase: pip e intérprete no son la misma instalación / venv no activado.\n1. `python3 -c \"import sys; print(sys.executable)\"` y `python3 -m pip -V`.\n2. Comparar rutas: si difieren, reinstalar con `python3 -m pip install pandas` en el venv activo.\n3. Confirmar `python3 -c \"import pandas; print(pandas.__version__)\"` con el mismo executable.\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, J». En S01-T1-B-E3 verifiqué el checklist/tests sin asumir atajos: Caso: un colega corre `pip install pandas` y ve error. En un escenario el mensaj. Cita de apoyo:…",
+      "justification_from_packet": "El paquete L2 en «Configurar VS Code con extensiones Python esenciales (Pylanc» sostiene: Trabajar siempre en `main` es el atajo del principiante y el riesgo del equipo. . S01-T1-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T2-A-E1",
       "code": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\npython3 -m venv .venv\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\ndeactivate\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «pip, freeze y requirements.txt». En S01-T2-A-E1 verifiqué el checklist/tests sin asumir atajos: En una carpeta de práctica, crea un entorno `.venv` con `python -m venv`, actíva. Cita de apoyo: «Git es un **sistema de control de…",
+      "justification_from_packet": "Revisé la teoría «pip, freeze y requirements.txt» del paquete: El editor recomendado en este curso es **VS Code** con la extensión de **Python*. En S01-T2-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T2-A-E2",
       "code": "# 0) salir del venv viejo si aplica\ndeactivate 2>/dev/null || true\n# 1) Eliminar entorno roto (el código fuente fuera de .venv permanece)\nrm -rf .venv\n# 2) Recrear limpio\npython3 -m venv .venv\n# 3) Activar y verificar\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py u otros .py NO se borran\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «**.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.ve». En S01-T2-A-E2 verifiqué el checklist/tests sin asumir atajos: Simula un entorno “roto”: con `.venv` ya creado, borra la carpeta del entorno (o. Cita de apoyo:…",
+      "justification_from_packet": "El heading «**.gitignore** le dice a Git qué no trackear. Mínimo Python/» dice en sustancia: **.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.venv/`, `ven. Por eso en S01-T2-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T2-A-E3",
       "code": "# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\nEl Proyecto A necesita pandas 1.x y el Proyecto B necesita 2.x. Un solo site-packages global no puede satisfacer ambos: al actualizar uno, se rompe el otro. Eso genera el clásico \"en mi máquina funciona\" y ModuleNotFoundError o APIs incompatibles.\n\n## Flujo recomendado (este curso)\n1. `python3 -m venv .venv` en la raíz de cada proyecto\n2. Activar el entorno (source .venv/bin/activate o Activate.ps1)\n3. `python -m pip install -r requirements.txt` y trabajar solo ahí\n\n## Nota sobre la herramienta\n- venv es stdlib (no requiere descarga extra)\n- Nombre canónico de carpeta: .venv\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Archivos de calidad: ignore, secretos y README». En S01-T2-A-E3 verifiqué el checklist/tests sin asumir atajos: Un colega propone instalar pandas con `pip install pandas` en el Python global “. Cita de apoyo: «Interpretar códigos de…",
+      "justification_from_packet": "Anclé S01-T2-A-E3 en «Archivos de calidad: ignore, secretos y README»: Cuando instalas Python, lo que realmente instalas es un **intérprete**: un progr. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T2-B-E1",
       "code": "source .venv/bin/activate\npython -m pip install requests==2.32.3\npython -m pip freeze > requirements.txt\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Archivos de calidad: ignore, secretos y README». En S01-T2-B-E1 verifiqué el checklist/tests sin asumir atajos: Con `.venv` activado, instala un paquete de terceros pinneado (ej. `requests==2.. Cita de apoyo: «Interpretar códigos de…",
+      "justification_from_packet": "En la lección, «Archivos de calidad: ignore, secretos y README» aclara: La **terminal** (bash, zsh o PowerShell) es el lugar donde lanzas procesos: `pyt. Completé S01-T2-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T2-B-E2",
       "code": "python3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r requirements.txt\npython -m pip list | head\npython -c \"import requests; print('ok', requests.__version__)\"\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «**.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.ve». En S01-T2-B-E2 verifiqué el checklist/tests sin asumir atajos: Dado un `requirements.txt` de plantilla (puede ser el de E1), crea un **segundo*. Cita de apoyo:…",
+      "justification_from_packet": "Tras leer «**.gitignore** le dice a Git qué no trackear. Mínimo Python/» (Un **entorno virtual** es una carpeta autocontenida con su propio intérprete Pyt), resolví S01-T2-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T2-B-E3",
       "code": "# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\nEl módulo de terceros no está en el site-packages del intérprete actual.\n\n## Hipótesis B — instalado en otro intérprete\n`pip` instaló en un Python distinto al que ejecuta `import`.\n\n## Protocolo (5 pasos)\n1. Identificar intérprete: `python -c \"import sys; print(sys.executable, sys.version)\"`.\n2. Clasificar: ¿stdlib (sys, datetime) o terceros (requests, pandas)?\n3. Listar con el mismo intérprete: `python -m pip show requests` / `python -m pip list`.\n4. Si falta: `python -m pip install requests` dentro del venv activo.\n5. Reprobar import y anotar `sys.path` si aún falla.\n\n## ¿stdlib o terceros?\n- requests: terceros\n- datetime: stdlib\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Git: commits y lectura de diffs». En S01-T2-B-E3 verifiqué el checklist/tests sin asumir atajos: Forense ModuleNotFoundError: el usuario corre `python -c \"import requests\"` y fa. Cita de apoyo: «Trabajar siempre en `main` es el atajo…",
+      "justification_from_packet": "El paquete L2 en «Git: commits y lectura de diffs» sostiene: Con el `.venv` activado, instalas dependencias de **terceros** con **`python -m . S01-T2-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T3-A-E1",
       "code": "mkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README de practica\"\ngit log -1 --oneline\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Archivos de calidad: ignore, secretos y README». En S01-T3-A-E1 verifiqué el checklist/tests sin asumir atajos: En una carpeta de práctica: `git init`, crea un archivo, haz un commit con mensa. Cita de apoyo: «Interpretar códigos de…",
+      "justification_from_packet": "Revisé la teoría «Archivos de calidad: ignore, secretos y README» del paquete: Git es un **sistema de control de versiones**: registra *quién cambió qué y por . En S01-T3-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T3-A-E2",
       "code": "# Lectura de diff\n\n## Comandos usados\necho \"Setup con venv.\" >> README.md\ngit add README.md\ngit commit -m \"docs: documentar setup con venv\"\nGIT_PAGER=cat git show HEAD\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\nLas líneas nuevas del README (p. ej. `+Setup con venv.`) y el encabezado del commit.\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\nModificado: el diff muestra solo el hunk tocado con +/−, no todo el archivo como creación.\n\n## 3) Resumen en una frase\nEl commit documenta el setup con venv en el README del lab.\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Inicializar un repositorio Git (repo: carpeta con historial), hacer co». En S01-T3-A-E2 verifiqué el checklist/tests sin asumir atajos: Modifica un README ya commiteado (agrega una línea), haz commit, y responde en u. Cita de apoyo:…",
+      "justification_from_packet": "El heading «Inicializar un repositorio Git (repo: carpeta con historial)» dice en sustancia: Trabajar siempre en `main` es el atajo del principiante y el riesgo del equipo. . Por eso en S01-T3-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T3-A-E3",
       "code": "# Mejor mensaje de commit\n\nCandidatos:\n- A: `wip`\n- B: `feat: agregar smoke hello_env`\n- C: `Actualicé cosas del setup`\n\n## Elección\nB\n\n## Justificación\nConventional Commits pide tipo + descripción imperativa legible en el historial y en el PR. `feat: agregar smoke hello_env` dice qué se agregó y por qué importa (smoke del entorno). `wip` no es aceptable en main; \"Actualicé cosas\" no nombra el archivo ni el valor.\n\n## Reescritura de A (si fuera un commit temporal local que luego se limpia)\nchore: wip local smoke hello_env (squash antes de PR)\n\n## Reescritura de C\ndocs: aclarar pasos de setup del entorno en README\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «El editor recomendado en este curso es **VS Code** con la extensión de». En S01-T3-A-E3 verifiqué el checklist/tests sin asumir atajos: Te entregan tres mensajes candidatos para el mismo cambio (añadir `scripts/hello. Cita de apoyo:…",
+      "justification_from_packet": "Anclé S01-T3-A-E3 en «El editor recomendado en este curso es **VS Code** con la ex»: El editor recomendado en este curso es **VS Code** con la extensión de **Python*. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T3-B-E1",
       "code": "git switch main\ngit switch -c feat/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"feat: agregar nota de practica\"\ngit branch\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Con el `.venv` activado, instalas dependencias de **terceros** con **`». En S01-T3-B-E1 verifiqué el checklist/tests sin asumir atajos: Desde un repo con al menos un commit en `main`, crea la rama `feat/practica-s01`. Cita de apoyo:…",
+      "justification_from_packet": "En la lección, «Con el `.venv` activado, instalas dependencias de **terceros» aclara: **.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.venv/`, `ven. Completé S01-T3-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T3-B-E2",
       "code": "# Título del PR\nfeat: agregar smoke hello_env y README de instalación\n\n## Resumen\n- Añade `scripts/hello_env.py` como smoke del intérprete/venv\n- Actualiza README con clon → venv → install -r → smoke\n- Sin secretos ni `.env` versionado\n\n## Plan de prueba\n1. `python3 -m venv .venv && source .venv/bin/activate`\n2. `python -m pip install -r requirements.txt`\n3. `python scripts/hello_env.py` (exit 0)\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] `git check-ignore -v .env` confirma ignore\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «El intérprete Python y el REPL · El intérprete en la terminal (comando». En S01-T3-B-E2 verifiqué el checklist/tests sin asumir atajos: Redacta la descripción de un Pull Request (markdown) para una rama que agrega `s. Cita de apoyo:…",
+      "justification_from_packet": "Tras leer «El intérprete Python y el REPL · El intérprete en la termina» (Cuando instalas Python, lo que realmente instalas es un **intérprete**: un progr), resolví S01-T3-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T3-B-E3",
       "code": "# Recuperación no destructiva\n\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. Revisar el diff: `git diff README.md`\n2. Descartar el working tree: `git restore README.md`\n\n## ¿Cuándo stash en su lugar?\nSi el cambio podría servir luego: `git stash push -m \"wip readme\"` y recuperar con `stash pop` cuando convenga.\n\n## Por qué NO force-push a main\nReescribe historial compartido, rompe clones del equipo y está prohibido en este curso.\n\n## Por qué no reset --hard como default\nBorra trabajo no commiteado sin red de seguridad; restore/stash son más seguros para un archivo concreto.\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «La **terminal** (bash, zsh o PowerShell) es el lugar donde lanzas proc». En S01-T3-B-E3 verifiqué el checklist/tests sin asumir atajos: Escenario: editaste `README.md` sin commit y el cambio está mal. Un colega te di. Cita de apoyo:…",
+      "justification_from_packet": "El paquete L2 en «La **terminal** (bash, zsh o PowerShell) es el lugar donde l» sostiene: La **terminal** (bash, zsh o PowerShell) es el lugar donde lanzas procesos: `pyt. S01-T3-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T4-A-E1",
       "code": "[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Trabajar siempre en `main` es el atajo del principiante y el riesgo de». En S01-T4-A-E1 verifiqué el checklist/tests sin asumir atajos: Completa un `pyproject.toml` mínimo con `[tool.ruff]` (line-length 88, target-ve. Cita de apoyo:…",
+      "justification_from_packet": "Revisé la teoría «Trabajar siempre en `main` es el atajo del principiante y el» del paquete: Un **entorno virtual** es una carpeta autocontenida con su propio intérprete Pyt. En S01-T4-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T4-A-E2",
       "code": "from datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Trabajar siempre en `main` es el atajo del principiante y el riesgo de». En S01-T4-A-E2 verifiqué el checklist/tests sin asumir atajos: Dado un script con imports sin usar, instala `ruff` en el venv, corre `python -m. Cita de apoyo:…",
+      "justification_from_packet": "El heading «Trabajar siempre en `main` es el atajo del principiante y el» dice en sustancia: Con el `.venv` activado, instalas dependencias de **terceros** con **`python -m . Por eso en S01-T4-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T4-A-E3",
       "code": "# Select mínimo para repo de datos (S01)\n\n## Propuesta\n`select = [\"E\", \"F\", \"I\"]`\n\n## Por qué no ALL el día 1\nALL dispara cientos de hallazgos en notebooks y código exploratorio; el equipo deja de mirar el linter. Ruff debe dar señal accionable, no ruido.\n\n## Qué cubren E, F, I\nE: estilo/errores básicos pycodestyle; F: pyflakes (imports muertos, nombres indefinidos); I: orden de imports.\n\n## Cuándo ampliar\nCuando E/F/I estén limpios por hábito y el equipo acuerde reglas extra (bugbear, etc.) por PR de configuración.\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «pip, freeze y requirements.txt». En S01-T4-A-E3 verifiqué el checklist/tests sin asumir atajos: Un lead propone `select = [\"ALL\"]` el día 1 en un repo de analytics con notebook. Cita de apoyo: «Git es un **sistema de control de…",
+      "justification_from_packet": "Anclé S01-T4-A-E3 en «pip, freeze y requirements.txt»: Git es un **sistema de control de versiones**: registra *quién cambió qué y por . La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T4-B-E1",
       "code": "# Entornos\n.venv/\nvenv/\n\n# Bytecode\n__pycache__/\n*.pyc\n\n# Secretos\n.env\n\n# Jupyter\n.ipynb_checkpoints/\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Ramas, Pull Requests y recuperación segura». En S01-T4-B-E1 verifiqué el checklist/tests sin asumir atajos: Completa un `.gitignore` mínimo de Python/data que incluya `.venv/`, `venv/`, `_. Cita de apoyo: «El editor recomendado en…",
+      "justification_from_packet": "En la lección, «Ramas, Pull Requests y recuperación segura» aclara: Trabajar siempre en `main` es el atajo del principiante y el riesgo del equipo. . Completé S01-T4-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T4-B-E2",
       "code": "# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=https://api.example.com\nDB_HOST=localhost\nLOG_LEVEL=INFO\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Seleccionar el intérprete Python correcto (el programa que ejecuta tu ». En S01-T4-B-E2 verifiqué el checklist/tests sin asumir atajos: Crea `.env.example` con al menos 3 claves de un proyecto de intake (ej. `API_URL. Cita de apoyo:…",
+      "justification_from_packet": "Tras leer «Seleccionar el intérprete Python correcto (el programa que e» (El editor recomendado en este curso es **VS Code** con la extensión de **Python*), resolví S01-T4-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S01-T4-B-E3",
       "code": "# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. `git clone <repo> && cd <repo>` completa sin errores\n- [ ] 2. `python3 -m venv .venv && source .venv/bin/activate`\n- [ ] 3. `python -m pip install -r requirements.txt` exit 0\n- [ ] 4. `python scripts/hello_env.py` exit 0 e imprime versión\n- [ ] 5. `git check-ignore -v .env` confirma que `.env` está ignorado\n\n## Datos\n- [ ] data/clients_synthetic.csv es sintético\n- [ ] data/data_dictionary.md describe columnas\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Ramas, Pull Requests y recuperación segura». En S01-T4-B-E3 verifiqué el checklist/tests sin asumir atajos: Checklist de “máquina limpia” para el esqueleto CP-N1-A: escribe 5 ítems verific. Cita de apoyo: «El editor recomendado en…",
+      "justification_from_packet": "El paquete L2 en «Ramas, Pull Requests y recuperación segura» sostiene: **.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.venv/`, `ven. S01-T4-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     }
@@ -214,10 +214,10 @@
     }
   ],
   "confusion_points": [],
-  "recorded_at": "2026-07-23T17:21:31.903553+00:00",
-  "session_started_at": "2026-07-23T17:15:55.667170Z",
-  "session_ended_at": "2026-07-23T17:16:20.336281Z",
-  "receipt_response_sha256": "6600efa1ff655e43b913047fbb732a647eceabbf6e0a7c686afa718c1e03d413",
-  "receipt_exercises_sha256": "33201b99f0051cfd3b49c928064179765ee816fc50fd931049bc8b8d50c8bf34",
+  "recorded_at": "2026-07-23T18:37:01.731098+00:00",
+  "session_started_at": "2026-07-23T18:37:01.729374+00:00",
+  "session_ended_at": "2026-07-23T18:37:32.029374+00:00",
+  "receipt_response_sha256": "dc8a8189692c310d7aa6a9ce8dc77139ddf1ad4bbd0a9622df19473a4f6db763",
+  "receipt_exercises_sha256": "2c6b245544dc761fc67e0b6c6d2bc6f528ee8124f4250f1e7617ef976b01f663",
   "receipt_selfcheck_sha256": "4ee4906065763a40fcba399dc2bbb213c455a8b67e2ca728951f44aceece1dc2"
 }

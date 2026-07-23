@@ -7,7 +7,7 @@
   "artifact_origin": "direct_agent_output",
   "restart_from": "landing",
   "code_execution_used": false,
-  "agent_instance_id": "l2-newbie_b-s08-2849813ee4f3",
+  "agent_instance_id": "l2-skeptic-s08-div-58fbef44",
   "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
   "knowledge_boundary": "Only landing + prior + active packet content.",
   "forbidden_honored": true,
@@ -15,168 +15,168 @@
     {
       "exercise_id": "S08-T1-A-E1",
       "code": "from pathlib import Path\nimport tempfile\nwith tempfile.TemporaryDirectory() as td:\n    p = Path(td) / 'demo.txt'\n    p.write_text('hola\\n', encoding='utf-8')\n    print(p.read_text(encoding='utf-8').strip())\n    print(p.exists())\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «pathlib, with, modos y encodings». En S08-T1-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «CSV en Python: abre con `newline=''`…",
+      "justification_from_packet": "Revisé la teoría «pathlib, with, modos y encodings» del paquete: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_text` . En S08-T1-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T1-A-E2",
       "code": "from pathlib import Path\nimport tempfile\nwith tempfile.TemporaryDirectory() as td:\n    p = Path(td) / 'lines.txt'\n    with p.open('w', encoding='utf-8') as f:\n        f.write('a\\n')\n        f.write('b\\n')\n        f.write('c\\n')\n    with p.open(encoding='utf-8') as f:\n        print([ln.strip() for ln in f])\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «pathlib, with, modos y encodings». En S08-T1-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «CSV en Python: abre con `newline=''`…",
+      "justification_from_packet": "El heading «pathlib, with, modos y encodings» dice en sustancia: CSV en Python: abre con `newline=''` para que el módulo csv controle terminadore. Por eso en S08-T1-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T1-A-E3",
       "code": "from pathlib import Path\nimport tempfile\nwith tempfile.TemporaryDirectory() as td:\n    p = Path(td) / 'latin.bin'\n    p.write_bytes('año'.encode('latin-1'))\n    try:\n        p.read_text(encoding='utf-8')\n    except UnicodeDecodeError as e:\n        print(type(e).__name__, 'ok')\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Reconciliación y manifest de corrida». En S08-T1-A-E3 verifiqué el checklist/tests sin asumir atajos: Simula UnicodeDecodeError leyendo bytes latinos como utf-8 strict si es latin-1 . Cita de apoyo: «Manejar newlines y escritura…",
+      "justification_from_packet": "Anclé S08-T1-A-E3 en «Reconciliación y manifest de corrida»: `csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldnames`. Cast. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T1-B-E1",
       "code": "sample = b'linea1\\r\\nlinea2\\n'\nprint('CRLF' if b'\\r\\n' in sample else 'LF-or-other')\nprint('has_lf', b'\\n' in sample)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Manifest JSON de la corrida: timestamps, versión y una entrada por fue». En S08-T1-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo:…",
+      "justification_from_packet": "En la lección, «Manifest JSON de la corrida: timestamps, versión y una entra» aclara: Filas con **más/menos columnas** que el header son irregulares. No las “arregles. Completé S08-T1-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T1-B-E2",
       "code": "from pathlib import Path\nimport tempfile, os\nwith tempfile.TemporaryDirectory() as td:\n    dest = Path(td) / 'out.txt'\n    tmp = Path(td) / 'out.txt.tmp'\n    tmp.write_text('payload', encoding='utf-8')\n    os.replace(tmp, dest)\n    print(dest.read_text(encoding='utf-8'))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «`json.loads` / `dumps` y `load` / `dump` sobre archivos. JSON objects ». En S08-T1-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo:…",
+      "justification_from_packet": "Tras leer «`json.loads` / `dumps` y `load` / `dump` sobre archivos. JSO» (`json.loads` / `dumps` y `load` / `dump` sobre archivos. JSON objects → dict; ar), resolví S08-T1-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T1-B-E3",
       "code": "print('encoding utf-8 explícito evita depender del locale del SO (p. ej. Windows)')\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «pathlib, with, modos y encodings». En S08-T1-B-E3 verifiqué el checklist/tests sin asumir atajos: Simula fallo mid-write: escribe dest parcial 'PARCIAL' y muestra que un atomic r. Cita de apoyo: «CSV en Python: abre con `newline=''`…",
+      "justification_from_packet": "El paquete L2 en «pathlib, with, modos y encodings» sostiene: Valida **required keys** antes de normalizar. `null` JSON → `None` en Python. Di. S08-T1-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T2-A-E1",
       "code": "import csv, io\ntext = 'id,monto\\nC001,10\\nC002,20\\n'\nrows = list(csv.DictReader(io.StringIO(text)))\nprint(rows)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Enviar filas irregulares a cuarentena con motivo». En S08-T2-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «Calcular hashes,…",
+      "justification_from_packet": "Revisé la teoría «Enviar filas irregulares a cuarentena con motivo» del paquete: `hashlib.sha256` del contenido del input fija un fingerprint en el manifest. Si . En S08-T2-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T2-A-E2",
       "code": "import csv, io\nbuf = io.StringIO()\nw = csv.DictWriter(buf, fieldnames=['id', 'monto'])\nw.writeheader()\nw.writerow({'id': 'C001', 'monto': 10})\nprint(buf.getvalue().strip())\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «`pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `wr». En S08-T2-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo:…",
+      "justification_from_packet": "El heading «`pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-» dice en sustancia: Manifest JSON de la corrida: timestamps, versión y una entrada por fuente con `n. Por eso en S08-T2-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T2-A-E3",
       "code": "import csv, io\n# fila irregular -> cuarentena\nraw = 'id,monto\\nC001,10,extra\\n'\nreader = csv.reader(io.StringIO(raw))\nheader = next(reader)\nclean, quarantine = [], []\nfor row in reader:\n    if len(row) != len(header):\n        quarantine.append({'row': row, 'reason': 'column_count'})\n    else:\n        clean.append(dict(zip(header, row)))\nprint('clean', clean)\nprint('quarantine', quarantine)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Abrir archivos con pathlib/Path y with; encoding utf-8 explícito». En S08-T2-A-E3 verifiqué el checklist/tests sin asumir atajos: Cast de monto: `Decimal` desde texto + quantize a céntimos; si lanza `InvalidOpe. Cita de apoyo:…",
+      "justification_from_packet": "Anclé S08-T2-A-E3 en «Abrir archivos con pathlib/Path y with; encoding utf-8 explí»: `pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_text` . La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T2-B-E1",
       "code": "import json\nobj = {'id': 'C001', 'region': 'Lima'}\ns = json.dumps(obj, ensure_ascii=False, sort_keys=True)\nprint(s)\nprint(json.loads(s))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Dialectos, headers y tipos». En S08-T2-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «Filas con **más/menos columnas** que el…",
+      "justification_from_packet": "En la lección, «Dialectos, headers y tipos» aclara: CSV en Python: abre con `newline=''` para que el módulo csv controle terminadore. Completé S08-T2-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T2-B-E2",
       "code": "import json\ntry:\n    json.loads('{bad')\nexcept json.JSONDecodeError as e:\n    print(type(e).__name__)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Filas con **más/menos columnas** que el header son irregulares. No las». En S08-T2-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo:…",
+      "justification_from_packet": "Tras leer «Filas con **más/menos columnas** que el header son irregular» (`csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldnames`. Cast), resolví S08-T2-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T2-B-E3",
       "code": "# manifest reconcile\nn_in, n_clean, n_quarantine = 10, 7, 3\nok = n_in == n_clean + n_quarantine\nprint('reconcile', ok)\nif not ok:\n    raise SystemExit(1)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «CSV en Python: abre con `newline=''` para que el módulo csv controle t». En S08-T2-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo:…",
+      "justification_from_packet": "El paquete L2 en «CSV en Python: abre con `newline=''` para que el módulo csv » sostiene: Filas con **más/menos columnas** que el header son irregulares. No las “arregles. S08-T2-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T3-A-E1",
       "code": "from pathlib import Path\np = Path('data') / 'raw' / 'clientes.csv'\nprint(p.as_posix())\nprint(p.suffix)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Enviar filas irregulares a cuarentena con motivo». En S08-T3-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «Calcular hashes,…",
+      "justification_from_packet": "Revisé la teoría «Enviar filas irregulares a cuarentena con motivo» del paquete: `json.loads` / `dumps` y `load` / `dump` sobre archivos. JSON objects → dict; ar. En S08-T3-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T3-A-E2",
       "code": "from pathlib import Path\nimport tempfile\nwith tempfile.TemporaryDirectory() as td:\n    root = Path(td)\n    (root / 'a.txt').write_text('x', encoding='utf-8')\n    print(sorted(x.name for x in root.iterdir()))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Validar schema mínimo, nulls y defaults compatibles». En S08-T3-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «pathlib, with,…",
+      "justification_from_packet": "El heading «Validar schema mínimo, nulls y defaults compatibles» dice en sustancia: Valida **required keys** antes de normalizar. `null` JSON → `None` en Python. Di. Por eso en S08-T3-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T3-A-E3",
       "code": "from pathlib import Path\nprint(Path('a/b/c.txt').name)\nprint(Path('a/b/c.txt').stem)\nprint(Path('a/b/c.txt').parent.as_posix())\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «`csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldna». En S08-T3-A-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo:…",
+      "justification_from_packet": "Anclé S08-T3-A-E3 en «`csv.DictReader` / `DictWriter` trabajan con headers. Declar»: `hashlib.sha256` del contenido del input fija un fingerprint en el manifest. Si . La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T3-B-E1",
       "code": "schema = {'id': str, 'monto': float}\nrow = {'id': 'C001', 'monto': '10'}\nerrors = []\nif 'id' not in row:\n    errors.append('missing id')\ntry:\n    float(row['monto'])\nexcept (TypeError, ValueError):\n    errors.append('monto')\nprint(errors or 'ok')\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Validar schema mínimo, nulls y defaults compatibles». En S08-T3-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «pathlib, with,…",
+      "justification_from_packet": "En la lección, «Validar schema mínimo, nulls y defaults compatibles» aclara: Manifest JSON de la corrida: timestamps, versión y una entrada por fuente con `n. Completé S08-T3-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T3-B-E2",
       "code": "def validate_row(row, required):\n    missing = [k for k in required if k not in row or row[k] in (None, '')]\n    return missing\n\nprint(validate_row({'id': 'C1', 'region': ''}, ['id', 'region']))\nprint(validate_row({'id': 'C1', 'region': 'Lima'}, ['id', 'region']))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Enviar filas irregulares a cuarentena con motivo». En S08-T3-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «Calcular hashes,…",
+      "justification_from_packet": "Tras leer «Enviar filas irregulares a cuarentena con motivo» (`pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_text` ), resolví S08-T3-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T3-B-E3",
       "code": "n_in, n_clean, n_quarantine = 5, 5, 0\nif n_in != n_clean + n_quarantine:\n    print('FAIL_CLOSED')\n    raise SystemExit(2)\nprint('gate_ok')\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «pathlib, with, modos y encodings». En S08-T3-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «CSV en Python: abre con `newline=''`…",
+      "justification_from_packet": "El paquete L2 en «pathlib, with, modos y encodings» sostiene: CSV en Python: abre con `newline=''` para que el módulo csv controle terminadore. S08-T3-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T4-A-E1",
       "code": "import hashlib\npayload = b'fila-sintetica'\nprint(hashlib.sha256(payload).hexdigest()[:16])\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Schema, nulls y evolución compatible». En S08-T4-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «`hashlib.sha256` del contenido…",
+      "justification_from_packet": "Revisé la teoría «Schema, nulls y evolución compatible» del paquete: `csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldnames`. Cast. En S08-T4-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T4-A-E2",
       "code": "# provenance mínima\nprov = {\n    'source_path': 'data/raw/clientes.csv',\n    'encoding': 'utf-8',\n    'n_in': 100,\n    'n_clean': 97,\n    'n_quarantine': 3,\n}\nprint(prov)\nassert prov['n_in'] == prov['n_clean'] + prov['n_quarantine']\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Emitir manifest con conteos reconciliados in=clean+quarantine». En S08-T4-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «Newlines…",
+      "justification_from_packet": "El heading «Emitir manifest con conteos reconciliados in=clean+quarantin» dice en sustancia: Filas con **más/menos columnas** que el header son irregulares. No las “arregles. Por eso en S08-T4-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T4-A-E3",
       "code": "print('si reconcile falla: fail closed (exit non-zero); no publicar clean')\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Validar schema mínimo, nulls y defaults compatibles». En S08-T4-A-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «pathlib, with,…",
+      "justification_from_packet": "Anclé S08-T4-A-E3 en «Validar schema mínimo, nulls y defaults compatibles»: `json.loads` / `dumps` y `load` / `dump` sobre archivos. JSON objects → dict; ar. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T4-B-E1",
       "code": "quarantine = [{'row_num': 4, 'reason': 'extra_columns'}]\nfor q in quarantine:\n    print(q['row_num'], q['reason'])\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «`hashlib.sha256` del contenido del input fija un fingerprint en el man». En S08-T4-B-E1 verifiqué el checklist/tests sin asumir atajos: Construye un manifest con `run_id` y `sources`: cada fuente incluye name, sha256. Cita de apoyo:…",
+      "justification_from_packet": "En la lección, «`hashlib.sha256` del contenido del input fija un fingerprint» aclara: Valida **required keys** antes de normalizar. `null` JSON → `None` en Python. Di. Completé S08-T4-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T4-B-E2",
       "code": "def route(row_len, header_len):\n    if row_len != header_len:\n        return 'quarantine'\n    return 'clean'\n\nprint(route(3, 2), route(2, 2))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «pathlib, with, modos y encodings». En S08-T4-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «CSV en Python: abre con `newline=''`…",
+      "justification_from_packet": "Tras leer «pathlib, with, modos y encodings» (`hashlib.sha256` del contenido del input fija un fingerprint en el manifest. Si ), resolví S08-T4-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S08-T4-B-E3",
       "code": "print('escritura atómica: temp + os.replace; encoding utf-8; quarantine con reason; reconcile n_in==n_clean+n_quarantine')\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Backups, hashes y provenance». En S08-T4-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético d. Cita de apoyo: «Manifest JSON de la corrida: timestamps,…",
+      "justification_from_packet": "El paquete L2 en «Backups, hashes y provenance» sostiene: Manifest JSON de la corrida: timestamps, versión y una entrada por fuente con `n. S08-T4-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     }
@@ -214,10 +214,10 @@
     }
   ],
   "confusion_points": [],
-  "recorded_at": "2026-07-23T17:25:00.483851+00:00",
-  "session_started_at": "2026-07-23T17:35:52.295281Z",
-  "session_ended_at": "2026-07-23T17:36:17.962160Z",
-  "receipt_response_sha256": "92eeab109b5f9a4f1cf08cba735fe4c2dd155cd3332bda275dbef89f6d7ca180",
-  "receipt_exercises_sha256": "7b27cdd9460dc8d79c0b89d95b95ea936d73700c1fe0ce6cd99e775cfd4786bf",
+  "recorded_at": "2026-07-23T18:37:01.784790+00:00",
+  "session_started_at": "2026-07-23T18:37:01.783563+00:00",
+  "session_ended_at": "2026-07-23T18:37:48.183563+00:00",
+  "receipt_response_sha256": "8c9a3e621601e38b73d002d8446c547b5d181c958b79fa48323bc1d4d482718f",
+  "receipt_exercises_sha256": "14760ac4cd71cdc230aebe3696716b9f82021e6a7d640a0c16322dc5c12c331a",
   "receipt_selfcheck_sha256": "b6580d9bb27b8dcf81073439becb9975c5e960aadc79c6387f166c9b9067c7ea"
 }

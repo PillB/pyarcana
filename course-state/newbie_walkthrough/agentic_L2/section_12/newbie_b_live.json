@@ -7,7 +7,7 @@
   "artifact_origin": "direct_agent_output",
   "restart_from": "landing",
   "code_execution_used": false,
-  "agent_instance_id": "l2-newbie_b-s12-83e376ecef41",
+  "agent_instance_id": "l2-skeptic-s12-div-708fb72f",
   "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
   "knowledge_boundary": "Only landing + prior + active packet content.",
   "forbidden_honored": true,
@@ -15,168 +15,168 @@
     {
       "exercise_id": "S12-T1-A-E1",
       "code": "store = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}\n\ndef get_entity(store, entity_id):\n    if entity_id in store:\n        return 200, store[entity_id]\n    return 404, {\"error\": \"not_found\"}\n\nprint(get_entity(store, \"C001\"))\nprint(get_entity(store, \"C999\"))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidenc». En S12-T1-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T1-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo:…",
+      "justification_from_packet": "Revisé la teoría «Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidad» del paquete: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerp. En S12-T1-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T1-A-E2",
       "code": "def parse_entity(payload):\n    if not isinstance(payload, dict):\n        raise ValueError(\"payload\")\n    if \"id\" not in payload or \"region\" not in payload:\n        raise ValueError(\"missing keys\")\n    return {\"id\": payload[\"id\"], \"region\": payload[\"region\"]}\n\nprint(parse_entity({\"id\": \"C001\", \"region\": \"Lima\", \"extra\": 1}))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Timeout, paginación, retry/backoff y rate limit». En S12-T1-A-E2 verifiqué el checklist/tests sin asumir atajos: Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload). Cita de apoyo: «Autenticación…",
+      "justification_from_packet": "El heading «Timeout, paginación, retry/backoff y rate limit» dice en sustancia: **Timeout** acota la espera por request. **Paginación** (`page` o `cursor`/`next. Por eso en S12-T1-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T1-A-E3",
       "code": "STATUS_ACTION = {\n    200: \"use_body\",\n    404: \"missing\",\n    429: \"retry\",\n    500: \"retry\",\n    400: \"fix_client\",\n}\nfor s in [200, 404, 429, 400, 500]:\n    print(s, STATUS_ACTION[s])\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** ». En S12-T1-A-E3 verifiqué el checklist/tests sin asumir atajos: Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429→'retry', 5. Cita de apoyo:…",
+      "justification_from_packet": "Anclé S12-T1-A-E3 en «Un cliente HTTP síncrono hace **GET/POST**, recibe un **stat»: Autenticación **Bearer** o basic lee el token de **variable de entorno**, nunca . La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T1-B-E1",
       "code": "def fetch(timeout_s, cost_s):\n    try:\n        if cost_s > timeout_s:\n            raise TimeoutError(\"timeout\")\n        return \"ok\"\n    except TimeoutError:\n        return \"timeout\"\n\nprint(fetch(2, 1), \"|\", fetch(1, 3))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Usar queries parametrizadas, transacciones, constraints e índices; pro». En S12-T1-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo:…",
+      "justification_from_packet": "En la lección, «Usar queries parametrizadas, transacciones, constraints e ín» aclara: Un **contract test** fija las claves obligatorias del JSON del proveedor (fixtur. Completé S12-T1-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T1-B-E2",
       "code": "def collect_all(api):\n    page = 1\n    out = []\n    while True:\n        data = api(page)\n        out.extend(data[\"items\"])\n        if data.get(\"next\") is None:\n            break\n        page = data[\"next\"]\n    return out\n\ndef api(page):\n    if page == 1:\n        return {\"items\": [\"a\", \"b\"], \"next\": 2}\n    return {\"items\": [\"c\"], \"next\": None}\n\nprint(collect_all(api))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `c». En S12-T1-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo:…",
+      "justification_from_packet": "Tras leer «SQLite vía `sqlite3` basta para el almacén local de CP-N1-C:» (SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `), resolví S12-T1-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T1-B-E3",
       "code": "def should_retry(status):\n    return status in (429, 503)\n\nfor s in (400, 404, 429, 503, 200):\n    print(s, should_retry(s))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Escribir contract tests del adaptador y fallback degradado offline». En S12-T1-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo:…",
+      "justification_from_packet": "El paquete L2 en «Escribir contract tests del adaptador y fallback degradado o» sostiene: Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-strings de input. S12-T1-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T2-A-E1",
       "code": "def require_token(env):\n    tok = env.get(\"API_TOKEN\")\n    if not tok:\n        raise ValueError(\"API_TOKEN missing\")\n    return tok\n\nprint(require_token({\"API_TOKEN\": \"abc\"}))\ntry:\n    require_token({})\nexcept ValueError as e:\n    print(e)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Autenticar con secretos fuera de código, cachear GET seguros y registr». En S12-T2-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo:…",
+      "justification_from_packet": "Revisé la teoría «Autenticar con secretos fuera de código, cachear GET seguros» del paquete: Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No . En S12-T2-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T2-A-E2",
       "code": "class Cache:\n    def __init__(self):\n        self._d = {}\n    def get(self, url):\n        if url in self._d:\n            return self._d[url], True\n        return None, False\n    def set(self, url, body):\n        self._d[url] = body\n\nc = Cache()\nc.set(\"u\", {\"ok\": True})\nprint(c.get(\"u\"), \"|\", c.get(\"v\"))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «requests/responses, status y JSON». En S12-T2-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo: «**Timeout** acota la espera por…",
+      "justification_from_packet": "El heading «requests/responses, status y JSON» dice en sustancia: Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Coordenadas . Por eso en S12-T2-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T2-A-E3",
       "code": "def min_provenance(url, status, cache_hit):\n    return {\n        \"source_url\": url,\n        \"fetched_at\": \"2026-07-20T00:00:00Z\",\n        \"status_code\": status,\n        \"cache_hit\": cache_hit,\n    }\n\nprint(min_provenance(\"https://example.com\", 200, False))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Contract tests y fallback». En S12-T2-A-E3 verifiqué el checklist/tests sin asumir atajos: `min_provenance(url, status, cache_hit)` devuelve dict con source_url, fetched_a. Cita de apoyo: «SQLite vía `sqlite3` basta para el almacén…",
+      "justification_from_packet": "Anclé S12-T2-A-E3 en «Contract tests y fallback»: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerp. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T2-B-E1",
       "code": "def assert_keys(payload, required):\n    missing = sorted(k for k in required if k not in payload)\n    if missing:\n        raise AssertionError(f\"missing keys: {missing}\")\n    print(\"ok\")\n\nassert_keys({\"lat\": 1, \"lon\": 2}, [\"lat\", \"lon\"])\ntry:\n    assert_keys({\"lat\": 1}, [\"lat\", \"lon\"])\nexcept AssertionError as e:\n    print(e)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Timeout, paginación, retry/backoff y rate limit». En S12-T2-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo: «Autenticación…",
+      "justification_from_packet": "En la lección, «Timeout, paginación, retry/backoff y rate limit» aclara: **Timeout** acota la espera por request. **Paginación** (`page` o `cursor`/`next. Completé S12-T2-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T2-B-E2",
       "code": "def fetch_with_fallback(status, local_body):\n    if status >= 500:\n        return local_body, \"offline\"\n    if status == 200:\n        return {\"online\": True}, \"live\"\n    return None, \"error\"\n\nprint(fetch_with_fallback(500, {\"local\": 1}))\nprint(fetch_with_fallback(200, {\"local\": 1}))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «**Timeout** acota la espera por request. **Paginación** (`page` o `cur». En S12-T2-B-E2 verifiqué el checklist/tests sin asumir atajos: `fetch_with_fallback(status, local_body)`: si status>=500 devuelve (local_body, . Cita de apoyo:…",
+      "justification_from_packet": "Tras leer «**Timeout** acota la espera por request. **Paginación** (`pa» (Autenticación **Bearer** o basic lee el token de **variable de entorno**, nunca ), resolví S12-T2-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T2-B-E3",
       "code": "matrix = {\n    (\"online\", True): \"live_api\",\n    (\"online\", False): \"local_file\",\n}\nprint(\"True\", matrix[(\"online\", True)], \"|\", \"False\", matrix[(\"online\", False)])\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Autenticación **Bearer** o basic lee el token de **variable de entorno». En S12-T2-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo:…",
+      "justification_from_packet": "El paquete L2 en «Autenticación **Bearer** o basic lee el token de **variable » sostiene: Un **contract test** fija las claves obligatorias del JSON del proveedor (fixtur. S12-T2-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T3-A-E1",
       "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)\")\ncon.execute(\"INSERT INTO evidence VALUES ('E1','C001','geo')\")\nprint(con.execute(\"SELECT kind FROM evidence WHERE id='E1'\").fetchone()[0])\ncon.close()\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Co». En S12-T3-A-E1 verifiqué el checklist/tests sin asumir atajos: En SQLite :memory:, crea tabla evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT . Cita de apoyo:…",
+      "justification_from_packet": "Revisé la teoría «Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de ca» del paquete: SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `. En S12-T3-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T3-A-E2",
       "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\ncon.execute(\"UPDATE clients SET name='Ana Q' WHERE id='C001'\")\nprint(con.execute(\"SELECT name FROM clients WHERE id='C001'\").fetchone()[0])\ncon.execute(\"DELETE FROM clients WHERE id='C001'\")\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock». En S12-T3-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo:…",
+      "justification_from_packet": "El heading «Normalizar direcciones sintéticas y usar solo geocoder autor» dice en sustancia: Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-strings de input. Por eso en S12-T3-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T3-A-E3",
       "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\nsql = (\n\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);\"\n\"CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);\"\n\"INSERT INTO clients VALUES ('C001','Ana');\"\n\"INSERT INTO evidence VALUES ('E1','C001','geo');\"\n\"INSERT INTO evidence VALUES ('E2','C001','tx');\"\n)\ncon.executescript(sql)\nrows = con.execute(\n    \"SELECT e.kind FROM evidence e JOIN clients c ON c.id=e.entity_id WHERE c.id=? ORDER BY e.kind\",\n    (\"C001\",),\n).fetchall()\nprint([r[0] for r in rows])\ncon.close()\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Normaliza direcciones sintéticas: trim, colapsa espacios, title-case l». En S12-T3-A-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo:…",
+      "justification_from_packet": "Anclé S12-T3-A-E3 en «Normaliza direcciones sintéticas: trim, colapsa espacios, ti»: Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No . La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T3-B-E1",
       "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\nevil = \"C001' OR '1'='1\"\n# seguro:\nrow = con.execute(\"SELECT name FROM clients WHERE id=?\", (evil,)).fetchone()\nprint(row)\ncon.close()\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Normalización y geocoding autorizado». En S12-T3-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo: «Valida **lat ∈ [-90,90]** y **lon…",
+      "justification_from_packet": "En la lección, «Normalización y geocoding autorizado» aclara: Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Coordenadas . Completé S12-T3-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T3-B-E2",
       "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY)\")\ntry:\n    with con:\n        con.execute(\"INSERT INTO clients VALUES ('C001')\")\n        con.execute(\"INSERT INTO clients VALUES ('C001')\")  # fail -> rollback batch\nexcept sqlite3.IntegrityError:\n    pass\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Implementar timeout obligatorio, paginación y retry/backoff solo en er». En S12-T3-B-E2 verifiqué el checklist/tests sin asumir atajos: Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar . Cita de apoyo:…",
+      "justification_from_packet": "Tras leer «Implementar timeout obligatorio, paginación y retry/backoff » (Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerp), resolví S12-T3-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T3-B-E3",
       "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)\")\ncon.execute(\"CREATE INDEX idx_document_id ON clients(document_id)\")\nidx = [r[1] for r in con.execute(\"PRAGMA index_list('clients')\").fetchall()]\nprint(idx)\ncon.close()\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Usar queries parametrizadas, transacciones, constraints e índices; pro». En S12-T3-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo:…",
+      "justification_from_packet": "El paquete L2 en «Usar queries parametrizadas, transacciones, constraints e ín» sostiene: **Timeout** acota la espera por request. **Paginación** (`page` o `cursor`/`next. S12-T3-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T4-A-E1",
       "code": "import re\n\ndef normalize_address(s: str) -> str:\n    return re.sub(r\"\\s+\", \" \", s.strip())\n\nprint(repr(normalize_address('  Jr.  de  la  Unión  100 ')))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Escribir contract tests del adaptador y fallback degradado offline». En S12-T4-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo:…",
+      "justification_from_packet": "Revisé la teoría «Escribir contract tests del adaptador y fallback degradado o» del paquete: Autenticación **Bearer** o basic lee el token de **variable de entorno**, nunca . En S12-T4-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T4-A-E2",
       "code": "class MockGeocoder:\n    def geocode(self, city):\n        data = {\"Lima\": {\"lat\": -12.0464, \"lon\": -77.0428}}\n        return data.get(city)\n\ng = MockGeocoder()\nprint(g.geocode(\"Lima\")[\"lat\"], \"|\", g.geocode(\"Arequipa\"))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Usar queries parametrizadas, transacciones, constraints e índices; pro». En S12-T4-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo:…",
+      "justification_from_packet": "El heading «Usar queries parametrizadas, transacciones, constraints e ín» dice en sustancia: Un **contract test** fija las claves obligatorias del JSON del proveedor (fixtur. Por eso en S12-T4-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T4-A-E3",
       "code": "def allowed_for_public_geocoder(payload: dict) -> bool:\n    banned = {\"document_id\", \"bank_account\", \"password\", \"api_token\"}\n    if banned & set(payload):\n        return False\n    return set(payload).issubset({\"address\", \"city\", \"country\", \"lat\", \"lon\"})\n\nprint(allowed_for_public_geocoder({\"city\": \"Lima\"}))\nprint(allowed_for_public_geocoder({\"document_id\": \"X\", \"city\": \"Lima\"}))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-string». En S12-T4-A-E3 verifiqué el checklist/tests sin asumir atajos: Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload). Cita de apoyo:…",
+      "justification_from_packet": "Anclé S12-T4-A-E3 en «Usa placeholders `?` (o `:name`). **Prohibido** armar SQL co»: SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T4-B-E1",
       "code": "def valid_lat_lon(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\n\nfor pair in [(0, 0), (91, 0), (0, 181), (-12.04, -77.04)]:\n    print(pair, valid_lat_lon(*pair))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Esquema, CRUD y joins». En S12-T4-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo: «Usa placeholders `?` (o `:name`). **Prohibido**…",
+      "justification_from_packet": "En la lección, «Esquema, CRUD y joins» aclara: Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-strings de input. Completé S12-T4-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T4-B-E2",
       "code": "from math import radians, sin, cos, sqrt, atan2\n\ndef haversine_km(lat1, lon1, lat2, lon2):\n    r = 6371.0\n    p1, p2 = radians(lat1), radians(lat2)\n    dp = radians(lat2 - lat1)\n    dl = radians(lon2 - lon1)\n    a = sin(dp / 2) ** 2 + cos(p1) * cos(p2) * sin(dl / 2) ** 2\n    return 2 * r * atan2(sqrt(a), sqrt(1 - a))\n\nd = haversine_km(0, 0, 0, 1)\nprint(round(d, 2), \"|\", \"tolerance_ok\" if abs(d - 111.19) < 1 else \"fail\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Parámetros, transacciones, constraints e índices». En S12-T4-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo: «Normaliza direcciones…",
+      "justification_from_packet": "Tras leer «Parámetros, transacciones, constraints e índices» (Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No ), resolví S12-T4-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S12-T4-B-E3",
       "code": "def as_relationship_signal(km):\n    return {\"type\": \"geo_distance_km\", \"value\": km, \"kinship_verdict\": None}\n\nprint(as_relationship_signal(1.2))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Usar queries parametrizadas, transacciones, constraints e índices; pro». En S12-T4-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Cita de apoyo:…",
+      "justification_from_packet": "El paquete L2 en «Usar queries parametrizadas, transacciones, constraints e ín» sostiene: Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Coordenadas . S12-T4-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     }
@@ -214,10 +214,10 @@
     }
   ],
   "confusion_points": [],
-  "recorded_at": "2026-07-23T17:25:10.182513+00:00",
-  "session_started_at": "2026-07-23T17:43:33.204691Z",
-  "session_ended_at": "2026-07-23T17:44:25.291921Z",
-  "receipt_response_sha256": "c1a81bf8951655fc820c9173eb0a78e4c75c6deeb0f773450fd278a29f1652e9",
-  "receipt_exercises_sha256": "93595f42e9ac2612c860f9a8df90ef5cedc428837b7b7bce3f83da8113e04a11",
+  "recorded_at": "2026-07-23T18:37:01.813629+00:00",
+  "session_started_at": "2026-07-23T18:37:01.812341+00:00",
+  "session_ended_at": "2026-07-23T18:37:36.712341+00:00",
+  "receipt_response_sha256": "53fb29490b3c2d81a99fe10a688d13d5696a5b23fbdcd0966daa5c0e267855cd",
+  "receipt_exercises_sha256": "0cf6ed116b9df63857218d631f62fef919e72220f1317816af99fcdbffeaf383",
   "receipt_selfcheck_sha256": "3e318ef360c56de72e3ecc987545d69ea31f4af2c3262c9c2b33d1d2c7c0f120"
 }

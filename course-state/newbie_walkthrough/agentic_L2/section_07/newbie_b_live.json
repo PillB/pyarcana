@@ -7,7 +7,7 @@
   "artifact_origin": "direct_agent_output",
   "restart_from": "landing",
   "code_execution_used": false,
-  "agent_instance_id": "l2-newbie_b-s07-7ae5a3f883b1",
+  "agent_instance_id": "l2-skeptic-s07-div-1b1f734b",
   "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
   "knowledge_boundary": "Only landing + prior + active packet content.",
   "forbidden_honored": true,
@@ -15,168 +15,168 @@
     {
       "exercise_id": "S07-T1-A-E1",
       "code": "import unicodedata\nnames = ['José', 'Jose\\u0301', '']\nfor n in names:\n    print(repr(n), '->', repr(unicodedata.normalize('NFC', n)))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Manipular texto con métodos str idiomáticos antes de regex». En S07-T1-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo: «Compilar…",
+      "justification_from_packet": "Revisé la teoría «Manipular texto con métodos str idiomáticos antes de regex» del paquete: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma . En S07-T1-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T1-A-E2",
       "code": "a, b = 'MAÑANA', 'mañana'\nprint(a.casefold() == b.casefold())\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Email: strip + casefold y una comprobación **modesta pero completa**: ». En S07-T1-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo:…",
+      "justification_from_packet": "El heading «Email: strip + casefold y una comprobación **modesta pero co» dice en sustancia: En Perú y Latam es común **nombre(s) + apellido1 + apellido2**. No fuerces el fo. Por eso en S07-T1-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T1-A-E3",
       "code": "import unicodedata\na = 'José'\nb = 'Jose\\u0301'\nprint('raw==', a == b)\nprint('NFC==', unicodedata.normalize('NFC', a) == unicodedata.normalize('NFC', b))\nprint('causa: NFD residual / composición distinta')\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Matching de texto en intake: primero **igualdad normalizada** (NFC + c». En S07-T1-A-E3 verifiqué el checklist/tests sin asumir atajos: Diagnostica mismatch: dos strings que se ven iguales pero fallan `==`. Imprime i. Cita de apoyo:…",
+      "justification_from_packet": "Anclé S07-T1-A-E3 en «Matching de texto en intake: primero **igualdad normalizada*»: Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswith`. El 80. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T1-B-E1",
       "code": "raw = 'Ana María Quispe Huamán'\nparts = raw.split()\ngiven = parts[0]\napellidos = parts[1:]\nprint('given', given)\nprint('apellidos', apellidos)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Exacta y por tokens (Jaccard simple)». En S07-T1-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo: «**FP** (false positive): el…",
+      "justification_from_packet": "En la lección, «Exacta y por tokens (Jaccard simple)» aclara: Email: strip + casefold y una comprobación **modesta pero completa**: exactament. Completé S07-T1-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T1-B-E2",
       "code": "import re\nraw = '  Juan   Carlos  '\nclean = re.sub(r'\\s+', ' ', raw.strip())\nprint(repr(clean))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «`re.compile` reutiliza el patrón en loops (claridad + micro-ahorro). `». En S07-T1-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo:…",
+      "justification_from_packet": "Tras leer «`re.compile` reutiliza el patrón en loops (claridad + micro-» (Regex cuando el patrón es **regular de verdad**: DNI sintético 8 dígitos, código), resolví S07-T1-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T1-B-E3",
       "code": "def tokens(name: str):\n    return [t for t in name.replace(',', ' ').split() if t]\n\nprint(tokens('Quispe, Ana María'))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Exacta y por tokens (Jaccard simple)». En S07-T1-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo: «**FP** (false positive): el…",
+      "justification_from_packet": "El paquete L2 en «Exacta y por tokens (Jaccard simple)» sostiene: `re.compile` reutiliza el patrón en loops (claridad + micro-ahorro). `findall` /. S07-T1-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T2-A-E1",
       "code": "s = 'DNI 12345678'\nprint(s.find('123'))\nprint(s[4:12])\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Compilar patrones, extraer con findall/finditer y conocer límites». En S07-T2-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo: «Code…",
+      "justification_from_packet": "Revisé la teoría «Compilar patrones, extraer con findall/finditer y conocer lí» del paquete: Matching de texto en intake: primero **igualdad normalizada** (NFC + casefold + . En S07-T2-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T2-A-E2",
       "code": "email = 'Ana.Q@Ejemplo.PE'\nprint(email.lower())\nprint(email.casefold())\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Escribir patrones con grupos y anchors ^$». En S07-T2-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo: «Razonar FP/FN y conservar…",
+      "justification_from_packet": "El heading «Escribir patrones con grupos y anchors ^$» dice en sustancia: **FP** (false positive): el sistema dice match y no debería. **FN**: debería mat. Por eso en S07-T2-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T2-A-E3",
       "code": "parts = 'a,b,c'.split(',')\nprint(parts)\nprint('|'.join(parts))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Regex cuando el patrón es **regular de verdad**: DNI sintético 8 dígit». En S07-T2-A-E3 verifiqué el checklist/tests sin asumir atajos: Normaliza guiones de teléfono con replace encadenado sin regex: `'999.000-111'` . Cita de apoyo:…",
+      "justification_from_packet": "Anclé S07-T2-A-E3 en «Regex cuando el patrón es **regular de verdad**: DNI sintéti»: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma . La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T2-B-E1",
       "code": "import re\nprint(bool(re.fullmatch(r'\\d{8}', '12345678')))\nprint(re.fullmatch(r'\\d{8}', 'DNI 12345678'))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Patrones, grupos y anchors». En S07-T2-B-E1 verifiqué el checklist/tests sin asumir atajos: Implementa `normalize_email`: strip+casefold, exactamente un `@`, local/dominio . Cita de apoyo: «`re.compile` reutiliza el patrón en loops…",
+      "justification_from_packet": "En la lección, «Patrones, grupos y anchors» aclara: En Perú y Latam es común **nombre(s) + apellido1 + apellido2**. No fuerces el fo. Completé S07-T2-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T2-B-E2",
       "code": "import re\ntext = 'tel 999-111-222 y 988777666'\nprint(re.findall(r'\\d{3}-?\\d{3}-?\\d{3}', text))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Compilar patrones, extraer con findall/finditer y conocer límites». En S07-T2-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T2-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo: «Code…",
+      "justification_from_packet": "Tras leer «Compilar patrones, extraer con findall/finditer y conocer lí» (Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswith`. El 80), resolví S07-T2-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T2-B-E3",
       "code": "# Preferir str methods cuando basta; regex para patrones\ns = '  ABC  '\nprint(s.strip().lower())  # sin regex\nimport re\nprint(bool(re.fullmatch(r'[A-Z]{3}', 'ABC')))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «En Perú y Latam es común **nombre(s) + apellido1 + apellido2**. No fue». En S07-T2-B-E3 verifiqué el checklist/tests sin asumir atajos: Muestra que la regex `^[a-z]+@[a-z]+\\.com$` rechaza un email válido con `+`. Imp. Cita de apoyo:…",
+      "justification_from_packet": "El paquete L2 en «En Perú y Latam es común **nombre(s) + apellido1 + apellido2» sostiene: Email: strip + casefold y una comprobación **modesta pero completa**: exactament. S07-T2-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T3-A-E1",
       "code": "def jaccard(a: str, b: str) -> float:\n    sa, sb = set(a.casefold()), set(b.casefold())\n    if not sa and not sb:\n        return 1.0\n    return len(sa & sb) / len(sa | sb)\n\nprint(round(jaccard('Ana', 'Ana'), 2))\nprint(round(jaccard('Ana', 'Anb'), 2))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswi». En S07-T3-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo:…",
+      "justification_from_packet": "Revisé la teoría «Antes de regex: `strip`, `split`, `join`, `replace`, `find`,» del paquete: Regex cuando el patrón es **regular de verdad**: DNI sintético 8 dígitos, código. En S07-T3-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T3-A-E2",
       "code": "def token_jaccard(a, b):\n    sa, sb = set(a.casefold().split()), set(b.casefold().split())\n    if not sa and not sb:\n        return 1.0\n    return len(sa & sb) / len(sa | sb)\n\nprint(round(token_jaccard('Ana Quispe', 'Ana Rojas'), 2))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Compilación, extracción y límites». En S07-T3-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo: «Matching de texto en intake: primero…",
+      "justification_from_packet": "El heading «Compilación, extracción y límites» dice en sustancia: `re.compile` reutiliza el patrón en loops (claridad + micro-ahorro). `findall` /. Por eso en S07-T3-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T3-A-E3",
       "code": "score = 0.67\nif score >= 0.9:\n    accion = 'auto_link_review_light'\nelif score >= 0.5:\n    accion = 'review'\nelse:\n    accion = 'no_match'\nprint(score, accion)\nprint('evidencia: raw_a, raw_b, score; sin claim de parentesco')\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «En Perú y Latam es común **nombre(s) + apellido1 + apellido2**. No fue». En S07-T3-A-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo:…",
+      "justification_from_packet": "Anclé S07-T3-A-E3 en «En Perú y Latam es común **nombre(s) + apellido1 + apellido2»: Matching de texto en intake: primero **igualdad normalizada** (NFC + casefold + . La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T3-B-E1",
       "code": "def same_doc(a, b):\n    def norm(x):\n        return ''.join(ch for ch in x.casefold() if ch.isalnum())\n    return norm(a) == norm(b)\n\nprint(same_doc('DNI-123', 'dni123'))\nprint(same_doc('DNI-123', 'DNI-999'))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Comparar por igualdad normalizada y Jaccard de tokens». En S07-T3-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo: «Python 3 str es…",
+      "justification_from_packet": "En la lección, «Comparar por igualdad normalizada y Jaccard de tokens» aclara: **FP** (false positive): el sistema dice match y no debería. **FN**: debería mat. Completé S07-T3-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T3-B-E2",
       "code": "pairs = [('Ana', 'Ana'), ('Ana', 'an a'), ('X', 'Y')]\nfor a, b in pairs:\n    print(a, b, a.casefold().replace(' ', '') == b.casefold().replace(' ', ''))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Regex cuando el patrón es **regular de verdad**: DNI sintético 8 dígit». En S07-T3-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo:…",
+      "justification_from_packet": "Tras leer «Regex cuando el patrón es **regular de verdad**: DNI sintéti» (Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma ), resolví S07-T3-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T3-B-E3",
       "code": "print('score medio 0.67 -> review con evidencia (raw, score); no fusionar identidades ni afirmar parentesco')\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswi». En S07-T3-B-E3 verifiqué el checklist/tests sin asumir atajos: Explica en prints el riesgo de backtracking con un patrón malo conceptual `(a+)+. Cita de apoyo:…",
+      "justification_from_packet": "El paquete L2 en «Antes de regex: `strip`, `split`, `join`, `replace`, `find`,» sostiene: En Perú y Latam es común **nombre(s) + apellido1 + apellido2**. No fuerces el fo. S07-T3-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T4-A-E1",
       "code": "s = 'Café'\nprint(s.encode('utf-8'))\nprint(list(s))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Manipular texto con métodos str idiomáticos antes de regex». En S07-T4-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo: «Compilar…",
+      "justification_from_packet": "Revisé la teoría «Manipular texto con métodos str idiomáticos antes de regex» del paquete: Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswith`. El 80. En S07-T4-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T4-A-E2",
       "code": "b = 'José'.encode('utf-8')\nprint(b.decode('utf-8'))\ntry:\n    print(b.decode('ascii'))\nexcept UnicodeDecodeError as e:\n    print(type(e).__name__)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points.». En S07-T4-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo:…",
+      "justification_from_packet": "El heading «Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran co» dice en sustancia: Email: strip + casefold y una comprobación **modesta pero completa**: exactament. Por eso en S07-T4-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T4-A-E3",
       "code": "# NFC antes de comparar / hashear nombres\nimport unicodedata, hashlib\ndef nfc(s):\n    return unicodedata.normalize('NFC', s)\na, b = 'José', 'Jose\\u0301'\nprint(hashlib.sha256(nfc(a).encode()).hexdigest() == hashlib.sha256(nfc(b).encode()).hexdigest())\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Normalizar email/teléfono con reglas modestas sin overvalidation». En S07-T4-A-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo:…",
+      "justification_from_packet": "Anclé S07-T4-A-E3 en «Normalizar email/teléfono con reglas modestas sin overvalida»: Regex cuando el patrón es **regular de verdad**: DNI sintético 8 dígitos, código. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T4-B-E1",
       "code": "raw = 'línea con Ñ'\nprint(raw.encode('utf-8').decode('utf-8'))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Normalizar email/teléfono con reglas modestas sin overvalidation». En S07-T4-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo:…",
+      "justification_from_packet": "En la lección, «Normalizar email/teléfono con reglas modestas sin overvalida» aclara: `re.compile` reutiliza el patrón en loops (claridad + micro-ahorro). `findall` /. Completé S07-T4-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T4-B-E2",
       "code": "def safe_preview(s, n=20):\n    return (s[:n] + '…') if len(s) > n else s\n\nprint(safe_preview('abcdefghijklmnopqrstuvwxyz'))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Razonar FP/FN y conservar evidencia sin claims de parentesco». En S07-T4-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo: «Tildes,…",
+      "justification_from_packet": "Tras leer «Razonar FP/FN y conservar evidencia sin claims de parentesco» (Matching de texto en intake: primero **igualdad normalizada** (NFC + casefold + ), resolví S07-T4-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S07-T4-B-E3",
       "code": "print('mojibake típico: bytes latin-1 leídos como utf-8 o viceversa; fix: re-decode con encoding correcto y normalizar NFC')\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Razonar FP/FN y conservar evidencia sin claims de parentesco». En S07-T4-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Cita de apoyo: «Tildes,…",
+      "justification_from_packet": "El paquete L2 en «Razonar FP/FN y conservar evidencia sin claims de parentesco» sostiene: **FP** (false positive): el sistema dice match y no debería. **FN**: debería mat. S07-T4-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     }
@@ -214,10 +214,10 @@
     }
   ],
   "confusion_points": [],
-  "recorded_at": "2026-07-23T17:24:58.062681+00:00",
-  "session_started_at": "2026-07-23T17:33:48.458568Z",
-  "session_ended_at": "2026-07-23T17:34:42.113245Z",
-  "receipt_response_sha256": "274c46da772efe363ba0470a200dbc78aa3a11e73703ad8a2e05a3ad9da0e91b",
-  "receipt_exercises_sha256": "c48292e8e8de845e7f414cc03a6664b448bf7b5ecd2fef71e07ed93fa7ae1984",
+  "recorded_at": "2026-07-23T18:37:01.775273+00:00",
+  "session_started_at": "2026-07-23T18:37:01.774070+00:00",
+  "session_ended_at": "2026-07-23T18:37:45.874070+00:00",
+  "receipt_response_sha256": "79c9f6f4cadf6e0cb8edb36c16a1dfe310d680316eb4773d05b394027964c4b8",
+  "receipt_exercises_sha256": "0e42ccba17326bd9c6127f003d0e9be4bf60f4699df89bbe052cb68c74b0bb78",
   "receipt_selfcheck_sha256": "f0ce40152003998708289f55ff4849e9d103e63629289f444bd028e6ca17fdc4"
 }

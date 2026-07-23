@@ -7,7 +7,7 @@
   "artifact_origin": "direct_agent_output",
   "restart_from": "landing",
   "code_execution_used": false,
-  "agent_instance_id": "l2-newbie_b-s11-03166d445ba9",
+  "agent_instance_id": "l2-skeptic-s11-div-a6b3695b",
   "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
   "knowledge_boundary": "Only landing + prior + active packet content.",
   "forbidden_honored": true,
@@ -15,168 +15,168 @@
     {
       "exercise_id": "S11-T1-A-E1",
       "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    tags: list[str] = field(default_factory=list)\n\nc = ClientRecord(\"C001\", \"Ana Quispe\")\nc.tags.append(\"vip\")\nprint(c)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Invariantes y estados válidos». En S11-T1-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «`@property` expone campos calculados…",
+      "justification_from_packet": "Revisé la teoría «Invariantes y estados válidos» del paquete: Una **clase** define el molde; una **instancia** es un objeto concreto. `@datacl. En S11-T1-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T1-A-E2",
       "code": "from dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: Decimal\n\nt = Transaction(\"T1\", \"C001\", Decimal(\"10.50\"))\nprint(t)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Definir igualdad/hash y mutabilidad (frozen) consciente». En S11-T1-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «Separar…",
+      "justification_from_packet": "El heading «Definir igualdad/hash y mutabilidad (frozen) consciente» dice en sustancia: `__post_init__` en dataclasses valida justo después de construir. Si el estado e. Por eso en S11-T1-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T1-A-E3",
       "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n\n    @classmethod\n    def from_dict(cls, d):\n        return cls(client_id=d[\"client_id\"], full_name=d[\"full_name\"])\n\nprint(ClientRecord.from_dict({\"client_id\": \"C001\", \"full_name\": \"Ana\"}))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Preferir composición a herencia frágil». En S11-T1-A-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «Probar dominio puro y evitar…",
+      "justification_from_packet": "Anclé S11-T1-A-E3 en «Preferir composición a herencia frágil»: `@property` expone campos calculados (`display_name`, `masked_email`) sin mutaci. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T1-B-E1",
       "code": "from dataclasses import dataclass\nfrom decimal import Decimal, ROUND_HALF_UP\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: Decimal\n\n    def __post_init__(self):\n        if not isinstance(self.amount, Decimal):\n            self.amount = Decimal(str(self.amount))\n        if self.amount <= 0:\n            raise ValueError(\"amount must be > 0\")\n        self.amount = self.amount.quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_UP)\n\nprint(Transaction(\"T1\", \"C001\", Decimal(\"1.2\")))\ntry:\n    Transaction(\"T2\", \"C001\", Decimal(\"-1\"))\nexcept ValueError as e:\n    print(\"err\", e)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Definir igualdad/hash y mutabilidad (frozen) consciente». En S11-T1-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «Separar…",
+      "justification_from_packet": "En la lección, «Definir igualdad/hash y mutabilidad (frozen) consciente» aclara: La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `document_id. Completé S11-T1-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T1-B-E2",
       "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    tags: list = field(default_factory=list)\n\na = ClientRecord(\"C001\")\nb = ClientRecord(\"C002\")\na.tags.append(\"x\")\nprint(a.tags, b.tags)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Dependencias y pruebas del dominio». En S11-T1-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «Imponer invariantes en construcción…",
+      "justification_from_packet": "Tras leer «Dependencias y pruebas del dominio» (**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `Re), resolví S11-T1-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T1-B-E3",
       "code": "print(\"field(default_factory=list) evita el default mutable compartido entre instancias\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Repositorios, servicios y serialización». En S11-T1-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «Tests del dominio son…",
+      "justification_from_packet": "El paquete L2 en «Repositorios, servicios y serialización» sostiene: `typing.Protocol` describe un **puerto** (EntityStore con get/save) sin forzar h. S11-T1-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T2-A-E1",
       "code": "from dataclasses import dataclass\n\n@dataclass\nclass RelationshipEvidence:\n    a: str\n    b: str\n    signal_score: float\n\n    def __post_init__(self):\n        if not (0.0 <= self.signal_score <= 1.0):\n            raise ValueError(\"signal_score in [0,1]\")\n\ne = RelationshipEvidence(\"C001\", \"C002\", 0.4)\nprint(e)\nprint(\"signal_score es dato, no veredicto de fraude/familia\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Igualdad, hash y mutabilidad consciente». En S11-T2-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «**has-a** (composición) suele…",
+      "justification_from_packet": "Revisé la teoría «Igualdad, hash y mutabilidad consciente» del paquete: **Repository** light: get/save. **Service** light: orquesta dominio sin conocer . En S11-T2-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T2-A-E2",
       "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass EntityId:\n    value: str\n\nprint(EntityId(\"C001\"))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Preferir composición a herencia frágil». En S11-T2-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «Probar dominio puro y evitar…",
+      "justification_from_packet": "El heading «Preferir composición a herencia frágil» dice en sustancia: Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan. Por eso en S11-T2-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T2-A-E3",
       "code": "print(\"RelationshipEvidence.signal_score representa una señal/dato numérico, no un veredicto legal de parentesco\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «**Repository** light: get/save. **Service** light: orquesta dominio si». En S11-T2-A-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo:…",
+      "justification_from_packet": "Anclé S11-T2-A-E3 en «**Repository** light: get/save. **Service** light: orquesta »: Una **clase** define el molde; una **instancia** es un objeto concreto. `@datacl. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T2-B-E1",
       "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError(\"document_id vacío\")\n\ntry:\n    ClientRecord(\"C001\", \"  \")\nexcept ValueError as e:\n    print(type(e).__name__, e)\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Dependencias y pruebas del dominio». En S11-T2-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «Imponer invariantes en construcción…",
+      "justification_from_packet": "En la lección, «Dependencias y pruebas del dominio» aclara: `__post_init__` en dataclasses valida justo después de construir. Si el estado e. Completé S11-T2-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T2-B-E2",
       "code": "print(\"objeto inválido: fallar en la construcción (__post_init__/validate)\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Protocolos y polimorfismo con propósito». En S11-T2-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «**Repository** light:…",
+      "justification_from_packet": "Tras leer «Protocolos y polimorfismo con propósito» (`@property` expone campos calculados (`display_name`, `masked_email`) sin mutaci), resolví S11-T2-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T2-B-E3",
       "code": "print(\"dominio de familiaridad NO debe tener is_fraud() automático\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene li». En S11-T2-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo:…",
+      "justification_from_packet": "El paquete L2 en «**has-a** (composición) suele modelar mejor casos: `CaseFile» sostiene: La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `document_id. S11-T2-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T3-A-E1",
       "code": "# composición en lugar de herencia forzada\nperson_info = {\"name\": \"Ana\"}\nclient = {\"client_id\": \"C001\", \"person_info\": person_info}\nprint(f\"{client['client_id']} {client['person_info']['name']} | design=composition\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «`@property` expone campos calculados (`display_name`, `masked_email`) ». En S11-T3-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo:…",
+      "justification_from_packet": "Revisé la teoría «`@property` expone campos calculados (`display_name`, `maske» del paquete: **has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `Re. En S11-T3-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T3-A-E2",
       "code": "class CaseFile:\n    def __init__(self, case_id):\n        self.case_id = case_id\n        self.evidence = []\n    def add_evidence(self, e):\n        self.evidence.append(e)\n    def count(self):\n        return len(self.evidence)\n\ncf = CaseFile(\"F1\")\ncf.add_evidence(\"e1\"); cf.add_evidence(\"e2\")\nprint(\"n=\", cf.count())\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Encapsular con properties y métodos de consulta seguros». En S11-T3-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «Usar…",
+      "justification_from_packet": "El heading «Encapsular con properties y métodos de consulta seguros» dice en sustancia: `typing.Protocol` describe un **puerto** (EntityStore con get/save) sin forzar h. Por eso en S11-T3-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T3-A-E3",
       "code": "print(\"JUST: Client tiene PersonInfo (has-a); herencia is-a frágil si no hay subtipo real de comportamiento\")\nprint(\"JUST: composición facilita tests y evita jerarquías rígidas\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Dependencias y pruebas del dominio». En S11-T3-A-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «Imponer invariantes en construcción…",
+      "justification_from_packet": "Anclé S11-T3-A-E3 en «Dependencias y pruebas del dominio»: **Repository** light: get/save. **Service** light: orquesta dominio sin conocer . La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T3-B-E1",
       "code": "from typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, pair: tuple[str, str]) -> float: ...\n\nclass FakeScorer:\n    def score(self, pair: tuple[str, str]) -> float:\n        return 0.5\n\ndef run(s: Scorer):\n    return s.score((\"a\", \"b\"))\n\nprint(run(FakeScorer()))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «`__post_init__` en dataclasses valida justo después de construir. Si e». En S11-T3-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo:…",
+      "justification_from_packet": "En la lección, «`__post_init__` en dataclasses valida justo después de const» aclara: Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan. Completé S11-T3-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T3-B-E2",
       "code": "def apply(norm, s):\n    return norm(s)\n\ndef strip_norm(s):\n    return s.strip()\n\ndef casefold_norm(s):\n    return s.casefold()\n\nprint(apply(strip_norm, \" Ana \"), \"|\", apply(casefold_norm, \"Ana\"))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Definir igualdad/hash y mutabilidad (frozen) consciente». En S11-T3-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «Separar…",
+      "justification_from_packet": "Tras leer «Definir igualdad/hash y mutabilidad (frozen) consciente» (Una **clase** define el molde; una **instancia** es un objeto concreto. `@datacl), resolví S11-T3-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T3-B-E3",
       "code": "print(\"WHEN_NOT: solo hay una implementación y no hay tests de puertos; Protocol añade indirection sin beneficio\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Una **clase** define el molde; una **instancia** es un objeto concreto». En S11-T3-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo:…",
+      "justification_from_packet": "El paquete L2 en «Una **clase** define el molde; una **instancia** es un objet» sostiene: `__post_init__` en dataclasses valida justo después de construir. Si el estado e. S11-T3-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T4-A-E1",
       "code": "from dataclasses import dataclass, asdict\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n\n    def to_dict(self):\n        d = asdict(self)\n        d.pop(\"password\", None)\n        d.pop(\"secret\", None)\n        return d\n\nprint(ClientRecord(\"C001\", \"a@ejemplo.pe\").to_dict())\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «**Repository** light: get/save. **Service** light: orquesta dominio si». En S11-T4-A-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo:…",
+      "justification_from_packet": "Revisé la teoría «**Repository** light: get/save. **Service** light: orquesta » del paquete: `@property` expone campos calculados (`display_name`, `masked_email`) sin mutaci. En S11-T4-A-E1 apliqué eso al starter.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T4-A-E2",
       "code": "class Repo:\n    def __init__(self):\n        self._store = {}\n    def save(self, obj):\n        self._store[obj[\"client_id\"]] = obj\n    def get(self, client_id):\n        return self._store.get(client_id)\n\nr = Repo()\nr.save({\"client_id\": \"C001\", \"email\": \"a@ejemplo.pe\"})\nprint(r.get(\"C001\"))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Preferir composición a herencia frágil». En S11-T4-A-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «Probar dominio puro y evitar…",
+      "justification_from_packet": "El heading «Preferir composición a herencia frágil» dice en sustancia: La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `document_id. Por eso en S11-T4-A-E2 implementé el contrato sin inventar APIs.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T4-A-E3",
       "code": "print(\"LAYER: cli — argparse, stdin/stdout, exit codes | domain — entidades/invariantes | adapters — repo/API\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Igualdad, hash y mutabilidad consciente». En S11-T4-A-E3 verifiqué el checklist/tests sin asumir atajos: argparse, stdin/stdout, exit codes | …` según solution. Conserva el contrato del. Cita de apoyo: «**has-a** (composición) suele…",
+      "justification_from_packet": "Anclé S11-T4-A-E3 en «Igualdad, hash y mutabilidad consciente»: **has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `Re. La instruction del quiz_card pide lo mismo con el fixture del lab.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T4-B-E1",
       "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError(\"document_id vacío\")\n\ntry:\n    ClientRecord(\"C001\", \"\")\nexcept ValueError:\n    print(\"pass\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «Separar dominio de I/O con repo/service y to_dict». En S11-T4-B-E1 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo: «Una **clase** define…",
+      "justification_from_packet": "En la lección, «Separar dominio de I/O con repo/service y to_dict» aclara: `typing.Protocol` describe un **puerto** (EntityStore con get/save) sin forzar h. Completé S11-T4-B-E1 siguiendo instruction+hints del paquete activo.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T4-B-E2",
       "code": "class FakeRepo:\n    def __init__(self):\n        self.d = {}\n    def register(self, c):\n        self.d[c[\"id\"]] = c\n    def get(self, i):\n        return self.d.get(i)\n\nr = FakeRepo()\nr.register({\"id\": \"C001\"})\nprint(\"register\", r.get(\"C001\") is not None)\nprint(\"get\", r.get(\"C001\"))\nprint(\"missing\", r.get(\"C999\"))\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `d». En S11-T4-B-E2 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo:…",
+      "justification_from_packet": "Tras leer «La identidad de `ResolvedEntity` usa su **`entity_id` establ» (**Repository** light: get/save. **Service** light: orquesta dominio sin conocer ), resolví S11-T4-B-E2 con el código del starter corregido según el oráculo del material.",
       "concepts_used": [],
       "blocked_on": []
     },
     {
       "exercise_id": "S11-T4-B-E3",
       "code": "print(\"ANTES: Client.decide_fraud(score)->bool en dominio\")\nprint(\"DESPUÉS: PolicyService aparte; Client solo datos/invariantes; sin auto_fraud\")\n",
-      "justification_from_packet": "Como skeptic contrasté la instruction con «La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `d». En S11-T4-B-E3 verifiqué el checklist/tests sin asumir atajos: Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del sta. Cita de apoyo:…",
+      "justification_from_packet": "El paquete L2 en «La identidad de `ResolvedEntity` usa su **`entity_id` establ» sostiene: Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan. S11-T4-B-E3 queda alineado a esa lectura y a los tests del checklist.",
       "concepts_used": [],
       "blocked_on": []
     }
@@ -220,10 +220,10 @@
     }
   ],
   "confusion_points": [],
-  "recorded_at": "2026-07-23T17:25:07.755468+00:00",
-  "session_started_at": "2026-07-23T17:41:12.972923Z",
-  "session_ended_at": "2026-07-23T17:42:00.633990Z",
-  "receipt_response_sha256": "48fad87b1a6b900dc6557ec1b3a97628b6592b872b7881995fe8df685bb6cda4",
-  "receipt_exercises_sha256": "938ad73d0d7ecd1a71d88b91b54734c0c9a90d727d2c6d9fd9bcfa565a9ce6e6",
+  "recorded_at": "2026-07-23T18:37:01.805331+00:00",
+  "session_started_at": "2026-07-23T18:37:01.803557+00:00",
+  "session_ended_at": "2026-07-23T18:37:34.403557+00:00",
+  "receipt_response_sha256": "12b4bdf65c3b31218547041cca3dfc0b21a7bb54d2cbb6864032f165e774a4af",
+  "receipt_exercises_sha256": "dd139668f74afa260d2b537ce297be41eaad031b2fa725c618b212ce02e97fef",
   "receipt_selfcheck_sha256": "f12aa66f67778140de8b08d5d8439658255e6f079d167cdad7d17a3ab56fa684"
 }
