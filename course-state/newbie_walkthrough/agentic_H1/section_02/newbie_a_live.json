@@ -1,0 +1,297 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 2,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s02-b2db9e11c460",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S02-T1-A-E1",
+      "code": "# dual explorer-H1 · S02-T1-A-E1\nliterales = [0, 3.14, \"Lima\", False, None]\nfor lit in literales:\n    print(repr(lit), \"→\", type(lit).__name__)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T1-A-E1 según el instruction: «E1 (guiado) — Clasifica estos literales imprimiendo `repr(valor)` y `type(valor).__name__` para cada uno: `0`, `3.14`, `…». Aplico type, literals tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "type",
+        "literals"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-A-E2",
+      "code": "# dual explorer-H1 · S02-T1-A-E2\ncodigo_int = 42\ncodigo_str = \"42\"\nprint(\"tipos:\", type(codigo_int).__name__, type(codigo_str).__name__)\nprint(\"igualdad cruda:\", codigo_int == codigo_str)\nprint(\"igualdad tras str():\", str(codigo_int) == codigo_str)\nprint(\"isinstance(True, int) →\", isinstance(True, int))\nprint(\"Nota: bool es subtipo de int; en intake no trates True como 1 accidentalmente\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T1-A-E2 según el instruction: «E2 (independiente) — Demuestra que `42` y `\"42\"` son tipos distintos: imprime ambos `type(...).__name__`, el resultado d…». Aplico type, isinstance tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "type",
+        "isinstance"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-A-E3",
+      "code": "# dual explorer-H1 · S02-T1-A-E3\ncampos = {\n    \"nombres\": (\"María José\", str),\n    \"apellido_paterno\": (\"Quispe\", str),\n    \"apellido_materno\": (\"Ñahui\", str),\n    \"contacto\": (\"999000111\", str),\n    \"edad\": (34, int),\n    \"activo\": (True, bool),\n}\nfor k, (v, t) in campos.items():\n    ok = type(v) is t\n    print(f\"{k}: {v!r} esperado={t.__name__} ok={ok}\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T1-A-E3 según el instruction: «E3 (transferencia) — Para el cliente sintético de intake, elige el tipo Python correcto de cada campo y crea literales d…». Aplico schema tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "schema"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-B-E1",
+      "code": "# dual explorer-H1 · S02-T1-B-E1\nraw = \" 21 \"\nedad = int(raw.strip())\nprint(edad, type(edad).__name__)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T1-B-E1 según el instruction: «E1 (guiado) — Dado `raw = \" 21 \"`, conviértelo a `int` usando `strip` y muestra el valor y su tipo. Debe quedar `21` de …». Aplico strip, int tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "strip",
+        "int"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-B-E2",
+      "code": "# dual explorer-H1 · S02-T1-B-E2\ndef safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    if texto == \"\":\n        return False, None, f\"ERROR en '{campo}': vacío (raw={valor!r})\"\n    try:\n        return True, int(texto), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\nfor v in [\" 21 \", \"\", \"abc\", \"  \"]:\n    print(repr(v), \"→\", safe_int(\"edad\", v))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T1-B-E2 según el instruction: «E2 (independiente) — Implementa `safe_int(campo, valor) -> tuple` que devuelva `(True, int, None)` si convierte, o `(Fal…». Aplico safe_int tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "safe_int"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-B-E3",
+      "code": "# dual explorer-H1 · S02-T1-B-E3\nfrom decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_edad_monto(edad_txt: str, monto_txt: str) -> dict:\n    raw = {\"edad\": edad_txt, \"monto\": monto_txt}\n    clean = {\"edad\": None, \"monto\": None}\n    errors = []\n    try:\n        clean[\"edad\"] = int(edad_txt.strip())\n    except ValueError:\n        errors.append(f\"ERROR en 'edad': no se pudo convertir {edad_txt!r} a int\")\n    try:\n        t = monto_txt.strip()\n        if not t:\n            raise InvalidOperation\n        clean[\"monto\"] = Decimal(t).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n    except (InvalidOperation, ValueError):\n        errors.append(f\"ERROR en 'monto': no se pudo convertir {monto_txt!r} a Decimal\")\n    return {\"raw\": raw, \"clean\": clean, \"errors\": errors}\n\nprint(parse_edad_monto(\"34\", \"150.50\"))\nprint(parse_edad_monto(\"abc\", \"99.00\"))\nprint(parse_edad_monto(\"20\", \"xx\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T1-B-E3 según el instruction: «E3 (transferencia) — Pipeline de 2 campos: `edad` (`int`) y `monto` (`Decimal` cuantizado a céntimos) desde texto. Devue…». Aplico Decimal, raw tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "Decimal",
+        "raw"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-A-E1",
+      "code": "# dual explorer-H1 · S02-T2-A-E1\nnombre_cliente = \"Luis\"\napellido_paterno = \"Ramos\"\nindice = 0\nlongitud = 5\nEDAD_MAXIMA = 120\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T2-A-E1 según el instruction: «E1 (guiado) — Renombra estas 5 variables a PEP 8: `NombreCliente`, `AP`, `x` (índice), `l` (longitud), `EdadMaxima` (con…». Aplico PEP8 tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "PEP8"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-A-E2",
+      "code": "# dual explorer-H1 · S02-T2-A-E2\nestado = \"activo\"\ncodigo = 10\nflag = True\nif estado == \"activo\":\n    print(\"ok estado\")\nif codigo == 10:\n    print(\"ok codigo\")\nif flag == True:\n    print(\"ok flag\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T2-A-E2 según el instruction: «E2 (independiente) — Bug hunt: el siguiente código tiene tres comparaciones rotas con `=` en lugar de `==`. Corrígelas p…». Aplico == tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "=="
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-A-E3",
+      "code": "# dual explorer-H1 · S02-T2-A-E3\nencabezados = [\n    \"Nombres\", \"Apellido Paterno\", \"Apellido Materno\",\n    \"Teléfono / Cel\", \"Dirección\", \"Edad (años)\",\n]\nmapeo = {\n    \"Nombres\": \"nombres\",\n    \"Apellido Paterno\": \"apellido_paterno\",\n    \"Apellido Materno\": \"apellido_materno\",\n    \"Teléfono / Cel\": \"contacto\",\n    \"Dirección\": \"direccion\",\n    \"Edad (años)\": \"edad\",\n}\nfor orig in encabezados:\n    print(f\"{orig!r} → {mapeo.get(orig, '???')}\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T2-A-E3 según el instruction: «E3 (transferencia) — Un CSV de intake llega con encabezados feos. Propón nombres PEP 8 (snake_case) para: `Nombres`, `Ap…». Aplico naming tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "naming"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-B-E1",
+      "code": "# dual explorer-H1 · S02-T2-B-E1\nprint(\"None is None →\", None is None)\nprint(\"[] == [] →\", [] == [])\nprint(\"[] is [] →\", [] is [])\nprint(\"1 == True →\", 1 == True)\nprint(\"1 is True →\", 1 is True)\n# Comentario: usa is para None; == para igualdad de valor/números\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T2-B-E1 según el instruction: «E1 (guiado) — Completa la tabla de predicciones imprimiendo el bool real de: `None is None`, `[] == []`, `[] is []`, `1 …». Aplico is, == tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "is",
+        "=="
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-B-E2",
+      "code": "# dual explorer-H1 · S02-T2-B-E2\noriginal = [\"a\", \"b\"]\ntrabajo = original.copy()\ntrabajo.append(\"c\")\nprint(\"original:\", original)\nprint(\"trabajo:\", trabajo)\nprint(\"mismo objeto?\", original is trabajo)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T2-B-E2 según el instruction: «E2 (independiente) — `original = [\"a\", \"b\"]`. Crea `trabajo` como **copia** (no alias), haz `trabajo.append(\"c\")` y demu…». Aplico copy tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-B-E3",
+      "code": "# dual explorer-H1 · S02-T2-B-E3\ndef make_record(nombres: str, contacto: str) -> dict:\n    return {\n        \"nombres_raw\": nombres,\n        \"contacto_raw\": contacto,\n        \"nombres\": nombres.strip(),\n        \"contacto\": contacto.strip(),\n    }\n\nentrada_nombres = \"  María  \"\nentrada_contacto = \" 999 \"\nrec = make_record(entrada_nombres, entrada_contacto)\nrec[\"nombres\"] = rec[\"nombres\"].upper()\nprint(rec)\nassert rec[\"nombres_raw\"] == entrada_nombres\nassert rec[\"contacto_raw\"] == entrada_contacto\nprint(\"raw preserved OK\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T2-B-E3 según el instruction: «E3 (transferencia) — Diseña `make_record(nombres, contacto)` que devuelva un dict con `nombres_raw`, `contacto_raw`, `no…». Aplico raw tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "raw"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-A-E1",
+      "code": "# dual explorer-H1 · S02-T3-A-E1\nn = 17\nd = 5\nprint(\"//\", n // d)\nprint(\"%\", n % d)\nprint(\"**\", 2 ** 4)\nprint(\"/\", n / d)\nprint(\"nota: / es división verdadera → float\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T3-A-E1 según el instruction: «E1 (guiado) — Con `n = 17` y `d = 5`, imprime `n // d`, `n % d`, `2 ** 4` y `n / d`. Comenta en un print por qué `/` dev…». Aplico ops tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "ops"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-A-E2",
+      "code": "# dual explorer-H1 · S02-T3-A-E2\nprint(\"sin paréntesis:\", -3**2)\nprint(\"con paréntesis:\", (-3)**2)\ncuadrado_neg = (-3)**2\nassert cuadrado_neg == 9\nprint(\"assert OK\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T3-A-E2 según el instruction: «E2 (independiente) — Demuestra que `-3**2` es `-9` y que `(-3)**2` es `9`. Asigna `cuadrado_neg = (-3)**2` y haz `assert…». Aplico precedence tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "precedence"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-A-E3",
+      "code": "# dual explorer-H1 · S02-T3-A-E3\nlinea_a = 50\nlinea_b = 30\nsubtotal = linea_a + linea_b\ntotal = subtotal * (1 + 0.18)\nprint(\"subtotal\", subtotal)\nprint(\"total\", total)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T3-A-E3 según el instruction: «E3 (transferencia) — Un ticket sintético tiene líneas `50` y `30` (soles, solo para practicar ops). Calcula `subtotal = …». Aplico IGV tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "IGV"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-B-E1",
+      "code": "# dual explorer-H1 · S02-T3-B-E1\nfrom decimal import Decimal\nprint(\"float\", 0.1 + 0.2)\nprint(\"Decimal\", Decimal(\"0.1\") + Decimal(\"0.2\"))\nassert Decimal(\"0.1\") + Decimal(\"0.2\") == Decimal(\"0.3\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T3-B-E1 según el instruction: «E1 (guiado) — Imprime `0.1 + 0.2` (float) y `Decimal(\"0.1\") + Decimal(\"0.2\")`. Importa desde `decimal`.…». Aplico Decimal tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "Decimal"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-B-E2",
+      "code": "# dual explorer-H1 · S02-T3-B-E2\nfrom decimal import Decimal, ROUND_HALF_EVEN\ncuenta = Decimal(\"85.50\")\npropina = (cuenta * Decimal(\"0.10\")).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\ntotal = (cuenta + propina).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\nprint(propina, total)\nassert propina == Decimal(\"8.55\")\nassert total == Decimal(\"94.05\")\nprint(\"OK\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T3-B-E2 según el instruction: «E2 (independiente) — Cuenta de restaurante sintético `Decimal(\"85.50\")`, propina 10%. Calcula propina y total con `quant…». Aplico quantize tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "quantize"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-B-E3",
+      "code": "# dual explorer-H1 · S02-T3-B-E3\nfrom decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_monto(texto: str):\n    t = texto.strip()\n    if t == \"\":\n        return False, None, f\"ERROR en 'monto': vacío (raw={texto!r})\"\n    try:\n        val = Decimal(t).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        return True, val, None\n    except InvalidOperation:\n        return False, None, f\"ERROR en 'monto': no se pudo convertir {texto!r} a Decimal\"\n\nfor s in [\"150.50\", \"  20.1 \", \"\", \"abc\"]:\n    print(repr(s), \"→\", parse_monto(s))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T3-B-E3 según el instruction: «E3 (transferencia) — Implementa `parse_monto(texto: str)` que devuelva `(ok, Decimal|None, error|None)`: strip, rechace …». Aplico parse_monto tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "parse_monto"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-A-E1",
+      "code": "# dual explorer-H1 · S02-T4-A-E1\nnombre = \"José\"\nprint(f\"Hola, {nombre}. Bienvenido al intake.\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T4-A-E1 según el instruction: «E1 (guiado) — Con `nombre = \"José\"`, imprime un saludo con f-string: `Hola, José. Bienvenido al intake.` (acento incluid…». Aplico f-string tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "f-string"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-A-E2",
+      "code": "# dual explorer-H1 · S02-T4-A-E2\nfrom decimal import Decimal\nnombres = \"Ana\"\napellido_paterno = \"Ramos\"\ncontacto = \"999000111\"\nmonto = Decimal(\"99.5\")\nprint(f\"nombres: {nombres}\")\nprint(f\"apellido_paterno: {apellido_paterno}\")\nprint(f\"contacto: {contacto}\")\nprint(f\"monto: S/ {monto:.2f}\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T4-A-E2 según el instruction: «E2 (independiente) — Con nombres, apellido_paterno, contacto y monto `Decimal(\"99.5\")`, imprime un reporte multi-línea c…». Aplico report tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "report"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-A-E3",
+      "code": "# dual explorer-H1 · S02-T4-A-E3\ndef simular_intake(nombres: str, contacto: str, edad: str) -> dict:\n    datos = {\"nombres\": nombres, \"contacto\": contacto, \"edad\": edad}\n    types = {k: type(v).__name__ for k, v in datos.items()}\n    return {**datos, \"types\": types}\n\nr = simular_intake(\"  Ana  \", \"999\", \"34\")\nprint(r)\nassert r[\"types\"][\"edad\"] == \"str\"\nassert r[\"types\"][\"nombres\"] == \"str\"\nprint(\"OK\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T4-A-E3 según el instruction: «E3 (transferencia) — Escribe `simular_intake(nombres: str, contacto: str, edad: str) -> dict` que **no** llame a `input(…». Aplico input sim tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "input sim"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-B-E1",
+      "code": "# dual explorer-H1 · S02-T4-B-E1\ndef parse_nombres(valor: str) -> dict:\n    errors = []\n    clean = valor.strip() if valor and valor.strip() else None\n    if clean is None:\n        errors.append(f\"ERROR en 'nombres': vacío (raw={valor!r})\")\n    return {\"nombres_raw\": valor, \"nombres\": clean, \"errors\": errors}\n\nr = parse_nombres(\"\")\nprint(r)\nassert r[\"nombres_raw\"] == \"\"\nassert r[\"nombres\"] is None\nassert any(\"nombres\" in e.lower() for e in r[\"errors\"])\nprint(\"OK\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T4-B-E1 según el instruction: «E1 (guiado) — Completa `parse_nombres(valor: str) -> dict` con claves `nombres_raw`, `nombres` (strip o None si vacío) y…». Aplico parse tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "parse"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-B-E2",
+      "code": "# dual explorer-H1 · S02-T4-B-E2\noriginal = \"  Ñahui  \"\nraw = original\nclean = original.strip()\nprint(repr(raw), \"→\", repr(clean))\nassert raw == original\nassert clean == \"Ñahui\"\nprint(\"Unicode OK\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T4-B-E2 según el instruction: «E2 (independiente) — Parsea `apellido_materno = \"  Ñahui  \"` conservando raw con espacios y clean strip. Assert de round…». Aplico Unicode tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "Unicode"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-B-E3",
+      "code": "# dual explorer-H1 · S02-T4-B-E3\ndef safe_int(campo: str, valor: str):\n    try:\n        return True, int(valor.strip()), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\ndef parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):\n    errors = []\n    rec = {\n        \"nombres_raw\": nombres,\n        \"apellido_paterno_raw\": apellido_paterno,\n        \"apellido_materno_raw\": apellido_materno,\n        \"contacto_raw\": contacto,\n        \"direccion_raw\": direccion,\n        \"edad_raw\": edad,\n        \"nombres\": None,\n        \"apellido_paterno\": None,\n        \"apellido_materno\": None,\n        \"contacto\": None,\n        \"direccion\": None,\n        \"edad\": None,\n        \"errors\": errors,\n    }\n    def req(campo, valor):\n        if valor is None or str(valor).strip() == \"\":\n            errors.append(f\"ERROR en '{campo}': vacío (raw={valor!r})\")\n            return None\n        return str(valor).strip()\n    rec[\"nombres\"] = req(\"nombres\", nombres)\n    rec[\"apellido_paterno\"] = req(\"apellido_paterno\", apellido_paterno)\n    rec[\"apellido_materno\"] = req(\"apellido_materno\", apellido_materno)\n    rec[\"contacto\"] = req(\"contacto\", contacto)\n    rec[\"direccion\"] = req(\"direccion\", direccion)\n    if edad is not None:\n        ok, n, err = safe_int(\"edad\", edad)\n        if ok:\n            rec[\"edad\"] = n\n        else:\n            errors.append(err)\n    return rec\n\nr1 = parse_client(\"María\", \"Quispe\", \"Ñahui\", \"999000111\", \"Lima\", \"34\")\nassert r1[\"apellido_materno_raw\"] == \"Ñahui\" and r1[\"errors\"] == []\nr2 = parse_client(\"\", \"Quispe\", \"Ñahui\", \"999\", \"Lima\")\nassert r2[\"nombres_raw\"] == \"\" and any(\"nombres\" in e for e in r2[\"errors\"])\nr3 = parse_client(\"Ana\", \"Ramos\", \"Díaz\", \"999\", \"Cusco\", \"abc\")\nassert r3[\"edad_raw\"] == \"abc\" and any(\"edad\" in e for e in r3[\"errors\"])\nprint(\"3 tests OK\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» completé S02-T4-B-E3 según el instruction: «E3 (transferencia) — Implementa `parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=Non…». Aplico parse_client tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "parse_client"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Valores, tipos, operadores e I/O» la pregunta «¿Cuál es el tipo de None en Python?…» se resuelve con la opción «NoneType». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S02-T1-A] Literales y tipos básicos Un **literal** es un valor escrito directam…). Por eso elijo el índice 1."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Valores, tipos, operadores e I/O» la pregunta «¿Qué imprime type(\"42\").__name__ y la comparación 42 == \"42\"…» se resuelve con la opción «str y False». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S02-T1-A] Literales y tipos básicos Un **literal** es un valor escrito directam…). Por eso elijo el índice 3."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Valores, tipos, operadores e I/O» la pregunta «¿Por qué el teléfono de un cliente de intake se modela como …» se resuelve con la opción «Porque no es una cantidad aritmética y puede necesitar ceros o formato». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S02-T1-A] Literales y tipos básicos Un **literal** es un valor escrito directam…). Por eso elijo el índice 0."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Valores, tipos, operadores e I/O» la pregunta «Tras `b = a` con `a = [1, 2]` y `b.append(3)`, ¿qué vale `a`…» se resuelve con la opción «[1, 2, 3]». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S02-T1-A] Literales y tipos básicos Un **literal** es un valor escrito directam…). Por eso elijo el índice 2."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Valores, tipos, operadores e I/O» la pregunta «¿Cuál es el idioma correcto para comprobar ausencia de valor…» se resuelve con la opción «if x is None:». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S02-T1-A] Literales y tipos básicos Un **literal** es un valor escrito directam…). Por eso elijo el índice 1."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:37:33.552590+00:00",
+  "session_started_at": "2026-07-23T07:37:06.397035+00:00",
+  "session_ended_at": "2026-07-23T07:37:33.552590+00:00"
+}

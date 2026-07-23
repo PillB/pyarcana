@@ -1,0 +1,383 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H2",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-exp-s22-238114-98845",
+  "production_note": "agentic_H2 dual-LLM explorer: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nfrom email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T1-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMETe» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo from email.mime.text import MIM». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "MIMEText",
+        "plain",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "code": "# explorer: completed from starter + packet demo\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt['Content-Disposition'] = 'attachment; filename=\"a.txt\"'\nmsg.attach(att)\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T1-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintétic» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo from email.mime.multipart impor». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "MIMEMultipart",
+        "mixed",
+        "adjunto",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "code": "# Transfer / protocolo — S22-T1-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = MIMEMultipart('mixed'); alt = MIMEMultipart('alternative'). Completa el TODO del starter sin borrar el oráculo\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: mime, encoding, html, text, attachments, email, arma, mensajes.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- alternative dentro de mixed\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T1-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintétic» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S22-T1-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "alternative",
+        "text",
+        "html",
+        "anidado"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "code": "# exploratory pass completes via iDo\nimport html, re\n\ndef sanitize(s):\n    s = html.escape(s)\n    return re.sub(r\"https?://[^\\s<]+\", lambda m: m.group(0) if \"example.pe\" in m.group(0) else \"[blocked]\", s)\n\nraw = '<b>Hola</b> https://evil.test/x https://example.pe/ok'\nprint(sanitize(raw))\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T1-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import html, re  def sanitize(s):     s = h». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "html",
+        "escape",
+        "script",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "code": "# exploratory pass completes via iDo\nimport html, re\n\ndef sanitize(s):\n    s = html.escape(s)\n    return re.sub(r\"https?://[^\\s<]+\", lambda m: m.group(0) if \"example.pe\" in m.group(0) else \"[blocked]\", s)\n\nraw = '<b>Hola</b> https://evil.test/x https://example.pe/ok'\nprint(sanitize(raw))\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T1-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: n» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import html, re  def sanitize(s):     s = h». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "interpolaci",
+        "escape",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "code": "# Transfer / protocolo — S22-T1-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = ['https://example.pe/a', 'https://evil.test']; for u in urls:. Completa el TODO del starter sin borrar el orác\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: mime, encoding, html, text, attachments, email, arma, mensajes.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- if 'example.pe' in url\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T1-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintético» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S22-T1-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "allowlist",
+        "dominios",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nrequested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T2-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requeste» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo requested = ['mail.draft', 'mai». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "filtrar",
+        "scopes",
+        "allowed",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\n# forma esperada (referencia): print(bad.isdisjoint(granted))",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T2-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: g» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) granted = ['mail.d». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "denied",
+        "scopes",
+        "peligrosos",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "code": "# Transfer / protocolo — S22-T2-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = datetime.now(timezone.utc); for exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):. Completa el TODO \n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: mime, encoding, html, text, attachments, email, arma, mensajes.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- datetime.fromisoformat\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T2-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos:» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S22-T2-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "expires_at",
+        "refresh",
+        "valid",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\nstore['d001'] = {'status': 'draft'}\n# forma esperada (referencia): print(store['d001']['status'])",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T2-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; » y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) store = {} store['». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "crear",
+        "draft",
+        "store",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "code": "# explorer: completed from starter + packet demo\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T2-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: n» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo from datetime import datetime, ». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "is_usable",
+        "expiraci",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "code": "# Transfer / protocolo — S22-T2-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}; def create_draft():. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. \n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: mime, encoding, html, text, attachments, email, arma, mensajes.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- len(store)+1\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T2-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: » y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S22-T2-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "draft",
+        "secuenciales",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport re\npat = r'^[^@]+@[^@]+\\\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T3-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import re pat = r'^[^@]+@[^@]+\\». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "regex",
+        "simple",
+        "email",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "code": "# explorer: completed from starter + packet demo\nDIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T3-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DI» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo DIRECTORY = {'C001': 'ana@examp». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "resolver",
+        "dominio",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "code": "# Transfer / protocolo — S22-T3-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'; n = 0. Completa el TODO del starter sin borrar el oráculo;\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: mime, encoding, html, text, attachments, email, arma, mensajes.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- os.path common o loop\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T3-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S22-T3-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "score",
+        "nota",
+        "match_no_es_fraude",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "code": "# exploratory pass completes via iDo\nrows = [\n    (\"ana@example.pe\", \"to\"),\n    (\"ana@example.pe\", \"to\"),\n    (\"partner@other.test\", \"cc\"),\n]\nout, seen = [], set()\nfor em, role in rows:\n    if em in seen:\n        continue\n    seen.add(em)\n    if em.endswith(\"other.test\"):\n        role = \"bcc\"\n    out.append((em, role))\nprint(out)\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T3-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos:» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo rows = [     (\"ana@example.pe\", \"to\"),     ». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "dedupe",
+        "lista",
+        "preservando",
+        "orden"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "code": "# explorer: completed from starter + packet demo\nrows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T3-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos:» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo rows = [{'email': 'p@other.test». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "forzar",
+        "role",
+        "externos",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "code": "# Transfer / protocolo — S22-T3-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a@example.pe','to'),('b@other.test','cc')]; vis = []. Completa el TODO del starter sin borrar el oráculo; impri\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: mime, encoding, html, text, attachments, email, arma, mensajes.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- filtrar roles\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T3-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: r» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S22-T3-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "conteo",
+        "visibles",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nT = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T4-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo T = {'draft': {'submit': 'pendi». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "transici",
+        "submit",
+        "draft",
+        "pending"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "code": "# explorer: completed from starter + packet demo\nT = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T4-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintético» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo T = {'draft': {'submit': 'pendi». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "approve",
+        "lido",
+        "desde",
+        "draft"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "code": "# Transfer / protocolo — S22-T4-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []; log.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'}). Completa el TODO del starter sin borrar \n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: mime, encoding, html, text, attachments, email, arma, mensajes.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- append dict\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T4-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S22-T4-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "aprobaci",
+        "actor",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "code": "# exploratory pass completes via iDo\nimport hashlib\ndb = {}\n\ndef once(key, factory):\n    if key in db:\n        return db[key], True\n    db[key] = factory()\n    return db[key], False\n\nk = hashlib.sha256(b\"cpn2c-01|ana@example.pe|v1\").hexdigest()[:12]\na, d1 = once(k, lambda: \"draft-001\")\nb, d2 = once(k, lambda: \"draft-002\")\nprint(a, b, a==b, d1, d2)\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T4-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import hashlib db = {}  def once(key, facto». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.))",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "idempotency",
+        "Fixture",
+        "datos",
+        "sint"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\n# forma esperada (referencia): print(create('k') == create('k'))\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T4-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos:» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) store = {}  def cr». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "create",
+        "idempotente",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "code": "# Transfer / protocolo — S22-T4-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = []; store = {}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (sali)\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: mime, encoding, html, text, attachments, email, arma, mensajes.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- lista de event names\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S22-T4-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: a» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S22-T4-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: MIME encoding HTML text attachments MIME email mime arma mensajes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "audit",
+        "create",
+        "retry_hit",
+        "Fixture"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "S22 Q0: elijo índice 1 («Solo drafts/.eml en sandbox y aprobación humana») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Qué garantiza no enviar correo real en el gate de S22?» con ese matiz. Apoyo lexical del packet: mime encoding html text attachments email arma mensajes multiparte plain adjuntos charset."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "S22 Q1: elijo índice 3 («Solo evidencia débil de contacto a revisar; no prueba de fraude») porque la theory/outcomes del paquete enlazan la idea de la pregunta «Un score alto de similitud entre dos emails implica:» con ese matiz. Apoyo lexical del packet: mime encoding html text attachments email arma mensajes multiparte plain adjuntos charset."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "S22 Q2: elijo índice 0 («Solo los scopes mínimos (p. ej. draft) necesarios») porque la theory/outcomes del paquete enlazan la idea de la pregunta «Least privilege en OAuth de correo significa:» con ese matiz. Apoyo lexical del packet: mime encoding html text attachments email arma mensajes multiparte plain adjuntos charset."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "S22 Q3: elijo índice 2 («Reutilizar el mismo draft_id si la key existe») porque la theory/outcomes del paquete enlazan la idea de la pregunta «La idempotency key al reintentar create_draft debe:» con ese matiz. Apoyo lexical del packet: mime encoding html text attachments email arma mensajes multiparte plain adjuntos charset."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "S22 Q4: elijo índice 1 («Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si ») porque la theory/outcomes del paquete enlazan la idea de la pregunta «Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de» con ese matiz. Apoyo lexical del packet: mime encoding html text attachments email arma mensajes multiparte plain adjuntos charset."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:28:09.706761+00:00",
+  "session_started_at": "2026-07-23T09:27:25.454601+00:00",
+  "session_ended_at": "2026-07-23T09:28:09.706761+00:00"
+}

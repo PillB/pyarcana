@@ -1,0 +1,313 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 1,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s01-bf6fe91d8775",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "code": "# Transcript REPL — sesión documentada\n# >>> 2 + 2\n# 4\n# >>> type(\"x\")\n# <class 'str'>\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.12.4'\n# >>> quit()\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T1-A-E1 siguiendo el instruction del quiz_card S01: sumé 2+2, type de str e import sys con split()[0] como en S01-T1-A Conceptos del packet: REPL, sys.version. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "REPL",
+        "sys.version"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "code": "import sys\n\ndef main() -> None:\n    nombre = \"Sam Demo\"\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\nif __name__ == \"__main__\":\n    main()\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T1-A-E2 siguiendo el instruction del quiz_card S01: hello_sys con def main, sys.version y if __name__ == '__main__' Conceptos del packet: main, sys.version, __name__. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "main",
+        "sys.version",
+        "__name__"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "code": "# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. Instalar o reparar desde la fuente oficial https://www.python.org/downloads/ (Windows: marcar Add python.exe to PATH).\n2. Cerrar y reabrir la terminal para recargar PATH.\n3. En Windows probar `python --version` y `where python`; desactivar el alias de Microsoft Store si confunde.\n4. En macOS/Linux usar de forma consistente `python3 --version` como comando canónico del curso.\n5. (opcional) Documentar el comando verificado en el README del equipo.\n6. (opcional) Crear el venv solo con el intérprete ya validado: `python3 -m venv .venv`.\n\n## Verificación final\n- Comando: python3 --version\n- Resultado esperado: Python 3.12+ (o 3.x del curso)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T1-A-E3 siguiendo el instruction del quiz_card S01: procedimiento 4–6 pasos con fuente oficial y distinción Windows/Unix Conceptos del packet: PATH, python3, oficial. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "PATH",
+        "python3",
+        "oficial"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "code": "# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n\n# SHELL_USADA=zsh\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T1-B-E1 siguiendo el instruction del quiz_card S01: exit 0 y exit 1 con lectura de $? en shell nombrada Conceptos del packet: sys.exit, $?. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "sys.exit",
+        "$?"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "code": "import sys\n\ndef main() -> None:\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T1-B-E2 siguiendo el instruction del quiz_card S01: exactamente un arg → OK; si no, stderr y código 1 Conceptos del packet: sys.argv, sys.exit, stderr. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "sys.argv",
+        "sys.exit",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "code": "# Diagnóstico pip vs import\n\n## Escenario A — `pip` no se reconoce\nClasificación: PATH / ejecutable ausente en la shell.\n1. `which pip` o `where pip` y revisar PATH\n2. Verificar `python3 --version`\n3. Preferir `python3 -m pip --version` atado al mismo Python\n\n## Escenario B — pip corre pero `import pandas` falla\nClasificación: pip e intérprete distintos o venv inactivo.\n1. `python -c \"import sys; print(sys.executable)\"`\n2. `python -m pip show pandas` con ese mismo python\n3. Activar `.venv` e instalar con `python -m pip install pandas`\n\n## Regla\nSiempre `python -m pip` para no mezclar instalaciones.\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T1-B-E3 siguiendo el instruction del quiz_card S01: clasifiqué PATH vs intérprete distinto; propuse python -m pip Conceptos del packet: pip, PATH, sys.executable. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "pip",
+        "PATH",
+        "sys.executable"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "code": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\npython3 -m venv .venv\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\ndeactivate\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T2-A-E1 siguiendo el instruction del quiz_card S01: venv .venv, activate, sys.prefix, deactivate Conceptos del packet: venv, sys.prefix. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "venv",
+        "sys.prefix"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "code": "deactivate 2>/dev/null || true\nrm -rf .venv\npython3 -m venv .venv\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py y demás .py del proyecto se conservan\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T2-A-E2 siguiendo el instruction del quiz_card S01: borrar solo .venv y recrear; no tocar código fuente Conceptos del packet: venv recreate. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "venv recreate"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-A-E3",
+      "code": "# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\nEl proyecto A pide pandas 1.x y el B pide 2.x. Un site-packages global no puede servir a ambos: actualizar para B rompe A.\n\n## Flujo recomendado (este curso)\n1. python3 -m venv .venv por proyecto\n2. source .venv/bin/activate (o Activate.ps1)\n3. python -m pip install pandas==... solo en ese entorno\n\n## Nota sobre la herramienta\n- venv es stdlib (no requiere descarga extra)\n- Nombre canónico de carpeta: .venv\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T2-A-E3 siguiendo el instruction del quiz_card S01: conflicto de versiones + flujo .venv stdlib Conceptos del packet: venv isolation. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "venv isolation"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-B-E1",
+      "code": "source .venv/bin/activate\npython -m pip install requests==2.32.3\npython -m pip freeze > requirements.txt\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T2-B-E1 siguiendo el instruction del quiz_card S01: install pinneado + freeze a requirements.txt en el venv Conceptos del packet: pip freeze. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "pip freeze"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-B-E2",
+      "code": "python3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r requirements.txt\npython -m pip list | head\npython -c \"import requests; print('ok', requests.__version__)\"\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T2-B-E2 siguiendo el instruction del quiz_card S01: segundo entorno limpio con install -r del contrato Conceptos del packet: install -r. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "install -r"
+      ]
+    },
+    {
+      "exercise_id": "S01-T2-B-E3",
+      "code": "# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\nEl módulo de terceros no está en el venv activo.\n\n## Hipótesis B — instalado en otro intérprete\npip apuntó a un Python distinto del que ejecuta import.\n\n## Protocolo (5 pasos)\n1. python -c \"import sys; print(sys.executable)\"\n2. Clasificar: ¿stdlib o terceros?\n3. python -m pip show requests (mismo ejecutable)\n4. Si falta: python -m pip install requests en el venv\n5. Reintentar import; si pip list lo muestra pero import falla → wrong interpreter\n\n## ¿stdlib o terceros?\n- requests: terceros\n- datetime: stdlib\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T2-B-E3 siguiendo el instruction del quiz_card S01: protocolo de 5 pasos con python -m pip y clasificación stdlib/terceros Conceptos del packet: ModuleNotFoundError, sys.executable. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "ModuleNotFoundError",
+        "sys.executable"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-A-E1",
+      "code": "mkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README de practica\"\ngit log -1 --oneline\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T3-A-E1 siguiendo el instruction del quiz_card S01: git add + commit con prefijo docs: verificable en log Conceptos del packet: git commit, Conventional Commits. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "git commit",
+        "Conventional Commits"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-A-E2",
+      "code": "# Lectura de diff\n## Comandos usados\necho \"Setup venv\" >> README.md\ngit add README.md\ngit commit -m \"docs: documentar setup con venv\"\nGIT_PAGER=cat git show HEAD\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\nLas líneas nuevas del README (p. ej. Setup venv) con prefijo +.\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\nModificado: solo aparecen +/- de las líneas tocadas, no el archivo completo como en un add inicial.\n\n## 3) Resumen en una frase\nEl commit documenta una línea de setup en el README ya trackeado.\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T3-A-E2 siguiendo el instruction del quiz_card S01: respondí las 3 preguntas con convención +/- del paquete Conceptos del packet: git show, diff. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "git show",
+        "diff"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-A-E3",
+      "code": "# Mejor mensaje de commit\nCandidatos: A wip | B feat: agregar smoke hello_env | C Actualicé cosas del setup\n\n## Elección\nB\n\n## Justificación\nTiene prefijo de tipo, describe el valor observable (smoke hello_env) y es legible en el historial y el PR. wip no dice nada; C es vago y no usa Conventional Commits.\n\n## Reescritura de A\nchore: guardar progreso local del smoke (squash antes de main)\n\n## Reescritura de C\ndocs: aclarar pasos de instalación del entorno\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T3-A-E3 siguiendo el instruction del quiz_card S01: elegí B por legibilidad; reescribí A y C con prefijos válidos Conceptos del packet: Conventional Commits. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "Conventional Commits"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-B-E1",
+      "code": "git switch main\ngit switch -c feat/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"feat: agregar nota de practica\"\ngit branch\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T3-B-E1 siguiendo el instruction del quiz_card S01: rama feat/practica-s01 con commit feat: sin force-push Conceptos del packet: git branch, feat/. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "git branch",
+        "feat/"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-B-E2",
+      "code": "# Título del PR\nfeat: smoke hello_env y README de instalación\n\n## Resumen\n- Agrega scripts/hello_env.py como smoke del entorno\n- Documenta install con venv + pip -r en README\n- Prepara esqueleto CP-N1-A para clon limpio\n\n## Plan de prueba\n1. python -m venv .venv && source .venv/bin/activate\n2. python -m pip install -r requirements.txt\n3. python scripts/hello_env.py  # exit 0\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] .env.example solo con claves vacías; datos sintéticos\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T3-B-E2 siguiendo el instruction del quiz_card S01: PR con título, bullets, plan de prueba y checklist de .env Conceptos del packet: PR, secretos. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "PR",
+        "secretos"
+      ]
+    },
+    {
+      "exercise_id": "S01-T3-B-E3",
+      "code": "# Recuperación no destructiva\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. Revisar con git status / git diff\n2. git restore README.md\n\n## ¿Cuándo stash en su lugar?\nCuando quieres guardar el cambio temporal para reaplicarlo después (git stash / stash pop).\n\n## Por qué NO force-push a main\nReescribe historial compartido y puede borrar trabajo de otros.\n\n## Por qué no reset --hard como default\nBorra trabajo no commiteado sin red de seguridad; preferir restore/stash primero.\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T3-B-E3 siguiendo el instruction del quiz_card S01: restore/stash no destructivos; rechazo force-push y reset --hard como default Conceptos del packet: git restore, stash. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "git restore",
+        "stash"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-A-E1",
+      "code": "[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T4-A-E1 siguiendo el instruction del quiz_card S01: pyproject mínimo con line-length 88 y select E,F,I Conceptos del packet: ruff, pyproject. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "ruff",
+        "pyproject"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-A-E2",
+      "code": "from datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T4-A-E2 siguiendo el instruction del quiz_card S01: eliminé imports muertos sys/os; datetime se usa; ruff check limpio Conceptos del packet: F401, ruff. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "F401",
+        "ruff"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-A-E3",
+      "code": "# Select mínimo para repo de datos (S01)\n## Propuesta\n`select = [\"E\", \"F\", \"I\"]`\n## Por qué no ALL el día 1\nALL genera cientos de hallazgos; el equipo deja de mirar el linter.\n## Qué cubren E, F, I\nE estilo básico, F errores reales (imports muertos), I orden de imports.\n## Cuándo ampliar\nCuando E/F/I limpio es hábito y hay acuerdo de equipo.\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T4-A-E3 siguiendo el instruction del quiz_card S01: set acotado E/F/I vs ruido de ALL; plan de ampliación Conceptos del packet: ruff select. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "ruff select"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-B-E1",
+      "code": "# Entornos\n.venv/\nvenv/\n# Bytecode\n__pycache__/\n*.pyc\n# Secretos\n.env\n# Jupyter\n.ipynb_checkpoints/\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T4-B-E1 siguiendo el instruction del quiz_card S01: incluye .venv/, venv/, __pycache__, *.pyc, .env e ipynb checkpoints Conceptos del packet: gitignore, .env. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "gitignore",
+        ".env"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-B-E2",
+      "code": "# .env.example — placeholders; nunca tokens reales\nAPI_URL=https://example.com\nDB_HOST=localhost\nLOG_LEVEL=INFO\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T4-B-E2 siguiendo el instruction del quiz_card S01: ≥3 claves de intake con valores ficticios; .env real en gitignore Conceptos del packet: .env.example. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        ".env.example"
+      ]
+    },
+    {
+      "exercise_id": "S01-T4-B-E3",
+      "code": "# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. git clone <repo> && cd <repo>\n- [ ] 2. python3 -m venv .venv && source .venv/bin/activate\n- [ ] 3. python -m pip install -r requirements.txt\n- [ ] 4. python scripts/hello_env.py  # smoke exit 0\n- [ ] 5. confirmar que .env no está trackeado (git check-ignore -v .env)\n\n## Datos\n- [ ] data/clients_synthetic.csv es sintético\n- [ ] data/data_dictionary.md describe columnas\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Resolver S01-T4-B-E3 siguiendo el instruction del quiz_card S01: 5 ítems clon→venv→install -r→smoke→ignore .env + datos sintéticos Conceptos del packet: checklist, CP-N1-A. Completé el starter sin ____ ni TODO, alineado a theory/iDo del slim_packet de agentic_H1.",
+      "concepts_used": [
+        "checklist",
+        "CP-N1-A"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Entorno reproducible y trabajo seguro» la pregunta «¿Para qué sirve un entorno virtual (venv) en Python?…» se resuelve con la opción «Para aislar las dependencias (paquetes) por proyecto y evitar conflict». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S01-T1-A] El intérprete Python y el REPL · El intérprete en la terminal (comand…). Por eso elijo el índice 0."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Entorno reproducible y trabajo seguro» la pregunta «¿Cuál de los siguientes archivos SÍ debería estar en tu .git…» se resuelve con la opción «.venv/ (o venv/)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S01-T1-A] El intérprete Python y el REPL · El intérprete en la terminal (comand…). Por eso elijo el índice 2."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Entorno reproducible y trabajo seguro» la pregunta «¿Cuál es un buen mensaje de commit siguiendo Conventional Co…» se resuelve con la opción «\"feat: agregar cálculo de churn por segmento\"». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S01-T1-A] El intérprete Python y el REPL · El intérprete en la terminal (comand…). Por eso elijo el índice 3."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Entorno reproducible y trabajo seguro» la pregunta «¿Qué comando te permite replicar el entorno de otro desarrol…» se resuelve con la opción «pip install -r requirements.txt». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S01-T1-A] El intérprete Python y el REPL · El intérprete en la terminal (comand…). Por eso elijo el índice 1."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Entorno reproducible y trabajo seguro» la pregunta «¿Por qué NO debes subir el archivo .env a GitHub?…» se resuelve con la opción «Porque suele contener credenciales (API keys, passwords, tokens) que s». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S01-T1-A] El intérprete Python y el REPL · El intérprete en la terminal (comand…). Por eso elijo el índice 0."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:36:39.503061+00:00",
+  "session_started_at": "2026-07-23T07:36:16.397148+00:00",
+  "session_ended_at": "2026-07-23T07:36:39.503061+00:00"
+}

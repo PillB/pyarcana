@@ -1,0 +1,383 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H2",
+  "section_index": 18,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-exp-s18-273922-98577",
+  "production_note": "agentic_H2 dual-LLM explorer: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S18-T1-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T1-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: centro (mean/median) y n de montos. Fixture `S18-T1-A-E1` / datos sintéticos» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import numpy as np montos = np.». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "centro",
+        "mean",
+        "median",
+        "montos"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-A-E2",
+      "code": "# explorer: completed from starter + packet demo\nimport numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T1-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: cuartiles e IQR. Fixture `S18-T1-A-E2` / datos sintéticos: montos = n» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import numpy as np montos = np.». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "cuartiles",
+        "Fixture",
+        "datos",
+        "sint"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-A-E3",
+      "code": "# Transfer / protocolo — S18-T1-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: función resumen n/mean/median/std. Fixture `S18-T1-A-E3` / datos sintéticos: def resumen(x):; x = np.asarray(x, dtype=float). Completa el TODO del starter sin borrar el oráculo; imprime el \n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: centro, dispersión, cuantiles, resume, media, mean, mediana, median.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- std con ddof=1.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T1-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: función resumen n/mean/median/std. Fixture `S18-T1-A-E3` / datos sint» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S18-T1-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "funci",
+        "resumen",
+        "mean",
+        "median"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean())\nmed = float(np.median(x))\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T1-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: mean vs median y razón. Fixture `S18-T1-B-E1` / datos sintéticos: x = np.arr» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import numpy as np x = np.array». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "mean",
+        "median",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E2",
+      "code": "# explorer: completed from starter + packet demo\nimport numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = float(np.median(x))\nmad = float(np.median(np.abs(x - med)))\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T1-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: MAD respecto a la mediana. Fixture `S18-T1-B-E2` / datos sintéticos: » y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import numpy as np x = np.array». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "respecto",
+        "mediana",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E3",
+      "code": "# Transfer / protocolo — S18-T1-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: transformación log1p de montos. Fixture `S18-T1-B-E3` / datos sintéticos: x = np.array([0, 1, 9, 99], dtype=float); print([round(float(v), 3) for v in np.log1p(x)]). Completa el TODO del st\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: centro, dispersión, cuantiles, resume, media, mean, mediana, median.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- np.log1p.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T1-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: transformación log1p de montos. Fixture `S18-T1-B-E3` / datos sintéti» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S18-T1-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "transformaci",
+        "montos",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nmuestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare_lima = muestra.count(\"Lima\") / len(muestra)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T2-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: share muestral vs población. Fixture `S18-T2-A-E1` / datos sintéticos: muest» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo muestra = [\"Lima\", \"Lima\", \"Cus». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "share",
+        "muestral",
+        "poblaci",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E2",
+      "code": "# exploratory pass completes via iDo\nfrom collections import Counter\nimport numpy as np\n\npob = {\"Lima\": 0.50, \"Arequipa\": 0.30, \"Cusco\": 0.20}\nmuestra = [\"Lima\"] * 70 + [\"Arequipa\"] * 20 + [\"Cusco\"] * 10\nc = Counter(muestra)\nn = sum(c.values())\nshare = {k: c[k] / n for k in pob}\nprint({k: round(share[k], 3) for k in pob})\nprint(\"max_abs_bias_pp\", round(max(abs(share[k] - pob[k]) for k in pob), 3))\nprint(\"cobertura\", \"LIMITADA\" if max(abs(share[k] - pob[k]) for k in pob) > 0.1 else \"OK\")\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T2-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: bias en puntos porcentuales. Fixture `S18-T2-A-E2` / datos sintéticos» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo from collections import Counter import nump». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "bias",
+        "puntos",
+        "porcentuales",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E3",
+      "code": "# Transfer / protocolo — S18-T2-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: máximo |bias| entre segmentos. Fixture `S18-T2-A-E3` / datos sintéticos: def max_bias(pob, counts):; n = sum(counts.values()). Completa el TODO del starter sin borrar el oráculo; imprime el\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: centro, dispersión, cuantiles, resume, media, mean, mediana, median.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- share = count/sum(counts).\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T2-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: máximo |bias| entre segmentos. Fixture `S18-T2-A-E3` / datos sintétic» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S18-T2-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "ximo",
+        "bias",
+        "entre",
+        "segmentos"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T2-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: margen de IC 95% (1.96·s/√n). Fixture `S18-T2-B-E1` / datos sintéticos: medi» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import math media, s, n = 10, 2». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "margen",
+        "Fixture",
+        "datos",
+        "sint"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E2",
+      "code": "# exploratory pass completes via iDo\nimport numpy as np\n\nrng = np.random.default_rng(21)\nctrl = rng.normal(50, 10, 35)\ntrat = rng.normal(55, 10, 35)\ndiff = trat.mean() - ctrl.mean()\nse = np.sqrt(ctrl.var(ddof=1)/len(ctrl) + trat.var(ddof=1)/len(trat))\nic = (diff - 1.96*se, diff + 1.96*se)\nsp = np.sqrt((ctrl.var(ddof=1) + trat.var(ddof=1)) / 2)\nd = diff / sp\nprint(\"diff\", round(float(diff), 2))\nprint(\"ic95\", (round(float(ic[0]), 2), round(float(ic[1]), 2)))\nprint(\"cohens_d\", round(float(d), 3))\nprint(\"n\", len(ctrl), len(trat))\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T2-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: tamaño de efecto Cohen's d. Fixture `S18-T2-B-E2` / datos sintéticos:» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import numpy as np  rng = np.random.default». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "tama",
+        "efecto",
+        "Cohen",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E3",
+      "code": "# Transfer / protocolo — S18-T2-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: IC95 como tupla (low, high). Fixture `S18-T2-B-E3` / datos sintéticos: diff, se = 4, 1.5; ic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2)). Completa el TODO del starter sin bor\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: centro, dispersión, cuantiles, resume, media, mean, mediana, median.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- low = diff - 1.96*se.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T2-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: IC95 como tupla (low, high). Fixture `S18-T2-B-E3` / datos sintéticos» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S18-T2-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "como",
+        "tupla",
+        "high",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T3-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: correlación de Pearson. Fixture `S18-T3-A-E1` / datos sintéticos: x = np.arr» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import numpy as np x = np.array». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "correlaci",
+        "Pearson",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E2",
+      "code": "# exploratory pass completes via iDo\nimport numpy as np\n\nrng = np.random.default_rng(3)\nz = rng.normal(size=100)\nx = z + rng.normal(scale=0.2, size=100)\ny = z + rng.normal(scale=0.2, size=100)\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1)\nby = np.polyfit(z, y, 1)\nrx = x - (bx[0]*z + bx[1])\nry = y - (by[0]*z + by[1])\nr_res = float(np.corrcoef(rx, ry)[0, 1])\nprint(\"r_raw\", round(r_raw, 3))\nprint(\"r_residual_z\", round(r_res, 3))\nprint(\"claim\", \"asociacion_observada_no_causal\")\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T3-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: etiqueta asociación_observada (no causa). Fixture `S18-T3-A-E2` / dat» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import numpy as np  rng = np.random.default». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "etiqueta",
+        "asociaci",
+        "n_observada",
+        "causa"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E3",
+      "code": "# Transfer / protocolo — S18-T3-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: correlación residual tras confusor. Fixture `S18-T3-A-E3` / datos sintéticos: z = np.arange(5, dtype=float); x = z.copy(). Completa el TODO del starter sin borrar el oráculo; imprime el res\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: centro, dispersión, cuantiles, resume, media, mean, mediana, median.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Residualiza x e y respecto a z.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T3-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: correlación residual tras confusor. Fixture `S18-T3-A-E3` / datos sin» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S18-T3-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "correlaci",
+        "residual",
+        "tras",
+        "confusor"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E1",
+      "code": "# explorer: completed from starter + packet demo\nimport numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nhi = q3 + 1.5 * iqr\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T3-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: conteo de outliers Tukey (hi=Q3+1.5·IQR). Fixture `S18-T3-B-E1` / datos sint» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import numpy as np m = np.array». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "conteo",
+        "outliers",
+        "Tukey",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E2",
+      "code": "# explorer: completed from starter + packet demo\nimport numpy as np\nregion = np.array([\"Lima\", \"Lima\", \"Cusco\"])\nflag = np.array([True, True, False])\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T3-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: tasa de anomalías por región. Fixture `S18-T3-B-E2` / datos sintético» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo import numpy as np region = np.». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "tasa",
+        "anomal",
+        "regi",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E3",
+      "code": "# Transfer / protocolo — S18-T3-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: flags booleanos Tukey. Fixture `S18-T3-B-E3` / datos sintéticos: m = np.array([1, 2, 3, 4, 100], dtype=float); q1, q3 = np.quantile(m, [0.25, 0.75]). Completa el TODO del starter sin borrar\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: centro, dispersión, cuantiles, resume, media, mean, mediana, median.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- lo = Q1-1.5IQR, hi=Q3+1.5IQR.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T3-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: flags booleanos Tukey. Fixture `S18-T3-B-E3` / datos sintéticos: m = » y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S18-T3-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "flags",
+        "booleanos",
+        "Tukey",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nevidencia = {\n    \"pregunta\": \"¿Cuál es el ticket mediano?\",\n    \"hipotesis\": \"mediana >= 5\",\n    \"resultado\": {\"n\": 10, \"median\": 5.0},\n}",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T4-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: dict pregunta/hipótesis/resultado. Fixture `S18-T4-A-E1` / datos sintéticos:» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo evidencia = {     \"pregunta\": \"». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "dict",
+        "pregunta",
+        "tesis",
+        "resultado"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E2",
+      "code": "# exploratory pass completes via iDo\nevidencia = {\n    \"pregunta\": \"¿Hay diferencia de ticket mediano Lima vs Cusco?\",\n    \"hipotesis\": \"mediana_Lima > mediana_Cusco en canal web junio\",\n    \"calculo\": \"median por region, n>=30\",\n    \"resultado\": {\"Lima\": 28.0, \"Cusco\": 22.5, \"n_Lima\": 40, \"n_Cusco\": 32},\n    \"incertidumbre\": \"sin IC bootstrap en este corte; muestra web-only\",\n    \"decision\": None,\n}\nprint(evidencia[\"pregunta\"])\nprint(\"hallazgo\", evidencia[\"resultado\"])\nprint(\"decision_es_none\", evidencia[\"decision\"] is None)\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T4-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: hallazgo vs umbral de decisión. Fixture `S18-T4-A-E2` / datos sintéti» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo evidencia = {     \"pregunta\": \"¿Hay diferen». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "hallazgo",
+        "umbral",
+        "decisi",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E3",
+      "code": "# Transfer / protocolo — S18-T4-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: traza Pregunta→Métrica→Valor→Límite. Fixture `S18-T4-A-E3` / datos sintéticos: def traza(pregunta, metrica, valor, limite):; print(\"P:\", pregunta). Completa el TODO del starter sin borrar e\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: centro, dispersión, cuantiles, resume, media, mean, mediana, median.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Función con 4 prints.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T4-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: traza Pregunta→Métrica→Valor→Límite. Fixture `S18-T4-A-E3` / datos si» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S18-T4-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "traza",
+        "Pregunta",
+        "trica",
+        "Valor"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnote = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\n# forma esperada (referencia): print(note)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T4-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: data note n_raw/n_final/filtros. Fixture `S18-T4-B-E1` / datos sintéticos: n» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) note = {\"n_raw\": 5». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "data",
+        "note",
+        "n_raw",
+        "n_final"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E2",
+      "code": "# exploratory pass completes via iDo\nimport hashlib, json\nimport pandas as pd\n\ndf = pd.DataFrame({\n    \"ticket_id\": [f\"T{i:03d}\" for i in range(1, 6)],\n    \"monto\": [10.0, 12.0, 0.0, 15.0, 11.0],\n    \"region\": [\"Lima\", \"Cusco\", \"Lima\", \"Arequipa\", \"Lima\"],\n})\nn0 = len(df)\ndf2 = df[df[\"monto\"] > 0].copy()\nblob = df2.sort_values(\"ticket_id\").to_csv(index=False).encode()\nnote = {\n    \"origen\": \"sintetico\",\n    \"n_raw\": n0,\n    \"n_final\": len(df2),\n    \"filtros\": [\"monto > 0\"],\n    \"seed\": 18,\n    \"sha1_8\": hashlib.sha1(blob).hexdigest()[:8],\n}\nprint(json.dumps(note, ensure_ascii=False))\nprint(\"median_final\", float(df2[\"monto\"].median()))\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T4-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: sha1 hex[:8] de payload CSV. Fixture `S18-T4-B-E2` / datos sintéticos» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import hashlib, json import pandas as pd  d». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "payload",
+        "Fixture",
+        "datos",
+        "sint"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E3",
+      "code": "# Transfer / protocolo — S18-T4-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: note tras filtro monto>0 con seed. Fixture `S18-T4-B-E3` / datos sintéticos: df = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]}); n_raw = len(df). Completa el TODO del starter sin borrar el orácu\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: centro, dispersión, cuantiles, resume, media, mean, mediana, median.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- len antes/después.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S18-T4-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: note tras filtro monto>0 con seed. Fixture `S18-T4-B-E3` / datos sint» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S18-T4-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: centro dispersión cuantiles centro resume media mean mediana median dispersión. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "note",
+        "tras",
+        "filtro",
+        "monto"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "S18 Q0: elijo índice 1 («Mediana (y opcionalmente IQR)») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Qué comunica mejor un ticket “típico” con outliers fuertes?» con ese matiz. Apoyo lexical del packet: centro dispersión cuantiles resume media mean mediana median desviación estándar muestral ddof."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "S18 Q1: elijo índice 3 («Asociación observada (no causal por sí sola)») porque la theory/outcomes del paquete enlazan la idea de la pregunta «Una correlación alta entre X e Y implica:» con ese matiz. Apoyo lexical del packet: centro dispersión cuantiles resume media mean mediana median desviación estándar muestral ddof."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "S18 Q2: elijo índice 0 («Origen, filtros, n y límites de cobertura») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Qué debe incluir un data note mínimo?» con ese matiz. Apoyo lexical del packet: centro dispersión cuantiles resume media mean mediana median desviación estándar muestral ddof."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "S18 Q3: elijo índice 2 («La muestra no representa la población de interés») porque la theory/outcomes del paquete enlazan la idea de la pregunta «El sesgo de muestra ocurre cuando:» con ese matiz. Apoyo lexical del packet: centro dispersión cuantiles resume media mean mediana median desviación estándar muestral ddof."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "S18 Q4: elijo índice 1 («Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño») porque la theory/outcomes del paquete enlazan la idea de la pregunta «En un EDA de tickets sintéticos Lima/Cusco, ¿cuál es la comunicación correcta de un r de Pearson alt» con ese matiz. Apoyo lexical del packet: centro dispersión cuantiles resume media mean mediana median desviación estándar muestral ddof."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:23:37.071533+00:00",
+  "session_started_at": "2026-07-23T09:22:57.409524+00:00",
+  "session_ended_at": "2026-07-23T09:23:37.071533+00:00"
+}

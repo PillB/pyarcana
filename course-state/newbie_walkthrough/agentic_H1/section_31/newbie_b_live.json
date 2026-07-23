@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 31,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s31-552aff041417",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S31-T1-A-E1",
+      "code": "# dual skeptic-H1 · S31-T1-A-E1\nnodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}}\nedges = [\n    {\"src\": \"E1\", \"dst\": \"A1\", \"etype\": \"owns\", \"weight\": 1.0, \"directed\": True},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"link\", \"weight\": 0.5, \"directed\": False},\n]\nprint(\"n_nodes\", len(nodes))\nprint(\"n_edges\", len(edges))\nprint(\"n_directed\", sum(1 for e in edges if e[\"directed\"]))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T1-A-E1: contrasté el Pass del paquete («S31-T1-A-E1 · Crea un dict `nodes` con 3 ids y una lista `edges` con campos src,dst,etype,weight,directed. Imprime n_nodes, n_edges y cuánta…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, nodes, edges; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"n_nodes\", len(nodes))', 'print(\"n_edges\", len(edges))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "nodes",
+        "edges",
+        "src",
+        "dst",
+        "etype"
+      ]
+    },
+    {
+      "exercise_id": "S31-T1-A-E2",
+      "code": "# dual skeptic-H1 · S31-T1-A-E2\nedges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]\nout = {}\nfor s, d, w in edges:\n    out[s] = out.get(s, 0.0) + w\ntop = max(out, key=out.get)\nprint(\"top\", top)\nprint(\"value\", out[top])\nprint(\"n\", len(out))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T1-A-E2: contrasté el Pass del paquete («S31-T1-A-E2 · Dada lista de aristas (src,dst,weight), calcula el peso total saliente por nodo (out-strength) e imprime el nodo con mayor out…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, edges, out; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"top\", top)', 'print(\"value\", out[top])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "edges",
+        "out",
+        "get",
+        "top",
+        "max"
+      ]
+    },
+    {
+      "exercise_id": "S31-T1-A-E3",
+      "code": "# dual skeptic-H1 · S31-T1-A-E3\nedges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]\nprint(\"directed\", sum(1 for e in edges if e[\"directed\"]))\nprint(\"undirected\", sum(1 for e in edges if not e[\"directed\"]))\nprint(\"etypes\", sorted({e[\"etype\"] for e in edges}))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T1-A-E3: contrasté el Pass del paquete («S31-T1-A-E3 · Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los etypes únicos ordenados. Fixture sinté…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, edges, directed; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"directed\", sum(1 for e in edges if e[\"directed\"]))', 'print(\"undirected\", sum(1 for e in edges if not e[\"directed\"]))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "edges",
+        "directed",
+        "etype",
+        "share",
+        "sum"
+      ]
+    },
+    {
+      "exercise_id": "S31-T1-B-E1",
+      "code": "# dual skeptic-H1 · S31-T1-B-E1\nfrom collections import Counter\nrows = [('E1','E2'),('E1','E2'),('E2','E3')]\nc = Counter(rows)\npair, n = c.most_common(1)[0]\nprint(\"pair\", pair[0], pair[1])\nprint(\"n\", n)\nprint(\"pairs\", len(c))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T1-B-E1: contrasté el Pass del paquete («S31-T1-B-E1 · Cuenta cuántas multi-aristas hay por par (src,dst) e imprime el par con más eventos y su conteo. Fixture sintético `CASO-LIM-0…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, collections, Counter; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"pair\", pair[0], pair[1])', 'print(\"n\", n)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "collections",
+        "Counter",
+        "rows",
+        "pair",
+        "most_common"
+      ]
+    },
+    {
+      "exercise_id": "S31-T1-B-E2",
+      "code": "# dual skeptic-H1 · S31-T1-B-E2\nedges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]\nf = [e for e in edges if e[\"ts\"] >= \"2026-02-01\"]\nprint(\"n\", len(f))\nprint(\"prov\", all(\"record_id\" in e for e in f))\nprint(\"first\", f[0][\"record_id\"])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T1-B-E2: contrasté el Pass del paquete («S31-T1-B-E2 · Filtra aristas con ts >= '2026-02-01' e imprime cuántas quedan y si todas tienen record_id. Fixture sintético `CASO-LIM-031` (…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, edges, record_id; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"n\", len(f))', 'print(\"prov\", all(\"record_id\" in e for e in f))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "edges",
+        "record_id",
+        "len",
+        "prov",
+        "all"
+      ]
+    },
+    {
+      "exercise_id": "S31-T1-B-E3",
+      "code": "# dual skeptic-H1 · S31-T1-B-E3\nedges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source':'tx','record_id':'3'}]\ndef ok(e):\n    return bool(e.get(\"source\") and e.get(\"record_id\"))\nn_bad = sum(1 for e in edges if not ok(e))\nprint(\"all_ok\", n_bad == 0)\nprint(\"n_bad\", n_bad)\nprint(\"n\", len(edges))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T1-B-E3: contrasté el Pass del paquete («S31-T1-B-E3 · Valida provenance: imprime True solo si cada arista tiene source y record_id no vacíos; imprime n_bad. Fixture sintético `CASO…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, edges, source; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"all_ok\", n_bad == 0)', 'print(\"n_bad\", n_bad)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "edges",
+        "source",
+        "crm",
+        "record_id",
+        "bool"
+      ]
+    },
+    {
+      "exercise_id": "S31-T2-A-E1",
+      "code": "# dual skeptic-H1 · S31-T2-A-E1\naccounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]\nowns = sorted((a[\"owner\"], a[\"id\"]) for a in accounts)\nprint(\"owns\", owns)\nprint(\"n\", len(owns))\nprint(\"etype\", \"owns\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T2-A-E1: contrasté el Pass del paquete («S31-T2-A-E1 · Desde accounts[{id,owner}] genera aristas owns e imprime lista de (owner,id) ordenada. Fixture sintético `CASO-LIM-031` (run_i…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, accounts, owner; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"owns\", owns)', 'print(\"n\", len(owns))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "accounts",
+        "owner",
+        "owns",
+        "sorted",
+        "len"
+      ]
+    },
+    {
+      "exercise_id": "S31-T2-A-E2",
+      "code": "# dual skeptic-H1 · S31-T2-A-E2\nfrom collections import defaultdict\ncontacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]\nm = defaultdict(set)\nfor e, v in contacts:\n    m[v].add(e)\nshared = sorted(v for v, es in m.items() if len(es) >= 2)\nprint(\"shared\", shared)\nprint(\"n_shared\", len(shared))\nprint(\"note\", \"not_parentesco\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T2-A-E2: contrasté el Pass del paquete («S31-T2-A-E2 · Detecta valores de contacto compartidos por ≥2 entidades; imprime sorted lista de valores shared. Fixture sintético `CASO-LIM-…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, collections, defaultdict; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"shared\", shared)', 'print(\"n_shared\", len(shared))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "collections",
+        "defaultdict",
+        "contacts",
+        "set",
+        "add"
+      ]
+    },
+    {
+      "exercise_id": "S31-T2-A-E3",
+      "code": "# dual skeptic-H1 · S31-T2-A-E3\nentities=['e1','e2']; accounts=['a1']; contacts=['900','901']\nnodes = set(entities) | set(accounts) | set(contacts)\nprint(\"n_nodes\", len(nodes))\nprint(\"has_contact\", \"900\" in nodes)\nprint(\"has_ent\", \"e1\" in nodes)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T2-A-E3: contrasté el Pass del paquete («S31-T2-A-E3 · Construye nodos = entities ∪ accounts ∪ contact_values e imprime |nodes|. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, entities, accounts; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"n_nodes\", len(nodes))', 'print(\"has_contact\", \"900\" in nodes)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "entities",
+        "accounts",
+        "contacts",
+        "nodes",
+        "set"
+      ]
+    },
+    {
+      "exercise_id": "S31-T2-B-E1",
+      "code": "# dual skeptic-H1 · S31-T2-B-E1\ncanon = {'r1':'E1','r2':'E1','r3':'E2'}\nedges = [('r1','r3'),('r2','r3')]\nce = sorted({(canon[a], canon[b]) for a, b in edges})\nprint(\"canonical_edges\", ce)\nprint(\"n\", len(ce))\nprint(\"collapsed\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T2-B-E1: contrasté el Pass del paquete («S31-T2-B-E1 · Colapsa raw_ids a canonical con mapa y reescribe aristas; imprime aristas canónicas únicas sorted. Fixture sintético `CASO-LIM…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, canon, edges; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"canonical_edges\", ce)', 'print(\"n\", len(ce))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "canon",
+        "edges",
+        "sorted",
+        "canonical_edges",
+        "len"
+      ]
+    },
+    {
+      "exercise_id": "S31-T2-B-E2",
+      "code": "# dual skeptic-H1 · S31-T2-B-E2\nfrom collections import defaultdict\nrows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]\nagg = defaultdict(lambda: {'sum': 0, 'records': []})\nfor r in rows:\n    k = (r['src'], r['dst'])\n    agg[k]['sum'] += r['amount']\n    agg[k]['records'].append(r['record_id'])\nprint(\"sum\", agg[(\"A\", \"B\")][\"sum\"])\nprint(\"records\", agg[(\"A\", \"B\")][\"records\"])\nprint(\"n_pairs\", len(agg))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T2-B-E2: contrasté el Pass del paquete («S31-T2-B-E2 · Agrega amount por (src,dst) y conserva records; imprime sum y records para ('A','B'). Fixture sintético `CASO-LIM-031` (run_id…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, collections, defaultdict; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"sum\", agg[(\"A\", \"B\")][\"sum\"])', 'print(\"records\", agg[(\"A\", \"B\")][\"records\"])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "collections",
+        "defaultdict",
+        "rows",
+        "src",
+        "dst"
+      ]
+    },
+    {
+      "exercise_id": "S31-T2-B-E3",
+      "code": "# dual skeptic-H1 · S31-T2-B-E3\ndetail_n=5\naggs=[{'n':2},{'n':3}]\ntotal = sum(a['n'] for a in aggs)\nprint(\"ok\", total == detail_n)\nprint(\"total\", total)\nprint(\"detail_n\", detail_n)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T2-B-E3: contrasté el Pass del paquete («S31-T2-B-E3 · Verifica invariante: sum de n en agregados == len(detail). Imprime ok y totals. Fixture sintético `CASO-LIM-031` (run_id=cpn3b…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, detail_n, aggs; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"ok\", total == detail_n)', 'print(\"total\", total)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "detail_n",
+        "aggs",
+        "total",
+        "sum",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S31-T3-A-E1",
+      "code": "# dual skeptic-H1 · S31-T3-A-E1\nfrom collections import defaultdict\nedges=[('a','b'),('b','c'),('a','c')]\ndeg = defaultdict(int)\nfor u, v in edges:\n    deg[u] += 1; deg[v] += 1\nprint(\"deg\", {k: deg[k] for k in sorted(deg)})\nprint(\"max\", max(deg.values()))\nprint(\"n\", len(deg))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T3-A-E1: contrasté el Pass del paquete («S31-T3-A-E1 · Calcula grado de cada nodo en grafo no dirigido; imprime grados dict sorted keys. Fixture sintético `CASO-LIM-031` (run_id=cpn…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, collections, defaultdict; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"deg\", {k: deg[k] for k in sorted(deg)})', 'print(\"max\", max(deg.values()))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "collections",
+        "defaultdict",
+        "edges",
+        "deg",
+        "int"
+      ]
+    },
+    {
+      "exercise_id": "S31-T3-A-E2",
+      "code": "# dual skeptic-H1 · S31-T3-A-E2\nfrom collections import defaultdict\nedges=[('a','b'),('c','d'),('d','e')]\nadj = defaultdict(set)\nfor u, v in edges:\n    adj[u].add(v); adj[v].add(u)\nseen, comps = set(), []\nfor s in sorted(adj):\n    if s in seen:\n        continue\n    stack, comp = [s], []\n    seen.add(s)\n    while stack:\n        n = stack.pop()\n        comp.append(n)\n        for m in sorted(adj[n]):\n            if m not in seen:\n                seen.add(m); stack.append(m)\n    comps.append(sorted(comp))\nprint(\"comps\", comps)\nprint(\"n_comp\", len(comps))\nprint(\"ok\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T3-A-E2: contrasté el Pass del paquete («S31-T3-A-E2 · Encuentra componentes conexas y imprime lista de componentes (cada una sorted) ordenada por primer nodo. Fixture sintético `CA…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, collections, defaultdict; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"comps\", comps)', 'print(\"n_comp\", len(comps))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "collections",
+        "defaultdict",
+        "edges",
+        "adj",
+        "set"
+      ]
+    },
+    {
+      "exercise_id": "S31-T3-A-E3",
+      "code": "# dual skeptic-H1 · S31-T3-A-E3\nfrom collections import defaultdict, deque\nadj = defaultdict(set)\nfor u, v in [('A','B'),('B','C'),('C','D')]:\n    adj[u].add(v); adj[v].add(u)\nq = deque([('A', ['A'])]); seen = {'A'}\npath = None\nwhile q:\n    n, p = q.popleft()\n    if n == 'D':\n        path = p; break\n    for m in sorted(adj[n]):\n        if m not in seen:\n            seen.add(m); q.append((m, p + [m]))\nprint(\"path\", path)\nprint(\"len\", len(path) if path else 0)\nprint(\"ok\", path is not None)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T3-A-E3: contrasté el Pass del paquete («S31-T3-A-E3 · BFS path de 'A' a 'D' en cadena A-B-C-D; imprime path y hops. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe):…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, collections, defaultdict; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"path\", path)', 'print(\"len\", len(path) if path else 0)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "collections",
+        "defaultdict",
+        "deque",
+        "adj",
+        "set"
+      ]
+    },
+    {
+      "exercise_id": "S31-T3-B-E1",
+      "code": "# dual skeptic-H1 · S31-T3-B-E1\ndeg={'H':3,'A':1,'B':1,'C':1}\nm = max(deg.values())\nnorm = {k: deg[k]/m for k in deg}\ntop = max(norm, key=norm.get)\nprint(\"top\", top)\nprint(\"score\", round(norm[top], 2))\nprint(\"guilt\", False)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T3-B-E1: contrasté el Pass del paquete («S31-T3-B-E1 · Normaliza degree centrality a [0,1] por max degree; imprime top node y score redondeado a 2 decimales. Fixture sintético `CASO…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, deg, max; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"top\", top)', 'print(\"score\", round(norm[top], 2))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "deg",
+        "max",
+        "values",
+        "norm",
+        "top"
+      ]
+    },
+    {
+      "exercise_id": "S31-T3-B-E2",
+      "code": "# dual skeptic-H1 · S31-T3-B-E2\nhub='INF-PAY'\nkind = \"infra\" if hub.startswith(\"INF-\") else \"person\"\nprint(\"kind\", kind)\nprint(\"disclaimer\", \"centrality_not_guilt\")\nprint(\"hub\", hub)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T3-B-E2: contrasté el Pass del paquete («S31-T3-B-E2 · Dado top hub, clasifica si es 'infra' o 'person' por prefijo de id (INF- vs PER-); imprime clase y disclaimer. Fixture sintéti…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, hub, INF; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"kind\", kind)', 'print(\"disclaimer\", \"centrality_not_guilt\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "hub",
+        "INF",
+        "PAY",
+        "kind",
+        "infra"
+      ]
+    },
+    {
+      "exercise_id": "S31-T3-B-E3",
+      "code": "# dual skeptic-H1 · S31-T3-B-E3\nincident={'H':['transfer','transfer','shared_phone']}\nhigh = sorted(n for n, ts in incident.items() if len(ts) >= 3)\nonly_tx = all(t == \"transfer\" for t in incident[\"H\"])\nprint(\"high\", high)\nprint(\"only_transfer\", only_tx)\nprint(\"interpret_with_types\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T3-B-E3: contrasté el Pass del paquete («S31-T3-B-E3 · Filtra nodos con degree >= 3 y etype_mix que incluya solo 'transfer' vs mixto; imprime high_degree list sorted y flag only_tra…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, incident, transfer; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"high\", high)', 'print(\"only_transfer\", only_tx)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "incident",
+        "transfer",
+        "shared_phone",
+        "high",
+        "sorted"
+      ]
+    },
+    {
+      "exercise_id": "S31-T4-A-E1",
+      "code": "# dual skeptic-H1 · S31-T4-A-E1\nfrom collections import defaultdict\nedges=[('A','B'),('B','C'),('C','D')]\nadj=defaultdict(set)\nfor u,v in edges:\n    adj[u].add(v); adj[v].add(u)\n\ndef ego(seed, k):\n    seen={seed}; layer={seed}\n    for _ in range(k):\n        nxt=set()\n        for n in layer:\n            for m in adj[n]:\n                if m not in seen:\n                    seen.add(m); nxt.add(m)\n        layer = nxt\n    return seen\nprint(\"k1\", sorted(ego(\"A\", 1)))\nprint(\"k2\", sorted(ego(\"A\", 2)))\nprint(\"ok\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T4-A-E1: contrasté el Pass del paquete («S31-T4-A-E1 · Implementa ego(seed,k=2) y verifica que 'D' no entra desde 'A' en path A-B-C (k=1 sí B). Imprime ego k=1 y k=2. Fixture sintét…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, collections, defaultdict; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"k1\", sorted(ego(\"A\", 1)))', 'print(\"k2\", sorted(ego(\"A\", 2)))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "collections",
+        "defaultdict",
+        "edges",
+        "adj",
+        "set"
+      ]
+    },
+    {
+      "exercise_id": "S31-T4-A-E2",
+      "code": "# dual skeptic-H1 · S31-T4-A-E2\nedges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]\nno_self = all(e['src'] != e['dst'] for e in edges)\nw_ok = all(e['w'] >= 0 for e in edges)\nprov = all(e.get('rid') for e in edges)\nprint(\"no_self\", no_self)\nprint(\"w_ok\", w_ok)\nprint(\"prov\", prov)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T4-A-E2: contrasté el Pass del paquete («S31-T4-A-E2 · Prueba invariantes: no self-loops, weights>=0, provenance presente. Imprime flags. Fixture sintético `CASO-LIM-031` (run_id=cp…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, edges, src; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"no_self\", no_self)', 'print(\"w_ok\", w_ok)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "edges",
+        "src",
+        "dst",
+        "rid",
+        "no_self"
+      ]
+    },
+    {
+      "exercise_id": "S31-T4-A-E3",
+      "code": "# dual skeptic-H1 · S31-T4-A-E3\nraw=[('a','b'),('b','c')]\n\ndef build(edges):\n    return sorted(set(tuple(sorted(e)) for e in edges))\nprint(\"equal\", build(raw) == build(list(raw)))\nprint(\"edges\", build(raw))\nprint(\"idempotent\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T4-A-E3: contrasté el Pass del paquete («S31-T4-A-E3 · Idempotencia: construir grafo dos veces desde mismas edges produce mismo sorted edge list. Imprime equal True. Fixture sintéti…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, raw, build; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"equal\", build(raw) == build(list(raw)))', 'print(\"edges\", build(raw))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "raw",
+        "build",
+        "edges",
+        "sorted",
+        "set"
+      ]
+    },
+    {
+      "exercise_id": "S31-T4-B-E1",
+      "code": "# dual skeptic-H1 · S31-T4-B-E1\nemail='ana@example.pe'\nlocal, _, domain = email.partition('@')\nred = local[:2] + '***@' + domain\nprint(\"redacted\", red)\nprint(\"domain\", domain)\nprint(\"full_pii\", False)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T4-B-E1: contrasté el Pass del paquete («S31-T4-B-E1 · Redacta emails: muestra 2 primeras letras del local + ***@domain. Imprime para ana@example.pe. Fixture sintético `CASO-LIM-031…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, email, ana; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"redacted\", red)', 'print(\"domain\", domain)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "email",
+        "ana",
+        "example",
+        "local",
+        "domain"
+      ]
+    },
+    {
+      "exercise_id": "S31-T4-B-E2",
+      "code": "# dual skeptic-H1 · S31-T4-B-E2\npath=['E1','E2','E3']\nev={('E1','E2'):['r1'],('E2','E3'):['r2','r3']}\nrecords = [ev[(a,b)] for a,b in zip(path, path[1:])]\nprint(\"records\", records)\nprint(\"n_hops\", len(records))\nprint(\"explainable\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T4-B-E2: contrasté el Pass del paquete («S31-T4-B-E2 · Dado un path de nodos y un dict edge_evidence por par consecutivo, imprime lista de record lists en orden del path. Fixture si…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, path, records; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"records\", records)', 'print(\"n_hops\", len(records))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "path",
+        "records",
+        "zip",
+        "n_hops",
+        "len"
+      ]
+    },
+    {
+      "exercise_id": "S31-T4-B-E3",
+      "code": "# dual skeptic-H1 · S31-T4-B-E3\nmax_n=500\n\ndef decide(n):\n    return \"summarize\" if n > max_n else \"render\"\nprint(\"n5000\", decide(5000))\nprint(\"n50\", decide(50))\nprint(\"max_n\", max_n)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S31/S31-T4-B-E3: contrasté el Pass del paquete («S31-T4-B-E3 · Política de escala: si n_nodes > max_n, devuelve 'summarize' else 'render'. Imprime decisión para 5000 y 50 con max_n=500. Fix…») con theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Conceptos dual, skeptic, S31, max_n, decide; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"n5000\", decide(5000))', 'print(\"n50\", decide(50))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S31",
+        "max_n",
+        "decide",
+        "summarize",
+        "render",
+        "n5000"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S31#0: contrasto stem «En CP-N3-B, un score alto de centralidad significa:» con párrafos theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Elijo índice 2 («Posición estructural que requiere contexto, no culpa») porque cuadra con el vocabulario del paquete; distractores ['Fraude confirmado', 'Parentesco automático'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S31#1: contrasto stem «Provenance en una arista sirve para:» con párrafos theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Elijo índice 0 («Auditar source/record_id del hecho relacional») porque cuadra con el vocabulario del paquete; distractores ['Solo color en UI', 'Entrenar redes neuronales obligatoriamente'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S31#2: contrasto stem «Al agregar transferencias entre el mismo par debes:» con párrafos theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Elijo índice 1 («Conservar detalle o punteros además del agregado») porque cuadra con el vocabulario del paquete; distractores ['Borrar record_ids', 'Etiquetar fraude'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S31#3: contrasto stem «Shared phone entre dos entidades implica:» con párrafos theory/iDo («nodos, aristas, dirección y peso» Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relac). Elijo índice 3 («Un hecho de contacto compartido a investigar con evidencia, no veredicto») porque cuadra con el vocabulario del paquete; distractores ['Parentesco legal', 'Colusión'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:22:03.326970+00:00",
+  "session_started_at": "2026-07-23T08:21:33.159975+00:00",
+  "session_ended_at": "2026-07-23T08:22:03.326970+00:00"
+}

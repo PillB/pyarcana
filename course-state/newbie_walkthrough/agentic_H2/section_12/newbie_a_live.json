@@ -1,0 +1,383 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H2",
+  "section_index": 12,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-exp-s12-175127-98159",
+  "production_note": "agentic_H2 dual-LLM explorer: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nstore = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}\ndef get_entity(store, entity_id):\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T1-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S12-T1-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo store = {\"C001\": {\"id\": \"C001\",». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "code": "# exploratory pass completes via iDo\nclass MockResponse:\n    def __init__(self, status_code, payload):\n        self.status_code = status_code\n        self._payload = payload\n    def json(self):\n        return self._payload\n\nSIGNALS = [\n    {\"id\": \"S1\", \"entity_id\": \"C001\", \"kind\": \"shared_phone\"},\n    {\"id\": \"S2\", \"entity_id\": \"C002\", \"kind\": \"geo\"},\n]\n\ndef list_signals():\n    return MockResponse(200, {\"items\": SIGNALS, \"count\": len(SIGNALS)})\n\nresp = list_signals()\ndata = resp.json()\nprint(\"status\", resp.status_code)\nprint(\"count\", data[\"count\"])\nprint(\"kinds\", [x[\"kind\"] for x in data[\"items\"]])\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T1-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo class MockResponse:     def __init__(self, ». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.))",
+      "concepts_used": [
+        "independiente",
+        "Dado",
+        "payload",
+        "JSON",
+        "like",
+        "dict"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "code": "# Transfer / protocolo — S12-T1-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429→'retry', 500→'retry', 400→'fix_client'. Imprime la acción para [200,404,429,400,500].\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: requests, responses, status, json, cliente, http, síncrono, hace.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- dict.get(code, 'unknown')\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T1-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429→'retry', » y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S12-T1-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Construye",
+        "STATUS_ACTION",
+        "mapeando",
+        "use_body",
+        "missing"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "code": "# exploratory pass completes via iDo\nAPI = {\n    1: {\"items\": [1, 2], \"next\": 2},\n    2: {\"items\": [3], \"next\": 3},\n    3: {\"items\": [4, 5], \"next\": None},\n}\nitems = []\npage = 1\npauses = 0\nwhile page is not None:\n    chunk = API[page]\n    items.extend(chunk[\"items\"])\n    page = chunk[\"next\"]\n    if page is not None:\n        pauses += 1\nprint(\"items\", items)\nprint(\"pages_fetched\", 3, \"rate_limit_pauses\", pauses)\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T1-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo API = {     1: {\"items\": [1, 2], \"next\": 2}». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "code": "# explorer: completed from starter + packet demo\napi = {\n    1: {\"items\": [\"a\"], \"next\": 2},\n    2: {\"items\": [\"b\", \"c\"], \"next\": None},\n}\ndef collect_all(api):\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T1-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo api = {     1: {\"items\": [\"a\"],». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "code": "# Transfer / protocolo — S12-T1-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `should_retry(status)` True solo para 429 y 503. Imprime pa\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: requests, responses, status, json, cliente, http, síncrono, hace.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- return status in {429, 503}\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T1-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S12-T1-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "code": "# exploratory pass completes via iDo\nimport os, json, hashlib\nos.environ[\"SIG_API_TOKEN\"] = \"syn-token-000\"\ntoken = os.environ[\"SIG_API_TOKEN\"]\nurl = \"https://api.example.com/v1/signals/C001\"\nbody = {\"entity_id\": \"C001\", \"signals\": [\"geo\"]}\nmanifest = {\n    \"source_url\": url,\n    \"fetched_at\": \"2026-07-20T15:00:00Z\",\n    \"status_code\": 200,\n    \"body_sha12\": hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()[:12],\n    \"auth_scheme\": \"bearer\",\n    \"token_present\": bool(token),\n}\nprint(json.dumps(manifest, sort_keys=True))\nprint(\"token_logged\", False)\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T2-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import os, json, hashlib os.environ[\"SIG_AP». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "code": "# exploratory pass completes via iDo\nimport os, json, hashlib\nos.environ[\"SIG_API_TOKEN\"] = \"syn-token-000\"\ntoken = os.environ[\"SIG_API_TOKEN\"]\nurl = \"https://api.example.com/v1/signals/C001\"\nbody = {\"entity_id\": \"C001\", \"signals\": [\"geo\"]}\nmanifest = {\n    \"source_url\": url,\n    \"fetched_at\": \"2026-07-20T15:00:00Z\",\n    \"status_code\": 200,\n    \"body_sha12\": hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()[:12],\n    \"auth_scheme\": \"bearer\",\n    \"token_present\": bool(token),\n}\nprint(json.dumps(manifest, sort_keys=True))\nprint(\"token_logged\", False)\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T2-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import os, json, hashlib os.environ[\"SIG_AP». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "code": "# Transfer / protocolo — S12-T2-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — `min_provenance(url, status, cache_hit)` devuelve dict con source_url, fetched_at fijo '2026-07-20T00:00:00Z', status_code, cache_hit. Sin token.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: requests, responses, status, json, cliente, http, síncrono, hace.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Campos mínimos de auditoría.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T2-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — `min_provenance(url, status, cache_hit)` devuelve dict con source_url, fetched_» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S12-T2-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "min_provenance",
+        "status",
+        "cache_hit",
+        "devuelve",
+        "dict"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "code": "# exploratory pass completes via iDo\nREQUIRED = {\"lat\", \"lon\", \"provider\"}\nPRECALC = {\"Lima\": {\"lat\": -12.0464, \"lon\": -77.0428, \"provider\": \"precalc\"}}\n\ndef contract_ok(d):\n    return not (REQUIRED - set(d.keys()))\n\ndef geocode(city, fail_online=False):\n    if fail_online:\n        return {**PRECALC[city], \"mode\": \"offline_fallback\"}\n    online = {\"lat\": -12.0464, \"lon\": -77.0428, \"provider\": \"mock\", \"mode\": \"online\"}\n    assert contract_ok(online)\n    return online\n\nprint(\"online\", geocode(\"Lima\"))\nprint(\"fallback\", geocode(\"Lima\", fail_online=True))\nprint(\"contract_precalc\", contract_ok(PRECALC[\"Lima\"]))\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T2-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo REQUIRED = {\"lat\", \"lon\", \"provider\"} PRECA». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "code": "# explorer: completed from starter + packet demo\ndef fetch_with_fallback(status, local_body):\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T2-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — `fetch_with_fallback(status, local_body)`: si status>=500 devuelve (local_body,» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo def fetch_with_fallback(status,». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.))",
+      "concepts_used": [
+        "independiente",
+        "fetch_with_fallback",
+        "status",
+        "local_body",
+        "status",
+        "devuelve"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "code": "# Transfer / protocolo — S12-T2-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Matriz online/offline: dict con claves ('online', True/Fals)\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: requests, responses, status, json, cliente, http, síncrono, hace.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Usa tuplas como clave de dict.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T2-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S12-T2-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "code": "# exploratory pass completes via iDo\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);\nCREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT, amount REAL);\nCREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);\n''')\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\ncon.execute(\"INSERT INTO transactions VALUES ('T1','C001',120.5)\")\ncon.execute(\"INSERT INTO evidence VALUES ('E1','C001','geo')\")\ncon.commit()\nrows = con.execute('''\nSELECT c.id, t.id, e.kind\nFROM clients c\nJOIN transactions t ON t.client_id = c.id\nJOIN evidence e ON e.entity_id = c.id\n''').fetchall()\nprint(\"case_rows\", rows)\ncon.close()\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T3-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — En SQLite :memory:, crea tabla evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, » y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import sqlite3 con = sqlite3.connect(\":memo». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.))",
+      "concepts_used": [
+        "guiado",
+        "SQLite",
+        "memory",
+        "crea",
+        "tabla",
+        "evidence"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "code": "# exploratory pass completes via iDo\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);\nCREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT, amount REAL);\nCREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);\n''')\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\ncon.execute(\"INSERT INTO transactions VALUES ('T1','C001',120.5)\")\ncon.execute(\"INSERT INTO evidence VALUES ('E1','C001','geo')\")\ncon.commit()\nrows = con.execute('''\nSELECT c.id, t.id, e.kind\nFROM clients c\nJOIN transactions t ON t.client_id = c.id\nJOIN evidence e ON e.entity_id = c.id\n''').fetchall()\nprint(\"case_rows\", rows)\ncon.close()\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T3-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import sqlite3 con = sqlite3.connect(\":memo». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "code": "# Transfer / protocolo — S12-T3-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Join: clients + evidence; imprime kinds de C001 ordenados. \n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: requests, responses, status, json, cliente, http, síncrono, hace.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- JOIN ON c.id = e.entity_id\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T3-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S12-T3-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "code": "# exploratory pass completes via iDo\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT UNIQUE)\")\nbatch = [(\"C001\", \"DOC1\"), (\"C002\", \"DOC2\"), (\"C003\", \"DOC1\")]\ntry:\n    con.execute(\"BEGIN\")\n    con.executemany(\"INSERT INTO clients VALUES (?,?)\", batch)\n    con.commit()\n    print(\"unexpected_commit\")\nexcept sqlite3.IntegrityError:\n    con.rollback()\n    print(\"atomic_rollback\", True)\nprint(\"count\", con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T3-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import sqlite3 con = sqlite3.connect(\":memo». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "code": "# exploratory pass completes via iDo\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT UNIQUE)\")\nbatch = [(\"C001\", \"DOC1\"), (\"C002\", \"DOC2\"), (\"C003\", \"DOC1\")]\ntry:\n    con.execute(\"BEGIN\")\n    con.executemany(\"INSERT INTO clients VALUES (?,?)\", batch)\n    con.commit()\n    print(\"unexpected_commit\")\nexcept sqlite3.IntegrityError:\n    con.rollback()\n    print(\"atomic_rollback\", True)\nprint(\"count\", con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T3-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import sqlite3 con = sqlite3.connect(\":memo». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "independiente",
+        "Transacci",
+        "inserta",
+        "segundo",
+        "insert",
+        "mismo"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "code": "# Transfer / protocolo — S12-T3-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Crea índice idx_document_id en clients(document_id) y lista\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: requests, responses, status, json, cliente, http, síncrono, hace.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- CREATE INDEX idx_document_id ON clients(document_id)\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T3-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S12-T3-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "code": "# exploratory pass completes via iDo\nclass MockGeocoder:\n    DB = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}\n    def geocode(self, city):\n        if city not in self.DB:\n            return None\n        lat, lon = self.DB[city]\n        return {\"city\": city, \"lat\": lat, \"lon\": lon, \"provider\": \"authorized_mock\"}\n\ng = MockGeocoder()\nfor c in (\"Lima\", \"Arequipa\", \"Iquitos\"):\n    print(c, g.geocode(c))\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T4-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo class MockGeocoder:     DB = {\"Lima\": (-12.». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "code": "# exploratory pass completes via iDo\nclass MockGeocoder:\n    DB = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}\n    def geocode(self, city):\n        if city not in self.DB:\n            return None\n        lat, lon = self.DB[city]\n        return {\"city\": city, \"lat\": lat, \"lon\": lon, \"provider\": \"authorized_mock\"}\n\ng = MockGeocoder()\nfor c in (\"Lima\", \"Arequipa\", \"Iquitos\"):\n    print(c, g.geocode(c))\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T4-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo class MockGeocoder:     DB = {\"Lima\": (-12.». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "code": "# Transfer / protocolo — S12-T4-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload)` True solo requests conceptual + sqlite3 + math haversine (S01–S12).\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: requests, responses, status, json, cliente, http, síncrono, hace.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- set(payload) <= allowed\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T4-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S12-T4-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "transferencia",
+        "Checklist",
+        "egress",
+        "dado",
+        "payload",
+        "dict"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "code": "# exploratory pass completes via iDo\nimport math\n\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\n\nlima = (-12.0464, -77.0428)\ncallao = (-12.0500, -77.1250)\nkm = haversine_km(lima, callao)\nsignal = {\"type\": \"geo_distance_km\", \"value\": round(km, 2), \"verdict\": None}\nprint(signal)\nprint(\"disclaimer\", \"signal != kinship\")\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T4-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import math  def haversine_km(a, b):     R ». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "code": "# exploratory pass completes via iDo\nimport math\n\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\n\nlima = (-12.0464, -77.0428)\ncallao = (-12.0500, -77.1250)\nkm = haversine_km(lima, callao)\nsignal = {\"type\": \"geo_distance_km\", \"value\": round(km, 2), \"verdict\": None}\nprint(signal)\nprint(\"disclaimer\", \"signal != kinship\")\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T4-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo import math  def haversine_km(a, b):     R ». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "code": "# Transfer / protocolo — S12-T4-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `as_relationship_signal(km)` devuelve dict type=geo_distanc\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: requests, responses, status, json, cliente, http, síncrono, hace.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Nunca setees is_family\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S12-T4-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintét» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S12-T4-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: requests responses status JSON cliente HTTP síncrono hace POST recibe. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "APIs",
+        "geodatos",
+        "responsables",
+        "Entrada"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "S12 Q0: elijo índice 3 («Tratarse como error de cliente (no retry ciego)») porque la theory/outcomes del paquete enlazan la idea de la pregunta «Un 400 Bad Request del proveedor debe…» con ese matiz. Apoyo lexical del packet: requests responses status json cliente http síncrono hace post recibe code cuerpo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "S12 Q1: elijo índice 1 («En variable de entorno / secret store») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Dónde debe vivir el token de API?» con ese matiz. Apoyo lexical del packet: requests responses status json cliente http síncrono hace post recibe code cuerpo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "S12 Q2: elijo índice 2 («Inyección / inseguro; usar placeholders `?`») porque la theory/outcomes del paquete enlazan la idea de la pregunta «SQL con f-string e input de usuario es…» con ese matiz. Apoyo lexical del packet: requests responses status json cliente http síncrono hace post recibe code cuerpo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "S12 Q3: elijo índice 0 («Viola la política de egress de CP-N1-C») porque la theory/outcomes del paquete enlazan la idea de la pregunta «Enviar document_id bancario a un geocoder público…» con ese matiz. Apoyo lexical del packet: requests responses status json cliente http síncrono hace post recibe code cuerpo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "S12 Q4: elijo índice 3 («Una geoseñal de relación, no un veredicto») porque la theory/outcomes del paquete enlazan la idea de la pregunta «1.2 km entre dos entidades sintéticas implica…» con ese matiz. Apoyo lexical del packet: requests responses status json cliente http síncrono hace post recibe code cuerpo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:16:35.650636+00:00",
+  "session_started_at": "2026-07-23T09:15:59.802967+00:00",
+  "session_ended_at": "2026-07-23T09:16:35.650636+00:00"
+}

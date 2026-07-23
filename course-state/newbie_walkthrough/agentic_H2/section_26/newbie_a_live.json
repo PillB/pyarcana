@@ -1,0 +1,378 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H2",
+  "section_index": 26,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-exp-s26-167981-99168",
+  "production_note": "agentic_H2 dual-LLM explorer: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S26-T1-A-E1",
+      "code": "# Transfer / protocolo — S26-T1-A-E1\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: CASO-PE orquestación VP: con el path canónico de cuatro pasos de negocio (sin AI ni email aún), imprime la lista exacta ['ingest','validate','analyze','report']. Contrato: sin inputs externos; salida must-match el orden \n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: tasks, flows, estados, directed, acyclic, graph, codifica, dependencias.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T1-A-E1 leyendo la instruction del paquete activo «CASO-PE orquestación VP: con el path canónico de cuatro pasos de negocio (sin AI ni email aún), impr» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S26-T1-A-E1 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "CASO",
+        "orquestaci",
+        "path",
+        "nico",
+        "cuatro",
+        "pasos"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=['a','b','c']\nedges=list(zip(nodes, nodes[1:]))\n# forma esperada (referencia): print(len(edges), edges)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T1-A-E2 leyendo la instruction del paquete activo «Dado nodes=['a','b','c'] como path lineal del flow sintético, construye edges (a,b),(b,c) con zip y » y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) nodes=['a','b','c'». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "Dado",
+        "nodes",
+        "como",
+        "path",
+        "lineal",
+        "flow"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-A-E3",
+      "code": "# Transfer / protocolo — S26-T1-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Agregación de estado global del flow: tasks={'a':'success','b':'failed'}. Si cualquier task == 'failed', imprime failed; si no, success. Contrato: dict[str,str] → 'failed'|'success'. Skipped no cuenta como failed en este\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: tasks, flows, estados, directed, acyclic, graph, codifica, dependencias.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T1-A-E3 leyendo la instruction del paquete activo «Agregación de estado global del flow: tasks={'a':'success','b':'failed'}. Si cualquier task == 'fail» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S26-T1-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Agregaci",
+        "estado",
+        "global",
+        "flow",
+        "tasks",
+        "success"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E1",
+      "code": "# exploratory pass completes via iDo\nmeta={\"run_id\":\"r1\",\"api_rpm\":30,\"tz\":\"America/Lima\"}\nprint(meta)\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T1-B-E1 leyendo la instruction del paquete activo «Metadata de run CP-N2-C: m={'run_id':'cpn2c-1'}. Extrae e imprime m['run_id'] sin mutar el dict. Con» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo meta={\"run_id\":\"r1\",\"api_rpm\":30,\"tz\":\"Amer». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Metadata",
+        "run_id",
+        "Extrae",
+        "imprime",
+        "run_id",
+        "mutar"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E2",
+      "code": "# exploratory pass completes via iDo\nmeta={\"run_id\":\"r1\",\"api_rpm\":30,\"tz\":\"America/Lima\"}\nprint(meta)\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T1-B-E2 leyendo la instruction del paquete activo «Preflight de límites: api_rpm=90 supera el umbral didáctico 60 del adapter sintético. Imprime 'too_h» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo meta={\"run_id\":\"r1\",\"api_rpm\":30,\"tz\":\"Amer». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Preflight",
+        "mites",
+        "api_rpm",
+        "supera",
+        "umbral",
+        "ctico"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E3",
+      "code": "# Transfer / protocolo — S26-T1-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Schedule del escritorio PE: imprime el cron de días hábiles a las 06:00 y la zona 'America/Lima' en una sola línea. Contrato: constantes documentadas; sin librería cron. Pass exacto: 0 6 * * 1-5 America/Lima.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: tasks, flows, estados, directed, acyclic, graph, codifica, dependencias.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T1-B-E3 leyendo la instruction del paquete activo «Schedule del escritorio PE: imprime el cron de días hábiles a las 06:00 y la zona 'America/Lima' en » y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S26-T1-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Schedule",
+        "escritorio",
+        "imprime",
+        "cron",
+        "biles",
+        "zona"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E1",
+      "code": "# exploratory pass completes via iDo\nckpt=set([\"a\"]); dlq=[\"b\"]\nprint(\"resume_from\", sorted(ckpt), \"dlq\", dlq)\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T2-A-E1 leyendo la instruction del paquete activo «Backoff exponencial de reintentos: attempt=3, base=100 → base*(2**(attempt-1)). Imprime el entero ms» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo ckpt=set([\"a\"]); dlq=[\"b\"] print(\"resume_fr». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "Backoff",
+        "exponencial",
+        "reintentos",
+        "attempt",
+        "base",
+        "base"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndlq=[]\nfail=True\nif fail:\n    dlq.append('x')\n# forma esperada (referencia): print(dlq)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T2-A-E2 leyendo la instruction del paquete activo «Dead-letter: dlq=[] y fail=True modelan un item irrecuperable del export sintético. Si fail, append » y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) dlq=[] fail=True i». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Dead",
+        "letter",
+        "fail",
+        "True",
+        "modelan",
+        "item"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E3",
+      "code": "# Transfer / protocolo — S26-T2-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Checkpoint de reanudación: ckpt={'a'}; items=['a','b']. Imprime solo los ids aún no procesados (no ∈ ckpt). Contrato: list comprehension fail-open solo sobre pendientes. Pass: ['b'].\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: tasks, flows, estados, directed, acyclic, graph, codifica, dependencias.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T2-A-E3 leyendo la instruction del paquete activo «Checkpoint de reanudación: ckpt={'a'}; items=['a','b']. Imprime solo los ids aún no procesados (no ∈» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S26-T2-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "Checkpoint",
+        "reanudaci",
+        "ckpt",
+        "items",
+        "Imprime",
+        "solo"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E1",
+      "code": "# explorer: completed from starter + packet demo\nstore={}  # create-once store\n\ndef put(k,v):\n    pass\n\nput('r','v1'); put('r','v2')\nprint(store.get('r'))\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T2-B-E1 leyendo la instruction del paquete activo «Write idempotente create-once: implementa put(k,v) que solo escribe si k no está en store. Llama put» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo store={}  # create-once store  ». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Write",
+        "idempotente",
+        "create",
+        "once",
+        "implementa",
+        "solo"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'report':'ok','draft':'ok'}\nstate.pop('draft', None)\n# forma esperada (referencia): print(state)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T2-B-E2 leyendo la instruction del paquete activo «Compensación/rollback: state={'report':'ok','draft':'ok'}. Elimina la key draft (pop) tras falla pos» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) state={'report':'o». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Compensaci",
+        "rollback",
+        "state",
+        "report",
+        "draft",
+        "Elimina"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E3",
+      "code": "# Transfer / protocolo — S26-T2-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Lock optimista de concurrencia: locked=True significa otro worker en la entidad. Imprime 'busy' si locked else 'enter'. Contrato: fail-closed, no esperar en busy-loop en el lab. Pass: busy.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: tasks, flows, estados, directed, acyclic, graph, codifica, dependencias.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T2-B-E3 leyendo la instruction del paquete activo «Lock optimista de concurrencia: locked=True significa otro worker en la entidad. Imprime 'busy' si l» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S26-T2-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Lock",
+        "optimista",
+        "concurrencia",
+        "locked",
+        "True",
+        "significa"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nanalysis=[{'status':'pending'},{'status':'done'}]\n# forma esperada (referencia): print(sum(1 for x in analysis if x['status']=='pending'))",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T3-A-E1 leyendo la instruction del paquete activo «Cola HITL analysis: analysis=[{'status':'pending'},{'status':'done'}]. Cuenta cuántos status=='pendi» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) analysis=[{'status». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "Cola",
+        "HITL",
+        "analysis",
+        "analysis",
+        "status",
+        "pending"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nq={'analysis':1,'report':0,'recipient':0}\n# forma esperada (referencia): print(any(v>0 for v in q.values()))",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T3-A-E2 leyendo la instruction del paquete activo «Gate multi-cola: q={'analysis':1,'report':0,'recipient':0}. Imprime True si alguna cola >0 (blocked)» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) q={'analysis':1,'r». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Gate",
+        "multi",
+        "cola",
+        "analysis",
+        "report",
+        "recipient"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E3",
+      "code": "# Transfer / protocolo — S26-T3-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Checklist mínima de revisión humana antes del borrador: imprime exactamente ['metrics','narrative','recipient']. Contrato: orden canónico didáctico del VP. Pass: ['metrics', 'narrative', 'recipient'].\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: tasks, flows, estados, directed, acyclic, graph, codifica, dependencias.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T3-A-E3 leyendo la instruction del paquete activo «Checklist mínima de revisión humana antes del borrador: imprime exactamente ['metrics','narrative','» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S26-T3-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "Checklist",
+        "nima",
+        "revisi",
+        "humana",
+        "antes",
+        "borrador"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\naudit=[]\naudit.append({'action':'approve','actor':'rev'})\n# forma esperada (referencia): print(audit[0]['action'])",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T3-B-E1 leyendo la instruction del paquete activo «Auditoría append-only: audit=[] registra la decisión. Append un dict con action 'approve' y actor si» y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) audit=[] audit.app». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Auditor",
+        "append",
+        "only",
+        "audit",
+        "registra",
+        "decisi"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E2",
+      "code": "# exploratory pass completes via iDo\naudit=[{\"action\":\"approve\",\"actor\":\"r1\"}]\nprint(audit[0])\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T3-B-E2 leyendo la instruction del paquete activo «Reject con razón obligatoria: action='reject', reason=None. Si reject y reason vacío/None → imprime » y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo audit=[{\"action\":\"approve\",\"actor\":\"r1\"}] p». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Reject",
+        "obligatoria",
+        "action",
+        "reject",
+        "reason",
+        "None"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E3",
+      "code": "# Transfer / protocolo — S26-T3-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Edit versiona artefacto del informe sintético: partiendo de ver=1, al editar incrementa a 2 e imprime ver. Contrato: versión monotónica; no borrar entradas de audit previas. Pass exacto: 2.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: tasks, flows, estados, directed, acyclic, graph, codifica, dependencias.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T3-B-E3 leyendo la instruction del paquete activo «Edit versiona artefacto del informe sintético: partiendo de ver=1, al editar incrementa a 2 e imprim» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S26-T3-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Edit",
+        "versiona",
+        "artefacto",
+        "informe",
+        "sint",
+        "tico"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E1",
+      "code": "# exploratory pass completes via iDo\nslo_ok=0.91<0.95\nprint(\"alert_success_rate\" if slo_ok else \"ok\")\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T4-A-E1 leyendo la instruction del paquete activo «SLO success_rate del VP: rate=0.9. Si rate < 0.95 imprime 'alert', si no 'ok'. Contrato: umbral didá» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo slo_ok=0.91<0.95 print(\"alert_success_rate\"». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "success_rate",
+        "rate",
+        "rate",
+        "imprime",
+        "alert",
+        "Contrato"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E2",
+      "code": "# exploratory pass completes via iDo\nslo_ok=0.91<0.95\nprint(\"alert_success_rate\" if slo_ok else \"ok\")\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T4-A-E2 leyendo la instruction del paquete activo «Control P0 de cumplimiento: n=sends_without_approve=1. Si n>0 imprime 'P0_unapproved_send', si no 'o» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo slo_ok=0.91<0.95 print(\"alert_success_rate\"». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "Control",
+        "cumplimiento",
+        "sends_without_approve",
+        "imprime",
+        "_unapproved_send",
+        "Contrato"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E3",
+      "code": "# Transfer / protocolo — S26-T4-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Runbook de incidente one-liner: imprime la secuencia disable_schedule -> drain -> page (espacios alrededor de flechas como en la solución). Contrato: orden fijo de contención. Pass: disable_schedule -> drain -> page.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: tasks, flows, estados, directed, acyclic, graph, codifica, dependencias.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T4-A-E3 leyendo la instruction del paquete activo «Runbook de incidente one-liner: imprime la secuencia disable_schedule -> drain -> page (espacios alr» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S26-T4-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "Runbook",
+        "incidente",
+        "liner",
+        "imprime",
+        "secuencia",
+        "disable_schedule"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsteps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\n# forma esperada (referencia): print(all(status[s]=='success' for s in steps))",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T4-B-E1 leyendo la instruction del paquete activo «E2E sintético: steps=['ingest','validate','draft'] con status success en todos. Imprime True si all » y completando el starter con patrones del iDo/theory. Código clave: «# Fixture del paquete (conserva datos; no reescribas asserts) steps=['ingest','v». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "sint",
+        "tico",
+        "steps",
+        "ingest",
+        "validate",
+        "draft"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E2",
+      "code": "# exploratory pass completes via iDo\nprint({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})\n_probe_label = 'explorer-short'\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T4-B-E2 leyendo la instruction del paquete activo «Política anti-fraude-auto: fraud_labels=0 en el paquete del VP. Imprime 'ok' si fraud_labels==0 else» y completando el starter con patrones del iDo/theory. Código clave: «# exploratory pass completes via iDo print({\"e2e\":\"pass\",\"cost_tokens\":100,\"valu». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "tica",
+        "anti",
+        "fraude",
+        "auto",
+        "fraud_labels",
+        "paquete"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E3",
+      "code": "# Transfer / protocolo — S26-T4-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: Cierre de regresión N2: imprime el dict con n2_regression='CP-N2-A/B/C critical+privacy', value_minutes_saved_est=45 y cf2 interfaces Familiarity-reporting-automation (ver solución). Contrato: evidencia de defensa, no en\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: tasks, flows, estados, directed, acyclic, graph, codifica, dependencias.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S26-T4-B-E3 leyendo la instruction del paquete activo «Cierre de regresión N2: imprime el dict con n2_regression='CP-N2-A/B/C critical+privacy', value_minu» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S26-T4-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "Cierre",
+        "regresi",
+        "imprime",
+        "dict",
+        "_regression",
+        "critical"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "S26 Q0: elijo índice 0 («Draft antes de approve») porque la theory/outcomes del paquete enlazan la idea de la pregunta «El orden draft_email respecto a approve es:» con ese matiz. Apoyo lexical del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes analizar antes."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "S26 Q1: elijo índice 3 («Tests críticos de capstones N2, E2E y controles de privacidad/seguridad») porque la theory/outcomes del paquete enlazan la idea de la pregunta «La regresión N2 incluye:» con ese matiz. Apoyo lexical del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes analizar antes."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "S26 Q2: elijo índice 0 («Incidente P0») porque la theory/outcomes del paquete enlazan la idea de la pregunta «Un send sin approve es:» con ese matiz. Apoyo lexical del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes analizar antes."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "S26 Q3: elijo índice 2 («0 — solo evidencia para humanos») porque la theory/outcomes del paquete enlazan la idea de la pregunta «fraud_labels automáticos en el VP deben ser:» con ese matiz. Apoyo lexical del packet: tasks flows estados directed acyclic graph codifica dependencias negocio puedes analizar antes."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:33:36.037638+00:00",
+  "session_started_at": "2026-07-23T09:32:48.329270+00:00",
+  "session_ended_at": "2026-07-23T09:33:36.037638+00:00"
+}

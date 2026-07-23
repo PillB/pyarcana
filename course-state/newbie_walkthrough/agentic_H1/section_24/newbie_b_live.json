@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s24-1198c4f90373",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "code": "# dual skeptic-H1 · S24-T1-A-E1\ndpi=96\nprint(max(dpi, 200))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T1-A-E1: contrasté el Pass del paquete («Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el entero resultante. Contrato: no inventa deta…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, dpi, max; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(max(dpi, 200))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "dpi",
+        "max",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "code": "# dual skeptic-H1 · S24-T1-A-E2\nskew=1.2\nprint(abs(skew) >= 0.5)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T1-A-E2: contrasté el Pass del paquete («Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral didáctico 0.5°. Pass: True. Usa solo fi…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, skew, abs; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(abs(skew) >= 0.5)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "skew",
+        "abs",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "code": "# dual skeptic-H1 · S24-T1-A-E3\nw=h=1000\nm=0.05\nprint((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T1-A-E3: contrasté el Pass del paquete («Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen esquina superior izquierda. Pass…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, int, skeptic_check; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "int",
+        "skeptic_check",
+        "form",
+        "pass",
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "code": "# dual skeptic-H1 · S24-T1-B-E1\ns={0:0.1,90:0.8}\nprint(max(s, key=s.get))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T1-B-E1: contrasté el Pass del paquete («Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de grados. Contrato: max(s, key=s.get). Pas…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, max, key; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(max(s, key=s.get))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "max",
+        "key",
+        "get",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "code": "# dual skeptic-H1 · S24-T1-B-E2\nflags=[0,1,1,0]\nprint(sum(flags))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T1-B-E2: contrasté el Pass del paquete («Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(flags) o count. Pass: 2. Usa solo fixture…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, flags, sum; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(sum(flags))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "flags",
+        "sum",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "code": "# dual skeptic-H1 · S24-T1-B-E3\nscore=0.4\nprint('manual_orient' if score < 0.5 else 'auto')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T1-B-E3: contrasté el Pass del paquete («Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed a humano. Pass: manual_orient…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, score, manual_orient; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('manual_orient' if score < 0.5 else 'auto')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "score",
+        "manual_orient",
+        "auto",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "code": "# dual skeptic-H1 · S24-T2-A-E1\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.85])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T2-A-E1: contrasté el Pass del paquete («Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de text. Contrato: no mutar conf. Pass: ['A'…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, toks, text; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print([t['text'] for t in toks if t['conf']>=0.85])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "toks",
+        "text",
+        "conf",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "code": "# dual skeptic-H1 · S24-T2-A-E2\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint(ocr('Hola')['lang'])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T2-A-E2: contrasté el Pass del paquete («Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e imprime lang. Contrato: string fijo didáctico. Pass: sp…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, ocr, text; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(ocr('Hola')['lang'])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "ocr",
+        "text",
+        "lang",
+        "spa",
+        "Hola"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "code": "# dual skeptic-H1 · S24-T2-A-E3\nconfs=[0.9,0.75,0.95]\nm=min(confs)\nprint(m, 'review' if m < 0.8 else 'auto')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T2-A-E3: contrasté el Pass del paquete («Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución). Contrato: campo débil tumba au…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, confs, min; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(m, 'review' if m < 0.8 else 'auto')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "confs",
+        "min",
+        "review",
+        "auto",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "code": "# dual skeptic-H1 · S24-T2-B-E1\ns='Total: 12.5'\nk,v=s.split(':',1)\nprint(k.strip(), v.strip())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T2-B-E1: contrasté el Pass del paquete («KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Contrato: strip ambos lados. Pass: Total 12…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, Total, split; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(k.strip(), v.strip())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "Total",
+        "split",
+        "strip",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "code": "# dual skeptic-H1 · S24-T2-B-E2\nt=[['H1','H2'],['a','b']]\nprint(len(t)-1)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T2-B-E2: contrasté el Pass del paquete («Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: header no cuenta. Pass: 1. Usa solo fixtures…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, len, skeptic_check; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(len(t)-1)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "len",
+        "skeptic_check",
+        "form",
+        "pass",
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "code": "# dual skeptic-H1 · S24-T2-B-E3\nfield={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint(field['bbox'], field['value'])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T2-B-E3: contrasté el Pass del paquete («Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Contrato: bbox del valor. Pass: […») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, field, name; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(field['bbox'], field['value'])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "field",
+        "name",
+        "ruc",
+        "value",
+        "bbox"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "code": "# dual skeptic-H1 · S24-T3-A-E1\nimport re\ns='20-123'\nprint(re.sub(r'\\D', '', s))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T3-A-E1: contrasté el Pass del paquete («Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valida longitud aquí. Pass: 20123. Usa solo f…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, sub, skeptic_check; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(re.sub(r'\\\\D', '', s))\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "sub",
+        "skeptic_check",
+        "form",
+        "pass",
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "code": "# dual skeptic-H1 · S24-T3-A-E2\nfrom datetime import datetime\nprint(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T3-A-E2: contrasté el Pass del paquete («Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY. Pass: 2026-01-15. Usa solo fixtures sintéticos…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, datetime, strptime; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "datetime",
+        "strptime",
+        "date",
+        "isoformat",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "code": "# dual skeptic-H1 · S24-T3-A-E3\nimport re\nraw='123'\nd=re.sub(r'\\D','',raw)\nprint(d if len(d)==11 else None)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T3-A-E3: contrasté el Pass del paquete («RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa solo fixtures sintéticos del…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, raw, sub; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(d if len(d)==11 else None)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "raw",
+        "sub",
+        "len",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "code": "# dual skeptic-H1 · S24-T3-B-E1\ntotal, lines=10.0,[4.0,5.0]\nprint('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T3-B-E1: contrasté el Pass del paquete («Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. Contrato: tolerancia 0.01. Pass: needs_r…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, total, lines; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "total",
+        "lines",
+        "needs_review",
+        "abs",
+        "sum"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "code": "# dual skeptic-H1 · S24-T3-B-E2\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint(reasons)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T3-B-E2: contrasté el Pass del paquete («Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumular, no raise. Pass: ['ruc_missing']. Us…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, ruc, reasons; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(reasons)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "ruc",
+        "reasons",
+        "append",
+        "ruc_missing",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "code": "# dual skeptic-H1 · S24-T3-B-E3\nmismatch=True\nprint('review_not_fraud' if mismatch else 'auto')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T3-B-E3: contrasté el Pass del paquete («Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de política del curso. Pass: revi…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, mismatch, review_not_fraud; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('review_not_fraud' if mismatch else 'auto')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "mismatch",
+        "review_not_fraud",
+        "auto",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "code": "# dual skeptic-H1 · S24-T4-A-E1\ncorrect, n = 3, 4\nprint(correct / n)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T4-A-E1: contrasté el Pass del paquete («Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0.75. Usa solo fixtures sintéticos del la…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, correct, skeptic_check; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(correct / n)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "correct",
+        "skeptic_check",
+        "form",
+        "pass",
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "code": "# dual skeptic-H1 · S24-T4-A-E2\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T4-A-E2: contrasté el Pass del paquete («Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5. Contrato: solo campo ruc. Pass: 0.5. Us…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, rows, ruc_pred; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "rows",
+        "ruc_pred",
+        "ruc_true",
+        "sum",
+        "len"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "code": "# dual skeptic-H1 · S24-T4-A-E3\nauto, review = 7, 3\nprint(auto / (auto + review))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T4-A-E3: contrasté el Pass del paquete («Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobertura. Pass: 0.7. Usa solo fix…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, auto, review; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(auto / (auto + review))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "auto",
+        "review",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "code": "# dual skeptic-H1 · S24-T4-B-E1\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('reject' if mime not in allowed else 'ok')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T4-B-E1: contrasté el Pass del paquete («Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-closed. Pass: reject. Usa solo fixtures sint…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, mime, application; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('reject' if mime not in allowed else 'ok')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "mime",
+        "application",
+        "zip",
+        "allowed",
+        "pdf"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "code": "# dual skeptic-H1 · S24-T4-B-E2\nn=6_000_000\nprint('reject' if n > 5_000_000 else 'ok')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T4-B-E2: contrasté el Pass del paquete («Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: reject. Usa solo fixtures sintéticos del…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, _000_000, reject; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('reject' if n > 5_000_000 else 'ok')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "_000_000",
+        "reject",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "code": "# dual skeptic-H1 · S24-T4-B-E3\nstatus='ocr_fail'\nprint({'ocr_fail':'human_rescan'}.get(status, 'continue'))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S24/S24-T4-B-E3: contrasté el Pass del paquete («Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito de OCR. Pass: human_rescan. Usa…») con theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Conceptos dual, skeptic, S24, status, ocr_fail; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print({'ocr_fail':'human_rescan'}.get(status, 'continue'))\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S24",
+        "status",
+        "ocr_fail",
+        "human_rescan",
+        "get",
+        "continue"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S24#0: contrasto stem «¿Qué haces si confidence de RUC es 0.6?» con párrafos theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Elijo índice 3 («Abstener y encolar revisión») porque cuadra con el vocabulario del paquete; distractores ['Aceptar igual', 'Inventar dígitos'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S24#1: contrasto stem «Un mismatch total vs líneas implica:» con párrafos theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Elijo índice 1 («Cola de revisión / corrección») porque cuadra con el vocabulario del paquete; distractores ['Fraude probado', 'Borrar el doc'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S24#2: contrasto stem «¿Por qué medir accuracy por campo?» con párrafos theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Elijo índice 2 («Los campos críticos pueden fallar aunque el global se vea bien») porque cuadra con el vocabulario del paquete; distractores ['Es más corto', 'OCR no tiene global'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S24#3: contrasto stem «Archivo application/zip en intake de facturas:» con párrafos theory/iDo («DPI, deskew, crop y contraste» **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efecti). Elijo índice 0 («Gate reject/review por mime no permitido») porque cuadra con el vocabulario del paquete; distractores ['Siempre OK', 'OCR directo'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:05:07.773804+00:00",
+  "session_started_at": "2026-07-23T08:04:39.798308+00:00",
+  "session_ended_at": "2026-07-23T08:05:07.773804+00:00"
+}

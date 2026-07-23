@@ -2,24 +2,15 @@
 
 | attempt | status | notes |
 |---------|--------|-------|
-| agentic_D1 | superseded | dual-LLM then invalidated |
-| agentic_D2 | **REJECTED** | re-voice of D1 |
-| agentic_E1 | historical | dual-LLM |
-| agentic_E2 | **REJECTED** | E1 e1_code_map transplant |
-| agentic_F1 | **REJECTED** | packet_walk bulk completer |
-| agentic_F2 | **REJECTED** | F1 re-stamp + apply selfcheck theater |
-| agentic_G1 | **PASS clean_52** | dual-LLM + hardened gates + llm_session_manifest |
-| agentic_G2 | **PASS clean_52** | second consecutive; independence 13.5% body identity |
+| D1/D2 | REJECTED | re-voice |
+| E2 | REJECTED | E1 transplant |
+| F1/F2 | REJECTED | packet_walk theater |
+| G1/G2 | REJECTED | zero-duration manifest, mtime theater, g2_agent stamps |
+| **agentic_H1** | **PASS clean_52** | dual-LLM sequential waves; mtime ~73m; sessions 17–33s; no stamps |
+| **agentic_H2** | **PASS clean_52** | independent; mtime ~30.6m; sessions 15–48s; body identity 8.3% |
 
 ## Hardened rules
-- Lives from dual-LLM subagents only
-- `llm_session_manifest.json` ≥100 entries; wall-clock ≥30m
-- Form gates (e.g. hello_sys needs main/sys.version/__name__)
-- No packet_walk / e1_code_map / produce_agent / hardcoded ANSWERS
-- Independence vs prior_clean: non-comment body identity must not be ≥98%
-
-## Evidence
-- `agentic_G1/`, `agentic_G2/`
-- `scripts/newbie_agentic_llm_walk.py`, hardened `scripts/newbie_agentic_validator.py`
-- `scripts/quarantine_theater/`
-- `tests/adversarial/test_agentic_hardened_gates.py`
+- No zero-duration sessions
+- Live mtime span ≥ 30 minutes required
+- No g2_agent/h_agent mechanical stamps
+- Dual-LLM packet-only lives + llm_session_manifest

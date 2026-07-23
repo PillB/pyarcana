@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 23,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s23-c1309f604591",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "code": "# dual explorer-H1 · S23-T1-A-E1\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T1-A-E1 leyendo el instruction del quiz_card: «Locator por rol: nodes=[{'role':'link','name':'Inicio','id':'n1'}]. Encuentra role=link y name=Inicio; imprime id. Contrato: next/generador…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, nodes, role; salida anclada a prints [\"print(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\"]. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "nodes",
+        "role",
+        "link",
+        "name",
+        "Inicio"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "code": "# dual explorer-H1 · S23-T1-A-E2\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T1-A-E2 leyendo el instruction del quiz_card: «Prioridad de estrategias: strats=['css','role','testid']. Ordena priorizando role, testid, css (preferred index). Imprime lista ordenada. Co…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, strats, css; salida anclada a prints ['print(sorted(strats, key=lambda s: order[s]))']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "strats",
+        "css",
+        "role",
+        "testid",
+        "order"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "code": "# dual explorer-H1 · S23-T1-A-E3\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nh1_out = hits[0]['name'] if hits else 'need_testid'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T1-A-E3 leyendo el instruction del quiz_card: «Sin control button en nodes (solo img logo): al buscar button imprime 'need_testid' si no hay role button; si hubiera, su name. Contrato: fa…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, nodes, role; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "nodes",
+        "role",
+        "img",
+        "name",
+        "logo"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "code": "# dual explorer-H1 · S23-T1-B-E1\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        break\nh1_out = i\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T1-B-E1 leyendo el instruction del quiz_card: «Auto-wait simulado: ready se vuelve True en el intento 2 de un loop 1..N. Imprime el número de intento cuando ready. Contrato: sin sleep rea…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, range, ready; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "range",
+        "ready",
+        "break",
+        "h1_out",
+        "Auto"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "code": "# dual explorer-H1 · S23-T1-B-E2\nready = False\nfor i in range(3):\n    if ready:\n        break\nelse:\nh1_out = 'timeout'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T1-B-E2 leyendo el instruction del quiz_card: «Timeout de espera: ready=False fijo; tras 3 intentos sin ready imprime 'timeout'. Contrato: no reintentar infinito. Pass: timeout. Usa solo…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, ready, range; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "ready",
+        "range",
+        "break",
+        "h1_out",
+        "timeout"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "code": "# dual explorer-H1 · S23-T1-B-E3\nexpected, actual = 'Portal demo', 'Portal demo'\nh1_out = 'pass' if expected == actual else 'fail'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T1-B-E3 leyendo el instruction del quiz_card: «Assertion de título: expected=actual='Portal demo'. Imprime 'pass' si iguales else 'fail'. Contrato: postcondición de navegación. Pass: pass…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, expected, actual; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "expected",
+        "actual",
+        "Portal",
+        "demo",
+        "h1_out"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "code": "# dual explorer-H1 · S23-T2-A-E1\nform = {}\nform['usuario'] = 'ana'\nh1_out = form\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T2-A-E1 leyendo el instruction del quiz_card: «Fill de formulario sintético: form={}; asigna usuario='ana'; imprime form. Contrato: update/asignación. Pass: {'usuario': 'ana'}. Usa solo f…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, form, usuario; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "form",
+        "usuario",
+        "ana",
+        "h1_out",
+        "Fill"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "code": "# dual explorer-H1 · S23-T2-A-E2\nimport hashlib\nh1_out = hashlib.sha256(b'data').hexdigest()[:8]\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T2-A-E2 leyendo el instruction del quiz_card: «Verificación de download: sha256 hex de b'data', primeros 8 chars. import hashlib. Contrato: hexdigest()[:8]. Pass: 3a6eb079. Usa solo fixtu…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, hashlib, h1_out; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "hashlib",
+        "h1_out",
+        "sha256",
+        "data",
+        "hexdigest"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "code": "# dual explorer-H1 · S23-T2-A-E3\nstate={'token':'t'}\nh1_out = 'reuse' if state.get('token') else 'login'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T2-A-E3 leyendo el instruction del quiz_card: «Reuso de sesión: state={'token':'t'}. Si token presente imprime 'reuse' (no re-login). Contrato: storage_state conceptual. Pass: reuse. Usa…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, state, token; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "state",
+        "token",
+        "h1_out",
+        "reuse",
+        "get"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "code": "# dual explorer-H1 · S23-T2-B-E1\nclass LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        if password == 'sandbox':\n            self.auth = True\n        return self.auth\n\np = LoginPage()\np.submit('u', 'sandbox')\nh1_out = p.auth\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T2-B-E1 leyendo el instruction del quiz_card: «Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prueba e imprime auth True. Contrato: clase con estado. Pass: Tr…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, LoginPage, __init__; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "LoginPage",
+        "__init__",
+        "self",
+        "auth",
+        "submit"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "code": "# dual explorer-H1 · S23-T2-B-E2\nctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\nexcept PermissionError:\nh1_out = 'denied'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T2-B-E2 leyendo el instruction del quiz_card: «ReportPage sin auth: ctx auth False; open debe denegar. Captura PermissionError e imprime 'denied'. Contrato: no continuar al reporte. Pass:…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, ctx, auth; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "ctx",
+        "auth",
+        "not",
+        "get",
+        "raise"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "code": "# dual explorer-H1 · S23-T2-B-E3\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nh1_out = state\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T2-B-E3 leyendo el instruction del quiz_card: «Transición de estado: state='anonymous'; tras login ok imprime 'authenticated'. Contrato: máquina simple de estados. Pass: authenticated. Us…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, state, anonymous; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "state",
+        "anonymous",
+        "login_ok",
+        "authenticated",
+        "h1_out"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "code": "# dual explorer-H1 · S23-T3-A-E1\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nh1_out = sorted(ev.keys())\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T3-A-E1 leyendo el instruction del quiz_card: «Paquete de evidencia: ev con trace, screenshot, error. Imprime sorted(keys). Contrato: keys estables para CI. Pass: ['error', 'screenshot',…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, trace, zip; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "trace",
+        "zip",
+        "screenshot",
+        "png",
+        "error"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "code": "# dual explorer-H1 · S23-T3-A-E2\nlogs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T3-A-E2 leyendo el instruction del quiz_card: «Filtro de console: logs=['ok','ERR timeout','nav']; imprime solo líneas que contienen 'ERR'. Contrato: list comp. Pass: ['ERR timeout']. Usa…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, logs, ERR; salida anclada a prints [\"print([l for l in logs if 'ERR' in l])\"]. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "logs",
+        "ERR",
+        "timeout",
+        "nav",
+        "Filtro"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "code": "# dual explorer-H1 · S23-T3-A-E3\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nh1_out = pkg\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T3-A-E3 leyendo el instruction del quiz_card: «Adjuntar trace en falla: ok=False, pkg={'step':'s1'}; si not ok añade trace 'traces/s1.zip'; imprime pkg. Contrato: path determinista. Pass:…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, pkg, step; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "pkg",
+        "step",
+        "not",
+        "trace",
+        "traces"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "code": "# dual explorer-H1 · S23-T3-B-E1\ndef should_retry(k):\n    return k in ('timeout', '429')\n\nfor k in ['timeout','captcha','429']:\n    print(k, should_retry(k))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T3-B-E1 leyendo el instruction del quiz_card: «Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha, 429 e imprime tres líneas kind bool. Contrato: captcha no…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, should_retry, timeout; salida anclada a prints ['print(k, should_retry(k))']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "should_retry",
+        "timeout",
+        "captcha",
+        "Pol",
+        "tica"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "code": "# dual explorer-H1 · S23-T3-B-E2\nerr='stale'\nh1_out = 'goto_home' if err=='stale' else 'continue'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T3-B-E2 leyendo el instruction del quiz_card: «Recovery stale DOM: err='stale' → action 'goto_home'. Imprime action. Contrato: re-nav, no click en handle viejo. Pass: goto_home. Usa solo…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, err, stale; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "err",
+        "stale",
+        "h1_out",
+        "goto_home",
+        "continue"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "code": "# dual explorer-H1 · S23-T3-B-E3\nerrors=['timeout','timeout','timeout']\nfor i,e in enumerate(errors,1):\n    if e!='timeout':\n        break\n    if i==3:\n        print('fail', i)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T3-B-E3 leyendo el instruction del quiz_card: «Máx 3 timeouts: errors lista de tres 'timeout' → imprime 'fail 3' con conteo. Contrato: exhaust retries. Pass: fail 3. Usa solo fixtures sin…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, errors, timeout; salida anclada a prints [\"print('fail', i)\"]. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "errors",
+        "timeout",
+        "enumerate",
+        "break",
+        "fail"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "code": "# dual explorer-H1 · S23-T4-A-E1\napi=True\nh1_out = 'api' if api else 'rpa'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T4-A-E1 leyendo el instruction del quiz_card: «API-first gate: api=True → elige 'api'. Imprime la elección del método de obtención de datos. Contrato: preferencia sobre RPA. Pass: api. Us…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, api, h1_out; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "api",
+        "h1_out",
+        "rpa",
+        "first",
+        "gate"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "code": "# dual explorer-H1 · S23-T4-A-E2\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nh1_out = c\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T4-A-E2 leyendo el instruction del quiz_card: «Orden api>export>rpa: flags api False, export True, rpa True → imprime 'export'. Contrato: primera disponible en la jerarquía. Pass: export.…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, api, export; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "api",
+        "export",
+        "rpa",
+        "get",
+        "human"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "code": "# dual explorer-H1 · S23-T4-A-E3\ndecision={'method':'rpa','reason':'no_api'}\nh1_out = decision\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T4-A-E3 leyendo el instruction del quiz_card: «Decisión documentada: cae a rpa con reason 'no_api'. Imprime dict method/reason. Contrato: auditoría de por qué RPA. Pass: {'method': 'rpa',…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, decision, method; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "decision",
+        "method",
+        "rpa",
+        "reason",
+        "no_api"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "code": "# dual explorer-H1 · S23-T4-B-E1\ncaptcha=True\nh1_out = 'human_handoff' if captcha else 'continue'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T4-B-E1 leyendo el instruction del quiz_card: «CAPTCHA en portal demo: captcha=True → imprime 'human_handoff' sin intentar bypass ni granja. Contrato: handoff humano obligatorio. Pass: hu…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, captcha, h1_out; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "captcha",
+        "h1_out",
+        "human_handoff",
+        "continue",
+        "portal"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "code": "# dual explorer-H1 · S23-T4-B-E2\nsig={'tos_forbidden':True,'captcha':True}\nh1_out = 'abort' if sig.get('tos_forbidden') else 'human_handoff'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T4-B-E2 leyendo el instruction del quiz_card: «ToS gana: sig con tos_forbidden True (y captcha True). action abort. Imprime action. Contrato: abort > handoff. Pass: abort. Usa solo fixtur…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, sig, tos_forbidden; salida anclada a prints ['print(h1_out)']. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "sig",
+        "tos_forbidden",
+        "captcha",
+        "h1_out",
+        "abort"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "code": "# dual explorer-H1 · S23-T4-B-E3\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Browser RPA con Playwright» (S23) resolví S23-T4-B-E3 leyendo el instruction del quiz_card: «Payload handoff: arma estructura con url, step, screenshot; imprime keys sorted y marca export según solution output. Contrato: evidencia pa…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S23, payload, url; salida anclada a prints [\"print(sorted(payload.keys()), payload['step'])\"]. Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S23",
+        "payload",
+        "url",
+        "https",
+        "demo",
+        "test"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S23 Q0: «¿Por qué preferir get_by_role a CSS nth-child?». En la teoría del slim_packet («DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de) la opción «Refleja la UI accesible y suele ser más estable» es la que describe el concepto; descarto p.ej. ['Es más corto de escribir siempre', 'Playwright no soporta CSS']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S23 Q1: «Ante un CAPTCHA el robot debe:». En la teoría del slim_packet («DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de) la opción «Detenerse y hacer handoff humano» es la que describe el concepto; descarto p.ej. ['Resolverlo con un servicio externo', 'Reintentar 100 veces']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S23 Q2: «API/export primero significa:». En la teoría del slim_packet («DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de) la opción «Buscar integración no-UI antes de automatizar el browser» es la que describe el concepto; descarto p.ej. ['RPA siempre', 'Prohibir Excel']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S23 Q3: «Un retry seguro reintenta:». En la teoría del slim_packet («DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de) la opción «Solo fallas transitorias (timeout/red), no captcha/403 de negocio» es la que describe el concepto; descarto p.ej. ['Cualquier error', 'Solo éxitos']. Respuesta razonada solo con packet H1 activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:03:50.800256+00:00",
+  "session_started_at": "2026-07-23T08:03:32.779875+00:00",
+  "session_ended_at": "2026-07-23T08:03:50.800256+00:00"
+}

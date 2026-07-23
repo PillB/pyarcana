@@ -1,0 +1,460 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 36,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s36-4ebcfd1076d6",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "code": "# dual explorer-H1 · S36-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nh1_out = sum(xs)/len(xs)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T1-A-E1 leyendo el instruction del quiz_card: «S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3). Fixture de clusteri…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "code": "# dual explorer-H1 · S36-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\nh1_out = (x - mu) / sd\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T1-A-E2 leyendo el instruction del quiz_card: «S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter olvida dividir por sd (defect=4). Esca…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "code": "# dual explorer-H1 · S36-T1-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"verdict\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T1-A-E3 leyendo el instruction del quiz_card: «S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict True (defect: convierte segmento en c…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(\"verdict\", False)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "code": "# dual explorer-H1 · S36-T1-B-E1\nscores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = max(scores, key=scores.get)\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T1-B-E1 leyendo el instruction del quiz_card: «S36-T1-B-E1 · Elige k con score máximo: scores {2:0.2,3:0.9,4:0.5} → k=3 y score 0.9. Imprime 3, score 0.9, ok True. Starter elige min (defe…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, scores, best; salida anclada a prints ['print(best)', 'print(\"score\", scores[best])']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "scores",
+        "best",
+        "max",
+        "key",
+        "get"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "code": "# dual explorer-H1 · S36-T1-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"seeds\", [0, 1, 2])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T1-B-E2 leyendo el instruction del quiz_card: «S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defect). Contrato de sensibilidad a…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(\"seeds\", [0, 1, 2])']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "code": "# dual explorer-H1 · S36-T1-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"limit\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T1-B-E3 leyendo el instruction del quiz_card: «S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegamente en silhouette).…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(\"limit\", True)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "code": "# dual explorer-H1 · S36-T2-A-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(round(0.5*2 + 0.5*4, 1))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T2-A-E1 leyendo el instruction del quiz_card: «S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Exploración sintética CA…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(round(0.5*2 + 0.5*4, 1))']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "code": "# dual explorer-H1 · S36-T2-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"decision_model\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T2-A-E2 leyendo el instruction del quiz_card: «S36-T2-A-E2 · PCA no es decision model: imprime decision_model False, ok True, use 'viz'. Starter True (defect). Contrato del dossier de señ…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(\"decision_model\", False)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "code": "# dual explorer-H1 · S36-T2-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nh1_out = 2\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T2-A-E3 leyendo el instruction del quiz_card: «S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-proyecta sin plan). Transferencia…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "code": "# dual explorer-H1 · S36-T2-B-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nh1_out = False\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T2-B-E1 leyendo el instruction del quiz_card: «S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect: nombra PC2='riesgo'). Prudenc…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "code": "# dual explorer-H1 · S36-T2-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"check_scale\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T2-B-E2 leyendo el instruction del quiz_card: «S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter auto_label True (defect). Antes…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(\"check_scale\", True)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "code": "# dual explorer-H1 · S36-T2-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nh1_out = \"exploratory\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T2-B-E3 leyendo el instruction del quiz_card: «S36-T2-B-E3 · Documenta uso exploratorio: imprime 'exploratory', ok True, n 1. Starter 'production_judge' (defect). Transferencia de etiquet…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "code": "# dual explorer-H1 · S36-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\nh1_out = sum(flags)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T3-A-E1 leyendo el instruction del quiz_card: «S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta len (defect=3). Rareza ≠ condu…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "code": "# dual explorer-H1 · S36-T3-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"rule\", \"score\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T3-A-E2 leyendo el instruction del quiz_card: «S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabilidad para el revisor…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print([\"rule\", \"score\"])']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "code": "# dual explorer-H1 · S36-T3-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"guilt\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T3-A-E3 leyendo el instruction del quiz_card: «S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y route 'auto_ban' (defect). Fail-cl…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(\"guilt\", False)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "code": "# dual explorer-H1 · S36-T3-B-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"outlier\", \"novelty\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T3-B-E1 leyendo el instruction del quiz_card: «S36-T3-B-E1 · Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2. Starter solo ['outlier'] (defect). Distingue rareza en tr…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print([\"outlier\", \"novelty\"])']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "code": "# dual explorer-H1 · S36-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\nh1_out = int(n * c)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T3-B-E2 leyendo el instruction del quiz_card: «S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter marca is_fraud_rate True (defect). Con…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "code": "# dual explorer-H1 · S36-T3-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"capacity_link\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T3-B-E3 leyendo el instruction del quiz_card: «S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defect). Transferencia: expected_flags de…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(\"capacity_link\", True)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "code": "# dual explorer-H1 · S36-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\nh1_out = sum(rates)/len(rates)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T4-A-E1 leyendo el instruction del quiz_card: «S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma sin dividir (defect). Ventanas sintét…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "code": "# dual explorer-H1 · S36-T4-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"leakage\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T4-A-E2 leyendo el instruction del quiz_card: «S36-T4-A-E2 · Sin leakage de futuro: imprime leakage False, ok True, split 'time'. Starter leakage True (defect: fit con futuro). Contrato t…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(\"leakage\", False)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "code": "# dual explorer-H1 · S36-T4-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nh1_out = 3\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T4-A-E3 leyendo el instruction del quiz_card: «S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño de ventanas deslizant…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "code": "# dual explorer-H1 · S36-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\nh1_out = sum(ranked[:k])/k\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T4-B-E1 leyendo el instruction del quiz_card: «S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=3 (defect). Labels sintéticos de uti…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "code": "# dual explorer-H1 · S36-T4-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nh1_out = True\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T4-B-E2 leyendo el instruction del quiz_card: «S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrato de revisión humana…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "code": "# dual explorer-H1 · S36-T4-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nh1_out = \"precision_at_k\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» (S36) resolví S36-T4-B-E3 leyendo el instruction del quiz_card: «S36-T4-B-E3 · Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1. Starter 'global_accuracy' (defect). Transferencia: con…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S36, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan re.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S36 Q0: «Una anomalía en el triage significa:». En la teoría del slim_packet («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)) la opción «Señal de rareza a revisar» es la que describe el concepto; descarto p.ej. ['Fraude probado', 'Parentesco']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S36 Q1: «contamination representa:». En la teoría del slim_packet («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)) la opción «Hipótesis de fracción rara a flaggear» es la que describe el concepto; descarto p.ej. ['Tasa de fraude real', 'Accuracy']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S36 Q2: «PCA en este curso se usa para:». En la teoría del slim_packet («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)) la opción «Exploración/visualización prudente» es la que describe el concepto; descarto p.ej. ['Etiquetar culpa', 'Reemplazar el workbench']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S36 Q3: «Con labels escasos prioriza:». En la teoría del slim_packet («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)) la opción «precision@k y feedback humano» es la que describe el concepto; descarto p.ej. ['Solo accuracy global', 'Aumentar contamination a 0.9']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S36 Q4: «Un fit de normalidad que incluye el mes evaluado comete:». En la teoría del slim_packet («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual)) la opción «Leakage temporal» es la que describe el concepto; descarto p.ej. ['Warmup', 'Blocking']. Respuesta razonada solo con packet H1 activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:26:57.102558+00:00",
+  "session_started_at": "2026-07-23T08:26:26.503479+00:00",
+  "session_ended_at": "2026-07-23T08:26:57.102558+00:00"
+}

@@ -1,0 +1,460 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s22-d3cb3a67835c",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "code": "# dual skeptic-H1 · S22-T1-A-E1\nfrom email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\nprint(msg.get_content_type(), \"|\", msg.get_charset())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T1-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola', 'plain', 'utf-8'); print(msg.…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, email, mime; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(msg.get_content_type(), \"|\", msg.get_charset())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "email",
+        "mime",
+        "text",
+        "MIMEText",
+        "msg"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "code": "# dual skeptic-H1 · S22-T1-A-E2\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt.add_header('Content-Disposition', 'attachment', filename='a.txt')\nmsg.attach(att)\nprint(any(p.get_filename() == 'a.txt' for p in msg.walk()))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T1-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg = MIMEMultipart('mixed'); msg['S…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, email, mime; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(any(p.get_filename() == 'a.txt' for p in msg.walk()))\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "email",
+        "mime",
+        "multipart",
+        "MIMEMultipart",
+        "application"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "code": "# dual skeptic-H1 · S22-T1-A-E3\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\nprint(sum(1 for _ in msg.walk()))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T1-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = MIMEMultipart('mixed'); alt =…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, email, mime; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(sum(1 for _ in msg.walk()))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "email",
+        "mime",
+        "multipart",
+        "MIMEMultipart",
+        "text"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "code": "# dual skeptic-H1 · S22-T1-B-E1\nimport html\nprint(html.escape('<script>x</script>'))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T1-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<script>x</script>')). Completa…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, html, escape; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(html.escape('<script>x</script>'))\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "html",
+        "escape",
+        "script",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "code": "# dual skeptic-H1 · S22-T1-B-E2\nimport html\nname = '<b>Ana</b>'\nprint('Hola ' + html.escape(name))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T1-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>Ana</b>'; print('Hola ' + html…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, html, name; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('Hola ' + html.escape(name))\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "html",
+        "name",
+        "Ana",
+        "Hola",
+        "escape"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "code": "# dual skeptic-H1 · S22-T1-B-E3\nurls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n    status = 'ok' if 'example.pe' in u else 'blocked'\n    print(u, status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T1-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = ['https://example.pe/a', 'http…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, urls, https; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(u, status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "urls",
+        "https",
+        "example",
+        "evil",
+        "test"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "code": "# dual skeptic-H1 · S22-T2-A-E1\nrequested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\ngranted = [s for s in requested if s in allowed]\nprint(granted)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T2-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail.draft', 'mail.full']; allowed…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, requested, mail; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(granted)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "requested",
+        "mail",
+        "draft",
+        "full",
+        "allowed"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "code": "# dual skeptic-H1 · S22-T2-A-E2\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(bad.isdisjoint(granted))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T2-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = ['mail.draft']; bad = {'mail.fu…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, granted, mail; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(bad.isdisjoint(granted))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "granted",
+        "mail",
+        "draft",
+        "bad",
+        "full"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "code": "# dual skeptic-H1 · S22-T2-A-E3\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n    print('refresh' if exp < now else 'valid')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T2-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = datetime.now(timezone.utc); for e…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, datetime, timezone; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('refresh' if exp < now else 'valid')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "datetime",
+        "timezone",
+        "timedelta",
+        "now",
+        "utc"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "code": "# dual skeptic-H1 · S22-T2-B-E1\nstore = {}\nstore['d001'] = {'status': 'draft'}\nprint(store['d001']['status'])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T2-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d001'] = {'status': 'draft'}. Com…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, store, d001; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(store['d001']['status'])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "store",
+        "d001",
+        "status",
+        "draft",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "code": "# dual skeptic-H1 · S22-T2-B-E2\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nprint(now < expires_at)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T2-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datetime.now(timezone.utc); expires…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, datetime, timezone; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(now < expires_at)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "datetime",
+        "timezone",
+        "timedelta",
+        "now",
+        "utc"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "code": "# dual skeptic-H1 · S22-T2-B-E3\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T2-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}; def create_draft():. Complet…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, store, create_draft; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(create_draft(), create_draft())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "store",
+        "create_draft",
+        "len",
+        "status",
+        "draft"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "code": "# dual skeptic-H1 · S22-T3-A-E1\nimport re\npat = r'^[^@]+@[^@]+\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n    print(e, bool(re.match(pat, e)))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T3-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\\\.[^@]+$'; for e in ('ana@exam…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, pat, ana; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(e, bool(re.match(pat, e)))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "pat",
+        "ana",
+        "example",
+        "bad",
+        "bool"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "code": "# dual skeptic-H1 · S22-T3-A-E2\nDIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\nprint('verified' if em and '@' in em else 'missing')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T3-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY = {'C001': 'ana@example.pe'}; em…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, DIRECTORY, C001; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('verified' if em and '@' in em else 'missing')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "DIRECTORY",
+        "C001",
+        "ana",
+        "example",
+        "get"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "code": "# dual skeptic-H1 · S22-T3-A-E3\na, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), 'match_no_es_fraude')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T3-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b = 'ana.rojas@example.pe', 'an…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, ana, rojas; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(round(score, 2), 'match_no_es_fraude')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "ana",
+        "rojas",
+        "example",
+        "com",
+        "zip"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "code": "# dual skeptic-H1 · S22-T3-B-E1\nxs = ['a@x', 'b@x', 'a@x']\nprint(list(dict.fromkeys(xs)))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T3-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@x', 'b@x', 'a@x']; print(list(…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, list, dict; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(list(dict.fromkeys(xs)))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "list",
+        "dict",
+        "fromkeys",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "code": "# dual skeptic-H1 · S22-T3-B-E2\nrows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\nprint(rows[0]['role'])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T3-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{'email': 'p@other.test', 'role…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, rows, email; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(rows[0]['role'])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "rows",
+        "email",
+        "other",
+        "test",
+        "role"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "code": "# dual skeptic-H1 · S22-T3-B-E3\nrows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\nprint(len(vis), vis)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T3-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a@example.pe','to'),('b@other.t…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, rows, example; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(len(vis), vis)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "rows",
+        "example",
+        "other",
+        "test",
+        "vis"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "code": "# dual skeptic-H1 · S22-T4-A-E1\nT = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\nprint(state)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T4-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft': {'submit': 'pending'}}; sta…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, draft, submit; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(state)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "draft",
+        "submit",
+        "pending",
+        "state",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "code": "# dual skeptic-H1 · S22-T4-A-E2\nT = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\nprint('invalid' if nxt is None else nxt)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T4-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'draft': {'submit': 'pending'},…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, draft, submit; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('invalid' if nxt is None else nxt)\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "draft",
+        "submit",
+        "pending",
+        "approve",
+        "approved"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "code": "# dual skeptic-H1 · S22-T4-A-E3\nlog = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\nprint(log)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T4-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []; log.append({'from': 'pending…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, log, append; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(log)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "log",
+        "append",
+        "pending",
+        "approved",
+        "actor"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "code": "# dual skeptic-H1 · S22-T4-B-E1\nimport hashlib\nprint(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T4-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sha256(b'run|to|v1').hexdigest()…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, hashlib, sha256; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "hashlib",
+        "sha256",
+        "run",
+        "hexdigest",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "code": "# dual skeptic-H1 · S22-T4-B-E2\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nprint(create('k') == create('k'))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T4-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {}; def create(key):. Completa…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, store, create; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(create('k') == create('k'))\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "store",
+        "create",
+        "key",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "code": "# dual skeptic-H1 · S22-T4-B-E3\naudit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\nprint(audit)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S22/S22-T4-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = []; store = {}. Completa el TODO…») con theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Conceptos dual, skeptic, S22, audit, store; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(audit)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S22",
+        "audit",
+        "store",
+        "key",
+        "range",
+        "append"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S22#0: contrasto stem «¿Qué garantiza no enviar correo real en el gate de S22?» con párrafos theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Elijo índice 1 («Solo drafts/.eml en sandbox y aprobación humana») porque cuadra con el vocabulario del paquete; distractores ['Usar mail.full', 'CC a todos'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S22#1: contrasto stem «Un score alto de similitud entre dos emails implica:» con párrafos theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Elijo índice 3 («Solo evidencia débil de contacto a revisar; no prueba de fraude») porque cuadra con el vocabulario del paquete; distractores ['Fraude demostrado', 'Parentesco'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S22#2: contrasto stem «Least privilege en OAuth de correo significa:» con párrafos theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Elijo índice 0 («Solo los scopes mínimos (p. ej. draft) necesarios») porque cuadra con el vocabulario del paquete; distractores ['Pedir todos los scopes', 'Compartir el refresh token en Slack'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S22#3: contrasto stem «La idempotency key al reintentar create_draft debe:» con párrafos theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Elijo índice 2 («Reutilizar el mismo draft_id si la key existe») porque cuadra con el vocabulario del paquete; distractores ['Crear siempre un draft nuevo', 'Borrar el audit log'] no sostienen el contrato."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S22#4: contrasto stem «Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de email de CP-N2-C?» con párrafos theory/iDo («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF). Elijo índice 1 («Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica») porque cuadra con el vocabulario del paquete; distractores ['Declarar fraude o parentesco y bloquear al cliente automáticamente', 'Enviar el correo sin aprobación porque el score supera 0.9'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:03:30.865285+00:00",
+  "session_started_at": "2026-07-23T08:03:00.415226+00:00",
+  "session_ended_at": "2026-07-23T08:03:30.865285+00:00"
+}

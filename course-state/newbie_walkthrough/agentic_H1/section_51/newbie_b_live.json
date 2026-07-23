@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 51,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s51-e665bbee11a4",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S51-T1-A-E1",
+      "code": "# dual skeptic-H1 · S51-T1-A-E1\nrecord = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"tr-moq-51\",\"spans\":{\"prompt\",\"retrieval\",\"tool\",\"answer\"},\"versions\":{\"prompt\":\"p3\",\"model\":\"m2\",\"index\":\"i4\"},\"pii_in_trace\":False}}\nmeets_contract = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\nstatus = \"PASS\" if meets_contract else \"REDACT_AND_QUARANTINE_TRACE\"\nprint(\"S51-T1-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T1-A-E1: contrasté el Pass del paquete («S51-T1-A-E1 · Calcula el contrato de `traces de prompts/retrieval/tools` sobre `CASO-MOQ-051-1A`. La entrada es el dict completo del starter…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S51-T1-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "case_id",
+        "CASO",
+        "MOQ",
+        "trace_id",
+        "spans"
+      ]
+    },
+    {
+      "exercise_id": "S51-T1-A-E2",
+      "code": "# dual skeptic-H1 · S51-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'spans', 'versions', 'pii_in_trace', 'trace_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\n    return \"PASS\" if ok else 'REDACT_AND_QUARANTINE_TRACE'\n\nvalid = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': 'tr-moq-51', 'spans': {'retrieval', 'answer', 'prompt', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': False}\ninvalid = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': 'tr-moq-51', 'spans': {'retrieval', 'answer', 'prompt', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': True}\nincomplete = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': 'tr-moq-51', 'spans': {'retrieval', 'answer', 'prompt', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T1-A-E2: contrasté el Pass del paquete («S51-T1-A-E2 · Modela tres rutas de `traces de prompts/retrieval/tools`: fixture válido, fixture adverso y registro sin `pii_in_trace`. Entra…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "spans"
+      ]
+    },
+    {
+      "exercise_id": "S51-T1-A-E3",
+      "code": "# dual skeptic-H1 · S51-T1-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'spans', 'versions', 'pii_in_trace', 'trace_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RESTORE_TRACE_CONTEXT'\n    ok = not (not record[\"trace_id\"] or record[\"pii_in_trace\"])\n    return \"CONTINUE\" if ok else 'REDACT_AND_QUARANTINE_TRACE'\n\nvalid = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': 'tr-moq-51', 'spans': {'retrieval', 'answer', 'prompt', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': False}\ninvalid = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': 'tr-moq-51', 'spans': {'retrieval', 'answer', 'prompt', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}, 'pii_in_trace': True}\nincomplete = {'case_id': 'CASO-MOQ-051-1A', 'trace_id': 'tr-moq-51', 'spans': {'retrieval', 'answer', 'prompt', 'tool'}, 'versions': {'prompt': 'p3', 'model': 'm2', 'index': 'i4'}}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T1-A-E3: contrasté el Pass del paquete («S51-T1-A-E3 · Simula fallo cerrado para `traces de prompts/retrieval/tools` con tres fixtures distintos. `CASO-MOQ-051-1A` debe continuar, e…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "spans"
+      ]
+    },
+    {
+      "exercise_id": "S51-T1-B-E1",
+      "code": "# dual skeptic-H1 · S51-T1-B-E1\nrecord = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"answer_tokens\":300,\"total_tokens\":1500,\"p95_ms\":900,\"slo_ms\":1200,\"redacted_fields\":4}}\nmeets_contract = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\nstatus = \"PASS\" if meets_contract else \"ALERT_COST_LATENCY\"\nprint(\"S51-T1-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T1-B-E1: contrasté el Pass del paquete («S51-T1-B-E1 · Compara el contrato de `tokens, costo, latency y redacción` sobre `CASO-MOQ-051-1B`. La entrada es el dict completo del starte…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S51-T1-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "case_id",
+        "CASO",
+        "MOQ",
+        "prompt_tokens",
+        "retrieval_tokens"
+      ]
+    },
+    {
+      "exercise_id": "S51-T1-B-E2",
+      "code": "# dual skeptic-H1 · S51-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'slo_ms', 'redacted_fields', 'answer_tokens', 'total_tokens', 'retrieval_tokens', 'p95_ms', 'prompt_tokens'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\n    return \"PASS\" if ok else 'ALERT_COST_LATENCY'\n\nvalid = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200, 'redacted_fields': 4}\ninvalid = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 1300, 'slo_ms': 1200, 'redacted_fields': 4}\nincomplete = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T1-B-E2: contrasté el Pass del paquete («S51-T1-B-E2 · Verifica tres rutas de `tokens, costo, latency y redacción`: fixture válido, fixture adverso y registro sin `redacted_fields`.…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "slo_ms"
+      ]
+    },
+    {
+      "exercise_id": "S51-T1-B-E3",
+      "code": "# dual skeptic-H1 · S51-T1-B-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'slo_ms', 'redacted_fields', 'answer_tokens', 'total_tokens', 'retrieval_tokens', 'p95_ms', 'prompt_tokens'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'FIX_REDACTION_PIPELINE'\n    ok = not (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"])\n    return \"CONTINUE\" if ok else 'ALERT_COST_LATENCY'\n\nvalid = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200, 'redacted_fields': 4}\ninvalid = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 1300, 'slo_ms': 1200, 'redacted_fields': 4}\nincomplete = {'case_id': 'CASO-MOQ-051-1B', 'prompt_tokens': 800, 'retrieval_tokens': 400, 'answer_tokens': 300, 'total_tokens': 1500, 'p95_ms': 900, 'slo_ms': 1200}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T1-B-E3: contrasté el Pass del paquete («S51-T1-B-E3 · Extiende fallo cerrado para `tokens, costo, latency y redacción` con tres fixtures distintos. `CASO-MOQ-051-1B` debe continuar…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "slo_ms"
+      ]
+    },
+    {
+      "exercise_id": "S51-T2-A-E1",
+      "code": "# dual skeptic-H1 · S51-T2-A-E1\nrecord = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"copilot-7\",\"model\":\"m2\",\"prompt\":\"p3\",\"dataset\":\"d5\",\"index\":\"i4\",\"evaluator\":\"e2\",\"immutable\":True}}\nmeets_contract = record.get(\"case_id\") is not None\nstatus = \"PASS\" if meets_contract else \"FREEZE_RELEASE_BUNDLE\"\nprint(\"S51-T2-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T2-A-E1: contrasté el Pass del paquete («S51-T2-A-E1 · Filtra el contrato de `registro de modelo/prompt/dataset` sobre `CASO-MOQ-051-2A`. La entrada es el dict completo del starter;…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S51-T2-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "case_id",
+        "CASO",
+        "MOQ",
+        "release",
+        "copilot"
+      ]
+    },
+    {
+      "exercise_id": "S51-T2-A-E2",
+      "code": "# dual skeptic-H1 · S51-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {'evaluator', 'case_id', 'index', 'release', 'prompt', 'immutable', 'dataset', 'model'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = record.get(\"case_id\") is not None\n    return \"PASS\" if ok else 'FREEZE_RELEASE_BUNDLE'\n\nvalid = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': True}\ninvalid = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': False, '_adverse': True}\nincomplete = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T2-A-E2: contrasté el Pass del paquete («S51-T2-A-E2 · Clasifica tres rutas de `registro de modelo/prompt/dataset`: fixture válido, fixture adverso y registro sin `immutable`. Entra…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "evaluator",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S51-T2-A-E3",
+      "code": "# dual skeptic-H1 · S51-T2-A-E3\ndef decide(record: dict) -> str:\n    required = {'evaluator', 'case_id', 'index', 'release', 'prompt', 'immutable', 'dataset', 'model'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REGISTER_MISSING_VERSION'\n    ok = record.get(\"case_id\") is not None\n    return \"CONTINUE\" if ok else 'FREEZE_RELEASE_BUNDLE'\n\nvalid = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': True}\ninvalid = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2', 'immutable': False, '_adverse': True}\nincomplete = {'case_id': 'CASO-MOQ-051-2A', 'release': 'copilot-7', 'model': 'm2', 'prompt': 'p3', 'dataset': 'd5', 'index': 'i4', 'evaluator': 'e2'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T2-A-E3: contrasté el Pass del paquete («S51-T2-A-E3 · Defiende fallo cerrado para `registro de modelo/prompt/dataset` con tres fixtures distintos. `CASO-MOQ-051-2A` debe continuar,…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "evaluator",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S51-T2-B-E1",
+      "code": "# dual skeptic-H1 · S51-T2-B-E1\nrecord = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"owner-b\",\"risk\":\"medium\",\"access_scope\":\"ops-read\",\"retention_days\":30,\"audit_append_only\":True}}\nmeets_contract = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGOVERNED_CHANGE\"\nprint(\"S51-T2-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T2-B-E1: contrasté el Pass del paquete («S51-T2-B-E1 · Modela el contrato de `cambio, acceso, retención y auditoría` sobre `CASO-MOQ-051-2B`. La entrada es el dict completo del star…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S51-T2-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "case_id",
+        "CASO",
+        "MOQ",
+        "author",
+        "dev"
+      ]
+    },
+    {
+      "exercise_id": "S51-T2-B-E2",
+      "code": "# dual skeptic-H1 · S51-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'author', 'retention_days', 'audit_append_only', 'risk', 'access_scope', 'approver'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\n    return \"PASS\" if ok else 'REJECT_UNGOVERNED_CHANGE'\n\nvalid = {'case_id': 'CASO-MOQ-051-2B', 'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': True}\ninvalid = {'case_id': 'CASO-MOQ-051-2B', 'author': 'owner-b', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': True}\nincomplete = {'case_id': 'CASO-MOQ-051-2B', 'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T2-B-E2: contrasté el Pass del paquete («S51-T2-B-E2 · Audita tres rutas de `cambio, acceso, retención y auditoría`: fixture válido, fixture adverso y registro sin `audit_append_onl…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "author"
+      ]
+    },
+    {
+      "exercise_id": "S51-T2-B-E3",
+      "code": "# dual skeptic-H1 · S51-T2-B-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'author', 'retention_days', 'audit_append_only', 'risk', 'access_scope', 'approver'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_INDEPENDENT_APPROVAL'\n    ok = not (record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\"))\n    return \"CONTINUE\" if ok else 'REJECT_UNGOVERNED_CHANGE'\n\nvalid = {'case_id': 'CASO-MOQ-051-2B', 'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': True}\ninvalid = {'case_id': 'CASO-MOQ-051-2B', 'author': 'owner-b', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30, 'audit_append_only': True}\nincomplete = {'case_id': 'CASO-MOQ-051-2B', 'author': 'dev-a', 'approver': 'owner-b', 'risk': 'medium', 'access_scope': 'ops-read', 'retention_days': 30}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T2-B-E3: contrasté el Pass del paquete («S51-T2-B-E3 · Recupera fallo cerrado para `cambio, acceso, retención y auditoría` con tres fixtures distintos. `CASO-MOQ-051-2B` debe contin…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "author"
+      ]
+    },
+    {
+      "exercise_id": "S51-T3-A-E1",
+      "code": "# dual skeptic-H1 · S51-T3-A-E1\nrecord = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.999,\"availability_slo\":0.995,\"faithfulness\":0.93,\"faithfulness_slo\":0.9,\"drift\":0.04,\"max_drift\":0.08,\"owner\":\"ai-oncall\"}}\nmeets_contract = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\nstatus = \"PASS\" if meets_contract else \"OPEN_COPILOT_INCIDENT\"\nprint(\"S51-T3-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T3-A-E1: contrasté el Pass del paquete («S51-T3-A-E1 · Verifica el contrato de `SLO, feedback y drift` sobre `CASO-MOQ-051-3A`. La entrada es el dict completo del starter; la operac…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S51-T3-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "case_id",
+        "CASO",
+        "MOQ",
+        "availability",
+        "availability_slo"
+      ]
+    },
+    {
+      "exercise_id": "S51-T3-A-E2",
+      "code": "# dual skeptic-H1 · S51-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {'max_drift', 'case_id', 'availability_slo', 'faithfulness_slo', 'drift', 'availability', 'faithfulness', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\n    return \"PASS\" if ok else 'OPEN_COPILOT_INCIDENT'\n\nvalid = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}\ninvalid = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall', '_adverse': True}\nincomplete = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T3-A-E2: contrasté el Pass del paquete («S51-T3-A-E2 · Decide tres rutas de `SLO, feedback y drift`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_i…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "max_drift",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S51-T3-A-E3",
+      "code": "# dual skeptic-H1 · S51-T3-A-E3\ndef decide(record: dict) -> str:\n    required = {'max_drift', 'case_id', 'availability_slo', 'faithfulness_slo', 'drift', 'availability', 'faithfulness', 'owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'TRIAGE_DRIFT_SLICE'\n    ok = not (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"])\n    return \"CONTINUE\" if ok else 'OPEN_COPILOT_INCIDENT'\n\nvalid = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall'}\ninvalid = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08, 'owner': 'ai-oncall', '_adverse': True}\nincomplete = {'case_id': 'CASO-MOQ-051-3A', 'availability': 0.999, 'availability_slo': 0.995, 'faithfulness': 0.93, 'faithfulness_slo': 0.9, 'drift': 0.04, 'max_drift': 0.08}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T3-A-E3: contrasté el Pass del paquete («S51-T3-A-E3 · Contrasta fallo cerrado para `SLO, feedback y drift` con tres fixtures distintos. `CASO-MOQ-051-3A` debe continuar, el adverso…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "max_drift",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S51-T3-B-E1",
+      "code": "# dual skeptic-H1 · S51-T3-B-E1\nrecord = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":True,\"rolled_back_to\":\"copilot-6\",\"rollback_minutes\":7,\"rto_minutes\":10,\"postmortem_actions\":4,\"owners_assigned\":True}}\nmeets_contract = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AND_CONTAIN\"\nprint(\"S51-T3-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T3-B-E1: contrasté el Pass del paquete («S51-T3-B-E1 · Clasifica el contrato de `incidents, rollback y postmortem` sobre `CASO-MOQ-051-3B`. La entrada es el dict completo del starte…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S51-T3-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "case_id",
+        "CASO",
+        "MOQ",
+        "contained",
+        "rolled_back_to"
+      ]
+    },
+    {
+      "exercise_id": "S51-T3-B-E2",
+      "code": "# dual skeptic-H1 · S51-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'owners_assigned', 'postmortem_actions', 'rolled_back_to', 'contained', 'rollback_minutes', 'rto_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if ok else 'ROLLBACK_AND_CONTAIN'\n\nvalid = {'case_id': 'CASO-MOQ-051-3B', 'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}\ninvalid = {'case_id': 'CASO-MOQ-051-3B', 'contained': False, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}\nincomplete = {'case_id': 'CASO-MOQ-051-3B', 'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T3-B-E2: contrasté el Pass del paquete («S51-T3-B-E2 · Calcula tres rutas de `incidents, rollback y postmortem`: fixture válido, fixture adverso y registro sin `owners_assigned`. En…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "owners_assigned"
+      ]
+    },
+    {
+      "exercise_id": "S51-T3-B-E3",
+      "code": "# dual skeptic-H1 · S51-T3-B-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'owners_assigned', 'postmortem_actions', 'rolled_back_to', 'contained', 'rollback_minutes', 'rto_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CONVENE_INCIDENT_REVIEW'\n    ok = not (not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"CONTINUE\" if ok else 'ROLLBACK_AND_CONTAIN'\n\nvalid = {'case_id': 'CASO-MOQ-051-3B', 'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}\ninvalid = {'case_id': 'CASO-MOQ-051-3B', 'contained': False, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4, 'owners_assigned': True}\nincomplete = {'case_id': 'CASO-MOQ-051-3B', 'contained': True, 'rolled_back_to': 'copilot-6', 'rollback_minutes': 7, 'rto_minutes': 10, 'postmortem_actions': 4}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T3-B-E3: contrasté el Pass del paquete («S51-T3-B-E3 · Instrumenta fallo cerrado para `incidents, rollback y postmortem` con tres fixtures distintos. `CASO-MOQ-051-3B` debe continua…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "owners_assigned"
+      ]
+    },
+    {
+      "exercise_id": "S51-T4-A-E1",
+      "code": "# dual skeptic-H1 · S51-T4-A-E1\nrecord = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":True,\"citations_resolve\":True,\"effect_summary\":\"prepara borrador\",\"confirmation_required\":True,\"confirmed\":True}}\nmeets_contract = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNCONFIRMED_ACTION\"\nprint(\"S51-T4-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T4-A-E1: contrasté el Pass del paquete («S51-T4-A-E1 · Audita el contrato de `incertidumbre, citas y confirmaciones` sobre `CASO-MOQ-051-4A`. La entrada es el dict completo del star…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S51-T4-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "case_id",
+        "CASO",
+        "MOQ",
+        "uncertainty_shown",
+        "citations_resolve"
+      ]
+    },
+    {
+      "exercise_id": "S51-T4-A-E2",
+      "code": "# dual skeptic-H1 · S51-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'citations_resolve', 'confirmed', 'effect_summary', 'uncertainty_shown', 'confirmation_required'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\n    return \"PASS\" if ok else 'BLOCK_UNCONFIRMED_ACTION'\n\nvalid = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}\ninvalid = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': False, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}\nincomplete = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T4-A-E2: contrasté el Pass del paquete («S51-T4-A-E2 · Compara tres rutas de `incertidumbre, citas y confirmaciones`: fixture válido, fixture adverso y registro sin `confirmed`. Ent…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "citations_resolve"
+      ]
+    },
+    {
+      "exercise_id": "S51-T4-A-E3",
+      "code": "# dual skeptic-H1 · S51-T4-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'citations_resolve', 'confirmed', 'effect_summary', 'uncertainty_shown', 'confirmation_required'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ASK_USER_TO_CONFIRM'\n    ok = not (not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"])\n    return \"CONTINUE\" if ok else 'BLOCK_UNCONFIRMED_ACTION'\n\nvalid = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}\ninvalid = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': False, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True, 'confirmed': True}\nincomplete = {'case_id': 'CASO-MOQ-051-4A', 'uncertainty_shown': True, 'citations_resolve': True, 'effect_summary': 'prepara borrador', 'confirmation_required': True}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T4-A-E3: contrasté el Pass del paquete («S51-T4-A-E3 · Aísla fallo cerrado para `incertidumbre, citas y confirmaciones` con tres fixtures distintos. `CASO-MOQ-051-4A` debe continuar…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "citations_resolve"
+      ]
+    },
+    {
+      "exercise_id": "S51-T4-B-E1",
+      "code": "# dual skeptic-H1 · S51-T4-B-E1\nrecord = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":True,\"screen_reader_labels\":True,\"contrast_ratio\":5.1,\"min_contrast\":4.5,\"correction_available\":True,\"appeal_to_human\":True}}\nmeets_contract = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\nstatus = \"PASS\" if meets_contract else \"FAIL_ACCESSIBILITY_GATE\"\nprint(\"S51-T4-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T4-B-E1: contrasté el Pass del paquete («S51-T4-B-E1 · Decide el contrato de `accesibilidad, corrección y contestabilidad` sobre `CASO-MOQ-051-4B`. La entrada es el dict completo de…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S51-T4-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "case_id",
+        "CASO",
+        "MOQ",
+        "keyboard_complete",
+        "screen_reader_labels"
+      ]
+    },
+    {
+      "exercise_id": "S51-T4-B-E2",
+      "code": "# dual skeptic-H1 · S51-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'screen_reader_labels', 'contrast_ratio', 'appeal_to_human', 'correction_available', 'min_contrast', 'keyboard_complete'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\n    return \"PASS\" if ok else 'FAIL_ACCESSIBILITY_GATE'\n\nvalid = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}\ninvalid = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': False, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}\nincomplete = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T4-B-E2: contrasté el Pass del paquete («S51-T4-B-E2 · Filtra tres rutas de `accesibilidad, corrección y contestabilidad`: fixture válido, fixture adverso y registro sin `appeal_to_…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "screen_reader_labels"
+      ]
+    },
+    {
+      "exercise_id": "S51-T4-B-E3",
+      "code": "# dual skeptic-H1 · S51-T4-B-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'screen_reader_labels', 'contrast_ratio', 'appeal_to_human', 'correction_available', 'min_contrast', 'keyboard_complete'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ROUTE_CONTESTATION'\n    ok = not (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"])\n    return \"CONTINUE\" if ok else 'FAIL_ACCESSIBILITY_GATE'\n\nvalid = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}\ninvalid = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': False, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True, 'appeal_to_human': True}\nincomplete = {'case_id': 'CASO-MOQ-051-4B', 'keyboard_complete': True, 'screen_reader_labels': True, 'contrast_ratio': 5.1, 'min_contrast': 4.5, 'correction_available': True}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S51/S51-T4-B-E3: contrasté el Pass del paquete («S51-T4-B-E3 · Demuestra fallo cerrado para `accesibilidad, corrección y contestabilidad` con tres fixtures distintos. `CASO-MOQ-051-4B` debe…») con theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Conceptos dual, skeptic, S51, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S51",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "screen_reader_labels"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S51#0: contrasto stem «¿Qué evidencia permite aprobar `traces de prompts/retrieval/tools` en CASO-MOQ-051?» con párrafos theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Elijo índice 2 («trace reconstruible sin PII») porque cuadra con el vocabulario del paquete; distractores ['un print sin assert ni versión', 'una captura de pantalla sin fuente'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S51#1: contrasto stem «Si ocurre la condición de error de S51, ¿qué respuesta preserva seguridad y auditabilidad?» con párrafos theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Elijo índice 0 («emitir ROLLBACK_COPILOT y conservar evidencia») porque cuadra con el vocabulario del paquete; distractores ['continuar y ocultar el warning', 'inventar evidencia faltante'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S51#2: contrasto stem «¿Cuál resultado demuestra el gate `CP-N4-C + CF-5 · copiloto observable y contestable`?» con párrafos theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Elijo índice 1 («se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir») porque cuadra con el vocabulario del paquete; distractores ['el archivo S51 existe, aunque no pruebe el gate', 'el README afirma que funciona'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S51#3: contrasto stem «¿Qué tratamiento de `CASO-MOQ-051` respeta el alcance del curso?» con párrafos theory/iDo («traces de prompts/retrieval/tools» Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de). Elijo índice 3 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») porque cuadra con el vocabulario del paquete; distractores ['reemplazarlo por datos reales sin consentimiento', 'subir secretos para facilitar la demo'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:49:24.838841+00:00",
+  "session_started_at": "2026-07-23T08:48:54.287391+00:00",
+  "session_ended_at": "2026-07-23T08:49:24.838841+00:00"
+}

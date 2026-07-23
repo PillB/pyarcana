@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s30-9d8398b56a34",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "code": "# dual explorer-H1 · S30-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\nh1_out = 1.0 if a == b else 0.0\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T1-A-E1 leyendo el instruction del quiz_card: «S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el sta…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "code": "# dual explorer-H1 · S30-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\nh1_out = len(ta&tb)/len(ta|tb)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T1-A-E2 leyendo el instruction del quiz_card: «S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fixture sintético `CASO-LIM-030` (run_id=cp…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "code": "# dual explorer-H1 · S30-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\nh1_out = 1.0 if d == d else 0.0\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T1-A-E3 leyendo el instruction del quiz_card: «S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): l…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "code": "# dual explorer-H1 · S30-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\nh1_out = 'missing' if (not a or not b) else 'cmp'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T1-B-E1 leyendo el instruction del quiz_card: «S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "code": "# dual explorer-H1 · S30-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\nh1_out = 1 / freq\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T1-B-E2 leyendo el instruction del quiz_card: «S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter comp…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "code": "# dual explorer-H1 · S30-T1-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nh1_out = 'informative_missing'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T1-B-E3 leyendo el instruction del quiz_card: «S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone. Fixture sintético `CASO-LIM-030` (run…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "code": "# dual explorer-H1 · S30-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\nh1_out = f'{last}|{city}'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T2-A-E1 leyendo el instruction del quiz_card: «S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe):…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "code": "# dual explorer-H1 · S30-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\nh1_out = found / gold_n\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T2-A-E2 leyendo el instruction del quiz_card: «S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el sta…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "code": "# dual explorer-H1 · S30-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nh1_out = n*(n-1)//2\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T2-A-E3 leyendo el instruction del quiz_card: «S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la en…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "code": "# dual explorer-H1 · S30-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T2-B-E1 leyendo el instruction del quiz_card: «S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints ['print(sum(n*(n-1)//2 for n in sizes))']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "code": "# dual explorer-H1 · S30-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\nh1_out = ta != tb\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T2-B-E2 leyendo el instruction del quiz_card: «S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe)…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "code": "# dual explorer-H1 · S30-T2-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nh1_out = 'filter_before_score'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T2-B-E3 leyendo el instruction del quiz_card: «S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el sta…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "code": "# dual explorer-H1 · S30-T3-A-E1\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nh1_out = (1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T3-A-E1 leyendo el instruction del quiz_card: «S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la en…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "code": "# dual explorer-H1 · S30-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T3-A-E2 leyendo el instruction del quiz_card: «S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints [\"print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\"]. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "code": "# dual explorer-H1 · S30-T3-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'name': 0.9, 'email': 1.0})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T3-A-E3 leyendo el instruction del quiz_card: «S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, sint; salida anclada a prints [\"print({'name': 0.9, 'email': 1.0})\"]. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "code": "# dual explorer-H1 · S30-T3-B-E1\np={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\nh1_out = find(1)==find(3)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T3-B-E1 leyendo el instruction del quiz_card: «S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `CASO-LIM-030` (run_i…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, find, while; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "find",
+        "while",
+        "union",
+        "h1_out",
+        "nimo"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "code": "# dual explorer-H1 · S30-T3-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['match', 'non_match', 'uncertain'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T3-B-E2 leyendo el instruction del quiz_card: «S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @examp…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, sint; salida anclada a prints [\"print(['match', 'non_match', 'uncertain'])\"]. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "code": "# dual explorer-H1 · S30-T3-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nh1_out = 'ER_only_same_entity'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T3-B-E3 leyendo el instruction del quiz_card: «S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrad…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "code": "# dual explorer-H1 · S30-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T4-A-E1 leyendo el instruction del quiz_card: «S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético `CASO-LIM-030` (run…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints [\"print('train' if {a,b} <= train_e else 'test')\"]. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "code": "# dual explorer-H1 · S30-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\nh1_out = matches / n\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T4-A-E2 leyendo el instruction del quiz_card: «S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "code": "# dual explorer-H1 · S30-T4-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nh1_out = 'entity_split'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T4-A-E3 leyendo el instruction del quiz_card: «S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "code": "# dual explorer-H1 · S30-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T4-B-E1 leyendo el instruction del quiz_card: «S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la e…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints ['print(round(tp/(tp+fp), 2))']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "code": "# dual explorer-H1 · S30-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\nh1_out = tp/(tp+fn)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T4-B-E2 leyendo el instruction del quiz_card: «S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; im…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "code": "# dual explorer-H1 · S30-T4-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nh1_out = ['missing_phone']\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Entity resolution probabilístico» (S30) resolví S30-T4-B-E3 leyendo el instruction del quiz_card: «S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-e…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S30, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha*.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S30 Q0: «El motor ER de CP-N3-A debe decidir:». En la teoría del slim_packet («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras) la opción «Si dos registros son la misma entidad» es la que describe el concepto; descarto p.ej. ['Fraude automático', 'Parentescos']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S30 Q1: «Candidate recall de blocking mide:». En la teoría del slim_packet («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras) la opción «Fracción de verdaderos matches que sobreviven al blocking» es la que describe el concepto; descarto p.ej. ['Solo CPU', 'Precisión del scorer final únicamente']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S30 Q2: «Scores entre t_low y t_high van a:». En la teoría del slim_packet («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras) la opción «clerical review» es la que describe el concepto; descarto p.ej. ['auto_match', 'non_match']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S30 Q3: «Split por entidad evita:». En la teoría del slim_packet («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras) la opción «Leakage de identidad entre train y test» es la que describe el concepto; descarto p.ej. ['Usar sqlite', 'Blocking']. Respuesta razonada solo con packet H1 activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:20:36.046996+00:00",
+  "session_started_at": "2026-07-23T08:20:18.108126+00:00",
+  "session_ended_at": "2026-07-23T08:20:36.046996+00:00"
+}

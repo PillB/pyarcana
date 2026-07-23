@@ -492,37 +492,83 @@ def attempt_level_gates(attempt_id: str) -> list[dict]:
                 "severity": "P0",
                 "detail": f"entries={len(entries)} need>=100 (52 sections × 2 agents)",
             })
-        # wall clock from manifest
-        starts, ends = [], []
+        # Per-session duration + overall span (no wall_clock claim override of bad data)
+        from datetime import datetime
+        def parse(ts: str):
+            return datetime.fromisoformat(str(ts).replace("Z", "+00:00"))
+        durs = []
         for e in entries:
-            if e.get("started_at"):
-                starts.append(e["started_at"])
-            if e.get("ended_at"):
-                ends.append(e["ended_at"])
-        if starts and ends:
+            sa, ea = e.get("started_at"), e.get("ended_at")
+            if not sa or not ea:
+                issues.append({
+                    "tag": "MANIFEST_MISSING_TIMESTAMPS",
+                    "severity": "P0",
+                    "detail": f"section={e.get('section')} agent={e.get('agent')}",
+                })
+                continue
             try:
-                from datetime import datetime
-                def parse(ts: str):
-                    return datetime.fromisoformat(ts.replace("Z", "+00:00"))
-                t0 = min(parse(s) for s in starts)
-                t1 = max(parse(s) for s in ends)
-                span_min = (t1 - t0).total_seconds() / 60.0
-                man_span = man.get("wall_clock_minutes")
-                if man_span is not None:
-                    try:
-                        span_min = max(span_min, float(man_span))
-                    except Exception:
-                        pass
-                if span_min < 30.0:
+                d = (parse(ea) - parse(sa)).total_seconds()
+                durs.append(d)
+                if d < 5.0:
                     issues.append({
-                        "tag": "BULK_WRITE_TIMING",
+                        "tag": "ZERO_DURATION_SESSION",
                         "severity": "P0",
-                        "detail": f"manifest wall-clock {span_min:.1f}m < 30m",
+                        "detail": f"section={e.get('section')} agent={e.get('agent')} dur={d:.4f}s",
                     })
-            except Exception as e:
-                issues.append({"tag": "MANIFEST_TIME_PARSE", "severity": "P0", "detail": str(e)})
+                if d < 0:
+                    issues.append({
+                        "tag": "NEGATIVE_DURATION_SESSION",
+                        "severity": "P0",
+                        "detail": f"section={e.get('section')} agent={e.get('agent')} dur={d:.4f}s",
+                    })
+            except Exception as ex:
+                issues.append({"tag": "MANIFEST_TIME_PARSE", "severity": "P0", "detail": str(ex)})
+        # Cap ZERO_DURATION noise: keep first 15 in open_gaps but count all
+        zero_n = sum(1 for x in issues if x.get("tag") == "ZERO_DURATION_SESSION")
+        if zero_n > 15:
+            # collapse extras
+            kept, dropped = [], 0
+            for x in issues:
+                if x.get("tag") == "ZERO_DURATION_SESSION":
+                    if dropped < 15:
+                        kept.append(x)
+                    dropped += 1
+                else:
+                    kept.append(x)
+            if zero_n > 15:
+                kept.append({
+                    "tag": "ZERO_DURATION_SESSION_COUNT",
+                    "severity": "P0",
+                    "detail": f"total_zero_duration_sessions={zero_n}",
+                })
+            issues = kept
+        if durs:
+            # uniform exact durations (e.g. all 75.0s) are suspicious bulk stamping
+            from collections import Counter
+            rounded = Counter(round(d, 1) for d in durs)
+            top_n = rounded.most_common(1)[0][1]
+            if top_n >= max(20, int(0.25 * len(durs))):
+                issues.append({
+                    "tag": "SUSPICIOUS_UNIFORM_DURATION",
+                    "severity": "P0",
+                    "detail": f"{top_n}/{len(durs)} sessions share nearly identical duration",
+                })
+            span_min = (max(durs) and 0)  # placeholder
+            try:
+                t0 = min(parse(e["started_at"]) for e in entries if e.get("started_at"))
+                t1 = max(parse(e["ended_at"]) for e in entries if e.get("ended_at"))
+                span_min = (t1 - t0).total_seconds() / 60.0
+            except Exception:
+                span_min = 0.0
+            # Do NOT trust man.wall_clock_minutes alone to override short spans
+            if span_min < 30.0:
+                issues.append({
+                    "tag": "BULK_WRITE_TIMING",
+                    "severity": "P0",
+                    "detail": f"manifest entry span {span_min:.1f}m < 30m (wall_clock claim ignored as sole proof)",
+                })
 
-    # mtime span of live files
+    # mtime span of live files — REQUIRED independently of manifest claims
     mtimes = []
     for i in range(1, 53):
         for lab in ("newbie_a_live.json", "newbie_b_live.json"):
@@ -531,20 +577,29 @@ def attempt_level_gates(attempt_id: str) -> list[dict]:
                 mtimes.append(lp.stat().st_mtime)
     if mtimes:
         span_sec = max(mtimes) - min(mtimes)
-        # allow if manifest wall clock already ok; else require mtime span
-        has_manifest_ok = not any(x.get("tag") == "BULK_WRITE_TIMING" for x in issues)
-        if span_sec < 30 * 60 and not has_manifest_ok:
-            # if BULK already flagged via manifest, skip duplicate; if no manifest times, flag mtime
-            if not man_path.exists():
-                issues.append({
-                    "tag": "BULK_WRITE_MTIME",
-                    "severity": "P0",
-                    "detail": f"live mtime span {span_sec:.1f}s < 30m",
-                })
-        elif span_sec < 60 and man_path.exists():
-            # still suspicious sub-minute bulk even with long manifest claims
-            # only flag if manifest claims long but mtime is bulk (stale claim)
-            pass
+        if span_sec < 30 * 60:
+            issues.append({
+                "tag": "BULK_WRITE_MTIME",
+                "severity": "P0",
+                "detail": f"live mtime span {span_sec/60.0:.1f}m < 30m",
+            })
+
+    # Mechanical identity-stamp ban (g2_agent / h_agent diversification)
+    stamp_hits = 0
+    for i in range(1, 53):
+        for lab in ("newbie_a_live.json", "newbie_b_live.json"):
+            lp = root / f"section_{i:02d}" / lab
+            if not lp.exists():
+                continue
+            blob = lp.read_text(encoding="utf-8", errors="ignore")
+            if re.search(r"\bg2_agent\s*=", blob) or re.search(r"\bh_agent\s*=", blob):
+                stamp_hits += 1
+    if stamp_hits:
+        issues.append({
+            "tag": "MECHANICAL_IDENTITY_STAMP",
+            "severity": "P0",
+            "detail": f"files_with_g2_agent_or_h_agent_stamp={stamp_hits}",
+        })
 
     # Independence vs prior_clean if declared
     prior = meta.get("prior_clean") or meta.get("independence_baseline")

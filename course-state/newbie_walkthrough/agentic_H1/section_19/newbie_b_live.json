@@ -1,0 +1,460 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s19-0f4d5d86a010",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "code": "# dual skeptic-H1 · S19-T1-A-E1\npregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T1-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / datos sintéticos: pregunta = \"comparar regiones\"; ch…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, pregunta, comparar; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(chart)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "pregunta",
+        "comparar",
+        "regiones",
+        "chart",
+        "bar"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "code": "# dual skeptic-H1 · S19-T1-A-E2\nmeta = {\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"}\nprint(meta)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T1-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / datos sintéticos: print({\"pregunta\": \"totales por…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, meta, pregunta; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(meta)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "meta",
+        "pregunta",
+        "totales",
+        "por",
+        "regi"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "code": "# dual skeptic-H1 · S19-T1-A-E3\ndef elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T1-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sintéticos: def elige_chart(pregunta):; retu…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, elige_chart, pregunta; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(elige_chart(\"tendencia mensual\"))', 'print(elige_chart(\"comparar regiones\"))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "elige_chart",
+        "pregunta",
+        "line",
+        "tendencia",
+        "lower"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "code": "# dual skeptic-H1 · S19-T1-B-E1\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T1-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / datos sintéticos: truco = (50 - 45) / (50 - 40); ho…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, truco, hon; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"factor\", round(truco / hon, 2))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "truco",
+        "hon",
+        "factor",
+        "round",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "code": "# dual skeptic-H1 · S19-T1-B-E2\nylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T1-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2` / datos sintéticos: ylim_bottom = 0; print(\"hone…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, ylim_bottom, honesto; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"honesto\" if ylim_bottom == 0 else \"revisar\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "ylim_bottom",
+        "honesto",
+        "revisar",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "code": "# dual skeptic-H1 · S19-T1-B-E3\nencoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T1-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintéticos: encoding = \"dual_axis\"; print(\"rie…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, encoding, dual_axis; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "encoding",
+        "dual_axis",
+        "riesgo_alto",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "code": "# dual skeptic-H1 · S19-T2-A-E1\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T2-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplots(…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, matplotlib, use; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(ax.get_ylim()[0] == 0)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "code": "# dual skeptic-H1 · S19-T2-A-E2\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T2-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplo…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, matplotlib, use; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(ax.get_ylabel())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "code": "# dual skeptic-H1 · S19-T2-A-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"Lima\", \"Cusco\"], [28, 22])\nax.set_xlabel(\"region\")\nax.set_ylabel(\"PEN\")\nprint(ax.get_xlabel(), ax.get_ylabel())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T2-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.use(\"Agg\"); def meta_bar(labels…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, matplotlib, use; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(ax.get_xlabel(), ax.get_ylabel())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "code": "# dual skeptic-H1 · S19-T2-B-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T2-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintéticos: print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "code": "# dual skeptic-H1 · S19-T2-B-E2\nversion = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T2-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos sintéticos: version = 3; print(f\"fig_cpn2b_v{versi…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, version, fig_cpn2b_v; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(f\"fig_cpn2b_v{version}.png\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "version",
+        "fig_cpn2b_v",
+        "png",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "code": "# dual skeptic-H1 · S19-T2-B-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint([a.get_title() for a in axes])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T2-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.use(\"Agg\"); fig, axes = plt.su…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, matplotlib, use; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print([a.get_title() for a in axes])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "code": "# dual skeptic-H1 · S19-T3-A-E1\nrows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint([r[\"region\"] for r in rows], [r[\"median\"] for r in rows])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T3-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = [{\"region\": \"Lima\", \"median\": 28}, {\"reg…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, rows, region; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print([r[\"region\"] for r in rows], [r[\"median\"] for r in rows])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "rows",
+        "region",
+        "Lima",
+        "median",
+        "Cusco"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "code": "# dual skeptic-H1 · S19-T3-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(f\"Lima: {28} PEN (n={40})\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T3-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sintéticos: print(f\"Lima: {28} PEN (n={40})\"). Completa…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(f\"Lima: {28} PEN (n={40})\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "code": "# dual skeptic-H1 · S19-T3-A-E3\ndef tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T3-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row):; return f\"{row['region']}:…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, tooltip, row; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "tooltip",
+        "row",
+        "region",
+        "median",
+        "PEN"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "code": "# dual skeptic-H1 · S19-T3-B-E1\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T3-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: chart = {\"Lima\": 1}; table = [{\"region\": \"Lima\", \"v\":…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, chart, Lima; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(chart[\"Lima\"] == table[0][\"v\"])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "chart",
+        "Lima",
+        "table",
+        "region",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "code": "# dual skeptic-H1 · S19-T3-B-E2\nimport json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T3-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / datos sintéticos: print(json.dumps({\"filtro_region…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, json, dumps; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "json",
+        "dumps",
+        "filtro_region",
+        "Lima",
+        "ensure_ascii"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "code": "# dual skeptic-H1 · S19-T3-B-E3\ntable = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(sum(r[\"v\"] for r in table), len(table))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T3-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"region\": \"Lima\", \"v\": 28}, {\"regio…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, table, region; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(sum(r[\"v\"] for r in table), len(table))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "table",
+        "region",
+        "Lima",
+        "Cusco",
+        "sum"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "code": "# dual skeptic-H1 · S19-T4-A-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"unidad=PEN | fuente=sintetico\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T4-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéticos: print(\"unidad=PEN | fuente=sintetico\"). Compl…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"unidad=PEN | fuente=sintetico\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "code": "# dual skeptic-H1 · S19-T4-A-E2\ncap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(sorted(cap.keys()))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T4-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintéticos: cap = {\"unidad\": \"PEN\", \"fuente\":…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, cap, unidad; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(sorted(cap.keys()))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "cap",
+        "unidad",
+        "PEN",
+        "fuente",
+        "limitacion"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "code": "# dual skeptic-H1 · S19-T4-A-E3\ndef pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T4-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(cap):; return \" | \".join(f\"{k}:…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, pie, cap; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(pie({\"unidad\": \"PEN\", \"n\": 10}))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "pie",
+        "cap",
+        "join",
+        "items",
+        "unidad"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "code": "# dual skeptic-H1 · S19-T4-B-E1\nclaim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T4-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sintéticos: claim = \"Lima es la mejor del Perú\"; print…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, claim, Lima; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "claim",
+        "Lima",
+        "mejor",
+        "del",
+        "Per"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "code": "# dual skeptic-H1 · S19-T4-B-E2\nalt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T4-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos sintéticos: alt = \"Lima 28 PEN n=40\"; print(\"n=\" in…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, alt, Lima; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "alt",
+        "Lima",
+        "PEN",
+        "replace",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "code": "# dual skeptic-H1 · S19-T4-B-E3\ndef classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S19/S19-T4-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: def classify_claim(text):; retu…») con theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Conceptos dual, skeptic, S19, classify_claim, text; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(classify_claim(\"lidera en la muestra web\"))', 'print(classify_claim(\"es la mejor del país\"))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S19",
+        "classify_claim",
+        "text",
+        "PERMITIDO",
+        "muestra",
+        "RECHAZADO"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S19#0: contrasto stem «Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?» con párrafos theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Elijo índice 2 («Barras con baseline 0») porque cuadra con el vocabulario del paquete; distractores ['Pie 3D', 'Dual axis sin escala'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S19#1: contrasto stem «Una alternativa accesible debe:» con párrafos theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Elijo índice 0 («Repetir los mismos números clave del chart») porque cuadra con el vocabulario del paquete; distractores ['Ser opcional siempre', 'Solo ser una imagen más grande'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S19#2: contrasto stem «“Lima es la mejor región del Perú” a partir de una muestra web es:» con párrafos theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Elijo índice 1 («Sobreclaim / generalización indebida») porque cuadra con el vocabulario del paquete; distractores ['Un claim permitido', 'Un alt text correcto'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S19#3: contrasto stem «El caption de un gráfico de portfolio debe incluir:» con párrafos theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Elijo índice 3 («Unidad, fuente y limitaciones») porque cuadra con el vocabulario del paquete; distractores ['Solo el color favorito', 'La contraseña del BI'] no sostienen el contrato."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S19#4: contrasto stem «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hacer el gate de integridad del da» con párrafos theory/iDo («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones). Elijo índice 2 («Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita») porque cuadra con el vocabulario del paquete; distractores ['Aceptarlo si los colores tienen buen contraste', 'Convertirlo automáticamente a dual-axis para “ganar espacio”'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:00:37.374879+00:00",
+  "session_started_at": "2026-07-23T08:00:10.155027+00:00",
+  "session_ended_at": "2026-07-23T08:00:37.374879+00:00"
+}

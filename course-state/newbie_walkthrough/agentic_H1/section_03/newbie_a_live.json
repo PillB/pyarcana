@@ -1,0 +1,292 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 3,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s03-586b2b74fc68",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S03-T1-A-E1",
+      "code": "# dual explorer-H1 · S03-T1-A-E1\nedad = 25\nregion = \"Cusco\"\nprint(edad >= 18)\nprint(edad < 65)\nprint(18 <= edad <= 65)\nprint(region == \"Lima\")\nprint(region != \"Piura\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T1-A-E1 según el instruction: «E1 (guiado) — Con `edad = 25` y `region = \"Cusco\"`, imprime el booleano de: `edad >= 18`, `edad < 65`, `18 <= edad <= 65…». Aplico comparisons tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "comparisons"
+      ]
+    },
+    {
+      "exercise_id": "S03-T1-A-E2",
+      "code": "# dual explorer-H1 · S03-T1-A-E2\nTIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t in TIPOS_DOC)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T1-A-E2 según el instruction: «E2 (independiente) — Define `TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}`. Para cada valor en `[\"DNI\", \"dni\", \"RUC\"]`, imprime si e…». Aplico in tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "in"
+      ]
+    },
+    {
+      "exercise_id": "S03-T1-A-E3",
+      "code": "# dual explorer-H1 · S03-T1-A-E3\nvalor = None\nprint(\"valor is None →\", valor is None)\nprint(\"True == 1 →\", True == 1)\nprint(\"True is 1 →\", True is 1)\nprint(\"Nota:\", \"usa is None para ausencia; == para valores de negocio, no is con enteros\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T1-A-E3 según el instruction: «E3 (transferencia) — Diagnóstico: imprime `valor is None` con `valor = None`, luego `True == 1` y `True is 1`. Explica e…». Aplico is None tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "is None"
+      ]
+    },
+    {
+      "exercise_id": "S03-T1-B-E1",
+      "code": "# dual explorer-H1 · S03-T1-B-E1\nvals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", bool(v))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T1-B-E1 según el instruction: «E1 (guiado) — Tabla truthiness: imprime `bool(v)` para `None`, `False`, `0`, `0.0`, `\"\"`, `[]`, `{}`, `set()`, `range(0)…». Aplico truthiness tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "truthiness"
+      ]
+    },
+    {
+      "exercise_id": "S03-T1-B-E2",
+      "code": "# dual explorer-H1 · S03-T1-B-E2\nprint(\"'' or 'default' →\", \"\" or \"default\")\nprint(\"'Lima' or 'default' →\", \"Lima\" or \"default\")\nprint(\"0 and 99 →\", 0 and 99)\nprint(\"5 and 99 →\", 5 and 99)\nprint(\"None or 0 →\", None or 0)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T1-B-E2 según el instruction: «E2 (independiente) — Predice e imprime: `'' or 'default'`, `'Lima' or 'default'`, `0 and 99`, `5 and 99`, `None or 0`.…». Aplico and/or tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "and/or"
+      ]
+    },
+    {
+      "exercise_id": "S03-T1-B-E3",
+      "code": "# dual explorer-H1 · S03-T1-B-E3\ndef validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T1-B-E3 según el instruction: «E3 (transferencia) — Bug: un validador hace `if not monto: return \"reject\"`. Reescribe `validate_monto(m)` con `is None`…». Aplico monto policy tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "monto policy"
+      ]
+    },
+    {
+      "exercise_id": "S03-T2-A-E1",
+      "code": "# dual explorer-H1 · S03-T2-A-E1\ndef classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T2-A-E1 según el instruction: «E1 (guiado) — Completa `classify_score`: ≥80 accept, ≥50 review, else reject. Imprime resultados para 80, 50, 49, 100.…». Aplico if/elif tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "if/elif"
+      ]
+    },
+    {
+      "exercise_id": "S03-T2-A-E2",
+      "code": "# dual explorer-H1 · S03-T2-A-E2\ndef bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T2-A-E2 según el instruction: «E2 (independiente) — La función `bad` usa ifs independientes y clasifica mal el 95 (queda review). Reescribe `good` con …». Aplico elif tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "elif"
+      ]
+    },
+    {
+      "exercise_id": "S03-T2-A-E3",
+      "code": "# dual explorer-H1 · S03-T2-A-E3\ndef band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in [150, 75, 10, 0, -3]:\n    print(n, \"→\", band(n))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T2-A-E3 según el instruction: «E3 (transferencia) — Traza mentalmente y luego implementa `band(n)`: `>100` alto, `>50` medio, `>0` bajo, else nulo. Ver…». Aplico bands tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "bands"
+      ]
+    },
+    {
+      "exercise_id": "S03-T2-B-E1",
+      "code": "# dual explorer-H1 · S03-T2-B-E1\ndef validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T2-B-E1 según el instruction: «E1 (guiado) — Completa guards en `validate_edad`: None → MISSING/review; no int → BAD_TYPE/reject; luego OUT_OF_RANGE / …». Aplico guards tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "guards"
+      ]
+    },
+    {
+      "exercise_id": "S03-T2-B-E2",
+      "code": "# dual explorer-H1 · S03-T2-B-E2\ndef validate_monto_nested(m):\n    if m is not None:\n        if isinstance(m, int):\n            if m >= 0:\n                if m <= 10000:\n                    return \"accept\"\n                else:\n                    return \"review\"\n            else:\n                return \"reject\"\n        else:\n            return \"reject\"\n    else:\n        return \"review\"\n\ndef validate_monto_guards(m):\n    if m is None:\n        return \"review\"\n    if not isinstance(m, int):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m <= 10000:\n        return \"accept\"\n    return \"review\"\n\nfor v in [None, \"x\", -1, 0, 500, 20000]:\n    a, b = validate_monto_nested(v), validate_monto_guards(v)\n    print(v, a, b, \"ok=\", a == b)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T2-B-E2 según el instruction: «E2 (independiente) — Refactoriza la pirámide anidada de `validate_monto_nested` a guards lineales con la misma semántica…». Aplico refactor tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "refactor"
+      ]
+    },
+    {
+      "exercise_id": "S03-T2-B-E3",
+      "code": "# dual explorer-H1 · S03-T2-B-E3\ndef etiqueta_bug(x):\n    if x != 0:\n        if x > 0:\n            return \"positivo\"\n        return \"negativo\"\n    elif x == 0:  # rama muerta: el if x!=0 ya cubrió el resto; pero x==0 entra al elif\n        return \"cero\"\n    return \"???\"\n\nprint(\"bug 0 →\", etiqueta_bug(0))\nprint(\"bug 3 →\", etiqueta_bug(3))\nprint(\"nota: el elif x==0 SÍ se alcanza cuando x==0 porque el if exterior fue falso\")\n\ndef etiqueta_ok(x):\n    if x > 0:\n        return \"positivo\"\n    elif x < 0:\n        return \"negativo\"\n    else:\n        return \"cero\"\n\nprint(\"ok 0 →\", etiqueta_ok(0))\nprint(\"ok 3 →\", etiqueta_ok(3))\nprint(\"ok -2 →\", etiqueta_ok(-2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T2-B-E3 según el instruction: «E3 (transferencia) — En el snippet, identifica la rama muerta: imprime cuál `elif` nunca corre y por qué. Luego reordena…». Aplico dead branch tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "dead branch"
+      ]
+    },
+    {
+      "exercise_id": "S03-T3-A-E1",
+      "code": "# dual explorer-H1 · S03-T3-A-E1\nALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    if r is None:\n        return \"review\"\n    if r not in ALLOWED:\n        return \"review\"\n    return \"accept\"\n\nfor r in [\"Lima\", \"Tacna\", None]:\n    print(r, \"→\", check_region(r))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T3-A-E1 según el instruction: «E1 (guiado) — `ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}`. Escribe `check_region(r)`: None → review; not in ALLOW…». Aplico allowlist tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "allowlist"
+      ]
+    },
+    {
+      "exercise_id": "S03-T3-A-E2",
+      "code": "# dual explorer-H1 · S03-T3-A-E2\ndef monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T3-A-E2 según el instruction: «E2 (independiente) — `monto_ingreso(m)`: None → review; <0 → reject; >50000 → review (outlier); else accept (incluye 0).…». Aplico rango tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "rango"
+      ]
+    },
+    {
+      "exercise_id": "S03-T3-A-E3",
+      "code": "# dual explorer-H1 · S03-T3-A-E3\nALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}\nDOC_LEN = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef tipo_doc_len(tipo, numero):\n    if tipo is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if tipo not in ALLOWED_DOC:\n        return {\"status\": \"reject\", \"code\": \"NOT_IN_ALLOWLIST\"}\n    if len(str(numero)) != DOC_LEN[tipo]:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]:\n    print(t, n, \"→\", tipo_doc_len(t, n))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T3-A-E3 según el instruction: «E3 (transferencia) — Combina allowlist de tipo_doc `{\"DNI\",\"CE\",\"PAS\"}` con longitudes DNI=8, CE=9, PAS=9. Devuelve dict…». Aplico doc rules tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "doc rules"
+      ]
+    },
+    {
+      "exercise_id": "S03-T3-B-E1",
+      "code": "# dual explorer-H1 · S03-T3-B-E1\nTABLE = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"review\",\n    \"OUT_OF_RANGE\": \"reject\",\n}\n\ndef apply(code):\n    return TABLE.get(code, \"review\")\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\"]:\n    print(c, \"→\", apply(c))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T3-B-E1 según el instruction: «E1 (guiado) — Completa la decision table como dict `codigo → status` para OK→accept, MISSING→review, OUT_OF_RANGE→reject…». Aplico decision table tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "decision table"
+      ]
+    },
+    {
+      "exercise_id": "S03-T3-B-E2",
+      "code": "# dual explorer-H1 · S03-T3-B-E2\ndef status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NOT_IN_ALLOWLIST\" | \"BAD_TYPE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\", \"NEEDS_REVIEW\"]:\n    print(c, \"→\", status_match(c))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T3-B-E2 según el instruction: «E2 (independiente) — Implementa la misma tabla con `match/case`, OR patterns para MISSING|NEEDS_REVIEW y OUT_OF_RANGE|NO…». Aplico match tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "match"
+      ]
+    },
+    {
+      "exercise_id": "S03-T3-B-E3",
+      "code": "# dual explorer-H1 · S03-T3-B-E3\ndef map_code(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\":\n            return \"review\"\n        case \"OUT_OF_RANGE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\ndef map_edad(edad):\n    if edad is None:\n        return \"review\"\n    if 18 <= edad <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(map_code(\"OK\"), map_code(\"MISSING\"))\nprint(map_edad(None), map_edad(30), map_edad(10))\nprint(\"Justificación:\", \"match para códigos literales; if para rangos numéricos de edad\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T3-B-E3 según el instruction: «E3 (transferencia) — Para (a) códigos de error finitos y (b) rango de edad 18–65, elige if o match, implementa ambos val…». Aplico if vs match tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "if vs match"
+      ]
+    },
+    {
+      "exercise_id": "S03-T4-A-E1",
+      "code": "# dual explorer-H1 · S03-T4-A-E1\ndef validate_edad(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"accept\"\n\nexamples = [\n    {\"value\": 30, \"expected\": \"accept\"},\n    {\"value\": -1, \"expected\": \"reject\"},\n    {\"value\": None, \"expected\": \"review\"},\n    {\"value\": \"x\", \"expected\": \"reject\"},\n]\nfor ex_ in examples:\n    got = validate_edad(ex_[\"value\"])\n    print(ex_[\"value\"], got, got == ex_[\"expected\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T4-A-E1 según el instruction: «E1 (guiado) — Completa `examples` para el campo `edad` con expected accept/reject/review/missing (usa value None para mi…». Aplico invariants tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "invariants"
+      ]
+    },
+    {
+      "exercise_id": "S03-T4-A-E2",
+      "code": "# dual explorer-H1 · S03-T4-A-E2\ndef validate_apellidos(ap, am):\n    ap_e = ap is None or str(ap).strip() == \"\"\n    am_e = am is None or str(am).strip() == \"\"\n    if ap_e and am_e:\n        return \"reject\"\n    if ap_e or am_e:\n        return \"review\"\n    return \"accept\"\n\ninvariant_text = \"ambos apellidos no vacíos → accept; uno falta → review; ambos vacíos → reject\"\nexamples = [\n    {\"ap\": \"Quispe\", \"am\": \"Ñahui\", \"expected\": \"accept\"},\n    {\"ap\": \"Quispe\", \"am\": \"\", \"expected\": \"review\"},\n    {\"ap\": \"\", \"am\": \"\", \"expected\": \"reject\"},\n]\nprint(invariant_text)\nfor ex_ in examples:\n    got = validate_apellidos(ex_[\"ap\"], ex_[\"am\"])\n    print(ex_, \"→\", got, got == ex_[\"expected\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T4-A-E2 según el instruction: «E2 (independiente) — Escribe invariante multi-campo: `apellido_paterno` y `apellido_materno` no vacíos (tras strip) para…». Aplico multi-field tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "multi-field"
+      ]
+    },
+    {
+      "exercise_id": "S03-T4-A-E3",
+      "code": "# dual explorer-H1 · S03-T4-A-E3\ndef validate_edad_strict(e):\n    if isinstance(e, int) and 18 <= e <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(\"strict 15 →\", validate_edad_strict(15))\nprint(\"strict None →\", validate_edad_strict(None))\n\ndef validate_edad_fixed(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    if e < 18:\n        return \"review\"\n    if 18 <= e <= 65:\n        return \"accept\"\n    return \"review\"\n\nprint(\"fixed 15 →\", validate_edad_fixed(15))\nprint(\"fixed None →\", validate_edad_fixed(None))\nprint(\"fixed 30 →\", validate_edad_fixed(30))\nprint(\"Invariante:\", \"menores → review; None → review; fuera 0-120 → reject; 18-65 → accept\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T4-A-E3 según el instruction: «E3 (transferencia) — El invariante dice “edad siempre entre 18 y 65 inclusive (reject si no)”. Encuentra el contraejempl…». Aplico policy fix tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "policy fix"
+      ]
+    },
+    {
+      "exercise_id": "S03-T4-B-E1",
+      "code": "# dual explorer-H1 · S03-T4-B-E1\naccionables = [\n    \"Campo 'edad' ausente: envía un entero 0–120 o marca desconocido.\",\n    \"Campo 'edad' inválido: se espera int en rango 0–120.\",\n    \"Campo 'edad'=-3 fuera de rango; usa 0–120.\",\n]\nfor a in accionables:\n    print(a)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T4-B-E1 según el instruction: «E1 (guiado) — Reescribe 3 mensajes vagos a plantilla campo+problema+acción: (1) \"Error\", (2) \"inválido\", (3) \"bad age\". …». Aplico messages tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "messages"
+      ]
+    },
+    {
+      "exercise_id": "S03-T4-B-E2",
+      "code": "# dual explorer-H1 · S03-T4-B-E2\ndef classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\ncases = [(90, \"accept\"), (55, \"review\"), (10, \"reject\"), (80, \"accept\"), (50, \"review\")]\nfor val, expected in cases:\n    got = classify_score(val)\n    assert got == expected, (val, got, expected)\n    print(\"PASS\", val, got)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T4-B-E2 según el instruction: «E2 (independiente) — Dado `classify_score` (accept/review/reject), escribe una lista `cases` con un input por cada rama …». Aplico branch tests tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "branch tests"
+      ]
+    },
+    {
+      "exercise_id": "S03-T4-B-E3",
+      "code": "# dual explorer-H1 · S03-T4-B-E3\ndef rango_edad(e):\n    if e is None:\n        return \"review\"\n    if e >= 18 and e <= 65:  # fix off-by-one: >= 18\n        return \"accept\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"review\"\n\ncases = [(18, \"accept\"), (17, \"review\"), (None, \"review\"), (30, \"accept\")]\nfor val, expected in cases:\n    got = rango_edad(val)\n    print(val, got, \"ok=\", got == expected)\n    assert got == expected\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Decisiones y reglas de validación» completé S03-T4-B-E3 según el instruction: «E3 (transferencia) — Test rojo: la regla usa `edad > 18` y falla para 18 (espera accept). Arregla a `>= 18` y deja la su…». Aplico off-by-one tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "off-by-one"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Decisiones y reglas de validación» la pregunta «¿Cuál es la forma correcta de chequear ausencia de un campo …» se resuelve con la opción «if campo is None:». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S03-T1-A] Comparaciones y el operador in Un **booleano de negocio** nace de una…). Por eso elijo el índice 2."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Decisiones y reglas de validación» la pregunta «En una cadena if/elif/else, ¿qué ocurre cuando la primera co…» se resuelve con la opción «Se ejecuta esa rama y se omiten las siguientes». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S03-T1-A] Comparaciones y el operador in Un **booleano de negocio** nace de una…). Por eso elijo el índice 0."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Decisiones y reglas de validación» la pregunta «¿Qué devuelve la expresión `\"\" or \"default\"` en Python?…» se resuelve con la opción «\"default\"». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S03-T1-A] Comparaciones y el operador in Un **booleano de negocio** nace de una…). Por eso elijo el índice 1."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Decisiones y reglas de validación» la pregunta «Una allowlist de tipos de documento se implementa mejor como…» se resuelve con la opción «Un set de literales y el operador in». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S03-T1-A] Comparaciones y el operador in Un **booleano de negocio** nace de una…). Por eso elijo el índice 3."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Decisiones y reglas de validación» la pregunta «¿Cuándo aporta más claridad `match/case` que `if` en un moto…» se resuelve con la opción «Cuando el sujeto es un literal/estado finito (códigos) y hay case _». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S03-T1-A] Comparaciones y el operador in Un **booleano de negocio** nace de una…). Por eso elijo el índice 2."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:38:19.443108+00:00",
+  "session_started_at": "2026-07-23T07:38:01.030765+00:00",
+  "session_ended_at": "2026-07-23T07:38:19.443108+00:00"
+}

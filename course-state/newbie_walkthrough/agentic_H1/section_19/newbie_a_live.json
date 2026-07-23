@@ -1,0 +1,460 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s19-22d7d8650a10",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "code": "# dual explorer-H1 · S19-T1-A-E1\npregunta = \"comparar regiones\"\nchart = \"bar\"\nh1_out = chart\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T1-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / datos sintéticos: pregunta = \"comparar regiones\"; ch…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, pregunta, comparar; salida anclada a prints ['print(h1_out)']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "pregunta",
+        "comparar",
+        "regiones",
+        "chart",
+        "bar"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "code": "# dual explorer-H1 · S19-T1-A-E2\nmeta = {\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"}\nh1_out = meta\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T1-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / datos sintéticos: print({\"pregunta\": \"totales por…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, meta, pregunta; salida anclada a prints ['print(h1_out)']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "meta",
+        "pregunta",
+        "totales",
+        "por",
+        "regi"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "code": "# dual explorer-H1 · S19-T1-A-E3\ndef elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nh1_out = elige_chart(\"comparar regiones\")\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T1-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sintéticos: def elige_chart(pregunta):; retu…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, elige_chart, pregunta; salida anclada a prints ['print(elige_chart(\"tendencia mensual\"))', 'print(h1_out)']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "elige_chart",
+        "pregunta",
+        "line",
+        "tendencia",
+        "lower"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "code": "# dual explorer-H1 · S19-T1-B-E1\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T1-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / datos sintéticos: truco = (50 - 45) / (50 - 40); ho…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, truco, hon; salida anclada a prints ['print(\"factor\", round(truco / hon, 2))']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "truco",
+        "hon",
+        "factor",
+        "round",
+        "guiado"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "code": "# dual explorer-H1 · S19-T1-B-E2\nylim_bottom = 0\nh1_out = \"honesto\" if ylim_bottom == 0 else \"revisar\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T1-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2` / datos sintéticos: ylim_bottom = 0; print(\"hone…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, ylim_bottom, h1_out; salida anclada a prints ['print(h1_out)']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "ylim_bottom",
+        "h1_out",
+        "honesto",
+        "revisar",
+        "independiente"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "code": "# dual explorer-H1 · S19-T1-B-E3\nencoding = \"dual_axis\"\nh1_out = \"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T1-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintéticos: encoding = \"dual_axis\"; print(\"rie…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, encoding, dual_axis; salida anclada a prints ['print(h1_out)']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "encoding",
+        "dual_axis",
+        "h1_out",
+        "riesgo_alto",
+        "transferencia"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "code": "# dual explorer-H1 · S19-T2-A-E1\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nh1_out = ax.get_ylim()[0] == 0\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T2-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplots(…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, matplotlib, use; salida anclada a prints ['print(h1_out)']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "code": "# dual explorer-H1 · S19-T2-A-E2\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nh1_out = ax.get_ylabel()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T2-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplo…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, matplotlib, use; salida anclada a prints ['print(h1_out)']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "code": "# dual explorer-H1 · S19-T2-A-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"Lima\", \"Cusco\"], [28, 22])\nax.set_xlabel(\"region\")\nax.set_ylabel(\"PEN\")\nprint(ax.get_xlabel(), ax.get_ylabel())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T2-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.use(\"Agg\"); def meta_bar(labels…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, matplotlib, use; salida anclada a prints ['print(ax.get_xlabel(), ax.get_ylabel())']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "code": "# dual explorer-H1 · S19-T2-B-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T2-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintéticos: print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, Fixture, sint; salida anclada a prints ['print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "code": "# dual explorer-H1 · S19-T2-B-E2\nversion = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T2-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos sintéticos: version = 3; print(f\"fig_cpn2b_v{versi…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, version, fig_cpn2b_v; salida anclada a prints ['print(f\"fig_cpn2b_v{version}.png\")']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "version",
+        "fig_cpn2b_v",
+        "png",
+        "independiente",
+        "Concepto"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "code": "# dual explorer-H1 · S19-T2-B-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint([a.get_title() for a in axes])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T2-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.use(\"Agg\"); fig, axes = plt.su…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, matplotlib, use; salida anclada a prints ['print([a.get_title() for a in axes])']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "code": "# dual explorer-H1 · S19-T3-A-E1\nrows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint([r[\"region\"] for r in rows], [r[\"median\"] for r in rows])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T3-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = [{\"region\": \"Lima\", \"median\": 28}, {\"reg…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, rows, region; salida anclada a prints ['print([r[\"region\"] for r in rows], [r[\"median\"] for r in rows])']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "rows",
+        "region",
+        "Lima",
+        "median",
+        "Cusco"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "code": "# dual explorer-H1 · S19-T3-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(f\"Lima: {28} PEN (n={40})\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T3-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sintéticos: print(f\"Lima: {28} PEN (n={40})\"). Completa…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, Fixture, sint; salida anclada a prints ['print(f\"Lima: {28} PEN (n={40})\")']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "code": "# dual explorer-H1 · S19-T3-A-E3\ndef tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T3-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row):; return f\"{row['region']}:…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, tooltip, row; salida anclada a prints ['print(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "tooltip",
+        "row",
+        "region",
+        "median",
+        "PEN"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "code": "# dual explorer-H1 · S19-T3-B-E1\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nh1_out = chart[\"Lima\"] == table[0][\"v\"]\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T3-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: chart = {\"Lima\": 1}; table = [{\"region\": \"Lima\", \"v\":…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, chart, Lima; salida anclada a prints ['print(h1_out)']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "chart",
+        "Lima",
+        "table",
+        "region",
+        "h1_out"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "code": "# dual explorer-H1 · S19-T3-B-E2\nimport json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T3-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / datos sintéticos: print(json.dumps({\"filtro_region…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, json, dumps; salida anclada a prints ['print(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "json",
+        "dumps",
+        "filtro_region",
+        "Lima",
+        "ensure_ascii"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "code": "# dual explorer-H1 · S19-T3-B-E3\ntable = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(sum(r[\"v\"] for r in table), len(table))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T3-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"region\": \"Lima\", \"v\": 28}, {\"regio…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, table, region; salida anclada a prints ['print(sum(r[\"v\"] for r in table), len(table))']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "table",
+        "region",
+        "Lima",
+        "Cusco",
+        "sum"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "code": "# dual explorer-H1 · S19-T4-A-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nh1_out = \"unidad=PEN | fuente=sintetico\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T4-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéticos: print(\"unidad=PEN | fuente=sintetico\"). Compl…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "code": "# dual explorer-H1 · S19-T4-A-E2\ncap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nh1_out = sorted(cap.keys())\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T4-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintéticos: cap = {\"unidad\": \"PEN\", \"fuente\":…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, cap, unidad; salida anclada a prints ['print(h1_out)']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "cap",
+        "unidad",
+        "PEN",
+        "fuente",
+        "limitacion"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "code": "# dual explorer-H1 · S19-T4-A-E3\ndef pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T4-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(cap):; return \" | \".join(f\"{k}:…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, pie, cap; salida anclada a prints ['print(pie({\"unidad\": \"PEN\", \"n\": 10}))']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "pie",
+        "cap",
+        "join",
+        "items",
+        "unidad"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "code": "# dual explorer-H1 · S19-T4-B-E1\nclaim = \"Lima es la mejor del Perú\"\nh1_out = \"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T4-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sintéticos: claim = \"Lima es la mejor del Perú\"; print…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, claim, Lima; salida anclada a prints ['print(h1_out)']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "claim",
+        "Lima",
+        "mejor",
+        "del",
+        "Per"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "code": "# dual explorer-H1 · S19-T4-B-E2\nalt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T4-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos sintéticos: alt = \"Lima 28 PEN n=40\"; print(\"n=\" in…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, alt, Lima; salida anclada a prints ['print(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "alt",
+        "Lima",
+        "PEN",
+        "replace",
+        "independiente"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "code": "# dual explorer-H1 · S19-T4-B-E3\ndef classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nh1_out = classify_claim(\"es la mejor del país\")\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Visualización y comunicación accesible» (S19) resolví S19-T4-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: def classify_claim(text):; retu…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S19, classify_claim, text; salida anclada a prints ['print(classify_claim(\"lidera en la muestra web\"))', 'print(h1_out)']. Teoría activa: «pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S19",
+        "classify_claim",
+        "text",
+        "PERMITIDO",
+        "muestra",
+        "RECHAZADO"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S19 Q0: «Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?». En la teoría del slim_packet («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras;) la opción «Barras con baseline 0» es la que describe el concepto; descarto p.ej. ['Pie 3D', 'Dual axis sin escala']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S19 Q1: «Una alternativa accesible debe:». En la teoría del slim_packet («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras;) la opción «Repetir los mismos números clave del chart» es la que describe el concepto; descarto p.ej. ['Ser opcional siempre', 'Solo ser una imagen más grande']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S19 Q2: «“Lima es la mejor región del Perú” a partir de una muestra web es:». En la teoría del slim_packet («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras;) la opción «Sobreclaim / generalización indebida» es la que describe el concepto; descarto p.ej. ['Un claim permitido', 'Un alt text correcto']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S19 Q3: «El caption de un gráfico de portfolio debe incluir:». En la teoría del slim_packet («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras;) la opción «Unidad, fuente y limitaciones» es la que describe el concepto; descarto p.ej. ['Solo el color favorito', 'La contraseña del BI']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S19 Q4: «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hacer el gate de integridad del da». En la teoría del slim_packet («pregunta, audiencia y chart choice» El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras;) la opción «Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita» es la que describe el concepto; descarto p.ej. ['Aceptarlo si los colores tienen buen contraste', 'Convertirlo automáticamente a dual-axis para “ganar espacio”']. Respuesta razonada solo con packet H1 activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:00:10.151135+00:00",
+  "session_started_at": "2026-07-23T07:59:38.959777+00:00",
+  "session_ended_at": "2026-07-23T08:00:10.151135+00:00"
+}

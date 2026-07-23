@@ -1,0 +1,460 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 18,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s18-501505bd3671",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S18-T1-A-E1",
+      "code": "# dual skeptic-H1 · S18-T1-A-E1\nimport numpy as np\n\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(\"n\", montos.size, \"| mean\", round(float(montos.mean()), 1), \"| median\", float(np.median(montos)))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T1-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: centro (mean/median) y n de montos. Fixture `S18-T1-A-E1` / datos sintéticos: montos = np.array([10, 12, 14, 16, 100…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, numpy, montos; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"n\", montos.size, \"| mean\", round(float(montos.mean()), 1), \"| median\", float(np.median(montos)))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "numpy",
+        "montos",
+        "array",
+        "dtype",
+        "float"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-A-E2",
+      "code": "# dual skeptic-H1 · S18-T1-A-E2\nimport numpy as np\n\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\niqr = float(q3 - q1)\nprint(\"Q1\", float(q1), \"| Q3\", float(q3), \"| IQR\", iqr)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T1-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: cuartiles e IQR. Fixture `S18-T1-A-E2` / datos sintéticos: montos = np.array([5, 8, 9, 10, 12, 13, 40], dtype…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, numpy, montos; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"Q1\", float(q1), \"| Q3\", float(q3), \"| IQR\", iqr)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "numpy",
+        "montos",
+        "array",
+        "dtype",
+        "float"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-A-E3",
+      "code": "# dual skeptic-H1 · S18-T1-A-E3\nimport numpy as np\n\n\ndef resumen(x):\n    x = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(x.size),\n        \"mean\": round(float(x.mean()), 4),\n        \"median\": round(float(np.median(x)), 4),\n        \"std\": round(float(x.std(ddof=1)), 4),\n    }\nprint(resumen([1, 2, 3, 4, 5]))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T1-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: función resumen n/mean/median/std. Fixture `S18-T1-A-E3` / datos sintéticos: def resumen(x):; x = np.asarray(…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, numpy, resumen; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(resumen([1, 2, 3, 4, 5]))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "numpy",
+        "resumen",
+        "asarray",
+        "dtype",
+        "float"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E1",
+      "code": "# dual skeptic-H1 · S18-T1-B-E1\nimport numpy as np\n\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean())\nmed = float(np.median(x))\nprint(\"mean\", round(m, 1), \"| median\", med)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T1-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: mean vs median y razón. Fixture `S18-T1-B-E1` / datos sintéticos: x = np.array([10, 11, 12, 13, 100], dtype=float);…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, numpy, array; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"mean\", round(m, 1), \"| median\", med)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "mean"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E2",
+      "code": "# dual skeptic-H1 · S18-T1-B-E2\nimport numpy as np\n\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = float(np.median(x))\nmad = float(np.median(np.abs(x - med)))\nprint(\"median\", med, \"| mad\", mad)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T1-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: MAD respecto a la mediana. Fixture `S18-T1-B-E2` / datos sintéticos: x = np.array([2, 3, 4, 5, 100], dtype=fl…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, numpy, array; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"median\", med, \"| mad\", mad)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "med"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E3",
+      "code": "# dual skeptic-H1 · S18-T1-B-E3\nimport numpy as np\n\nx = np.array([0, 1, 9, 99], dtype=float)\nprint(\"p10\", float(np.quantile(x, 0.1)), \"| p90\", float(np.quantile(x, 0.9)))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T1-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: transformación log1p de montos. Fixture `S18-T1-B-E3` / datos sintéticos: x = np.array([0, 1, 9, 99], dtype=f…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, numpy, array; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"p10\", float(np.quantile(x, 0.1)), \"| p90\", float(np.quantile(x, 0.9)))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "p10"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E1",
+      "code": "# dual skeptic-H1 · S18-T2-A-E1\nmuestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare_lima = muestra.count(\"Lima\") / len(muestra)\nprint(round(share_lima, 2))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T2-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: share muestral vs población. Fixture `S18-T2-A-E1` / datos sintéticos: muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"];…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, muestra, Lima; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(round(share_lima, 2))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "muestra",
+        "Lima",
+        "Cusco",
+        "share_lima",
+        "count"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E2",
+      "code": "# dual skeptic-H1 · S18-T2-A-E2\nshare = 8 / 10\npob = 0.5\nprint(\"bias_Lima_pp\", round(share - pob, 2))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T2-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: bias en puntos porcentuales. Fixture `S18-T2-A-E2` / datos sintéticos: share = 8 / 10; pob = 0.5. Completa el…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, share, pob; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"bias_Lima_pp\", round(share - pob, 2))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "share",
+        "pob",
+        "bias_Lima_pp",
+        "round",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E3",
+      "code": "# dual skeptic-H1 · S18-T2-A-E3\ndef max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\n\nprint(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 3, \"Cusco\": 1}), 2))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T2-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: máximo |bias| entre segmentos. Fixture `S18-T2-A-E3` / datos sintéticos: def max_bias(pob, counts):; n = sum(…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, max_bias, pob; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 3, \"Cusco\": 1}), 2))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "max_bias",
+        "pob",
+        "counts",
+        "sum",
+        "values"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E1",
+      "code": "# dual skeptic-H1 · S18-T2-B-E1\nimport math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\nprint(round(media - margen, 2), round(media + margen, 2))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T2-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: margen de IC 95% (1.96·s/√n). Fixture `S18-T2-B-E1` / datos sintéticos: media, s, n = 10, 2, 16; margen = 1.96 * s /…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, math, media; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(round(media - margen, 2), round(media + margen, 2))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "math",
+        "media",
+        "margen",
+        "sqrt",
+        "round"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E2",
+      "code": "# dual skeptic-H1 · S18-T2-B-E2\nd = (13 - 10) / 2\nprint(\"d\", round(d, 2))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T2-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: tamaño de efecto Cohen's d. Fixture `S18-T2-B-E2` / datos sintéticos: d = (13 - 10) / 2; print(\"d\", round(d,…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, round, skeptic_check; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"d\", round(d, 2))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "round",
+        "skeptic_check",
+        "form",
+        "pass",
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E3",
+      "code": "# dual skeptic-H1 · S18-T2-B-E3\ndiff, se = 4, 1.5\nic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2))\nprint(ic)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T2-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: IC95 como tupla (low, high). Fixture `S18-T2-B-E3` / datos sintéticos: diff, se = 4, 1.5; ic = (round(diff -…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, diff, round; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(ic)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "diff",
+        "round",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E1",
+      "code": "# dual skeptic-H1 · S18-T3-A-E1\nimport numpy as np\n\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nr = float(np.corrcoef(x, y)[0, 1])\nprint(round(r, 4))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T3-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: correlación de Pearson. Fixture `S18-T3-A-E1` / datos sintéticos: x = np.array([1, 2, 3, 4], dtype=float); y = np.ar…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, numpy, array; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(round(r, 4))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "corrcoef"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E2",
+      "code": "# dual skeptic-H1 · S18-T3-A-E2\nr = 0.82\nprint(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T3-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: etiqueta asociación_observada (no causa). Fixture `S18-T3-A-E2` / datos sintéticos: r = 0.82; print(\"asociaci…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, asociacion_observada, abs; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "asociacion_observada",
+        "abs",
+        "asociacion_debil",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E3",
+      "code": "# dual skeptic-H1 · S18-T3-A-E3\nimport numpy as np\n\nz = np.arange(5, dtype=float)\nx = z.copy()\ny = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1)\nby = np.polyfit(z, y, 1)\nxr = x - np.polyval(bx, z)\nyr = y - np.polyval(by, z)\nr_part = float(np.corrcoef(xr, yr)[0, 1]) if np.std(xr) and np.std(yr) else 0.0\nprint(round(r_raw, 4), round(r_part, 4))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T3-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: correlación residual tras confusor. Fixture `S18-T3-A-E3` / datos sintéticos: z = np.arange(5, dtype=float);…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, numpy, arange; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(round(r_raw, 4), round(r_part, 4))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "numpy",
+        "arange",
+        "dtype",
+        "float",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E1",
+      "code": "# dual skeptic-H1 · S18-T3-B-E1\nimport numpy as np\n\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nhi = q3 + 1.5 * iqr\nprint(m[m > hi].tolist())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T3-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: conteo de outliers Tukey (hi=Q3+1.5·IQR). Fixture `S18-T3-B-E1` / datos sintéticos: m = np.array([10, 12, 11, 13, 50…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, numpy, array; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(m[m > hi].tolist())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "quantile"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E2",
+      "code": "# dual skeptic-H1 · S18-T3-B-E2\nimport numpy as np\n\nregion = np.array([\"Lima\", \"Lima\", \"Cusco\"])\nflag = np.array([True, True, False])\nprint(region[flag].tolist())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T3-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: tasa de anomalías por región. Fixture `S18-T3-B-E2` / datos sintéticos: region = np.array([\"Lima\", \"Lima\", \"C…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, numpy, region; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(region[flag].tolist())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "numpy",
+        "region",
+        "array",
+        "Lima",
+        "Cusco"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E3",
+      "code": "# dual skeptic-H1 · S18-T3-B-E3\nimport numpy as np\n\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nclean = m[(m >= lo) & (m <= hi)]\nprint(float(np.median(clean)))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T3-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: flags booleanos Tukey. Fixture `S18-T3-B-E3` / datos sintéticos: m = np.array([1, 2, 3, 4, 100], dtype=float)…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, numpy, array; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(float(np.median(clean)))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "quantile"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E1",
+      "code": "# dual skeptic-H1 · S18-T4-A-E1\nevidencia = {\n    \"pregunta\": \"¿Cuál es el ticket mediano?\",\n    \"hipotesis\": \"mediana >= 5\",\n    \"resultado\": {\"n\": 10, \"median\": 5.0},\n}\nprint(evidencia[\"pregunta\"])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T4-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: dict pregunta/hipótesis/resultado. Fixture `S18-T4-A-E1` / datos sintéticos: evidencia = {; \"pregunta\": \"¿Cuál es el…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, evidencia, pregunta; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(evidencia[\"pregunta\"])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "evidencia",
+        "pregunta",
+        "ticket",
+        "mediano",
+        "hipotesis"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E2",
+      "code": "# dual skeptic-H1 · S18-T4-A-E2\nmedian = 12\nprint(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T4-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: hallazgo vs umbral de decisión. Fixture `S18-T4-A-E2` / datos sintéticos: median = 12; print(\"solo_hallazgo\"…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, median, solo_hallazgo; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "median",
+        "solo_hallazgo",
+        "candidato_decision",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E3",
+      "code": "# dual skeptic-H1 · S18-T4-A-E3\ndef traza(pregunta, metrica, valor, limite):\n    print(f\"P: {pregunta} | M: {metrica} | V: {valor} | L: {limite}\")\ntraza(\"ticket mediano Lima\", \"median\", 27.5, \"solo web\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T4-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: traza Pregunta→Métrica→Valor→Límite. Fixture `S18-T4-A-E3` / datos sintéticos: def traza(pregunta, metrica, v…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, traza, pregunta; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(f\"P: {pregunta} | M: {metrica} | V: {valor} | L: {limite}\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "traza",
+        "pregunta",
+        "metrica",
+        "valor",
+        "limite"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E1",
+      "code": "# dual skeptic-H1 · S18-T4-B-E1\nnote = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T4-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: data note n_raw/n_final/filtros. Fixture `S18-T4-B-E1` / datos sintéticos: note = {\"n_raw\": 5, \"n_final\": 4, \"filtro…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, note, n_raw; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(note)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "note",
+        "n_raw",
+        "n_final",
+        "filtros",
+        "monto"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E2",
+      "code": "# dual skeptic-H1 · S18-T4-B-E2\nimport hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T4-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: sha1 hex[:8] de payload CSV. Fixture `S18-T4-B-E2` / datos sintéticos: print(hashlib.sha1(b\"a,b\\\\n1,2\\\\n\").he…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, hashlib, sha1; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(hashlib.sha1(b\"a,b\\\\n1,2\\\\n\").hexdigest()[:8])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "hashlib",
+        "sha1",
+        "hexdigest",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E3",
+      "code": "# dual skeptic-H1 · S18-T4-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]})\nn_raw = len(df)\ndf2 = df[df[\"monto\"] > 0]\nnote = {\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42}\nprint(note)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S18/S18-T4-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: note tras filtro monto>0 con seed. Fixture `S18-T4-B-E3` / datos sintéticos: df = pd.DataFrame({\"monto\": [1.0…») con theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Conceptos dual, skeptic, S18, pandas, DataFrame; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(note)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S18",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "n_raw",
+        "len"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S18#0: contrasto stem «¿Qué comunica mejor un ticket “típico” con outliers fuertes?» con párrafos theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Elijo índice 1 («Mediana (y opcionalmente IQR)») porque cuadra con el vocabulario del paquete; distractores ['Solo la media', 'Solo el máximo'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S18#1: contrasto stem «Una correlación alta entre X e Y implica:» con párrafos theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Elijo índice 3 («Asociación observada (no causal por sí sola)») porque cuadra con el vocabulario del paquete; distractores ['Que X causa Y', 'Que no hay confusores'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S18#2: contrasto stem «¿Qué debe incluir un data note mínimo?» con párrafos theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Elijo índice 0 («Origen, filtros, n y límites de cobertura») porque cuadra con el vocabulario del paquete; distractores ['Solo el gráfico final', 'La contraseña del VPN'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S18#3: contrasto stem «El sesgo de muestra ocurre cuando:» con párrafos theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Elijo índice 2 («La muestra no representa la población de interés») porque cuadra con el vocabulario del paquete; distractores ['std es alta', 'Usas mediana'] no sostienen el contrato."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S18#4: contrasto stem «En un EDA de tickets sintéticos Lima/Cusco, ¿cuál es la comunicación correcta de un r de Pearson alto entre gasto y visitas cuando» con párrafos theory/iDo («centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar ). Elijo índice 1 («Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño») porque cuadra con el vocabulario del paquete; distractores ['Afirmar que más visitas causan más gasto y recomendar campaña automática', 'Eliminar la correlación del informe porque “no es causal” y no mostrar el número'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:59:08.051356+00:00",
+  "session_started_at": "2026-07-23T07:58:38.207975+00:00",
+  "session_ended_at": "2026-07-23T07:59:08.051356+00:00"
+}

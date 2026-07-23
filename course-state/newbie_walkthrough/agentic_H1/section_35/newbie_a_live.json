@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 35,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s35-cbea7ddd71fa",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S35-T1-A-E1",
+      "code": "# dual explorer-H1 · S35-T1-A-E1\nrecord = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\nmeets_contract = record[\"means_fraud\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T1-A-E1 leyendo el instruction del quiz_card: «S35-T1-A-E1 · Calcula el contrato de `coeficientes e importancia por permutación` sobre `CASO-LIM-035-1A`. La entrada es el dict completo de…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, record, case_id; salida anclada a prints ['print(\"S35-T1-A\", status)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "drops"
+      ]
+    },
+    {
+      "exercise_id": "S35-T1-A-E2",
+      "code": "# dual explorer-H1 · S35-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'drops', 'metric', 'means_fraud'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"means_fraud\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1}, 'metric': 'precision_at_k', 'means_fraud': True}}\nincomplete = {**valid}\nincomplete.pop(\"drops\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T1-A-E2 leyendo el instruction del quiz_card: «S35-T1-A-E2 · Modela tres rutas de `coeficientes e importancia por permutación`: fixture válido, fixture adverso y registro sin `drops`. Ent…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, assess, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S35-T1-A-E3",
+      "code": "# dual explorer-H1 · S35-T1-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'drops', 'metric', 'means_fraud'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_METRIC_DROP'\n    return 'CONTINUE' if record.get('means_fraud') is False else 'REJECT_CAUSAL_CLAIM'\nvalid = {'case_id': 'CASO-LIM-035-1A', 'drops': {'shared_phone': 0.1}, 'metric': 'precision_at_k', 'means_fraud': False}\ninvalid = {**valid, 'means_fraud': True}\nuncertain = {k: v for k, v in valid.items() if k != 'drops'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T1-A-E3 leyendo el instruction del quiz_card: «S35-T1-A-E3 · Contrasta fallo cerrado para `coeficientes e importancia por permutación` con tres fixtures distintos. `CASO-LIM-035-1A` debe…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, decide, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S35-T1-B-E1",
+      "code": "# dual explorer-H1 · S35-T1-B-E1\nrecord = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\nmeets_contract = record[\"causal\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T1-B-E1 leyendo el instruction del quiz_card: «S35-T1-B-E1 · Calcula el contrato de `explicación local, correlación y límites` sobre `CASO-LIM-035-1B`. La entrada es el dict completo del…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, record, case_id; salida anclada a prints ['print(\"S35-T1-B\", status)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "contrib"
+      ]
+    },
+    {
+      "exercise_id": "S35-T1-B-E2",
+      "code": "# dual explorer-H1 · S35-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'contrib', 'layers', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"causal\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9}, 'layers': ['evidence', 'model'], 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"layers\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T1-B-E2 leyendo el instruction del quiz_card: «S35-T1-B-E2 · Modela tres rutas de `explicación local, correlación y límites`: fixture válido, fixture adverso y registro sin `layers`. Entr…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, assess, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S35-T1-B-E3",
+      "code": "# dual explorer-H1 · S35-T1-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'contrib', 'layers', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"CONTINUE\" if record[\"causal\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9}, 'layers': ['evidence', 'model'], 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"layers\")\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T1-B-E3 leyendo el instruction del quiz_card: «S35-T1-B-E3 · Contrasta fallo cerrado para `explicación local, correlación y límites` con tres fixtures distintos. `CASO-LIM-035-1B` debe co…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, decide, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S35-T2-A-E1",
+      "code": "# dual explorer-H1 · S35-T2-A-E1\nrecord = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\nmeets_contract = record[\"slice_n\"] < record[\"min_n\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_LOW_N_CLAIM\"\nprint(\"S35-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T2-A-E1 leyendo el instruction del quiz_card: «S35-T2-A-E1 · Calcula el contrato de `cohortes y métricas por slice` sobre `CASO-LIM-035-2A`. La entrada es el dict completo del starter; la…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, record, case_id; salida anclada a prints ['print(\"S35-T2-A\", status)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "slice_n"
+      ]
+    },
+    {
+      "exercise_id": "S35-T2-A-E2",
+      "code": "# dual explorer-H1 · S35-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'slice_n', 'precision', 'min_n'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"slice_n\"] < record[\"min_n\"] else \"REJECT_LOW_N_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nincomplete = {**valid}\nincomplete.pop(\"slice_n\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T2-A-E2 leyendo el instruction del quiz_card: «S35-T2-A-E2 · Modela tres rutas de `cohortes y métricas por slice`: fixture válido, fixture adverso y registro sin `slice_n`. Entrada: dict…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, assess, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S35-T2-A-E3",
+      "code": "# dual explorer-H1 · S35-T2-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'slice_n', 'precision', 'min_n'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SLICE_N\"\n    return \"CONTINUE\" if record[\"slice_n\"] < record[\"min_n\"] else \"REJECT_LOW_N_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nuncertain = {**valid}\nuncertain.pop(\"slice_n\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T2-A-E3 leyendo el instruction del quiz_card: «S35-T2-A-E3 · Contrasta fallo cerrado para `cohortes y métricas por slice` con tres fixtures distintos. `CASO-LIM-035-2A` debe continuar, el…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, decide, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S35-T2-B-E1",
+      "code": "# dual explorer-H1 · S35-T2-B-E1\nrecord = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\nmeets_contract = record[\"action\"] == \"auto_label\"\nstatus = \"PASS\" if meets_contract else \"REJECT_PROXY_FEATURE\"\nprint(\"S35-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T2-B-E1 leyendo el instruction del quiz_card: «S35-T2-B-E1 · Calcula el contrato de `proxies, sample size y daño diferencial` sobre `CASO-LIM-035-2B`. La entrada es el dict completo del s…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, record, case_id; salida anclada a prints ['print(\"S35-T2-B\", status)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "feature"
+      ]
+    },
+    {
+      "exercise_id": "S35-T2-B-E2",
+      "code": "# dual explorer-H1 · S35-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'feature', 'risk', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"action\"] == \"auto_label\" else \"REJECT_PROXY_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T2-B-E2 leyendo el instruction del quiz_card: «S35-T2-B-E2 · Modela tres rutas de `proxies, sample size y daño diferencial`: fixture válido, fixture adverso y registro sin `action`. Entra…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, assess, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S35-T2-B-E3",
+      "code": "# dual explorer-H1 · S35-T2-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'feature', 'risk', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_PROXY_AUDIT\"\n    return \"CONTINUE\" if record[\"action\"] == \"auto_label\" else \"REJECT_PROXY_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T2-B-E3 leyendo el instruction del quiz_card: «S35-T2-B-E3 · Contrasta fallo cerrado para `proxies, sample size y daño diferencial` con tres fixtures distintos. `CASO-LIM-035-2B` debe con…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, decide, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S35-T3-A-E1",
+      "code": "# dual explorer-H1 · S35-T3-A-E1\nrecord = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\nmeets_contract = record[\"q\"] == 0\nstatus = \"PASS\" if meets_contract else \"REJECT_POINT_ONLY\"\nprint(\"S35-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T3-A-E1 leyendo el instruction del quiz_card: «S35-T3-A-E1 · Calcula el contrato de `calibración, intervalos/conformal conceptualmente` sobre `CASO-LIM-035-3A`. La entrada es el dict comp…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, record, case_id; salida anclada a prints ['print(\"S35-T3-A\", status)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "level"
+      ]
+    },
+    {
+      "exercise_id": "S35-T3-A-E2",
+      "code": "# dual explorer-H1 · S35-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'q', 'level'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"q\"] == 0 else \"REJECT_POINT_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nincomplete = {**valid}\nincomplete.pop(\"q\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T3-A-E2 leyendo el instruction del quiz_card: «S35-T3-A-E2 · Modela tres rutas de `calibración, intervalos/conformal conceptualmente`: fixture válido, fixture adverso y registro sin `q`.…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, assess, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S35-T3-A-E3",
+      "code": "# dual explorer-H1 · S35-T3-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'p', 'q', 'level'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_INTERVAL\"\n    return \"CONTINUE\" if record[\"q\"] == 0 else \"REJECT_POINT_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nuncertain = {**valid}\nuncertain.pop(\"q\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T3-A-E3 leyendo el instruction del quiz_card: «S35-T3-A-E3 · Contrasta fallo cerrado para `calibración, intervalos/conformal conceptualmente` con tres fixtures distintos. `CASO-LIM-035-3A…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, decide, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S35-T3-B-E1",
+      "code": "# dual explorer-H1 · S35-T3-B-E1\nrecord = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\nmeets_contract = record[\"action\"] == \"auto_fraud\"\nstatus = \"PASS\" if meets_contract else \"REJECT_AUTO_LABEL\"\nprint(\"S35-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T3-B-E1 leyendo el instruction del quiz_card: «S35-T3-B-E1 · Calcula el contrato de `out-of-distribution y abstención` sobre `CASO-LIM-035-3B`. La entrada es el dict completo del starter;…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, record, case_id; salida anclada a prints ['print(\"S35-T3-B\", status)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "threshold"
+      ]
+    },
+    {
+      "exercise_id": "S35-T3-B-E2",
+      "code": "# dual explorer-H1 · S35-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'zs', 'threshold', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"action\"] == \"auto_fraud\" else \"REJECT_AUTO_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T3-B-E2 leyendo el instruction del quiz_card: «S35-T3-B-E2 · Modela tres rutas de `out-of-distribution y abstención`: fixture válido, fixture adverso y registro sin `action`. Entrada: dic…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, assess, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S35-T3-B-E3",
+      "code": "# dual explorer-H1 · S35-T3-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'zs', 'threshold', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_OOD_POLICY\"\n    return \"CONTINUE\" if record[\"action\"] == \"auto_fraud\" else \"REJECT_AUTO_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T3-B-E3 leyendo el instruction del quiz_card: «S35-T3-B-E3 · Contrasta fallo cerrado para `out-of-distribution y abstención` con tres fixtures distintos. `CASO-LIM-035-3B` debe continuar,…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, decide, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S35-T4-A-E1",
+      "code": "# dual explorer-H1 · S35-T4-A-E1\nrecord = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}\nmeets_contract = record[\"use\"] == \"fraud_label\"\nstatus = \"PASS\" if meets_contract else \"REJECT_SCOPE_BREACH\"\nprint(\"S35-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T4-A-E1 leyendo el instruction del quiz_card: «S35-T4-A-E1 · Calcula el contrato de `model card y contestabilidad` sobre `CASO-LIM-035-4A`. La entrada es el dict completo del starter; la…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, record, case_id; salida anclada a prints ['print(\"S35-T4-A\", status)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "use"
+      ]
+    },
+    {
+      "exercise_id": "S35-T4-A-E2",
+      "code": "# dual explorer-H1 · S35-T4-A-E2\n# transfer S35-T4-A-E2\nprint('CONTINUE')\nprint('ok', True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T4-A-E2 leyendo el instruction del quiz_card: «S35-T4-A-E2 · Modela tres rutas de `model card y contestabilidad`: fixture válido, fixture adverso y registro sin `out_of_scope`. Entrada: d…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, transfer, CONTINUE; salida anclada a prints [\"print('CONTINUE')\", \"print('ok', True)\"]. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "transfer",
+        "CONTINUE",
+        "Modela",
+        "tres",
+        "rutas"
+      ]
+    },
+    {
+      "exercise_id": "S35-T4-A-E3",
+      "code": "# dual explorer-H1 · S35-T4-A-E3\n# transfer S35-T4-A-E3\nprint('CONTINUE')\nprint('ok', True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T4-A-E3 leyendo el instruction del quiz_card: «S35-T4-A-E3 · Contrasta fallo cerrado para `model card y contestabilidad` con tres fixtures distintos. `CASO-LIM-035-4A` debe continuar, el…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, transfer, CONTINUE; salida anclada a prints [\"print('CONTINUE')\", \"print('ok', True)\"]. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "transfer",
+        "CONTINUE",
+        "Contrasta",
+        "fallo",
+        "cerrado"
+      ]
+    },
+    {
+      "exercise_id": "S35-T4-B-E1",
+      "code": "# dual explorer-H1 · S35-T4-B-E1\nrecord = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\nmeets_contract = bool(record[\"by\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_OVERRIDE\"\nprint(\"S35-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T4-B-E1 leyendo el instruction del quiz_card: «S35-T4-B-E1 · Calcula el contrato de `aprobación, override, apelación y retiro` sobre `CASO-LIM-035-4B`. La entrada es el dict completo del…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, record, case_id; salida anclada a prints ['print(\"S35-T4-B\", status)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "case"
+      ]
+    },
+    {
+      "exercise_id": "S35-T4-B-E2",
+      "code": "# dual explorer-H1 · S35-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'case', 'human', 'by'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"by\"] else \"REJECT_SILENT_OVERRIDE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nincomplete = {**valid}\nincomplete.pop(\"by\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T4-B-E2 leyendo el instruction del quiz_card: «S35-T4-B-E2 · Modela tres rutas de `aprobación, override, apelación y retiro`: fixture válido, fixture adverso y registro sin `by`. Entrada:…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, assess, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S35-T4-B-E3",
+      "code": "# dual explorer-H1 · S35-T4-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'case', 'human', 'by'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_AUDIT_FIELDS\"\n    return \"CONTINUE\" if record[\"by\"] else \"REJECT_SILENT_OVERRIDE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nuncertain = {**valid}\nuncertain.pop(\"by\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Explicabilidad, equidad e incertidumbre» (S35) resolví S35-T4-B-E3 leyendo el instruction del quiz_card: «S35-T4-B-E3 · Contrasta fallo cerrado para `aprobación, override, apelación y retiro` con tres fixtures distintos. `CASO-LIM-035-4B` debe co…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S35, decide, record; salida anclada a prints ['print(*results)']. Teoría activa: «coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S35",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S35 Q0: «La ficha de caso debe separar:». En la teoría del slim_packet («coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una ) la opción «Evidencia, modelo, incertidumbre y decisión humana» es la que describe el concepto; descarto p.ej. ['Solo score', 'Solo SHAP global']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S35 Q1: «Perm importance prueba:». En la teoría del slim_packet («coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una ) la opción «Sensibilidad del modelo a barajar features» es la que describe el concepto; descarto p.ej. ['Fraude', 'Parentesco']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S35 Q2: «Ante OOD conviene:». En la teoría del slim_packet («coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una ) la opción «Abstener y escalar» es la que describe el concepto; descarto p.ej. ['Forzar pred 1', 'Borrar logs']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S35 Q3: «Model card out_of_scope incluye:». En la teoría del slim_packet («coeficientes e importancia por permutación» Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una ) la opción «Usos prohibidos p.ej. etiqueta de fraude» es la que describe el concepto; descarto p.ej. ['Nada', 'Solo accuracy']. Respuesta razonada solo con packet H1 activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:25:57.516341+00:00",
+  "session_started_at": "2026-07-23T08:25:39.854342+00:00",
+  "session_ended_at": "2026-07-23T08:25:57.516341+00:00"
+}

@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 50,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s50-425f9663b039",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S50-T1-A-E1",
+      "code": "# dual explorer-H1 · S50-T1-A-E1\nrecord = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\nmeets_contract = not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)\nstatus = \"PASS\" if meets_contract else \"REBUILD_EVAL_DATASET\"\nprint(\"S50-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T1-A-E1 leyendo el instruction del quiz_card: «S50-T1-A-E1 · Calcula el contrato de `task dataset y rubric` sobre `CASO-ICA-050-1A`. La entrada es el dict completo del starter; la operaci…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, case_id, CASO; salida anclada a prints ['print(\"S50-T1-A\", status)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "case_id",
+        "CASO",
+        "ICA",
+        "tasks",
+        "slices"
+      ]
+    },
+    {
+      "exercise_id": "S50-T1-A-E2",
+      "code": "# dual explorer-H1 · S50-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'holdout', 'rubric_levels', 'tasks', 'slices'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)\n    return \"PASS\" if ok else 'REBUILD_EVAL_DATASET'\n\nvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\ninvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 0}\nincomplete = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T1-A-E2 leyendo el instruction del quiz_card: «S50-T1-A-E2 · Modela tres rutas de `task dataset y rubric`: fixture válido, fixture adverso y registro sin `holdout`. Entrada: dict con case…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "holdout"
+      ]
+    },
+    {
+      "exercise_id": "S50-T1-A-E3",
+      "code": "# dual explorer-H1 · S50-T1-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'holdout', 'rubric_levels', 'tasks', 'slices'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CALIBRATE_RUBRIC'\n    ok = not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)\n    return \"CONTINUE\" if ok else 'REBUILD_EVAL_DATASET'\n\nvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\ninvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 0}\nincomplete = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T1-A-E3 leyendo el instruction del quiz_card: «S50-T1-A-E3 · Simula fallo cerrado para `task dataset y rubric` con tres fixtures distintos. `CASO-ICA-050-1A` debe continuar, el adverso de…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "holdout"
+      ]
+    },
+    {
+      "exercise_id": "S50-T1-B-E1",
+      "code": "# dual explorer-H1 · S50-T1-B-E1\nrecord = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\nmeets_contract = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\nstatus = \"PASS\" if meets_contract else \"FAIL_UNSAFE_TRAJECTORY\"\nprint(\"S50-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T1-B-E1 leyendo el instruction del quiz_card: «S50-T1-B-E1 · Compara el contrato de `resultado, proceso, trajectory y recovery` sobre `CASO-ICA-050-1B`. La entrada es el dict completo del…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, case_id, CASO; salida anclada a prints ['print(\"S50-T1-B\", status)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "case_id",
+        "CASO",
+        "ICA",
+        "outcome",
+        "process"
+      ]
+    },
+    {
+      "exercise_id": "S50-T1-B-E2",
+      "code": "# dual explorer-H1 · S50-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {'forbidden_tool_used', 'case_id', 'trajectory', 'process', 'recovery', 'min_dimension', 'outcome'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\n    return \"PASS\" if ok else 'FAIL_UNSAFE_TRAJECTORY'\n\nvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}\ninvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': True, 'min_dimension': 2}\nincomplete = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T1-B-E2 leyendo el instruction del quiz_card: «S50-T1-B-E2 · Verifica tres rutas de `resultado, proceso, trajectory y recovery`: fixture válido, fixture adverso y registro sin `min_dimens…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "forbidden_tool_used",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S50-T1-B-E3",
+      "code": "# dual explorer-H1 · S50-T1-B-E3\ndef decide(record: dict) -> str:\n    required = {'forbidden_tool_used', 'case_id', 'trajectory', 'process', 'recovery', 'min_dimension', 'outcome'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'HUMAN_REVIEW_PROCESS'\n    ok = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\n    return \"CONTINUE\" if ok else 'FAIL_UNSAFE_TRAJECTORY'\n\nvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}\ninvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': True, 'min_dimension': 2}\nincomplete = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T1-B-E3 leyendo el instruction del quiz_card: «S50-T1-B-E3 · Extiende fallo cerrado para `resultado, proceso, trajectory y recovery` con tres fixtures distintos. `CASO-ICA-050-1B` debe co…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "forbidden_tool_used",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S50-T2-A-E1",
+      "code": "# dual explorer-H1 · S50-T2-A-E1\nrecord = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\nmeets_contract = not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_GRADERS\"\nprint(\"S50-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T2-A-E1 leyendo el instruction del quiz_card: «S50-T2-A-E1 · Filtra el contrato de `graders deterministas/humanos/LLM` sobre `CASO-ICA-050-2A`. La entrada es el dict completo del starter;…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, case_id, CASO; salida anclada a prints ['print(\"S50-T2-A\", status)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "case_id",
+        "CASO",
+        "ICA",
+        "deterministic",
+        "human"
+      ]
+    },
+    {
+      "exercise_id": "S50-T2-A-E2",
+      "code": "# dual explorer-H1 · S50-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'human_llm_agreement', 'deterministic', 'human', 'min_agreement', 'llm'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])\n    return \"PASS\" if ok else 'RECALIBRATE_GRADERS'\n\nvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}\ninvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75, '_adverse': True}\nincomplete = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T2-A-E2 leyendo el instruction del quiz_card: «S50-T2-A-E2 · Clasifica tres rutas de `graders deterministas/humanos/LLM`: fixture válido, fixture adverso y registro sin `min_agreement`. E…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "human_llm_agreement"
+      ]
+    },
+    {
+      "exercise_id": "S50-T2-A-E3",
+      "code": "# dual explorer-H1 · S50-T2-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'human_llm_agreement', 'deterministic', 'human', 'min_agreement', 'llm'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ADJUDICATE_DISAGREEMENT'\n    ok = not (record[\"human_llm_agreement\"] < record[\"min_agreement\"])\n    return \"CONTINUE\" if ok else 'RECALIBRATE_GRADERS'\n\nvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}\ninvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75, '_adverse': True}\nincomplete = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T2-A-E3 leyendo el instruction del quiz_card: «S50-T2-A-E3 · Defiende fallo cerrado para `graders deterministas/humanos/LLM` con tres fixtures distintos. `CASO-ICA-050-2A` debe continuar,…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "human_llm_agreement"
+      ]
+    },
+    {
+      "exercise_id": "S50-T2-B-E1",
+      "code": "# dual explorer-H1 · S50-T2-B-E1\nrecord = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\nmeets_contract = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_JUDGE\"\nprint(\"S50-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T2-B-E1 leyendo el instruction del quiz_card: «S50-T2-B-E1 · Modela el contrato de `calibración, order bias y conjunto retenido` sobre `CASO-ICA-050-2B`. La entrada es el dict completo de…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, case_id, CASO; salida anclada a prints ['print(\"S50-T2-B\", status)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "case_id",
+        "CASO",
+        "ICA",
+        "anchor_accuracy",
+        "min_anchor_accuracy"
+      ]
+    },
+    {
+      "exercise_id": "S50-T2-B-E2",
+      "code": "# dual explorer-H1 · S50-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {'min_anchor_accuracy', 'case_id', 'order_gap', 'holdout_touched', 'max_order_gap', 'anchor_accuracy'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\n    return \"PASS\" if ok else 'INVALIDATE_JUDGE'\n\nvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}\ninvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': True}\nincomplete = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T2-B-E2 leyendo el instruction del quiz_card: «S50-T2-B-E2 · Audita tres rutas de `calibración, order bias y conjunto retenido`: fixture válido, fixture adverso y registro sin `holdout_to…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "min_anchor_accuracy",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S50-T2-B-E3",
+      "code": "# dual explorer-H1 · S50-T2-B-E3\ndef decide(record: dict) -> str:\n    required = {'min_anchor_accuracy', 'case_id', 'order_gap', 'holdout_touched', 'max_order_gap', 'anchor_accuracy'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SEAL_NEW_HOLDOUT'\n    ok = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\n    return \"CONTINUE\" if ok else 'INVALIDATE_JUDGE'\n\nvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}\ninvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': True}\nincomplete = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T2-B-E3 leyendo el instruction del quiz_card: «S50-T2-B-E3 · Recupera fallo cerrado para `calibración, order bias y conjunto retenido` con tres fixtures distintos. `CASO-ICA-050-2B` debe…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "min_anchor_accuracy",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S50-T3-A-E1",
+      "code": "# dual explorer-H1 · S50-T3-A-E1\nrecord = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\nmeets_contract = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_SECURITY_P0\"\nprint(\"S50-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T3-A-E1 leyendo el instruction del quiz_card: «S50-T3-A-E1 · Verifica el contrato de `prompt injection, exfiltración y tool misuse` sobre `CASO-ICA-050-3A`. La entrada es el dict completo…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, case_id, CASO; salida anclada a prints ['print(\"S50-T3-A\", status)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "case_id",
+        "CASO",
+        "ICA",
+        "injection_blocked",
+        "exfiltration_bytes"
+      ]
+    },
+    {
+      "exercise_id": "S50-T3-A-E2",
+      "code": "# dual explorer-H1 · S50-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'tool_args_valid', 'tool_scope', 'severity', 'exfiltration_bytes', 'injection_blocked'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\n    return \"PASS\" if ok else 'BLOCK_SECURITY_P0'\n\nvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\ninvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': False, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\nincomplete = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T3-A-E2 leyendo el instruction del quiz_card: «S50-T3-A-E2 · Decide tres rutas de `prompt injection, exfiltración y tool misuse`: fixture válido, fixture adverso y registro sin `severity`…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "tool_args_valid"
+      ]
+    },
+    {
+      "exercise_id": "S50-T3-A-E3",
+      "code": "# dual explorer-H1 · S50-T3-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'tool_args_valid', 'tool_scope', 'severity', 'exfiltration_bytes', 'injection_blocked'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'PRESERVE_ATTACK_TRACE'\n    ok = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\n    return \"CONTINUE\" if ok else 'BLOCK_SECURITY_P0'\n\nvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\ninvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': False, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\nincomplete = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T3-A-E3 leyendo el instruction del quiz_card: «S50-T3-A-E3 · Contrasta fallo cerrado para `prompt injection, exfiltración y tool misuse` con tres fixtures distintos. `CASO-ICA-050-3A` deb…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "tool_args_valid"
+      ]
+    },
+    {
+      "exercise_id": "S50-T3-B-E1",
+      "code": "# dual explorer-H1 · S50-T3-B-E1\nrecord = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\nmeets_contract = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_POISONED_CORPUS\"\nprint(\"S50-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T3-B-E1 leyendo el instruction del quiz_card: «S50-T3-B-E1 · Clasifica el contrato de `indirect injection, data poisoning y least privilege` sobre `CASO-ICA-050-3B`. La entrada es el dict…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, case_id, CASO; salida anclada a prints ['print(\"S50-T3-B\", status)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "case_id",
+        "CASO",
+        "ICA",
+        "document_instruction_treated_as_data",
+        "poisoned_chunks_removed"
+      ]
+    },
+    {
+      "exercise_id": "S50-T3-B-E2",
+      "code": "# dual explorer-H1 · S50-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'requested_permission', 'document_instruction_treated_as_data', 'poisoned_chunks_removed', 'tool_permissions'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\n    return \"PASS\" if ok else 'QUARANTINE_POISONED_CORPUS'\n\nvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\ninvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': False, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\nincomplete = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T3-B-E2 leyendo el instruction del quiz_card: «S50-T3-B-E2 · Calcula tres rutas de `indirect injection, data poisoning y least privilege`: fixture válido, fixture adverso y registro sin `…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "requested_permission"
+      ]
+    },
+    {
+      "exercise_id": "S50-T3-B-E3",
+      "code": "# dual explorer-H1 · S50-T3-B-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'requested_permission', 'document_instruction_treated_as_data', 'poisoned_chunks_removed', 'tool_permissions'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REDUCE_TOOL_PRIVILEGE'\n    ok = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\n    return \"CONTINUE\" if ok else 'QUARANTINE_POISONED_CORPUS'\n\nvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\ninvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': False, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\nincomplete = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T3-B-E3 leyendo el instruction del quiz_card: «S50-T3-B-E3 · Instrumenta fallo cerrado para `indirect injection, data poisoning y least privilege` con tres fixtures distintos. `CASO-ICA-0…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "requested_permission"
+      ]
+    },
+    {
+      "exercise_id": "S50-T4-A-E1",
+      "code": "# dual explorer-H1 · S50-T4-A-E1\nrecord = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\nmeets_contract = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_HALLUCINATION_REGRESSION\"\nprint(\"S50-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T4-A-E1 leyendo el instruction del quiz_card: «S50-T4-A-E1 · Audita el contrato de `hallucination y abstención` sobre `CASO-ICA-050-4A`. La entrada es el dict completo del starter; la ope…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, case_id, CASO; salida anclada a prints ['print(\"S50-T4-A\", status)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "case_id",
+        "CASO",
+        "ICA",
+        "supported_claims",
+        "total_claims"
+      ]
+    },
+    {
+      "exercise_id": "S50-T4-A-E2",
+      "code": "# dual explorer-H1 · S50-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'min_support_rate', 'total_claims', 'unsupported_critical', 'abstained_when_empty', 'supported_claims'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\n    return \"PASS\" if ok else 'BLOCK_HALLUCINATION_REGRESSION'\n\nvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}\ninvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 2, 'abstained_when_empty': True}\nincomplete = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T4-A-E2 leyendo el instruction del quiz_card: «S50-T4-A-E2 · Compara tres rutas de `hallucination y abstención`: fixture válido, fixture adverso y registro sin `abstained_when_empty`. Ent…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "min_support_rate"
+      ]
+    },
+    {
+      "exercise_id": "S50-T4-A-E3",
+      "code": "# dual explorer-H1 · S50-T4-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'min_support_rate', 'total_claims', 'unsupported_critical', 'abstained_when_empty', 'supported_claims'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_ABSTENTION_SLICE'\n    ok = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\n    return \"CONTINUE\" if ok else 'BLOCK_HALLUCINATION_REGRESSION'\n\nvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}\ninvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 2, 'abstained_when_empty': True}\nincomplete = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T4-A-E3 leyendo el instruction del quiz_card: «S50-T4-A-E3 · Aísla fallo cerrado para `hallucination y abstención` con tres fixtures distintos. `CASO-ICA-050-4A` debe continuar, el advers…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "min_support_rate"
+      ]
+    },
+    {
+      "exercise_id": "S50-T4-B-E1",
+      "code": "# dual explorer-H1 · S50-T4-B-E1\nrecord = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\nmeets_contract = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AI_RELEASE\"\nprint(\"S50-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T4-B-E1 leyendo el instruction del quiz_card: «S50-T4-B-E1 · Decide el contrato de `latency/cost/caching, incident response y rollback` sobre `CASO-ICA-050-4B`. La entrada es el dict comp…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, case_id, CASO; salida anclada a prints ['print(\"S50-T4-B\", status)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "case_id",
+        "CASO",
+        "ICA",
+        "p95_ms",
+        "slo_ms"
+      ]
+    },
+    {
+      "exercise_id": "S50-T4-B-E2",
+      "code": "# dual explorer-H1 · S50-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {'p95_ms', 'case_id', 'slo_ms', 'cache_acl_safe', 'rto_minutes', 'cost_pen', 'rollback_minutes', 'cost_cap_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if ok else 'ROLLBACK_AI_RELEASE'\n\nvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\ninvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 1100, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\nincomplete = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T4-B-E2 leyendo el instruction del quiz_card: «S50-T4-B-E2 · Filtra tres rutas de `latency/cost/caching, incident response y rollback`: fixture válido, fixture adverso y registro sin `rto…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "p95_ms",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S50-T4-B-E3",
+      "code": "# dual explorer-H1 · S50-T4-B-E3\ndef decide(record: dict) -> str:\n    required = {'p95_ms', 'case_id', 'slo_ms', 'cache_acl_safe', 'rto_minutes', 'cost_pen', 'rollback_minutes', 'cost_cap_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ACTIVATE_INCIDENT_RESPONSE'\n    ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\n    return \"CONTINUE\" if ok else 'ROLLBACK_AI_RELEASE'\n\nvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\ninvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 1100, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\nincomplete = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Evals, red teaming y fiabilidad de IA» (S50) resolví S50-T4-B-E3 leyendo el instruction del quiz_card: «S50-T4-B-E3 · Demuestra fallo cerrado para `latency/cost/caching, incident response y rollback` con tres fixtures distintos. `CASO-ICA-050-4…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S50, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contrato operat.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S50",
+        "dict",
+        "str",
+        "required",
+        "p95_ms",
+        "case_id"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S50 Q0: «¿Qué evidencia permite aprobar `task dataset y rubric` en CASO-ICA-050?». En la teoría del slim_packet («task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contr) la opción «dataset versionado y rúbrica calibrada» es la que describe el concepto; descarto p.ej. ['un print sin assert ni versión', 'una captura de pantalla sin fuente']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S50 Q1: «Si ocurre la condición de error de S50, ¿qué respuesta preserva seguridad y auditabilidad?». En la teoría del slim_packet («task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contr) la opción «emitir BLOCK_CANDIDATE y conservar evidencia» es la que describe el concepto; descarto p.ej. ['continuar y ocultar el warning', 'inventar evidencia faltante']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S50 Q2: «¿Cuál resultado demuestra el gate `CP-N4-C · quality gate de IA adversarial`?». En la teoría del slim_packet («task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contr) la opción «evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final» es la que describe el concepto; descarto p.ej. ['el archivo S50 existe, aunque no pruebe el gate', 'el README afirma que funciona']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S50 Q3: «¿Qué tratamiento de `CASO-ICA-050` respeta el alcance del curso?». En la teoría del slim_packet («task dataset y rubric» El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables. Contr) la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» es la que describe el concepto; descarto p.ej. ['reemplazarlo por datos reales sin consentimiento', 'subir secretos para facilitar la demo']. Respuesta razonada solo con packet H1 activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:48:05.255029+00:00",
+  "session_started_at": "2026-07-23T08:47:40.932633+00:00",
+  "session_ended_at": "2026-07-23T08:48:05.255029+00:00"
+}

@@ -1,0 +1,383 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H2",
+  "section_index": 20,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-ske-s20-629364-98758",
+  "production_note": "agentic_H2 dual-LLM skeptic: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S20-T1-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S20-T1-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: crear hoja y celda de encabezado. Fixture `S20-T1-A-E1` / datos si». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints from openpyxl import Wo». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "crear",
+        "hoja",
+        "celda",
+        "encabezado"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S20-T1-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: append de filas de datos. Fixture `S20-T1-A-E2` / datos sin». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints from openpyxl import Wo». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "append",
+        "filas",
+        "datos",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-A-E3",
+      "code": "# Transfer / protocolo — S20-T1-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: múltiples sheetnames estables. Fixture `S20-T1-A-E3` / datos sintéticos: wb = Workbook(); wb.active.title = \"Datos\". Completa el TODO del starter sin borrar el oráculo; imprime el resultado\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: sheets, celdas, tablas, named, ranges, libro, grafo, hojas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- create_sheet.\n",
+      "answer": "",
+      "justification_from_packet": "Para S20-T1-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: múltiples sheetnames estables. Fixture `S20-T1-A-E3` / dato». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S20-T1-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "ltiples",
+        "sheetnames",
+        "estables",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A3\"] = \"=A1+A2\"\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S20-T1-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: escribir fórmula en celda. Fixture `S20-T1-B-E1` / datos sintético». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints from openpyxl import Wo». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "escribir",
+        "rmula",
+        "celda",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 3\nws[\"A2\"] = 4\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S20-T1-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: materializar valor vs fórmula. Fixture `S20-T1-B-E2` / dato». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints from openpyxl import Wo». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "materializar",
+        "valor",
+        "rmula",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-B-E3",
+      "code": "# Transfer / protocolo — S20-T1-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: detectar celda con prefijo =. Fixture `S20-T1-B-E3` / datos sintéticos: def es_formula(v):; return isinstance(v, str) and v.startswith(\"=\"). Completa el TODO del starter sin borrar el orácu\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: sheets, celdas, tablas, named, ranges, libro, grafo, hojas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- isinstance str.\n",
+      "answer": "",
+      "justification_from_packet": "Para S20-T1-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: detectar celda con prefijo =. Fixture `S20-T1-B-E3` / datos». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S20-T1-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "detectar",
+        "celda",
+        "prefijo",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nfrom openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"KPI\"\nws[\"A1\"].font = Font(bold=True)\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S20-T2-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: aplicar estilo de fuente a header. Fixture `S20-T2-A-E1` / datos s». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints from openpyxl import Wo». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "aplicar",
+        "estilo",
+        "fuente",
+        "header"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\nfrom openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S20-T2-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: freeze_panes o dimensión de print. Fixture `S20-T2-A-E2` / ». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints from openpyxl import Wo». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "freeze_panes",
+        "dimensi",
+        "print",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-A-E3",
+      "code": "# Transfer / protocolo — S20-T2-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: plantilla con hoja fija de catálogo. Fixture `S20-T2-A-E3` / datos sintéticos: def header_style(ws, coord):; c = ws[coord]. Completa el TODO del starter sin borrar el oráculo; imprime el re\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: sheets, celdas, tablas, named, ranges, libro, grafo, hojas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Función mutadora.\n",
+      "answer": "",
+      "justification_from_packet": "Para S20-T2-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: plantilla con hoja fija de catálogo. Fixture `S20-T2-A-E3` ». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S20-T2-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "plantilla",
+        "hoja",
+        "fija",
+        "logo"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\nfrom openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S20-T2-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: fecha ISO en celda de metadata. Fixture `S20-T2-B-E1` / datos sint». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints from openpyxl import Wo». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "fecha",
+        "celda",
+        "metadata",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S20-T2-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: evitar merge en rango de datos. Fixture `S20-T2-B-E2` / dat». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints from openpyxl import Wo». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "evitar",
+        "merge",
+        "rango",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-B-E3",
+      "code": "# Transfer / protocolo — S20-T2-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: protección / flag writable. Fixture `S20-T2-B-E3` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: sheets, celdas, tablas, named, ranges, libro, grafo, hojas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- len(ws.merged_cells.ranges).\n",
+      "answer": "",
+      "justification_from_packet": "Para S20-T2-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: protección / flag writable. Fixture `S20-T2-B-E3` / datos s». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S20-T2-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "protecci",
+        "flag",
+        "writable",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-A-E1",
+      "code": "# skeptical re-read completes via iDo\nimport pandas as pd\n\ndet = pd.DataFrame({\n    \"region\": [\"Lima\", \"Lima\", \"Arequipa\", \"Cusco\"],\n    \"monto\": [10.0, 12.0, 8.0, 5.5],\n})\nportada = 35.5\npivot = det.groupby(\"region\")[\"monto\"].sum().to_dict()\nprint(pivot)\nprint(\"reconcile\", abs(det[\"monto\"].sum() - portada) < 0.01)\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S20-T3-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: suma reconciliada df vs hoja. Fixture `S20-T3-A-E1` / datos sintét». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo import pandas as pd  det = pd.Da». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "suma",
+        "reconciliada",
+        "hoja",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S20-T3-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: conteo n filas de datos. Fixture `S20-T3-A-E2` / datos sint». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import pandas as pd df ». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "conteo",
+        "filas",
+        "datos",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-A-E3",
+      "code": "# Transfer / protocolo — S20-T3-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: pivot materializado región→suma. Fixture `S20-T3-A-E3` / datos sintéticos: def reconcile(det_sum, portada, tol=0.01):; return abs(det_sum - portada) < tol. Completa el TODO del starter sin \n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: sheets, celdas, tablas, named, ranges, libro, grafo, hojas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- abs <= tol o <.\n",
+      "answer": "",
+      "justification_from_packet": "Para S20-T3-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: pivot materializado región→suma. Fixture `S20-T3-A-E3` / da». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S20-T3-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "pivot",
+        "materializado",
+        "regi",
+        "suma"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected = [\"region\", \"monto\"]\ngot = [\"region\", \"monto\"]\n# forma esperada (referencia): print(expected == got)",
+      "answer": "",
+      "justification_from_packet": "Para S20-T3-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: validar encabezados requeridos. Fixture `S20-T3-B-E1` / datos sint». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "validar",
+        "encabezados",
+        "requeridos",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nallowed = {\"Lima\", \"Cusco\"}\nregs = [\"Lima\", \"Piura\"]\n# forma esperada (referencia): print([r for r in regs if r not in allowed])",
+      "answer": "",
+      "justification_from_packet": "Para S20-T3-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: structural_ok de sheetnames. Fixture `S20-T3-B-E2` / datos ». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "structural_ok",
+        "sheetnames",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-B-E3",
+      "code": "# Transfer / protocolo — S20-T3-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: preservar hoja de catálogo. Fixture `S20-T3-B-E3` / datos sintéticos: def validate_rows(rows, allowed):; return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]. Completa el TODO d\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: sheets, celdas, tablas, named, ranges, libro, grafo, hojas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Comprensión.\n",
+      "answer": "",
+      "justification_from_packet": "Para S20-T3-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: preservar hoja de catálogo. Fixture `S20-T3-B-E3` / datos s». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S20-T3-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "preservar",
+        "hoja",
+        "logo",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-A-E1",
+      "code": "# skeptical re-read completes via iDo\nbatch = [\n    (\"ok1.xlsx\", \"ok\"),\n    (\"bad.xlsx\", \"corrupt\"),\n    (\"lock.xlsx\", \"locked\"),\n    (\"ok2.xlsx\", \"ok\"),\n]\nmanifest = {}\nfor name, st in batch:\n    manifest[name] = st\nprint(manifest)\nprint({k: sum(1 for v in manifest.values() if v == k) for k in (\"ok\", \"corrupt\", \"locked\")})\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S20-T4-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: contadores batch ok/skip. Fixture `S20-T4-A-E1` / datos sintéticos». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo batch = [     (\"ok1.xlsx\", \"ok\")». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.]",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "contadores",
+        "batch",
+        "skip",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-A-E2",
+      "code": "# skeptical re-read completes via iDo\nbatch = [\n    (\"ok1.xlsx\", \"ok\"),\n    (\"bad.xlsx\", \"corrupt\"),\n    (\"lock.xlsx\", \"locked\"),\n    (\"ok2.xlsx\", \"ok\"),\n]\nmanifest = {}\nfor name, st in batch:\n    manifest[name] = st\nprint(manifest)\nprint({k: sum(1 for v in manifest.values() if v == k) for k in (\"ok\", \"corrupt\", \"locked\")})\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S20-T4-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: aislar archivo corrupto. Fixture `S20-T4-A-E2` / datos sint». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo batch = [     (\"ok1.xlsx\", \"ok\")». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.]",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "aislar",
+        "archivo",
+        "corrupto",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-A-E3",
+      "code": "# Transfer / protocolo — S20-T4-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: resumen JSON de corrida batch. Fixture `S20-T4-A-E3` / datos sintéticos: files = {\"a\": \"ok\", \"b\": \"corrupt\"}; print(dict(Counter(files.values()))). Completa el TODO del starter sin borrar e\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: sheets, celdas, tablas, named, ranges, libro, grafo, hojas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Counter o dict.\n",
+      "answer": "",
+      "justification_from_packet": "Para S20-T4-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: resumen JSON de corrida batch. Fixture `S20-T4-A-E3` / dato». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S20-T4-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "resumen",
+        "JSON",
+        "corrida",
+        "batch"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print({\"backup\": \"out/prev.bak\", \"idempotent\": True})",
+      "answer": "",
+      "justification_from_packet": "Para S20-T4-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: backup path versionado. Fixture `S20-T4-B-E1` / datos sintéticos: ». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture sintético CAS». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "backup",
+        "path",
+        "versionado",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\n\ndef dig(rows):\n    s = \"\\n\".join(f\"{a},{b}\" for a, b in sorted(rows))\n    return hashlib.sha1(s.encode()).hexdigest()\n# forma esperada (referencia): print(dig([(\"Lima\", 1), (\"Cusco\", 2)]) == dig([(\"Cusco\", 2), (\"Lima\", 1)]))\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S20-T4-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: digest canónico de filas. Fixture `S20-T4-B-E2` / datos sin». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "digest",
+        "nico",
+        "filas",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-B-E3",
+      "code": "# Transfer / protocolo — S20-T4-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: structural_ok need ⊆ sheets. Fixture `S20-T4-B-E3` / datos sintéticos: def structural_ok(sheetnames, need):; return set(sheetnames) >= set(need). Completa el TODO del starter sin borrar el \n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: sheets, celdas, tablas, named, ranges, libro, grafo, hojas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- set issuperset.\n",
+      "answer": "",
+      "justification_from_packet": "Para S20-T4-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: structural_ok need ⊆ sheets. Fixture `S20-T4-B-E3` / datos ». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S20-T4-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: sheets celdas tablas named ranges libro grafo hojas celdas tablas. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "structural_ok",
+        "need",
+        "sheets",
+        "Fixture"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "S20 ítem 0: descarto distractores y me quedo con 3 («No; suele devolver la fórmula o cache si existe»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «openpyxl sin Excel instalado evalúa fórmulas automáticamente:». Tokens: sheets celdas tablas named ranges libro grafo hojas nombra forma estable entrada."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "S20 ítem 1: descarto distractores y me quedo con 1 («Escribir en la celda ancla (top-left)»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Al escribir en celdas combinadas debes:». Tokens: sheets celdas tablas named ranges libro grafo hojas nombra forma estable entrada."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "S20 ítem 2: descarto distractores y me quedo con 2 («Estados de batch, conciliación y backups»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Un manifest del excel factory debe permitir auditar:». Tokens: sheets celdas tablas named ranges libro grafo hojas nombra forma estable entrada."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "S20 ítem 3: descarto distractores y me quedo con 0 («Misma entrada → mismo resultado lógico»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Idempotencia significa:». Tokens: sheets celdas tablas named ranges libro grafo hojas nombra forma estable entrada."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "S20 ítem 4: descarto distractores y me quedo con 3 («Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolerancia de redonde»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Al materializar un Excel de salida del reporting factory, la suma de montos en la hoja no ». Tokens: sheets celdas tablas named ranges libro grafo hojas nombra forma estable entrada."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:26:28.874989+00:00",
+  "session_started_at": "2026-07-23T09:25:58.916688+00:00",
+  "session_ended_at": "2026-07-23T09:26:28.874989+00:00"
+}

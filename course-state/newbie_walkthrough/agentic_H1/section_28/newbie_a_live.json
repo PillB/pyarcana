@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 28,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s28-6bc7b15be607",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "code": "# dual explorer-H1 · S28-T1-A-E1\nimport random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\nh1_out = a == b\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T1-A-E1 leyendo el instruction del quiz_card: «S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, random, seed; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "random",
+        "seed",
+        "h1_out",
+        "Con",
+        "genera"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "code": "# dual explorer-H1 · S28-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0,0.5,1]\nprint(all(0 <= s <= 1 for s in scores))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T1-A-E2 leyendo el instruction del quiz_card: «S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @exam…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print(all(0 <= s <= 1 for s in scores))']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "code": "# dual explorer-H1 · S28-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='  x '\nf=lambda x: x.strip()\nh1_out = f(f(s)) == f(s)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T1-A-E3 leyendo el instruction del quiz_card: «S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s=' x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la en…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "code": "# dual explorer-H1 · S28-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='x','x'\nh1_out = (a == b) == (b == a)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T1-B-E1 leyendo el instruction del quiz_card: «S28-T1-B-E1 · Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "code": "# dual explorer-H1 · S28-T1-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nh1_out = 'Ana'.casefold() == 'ANA'.casefold()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T1-B-E2 leyendo el instruction del quiz_card: «S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataq…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "code": "# dual explorer-H1 · S28-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b=1,1\nh1_out = (a == b) == (b == a)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T1-B-E3 leyendo el instruction del quiz_card: «S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-d…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "code": "# dual explorer-H1 · S28-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nr={}\nh1_out = 'id requerido' if not r.get('id') else 'ok'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T2-A-E1 leyendo el instruction del quiz_card: «S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada e…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "code": "# dual explorer-H1 · S28-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=1.2\nh1_out = 'score' if not (0 <= score <= 1) else 'ok'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T2-A-E2 leyendo el instruction del quiz_card: «S28-T2-A-E2 · score=1.2 fuera de rango → imprime 'score'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "code": "# dual explorer-H1 · S28-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'id':'1'},{'id':''}]\nprint(sum(1 for r in rows if not r.get('id')))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T2-A-E3 leyendo el instruction del quiz_card: «S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa,…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints [\"print(sum(1 for r in rows if not r.get('id')))\"]. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "code": "# dual explorer-H1 · S28-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngolden,current={'n':1},{'n':2}\nh1_out = 'drift' if golden != current else 'ok'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T2-B-E1 leyendo el instruction del quiz_card: «S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el star…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "code": "# dual explorer-H1 · S28-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndiff, approved = True, False\nh1_out = 'blocked' if diff and not approved else 'ok'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T2-B-E2 leyendo el instruction del quiz_card: «S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "code": "# dual explorer-H1 · S28-T2-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'golden_version': 3}['golden_version'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T2-B-E3 leyendo el instruction del quiz_card: «S28-T2-B-E3 · Imprime version del golden = 3. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, sint; salida anclada a prints [\"print({'golden_version': 3}['golden_version'])\"]. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "code": "# dual explorer-H1 · S28-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndb={'e1':{'name':'Ana'}}\nh1_out = db['e1']['name']\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T3-A-E1 leyendo el instruction del quiz_card: «S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada e…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "code": "# dual explorer-H1 · S28-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nprint(date(2026, 7, 20).isoformat())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T3-A-E2 leyendo el instruction del quiz_card: «S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): l…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print(date(2026, 7, 20).isoformat())']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "code": "# dual explorer-H1 · S28-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus=503\nh1_out = 'retry' if status >= 500 else 'ok'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T3-A-E3 leyendo el instruction del quiz_card: «S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "code": "# dual explorer-H1 · S28-T3-B-E1\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nh1_out = 'A'.casefold() == 'a'.casefold()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T3-B-E1 leyendo el instruction del quiz_card: «S28-T3-B-E1 · Contrato: match real 'A'/'a' → True. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el sta…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "code": "# dual explorer-H1 · S28-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nf=lambda a,b: True\nprint('weak' if f('x','y') and f('1','2') else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T3-B-E2 leyendo el instruction del quiz_card: «S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe)…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints [\"print('weak' if f('x','y') and f('1','2') else 'ok')\"]. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "code": "# dual explorer-H1 · S28-T3-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'rows_written': 1}['rows_written'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T3-B-E3 leyendo el instruction del quiz_card: «S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, sint; salida anclada a prints [\"print({'rows_written': 1}['rows_written'])\"]. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "code": "# dual explorer-H1 · S28-T4-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\nh1_out = c.execute('select count(*) from t').fetchone()[0]\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T4-A-E1 leyendo el instruction del quiz_card: «S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entr…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, sqlite3, connect; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "code": "# dual explorer-H1 · S28-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nh1_out = n * (n - 1) // 2\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T4-A-E2 leyendo el instruction del quiz_card: «S28-T4-A-E2 · Cardinalidad de pares C(n,2) para n=4 → 6. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "code": "# dual explorer-H1 · S28-T4-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndone, items={'a'}, ['a','b']\nprint([i for i in items if i not in done])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T4-A-E3 leyendo el instruction del quiz_card: «S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print([i for i in items if i not in done])']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "code": "# dual explorer-H1 · S28-T4-B-E1\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(sorted(['b', 'a']))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T4-B-E1 leyendo el instruction del quiz_card: «S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, sint; salida anclada a prints [\"print(sorted(['b', 'a']))\"]. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "code": "# dual explorer-H1 · S28-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflake_rate=0.01\nh1_out = 'fail_job' if flake_rate > 0 else 'ok'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T4-B-E2 leyendo el instruction del quiz_card: «S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entra…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "code": "# dual explorer-H1 · S28-T4-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nh1_out = 'unit→data→integration'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) resolví S28-T4-B-E3 leyendo el instruction del quiz_card: «S28-T4-B-E3 · Imprime pipeline CI: unit→data→integration. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S28, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S28",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S28 Q0: «Un test metamórfico verifica:». En la teoría del slim_packet («invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n) la opción «Relaciones predecibles entre entradas transformadas y salidas» es la que describe el concepto; descarto p.ej. ['Solo un número mágico', 'Que la red esté caída']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S28 Q1: «Actualizar un golden con drift sin review es:». En la teoría del slim_packet («invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n) la opción «Riesgo de ocultar regresiones» es la que describe el concepto; descarto p.ej. ['Buena práctica', 'Obligatorio en CI']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S28 Q2: «Sobre-mocking típico:». En la teoría del slim_packet («invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n) la opción «Acoplar el test a detalles internos y ocultar bugs» es la que describe el concepto; descarto p.ej. ['Probar lógica pura real', 'Usar sqlite memoria']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S28 Q3: «Flakes en la suite gate de ER se manejan:». En la teoría del slim_packet («invariantes y generación de casos» Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids n) la opción «Con determinismo (seed/reloj/sort) y fallo de job si persisten» es la que describe el concepto; descarto p.ej. ['Ignorándolos', 'Subiendo retries a 100']. Respuesta razonada solo con packet H1 activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:19:05.823299+00:00",
+  "session_started_at": "2026-07-23T08:18:40.751826+00:00",
+  "session_ended_at": "2026-07-23T08:19:05.823299+00:00"
+}

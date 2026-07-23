@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 49,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s49-58b245428a5c",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S49-T1-A-E1",
+      "code": "# dual skeptic-H1 · S49-T1-A-E1\nrecord = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"tool_choice_uncertain\":False,\"baseline_success\":0.96,\"agent_success\":0.9}}\nmeets_contract = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_DETERMINISTIC_WORKFLOW\"\nprint(\"S49-T1-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T1-A-E1: contrasté el Pass del paquete («S49-T1-A-E1 · Calcula el contrato de `workflow vs agente` sobre `CASO-AYA-049-1A`. La entrada es el dict completo del starter; la operación…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S49-T1-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "case_id",
+        "CASO",
+        "AYA",
+        "known_steps",
+        "branch_count"
+      ]
+    },
+    {
+      "exercise_id": "S49-T1-A-E2",
+      "code": "# dual skeptic-H1 · S49-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {'known_steps', 'agent_success', 'baseline_success', 'branch_count', 'case_id', 'tool_choice_uncertain'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\n    return \"PASS\" if ok else 'KEEP_DETERMINISTIC_WORKFLOW'\n\nvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\ninvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nincomplete = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T1-A-E2: contrasté el Pass del paquete («S49-T1-A-E2 · Modela tres rutas de `workflow vs agente`: fixture válido, fixture adverso y registro sin `agent_success`. Entrada: dict con c…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "known_steps",
+        "agent_success"
+      ]
+    },
+    {
+      "exercise_id": "S49-T1-A-E3",
+      "code": "# dual skeptic-H1 · S49-T1-A-E3\ndef decide(record: dict) -> str:\n    required = {'known_steps', 'agent_success', 'baseline_success', 'branch_count', 'case_id', 'tool_choice_uncertain'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RUN_AGENT_BASELINE'\n    ok = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\n    return \"CONTINUE\" if ok else 'KEEP_DETERMINISTIC_WORKFLOW'\n\nvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\ninvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nincomplete = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T1-A-E3: contrasté el Pass del paquete («S49-T1-A-E3 · Simula fallo cerrado para `workflow vs agente` con tres fixtures distintos. `CASO-AYA-049-1A` debe continuar, el adverso debe…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "known_steps",
+        "agent_success"
+      ]
+    },
+    {
+      "exercise_id": "S49-T1-B-E1",
+      "code": "# dual skeptic-H1 · S49-T1-B-E1\nrecord = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_steps\":5,\"worker_outputs\":3,\"evaluator_pass\":True}}\nmeets_contract = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\nstatus = \"PASS\" if meets_contract else \"STOP_AGENT_LOOP\"\nprint(\"S49-T1-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T1-B-E1: contrasté el Pass del paquete («S49-T1-B-E1 · Compara el contrato de `routing, planner/worker y evaluator–optimizer` sobre `CASO-AYA-049-1B`. La entrada es el dict completo…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S49-T1-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "case_id",
+        "CASO",
+        "AYA",
+        "route",
+        "report"
+      ]
+    },
+    {
+      "exercise_id": "S49-T1-B-E2",
+      "code": "# dual skeptic-H1 · S49-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {'worker_outputs', 'case_id', 'max_steps', 'plan_steps', 'route', 'evaluator_pass'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\n    return \"PASS\" if ok else 'STOP_AGENT_LOOP'\n\nvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\ninvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 10, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nincomplete = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T1-B-E2: contrasté el Pass del paquete («S49-T1-B-E2 · Verifica tres rutas de `routing, planner/worker y evaluator–optimizer`: fixture válido, fixture adverso y registro sin `evalua…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "worker_outputs",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S49-T1-B-E3",
+      "code": "# dual skeptic-H1 · S49-T1-B-E3\ndef decide(record: dict) -> str:\n    required = {'worker_outputs', 'case_id', 'max_steps', 'plan_steps', 'route', 'evaluator_pass'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REPLAN_WITH_BOUNDS'\n    ok = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\n    return \"CONTINUE\" if ok else 'STOP_AGENT_LOOP'\n\nvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\ninvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 10, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nincomplete = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T1-B-E3: contrasté el Pass del paquete («S49-T1-B-E3 · Extiende fallo cerrado para `routing, planner/worker y evaluator–optimizer` con tres fixtures distintos. `CASO-AYA-049-1B` deb…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "worker_outputs",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S49-T2-A-E1",
+      "code": "# dual skeptic-H1 · S49-T2-A-E1\nrecord = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibilities\":1,\"schema_fields\":{\"case_id\"},\"side_effect\":False,\"typed_errors\":True}}\nmeets_contract = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_OVERBROAD_TOOL\"\nprint(\"S49-T2-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T2-A-E1: contrasté el Pass del paquete («S49-T2-A-E1 · Filtra el contrato de `funciones de responsabilidad única` sobre `CASO-AYA-049-2A`. La entrada es el dict completo del starter…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S49-T2-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "case_id",
+        "CASO",
+        "AYA",
+        "tool",
+        "get_case_status"
+      ]
+    },
+    {
+      "exercise_id": "S49-T2-A-E2",
+      "code": "# dual skeptic-H1 · S49-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {'responsibilities', 'schema_fields', 'typed_errors', 'side_effect', 'case_id', 'tool'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\n    return \"PASS\" if ok else 'DISABLE_OVERBROAD_TOOL'\n\nvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\ninvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 3, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nincomplete = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T2-A-E2: contrasté el Pass del paquete («S49-T2-A-E2 · Clasifica tres rutas de `funciones de responsabilidad única`: fixture válido, fixture adverso y registro sin `typed_errors`. E…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "responsibilities",
+        "schema_fields"
+      ]
+    },
+    {
+      "exercise_id": "S49-T2-A-E3",
+      "code": "# dual skeptic-H1 · S49-T2-A-E3\ndef decide(record: dict) -> str:\n    required = {'responsibilities', 'schema_fields', 'typed_errors', 'side_effect', 'case_id', 'tool'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SPLIT_TOOL_CONTRACT'\n    ok = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\n    return \"CONTINUE\" if ok else 'DISABLE_OVERBROAD_TOOL'\n\nvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\ninvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 3, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nincomplete = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T2-A-E3: contrasté el Pass del paquete («S49-T2-A-E3 · Defiende fallo cerrado para `funciones de responsabilidad única` con tres fixtures distintos. `CASO-AYA-049-2A` debe continuar…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "responsibilities",
+        "schema_fields"
+      ]
+    },
+    {
+      "exercise_id": "S49-T2-B-E1",
+      "code": "# dual skeptic-H1 · S49-T2-B-E1\nrecord = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:prepare\",\"granted\":{\"report:prepare\"},\"idempotency_key\":\"tool-1\",\"attempts\":2,\"effects\":1,\"error_kind\":\"retryable\"}}\nmeets_contract = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\nstatus = \"PASS\" if meets_contract else \"DENY_TOOL_CALL\"\nprint(\"S49-T2-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T2-B-E1: contrasté el Pass del paquete («S49-T2-B-E1 · Modela el contrato de `schema, permisos, idempotencia y errores` sobre `CASO-AYA-049-2B`. La entrada es el dict completo del s…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S49-T2-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "case_id",
+        "CASO",
+        "AYA",
+        "schema_valid",
+        "scope"
+      ]
+    },
+    {
+      "exercise_id": "S49-T2-B-E2",
+      "code": "# dual skeptic-H1 · S49-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {'attempts', 'granted', 'idempotency_key', 'error_kind', 'case_id', 'effects', 'schema_valid', 'scope'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\n    return \"PASS\" if ok else 'DENY_TOOL_CALL'\n\nvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\ninvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 2, 'error_kind': 'retryable'}\nincomplete = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T2-B-E2: contrasté el Pass del paquete («S49-T2-B-E2 · Audita tres rutas de `schema, permisos, idempotencia y errores`: fixture válido, fixture adverso y registro sin `error_kind`.…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "attempts",
+        "granted"
+      ]
+    },
+    {
+      "exercise_id": "S49-T2-B-E3",
+      "code": "# dual skeptic-H1 · S49-T2-B-E3\ndef decide(record: dict) -> str:\n    required = {'attempts', 'granted', 'idempotency_key', 'error_kind', 'case_id', 'effects', 'schema_valid', 'scope'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CLASSIFY_TOOL_ERROR'\n    ok = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\n    return \"CONTINUE\" if ok else 'DENY_TOOL_CALL'\n\nvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\ninvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 2, 'error_kind': 'retryable'}\nincomplete = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T2-B-E3: contrasté el Pass del paquete («S49-T2-B-E3 · Recupera fallo cerrado para `schema, permisos, idempotencia y errores` con tres fixtures distintos. `CASO-AYA-049-2B` debe con…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "attempts",
+        "granted"
+      ]
+    },
+    {
+      "exercise_id": "S49-T3-A-E1",
+      "code": "# dual skeptic-H1 · S49-T3-A-E1\nrecord = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_tokens\":2000,\"retrieved_just_in_time\":True,\"checkpoint_after_effect\":True,\"provenance\":True}}\nmeets_contract = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\nstatus = \"PASS\" if meets_contract else \"COMPACT_AND_CHECKPOINT\"\nprint(\"S49-T3-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T3-A-E1: contrasté el Pass del paquete («S49-T3-A-E1 · Verifica el contrato de `contexto mínimo, retrieval JIT y checkpoints` sobre `CASO-AYA-049-3A`. La entrada es el dict completo…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S49-T3-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "case_id",
+        "CASO",
+        "AYA",
+        "context_tokens",
+        "max_context_tokens"
+      ]
+    },
+    {
+      "exercise_id": "S49-T3-A-E2",
+      "code": "# dual skeptic-H1 · S49-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {'max_context_tokens', 'retrieved_just_in_time', 'case_id', 'context_tokens', 'checkpoint_after_effect', 'provenance'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\n    return \"PASS\" if ok else 'COMPACT_AND_CHECKPOINT'\n\nvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\ninvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': False, 'provenance': True}\nincomplete = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T3-A-E2: contrasté el Pass del paquete («S49-T3-A-E2 · Decide tres rutas de `contexto mínimo, retrieval JIT y checkpoints`: fixture válido, fixture adverso y registro sin `provenanc…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "max_context_tokens",
+        "retrieved_just_in_time"
+      ]
+    },
+    {
+      "exercise_id": "S49-T3-A-E3",
+      "code": "# dual skeptic-H1 · S49-T3-A-E3\ndef decide(record: dict) -> str:\n    required = {'max_context_tokens', 'retrieved_just_in_time', 'case_id', 'context_tokens', 'checkpoint_after_effect', 'provenance'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RETRIEVE_MINIMUM_CONTEXT'\n    ok = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\n    return \"CONTINUE\" if ok else 'COMPACT_AND_CHECKPOINT'\n\nvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\ninvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': False, 'provenance': True}\nincomplete = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T3-A-E3: contrasté el Pass del paquete («S49-T3-A-E3 · Contrasta fallo cerrado para `contexto mínimo, retrieval JIT y checkpoints` con tres fixtures distintos. `CASO-AYA-049-3A` deb…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "max_context_tokens",
+        "retrieved_just_in_time"
+      ]
+    },
+    {
+      "exercise_id": "S49-T3-B-E1",
+      "code": "# dual skeptic-H1 · S49-T3-B-E1\nrecord = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"no_prod_write\"},\"facts_after\":{\"case_id\",\"budget\",\"no_prod_write\"},\"memory_retention_days\":7,\"last_known_good\":\"cp-7\"}}\nmeets_contract = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\nstatus = \"PASS\" if meets_contract else \"RESTORE_LAST_KNOWN_GOOD\"\nprint(\"S49-T3-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T3-B-E1: contrasté el Pass del paquete («S49-T3-B-E1 · Clasifica el contrato de `memoria, compaction y last-known-good` sobre `CASO-AYA-049-3B`. La entrada es el dict completo del s…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S49-T3-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "case_id",
+        "CASO",
+        "AYA",
+        "facts_before",
+        "budget"
+      ]
+    },
+    {
+      "exercise_id": "S49-T3-B-E2",
+      "code": "# dual skeptic-H1 · S49-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {'last_known_good', 'facts_before', 'case_id', 'facts_after', 'memory_retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\n    return \"PASS\" if ok else 'RESTORE_LAST_KNOWN_GOOD'\n\nvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\ninvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7', '_adverse': True}\nincomplete = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T3-B-E2: contrasté el Pass del paquete («S49-T3-B-E2 · Calcula tres rutas de `memoria, compaction y last-known-good`: fixture válido, fixture adverso y registro sin `last_known_good…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "last_known_good",
+        "facts_before"
+      ]
+    },
+    {
+      "exercise_id": "S49-T3-B-E3",
+      "code": "# dual skeptic-H1 · S49-T3-B-E3\ndef decide(record: dict) -> str:\n    required = {'last_known_good', 'facts_before', 'case_id', 'facts_after', 'memory_retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_COMPACTION_LOSS'\n    ok = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\n    return \"CONTINUE\" if ok else 'RESTORE_LAST_KNOWN_GOOD'\n\nvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\ninvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7', '_adverse': True}\nincomplete = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T3-B-E3: contrasté el Pass del paquete («S49-T3-B-E3 · Instrumenta fallo cerrado para `memoria, compaction y last-known-good` con tres fixtures distintos. `CASO-AYA-049-3B` debe con…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "last_known_good",
+        "facts_before"
+      ]
+    },
+    {
+      "exercise_id": "S49-T4-A-E1",
+      "code": "# dual skeptic-H1 · S49-T4-A-E1\nrecord = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\":6,\"tokens\":3200,\"max_tokens\":5000,\"cost_pen\":0.04,\"max_cost_pen\":0.06}}\nmeets_contract = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\nstatus = \"PASS\" if meets_contract else \"STOP_BUDGET_EXHAUSTED\"\nprint(\"S49-T4-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T4-A-E1: contrasté el Pass del paquete («S49-T4-A-E1 · Audita el contrato de `stopping conditions y budgets` sobre `CASO-AYA-049-4A`. La entrada es el dict completo del starter; la…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S49-T4-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "case_id",
+        "CASO",
+        "AYA",
+        "goal_met",
+        "steps"
+      ]
+    },
+    {
+      "exercise_id": "S49-T4-A-E2",
+      "code": "# dual skeptic-H1 · S49-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {'tokens', 'goal_met', 'max_tokens', 'case_id', 'max_steps', 'max_cost_pen', 'steps', 'cost_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\n    return \"PASS\" if ok else 'STOP_BUDGET_EXHAUSTED'\n\nvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\ninvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06, '_adverse': True}\nincomplete = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T4-A-E2: contrasté el Pass del paquete («S49-T4-A-E2 · Compara tres rutas de `stopping conditions y budgets`: fixture válido, fixture adverso y registro sin `max_cost_pen`. Entrada:…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "tokens",
+        "goal_met"
+      ]
+    },
+    {
+      "exercise_id": "S49-T4-A-E3",
+      "code": "# dual skeptic-H1 · S49-T4-A-E3\ndef decide(record: dict) -> str:\n    required = {'tokens', 'goal_met', 'max_tokens', 'case_id', 'max_steps', 'max_cost_pen', 'steps', 'cost_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ASK_FOR_SCOPE_REDUCTION'\n    ok = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\n    return \"CONTINUE\" if ok else 'STOP_BUDGET_EXHAUSTED'\n\nvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\ninvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06, '_adverse': True}\nincomplete = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T4-A-E3: contrasté el Pass del paquete («S49-T4-A-E3 · Aísla fallo cerrado para `stopping conditions y budgets` con tres fixtures distintos. `CASO-AYA-049-4A` debe continuar, el adv…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "tokens",
+        "goal_met"
+      ]
+    },
+    {
+      "exercise_id": "S49-T4-B-E1",
+      "code": "# dual skeptic-H1 · S49-T4-B-E1\nrecord = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"workspace-read\",\"sensitive_action\":\"prepare-draft\",\"approval_required\":True,\"approval_present\":True,\"checkpoint\":\"cp-9\",\"replayed_effects\":0}}\nmeets_contract = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\nstatus = \"PASS\" if meets_contract else \"SANDBOX_AND_STOP\"\nprint(\"S49-T4-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T4-B-E1: contrasté el Pass del paquete («S49-T4-B-E1 · Decide el contrato de `sandbox, human approval y recuperación` sobre `CASO-AYA-049-4B`. La entrada es el dict completo del sta…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S49-T4-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "case_id",
+        "CASO",
+        "AYA",
+        "network",
+        "filesystem"
+      ]
+    },
+    {
+      "exercise_id": "S49-T4-B-E2",
+      "code": "# dual skeptic-H1 · S49-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {'filesystem', 'sensitive_action', 'network', 'checkpoint', 'approval_required', 'case_id', 'approval_present', 'replayed_effects'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\n    return \"PASS\" if ok else 'SANDBOX_AND_STOP'\n\nvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\ninvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'open', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nincomplete = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T4-B-E2: contrasté el Pass del paquete («S49-T4-B-E2 · Filtra tres rutas de `sandbox, human approval y recuperación`: fixture válido, fixture adverso y registro sin `replayed_effect…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "filesystem",
+        "sensitive_action"
+      ]
+    },
+    {
+      "exercise_id": "S49-T4-B-E3",
+      "code": "# dual skeptic-H1 · S49-T4-B-E3\ndef decide(record: dict) -> str:\n    required = {'filesystem', 'sensitive_action', 'network', 'checkpoint', 'approval_required', 'case_id', 'approval_present', 'replayed_effects'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_HUMAN_APPROVAL'\n    ok = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\n    return \"CONTINUE\" if ok else 'SANDBOX_AND_STOP'\n\nvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\ninvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'open', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nincomplete = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S49/S49-T4-B-E3: contrasté el Pass del paquete («S49-T4-B-E3 · Demuestra fallo cerrado para `sandbox, human approval y recuperación` con tres fixtures distintos. `CASO-AYA-049-4B` debe cont…») con theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Conceptos dual, skeptic, S49, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S49",
+        "dict",
+        "str",
+        "required",
+        "filesystem",
+        "sensitive_action"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S49#0: contrasto stem «¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049?» con párrafos theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Elijo índice 0 («ADR workflow/agente con baseline») porque cuadra con el vocabulario del paquete; distractores ['un print sin assert ni versión', 'una captura de pantalla sin fuente'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S49#1: contrasto stem «Si ocurre la condición de error de S49, ¿qué respuesta preserva seguridad y auditabilidad?» con párrafos theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Elijo índice 2 («emitir STOP_AGENT y conservar evidencia») porque cuadra con el vocabulario del paquete; distractores ['continuar y ocultar el warning', 'inventar evidencia faltante'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S49#2: contrasto stem «¿Cuál resultado demuestra el gate `CP-N4-C · agente acotado con aprobación humana`?» con párrafos theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Elijo índice 3 («cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible») porque cuadra con el vocabulario del paquete; distractores ['el archivo S49 existe, aunque no pruebe el gate', 'el README afirma que funciona'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S49#3: contrasto stem «¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso?» con párrafos theory/iDo («workflow vs agente» Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida). Elijo índice 1 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») porque cuadra con el vocabulario del paquete; distractores ['reemplazarlo por datos reales sin consentimiento', 'subir secretos para facilitar la demo'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:46:34.678880+00:00",
+  "session_started_at": "2026-07-23T08:46:05.729545+00:00",
+  "session_ended_at": "2026-07-23T08:46:34.678880+00:00"
+}

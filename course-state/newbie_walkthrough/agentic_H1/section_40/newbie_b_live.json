@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 40,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s40-974b9e7d2908",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "code": "# dual skeptic-H1 · S40-T1-A-E1\nrecord = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\nmeets_contract = not (record[\"observed_ms\"] >= record[\"target_ms\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_QA_SCENARIO\"\nprint(\"S40-T1-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T1-A-E1: contrasté el Pass del paquete («S40-T1-A-E1 · Calcula el contrato de `requisitos funcionales y quality attributes` sobre `CASO-LIM-040-1A`. La entrada es el dict completo d…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S40-T1-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "case_id",
+        "CASO",
+        "LIM",
+        "source",
+        "ops"
+      ]
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "code": "# dual skeptic-H1 · S40-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {'observed_ms', 'owner', 'environment', 'case_id', 'source', 'target_ms', 'response', 'stimulus'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"observed_ms\"] >= record[\"target_ms\"])\n    return \"PASS\" if ok else 'REJECT_QA_SCENARIO'\n\nvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300, 'owner': 'platform'}\ninvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 350, 'target_ms': 300, 'owner': 'platform'}\nincomplete = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T1-A-E2: contrasté el Pass del paquete («S40-T1-A-E2 · Modela tres rutas de `requisitos funcionales y quality attributes`: fixture válido, fixture adverso y registro sin `owner`. En…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "observed_ms",
+        "owner"
+      ]
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "code": "# dual skeptic-H1 · S40-T1-A-E3\ndef decide(record: dict) -> str:\n    required = {'observed_ms', 'owner', 'environment', 'case_id', 'source', 'target_ms', 'response', 'stimulus'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_QA_OWNER'\n    ok = not (record[\"observed_ms\"] >= record[\"target_ms\"])\n    return \"CONTINUE\" if ok else 'REJECT_QA_SCENARIO'\n\nvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300, 'owner': 'platform'}\ninvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 350, 'target_ms': 300, 'owner': 'platform'}\nincomplete = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T1-A-E3: contrasté el Pass del paquete («S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtures distintos. `CASO-LIM-040-1A` debe co…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "observed_ms",
+        "owner"
+      ]
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "code": "# dual skeptic-H1 · S40-T1-B-E1\nrecord = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\nmeets_contract = not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))\nstatus = \"PASS\" if meets_contract else \"REOPEN_TRADEOFF\"\nprint(\"S40-T1-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T1-B-E1: contrasté el Pass del paquete («S40-T1-B-E1 · Compara el contrato de `trade-offs, riesgos y criterios medibles` sobre `CASO-LIM-040-1B`. La entrada es el dict completo del…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S40-T1-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "case_id",
+        "CASO",
+        "LIM",
+        "scores",
+        "sync"
+      ]
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "code": "# dual skeptic-H1 · S40-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {'scores', 'selected', 'case_id', 'risk_owner', 'residual_risk'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))\n    return \"PASS\" if ok else 'REOPEN_TRADEOFF'\n\nvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\ninvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'sync', 'risk_owner': 'arquitectura', 'residual_risk': 2}\nincomplete = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T1-B-E2: contrasté el Pass del paquete («S40-T1-B-E2 · Verifica tres rutas de `trade-offs, riesgos y criterios medibles`: fixture válido, fixture adverso y registro sin `residual_ri…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "scores",
+        "selected"
+      ]
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "code": "# dual skeptic-H1 · S40-T1-B-E3\ndef decide(record: dict) -> str:\n    required = {'scores', 'selected', 'case_id', 'risk_owner', 'residual_risk'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ESCALATE_RESIDUAL_RISK'\n    ok = not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))\n    return \"CONTINUE\" if ok else 'REOPEN_TRADEOFF'\n\nvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\ninvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'sync', 'risk_owner': 'arquitectura', 'residual_risk': 2}\nincomplete = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T1-B-E3: contrasté el Pass del paquete («S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtures distintos. `CASO-LIM-040-1B` debe con…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "scores",
+        "selected"
+      ]
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "code": "# dual skeptic-H1 · S40-T2-A-E1\nrecord = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\nmeets_contract = not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))\nstatus = \"PASS\" if meets_contract else \"REDRAW_BOUNDARY\"\nprint(\"S40-T2-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T2-A-E1: contrasté el Pass del paquete («S40-T2-A-E1 · Filtra el contrato de `cohesión/coupling y capas` sobre `CASO-LIM-040-2A`. La entrada es el dict completo del starter; la oper…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S40-T2-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "case_id",
+        "CASO",
+        "LIM",
+        "layers",
+        "presentation"
+      ]
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "code": "# dual skeptic-H1 · S40-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'dependencies', 'layers'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))\n    return \"PASS\" if ok else 'REDRAW_BOUNDARY'\n\nvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\ninvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain'], ['domain', 'infrastructure']], '_adverse': True}\nincomplete = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure']}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T2-A-E2: contrasté el Pass del paquete («S40-T2-A-E2 · Clasifica tres rutas de `cohesión/coupling y capas`: fixture válido, fixture adverso y registro sin `dependencies`. Entrada: d…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "dependencies"
+      ]
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "code": "# dual skeptic-H1 · S40-T2-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'dependencies', 'layers'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_LAYER_OWNER'\n    ok = not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))\n    return \"CONTINUE\" if ok else 'REDRAW_BOUNDARY'\n\nvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\ninvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain'], ['domain', 'infrastructure']], '_adverse': True}\nincomplete = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure']}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T2-A-E3: contrasté el Pass del paquete («S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos. `CASO-LIM-040-2A` debe continuar, el adve…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "dependencies"
+      ]
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "code": "# dual skeptic-H1 · S40-T2-B-E1\nrecord = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\nmeets_contract = not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))\nstatus = \"PASS\" if meets_contract else \"INVERT_DEPENDENCY\"\nprint(\"S40-T2-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T2-B-E1: contrasté el Pass del paquete («S40-T2-B-E1 · Modela el contrato de `ports/adapters y dependencia hacia dominio` sobre `CASO-LIM-040-2B`. La entrada es el dict completo del…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S40-T2-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "case_id",
+        "CASO",
+        "LIM",
+        "port",
+        "CaseRepository"
+      ]
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "code": "# dual skeptic-H1 · S40-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {'contract_tests', 'adapter', 'case_id', 'port', 'domain_imports'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))\n    return \"PASS\" if ok else 'INVERT_DEPENDENCY'\n\nvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': ['sqlalchemy'], 'contract_tests': 3, '_adverse': True}\nincomplete = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': []}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T2-B-E2: contrasté el Pass del paquete («S40-T2-B-E2 · Audita tres rutas de `ports/adapters y dependencia hacia dominio`: fixture válido, fixture adverso y registro sin `contract_te…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "contract_tests",
+        "adapter"
+      ]
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "code": "# dual skeptic-H1 · S40-T2-B-E3\ndef decide(record: dict) -> str:\n    required = {'contract_tests', 'adapter', 'case_id', 'port', 'domain_imports'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'DEFINE_PORT_CONTRACT'\n    ok = not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))\n    return \"CONTINUE\" if ok else 'INVERT_DEPENDENCY'\n\nvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': ['sqlalchemy'], 'contract_tests': 3, '_adverse': True}\nincomplete = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': []}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T2-B-E3: contrasté el Pass del paquete («S40-T2-B-E3 · Recupera fallo cerrado para `ports/adapters y dependencia hacia dominio` con tres fixtures distintos. `CASO-LIM-040-2B` debe c…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "contract_tests",
+        "adapter"
+      ]
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "code": "# dual skeptic-H1 · S40-T3-A-E1\nrecord = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\nmeets_contract = not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))\nstatus = \"PASS\" if meets_contract else \"SPLIT_CONTEXTS\"\nprint(\"S40-T3-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T3-A-E1: contrasté el Pass del paquete («S40-T3-A-E1 · Verifica el contrato de `bounded contexts y lenguaje ubicuo` sobre `CASO-LIM-040-3A`. La entrada es el dict completo del start…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S40-T3-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "case_id",
+        "CASO",
+        "LIM",
+        "contexts",
+        "intake"
+      ]
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "code": "# dual skeptic-H1 · S40-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])) else \"SPLIT_CONTEXTS\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\ninvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"case\",\"score\"}},\"translations\":{}}}\nincomplete = {**valid}\nincomplete.pop(\"translations\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T3-A-E2: contrasté el Pass del paquete («S40-T3-A-E2 · Decide tres rutas de `bounded contexts y lenguaje ubicuo`: fixture válido, fixture adverso y registro sin `translations`. Entr…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "contexts"
+      ]
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "code": "# dual skeptic-H1 · S40-T3-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'contexts', 'translations'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'WORKSHOP_UBIQUITOUS_LANGUAGE'\n    ok = not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))\n    return \"CONTINUE\" if ok else 'SPLIT_CONTEXTS'\n\nvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'record', 'score'}}, 'translations': {'case': 'record'}}\ninvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'case', 'score'}}, 'translations': {'case': 'record'}}\nincomplete = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'record', 'score'}}}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T3-A-E3: contrasté el Pass del paquete («S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures distintos. `CASO-LIM-040-3A` debe continua…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "contexts"
+      ]
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "code": "# dual skeptic-H1 · S40-T3-B-E1\nrecord = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\nmeets_contract = not (record[\"vo\"][\"currency\"] == record[\"entity_id\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_DOMAIN_MODEL\"\nprint(\"S40-T3-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T3-B-E1: contrasté el Pass del paquete («S40-T3-B-E1 · Clasifica el contrato de `entities, value objects y servicios` sobre `CASO-LIM-040-3B`. La entrada es el dict completo del sta…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S40-T3-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "case_id",
+        "CASO",
+        "LIM",
+        "entity_id",
+        "CASE"
+      ]
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "code": "# dual skeptic-H1 · S40-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {'service_stateless', 'vo_frozen', 'case_id', 'entity_id', 'vo'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"vo\"][\"currency\"] == record[\"entity_id\"])\n    return \"PASS\" if ok else 'REJECT_DOMAIN_MODEL'\n\nvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True}\ninvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 1, 'currency': 'USD'}, 'vo_frozen': True, 'service_stateless': True, '_adverse': True}\nincomplete = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T3-B-E2: contrasté el Pass del paquete («S40-T3-B-E2 · Calcula tres rutas de `entities, value objects y servicios`: fixture válido, fixture adverso y registro sin `service_stateless…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "service_stateless",
+        "vo_frozen"
+      ]
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "code": "# dual skeptic-H1 · S40-T3-B-E3\ndef decide(record: dict) -> str:\n    required = {'service_stateless', 'vo_frozen', 'case_id', 'entity_id', 'vo'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CLARIFY_INVARIANT'\n    ok = not (record[\"vo\"][\"currency\"] == record[\"entity_id\"])\n    return \"CONTINUE\" if ok else 'REJECT_DOMAIN_MODEL'\n\nvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True}\ninvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 1, 'currency': 'USD'}, 'vo_frozen': True, 'service_stateless': True, '_adverse': True}\nincomplete = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T3-B-E3: contrasté el Pass del paquete («S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures distintos. `CASO-LIM-040-3B` debe conti…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "service_stateless",
+        "vo_frozen"
+      ]
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "code": "# dual skeptic-H1 · S40-T4-A-E1\nrecord = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\nmeets_contract = not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)\nstatus = \"PASS\" if meets_contract else \"RETURN_ADR_TO_DRAFT\"\nprint(\"S40-T4-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T4-A-E1: contrasté el Pass del paquete («S40-T4-A-E1 · Audita el contrato de `diagramas C4/flujo y ADRs` sobre `CASO-LIM-040-4A`. La entrada es el dict completo del starter; la oper…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S40-T4-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "case_id",
+        "CASO",
+        "LIM",
+        "c4_levels",
+        "context"
+      ]
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "code": "# dual skeptic-H1 · S40-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'adr_fields', 'c4_levels', 'adr_status'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)\n    return \"PASS\" if ok else 'RETURN_ADR_TO_DRAFT'\n\nvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'decision', 'context', 'alternatives', 'rollback', 'consequences'}, 'adr_status': 'accepted'}\ninvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'decision', 'context', 'alternatives', 'rollback', 'consequences'}, 'adr_status': 'draft', '_adverse': True}\nincomplete = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'decision', 'context', 'alternatives', 'rollback', 'consequences'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T4-A-E2: contrasté el Pass del paquete («S40-T4-A-E2 · Compara tres rutas de `diagramas C4/flujo y ADRs`: fixture válido, fixture adverso y registro sin `adr_status`. Entrada: dict…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "adr_fields"
+      ]
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "code": "# dual skeptic-H1 · S40-T4-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'adr_fields', 'c4_levels', 'adr_status'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_ARCH_REVIEW'\n    ok = not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)\n    return \"CONTINUE\" if ok else 'RETURN_ADR_TO_DRAFT'\n\nvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'decision', 'context', 'alternatives', 'rollback', 'consequences'}, 'adr_status': 'accepted'}\ninvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'decision', 'context', 'alternatives', 'rollback', 'consequences'}, 'adr_status': 'draft', '_adverse': True}\nincomplete = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'decision', 'context', 'alternatives', 'rollback', 'consequences'}}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T4-A-E3: contrasté el Pass del paquete («S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos. `CASO-LIM-040-4A` debe continuar, el adverso…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "adr_fields"
+      ]
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "code": "# dual skeptic-H1 · S40-T4-B-E1\nrecord = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\nmeets_contract = not (record[\"v11_fields\"] < record[\"v1_fields\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_BREAKING_CHANGE\"\nprint(\"S40-T4-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T4-B-E1: contrasté el Pass del paquete («S40-T4-B-E1 · Decide el contrato de `APIs, eventos, deuda y evolución compatible` sobre `CASO-LIM-040-4B`. La entrada es el dict completo de…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S40-T4-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "case_id",
+        "CASO",
+        "LIM",
+        "v1_fields",
+        "v11_fields"
+      ]
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "code": "# dual skeptic-H1 · S40-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {'debt_owner', 'case_id', 'v11_fields', 'v1_fields', 'retire_on'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"v11_fields\"] < record[\"v1_fields\"])\n    return \"PASS\" if ok else 'BLOCK_BREAKING_CHANGE'\n\nvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\ninvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': set(), 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\nincomplete = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T4-B-E2: contrasté el Pass del paquete («S40-T4-B-E2 · Filtra tres rutas de `APIs, eventos, deuda y evolución compatible`: fixture válido, fixture adverso y registro sin `retire_on`…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "debt_owner",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "code": "# dual skeptic-H1 · S40-T4-B-E3\ndef decide(record: dict) -> str:\n    required = {'debt_owner', 'case_id', 'v11_fields', 'v1_fields', 'retire_on'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'NEGOTIATE_VERSION'\n    ok = not (record[\"v11_fields\"] < record[\"v1_fields\"])\n    return \"CONTINUE\" if ok else 'BLOCK_BREAKING_CHANGE'\n\nvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\ninvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': set(), 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\nincomplete = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S40/S40-T4-B-E3: contrasté el Pass del paquete («S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fixtures distintos. `CASO-LIM-040-4B` debe…») con theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Conceptos dual, skeptic, S40, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S40",
+        "dict",
+        "str",
+        "required",
+        "debt_owner",
+        "case_id"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S40#0: contrasto stem «¿Qué evidencia permite aprobar `requisitos funcionales y quality attributes` en CASO-LIM-040?» con párrafos theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Elijo índice 3 («escenario QA completo con umbral y dueño») porque cuadra con el vocabulario del paquete; distractores ['un print sin assert ni versión', 'una captura de pantalla sin fuente'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S40#1: contrasto stem «Si ocurre la condición de error de S40, ¿qué respuesta preserva seguridad y auditabilidad?» con párrafos theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Elijo índice 1 («emitir BLOCK_ARCHITECTURE y conservar evidencia») porque cuadra con el vocabulario del paquete; distractores ['continuar y ocultar el warning', 'inventar evidencia faltante'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S40#2: contrasto stem «¿Cuál resultado demuestra el gate `CP-N4-A · mapa de arquitectura gobernado`?» con párrafos theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Elijo índice 2 («cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia») porque cuadra con el vocabulario del paquete; distractores ['el archivo S40 existe, aunque no pruebe el gate', 'el README afirma que funciona'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S40#3: contrasto stem «¿Qué tratamiento de `CASO-LIM-040` respeta el alcance del curso?» con párrafos theory/iDo («requisitos funcionales y quality attributes» Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenari). Elijo índice 0 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») porque cuadra con el vocabulario del paquete; distractores ['reemplazarlo por datos reales sin consentimiento', 'subir secretos para facilitar la demo'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:37:53.948533+00:00",
+  "session_started_at": "2026-07-23T08:37:29.006435+00:00",
+  "session_ended_at": "2026-07-23T08:37:53.948533+00:00"
+}

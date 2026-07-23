@@ -50,8 +50,8 @@ def assert_not_theater_path(path: Path) -> None:
 
 
 def init_attempt(attempt: str, *, prior_clean: str | None = None) -> Path:
-    if not attempt.startswith("agentic_G"):
-        raise SystemExit("llm_walk only for agentic_G* attempts")
+    if not (attempt.startswith("agentic_G") or attempt.startswith("agentic_H")):
+        raise SystemExit("llm_walk only for agentic_G* or agentic_H* attempts")
     root = attempt_dir(attempt)
     if root.exists():
         import shutil

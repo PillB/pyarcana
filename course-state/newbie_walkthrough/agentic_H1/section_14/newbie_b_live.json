@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s14-d65b3e69103a",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "code": "# dual skeptic-H1 · S14-T1-A-E1\nimport numpy as np\n\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T1-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizad…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, flags; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(flags.dtype, flags.shape, flags.ndim)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "flags",
+        "array",
+        "dtype",
+        "uint8"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "code": "# dual skeptic-H1 · S14-T1-A-E2\nimport numpy as np\n\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes, scores.tolist())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T1-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, scores; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(scores.itemsize, scores.nbytes, scores.tolist())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "scores",
+        "linspace",
+        "dtype",
+        "float64"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "code": "# dual skeptic-H1 · S14-T1-A-E3\nimport numpy as np\n\n\ndef validate_1d_f64(arr):\n    a = np.asarray(arr)\n    if a.ndim != 1 or a.dtype != np.float64:\n        raise ValueError(\"expected 1d float64\")\n    print(\"ok\", a.size)\n\nvalidate_1d_f64(np.array([1.0, 2.0], dtype=np.float64))\ntry:\n    validate_1d_f64(np.array([[1.0]]))\nexcept ValueError as e:\n    print(\"err\", e)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T1-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, validate_1d_f64; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"ok\", a.size)', 'print(\"err\", e)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "validate_1d_f64",
+        "arr",
+        "asarray",
+        "ndim"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "code": "# dual skeptic-H1 · S14-T1-B-E1\nimport numpy as np\n\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nmask = score >= 0.5\nprint(np.where(mask)[0].tolist())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T1-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizad…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, score; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(np.where(mask)[0].tolist())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "score",
+        "array",
+        "mask",
+        "where"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "code": "# dual skeptic-H1 · S14-T1-B-E2\nimport numpy as np\n\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nmed = np.median(scores)\nprint(ids[scores < med].tolist())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T1-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, ids; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(ids[scores < med].tolist())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "ids",
+        "array",
+        "C001",
+        "C002"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "code": "# dual skeptic-H1 · S14-T1-B-E3\nimport numpy as np\n\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order].tolist())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T1-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, array; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(a[order].tolist())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "array",
+        "order",
+        "tolist",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "code": "# dual skeptic-H1 · S14-T2-A-E1\nimport numpy as np\n\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nc0 = np.round(M.mean(axis=0), 2).tolist()\nc1 = np.round(M.mean(axis=1), 2).tolist()\nprint(c0, \"|\", c1)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T2-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizad…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, array; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(c0, \"|\", c1)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "array",
+        "round",
+        "mean",
+        "axis"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "code": "# dual skeptic-H1 · S14-T2-A-E2\nimport numpy as np\n\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(scores.std(axis=0), 4).tolist())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T2-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, scores; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(np.round(scores.std(axis=0), 4).tolist())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "scores",
+        "array",
+        "round",
+        "std"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "code": "# dual skeptic-H1 · S14-T2-A-E3\nimport numpy as np\n\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xc.mean(axis=1), 1).tolist())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T2-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, array; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(np.round(Xc.mean(axis=1), 1).tolist())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "array",
+        "mean",
+        "axis",
+        "keepdims"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "code": "# dual skeptic-H1 · S14-T2-B-E1\nimport numpy as np\n\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\nout = M + w\nprint(out.tolist())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T2-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizad…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, zeros; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(out.tolist())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "zeros",
+        "array",
+        "out",
+        "tolist"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "code": "# dual skeptic-H1 · S14-T2-B-E2\nimport numpy as np\n\na = np.arange(4)\nb = np.arange(3)\nprod = a[:, None] * b\nprint(prod.shape, prod.tolist())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T2-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, arange; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(prod.shape, prod.tolist())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "arange",
+        "prod",
+        "shape",
+        "tolist"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "code": "# dual skeptic-H1 · S14-T2-B-E3\nimport numpy as np\n\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print(\"incompatible\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T2-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, ones; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"incompatible\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "ones",
+        "ValueError",
+        "incompatible",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "code": "# dual skeptic-H1 · S14-T3-A-E1\nimport numpy as np\n\nraw = np.array([1, 2, 3])\nvista = raw[:2]\nvista[0] = 9\nprint(raw.tolist())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T3-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizad…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, raw; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(raw.tolist())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "raw",
+        "array",
+        "vista",
+        "tolist"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "code": "# dual skeptic-H1 · S14-T3-A-E2\nimport numpy as np\n\nraw = np.array([1, 2, 3])\ncopia = raw[:2].copy()\ncopia[0] = 9\nprint(raw.tolist(), copia.tolist())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T3-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, raw; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(raw.tolist(), copia.tolist())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "raw",
+        "array",
+        "copia",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "code": "# dual skeptic-H1 · S14-T3-A-E3\nimport numpy as np\n\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print(\"blocked\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T3-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, array; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"blocked\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "array",
+        "flags",
+        "writeable",
+        "ValueError"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "code": "# dual skeptic-H1 · S14-T3-B-E1\nimport numpy as np\n\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T3-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizad…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, array; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(int(np.isnan(x).sum()))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "array",
+        "nan",
+        "int",
+        "isnan"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "code": "# dual skeptic-H1 · S14-T3-B-E2\nimport numpy as np\n\nx = np.array([1.0, np.nan, 3.0])\nprint(float(np.nanmean(x)))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T3-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, array; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(float(np.nanmean(x)))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "array",
+        "nan",
+        "float",
+        "nanmean"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "code": "# dual skeptic-H1 · S14-T3-B-E3\nimport numpy as np\n\nx = np.array([1.0, np.inf, 2.0])\ny = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(y)))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T3-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, array; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(float(np.nansum(y)))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "array",
+        "inf",
+        "where",
+        "isinf"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "code": "# dual skeptic-H1 · S14-T4-A-E1\nimport numpy as np\n\na = np.arange(1000, dtype=float)\nb = a.copy()\nloop_sum = 0.0\nfor i in range(len(a)):\n    loop_sum += a[i] * b[i]\nvec_sum = float((a * b).sum())\nprint(abs(loop_sum - vec_sum) < 1e-6)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T4-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizad…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, arange; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(abs(loop_sum - vec_sum) < 1e-6)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "arange",
+        "dtype",
+        "float",
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "code": "# dual skeptic-H1 · S14-T4-A-E2\nimport numpy as np\n\na = np.arange(5, dtype=float)\nprint(float((a ** 2).sum()))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T4-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, arange; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(float((a ** 2).sum()))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "arange",
+        "dtype",
+        "float",
+        "sum"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "code": "# dual skeptic-H1 · S14-T4-A-E3\nimport numpy as np, time\n\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\nt0 = time.perf_counter()\nc = a + b\n_ = time.perf_counter() - t0\nprint(\"timed\", bool(abs(c.mean() - 1.0) < 1e-9))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T4-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, time; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"timed\", bool(abs(c.mean() - 1.0) < 1e-9))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "time",
+        "zeros",
+        "ones",
+        "perf_counter"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "code": "# dual skeptic-H1 · S14-T4-B-E1\nimport numpy as np\n\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T4-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizad…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, zeros; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(a.nbytes, a.nbytes == 8000)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "zeros",
+        "dtype",
+        "float64",
+        "nbytes"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "code": "# dual skeptic-H1 · S14-T4-B-E2\nimport numpy as np\n\nprint(bool(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8)))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T4-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, bool; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(bool(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8)))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "bool",
+        "allclose",
+        "atol",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "code": "# dual skeptic-H1 · S14-T4-B-E3\nimport numpy as np\n\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print(\"fail\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S14/S14-T4-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vec…») con theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Conceptos dual, skeptic, S14, numpy, testing; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"fail\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S14",
+        "numpy",
+        "testing",
+        "assert_allclose",
+        "atol",
+        "AssertionError"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S14#0: contrasto stem «¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?» con párrafos theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Elijo índice 1 («dtype») porque cuadra con el vocabulario del paquete; distractores ['shape', 'ndim'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S14#1: contrasto stem «Una máscara booleana a > 0.5 se usa principalmente para:» con párrafos theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Elijo índice 3 («Filtrar o seleccionar elementos que cumplen la condición») porque cuadra con el vocabulario del paquete; distractores ['Cambiar el dtype', 'Forzar una copy siempre'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S14#2: contrasto stem «axis=0 en una reducción sobre una matriz 2D suele agregar:» con párrafos theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Elijo índice 0 («Por columna (colapsa filas)») porque cuadra con el vocabulario del paquete; distractores ['Por fila (colapsa columnas)', 'Solo el elemento [0,0]'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S14#3: contrasto stem «Mutar un slice simple de un ndarray normalmente:» con párrafos theory/iDo («ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in). Elijo índice 2 («Puede mutar el array base porque suele ser un view») porque cuadra con el vocabulario del paquete; distractores ['Nunca afecta al original', 'Convierte todo a object'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:55:21.303895+00:00",
+  "session_started_at": "2026-07-23T07:54:52.628578+00:00",
+  "session_ended_at": "2026-07-23T07:55:21.303895+00:00"
+}

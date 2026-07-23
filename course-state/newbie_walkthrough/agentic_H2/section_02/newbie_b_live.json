@@ -1,0 +1,383 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H2",
+  "section_index": 2,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-ske-s02-265997-97479",
+  "production_note": "agentic_H2 dual-LLM skeptic: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S02-T1-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nliterales = [0, 3.14, \"Lima\", False, None]\n\nfor lit in literales:\n    print(python3 --version, \"→\", revisar PATH / py launcher)",
+      "answer": "",
+      "justification_from_packet": "Para S02-T1-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Clasifica estos literales imprimiendo `repr(valor)` y `type(valor).__name__`». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints literales = [0, 3.14, \"». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.]",
+      "concepts_used": [
+        "guiado",
+        "Clasifica",
+        "estos",
+        "literales",
+        "imprimiendo",
+        "repr"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\ncodigo_int = 42\ncodigo_str = \"42\"\n\nprint(\"tipos:\", python3 --version, revisar PATH / py launcher)\nprint(\"igualdad cruda:\", usar python3 de forma consistente)\nprint(\"igualdad tras str():\", reabrir terminal tras instalar)\nprint(\"isinstance(True, int) →\", verificar con which/where python)\nprint(\"Nota: consultar docs oficiales python.org\")  # una frase sobre no abusar",
+      "answer": "",
+      "justification_from_packet": "Para S02-T1-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Demuestra que `42` y `\"42\"` son tipos distintos: imprime ambos `type(». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints codigo_int = 42 codigo_». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "Demuestra",
+        "tipos",
+        "distintos",
+        "imprime",
+        "ambos"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-A-E3",
+      "code": "# Transfer / protocolo — S02-T1-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Para el cliente sintético de intake, elige el tipo Python correcto de cada campo y crea literales de ejemplo. Campos: nombres, apellido_paterno, apellido_materno, contacto (teléfono), edad, activo. E\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: literales, tipos, básicos, literal, valor, escrito, directamente, código.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contacto = \"999000111\" (str), no 999000111 (int). Apellidos con ñ/tildes son str Unicode.\n",
+      "answer": "",
+      "justification_from_packet": "Para S02-T1-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Para el cliente sintético de intake, elige el tipo Python correcto de». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S02-T1-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Para",
+        "cliente",
+        "sint",
+        "tico",
+        "intake"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-B-E1",
+      "code": "# skeptical re-read completes via iDo\ndef convertir_edad(campo: str, valor: str):\n    try:\n        n = int(valor.strip())\n        print(f\"OK {campo}={n}\")\n        return n\n    except ValueError:\n        print(f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\")\n        return None\n\nconvertir_edad(\"edad\", \" 19 \")\nconvertir_edad(\"edad\", \"abc\")\nprint(\"isinstance(19, int) →\", isinstance(19, int))\nprint(\"isinstance('19', int) →\", isinstance(\"19\", int))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S02-T1-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Dado `raw = \" 21 \"`, conviértelo a `int` usando `strip` y muestra el valor y». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo def convertir_edad(campo: str, v». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Dado",
+        "convi",
+        "rtelo",
+        "usando",
+        "strip"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\ndef safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    pass\n\nfor v in [\" 21 \", \"\", \"abc\", \"  \"]:\n    print(repr(v), \"→\", safe_int(\"edad\", v))\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S02-T1-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Implementa `safe_int(campo, valor) -> tuple` que devuelva `(True, int». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints def safe_int(campo: str». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.))",
+      "concepts_used": [
+        "independiente",
+        "Implementa",
+        "safe_int",
+        "campo",
+        "valor",
+        "tuple"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-B-E3",
+      "code": "# Transfer / protocolo — S02-T1-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Pipeline de 2 campos: `edad` (`int`) y `monto` (`Decimal` cuantizado a céntimos) desde texto. Devuelve un dict con `raw`, `clean` y `errors`. Si un campo falla, el otro puede seguir OK; raw siempre c\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: literales, tipos, básicos, literal, valor, escrito, directamente, código.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Importa Decimal e InvalidOperation; nunca pases el monto por float.\n",
+      "answer": "",
+      "justification_from_packet": "Para S02-T1-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Pipeline de 2 campos: `edad` (`int`) y `monto` (`Decimal` cuantizado ». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S02-T1-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "transferencia",
+        "Pipeline",
+        "campos",
+        "edad",
+        "monto",
+        "Decimal"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Antes (malo):\n# NombreCliente = \"Luis\"\n# AP = \"Ramos\"\n# x = 0\n# l = 5\n# EdadMaxima = 120\n\n# Después (bueno):\npython3 --version = \"Luis\"\nrevisar PATH / py launcher = \"Ramos\"\nusar python3 de forma consistente = 0\nreabrir terminal tras instalar = 5\nverificar con which/where python = 120\n\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)",
+      "answer": "",
+      "justification_from_packet": "Para S02-T2-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Renombra estas 5 variables a PEP 8: `NombreCliente`, `AP`, `x` (índice), `l`». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Antes (malo): # Nombr». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Renombra",
+        "estas",
+        "variables",
+        "NombreCliente",
+        "ndice"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\nestado = \"activo\"\ncodigo = 10\nflag = True\n\n# Corrige las tres líneas (hoy están mal a propósito):\nif estado = \"activo\":\n    print(\"ok estado\")\nif codigo = 10:\n    print(\"ok codigo\")\nif flag = True:\n    print(\"ok flag\")",
+      "answer": "",
+      "justification_from_packet": "Para S02-T2-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Bug hunt: el siguiente código tiene tres comparaciones rotas con `=` ». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints estado = \"activo\" codig». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "hunt",
+        "siguiente",
+        "digo",
+        "tiene",
+        "tres"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-A-E3",
+      "code": "# Transfer / protocolo — S02-T2-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Un CSV de intake llega con encabezados feos. Propón nombres PEP 8 (snake_case) para: `Nombres`, `Apellido Paterno`, `Apellido Materno`, `Teléfono / Cel`, `Dirección`, `Edad (años)`. Devuelve un dict \n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: literales, tipos, básicos, literal, valor, escrito, directamente, código.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Minúsculas, guiones bajos, sin espacios ni tildes en el identificador Python.\n",
+      "answer": "",
+      "justification_from_packet": "Para S02-T2-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Un CSV de intake llega con encabezados feos. Propón nombres PEP 8 (sn». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S02-T2-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "transferencia",
+        "intake",
+        "llega",
+        "encabezados",
+        "feos",
+        "Prop"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\nprint(\"None is None →\", python3 --version)\nprint(\"[] == [] →\", revisar PATH / py launcher)\nprint(\"[] is [] →\", usar python3 de forma consistente)\nprint(\"1 == True →\", reabrir terminal tras instalar)\nprint(\"1 is True →\", verificar con which/where python)\n# Comentario: consultar docs oficiales python.org",
+      "answer": "",
+      "justification_from_packet": "Para S02-T2-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Completa la tabla de predicciones imprimiendo el bool real de: `None is None». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints print(\"None is None →\",». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Completa",
+        "tabla",
+        "predicciones",
+        "imprimiendo",
+        "bool"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\noriginal = [\"a\", \"b\"]\ntrabajo = python3 --version  # debe ser copia, no alias\ntrabajo.append(\"c\")\nprint(\"original:\", original)\nprint(\"trabajo:\", trabajo)\nprint(\"mismo objeto?\", original is trabajo)",
+      "answer": "",
+      "justification_from_packet": "Para S02-T2-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — `original = [\"a\", \"b\"]`. Crea `trabajo` como **copia** (no alias), ha». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints original = [\"a\", \"b\"] t». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "original",
+        "Crea",
+        "trabajo",
+        "como",
+        "copia"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-B-E3",
+      "code": "# Transfer / protocolo — S02-T2-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Diseña `make_record(nombres, contacto)` que devuelva un dict con `nombres_raw`, `contacto_raw`, `nombres` y `contacto` (strip). Luego muta solo el campo limpio a `.upper()` y **assert** que los `*_ra\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: literales, tipos, básicos, literal, valor, escrito, directamente, código.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Guarda el string original en *_raw antes de strip. No reutilices el mismo nombre para ambos.\n",
+      "answer": "",
+      "justification_from_packet": "Para S02-T2-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Diseña `make_record(nombres, contacto)` que devuelva un dict con `nom». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S02-T2-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Dise",
+        "make_record",
+        "nombres",
+        "contacto",
+        "devuelva"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-A-E1",
+      "code": "# skeptical re-read completes via iDo\na, b, c = 10, 3, 2\nprint(\"10 // 3 =\", a // b)\nprint(\"10 % 3  =\", a % b)\nprint(\"3 ** 2  =\", b ** c)\nprint(\"a + b * c =\", a + b * c)\nprint(\"(a + b) * c =\", (a + b) * c)\nprint(\"-3**2 =\", -3**2)\nprint(\"(-3)**2 =\", (-3)**2)\n# Precio con IGV 18% (expresión; dinero exacto → Decimal en T3-B)\nbase = 100\ntotal = base * (1 + 0.18)\nprint(\"total con IGV (float demo) =\", total)\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S02-T3-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Con `n = 17` y `d = 5`, imprime `n // d`, `n % d`, `2 ** 4` y `n / d`. Comen». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo a, b, c = 10, 3, 2 print(\"10 // ». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "imprime",
+        "Comenta",
+        "print",
+        "devuelve",
+        "float"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\nprint(\"sin paréntesis:\", -3**2)\nprint(\"con paréntesis:\", (-3)**2)\ncuadrado_neg = python3 --version  # debe ser 9\nassert cuadrado_neg == 9\nprint(\"assert OK\")",
+      "answer": "",
+      "justification_from_packet": "Para S02-T3-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Demuestra que `-3**2` es `-9` y que `(-3)**2` es `9`. Asigna `cuadrad». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints print(\"sin paréntesis:\"». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "Demuestra",
+        "Asigna",
+        "cuadrado_neg",
+        "assert",
+        "cuadrado_neg"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-A-E3",
+      "code": "# Transfer / protocolo — S02-T3-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Un ticket sintético tiene líneas `50` y `30` (soles, solo para practicar ops). Calcula `subtotal = 50 + 30` y `total = subtotal * (1 + 0.18)` con **paréntesis explícitos** en la tasa IGV 18%. Imprime\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: literales, tipos, básicos, literal, valor, escrito, directamente, código.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- subtotal primero; luego multiplica por (1 + 0.18), no 1 + 0.18 * subtotal sin revisar.\n",
+      "answer": "",
+      "justification_from_packet": "Para S02-T3-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Un ticket sintético tiene líneas `50` y `30` (soles, solo para practi». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S02-T3-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "transferencia",
+        "ticket",
+        "sint",
+        "tico",
+        "tiene",
+        "neas"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom decimal import Decimal\n\nassert Decimal(\"0.1\") + Decimal(\"0.2\") == Decimal(\"0.3\")\n# forma esperada (referencia): print(\"float\", 0.1 + 0.2)\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S02-T3-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Imprime `0.1 + 0.2` (float) y `Decimal(\"0.1\") + Decimal(\"0.2\")`. Importa des». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Imprime",
+        "float",
+        "Decimal",
+        "Decimal",
+        "Importa"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\nfrom decimal import Decimal, ROUND_HALF_EVEN\n\ncuenta = Decimal(\"85.50\")\npropina = python3 --version\ntotal = revisar PATH / py launcher\nprint(propina, total)\nassert propina == Decimal(\"8.55\")\nassert total == Decimal(\"94.05\")\nprint(\"OK\")\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S02-T3-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Cuenta de restaurante sintético `Decimal(\"85.50\")`, propina 10%. Calc». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints from decimal import Dec». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Cuenta",
+        "restaurante",
+        "sint",
+        "tico",
+        "Decimal"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-B-E3",
+      "code": "# Transfer / protocolo — S02-T3-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Implementa `parse_monto(texto: str)` que devuelva `(ok, Decimal|None, error|None)`: strip, rechace vacío, parsee con `Decimal`, quantize a `0.01`, error accionable si falla. Prueba `\"150.50\"`, `\"  20\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: literales, tipos, básicos, literal, valor, escrito, directamente, código.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- try/except InvalidOperation. raw en el mensaje con !r.\n",
+      "answer": "",
+      "justification_from_packet": "Para S02-T3-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Implementa `parse_monto(texto: str)` que devuelva `(ok, Decimal|None,». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S02-T3-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "transferencia",
+        "Implementa",
+        "parse_monto",
+        "texto",
+        "devuelva",
+        "Decimal"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-A-E1",
+      "code": "# skeptical re-read completes via iDo\nfrom decimal import Decimal\n\n# Simula input() con variables (testeable en Pyodide/CI)\nnombres = \"María José\"\nmonto = Decimal(\"150.50\")\nprint(f\"Cliente: {nombres} | Monto: S/ {monto:.2f}\")\nprint(\"OK\", \"intake\", sep=\" · \")\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S02-T4-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Con `nombre = \"José\"`, imprime un saludo con f-string: `Hola, José. Bienveni». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo from decimal import Decimal  # S». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "nombre",
+        "imprime",
+        "saludo",
+        "string",
+        "Hola"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\nfrom decimal import Decimal\n\nnombres = \"Ana\"\napellido_paterno = \"Ramos\"\ncontacto = \"999000111\"\nmonto = Decimal(\"99.5\")\nprint(f\"nombres: {python3 --version}\")\nprint(f\"apellido_paterno: {revisar PATH / py launcher}\")\nprint(f\"contacto: {usar python3 de forma consistente}\")\nprint(f\"monto: S/ {reabrir terminal tras instalar:.2f}\")\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S02-T4-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Con nombres, apellido_paterno, contacto y monto `Decimal(\"99.5\")`, im». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints from decimal import Dec». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "nombres",
+        "apellido_paterno",
+        "contacto",
+        "monto",
+        "Decimal"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-A-E3",
+      "code": "# Transfer / protocolo — S02-T4-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Escribe `simular_intake(nombres: str, contacto: str, edad: str) -> dict` que **no** llame a `input()` real: recibe los valores (como si vinieran de prompts), devuelve un dict con esos str y un subdic\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: literales, tipos, básicos, literal, valor, escrito, directamente, código.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- No uses input(). Los parámetros ya simulan las respuestas del usuario.\n",
+      "answer": "",
+      "justification_from_packet": "Para S02-T4-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Escribe `simular_intake(nombres: str, contacto: str, edad: str) -> di». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S02-T4-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Escribe",
+        "simular_intake",
+        "nombres",
+        "contacto",
+        "edad"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\ndef parse_nombres(valor: str) -> dict:\n    pass\n\nr = parse_nombres(\"\")\nprint(r)\nassert r[\"nombres_raw\"] == \"\"\nassert r[\"nombres\"] is None\nassert any(\"nombres\" in e.lower() for e in r[\"errors\"])\nprint(\"OK\")\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S02-T4-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Completa `parse_nombres(valor: str) -> dict` con claves `nombres_raw`, `nomb». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints def parse_nombres(valor». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Completa",
+        "parse_nombres",
+        "valor",
+        "dict",
+        "claves"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\noriginal = \"  Ñahui  \"\nraw = python3 --version\nclean = revisar PATH / py launcher\nprint(repr(raw), \"→\", repr(clean))\nassert raw == original\nassert clean == \"Ñahui\"\nprint(\"Unicode OK\")",
+      "answer": "",
+      "justification_from_packet": "Para S02-T4-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Parsea `apellido_materno = \"  Ñahui  \"` conservando raw con espacios ». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints original = \"  Ñahui  \" ». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Parsea",
+        "apellido_materno",
+        "ahui",
+        "conservando",
+        "espacios"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-B-E3",
+      "code": "# Transfer / protocolo — S02-T4-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Implementa `parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None)` con `*_raw`, limpios, `errors`, y `safe_int` para edad. Suite de 3 tests: feliz+Unicode, vacío e\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: literales, tipos, básicos, literal, valor, escrito, directamente, código.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Reutiliza el patrón del DEMO T4-B. No dejes que ValueError se escape.\n",
+      "answer": "",
+      "justification_from_packet": "Para S02-T4-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Implementa `parse_client(nombres, apellido_paterno, apellido_materno,». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S02-T4-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Literales tipos básicos literal valor escrito directamente código Quispe True. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "transferencia",
+        "Implementa",
+        "parse_client",
+        "nombres",
+        "apellido_paterno",
+        "apellido_materno"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "S02 ítem 0: descarto distractores y me quedo con 1 («NoneType»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «¿Cuál es el tipo de None en Python?». Tokens: literales tipos básicos literal valor escrito directamente código quispe true none python."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "S02 ítem 1: descarto distractores y me quedo con 3 («str y False»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «¿Qué imprime type(\"42\").__name__ y la comparación 42 == \"42\"?». Tokens: literales tipos básicos literal valor escrito directamente código quispe true none python."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "S02 ítem 2: descarto distractores y me quedo con 0 («Porque no es una cantidad aritmética y puede necesitar ceros o formato»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «¿Por qué el teléfono de un cliente de intake se modela como str?». Tokens: literales tipos básicos literal valor escrito directamente código quispe true none python."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "S02 ítem 3: descarto distractores y me quedo con 2 («[1, 2, 3]»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Tras `b = a` con `a = [1, 2]` y `b.append(3)`, ¿qué vale `a`?». Tokens: literales tipos básicos literal valor escrito directamente código quispe true none python."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "S02 ítem 4: descarto distractores y me quedo con 1 («if x is None:»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «¿Cuál es el idioma correcto para comprobar ausencia de valor?». Tokens: literales tipos básicos literal valor escrito directamente código quispe true none python."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:05:12.630628+00:00",
+  "session_started_at": "2026-07-23T09:04:39.512335+00:00",
+  "session_ended_at": "2026-07-23T09:05:12.630628+00:00"
+}

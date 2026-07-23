@@ -1,0 +1,841 @@
+{
+  "attempt_id": "agentic_H1",
+  "created_at": "2026-07-23T08:50:59.792763+00:00",
+  "entries": [
+    {
+      "section": 1,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:36:16.397148+00:00",
+      "ended_at": "2026-07-23T07:36:39.503061+00:00",
+      "subagent_or_session_id": "h1-explorer-s01-bf6fe91d8775",
+      "response_sha256": "46adb13312d514b25953532e51ab055f3428056e30e74801d65985d94d86bba5"
+    },
+    {
+      "section": 1,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:36:39.506544+00:00",
+      "ended_at": "2026-07-23T07:37:04.484927+00:00",
+      "subagent_or_session_id": "h1-skeptic-s01-dab5a06a4aa9",
+      "response_sha256": "93bf5a67081ef9ed6093a517c130e41891379eef2b46964da2b2bd7bad881704"
+    },
+    {
+      "section": 2,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:37:06.397035+00:00",
+      "ended_at": "2026-07-23T07:37:33.552590+00:00",
+      "subagent_or_session_id": "h1-explorer-s02-b2db9e11c460",
+      "response_sha256": "003fec7f3cc1a2ebccc77c8cc7c24b7d47b6e5d84657e7b679705a9f3bf548b5"
+    },
+    {
+      "section": 2,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:37:33.555698+00:00",
+      "ended_at": "2026-07-23T07:37:58.718439+00:00",
+      "subagent_or_session_id": "h1-skeptic-s02-017ae4bb1858",
+      "response_sha256": "ff3c53b6a7f7307ed98ea163f2717c77dd8bf1f4874ff425d8fc3a671767b4af"
+    },
+    {
+      "section": 3,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:38:01.030765+00:00",
+      "ended_at": "2026-07-23T07:38:19.443108+00:00",
+      "subagent_or_session_id": "h1-explorer-s03-586b2b74fc68",
+      "response_sha256": "f7b883fae7f4529122c89b620fae7843ef48703300e314ee89ee4393bda16efc"
+    },
+    {
+      "section": 3,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:38:19.447098+00:00",
+      "ended_at": "2026-07-23T07:38:39.437644+00:00",
+      "subagent_or_session_id": "h1-skeptic-s03-d339dc79cc64",
+      "response_sha256": "9f1af53ee6cbb8822e46994476f755a99eb2787da3e5f1165937e24c49ebbb79"
+    },
+    {
+      "section": 4,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:38:40.949973+00:00",
+      "ended_at": "2026-07-23T07:39:03.860478+00:00",
+      "subagent_or_session_id": "h1-explorer-s04-629b134d8557",
+      "response_sha256": "1c4610c0c3140991e2d7b67df15d90627f3d19107e0737aa4c4f3bdb5124946c"
+    },
+    {
+      "section": 4,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:39:03.862773+00:00",
+      "ended_at": "2026-07-23T07:39:24.966153+00:00",
+      "subagent_or_session_id": "h1-skeptic-s04-335ae379f4da",
+      "response_sha256": "32d7330e956b76500ec0e44c66cf6c75439178d72d780817d31debdfdd001953"
+    },
+    {
+      "section": 5,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:39:26.876429+00:00",
+      "ended_at": "2026-07-23T07:39:51.375691+00:00",
+      "subagent_or_session_id": "h1-explorer-s05-cbef458857e1",
+      "response_sha256": "25a9d9427284dca1f81b99dcd3038a1bcb0f101766424a1783b6007d669faf05"
+    },
+    {
+      "section": 5,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:39:51.378073+00:00",
+      "ended_at": "2026-07-23T07:40:17.139702+00:00",
+      "subagent_or_session_id": "h1-skeptic-s05-b6d9a27945cf",
+      "response_sha256": "7063a0694d6a605223e18e8bae63bf9a0d69e608f8f1aff40aca0e56edbdca80"
+    },
+    {
+      "section": 6,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:40:19.448836+00:00",
+      "ended_at": "2026-07-23T07:40:44.711554+00:00",
+      "subagent_or_session_id": "h1-explorer-s06-a4e23aa3c01c",
+      "response_sha256": "b900cd918844e4be743457da9d2512b1ea76d2882c28cfb86b192801f2f8cffd"
+    },
+    {
+      "section": 6,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:40:44.713948+00:00",
+      "ended_at": "2026-07-23T07:41:03.372952+00:00",
+      "subagent_or_session_id": "h1-skeptic-s06-12a0d1e4980f",
+      "response_sha256": "d5d27df8210fe8bc96f0fef4bd0b4b21d1ba8fe703b62436322c01823b6848dc"
+    },
+    {
+      "section": 7,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:41:49.643499+00:00",
+      "ended_at": "2026-07-23T07:42:07.863805+00:00",
+      "subagent_or_session_id": "h1-explorer-s07-92e3eb3f0199",
+      "response_sha256": "86e9f4846db1415b348555c7306a6f55add55a5701da819abe1bab481d1e2139"
+    },
+    {
+      "section": 7,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:42:07.867072+00:00",
+      "ended_at": "2026-07-23T07:42:33.031208+00:00",
+      "subagent_or_session_id": "h1-skeptic-s07-2936b7ae5ef0",
+      "response_sha256": "f37f0794db5bd6dd82b3eb45932c371ec6c226649c22b0c540f2cc0e24149a17"
+    },
+    {
+      "section": 8,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:42:34.943335+00:00",
+      "ended_at": "2026-07-23T07:42:53.086661+00:00",
+      "subagent_or_session_id": "h1-explorer-s08-5c8c83055638",
+      "response_sha256": "8a43d4df58babb3cfcde904c48c9ba6276b46cc6d0c5e1948f8e2ec26f9a2711"
+    },
+    {
+      "section": 8,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:42:53.089447+00:00",
+      "ended_at": "2026-07-23T07:43:14.421628+00:00",
+      "subagent_or_session_id": "h1-skeptic-s08-52aa72b2da42",
+      "response_sha256": "ed250f4b93fec8abe29b9c8fd00235db248b33e4678bff369b5a6dc9b5a1c6be"
+    },
+    {
+      "section": 9,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:43:16.729715+00:00",
+      "ended_at": "2026-07-23T07:43:35.117195+00:00",
+      "subagent_or_session_id": "h1-explorer-s09-575648ab4498",
+      "response_sha256": "f0c73196a3014bcc5d640500ada3a32bb66ff12e948e1f0c9184c095888383df"
+    },
+    {
+      "section": 9,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:43:35.119680+00:00",
+      "ended_at": "2026-07-23T07:44:02.150507+00:00",
+      "subagent_or_session_id": "h1-skeptic-s09-da23f064fb02",
+      "response_sha256": "ef03f2b734e99dc1f22f8cbee0adcd0f6b70ad15a9befb4c207e6d1600ef35fe"
+    },
+    {
+      "section": 10,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:44:03.662213+00:00",
+      "ended_at": "2026-07-23T07:44:20.686716+00:00",
+      "subagent_or_session_id": "h1-explorer-s10-6c4a6af0b9ba",
+      "response_sha256": "3f9bfa20be04d95184cd6e66d8f7ce2b198672301caea00d0fa2f26f1cb46a72"
+    },
+    {
+      "section": 10,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:44:20.689285+00:00",
+      "ended_at": "2026-07-23T07:44:39.324690+00:00",
+      "subagent_or_session_id": "h1-skeptic-s10-ba7c441395cd",
+      "response_sha256": "dbc89fca43a006fc1a578e3dda3a18041abd710fb8cba3645527f0ec74445f94"
+    },
+    {
+      "section": 11,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:44:41.236665+00:00",
+      "ended_at": "2026-07-23T07:45:06.805369+00:00",
+      "subagent_or_session_id": "h1-explorer-s11-d951b0ddb6e0",
+      "response_sha256": "051797135215ec880da40f7a7306e9896e6d4ac9c5bd93274b9a37e10cb5f83e"
+    },
+    {
+      "section": 11,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:45:06.807851+00:00",
+      "ended_at": "2026-07-23T07:45:33.913111+00:00",
+      "subagent_or_session_id": "h1-skeptic-s11-d6e30c08b525",
+      "response_sha256": "f99248cbeb348a35bf9294265476b38e0dab34af5609d56f9bb225c22e869955"
+    },
+    {
+      "section": 12,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:45:36.219653+00:00",
+      "ended_at": "2026-07-23T07:45:58.492265+00:00",
+      "subagent_or_session_id": "h1-explorer-s12-baf4a7c4cd9b",
+      "response_sha256": "b5760a8aa540d2ea196fb1180e15208989fb02d7163df9bf2dafff53f9fd65e0"
+    },
+    {
+      "section": 12,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:45:58.494883+00:00",
+      "ended_at": "2026-07-23T07:46:20.801612+00:00",
+      "subagent_or_session_id": "h1-skeptic-s12-11c2e76e3b26",
+      "response_sha256": "67db2b00c84179f1719a17bba436eb999611038474a4cae11a2a8ff19a57cbe4"
+    },
+    {
+      "section": 13,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:46:55.044612+00:00",
+      "ended_at": "2026-07-23T07:47:13.387010+00:00",
+      "subagent_or_session_id": "h1-explorer-s13-11f78fb75aae",
+      "response_sha256": "82305f7d918d2c93cb6458612f1b749c18ca9378396ed88552508b7e0951bc47"
+    },
+    {
+      "section": 13,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:47:13.389813+00:00",
+      "ended_at": "2026-07-23T07:47:36.843787+00:00",
+      "subagent_or_session_id": "h1-skeptic-s13-c6a71941d261",
+      "response_sha256": "300edad29832ed36669e8d657cfc825a4100193900d63a4cc4f97005594c932f"
+    },
+    {
+      "section": 14,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:54:28.782474+00:00",
+      "ended_at": "2026-07-23T07:54:52.624970+00:00",
+      "subagent_or_session_id": "h1-explorer-s14-1ee2a75b2c74",
+      "response_sha256": "014001d9da112128e61ec43c8dc476096d489ad1bb902f24f6c369c1b20c32b6"
+    },
+    {
+      "section": 14,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:54:52.628578+00:00",
+      "ended_at": "2026-07-23T07:55:21.303895+00:00",
+      "subagent_or_session_id": "h1-skeptic-s14-d65b3e69103a",
+      "response_sha256": "8c5098735ab785195a8fb93dcbe4c621f3e123fb6f1b8840a07e1025e18bcd03"
+    },
+    {
+      "section": 15,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:55:23.218436+00:00",
+      "ended_at": "2026-07-23T07:55:49.084872+00:00",
+      "subagent_or_session_id": "h1-explorer-s15-2a4400336708",
+      "response_sha256": "a980b52f0fac70211746f0aca0d62e82250bcfbfe9ff540789455ad8c9a91101"
+    },
+    {
+      "section": 15,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:55:49.093189+00:00",
+      "ended_at": "2026-07-23T07:56:19.415138+00:00",
+      "subagent_or_session_id": "h1-skeptic-s15-191ea4a715b5",
+      "response_sha256": "997d19bd672e30dccabd41cd9993f56e812c7902b7a091c86c1d23862564ed21"
+    },
+    {
+      "section": 16,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:56:21.677202+00:00",
+      "ended_at": "2026-07-23T07:56:45.135362+00:00",
+      "subagent_or_session_id": "h1-explorer-s16-b1f26146f14e",
+      "response_sha256": "1cc5e777a48efb7b6bfe67c6aa08cab4c17d9541ddab07277ec7c4b2220b85e1"
+    },
+    {
+      "section": 16,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:56:45.139032+00:00",
+      "ended_at": "2026-07-23T07:57:06.335500+00:00",
+      "subagent_or_session_id": "h1-skeptic-s16-fef46c1ecf29",
+      "response_sha256": "44228a8996dac4f7b0353e8ad6d47472f6f350e083ecd91217dd00445e6560de"
+    },
+    {
+      "section": 17,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:57:07.542170+00:00",
+      "ended_at": "2026-07-23T07:57:33.848212+00:00",
+      "subagent_or_session_id": "h1-explorer-s17-5e553f96e556",
+      "response_sha256": "6c89e65cc0d8d2dae2e77fd8f677b8b0e2fc0841cb6b95b0de5a88745629518e"
+    },
+    {
+      "section": 17,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:57:33.851393+00:00",
+      "ended_at": "2026-07-23T07:58:05.208963+00:00",
+      "subagent_or_session_id": "h1-skeptic-s17-4e53105a8b49",
+      "response_sha256": "ea2e950d1130df572718a35ccfcc3c674cc8621341f91815b379743998cd6f83"
+    },
+    {
+      "section": 18,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:58:06.774270+00:00",
+      "ended_at": "2026-07-23T07:58:38.204692+00:00",
+      "subagent_or_session_id": "h1-explorer-s18-97fcc4601add",
+      "response_sha256": "3072af99343e0cdc33c0147a7f8b0c96eededb9ff14b791451a980c39d267e2e"
+    },
+    {
+      "section": 18,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:58:38.207975+00:00",
+      "ended_at": "2026-07-23T07:59:08.051356+00:00",
+      "subagent_or_session_id": "h1-skeptic-s18-501505bd3671",
+      "response_sha256": "592200f72ea5cf48e416646a90353a30fa00474d81f7b727ba709940dad995eb"
+    },
+    {
+      "section": 19,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:59:38.959777+00:00",
+      "ended_at": "2026-07-23T08:00:10.151135+00:00",
+      "subagent_or_session_id": "h1-explorer-s19-22d7d8650a10",
+      "response_sha256": "6acee69fa9207c28e122d25ebec4a2980e5a71d8cb253db8f23e04c194272d47"
+    },
+    {
+      "section": 19,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:00:10.155027+00:00",
+      "ended_at": "2026-07-23T08:00:37.374879+00:00",
+      "subagent_or_session_id": "h1-skeptic-s19-0f4d5d86a010",
+      "response_sha256": "8c441d00e142cc45646b4364106f1f5a5f6ef3ac2987c6b5b6bee169747c979b"
+    },
+    {
+      "section": 20,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:00:39.637896+00:00",
+      "ended_at": "2026-07-23T08:01:05.479132+00:00",
+      "subagent_or_session_id": "h1-explorer-s20-339b09b1a629",
+      "response_sha256": "36a43f9a742972259b201e0aa80f5a1a58404083d2617a112f8eefcb2afbe6f0"
+    },
+    {
+      "section": 20,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:01:05.482780+00:00",
+      "ended_at": "2026-07-23T08:01:31.770350+00:00",
+      "subagent_or_session_id": "h1-skeptic-s20-16e6a1247fbf",
+      "response_sha256": "34f5291e12cffa0ad90811bf165d198f65800ed6d8e86bda8615fd3732eb8022"
+    },
+    {
+      "section": 21,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:01:32.985349+00:00",
+      "ended_at": "2026-07-23T08:02:01.337919+00:00",
+      "subagent_or_session_id": "h1-explorer-s21-35b5a32ed48c",
+      "response_sha256": "e1242acc1a7ff071b38c7b4ade6747d3ffb4028838c0c99e233801c6f06c35c8"
+    },
+    {
+      "section": 21,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:02:01.341470+00:00",
+      "ended_at": "2026-07-23T08:02:30.021403+00:00",
+      "subagent_or_session_id": "h1-skeptic-s21-7cd006247fb7",
+      "response_sha256": "a742c754571a5bbc1b6b9dfc6e78244c34e59f1299b3fd0819d6170920e46773"
+    },
+    {
+      "section": 22,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:02:31.583203+00:00",
+      "ended_at": "2026-07-23T08:03:00.410180+00:00",
+      "subagent_or_session_id": "h1-explorer-s22-80f5a41f6337",
+      "response_sha256": "7ec4bd15f19884874b53dfcc3dd5ba017dd2bf1e1b36d3d0cd586d2e182c1eed"
+    },
+    {
+      "section": 22,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:03:00.415226+00:00",
+      "ended_at": "2026-07-23T08:03:30.865285+00:00",
+      "subagent_or_session_id": "h1-skeptic-s22-d3cb3a67835c",
+      "response_sha256": "26f6a66ebd077c09d7f6327762b122d65a3c7a050ce5cdbf7098fbbd9325293e"
+    },
+    {
+      "section": 23,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:03:32.779875+00:00",
+      "ended_at": "2026-07-23T08:03:50.800256+00:00",
+      "subagent_or_session_id": "h1-explorer-s23-c1309f604591",
+      "response_sha256": "64825916cc19fa32fdc918d190500e4cce9e43630f9dd592dbac4961b16030c7"
+    },
+    {
+      "section": 23,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:03:50.803967+00:00",
+      "ended_at": "2026-07-23T08:04:13.003785+00:00",
+      "subagent_or_session_id": "h1-skeptic-s23-7e7b504afa4f",
+      "response_sha256": "12369954867936c027b32bf4ecf7cd7b99d948bdac6064786ff60e1b0b2c8221"
+    },
+    {
+      "section": 24,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:04:15.269954+00:00",
+      "ended_at": "2026-07-23T08:04:39.794082+00:00",
+      "subagent_or_session_id": "h1-explorer-s24-0ead258429cf",
+      "response_sha256": "b778c5dc18888912642802d5b46e1c7e61737c21ef4130920e0b0f37c59a8efc"
+    },
+    {
+      "section": 24,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:04:39.798308+00:00",
+      "ended_at": "2026-07-23T08:05:07.773804+00:00",
+      "subagent_or_session_id": "h1-skeptic-s24-1198c4f90373",
+      "response_sha256": "d1fc8706ba04897f19ca4f0194b0177e78d29a76f872d80ff3901e812058787f"
+    },
+    {
+      "section": 25,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:05:08.986233+00:00",
+      "ended_at": "2026-07-23T08:05:38.540220+00:00",
+      "subagent_or_session_id": "h1-explorer-s25-7c2baea0b88b",
+      "response_sha256": "236facba1541ae9484cd58e9c2dcc70a495d1d605029ac420c34fdba5503270b"
+    },
+    {
+      "section": 25,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:05:38.543990+00:00",
+      "ended_at": "2026-07-23T08:06:07.580462+00:00",
+      "subagent_or_session_id": "h1-skeptic-s25-de6192888123",
+      "response_sha256": "c6dcef80dafe11613fc23fe6ddb8df4b6f35db38305f8d9d3f02db3aa23ffa86"
+    },
+    {
+      "section": 26,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:06:09.144874+00:00",
+      "ended_at": "2026-07-23T08:06:35.846339+00:00",
+      "subagent_or_session_id": "h1-explorer-s26-b482a678a3eb",
+      "response_sha256": "1f59abba08f45cf7914b481d27b19bc3d9956845cc0e3a96f94be12ac0fba37a"
+    },
+    {
+      "section": 26,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:06:35.849295+00:00",
+      "ended_at": "2026-07-23T08:06:57.751021+00:00",
+      "subagent_or_session_id": "h1-skeptic-s26-637cbd51125d",
+      "response_sha256": "ca9c32f3fcc8583080fda35a22e8dc247d42ae6b83ce1946c4bd4283f4511d7c"
+    },
+    {
+      "section": 27,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:17:56.058950+00:00",
+      "ended_at": "2026-07-23T08:18:15.402370+00:00",
+      "subagent_or_session_id": "h1-explorer-s27-1c11c4b574bd",
+      "response_sha256": "8e026e5d26312662f5f589faaab6b3a17eca839cd0abd7f8199ef5745c9ce71e"
+    },
+    {
+      "section": 27,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:18:15.404536+00:00",
+      "ended_at": "2026-07-23T08:18:38.838077+00:00",
+      "subagent_or_session_id": "h1-skeptic-s27-22b4c9045c6e",
+      "response_sha256": "e46d91529acd89c3900f2f3a7c36750a464358c9f506993dc81bab05e4e12783"
+    },
+    {
+      "section": 28,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:18:40.751826+00:00",
+      "ended_at": "2026-07-23T08:19:05.823299+00:00",
+      "subagent_or_session_id": "h1-explorer-s28-6bc7b15be607",
+      "response_sha256": "479548380ed551589bc2de88e045be45234c1d604a6c487a426e10f919cbd224"
+    },
+    {
+      "section": 28,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:19:05.825109+00:00",
+      "ended_at": "2026-07-23T08:19:27.157579+00:00",
+      "subagent_or_session_id": "h1-skeptic-s28-cc20a158b252",
+      "response_sha256": "4d790e6dc209b3bc3ed86967eee3f9b7573e74da3d0169ed0e0a8d3856b8a60b"
+    },
+    {
+      "section": 29,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:19:28.172611+00:00",
+      "ended_at": "2026-07-23T08:19:53.521555+00:00",
+      "subagent_or_session_id": "h1-explorer-s29-aa1d949cbc51",
+      "response_sha256": "9998e5e2088fe9ffd57989be1f7e41f07bcd13925079f69e08542737087de57a"
+    },
+    {
+      "section": 29,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:19:53.523708+00:00",
+      "ended_at": "2026-07-23T08:20:16.793244+00:00",
+      "subagent_or_session_id": "h1-skeptic-s29-43c663772694",
+      "response_sha256": "f035123a569c137de2ba8b2f21577aa38f45c66563dacde0e96ff128edcf101f"
+    },
+    {
+      "section": 30,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:20:18.108126+00:00",
+      "ended_at": "2026-07-23T08:20:36.046996+00:00",
+      "subagent_or_session_id": "h1-explorer-s30-9d8398b56a34",
+      "response_sha256": "6b0a17f12fc30545ca828b7f55cdb6d7bedff751c9e11ac0663a7cfc35c55769"
+    },
+    {
+      "section": 30,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:20:36.049084+00:00",
+      "ended_at": "2026-07-23T08:21:08.009480+00:00",
+      "subagent_or_session_id": "h1-skeptic-s30-3111d07742fc",
+      "response_sha256": "73d41528c4d6bac609620cf4431ec8f3d46bd5518800c4714e165b5a52e98461"
+    },
+    {
+      "section": 31,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:21:09.625294+00:00",
+      "ended_at": "2026-07-23T08:21:33.157538+00:00",
+      "subagent_or_session_id": "h1-explorer-s31-f9003ca4f7f2",
+      "response_sha256": "831fae9d99d9c381ea13b6869849dbfadbb6f9a630b21b1975b71a84a1df4894"
+    },
+    {
+      "section": 31,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:21:33.159975+00:00",
+      "ended_at": "2026-07-23T08:22:03.326970+00:00",
+      "subagent_or_session_id": "h1-skeptic-s31-552aff041417",
+      "response_sha256": "bbd298625b926a54172171e0025333e0e7a6bc21c53a3ad040ded335396c0ae1"
+    },
+    {
+      "section": 32,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:23:07.640133+00:00",
+      "ended_at": "2026-07-23T08:23:36.019637+00:00",
+      "subagent_or_session_id": "h1-explorer-s32-7bcfa174d6f9",
+      "response_sha256": "ee31079bc5003b72b8f38add15aa5bc44e2f540de085b4ae8111a8bd700f3632"
+    },
+    {
+      "section": 32,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:23:36.022155+00:00",
+      "ended_at": "2026-07-23T08:24:00.566720+00:00",
+      "subagent_or_session_id": "h1-skeptic-s32-c99785983545",
+      "response_sha256": "6e0cdaca459e1b50de51da49ba8eafb91936d80bab2cbe4f6a8aa31a843580f4"
+    },
+    {
+      "section": 33,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:24:01.584037+00:00",
+      "ended_at": "2026-07-23T08:24:20.952960+00:00",
+      "subagent_or_session_id": "h1-explorer-s33-b6df1c30cc6a",
+      "response_sha256": "3470740fdc171155529bf3cdc7a2988da6b9f789786787bd1a6e8b24470d0d03"
+    },
+    {
+      "section": 33,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:24:20.955264+00:00",
+      "ended_at": "2026-07-23T08:24:47.870002+00:00",
+      "subagent_or_session_id": "h1-skeptic-s33-c3433bef935a",
+      "response_sha256": "6378fc946fc5077a3a217c61c0f4cb3faeb76a4a9603b5853323e41276eb89f1"
+    },
+    {
+      "section": 34,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:24:49.183238+00:00",
+      "ended_at": "2026-07-23T08:25:16.087269+00:00",
+      "subagent_or_session_id": "h1-explorer-s34-fdd277bbdea2",
+      "response_sha256": "6528c123b1b8afbd9d83ea5444eb15168f930460620d329972a28c4fdbad5eb8"
+    },
+    {
+      "section": 34,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:25:16.089931+00:00",
+      "ended_at": "2026-07-23T08:25:38.237312+00:00",
+      "subagent_or_session_id": "h1-skeptic-s34-b528670f8ba2",
+      "response_sha256": "266e8901ce6134cc38523dc73832ed45962dae5fc01632702e782b8b64208f17"
+    },
+    {
+      "section": 35,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:25:39.854342+00:00",
+      "ended_at": "2026-07-23T08:25:57.516341+00:00",
+      "subagent_or_session_id": "h1-explorer-s35-cbea7ddd71fa",
+      "response_sha256": "cf1daf26afe47d6e2cd91f112a9945e53aa1d4080aa872b461a4e17e134926e6"
+    },
+    {
+      "section": 35,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:25:57.519187+00:00",
+      "ended_at": "2026-07-23T08:26:24.590945+00:00",
+      "subagent_or_session_id": "h1-skeptic-s35-0c74a14a6923",
+      "response_sha256": "942247813f438d807f293dbccd96235b1dda12dfeb717f33767794c8ec756cb5"
+    },
+    {
+      "section": 36,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:26:26.503479+00:00",
+      "ended_at": "2026-07-23T08:26:57.102558+00:00",
+      "subagent_or_session_id": "h1-explorer-s36-4ebcfd1076d6",
+      "response_sha256": "f6b0166436561ab222039a2b4fac6a98c68b921d99856641b0264e79351ac0da"
+    },
+    {
+      "section": 36,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:26:57.104579+00:00",
+      "ended_at": "2026-07-23T08:27:23.925197+00:00",
+      "subagent_or_session_id": "h1-skeptic-s36-4e7f89ccf340",
+      "response_sha256": "18d5fac9b03a040dbda4de9a5e3dd6fd1e388c880fd0c86052cd65311c3ab545"
+    },
+    {
+      "section": 37,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:27:24.940188+00:00",
+      "ended_at": "2026-07-23T08:27:44.317304+00:00",
+      "subagent_or_session_id": "h1-explorer-s37-234b208c860f",
+      "response_sha256": "8aa7009ce8eb1753660c70ed161ff439b49ae96393e1e1c8a250543dfb7d17e4"
+    },
+    {
+      "section": 37,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:27:44.319756+00:00",
+      "ended_at": "2026-07-23T08:28:05.710726+00:00",
+      "subagent_or_session_id": "h1-skeptic-s37-8691eb4c97d4",
+      "response_sha256": "b22d477c07277b93814c217b557258d1c6e743bddc30dd40f6cb008a8af37454"
+    },
+    {
+      "section": 38,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:28:19.794549+00:00",
+      "ended_at": "2026-07-23T08:28:42.620993+00:00",
+      "subagent_or_session_id": "h1-explorer-s38-fc445c42180f",
+      "response_sha256": "7dabd9da8a4676c86a6173ad72ffdbaeb6fec06dbeaa0867d8fcf5713609f1d0"
+    },
+    {
+      "section": 38,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:28:42.622948+00:00",
+      "ended_at": "2026-07-23T08:29:11.559135+00:00",
+      "subagent_or_session_id": "h1-skeptic-s38-570266b6697d",
+      "response_sha256": "0656e2450548fbe47faa84e55097c3784691e729688b2c9b4700b1ec8747dfdc"
+    },
+    {
+      "section": 39,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:29:13.175772+00:00",
+      "ended_at": "2026-07-23T08:29:39.559466+00:00",
+      "subagent_or_session_id": "h1-explorer-s39-ee61358cc0e3",
+      "response_sha256": "2f7c3f722290ad509cf94457f4d37d288da0868c9f440db4f49b45e0b4bc8eb3"
+    },
+    {
+      "section": 39,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:29:39.562188+00:00",
+      "ended_at": "2026-07-23T08:30:10.504381+00:00",
+      "subagent_or_session_id": "h1-skeptic-s39-5f6eb1ff8435",
+      "response_sha256": "d135a4f5071eb3856be6e7030a0481d101b2a57282ebd39b1cfb5e65c85201d6"
+    },
+    {
+      "section": 40,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:37:03.004292+00:00",
+      "ended_at": "2026-07-23T08:37:29.003906+00:00",
+      "subagent_or_session_id": "h1-explorer-s40-db650cf82078",
+      "response_sha256": "d868b76324ac6c5c13cb17d942eeeeb49f9c37a388ac5c290dcf4a5545f04f12"
+    },
+    {
+      "section": 40,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:37:29.006435+00:00",
+      "ended_at": "2026-07-23T08:37:53.948533+00:00",
+      "subagent_or_session_id": "h1-skeptic-s40-974b9e7d2908",
+      "response_sha256": "ebdb6bfce15aa6cec24dec301e6011375588a110d4befd52c226ce3253bcf325"
+    },
+    {
+      "section": 41,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:37:53.957231+00:00",
+      "ended_at": "2026-07-23T08:38:18.209581+00:00",
+      "subagent_or_session_id": "h1-explorer-s41-1acd05e3fbf8",
+      "response_sha256": "88a71d2e63400a9b1eeae654ecf9d39b61b3e8860cc5561745ac91ed7045867f"
+    },
+    {
+      "section": 41,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:38:18.211961+00:00",
+      "ended_at": "2026-07-23T08:38:45.848880+00:00",
+      "subagent_or_session_id": "h1-skeptic-s41-1ee2906aa0ee",
+      "response_sha256": "6206ca032ef5ddedef38a98d0bfd45bf7414046c39ab68263996c8d029b62616"
+    },
+    {
+      "section": 42,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:38:45.855840+00:00",
+      "ended_at": "2026-07-23T08:39:08.775681+00:00",
+      "subagent_or_session_id": "h1-explorer-s42-c9dc06a92014",
+      "response_sha256": "eeef3782f53a25b2f6d096f0c9e96117ddff74d42955b9b5bbe4b28756d36e1d"
+    },
+    {
+      "section": 42,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:39:08.778029+00:00",
+      "ended_at": "2026-07-23T08:39:37.034090+00:00",
+      "subagent_or_session_id": "h1-skeptic-s42-994f437d7796",
+      "response_sha256": "d4f6b0564cd26e57bcaa1e1e8199aeb9f45535bc6bd21e095c8e6a9045535261"
+    },
+    {
+      "section": 43,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:39:37.041790+00:00",
+      "ended_at": "2026-07-23T08:40:04.266203+00:00",
+      "subagent_or_session_id": "h1-explorer-s43-b95fd5c514dd",
+      "response_sha256": "0cbc80a0ebebbc41cbb750f77cc1fbb91c20d4ad34c757400694fa981c6e15be"
+    },
+    {
+      "section": 43,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:40:04.268740+00:00",
+      "ended_at": "2026-07-23T08:40:26.705335+00:00",
+      "subagent_or_session_id": "h1-skeptic-s43-2bcd80814d55",
+      "response_sha256": "4a7df163fbdbf9e213c8b5adbc934abbf66d76c30b7c8e95afbb2fd29cf94bbe"
+    },
+    {
+      "section": 44,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:40:26.712329+00:00",
+      "ended_at": "2026-07-23T08:40:44.880281+00:00",
+      "subagent_or_session_id": "h1-explorer-s44-f0d23f6ce25e",
+      "response_sha256": "537edd3fe4d63c91482fba18ea4e168f6ea5e55d15c59b35f42bc37d6454cf95"
+    },
+    {
+      "section": 44,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:40:44.882732+00:00",
+      "ended_at": "2026-07-23T08:41:14.363711+00:00",
+      "subagent_or_session_id": "h1-skeptic-s44-455cbf9c749f",
+      "response_sha256": "c799825b558ba577cdd9bcb5d852dd9ab076fa34c36d89d2c68bee9f5131e813"
+    },
+    {
+      "section": 45,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:42:19.899914+00:00",
+      "ended_at": "2026-07-23T08:42:40.945924+00:00",
+      "subagent_or_session_id": "h1-explorer-s45-15fa94936f76",
+      "response_sha256": "aed956f9be90d1ccab354ec50092a19b77b5cb681abe7db350975a923d0f6e5f"
+    },
+    {
+      "section": 45,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:42:40.949453+00:00",
+      "ended_at": "2026-07-23T08:43:13.468422+00:00",
+      "subagent_or_session_id": "h1-skeptic-s45-7324b33ff1ca",
+      "response_sha256": "a74835887009671bef50b25c1db9409280bc4dd1ae550d7687785f2dc2d206ad"
+    },
+    {
+      "section": 46,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:43:13.476194+00:00",
+      "ended_at": "2026-07-23T08:43:37.542560+00:00",
+      "subagent_or_session_id": "h1-explorer-s46-b0a74d48dfde",
+      "response_sha256": "4bc3889bc380bfcb44f51ba78cac648dbabe894677a4cd8af67cc718bea2ea6a"
+    },
+    {
+      "section": 46,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:43:37.544899+00:00",
+      "ended_at": "2026-07-23T08:43:57.767518+00:00",
+      "subagent_or_session_id": "h1-skeptic-s46-73641e8c679e",
+      "response_sha256": "ca620807e608905a2b6f50d50d72848e1f8259f9a65ffca7530fed396bba5116"
+    },
+    {
+      "section": 47,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:43:57.774409+00:00",
+      "ended_at": "2026-07-23T08:44:26.629503+00:00",
+      "subagent_or_session_id": "h1-explorer-s47-dd69f591c14b",
+      "response_sha256": "8531805bd8e0df2200e0f833436785d9678d808fd16654e5596c5d9b59777405"
+    },
+    {
+      "section": 47,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:44:26.632239+00:00",
+      "ended_at": "2026-07-23T08:44:51.307162+00:00",
+      "subagent_or_session_id": "h1-skeptic-s47-ed646b90a2bc",
+      "response_sha256": "8dc5b235b2a1785b6773adf5abd67080457ce59840ac3d05db99eb3532fdadcc"
+    },
+    {
+      "section": 48,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:44:51.313764+00:00",
+      "ended_at": "2026-07-23T08:45:14.060626+00:00",
+      "subagent_or_session_id": "h1-explorer-s48-9bc80cc045cb",
+      "response_sha256": "e552e4f8086685eaf097d40d1b13b52424ba117329ce8cec9ac5586d181e3f14"
+    },
+    {
+      "section": 48,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:45:14.063381+00:00",
+      "ended_at": "2026-07-23T08:45:40.643422+00:00",
+      "subagent_or_session_id": "h1-skeptic-s48-d742f9304b28",
+      "response_sha256": "151998997bcbfd5f785a0707db348c4b54a1700402d5a27ee7fb427cb6978d77"
+    },
+    {
+      "section": 49,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:45:40.652045+00:00",
+      "ended_at": "2026-07-23T08:46:05.727160+00:00",
+      "subagent_or_session_id": "h1-explorer-s49-c1548a344433",
+      "response_sha256": "cae533fa931dc43fa0b80a6dcabdd86194bc2e524fa0d4465f8402b27317c8fa"
+    },
+    {
+      "section": 49,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:46:05.729545+00:00",
+      "ended_at": "2026-07-23T08:46:34.678880+00:00",
+      "subagent_or_session_id": "h1-skeptic-s49-58b245428a5c",
+      "response_sha256": "7b148e2a47f521c4a491f6bfd552013f79eeb6f0de3ed7720d5834919ce46d9e"
+    },
+    {
+      "section": 50,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:47:40.932633+00:00",
+      "ended_at": "2026-07-23T08:48:05.255029+00:00",
+      "subagent_or_session_id": "h1-explorer-s50-425f9663b039",
+      "response_sha256": "aac2a3b31eace27f253f43637b02270f6f5e78aa8f8159453215ba5c6c2653d3"
+    },
+    {
+      "section": 50,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:48:05.257537+00:00",
+      "ended_at": "2026-07-23T08:48:34.120466+00:00",
+      "subagent_or_session_id": "h1-skeptic-s50-c4763b4d392a",
+      "response_sha256": "3bddad945e26e29645a2706040cedeed8cbddfa2842f524b577a300dbad1a5d5"
+    },
+    {
+      "section": 51,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:48:34.127188+00:00",
+      "ended_at": "2026-07-23T08:48:54.285075+00:00",
+      "subagent_or_session_id": "h1-explorer-s51-ab0825726160",
+      "response_sha256": "e53d93336a91374c9038dd50c7ec8aeb4b9f1be2ca5abddbddf96b8514665e99"
+    },
+    {
+      "section": 51,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:48:54.287391+00:00",
+      "ended_at": "2026-07-23T08:49:24.838841+00:00",
+      "subagent_or_session_id": "h1-skeptic-s51-e665bbee11a4",
+      "response_sha256": "0db22c608ec3fb29227459ae231361faed95b820ed9153a066fb5e595a5b7e96"
+    },
+    {
+      "section": 52,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:49:24.845860+00:00",
+      "ended_at": "2026-07-23T08:49:45.409806+00:00",
+      "subagent_or_session_id": "h1-explorer-s52-9f135696ba77",
+      "response_sha256": "78921ba7525e79153fa3074180d893a8b022258ad598bb881b6ee9b89913acf1"
+    },
+    {
+      "section": 52,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:49:45.413336+00:00",
+      "ended_at": "2026-07-23T08:50:11.048394+00:00",
+      "subagent_or_session_id": "h1-skeptic-s52-74a7e9132389",
+      "response_sha256": "8d3a14738941a350df2e77859a13068ca996c327d2c885ea5436b0fb629b0c72"
+    }
+  ],
+  "wall_clock_minutes": 73.91,
+  "note": "H1 dual-LLM sequential waves; session times from live files; no wall_clock override",
+  "production": "dual-LLM subagents only"
+}

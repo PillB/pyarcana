@@ -1,38 +1,36 @@
-# SUMMARY — Dual-newbie agentic pedagogy gate (agentic_G1 + agentic_G2)
+# SUMMARY — Dual-newbie agentic pedagogy gate (agentic_H1 + agentic_H2)
 
 ## Result
-**PASS** under **hardened** `newbie_agentic_validator.py` (manifest + timing + form gates + independence + anti-theater).
+**PASS** under re-hardened validator (zero-duration ban, mandatory mtime ≥30m, stamp ban, independence).
 
-| attempt | clean_52 | a_pass | b_pass | attempt_gates | notes |
-|---------|----------|--------|--------|---------------|-------|
-| agentic_G1 | true | 52 | 52 | pass | Dual-LLM Explorer+Skeptic; llm_session_manifest 104 rows; wall_clock ≥30m |
-| agentic_G2 | true | 52 | 52 | pass | Independent second consecutive; 13.5% non-comment body identity vs G1 |
+| attempt | clean_52 | a | b | gates | mtime span | session dur | stamps |
+|---------|----------|---|---|-------|------------|-------------|--------|
+| **H1** | true | 52 | 52 | pass | ~73.5m | 17–33s | 0 |
+| **H2** | true | 52 | 52 | pass | ~30.6m | 15–48s | 0 |
 
-## Production path (honest)
-1. Packets only via `newbie_agentic_llm_walk.py` (build quiz_card/slim + empty manifest).
-2. **Dual-LLM subagents** write every `newbie_*_live.json` from packets (no solution generator).
-3. `llm_session_manifest.json` records per-section×agent timestamps + response_sha256.
-4. Hardened validator rejects theater (packet_walk, e1 transplant, missing manifest, bulk timing, form-broken scripts).
+Independence H2 vs H1: non-comment body **8.3%**, justifications **0%**. No g2_agent stamps.
 
-## Quarantined (must not produce G* lives)
-`scripts/quarantine_theater/`: `newbie_agentic_f_packet_walk.py`, `_repair_e2_newbie_a.py`, `newbie_agentic_rebuild_lives.py`, `newbie_agentic_produce.py`.
+## Hardened gates (permanent)
+- ZERO_DURATION_SESSION if any session &lt; 5s
+- BULK_WRITE_MTIME if live mtime span &lt; 30m (wall_clock claim cannot override)
+- MECHANICAL_IDENTITY_STAMP if g2_agent/h_agent
+- SUSPICIOUS_UNIFORM_DURATION
+- Manifest ≥100 entries with real timestamps
 
-## Rejected prior attempts
-| attempt | status |
+## Rejected theater
+| attempt | reason |
 |---------|--------|
-| D1/D2 | re-voice theater |
+| G1/G2 | zero-duration sessions, short mtime, G2 g2_agent stamps |
+| F1/F2 | packet_walk bulk completer |
 | E2 | E1 code transplant |
-| F1/F2 | packet_walk bulk completer / re-stamp |
 
-## Independence G2 vs G1
-- Non-comment body identity: **13.5%** (gate: fail if ≥98%)
-- Manifests present; dual-LLM session ids distinct
+## Production
+- Packets: `newbie_agentic_llm_walk.py`
+- Lives: dual-LLM subagents sequential waves, packet-only
+- Quarantine: `scripts/quarantine_theater/`
 
 ## Adversarial
-`pytest tests/adversarial/` including `test_agentic_hardened_gates.py`
-
-## Branding
-PyArcana + Art Nouveau (prior phase)
+`tests/adversarial/` including `test_agentic_hardened_gates.py`
 
 ## SCRATCH
-`val_G1.txt`, `val_G2.txt`, `agentic_ledger.json`, `independence_G1_G2.log`, `adversarial_unit.log`
+val_H1.txt, val_H2.txt, independence_H1_H2.log, agentic_ledger.json

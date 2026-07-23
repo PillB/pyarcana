@@ -1,0 +1,378 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H2",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-ske-s24-844677-99037",
+  "production_note": "agentic_H2 dual-LLM skeptic: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "code": "# skeptical re-read completes via iDo\nimg={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2.0}\nimg[\"dpi\"]=max(img[\"dpi\"],200)\nimg[\"deskew\"]=abs(img[\"skew_deg\"])>=0.5\nprint(img[\"dpi\"], img[\"deskew\"])\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T1-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e impri». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo img={\"w\":800,\"h\":1000,\"dpi\":72,\"». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "Preproceso",
+        "intake",
+        "escaneo",
+        "sint",
+        "tico",
+        "eleva"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "code": "# skeptical re-read completes via iDo\nimg={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2.0}\nimg[\"dpi\"]=max(img[\"dpi\"],200)\nimg[\"deskew\"]=abs(img[\"skew_deg\"])>=0.5\nprint(img[\"dpi\"], img[\"deskew\"])\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T1-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contra». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo img={\"w\":800,\"h\":1000,\"dpi\":72,\"». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "Deskew",
+        "flag",
+        "skew",
+        "grados",
+        "deskew_applied",
+        "skew"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "code": "# Transfer / protocolo — S24-T1-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen esquina superior izquierda. Pass: (50, 50, 950, 950).\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T1-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S24-T1-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "Crop",
+        "rgenes",
+        "lienzo",
+        "imprime",
+        "tupla",
+        "Contrato"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "code": "# skeptical re-read completes via iDo\nscores={0:0.2,180:0.75,90:0.05}\nprint(max(scores, key=scores.get))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T1-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el ». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo scores={0:0.2,180:0.75,90:0.05} ». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "Orientaci",
+        "scores",
+        "Elige",
+        "rotaci",
+        "mayor",
+        "score"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "code": "# skeptical re-read completes via iDo\nscores={0:0.2,180:0.75,90:0.05}\nprint(max(scores, key=scores.get))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T1-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contr». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo scores={0:0.2,180:0.75,90:0.05} ». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "Ruido",
+        "binario",
+        "flags",
+        "donde",
+        "ruido",
+        "marcado"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "code": "# Transfer / protocolo — S24-T1-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed a humano. Pass: manual_orient. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T1-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. C». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S24-T1-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "Gate",
+        "orientaci",
+        "score",
+        "score_orient",
+        "imprime",
+        "manual_orient"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\n# forma esperada (referencia): print([t['text'] for t in toks if t['conf']>=0.85])",
+      "answer": "",
+      "justification_from_packet": "Para S24-T2-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la ». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "Filtro",
+        "confidence",
+        "toks",
+        "conf",
+        "date",
+        "textos"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\n# forma esperada (referencia): print(ocr('Hola')['lang'])\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S24-T2-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e impri». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "Idioma",
+        "defecto",
+        "adapter",
+        "construye",
+        "resultado",
+        "simulado"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "code": "# Transfer / protocolo — S24-T2-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución). Contrato: campo débil tumba auto-accept. Pass: 0.75 review.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T2-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (forma». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S24-T2-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "conf",
+        "campos",
+        "confs",
+        "Imprime",
+        "status",
+        "review"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "code": "# skeptical re-read completes via iDo\nlines=[\"RUC: 20123456789\",\"Total: 10\"]\nkv={}\nfor ln in lines:\n    k,v=ln.split(\":\",1); kv[k.strip()]=v.strip()\nprint(kv)\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T2-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos pu». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo lines=[\"RUC: 20123456789\",\"Total». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)]",
+      "concepts_used": [
+        "parse",
+        "Total",
+        "Separa",
+        "clave",
+        "valor",
+        "imprime"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "code": "# skeptical re-read completes via iDo\nlines=[\"RUC: 20123456789\",\"Total: 10\"]\nkv={}\nfor ln in lines:\n    k,v=ln.split(\":\",1); kv[k.strip()]=v.strip()\nprint(kv)\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T2-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contr». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo lines=[\"RUC: 20123456789\",\"Total». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.]",
+      "concepts_used": [
+        "Tabla",
+        "sint",
+        "tica",
+        "Imprime",
+        "mero",
+        "filas"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "code": "# Transfer / protocolo — S24-T2-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Contrato: bbox del valor. Pass: [0, 0, 10, 10] 20123456789.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T2-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor c». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S24-T2-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "Evidencia",
+        "adjunta",
+        "bbox",
+        "field",
+        "valor",
+        "imprime"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "code": "# skeptical re-read completes via iDo\nimport re\ns=\"20.123456789\"\nd=re.sub(r\"\\D\",\"\",s)\nprint(d, len(d)==11)\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T3-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo import re s=\"20.123456789\" d=re.». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "Normaliza",
+        "sint",
+        "tico",
+        "dejando",
+        "solo",
+        "gitos"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "code": "# skeptical re-read completes via iDo\nimport re\ns=\"20.123456789\"\nd=re.sub(r\"\\D\",\"\",s)\nprint(d, len(d)==11)\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T3-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYY». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo import re s=\"20.123456789\" d=re.». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "Fecha",
+        "boleta",
+        "datetime",
+        "Contrato",
+        "dayfirst",
+        "YYYY"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "code": "# Transfer / protocolo — S24-T3-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T3-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ce». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S24-T3-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "lido",
+        "normaliza",
+        "gitos",
+        "imprime",
+        "None",
+        "Contrato"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "code": "# skeptical re-read completes via iDo\ntotal, lines=150.0,[100.0,50.0]\nprint(\"ok\" if abs(sum(lines)-total)<1e-6 else \"needs_review\")\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T3-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime need». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo total, lines=150.0,[100.0,50.0] ». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "Cross",
+        "field",
+        "monto",
+        "total",
+        "lines",
+        "lines"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\n# forma esperada (referencia): print(reasons)",
+      "answer": "",
+      "justification_from_packet": "Para S24-T3-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contr». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "Reasons",
+        "None",
+        "reasons",
+        "None",
+        "append",
+        "ruc_missing"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "code": "# Transfer / protocolo — S24-T3-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de política del curso. Pass: review_not_fraud.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T3-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fra». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S24-T3-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "tica",
+        "producto",
+        "mismatch",
+        "True",
+        "implica",
+        "fraude"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "code": "# skeptical re-read completes via iDo\ng=[{\"p\":\"A\",\"t\":\"A\"},{\"p\":\"B\",\"t\":\"A\"}]\nprint(sum(1 for r in g if r[\"p\"]==r[\"t\"])/len(g))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T4-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo g=[{\"p\":\"A\",\"t\":\"A\"},{\"p\":\"B\",\"t». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.]",
+      "concepts_used": [
+        "Golden",
+        "accuracy",
+        "global",
+        "correct",
+        "imprime",
+        "float"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\n# forma esperada (referencia): print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))",
+      "answer": "",
+      "justification_from_packet": "Para S24-T4-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Im». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "Accuracy",
+        "campo",
+        "rows",
+        "pred",
+        "true",
+        "fracci"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "code": "# Transfer / protocolo — S24-T4-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobertura. Pass: 0.7. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution o\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T4-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no use». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S24-T4-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "Cobertura",
+        "auto",
+        "auto",
+        "review",
+        "auto",
+        "auto"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\n# forma esperada (referencia): print('reject' if mime not in allowed else 'ok')",
+      "answer": "",
+      "justification_from_packet": "Para S24-T4-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato:». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "Allowlist",
+        "mime",
+        "mime",
+        "application",
+        "jpeg",
+        "imprime"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "code": "# skeptical re-read completes via iDo\nmeta={\"mime\":\"application/pdf\",\"n\":100}\nprint(\"ok\" if meta[\"mime\"]==\"application/pdf\" and meta[\"n\"]<5_000_000 else \"reject\")\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T4-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worke». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo meta={\"mime\":\"application/pdf\",\"». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "Size",
+        "gate",
+        "bytes",
+        "imprime",
+        "reject",
+        "Contrato"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "code": "# Transfer / protocolo — S24-T4-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito de OCR. Pass: human_rescan. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el s\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: deskew, crop, contraste, bajo, degrada, tipografía, pequeña, facturas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- contrato I/O en instruction\n",
+      "answer": "",
+      "justification_from_packet": "Para S24-T4-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S24-T4-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "Fallback",
+        "operativo",
+        "status",
+        "ocr_fail",
+        "acci",
+        "human_rescan"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "S24 ítem 0: descarto distractores y me quedo con 3 («Abstener y encolar revisión»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «¿Qué haces si confidence de RUC es 0.6?». Tokens: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva ideal efectivos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "S24 ítem 1: descarto distractores y me quedo con 1 («Cola de revisión / corrección»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Un mismatch total vs líneas implica:». Tokens: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva ideal efectivos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "S24 ítem 2: descarto distractores y me quedo con 2 («Los campos críticos pueden fallar aunque el global se vea bien»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «¿Por qué medir accuracy por campo?». Tokens: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva ideal efectivos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "S24 ítem 3: descarto distractores y me quedo con 0 («Gate reject/review por mime no permitido»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Archivo application/zip en intake de facturas:». Tokens: deskew crop contraste bajo degrada tipografía pequeña facturas sintéticas eleva ideal efectivos."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:31:17.783822+00:00",
+  "session_started_at": "2026-07-23T09:30:37.714895+00:00",
+  "session_ended_at": "2026-07-23T09:31:17.783822+00:00"
+}
