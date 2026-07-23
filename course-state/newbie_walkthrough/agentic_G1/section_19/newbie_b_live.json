@@ -1,0 +1,471 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-dual-skeptic-s19-2896be57",
+  "production_note": "agentic_G1 dual-LLM skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "pregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "pregunta",
+        "comparar",
+        "regiones",
+        "chart",
+        "bar",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T1-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / datos sintét…»). Teoría S19-T1-A: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Co. Prints: ['print(chart)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "pregunta",
+        "totales",
+        "por",
+        "regi",
+        "audiencia",
+        "ejecutivo",
+        "chart",
+        "bar"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T1-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / datos sint…»). Teoría S19-T1-A: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Co. Prints: ['print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "elige_chart",
+        "pregunta",
+        "return",
+        "line",
+        "tendencia",
+        "lower",
+        "else",
+        "bar",
+        "print",
+        "mensual",
+        "comparar"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T1-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sint…»). Teoría S19-T1-A: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Co. Prints: ['print(elige_chart(\"tendencia mensual\"))', 'print(elige_chart(\"comparar regiones\"))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "truco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "truco",
+        "hon",
+        "print",
+        "factor",
+        "round"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T1-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / datos sinté…»). Teoría S19-T1-B: «ejes, escalas y encodings honestos»: Ejes de **magnitudes absolutas en barras** deben incluir cero salvo just. Prints: ['print(\"factor\", round(truco / hon, 2))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "ylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "ylim_bottom",
+        "print",
+        "honesto",
+        "else",
+        "revisar"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T1-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2` / datos …»). Teoría S19-T1-B: «ejes, escalas y encodings honestos»: Ejes de **magnitudes absolutas en barras** deben incluir cero salvo just. Prints: ['print(\"honesto\" if ylim_bottom == 0 else \"revisar\")']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "encoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "encoding",
+        "dual_axis",
+        "print",
+        "riesgo_alto",
+        "else"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T1-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintét…»). Teoría S19-T1-B: «ejes, escalas y encodings honestos»: Ejes de **magnitudes absolutas en barras** deben incluir cero salvo just. Prints: ['print(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\nplt.close(fig)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "subplots",
+        "bar",
+        "set_ylim",
+        "print",
+        "get_ylim"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T2-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintéticos: matplo…»). Teoría S19-T2-A: «Matplotlib / Seaborn»: Matplotlib/Seaborn construyen la figura estática del portfolio. Siempre: título, etiqu. Prints: ['print(ax.get_ylim()[0] == 0)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\nplt.close(fig)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "subplots",
+        "set_ylabel",
+        "PEN",
+        "print",
+        "get_ylabel"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T2-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sintéticos: mat…»). Teoría S19-T2-A: «Matplotlib / Seaborn»: Matplotlib/Seaborn construyen la figura estática del portfolio. Siempre: título, etiqu. Prints: ['print(ax.get_ylabel())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nimport numpy as np\n\ndef meta_bar(labels, values):\n    fig, ax = plt.subplots()\n    ax.bar(labels, values)\n    ax.set_ylim(bottom=0)\n    meta = {'n_bars': len(labels), 'ylim0': np.float64(ax.get_ylim()[0])}\n    plt.close(fig)\n    return meta\nprint(meta_bar(['a', 'b'], [1, 2]))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "numpy",
+        "def",
+        "meta_bar",
+        "labels",
+        "values",
+        "fig"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T2-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: ma…»). Teoría S19-T2-A: «Matplotlib / Seaborn»: Matplotlib/Seaborn construyen la figura estática del portfolio. Siempre: título, etiqu. Prints: [\"print(meta_bar(['a', 'b'], [1, 2]))\"]. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print({'fmt': 'png', 'dpi': 120, 'panels': 2})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "fmt",
+        "png",
+        "dpi",
+        "panels"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T2-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintéticos: print(…»). Teoría S19-T2-B: «composición, annotations y exportación»: Multi-panel (`subplots`) alinea comparaciones (Vol vs Med). Anota va. Prints: [\"print({'fmt': 'png', 'dpi': 120, 'panels': 2})\"]. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print('fig_cpn2b_v3.png')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "fig_cpn2b_v3",
+        "png"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T2-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos sintéticos…»). Teoría S19-T2-B: «composición, annotations y exportación»: Multi-panel (`subplots`) alinea comparaciones (Vol vs Med). Anota va. Prints: [\"print('fig_cpn2b_v3.png')\"]. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint([ax.get_title() for ax in axes])\nplt.close(fig)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "axes",
+        "subplots",
+        "set_title",
+        "Vol",
+        "Med"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T2-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: m…»). Teoría S19-T2-B: «composición, annotations y exportación»: Multi-panel (`subplots`) alinea comparaciones (Vol vs Med). Anota va. Prints: ['print([ax.get_title() for ax in axes])']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint(next(r for r in rows if r[\"region\"] == \"Lima\")[\"median\"])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "region",
+        "Lima",
+        "median",
+        "Cusco",
+        "print",
+        "next",
+        "for"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T3-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = …»). Teoría S19-T3-A: «Plotly / filtros / tooltips (modelo de datos)»: En entornos sin Plotly instalado, modelamos la **vista intera. Prints: ['print(next(r for r in rows if r[\"region\"] == \"Lima\")[\"median\"])']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"Lima: 28 PEN (n=40)\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "Lima",
+        "PEN"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T3-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sintéticos: pri…»). Teoría S19-T3-A: «Plotly / filtros / tooltips (modelo de datos)»: En entornos sin Plotly instalado, modelamos la **vista intera. Prints: ['print(\"Lima: 28 PEN (n=40)\")']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "tooltip",
+        "row",
+        "return",
+        "region",
+        "median",
+        "PEN",
+        "print",
+        "Cusco"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T3-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def t…»). Teoría S19-T3-A: «Plotly / filtros / tooltips (modelo de datos)»: En entornos sin Plotly instalado, modelamos la **vista intera. Prints: ['print(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "alt = \"Lima 28 PEN; Cusco 22 PEN\"\nprint(len(alt) > 10)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "alt",
+        "Lima",
+        "PEN",
+        "Cusco",
+        "print",
+        "len"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T3-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: chart = {\"Lima…»). Teoría S19-T3-B: «estado, performance y alternativas accesibles»: El **estado** del dashboard (filtros activos) debe ser serial. Prints: ['print(len(alt) > 10)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import json\nprint(json.dumps({\"filtro_region\": \"Lima\"}))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "json",
+        "print",
+        "dumps",
+        "filtro_region",
+        "Lima"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T3-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / datos sint…»). Teoría S19-T3-B: «estado, performance y alternativas accesibles»: El **estado** del dashboard (filtros activos) debe ser serial. Prints: ['print(json.dumps({\"filtro_region\": \"Lima\"}))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint('; '.join(f\"{r['region']}={r['v']} PEN\" for r in table))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "table",
+        "region",
+        "Lima",
+        "Cusco",
+        "print",
+        "join",
+        "PEN",
+        "for"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T3-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table…»). Teoría S19-T3-B: «estado, performance y alternativas accesibles»: El **estado** del dashboard (filtros activos) debe ser serial. Prints: ['print(\\'; \\'.join(f\"{r[\\'region\\']}={r[\\'v\\']} PEN\" for r in table))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"unidad=PEN | fuente=sintetico\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "unidad",
+        "PEN",
+        "fuente",
+        "sintetico"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T4-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéticos: print…»). Teoría S19-T4-A: «unidades, fuente y limitaciones»: Cada eje y tooltip lleva **unidad** (PEN, %, tickets). Fuente: sistema sint. Prints: ['print(\"unidad=PEN | fuente=sintetico\")']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "cap",
+        "unidad",
+        "PEN",
+        "fuente",
+        "limitacion",
+        "web",
+        "print",
+        "set"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T4-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintét…»). Teoría S19-T4-A: «unidades, fuente y limitaciones»: Cada eje y tooltip lleva **unidad** (PEN, %, tickets). Fuente: sistema sint. Prints: ['print(set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"})']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "pie",
+        "cap",
+        "return",
+        "join",
+        "for",
+        "items",
+        "print",
+        "unidad",
+        "PEN"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T4-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: …»). Teoría S19-T4-A: «unidades, fuente y limitaciones»: Cada eje y tooltip lleva **unidad** (PEN, %, tickets). Fuente: sistema sint. Prints: ['print(pie({\"unidad\": \"PEN\", \"n\": 10}))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"RECHAZADO\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "RECHAZADO"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T4-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sintéticos: cl…»). Teoría S19-T4-B: «color, contraste, texto alternativo y no sobreclaim»: Contraste suficiente texto/fondo; no uses **solo color*. Prints: ['print(\"RECHAZADO\")']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "alt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt)\nprint(\"n=\" in alt)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "alt",
+        "Lima",
+        "PEN",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T4-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos sintéticos:…»). Teoría S19-T4-B: «color, contraste, texto alternativo y no sobreclaim»: Contraste suficiente texto/fondo; no uses **solo color*. Prints: ['print(\"n=\" in alt)', 'print(\"n=\" in alt)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "classify_claim",
+        "text",
+        "return",
+        "PERMITIDO",
+        "muestra",
+        "else",
+        "RECHAZADO",
+        "print",
+        "lidera",
+        "web",
+        "mejor"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S19-T4-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sin…»). Teoría S19-T4-B: «color, contraste, texto alternativo y no sobreclaim»: Contraste suficiente texto/fondo; no uses **solo color*. Prints: ['print(classify_claim(\"lidera en la muestra web\"))', 'print(classify_claim(\"es la mejor del país\"))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S19-Q0] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «Para comparar magnitudes entre categorías, ¿qué chart es usualmente pr». Teoría: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione. Opción retenida: «Barras con baseline 0» (idx 2), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S19-Q1] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «Una alternativa accesible debe:». Teoría: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione. Opción retenida: «Repetir los mismos números clave del chart» (idx 0), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S19-Q2] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «“Lima es la mejor región del Perú” a partir de una muestra web es:». Teoría: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione. Opción retenida: «Sobreclaim / generalización indebida» (idx 1), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S19-Q3] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «El caption de un gráfico de portfolio debe incluir:». Teoría: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione. Opción retenida: «Unidad, fuente y limitaciones» (idx 3), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S19-Q4] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40». Teoría: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione. Opción retenida: «Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita» (idx 2), alineada a evidencia explícita de paragraphs/code del active packet."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:28:18.982895+00:00",
+  "session_started_at": "2026-07-23T06:28:18.979474+00:00",
+  "session_ended_at": "2026-07-23T06:28:18.982915+00:00"
+}

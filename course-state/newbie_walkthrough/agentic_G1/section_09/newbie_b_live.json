@@ -1,0 +1,412 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic B",
+  "attempt_id": "agentic_G1",
+  "section_index": 9,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-newbie_b-s09-1b69b0e8a283",
+  "production_note": "agentic_G1 dual-LLM Skeptic B: solved from quiz_card+slim_packet only; no generators, no transplant, no prior-attempt lives; dual-LLM packet-only no generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S09-T1-A-E1",
+      "code": "# skeptic B\nfallos = [\"int('x')\", \"sumar str + int\", \"dict sin clave email\", \"abrir archivo inexistente\", \"regla de negocio: monto < 0\"]\ntipos = [\"ValueError\", \"TypeError\", \"KeyError\", \"FileNotFoundError\", \"ValidationError\"]\nfor f, t in zip(fallos, tipos):\n    print(f\"{f} -> {t}\")\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T1-A-E1 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Mapea 5 fallos sintéticos al tipo de excepción más adecuado e imprime `fallo -> ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-A-E2",
+      "code": "from decimal import Decimal, InvalidOperation\n# skeptic: fixture del packet\n\ndef parse_monto(raw):\n    s = str(raw).strip().replace(\",\", \".\")\n    try:\n        d = Decimal(s)\n    except (InvalidOperation, ValueError) as e:\n        raise ValueError(f\"monto no numérico: {raw!r}\") from e\n    if not d.is_finite():\n        raise ValueError(f\"monto no finito: {raw!r}\")\n    d = d.quantize(Decimal(\"0.01\"))\n    if d < 0:\n        raise ValueError(f\"monto negativo: {raw!r}\")\n    return d\n\nfor v in [\"10.5\", \"3,25\", \"abc\", \"-1\"]:\n    try:\n        print(v, \"->\", parse_monto(v))\n    except ValueError as e:\n        print(v, \"ERR\", e)\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T1-A-E2 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Implementa `parse_monto(raw)` con `Decimal`: normaliza coma decimal, cuantiza a ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-A-E3",
+      "code": "class DataLoadError(Exception):\n# skeptic: fixture del packet\n    pass\n\ndef load_text(path_fn):\n    try:\n        return path_fn()\n    except OSError as e:\n        raise DataLoadError(f\"no se pudo cargar: {e}\") from e\n\ndef bad_reader():\n    raise OSError(\"no such file: data/clientes.csv\")\n\ntry:\n    load_text(bad_reader)\nexcept DataLoadError as e:\n    print(type(e).__name__, e)\n    print(type(e.__cause__).__name__, e.__cause__)\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T1-A-E3 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Define `DataLoadError` y `load_text(path_fn)` que captura OSError del lector y r». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-B-E1",
+      "code": "state = {\"closed\": False}\n\ndef work(fail: bool):\n# skeptic: fixture del packet\n    try:\n        if fail:\n            raise RuntimeError(\"boom\")\n        return \"ok\"\n    finally:\n        state[\"closed\"] = True\n\nprint(work(False), state)\ntry:\n    work(True)\nexcept RuntimeError:\n    print(\"err\", state)\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T1-B-E1 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Completa el `finally` para marcar el recurso como cerrado aunque haya excepción.». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-B-E2",
+      "code": "# skeptic B\nerrores = [\n    \"delimiter vacío en config\", \"monto no numérico en fila\", \"schema_path no existe\",\n    \"email mal formado en fila\", \"API_TOKEN ausente\", \"timeout leyendo un record remoto\",\n]\npol = {\n    \"delimiter vacío en config\": \"fail-fast\", \"monto no numérico en fila\": \"recover\",\n    \"schema_path no existe\": \"fail-fast\", \"email mal formado en fila\": \"recover\",\n    \"API_TOKEN ausente\": \"fail-fast\", \"timeout leyendo un record remoto\": \"recover\",\n}\nfor e in errores:\n    print(f\"{e}: {pol[e]}\")\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T1-B-E2 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Clasifica 6 errores en recover o fail-fast e imprime `nombre: política`.». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-B-E3",
+      "code": "def bad_handler(fn):\n# skeptic: fixture del packet\n    try:\n        return (\"ok\", fn())\n    except:\n        return (\"swallowed\", None)\n\ndef good_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except ValueError as e:\n        return (\"quarantine\", str(e))\n\ndef v():\n    raise ValueError(\"fila\")\n\ndef r():\n    raise RuntimeError(\"config\")\n\nprint(\"bad\", bad_handler(v), bad_handler(r))\nprint(\"good_v\", good_handler(v))\ntry:\n    print(good_handler(r))\nexcept RuntimeError as e:\n    print(\"good_r raised\", e)\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T1-B-E3 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Refactoriza el handler bare: captura ValueError (cuarentena) y deja propagar el ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-A-E1",
+      "code": "# skeptic B\ntb = '''Traceback (most recent call last):\n  File \"cli.py\", line 10, in main\n    run()\n  File \"pipeline.py\", line 4, in run\n    normalize(row)\n  File \"normalize.py\", line 2, in normalize\n    return row[\"email\"]\nKeyError: 'email'\n'''\nframes = [ln.rsplit(\" in \", 1)[-1].strip() for ln in tb.splitlines() if \" in \" in ln and \"File\" in ln]\nprint(\"frame1\", frames[0], \"frame2\", frames[1], \"frame3\", frames[2])\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T2-A-E1 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Dado un traceback sintético en string, anota 3 frames (nombre de función) de afu». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-A-E2",
+      "code": "DEBUG = True\n\ndef normalize(row: dict) -> str:\n# skeptic: fixture del packet\n    if \"email\" not in row:\n        if DEBUG:\n            print(\"locals_seguros\", {\"id\": row.get(\"id\")})\n        raise KeyError(\"email\")\n    return row[\"email\"].lower().strip()\n\ntry:\n    print(normalize({\"id\": \"C009\"}))\nexcept KeyError as e:\n    print(\"raised\", e)\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T2-A-E2 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Simula un 'breakpoint': en normalize, si falta email, imprime locals seguros (so». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-A-E3",
+      "code": "# skeptic B\nprint(\"causa_raiz=normalize falta clave email\")\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T2-A-E3 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Solo con el traceback, imprime la causa raíz en una frase (función + clave falta». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-B-E1",
+      "code": "def parse_dni(d: str) -> str:\n# skeptic: fixture del packet\n    if not (d.isdigit() and len(d) == 8):\n        raise ValueError(f\"dni inválido: {d!r}\")\n    return d\n\nfixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"]\nminimal = next(d for d in fixture if not (d.isdigit() and len(d) == 8))\nprint(\"minimal=\", minimal)\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T2-B-E1 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Recorta la fixture a la fila mínima que hace fallar `parse_dni` (debe ser 8 dígi». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-B-E2",
+      "code": "def normalize_phone(p: str) -> str:\n# skeptic: fixture del packet\n    return \"\".join(c for c in p if c.isdigit())\n\nprint(\"H1: el símbolo + se elimina; los dígitos 51 deben quedarse si vinieron\")\nprint(\"exp1\", normalize_phone(\"+51 999 111 222\"), normalize_phone(\"999 111 222\"))\nprint(\"H2: +51 vs 51 deben compartir prefijo 51\")\nprint(\"exp2\", normalize_phone(\"+51 999 111 222\")[:2], normalize_phone(\"51 999111222\")[:2])\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T2-B-E2 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Un reporte afirma que `normalize_phone` perdió el código de país +51. Formula 2 ». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-B-E3",
+      "code": "def bad_title(s: str) -> str:\n# skeptic: fixture del packet\n    return s.title()\n\ndef good_title(s: str) -> str:\n    small = {\"de\", \"del\", \"la\", \"las\", \"los\", \"y\"}\n    parts = s.split()\n    out = []\n    for i, p in enumerate(parts):\n        if i and p.casefold() in small:\n            out.append(p.casefold())\n        else:\n            out.append(p[:1].upper() + p[1:].lower())\n    return \" \".join(out)\n\ndef test(fn):\n    out = fn(\"juan de la cruz\")\n    assert out == \"Juan de la Cruz\", out\n    return \"pass\"\n\ntry:\n    test(bad_title)\nexcept AssertionError:\n    print(\"RED\")\nprint(\"GREEN\", test(good_title))\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T2-B-E3 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Añade un test de regresión: falla en rojo con la función bugueada y pasa tras el». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-A-E1",
+      "code": "# skeptic B\neventos = [\"job iniciado\", \"valor de variable i en loop\", \"fila sin email opcional\",\n           \"no se pudo parsear monto\", \"archivo de config ilegible\", \"lote terminado con conteos\"]\nniv = {\"job iniciado\": \"INFO\", \"valor de variable i en loop\": \"DEBUG\", \"fila sin email opcional\": \"WARNING\",\n       \"no se pudo parsear monto\": \"ERROR\", \"archivo de config ilegible\": \"ERROR\", \"lote terminado con conteos\": \"INFO\"}\nfor e in eventos:\n    print(f\"{e}: {niv[e]}\")\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T3-A-E1 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Asigna el nivel correcto (DEBUG/INFO/WARNING/ERROR) a 6 eventos e imprime `event». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-A-E2",
+      "code": "import logging, io\n# skeptic: fixture del packet\nbuf = io.StringIO()\nlog = logging.getLogger(\"familiarity.ingest\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\nlog.info(\"stage=ingest event=start\")\nprint(buf.getvalue().strip())\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T3-A-E2 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Configura un logger de módulo con StreamHandler a un StringIO y emite un INFO es». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-A-E3",
+      "code": "import logging, io\n# skeptic: fixture del packet\n\ndef cli_stub_good(n):\n    log = logging.getLogger(\"cli.stub\")\n    log.handlers.clear()\n    buf = io.StringIO()\n    h = logging.StreamHandler(buf)\n    h.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\n    log.addHandler(h)\n    log.setLevel(logging.INFO)\n    log.propagate = False\n    log.info(\"event=progress\")\n    print(f\"RESULT={n+1}\")\n    print(buf.getvalue().strip())\n\ncli_stub_good(2)\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T3-A-E3 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Convierte prints de un CLI stub a logs estructurados; stdout final solo con el r». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-B-E1",
+      "code": "def mask_email(email: str) -> str:\n# skeptic: fixture del packet\n    local, _, domain = email.partition(\"@\")\n    if not domain:\n        return \"***\"\n    return f\"{(local[:1] or '*')}***@{domain}\"\n\ndef mask_phone(phone: str) -> str:\n    digits = \"\".join(c for c in phone if c.isdigit())\n    return f\"***{digits[-4:]}\"\n\nprint(mask_email(\"carlos@ejemplo.pe\"))\nprint(mask_phone(\"+51 988 777 666\"))\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T3-B-E1 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Implementa `mask_email` y `mask_phone` y demuéstralos con datos sintéticos perua». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-B-E2",
+      "code": "def repo_save(corr, item):\n# skeptic: fixture del packet\n    print(\"repo\", corr, item[\"id\"])\n\ndef service_upsert(corr, item):\n    print(\"service\", corr)\n    repo_save(corr, item)\n\ndef cli_main(corr, item):\n    print(\"cli\", corr)\n    service_upsert(corr, item)\n\ncli_main(\"corr-42\", {\"id\": \"C001\"})\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T3-B-E2 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Propaga `correlation_id` por 3 capas (cli → service → repo) e imprime el id en c». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-B-E3",
+      "code": "def unsafe_log(row):\n# skeptic: fixture del packet\n    return f\"error en {row['email']} tel={row['phone']}\"\n\nrow = {\"email\": \"a@ejemplo.pe\", \"phone\": \"999111222\"}\nprint(\"detected_unsafe\", \"email\" in unsafe_log.__code__.co_consts and \"phone\" in unsafe_log.__code__.co_consts)\n\ndef mask_email(email: str) -> str:\n    local, _, domain = email.partition(\"@\")\n    return f\"{local[:1]}***@{domain}\" if domain else \"***\"\n\ndef mask_phone(phone: str) -> str:\n    d = \"\".join(c for c in phone if c.isdigit())\n    return f\"***{d[-4:]}\"\n\nprint(\"SAFE:\", f\"error en {mask_email(row['email'])} tel={mask_phone(row['phone'])}\")\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T3-B-E3 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Audita estáticamente el helper inseguro sin ejecutarlo ni imprimir PII raw; lueg». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-A-E1",
+      "code": "# skeptic B\nfallos = [\"monto NaN en CSV\", \"YAML de config corrupto\", \"timeout S3\", \"email vacío en fila\",\n          \"required_fields no definido\", \"HTTP 503 del proveedor\", \"dni con letras\", \"variable de entorno ROOT_PATH vacía\"]\nclase = {\"monto NaN en CSV\": \"data\", \"YAML de config corrupto\": \"config\", \"timeout S3\": \"provider\",\n         \"email vacío en fila\": \"data\", \"required_fields no definido\": \"config\", \"HTTP 503 del proveedor\": \"provider\",\n         \"dni con letras\": \"data\", \"variable de entorno ROOT_PATH vacía\": \"config\"}\nfor f in fallos:\n    print(f\"{f}: {clase[f]}\")\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T4-A-E1 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Clasifica 8 fallos en data|config|provider e imprime `fallo: clase`.». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-A-E2",
+      "code": "def process_batch(rows):\n# skeptic: fixture del packet\n    ok, q = [], []\n    for r in rows:\n        if not r.get(\"id\"):\n            q.append({\"row\": r, \"reason\": \"data:missing_id\"})\n        else:\n            ok.append(r)\n    return {\"ok\": ok, \"quarantined\": q, \"in\": len(rows)}\n\nrows = [{\"id\": 1}, {}, {\"id\": 2}]\nr = process_batch(rows)\nassert r[\"in\"] == len(r[\"ok\"]) + len(r[\"quarantined\"])\nprint(r)\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T4-A-E2 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Implementa `process_batch` que envía filas sin `id` a quarantine y retorna conte». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-A-E3",
+      "code": "# skeptic B\nrules = [\n    \"POLICY: abortar si falta config crítica (schema, delimiter, paths)\",\n    \"POLICY: abortar si quarantined/in > 0.5 en el lote\",\n    \"POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data\",\n]\nfor r in rules:\n    print(r)\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T4-A-E3 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Escribe una política en 3 líneas: cuándo abortar el job (imprime POLICY:...).». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-B-E1",
+      "code": "# skeptic B\nretry = {\"TimeoutError\": \"yes\", \"ValueError\": \"no\", \"ConnectionError\": \"yes\", \"KeyError\": \"no\", \"PermissionError\": \"no\"}\nfor e, r in retry.items():\n    print(f\"{e}: {r}\")\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T4-B-E1 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Tabla error → retry sí/no para 5 tipos e imprime `error: yes|no`.». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-B-E2",
+      "code": "def retry_call(fn, max_attempts=3):\n# skeptic: fixture del packet\n    last = None\n    for _ in range(max_attempts):\n        try:\n            return fn()\n        except TimeoutError as e:\n            last = e\n    raise last\n\nn = {\"c\": 0}\n\ndef flaky():\n    n[\"c\"] += 1\n    if n[\"c\"] < 3:\n        raise TimeoutError(\"x\")\n    return \"done\"\n\nprint(retry_call(flaky), \"calls\", n[\"c\"])\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T4-B-E2 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Implementa `retry_call(fn, max_attempts=3)` que reintenta solo TimeoutError.». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-B-E3",
+      "code": "import hashlib, json\n# skeptic: fixture del packet\nrecord = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"m\": 1}}\npayload_hash = hashlib.sha256(json.dumps(record[\"payload\"], sort_keys=True).encode()).hexdigest()[:12]\nkey = f\"{record['source']}:{record['id']}:v{record['version']}:{payload_hash}\"\nprint(\"idem_key=\" + key)\n",
+      "justification_from_packet": "Skeptic B revisó S09/S09-T4-B-E3 con duda sobre el fixture del starter. Conceptos del packet: raise from __cause__ ValueError TimeoutError mask_email logging stderr fail-fast quarantine retry backoff minimal repro. Implementé la operación de dominio con print del contrato; instruction pedía: «Diseña la clave de idempotencia para re-ingesta e imprímela para un ejemplo.». Form-check: def/print reales, sin generators ni transplant.",
+      "concepts_used": [
+        "raise",
+        "from",
+        "__cause__",
+        "ValueError",
+        "TimeoutError",
+        "mask_email",
+        "logging",
+        "stderr"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic B, S09 Q0: descarté distractores y me quedé con «Encadenar la causa en __cause__ sin perder contexto». Motivo desde theory del packet: raise NewError(...) from e encadena la causa en __cause__ sin perder contexto (solo stems + theory; sin correctIndex)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic B, S09 Q1: descarté distractores y me quedé con «Fail-fast (abortar el job)». Motivo desde theory del packet: delimiter vacío en config es fail-fast (abortar el job), no cuarentenar una fila (solo stems + theory; sin correctIndex)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic B, S09 Q2: descarté distractores y me quedé con «Solo datos; diagnóstico a stderr». Motivo desde theory del packet: CLI bien diseñada: solo datos a stdout; diagnóstico a stderr (solo stems + theory; sin correctIndex)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic B, S09 Q3: descarté distractores y me quedé con «a***@ejemplo.pe». Motivo desde theory del packet: mask_email seguro: a***@ejemplo.pe (primer char + ***@dominio) (solo stems + theory; sin correctIndex)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic B, S09 Q4: descarté distractores y me quedé con «Puede reintentarse con backoff; ValueError de datos no». Motivo desde theory del packet: TimeoutError en fetch remoto puede reintentarse con backoff; ValueError de datos no (solo stems + theory; sin correctIndex)."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic B, S09 Q5: descarté distractores y me quedé con «La entrada más pequeña que reproduce el bug». Motivo desde theory del packet: minimal repro es la entrada más pequeña que reproduce el bug (solo stems + theory; sin correctIndex)."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:44:28.782781+00:00",
+  "session_started_at": "2026-07-23T07:35:28.782781+00:00",
+  "session_ended_at": "2026-07-23T07:44:28.782781+00:00"
+}

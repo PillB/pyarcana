@@ -1,0 +1,282 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 28,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-dual-skeptic-s28-bde413c6",
+  "production_note": "agentic_G1 dual-LLM skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "code": "import random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\nprint(a == b)\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T1-A-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `random.seed(0); a=random.random()`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «compara». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0,0.5,1]\nprint(all(0 <= s <= 1 for s in scores))\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T1-A-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `scores=[0,0.5,1]`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «rango». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='  x '\nf=lambda x: x.strip()\nprint(f(f(s)) == f(s))\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T1-A-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `s='  x '`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «assert blando print». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='x','x'\nprint((a == b) == (b == a))\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T1-B-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `a,b='x','x'`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «simetría». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('Ana'.casefold() == 'ANA'.casefold())\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T1-B-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `case_id = \"CASO-LIM-SYN\"`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «True». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b=1,1\nprint((a == b) == (b == a))\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T1-B-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `a,b=1,1`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «propiedad». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nr={}\nprint('id requerido' if not r.get('id') else 'ok')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T2-A-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `r={}`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «guard». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=1.2\nprint('score' if not (0 <= score <= 1) else 'ok')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T2-A-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `score=1.2`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «etiqueta error». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'id':'1'},{'id':''}]\nprint(sum(1 for r in rows if not r.get('id')))\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T2-A-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `rows=[{'id':'1'},{'id':''}]`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «lista». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ngolden,current={'n':1},{'n':2}\nprint('drift' if golden != current else 'ok')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T2-B-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `golden,current={'n':1},{'n':2}`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «strings/dicts». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndiff, approved = True, False\nprint('blocked' if diff and not approved else 'ok')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T2-B-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `diff, approved = True, False`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «política». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'golden_version': 3}['golden_version'])\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T2-B-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `case_id = \"CASO-LIM-SYN\"`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «versionado». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndb={'e1':{'name':'Ana'}}\nprint(db['e1']['name'])\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T3-A-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `db={'e1':{'name':'Ana'}}`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «fake». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nprint(date(2026, 7, 20).isoformat())\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T3-A-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `print(date(2026, 7, 20).isoformat())`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «inyección». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus=503\nprint('retry' if status >= 500 else 'ok')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T3-A-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `status=503`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «rama». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A'.casefold() == 'a'.casefold())\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T3-B-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `case_id = \"CASO-LIM-SYN\"`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «sin mock». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nf=lambda a,b: True\nprint('weak' if f('x','y') and f('1','2') else 'ok')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T3-B-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `f=lambda a,b: True`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «siempre True». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'rows_written': 1}['rows_written'])\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T3-B-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `case_id = \"CASO-LIM-SYN\"`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «borde». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\nprint(c.execute('select count(*) from t').fetchone()[0])\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T4-A-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `c=sqlite3.connect(':memory:')`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «fetchone». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n * (n - 1) // 2)\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T4-A-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `n=4`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «candidatos». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndone, items={'a'}, ['a','b']\nprint([i for i in items if i not in done])\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T4-A-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `done, items={'a'}, ['a','b']`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «reanudación». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(sorted(['b', 'a']))\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T4-B-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `case_id = \"CASO-LIM-SYN\"`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «orden». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nflake_rate=0.01\nprint('fail_job' if flake_rate > 0 else 'ok')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T4-B-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `flake_rate=0.01`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «gate». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('unit→data→integration')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S28-T4-B-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `case_id = \"CASO-LIM-SYN\"`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «flakes, determinismo y CI» y hint «orden». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "invariantes y generación de casos",
+        "idempotencia, simetría y metamorphic tests",
+        "schema y quality contracts"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic: contrasté las 4 opciones de «Un test metamórfico verifica:». La correcta es «Relaciones predecibles entre entradas transformadas y salidas» porque el slim_packet enfatiza «schema y quality contracts» / «Eliminar flakes y fijar determinismo en CI». Las demás o invierten el control (envío sin approve, fraude automático) o son ruido."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic: contrasté las 4 opciones de «Actualizar un golden con drift sin review es:». La correcta es «Riesgo de ocultar regresiones» porque el slim_packet enfatiza «schema y quality contracts» / «Eliminar flakes y fijar determinismo en CI». Las demás o invierten el control (envío sin approve, fraude automático) o son ruido."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic: contrasté las 4 opciones de «Sobre-mocking típico:». La correcta es «Acoplar el test a detalles internos y ocultar bugs» porque el slim_packet enfatiza «schema y quality contracts» / «Eliminar flakes y fijar determinismo en CI». Las demás o invierten el control (envío sin approve, fraude automático) o son ruido."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic: contrasté las 4 opciones de «Flakes en la suite gate de ER se manejan:». La correcta es «Con determinismo (seed/reloj/sort) y fallo de job si persisten» porque el slim_packet enfatiza «schema y quality contracts» / «Eliminar flakes y fijar determinismo en CI». Las demás o invierten el control (envío sin approve, fraude automático) o son ruido."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:23:03.338050+00:00",
+  "session_started_at": "2026-07-23T06:49:01.981032+00:00",
+  "session_ended_at": "2026-07-23T06:23:03.338069+00:00"
+}

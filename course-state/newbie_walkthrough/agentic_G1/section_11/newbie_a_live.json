@@ -1,0 +1,412 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer A",
+  "attempt_id": "agentic_G1",
+  "section_index": 11,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-newbie_a-s11-f65b98316b91",
+  "production_note": "agentic_G1 dual-LLM Explorer A: solved from quiz_card+slim_packet only; no generators, no transplant, no prior-attempt lives; dual-LLM packet-only no generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    phones: list = field(default_factory=list)\n\nprint(ClientRecord(client_id=\"C001\", full_name=\"Ana Perez\", phones=[\"999\"]))\n",
+      "justification_from_packet": "Explorer A en S11/S11-T1-A-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "code": "from dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: Decimal\n    currency: str\n\nprint(Transaction(\"T1\", \"C001\", Decimal(\"150.50\"), \"PEN\"))\n",
+      "justification_from_packet": "Explorer A en S11/S11-T1-A-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n\n    @classmethod\n    def from_dict(cls, d):\n        return cls(client_id=d[\"client_id\"], full_name=d.get(\"full_name\", \"\"))\n\nc = ClientRecord.from_dict({\"client_id\": \"C007\", \"full_name\": \"Luis\"})\nprint(type(c).__name__, c.client_id)\n",
+      "justification_from_packet": "Explorer A en S11/S11-T1-A-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "code": "from dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: Decimal\n    currency: str\n\n    def __post_init__(self):\n        if not isinstance(self.amount, Decimal):\n            raise TypeError(\"amount must be Decimal\")\n        self.amount = self.amount.quantize(Decimal(\"0.01\"))\n        if self.amount <= 0:\n            raise ValueError(\"amount must be > 0\")\n        if self.currency not in {\"PEN\", \"USD\"}:\n            raise ValueError(\"currency not allowed\")\n\nprint(Transaction(\"T1\", Decimal(\"10.5\"), \"PEN\"))\nfor args in [(Decimal(\"0\"), \"PEN\"), (Decimal(\"1\"), \"EUR\")]:\n    try:\n        Transaction(\"T2\", *args)\n    except ValueError as e:\n        print(\"reject\", e)\n",
+      "justification_from_packet": "Explorer A en S11/S11-T1-B-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    @classmethod\n    def from_dict(cls, d):\n        cid = (d.get(\"client_id\") or \"\").strip()\n        doc = (d.get(\"document_id\") or \"\").strip()\n        if not cid or not doc:\n            raise ValueError(\"client_id y document_id son obligatorios\")\n        return cls(client_id=cid, document_id=doc)\n\nprint(ClientRecord.from_dict({\"client_id\": \"C001\", \"document_id\": \"D1\"}))\ntry:\n    ClientRecord.from_dict({\"client_id\": \"\", \"document_id\": \"D1\"})\nexcept ValueError as e:\n    print(\"fail\", e)\n",
+      "justification_from_packet": "Explorer A en S11/S11-T1-B-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "code": "for inv in [\n    \"INV: ClientRecord exige client_id y document_id no vacíos\",\n    \"INV: Transaction.amount es Decimal > 0 cuantizado a 0.01\",\n    \"INV: Evidence.signal_score en [0,1] finito, sin veredicto de fraude\",\n    \"INV: Entity identity por entity_id, no por display_name mutable\",\n]:\n    print(inv)\n",
+      "justification_from_packet": "Explorer A en S11/S11-T1-B-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first_name: str\n    last_name: str\n\n    @property\n    def full_name(self):\n        return f\"{self.first_name} {self.last_name}\"\n\nprint(Person(\"Ana\", \"Perez\").full_name)\n",
+      "justification_from_packet": "Explorer A en S11/S11-T2-A-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    day_created: int\n\n    def age_days_since(self, day: int) -> int:\n        return day - self.day_created\n\nprint(Transaction(10).age_days_since(25))\n",
+      "justification_from_packet": "Explorer A en S11/S11-T2-A-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "code": "from math import isfinite\n\nclass Signal:\n    def __init__(self):\n        self._score = 0.0\n\n    @property\n    def score(self):\n        return self._score\n\n    @score.setter\n    def score(self, value):\n        if not isinstance(value, (int, float)) or isinstance(value, bool) or not isfinite(value):\n            raise ValueError(\"score must be finite number\")\n        if not 0.0 <= float(value) <= 1.0:\n            raise ValueError(\"score out of range\")\n        self._score = float(value)\n\ns = Signal()\ns.score = 0.7\nprint(\"ok\", s.score)\nfor bad in (1.5, float(\"nan\")):\n    try:\n        s.score = bad\n    except ValueError as e:\n        print(\"reject\", e)\n",
+      "justification_from_packet": "Explorer A en S11/S11-T2-A-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass(frozen=True)\nclass ResolvedEntity:\n    entity_id: str\n    display_name: str = field(compare=False)\n\na = ResolvedEntity(\"E1\", \"Ana\")\nb = ResolvedEntity(\"E1\", \"Ana Q\")\nc = ResolvedEntity(\"E2\", \"Luis\")\nprint(a == b, a == c, hash(a) == hash(b))\n",
+      "justification_from_packet": "Explorer A en S11/S11-T2-B-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Evidence:\n    kind: str\n    value: str\n\ns = {Evidence(\"phone\", \"9\"), Evidence(\"phone\", \"9\"), Evidence(\"email\", \"a\")}\nprint(len(s))\n",
+      "justification_from_packet": "Explorer A en S11/S11-T2-B-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "code": "class MutableEntity:\n    def __init__(self, eid):\n        self.eid = eid\n    def __hash__(self):\n        return hash(self.eid)\n    def __eq__(self, other):\n        return isinstance(other, MutableEntity) and self.eid == other.eid\n\nfrom dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass FrozenEntity:\n    eid: str\n\nm = MutableEntity(\"E1\")\nd = {m: \"ok\"}\nm.eid = \"E9\"\nprint(\"BUG\", d.get(MutableEntity(\"E1\")), \"lookup broken after mutate\")\nf = FrozenEntity(\"E1\")\nd2 = {f: \"ok\"}\nprint(\"SAFE\", d2.get(FrozenEntity(\"E1\")))\n",
+      "justification_from_packet": "Explorer A en S11/S11-T2-B-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass PersonInfo:\n    full_name: str\n\n@dataclass\nclass Client:\n    client_id: str\n    person: PersonInfo\n\nc = Client(\"C001\", PersonInfo(\"Ana\"))\nprint(c.client_id, c.person.full_name, \"| design=composition\")\n",
+      "justification_from_packet": "Explorer A en S11/S11-T3-A-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = field(default_factory=list)\n\n    def add_evidence(self, e):\n        self.evidences.append(e)\n\ncf = CaseFile(\"CASE-1\")\ncf.add_evidence(\"phone\")\ncf.add_evidence(\"geo\")\nprint(\"n=\", len(cf.evidences))\n",
+      "justification_from_packet": "Explorer A en S11/S11-T3-A-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "code": "print(\"JUST: Client no es un subtipo is-a de Person: el rol comercial cambia sin cambiar la persona\")\nprint(\"JUST: composición con PersonInfo evita jerarquías frágiles y facilita tests\")\n",
+      "justification_from_packet": "Explorer A en S11/S11-T3-A-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "code": "from typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, pair: tuple[str, str]) -> float: ...\n\nclass FakeScorer:\n    def score(self, pair: tuple[str, str]) -> float:\n        return 0.5\n\ndef run(s: Scorer):\n    return s.score((\"C001\", \"C002\"))\n\nprint(run(FakeScorer()))\n",
+      "justification_from_packet": "Explorer A en S11/S11-T3-B-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "code": "def apply(norm, text):\n    return norm(text)\n\ndef strip_norm(t):\n    return t.strip()\n\ndef casefold_norm(t):\n    return t.casefold()\n\nprint(apply(strip_norm, \" Ana \"), \"|\", apply(casefold_norm, \"Ana\"))\n",
+      "justification_from_packet": "Explorer A en S11/S11-T3-B-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "code": "print(\"WHEN_NOT: solo hay una implementación y no hay tests con fakes\")\nprint(\"WHEN_NOT: el borde aún no tiene segundo adaptador (YAGNI)\")\n",
+      "justification_from_packet": "Explorer A en S11/S11-T3-B-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    password: str = \"secret\"\n    api_token: str = \"tok\"\n\n    def to_dict(self):\n        return {\"client_id\": self.client_id, \"email\": self.email}\n\nprint(ClientRecord(\"C001\", \"a@ejemplo.pe\").to_dict())\n",
+      "justification_from_packet": "Explorer A en S11/S11-T4-A-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "code": "class Repo:\n    def __init__(self):\n        self._store = {}\n    def save(self, client: dict):\n        self._store[client[\"client_id\"]] = dict(client)\n    def get(self, client_id: str):\n        return self._store.get(client_id)\n\nr = Repo()\nr.save({\"client_id\": \"C001\", \"email\": \"a@ejemplo.pe\"})\nprint(r.get(\"C001\"))\n",
+      "justification_from_packet": "Explorer A en S11/S11-T4-A-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "code": "print(\"LAYER: cli — argparse, stdin/stdout, exit codes\")\nprint(\"LAYER: service — orquestación, validación de entrada\")\nprint(\"LAYER: domain/repo — entidades, invariantes, persistencia\")\n",
+      "justification_from_packet": "Explorer A en S11/S11-T4-A-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def __post_init__(self):\n        if not self.document_id:\n            raise ValueError(\"document_id vacío\")\n\ntry:\n    ClientRecord(\"C1\", \"\")\nexcept ValueError:\n    print(\"pass\")\n",
+      "justification_from_packet": "Explorer A en S11/S11-T4-B-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "code": "class FakeRepo:\n    def __init__(self):\n        self.data = {}\n    def save(self, item):\n        self.data[item[\"id\"]] = item\n    def get(self, iid):\n        return self.data.get(iid)\n\nclass Service:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, item):\n        self.repo.save(item)\n        return \"ok\"\n    def get(self, iid):\n        return self.repo.get(iid)\n\nsvc = Service(FakeRepo())\nassert svc.register({\"id\": \"C1\"}) == \"ok\"\nprint(\"pass\")\nassert svc.get(\"C1\")[\"id\"] == \"C1\"\nprint(\"pass\")\nassert svc.get(\"missing\") is None\nprint(\"pass\")\n",
+      "justification_from_packet": "Explorer A en S11/S11-T4-B-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "code": "class BadClient:\n    def decide_fraud(self, score):\n        return score > 0.9\n\nprint(\"ANTES: Client.decide_fraud(score)->bool veredicto automático\")\nprint(\"DESPUÉS: Evidence guarda score; status operativo needs_review sin is_fraud\")\n",
+      "justification_from_packet": "Explorer A en S11/S11-T4-B-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé dataclass field default_factory Protocol composition frozen Evidence signal_score __post_init__ to_dict FakeRepo. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintét…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "dataclass",
+        "field",
+        "default_factory",
+        "Protocol",
+        "composition",
+        "frozen",
+        "Evidence",
+        "signal_score"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Explorer A, selfcheck S11 Q0: elegí «Evita el default mutable compartido entre instancias» porque en theory del slim_packet field(default_factory=list) evita el default mutable compartido entre instancias Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Explorer A, selfcheck S11 Q1: elegí «Una señal/dato numérico, no un veredicto de fraude o familia» porque en theory del slim_packet RelationshipEvidence.signal_score es señal/dato numérico, no veredicto de fraude o familia Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Explorer A, selfcheck S11 Q2: elegí «Definir un puerto get/save implementable por fakes y adapters» porque en theory del slim_packet Protocol EntityStore define un puerto get/save implementable por fakes y adapters Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Explorer A, selfcheck S11 Q3: elegí «En la construcción (__post_init__/validate)» porque en theory del slim_packet objeto inválido debe fallar en la construcción (__post_init__/validate) Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "Explorer A, selfcheck S11 Q4: elegí «A menudo es frágil; composición (Client tiene PersonInfo) suele bastar» porque en theory del slim_packet Client hereda de Person a menudo es frágil; composición suele bastar Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "justification_from_packet": "Explorer A, selfcheck S11 Q5: elegí «is_fraud() automático» porque en theory del slim_packet el dominio de familiaridad no debe tener is_fraud() automático Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:12:28.782781+00:00",
+  "session_started_at": "2026-07-23T08:04:28.782781+00:00",
+  "session_ended_at": "2026-07-23T08:12:28.782781+00:00"
+}

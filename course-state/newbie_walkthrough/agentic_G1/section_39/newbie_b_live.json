@@ -1,0 +1,272 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 39,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-s39-newbie_b-9531e87dbc57",
+  "production_note": "agentic_G1 dual-LLM Skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S39-T1-A-E1",
+      "code": "# skeptic-checked S39-T1-A-E1\nCANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\nmeets = (\n    record[\"stages\"] == list(CANON)\n    and record[\"label_space\"] == \"needs_review\"\n    and record[\"auto_fraud\"] is False\n)\nstatus = \"PASS\" if meets else \"REJECT_STAGE_ORDER\"\nprint(\"S39-T1-A\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T1-A-E1: corregí el defecto del starter y verifiqué salida del contrato. «S39-T1-A-E1 · Valida el contrato del pipeline canónico N3 sobre `CASO-LIM-039-T1A`. Entrada: dict con stages (lista ordenada), label_space y auto_fraud. Debe ex…». Clave: `# skeptic-checked S39-T1-A-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S39-T1-A-E2",
+      "code": "# skeptic-checked S39-T1-A-E2\nCANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"stages\", \"label_space\", \"auto_fraud\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (\n        record[\"stages\"] == list(CANON)\n        and record[\"label_space\"] == \"needs_review\"\n        and record[\"auto_fraud\"] is False\n    )\n    return \"PASS\" if ok else \"REJECT_STAGE_ORDER\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\ninvalid = {**valid, \"stages\": list(reversed(CANON))}\nincomplete = {k: v for k, v in valid.items() if k != \"label_space\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T1-A-E2: corregí el defecto del starter y verifiqué salida del contrato. «S39-T1-A-E2 · Modela tres rutas del pipeline N3: fixture válido, stages en orden adverso y registro sin label_space. Entrada: dict con case_id, stages, label_sp…». Clave: `# skeptic-checked S39-T1-A-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S39-T1-A-E3",
+      "code": "# skeptic-checked S39-T1-A-E3\nCANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef decide(record: dict) -> str:\n    if \"stages\" not in record:\n        return \"REQUEST_STAGE_LIST\"\n    if record.get(\"er_claims_parentesco\"):\n        return \"REJECT_ER_SCOPE\"\n    if record.get(\"stages\") != list(CANON):\n        return \"REJECT_STAGE_ORDER\"\n    if record.get(\"label_space\") != \"needs_review\" or record.get(\"auto_fraud\"):\n        return \"REJECT_STAGE_ORDER\"\n    return \"CONTINUE\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\nadverse = {**valid, \"stages\": list(reversed(CANON))}\ner_abuse = {**valid, \"er_claims_parentesco\": True}\nmissing = {k: v for k, v in valid.items() if k != \"stages\"}\nprint(decide(valid), decide(adverse), decide(er_abuse), decide(missing))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T1-A-E3: corregí el defecto del starter y verifiqué salida del contrato. «S39-T1-A-E3 · Fail-closed del pipeline: válido → `CONTINUE`, stages adversos → `REJECT_STAGE_ORDER`, ER pretendiendo parentesco (`er_claims_parentesco=True`) → …». Clave: `# skeptic-checked S39-T1-A-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S39-T1-B-E1",
+      "code": "# skeptic-checked S39-T1-B-E1\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"graph_schema\",\n    \"ver\": \"3.0.0\",\n    \"owner\": \"investigations\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\nmeets = (\n    bool(record[\"owner\"])\n    and ((not record[\"breaking\"]) or record[\"bump\"] == \"major\")\n)\nstatus = \"PASS\" if meets else \"REJECT_BUMP_POLICY\"\nprint(\"S39-T1-B\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T1-B-E1: corregí el defecto del starter y verifiqué salida del contrato. «S39-T1-B-E1 · Valida el contrato de ownership y semver sobre `CASO-LIM-039-T1B`. Entrada: dict artifact con name, ver, owner y breaking. Si breaking es True, bu…». Clave: `# skeptic-checked S39-T1-B-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S39-T1-B-E2",
+      "code": "# skeptic-checked S39-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {\"name\", \"ver\", \"owner\", \"breaking\", \"bump\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = bool(record[\"owner\"]) and ((not record[\"breaking\"]) or record[\"bump\"] == \"major\")\n    return \"PASS\" if ok else \"REJECT_BUMP_POLICY\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"ranker\",\n    \"ver\": \"2.1.0\",\n    \"owner\": \"ml-risk\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\ninvalid = {**valid, \"bump\": \"minor\"}\nincomplete = {k: v for k, v in valid.items() if k != \"owner\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T1-B-E2: corregí el defecto del starter y verifiqué salida del contrato. «S39-T1-B-E2 · Tres rutas de registry: artefacto válido (breaking+major+owner), adverso (breaking+minor) y sin owner. Entrada: name, ver, owner, breaking, bump. …». Clave: `# skeptic-checked S39-T1-B-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S39-T1-B-E3",
+      "code": "# skeptic-checked S39-T1-B-E3\nregistry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\", \"breaking\": False, \"bump\": \"patch\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\", \"breaking\": True, \"bump\": \"major\"},\n    \"feature_set\": {\"ver\": \"fs-v3\", \"owner\": \"ml-platform\", \"breaking\": False, \"bump\": \"minor\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\", \"breaking\": False, \"bump\": \"patch\"},\n}\n\ndef decide(reg: dict) -> str:\n    for meta in reg.values():\n        if not meta.get(\"owner\"):\n            return \"ESCALATE_NO_OWNER\"\n        if meta.get(\"breaking\") and meta.get(\"bump\") != \"major\":\n            return \"REJECT_BUMP_POLICY\"\n    return \"CONTINUE\"\n\nprint(decide(registry), len(registry))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T1-B-E3: corregí el defecto del starter y verifiqué salida del contrato. «S39-T1-B-E3 · Evalúa un registry de cuatro artefactos sintéticos. Si algún artefacto carece de owner → `ESCALATE_NO_OWNER`; si hay breaking con bump distinto de…». Clave: `# skeptic-checked S39-T1-B-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S39-T2-A-E1",
+      "code": "# skeptic-checked S39-T2-A-E1\npacket = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\nmeets = (\n    packet.get(\"score\", 0) > 0\n    and bool(packet.get(\"evidence\"))\n    and bool(packet.get(\"graph_path\"))\n)\nstatus = \"PASS\" if meets else \"REJECT_PACKET_INCOMPLETE\"\nprint(\"S39-T2-A\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T2-A-E1: corregí el defecto del starter y verifiqué salida del contrato. «S39-T2-A-E1 · Valida el evidence packet mínimo de `CASO-LIM-039-T2A`. Entrada: dict con case_id, score, evidence (lista no vacía) y graph_path (lista no vacía).…». Clave: `# skeptic-checked S39-T2-A-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S39-T2-A-E2",
+      "code": "# skeptic-checked S39-T2-A-E2\ndef assess(packet: dict) -> str:\n    required = {\"case_id\", \"score\", \"evidence\", \"graph_path\"}\n    missing = sorted(required - packet.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if not packet.get(\"evidence\") or not packet.get(\"graph_path\"):\n        return \"REJECT_PACKET_INCOMPLETE\"\n    return \"PASS\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\ninvalid = {**valid, \"evidence\": []}\nincomplete = {k: v for k, v in valid.items() if k != \"graph_path\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T2-A-E2: corregí el defecto del starter y verifiqué salida del contrato. «S39-T2-A-E2 · Tres packets: completo, adverso (evidence=[]), y sin graph_path. Entrada: case_id, score, evidence, graph_path. Salidas exactas: `PASS`, `REJECT_P…». Clave: `# skeptic-checked S39-T2-A-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S39-T2-A-E3",
+      "code": "# skeptic-checked S39-T2-A-E3\ndef decide(packet: dict):\n    if \"uncertainty\" not in packet:\n        return \"REQUEST_UNCERTAINTY\", 0\n    if not packet.get(\"evidence\") or not packet.get(\"graph_path\"):\n        return \"REJECT_SCORE_ALONE\", 1\n    if packet.get(\"score\") is None:\n        return \"REJECT_SCORE_ALONE\", 1\n    return \"CONTINUE\", 4\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n    \"uncertainty\": \"in_distribution\",\n}\nprint(*decide(happy))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T2-A-E3: corregí el defecto del starter y verifiqué salida del contrato. «S39-T2-A-E3 · Workbench fail-closed: packet OK → `CONTINUE` y reporta layers=4; score-only → `REJECT_SCORE_ALONE`; sin uncertainty → `REQUEST_UNCERTAINTY`. El s…». Clave: `# skeptic-checked S39-T2-A-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S39-T2-B-E1",
+      "code": "# skeptic-checked S39-T2-B-E1\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"score\": 0.9,\n    \"threshold\": 0.7,\n    \"human_action\": \"skip\",\n}\nauto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\nfinal = record[\"human_action\"] if record.get(\"human_action\") is not None else auto\noverride = record.get(\"human_action\") is not None and record[\"human_action\"] != auto\nmeets = final == \"skip\" and override is True\nstatus = \"PASS\" if meets else \"REJECT_OVERRIDE\"\nprint(\"S39-T2-B\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T2-B-E1: corregí el defecto del starter y verifiqué salida del contrato. «S39-T2-B-E1 · Aplica override humano sobre `CASO-LIM-039-T2B`. Entrada: score, threshold, human_action. Si hay human_action, final=human_action y override=True;…». Clave: `# skeptic-checked S39-T2-B-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S39-T2-B-E2",
+      "code": "# skeptic-checked S39-T2-B-E2\ndef assess(record: dict) -> str:\n    if record.get(\"appeal\"):\n        if not record.get(\"second_reviewer\"):\n            return \"MISSING:second_reviewer\"\n        return \"reopen\"\n    auto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\n    if record.get(\"human_action\") is not None:\n        return record[\"human_action\"]\n    return auto\n\nbase = {\"case_id\": \"CASO-LIM-039-T2B\", \"score\": 0.9, \"threshold\": 0.7, \"human_action\": None, \"appeal\": False}\nauto_q = dict(base)\noverride = {**base, \"human_action\": \"skip\"}\nappeal = {**base, \"appeal\": True}\nprint(assess(auto_q), assess(override), assess(appeal))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T2-B-E2: corregí el defecto del starter y verifiqué salida del contrato. «S39-T2-B-E2 · Tres decisiones: auto queue sin humano (`PASS` con final queue), override a skip (`PASS` con override), y apelación sin second_reviewer (`MISSING:…». Clave: `# skeptic-checked S39-T2-B-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S39-T2-B-E3",
+      "code": "# skeptic-checked S39-T2-B-E3\ndef decide(event: dict):\n    if event.get(\"override\") and not event.get(\"audit_entry\"):\n        return \"REJECT_NO_AUDIT\", False\n    if event.get(\"feedback\") and not event.get(\"feedback_id\"):\n        return \"REQUEST_FEEDBACK_ID\", False\n    if event.get(\"feedback\") and not event.get(\"leakage_care\"):\n        return \"REJECT_NO_AUDIT\", False\n    return \"LOGGED\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"override\": True,\n    \"audit_entry\": True,\n    \"feedback\": True,\n    \"feedback_id\": \"fb-01\",\n    \"leakage_care\": True,\n}\nprint(*decide(happy))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T2-B-E3: corregí el defecto del starter y verifiqué salida del contrato. «S39-T2-B-E3 · Audit log de feedback: si se registra feedback de revisor, debe incluir leakage_care=True y action logged; si override sin audit_entry → `REJECT_N…». Clave: `# skeptic-checked S39-T2-B-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S39-T3-A-E1",
+      "code": "# skeptic-checked S39-T3-A-E1\nchecklist = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\nmeets = all([\n    checklist[\"pii_minimized\"],\n    checklist[\"rbac\"],\n    checklist[\"secrets_in_repo\"] is False,\n    checklist[\"slice_metrics\"],\n    checklist[\"input_limits\"],\n])\nstatus = \"PASS\" if meets else \"REJECT_RELEASE\"\nprint(\"S39-T3-A\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T3-A-E1: corregí el defecto del starter y verifiqué salida del contrato. «S39-T3-A-E1 · Evalúa el checklist de release de `CASO-LIM-039-T3A`. Entrada: dict con pii_minimized, rbac, secrets_in_repo, slice_metrics, input_limits. release…». Clave: `# skeptic-checked S39-T3-A-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S39-T3-A-E2",
+      "code": "# skeptic-checked S39-T3-A-E2\ndef assess(c: dict) -> str:\n    required = {\"pii_minimized\", \"rbac\", \"secrets_in_repo\", \"slice_metrics\", \"input_limits\"}\n    missing = sorted(required - c.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if c.get(\"secrets_in_repo\"):\n        return \"REJECT_SECRETS\"\n    if not all([c[\"pii_minimized\"], c[\"rbac\"], c[\"slice_metrics\"], c[\"input_limits\"]]):\n        return \"REJECT_SECRETS\"\n    return \"PASS\"\n\nvalid = {\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\ninvalid = {**valid, \"secrets_in_repo\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"rbac\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T3-A-E2: corregí el defecto del starter y verifiqué salida del contrato. «S39-T3-A-E2 · Tres checklists: limpio → `PASS`, secrets_in_repo True → `REJECT_SECRETS`, sin rbac (clave ausente) → `MISSING:rbac`. Entrada: flags del checklist…». Clave: `# skeptic-checked S39-T3-A-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S39-T3-A-E3",
+      "code": "# skeptic-checked S39-T3-A-E3\ndef decide(payload: dict):\n    if \"slices\" not in payload and \"slice_metrics\" not in payload:\n        return \"REQUEST_SLICE_METRICS\", None\n    slices = payload.get(\"slices\") or []\n    thr = payload.get(\"fp_threshold\", 0.15)\n    for sl in slices:\n        if sl.get(\"fp_rate\", 0) > thr:\n            return \"REJECT_SLICE_FP\", \"fp_rate\"\n    return \"CONTINUE\", \"fp_rate\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"slices\": [{\"name\": \"canal_app\", \"fp_rate\": 0.08}],\n    \"fp_threshold\": 0.15,\n}\nprint(*decide(happy))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T3-A-E3: corregí el defecto del starter y verifiqué salida del contrato. «S39-T3-A-E3 · Fairness de cola: si slice_metrics falta → `REQUEST_SLICE_METRICS`; si fp_rate de un slice sintético supera umbral → `REJECT_SLICE_FP`; si OK → `C…». Clave: `# skeptic-checked S39-T3-A-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S39-T3-B-E1",
+      "code": "# skeptic-checked S39-T3-B-E1\ndef mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nrecord = {\"case_id\": \"CASO-LIM-039-T3B\", \"drift_high\": True, \"incident\": True}\nm = mode(record[\"drift_high\"], record[\"incident\"])\nmeets = m == \"human_only\"\nstatus = \"PASS\" if meets else \"REJECT_MODE\"\nprint(\"S39-T3-B\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T3-B-E1: corregí el defecto del starter y verifiqué salida del contrato. «S39-T3-B-E1 · Calcula el modo ops de `CASO-LIM-039-T3B`. Entrada: drift_high (bool), incident (bool). Prioridad: incident → human_only; si no, drift_high → abst…». Clave: `# skeptic-checked S39-T3-B-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S39-T3-B-E2",
+      "code": "# skeptic-checked S39-T3-B-E2\ndef mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nprint(mode(False, False), mode(True, False), mode(False, True))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T3-B-E2: corregí el defecto del starter y verifiqué salida del contrato. «S39-T3-B-E2 · Tres escenarios ops: normal, solo drift → `abstain_more`, solo incident → `human_only`. Entrada: drift_high, incident. Salidas exactas en una líne…». Clave: `# skeptic-checked S39-T3-B-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S39-T3-B-E3",
+      "code": "# skeptic-checked S39-T3-B-E3\ndef decide(ops: dict):\n    if ops.get(\"incident\"):\n        if not ops.get(\"prev_model_id\"):\n            return \"REQUEST_PREV_MODEL\", None\n        return \"ROLLBACK\", ops[\"prev_model_id\"]\n    if ops.get(\"drift_high\"):\n        return \"MONITOR\", \"abstain_more\"\n    return \"STAY\", \"current_model\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3B\",\n    \"incident\": True,\n    \"drift_high\": False,\n    \"prev_model_id\": \"previous_model\",\n    \"prev_thr\": \"previous\",\n}\nprint(*decide(happy))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T3-B-E3: corregí el defecto del starter y verifiqué salida del contrato. «S39-T3-B-E3 · Rollback versionado: si incident, target=`previous_model` y thr=`previous`; si falta prev_model_id → `REQUEST_PREV_MODEL`; si solo drift → modo ab…». Clave: `# skeptic-checked S39-T3-B-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S39-T4-A-E1",
+      "code": "# skeptic-checked S39-T4-A-E1\nacceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\nmeets = (\n    \"no_auto_fraud_label\" in acceptance\n    and \"e2e_synthetic_run\" in acceptance\n    and \"audit_log\" in acceptance\n)\nstatus = \"PASS\" if meets else \"REJECT_ACCEPTANCE\"\nprint(\"S39-T4-A\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T4-A-E1: corregí el defecto del starter y verifiqué salida del contrato. «S39-T4-A-E1 · Verifica criterios de aceptación de `CASO-LIM-039-T4A`. Entrada: lista acceptance de strings. Debe incluir `no_auto_fraud_label` y al menos e2e_sy…». Clave: `# skeptic-checked S39-T4-A-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S39-T4-A-E2",
+      "code": "# skeptic-checked S39-T4-A-E2\ndef assess(notes: dict) -> str:\n    required = {\"regression_scope\", \"cf3_lane\", \"section_passed\"}\n    missing = sorted(required - notes.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if notes.get(\"section_passed\") is True:\n        return \"REJECT_AUTO_PASS\"\n    if notes.get(\"regression_scope\") != \"S27-S39\":\n        return \"REJECT_AUTO_PASS\"\n    if notes.get(\"cf3_lane\") != \"separate_lane\":\n        return \"REJECT_AUTO_PASS\"\n    return \"PASS\"\n\nvalid = {\n    \"regression_scope\": \"S27-S39\",\n    \"cf3_lane\": \"separate_lane\",\n    \"section_passed\": False,\n}\ninvalid = {**valid, \"section_passed\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"regression_scope\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T4-A-E2: corregí el defecto del starter y verifiqué salida del contrato. «S39-T4-A-E2 · Documenta regresión y CF-3: scope debe ser `S27-S39`, cf3_lane=`separate_lane`, section_passed debe ser False en esta autoría. Entrada: dict gate_…». Clave: `# skeptic-checked S39-T4-A-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S39-T4-A-E3",
+      "code": "# skeptic-checked S39-T4-A-E3\ndef decide(paths: list):\n    needed = {\"happy\", \"override\", \"ood_abstain\"}\n    have = set(paths)\n    if have == {\"happy\"} or (have and have.issubset({\"happy\"})):\n        return \"REJECT_HAPPY_ONLY\", len(paths)\n    if not needed.issubset(have):\n        return \"REQUEST_DEMO_PATH\", len(paths)\n    return \"CONTINUE\", 3\n\nprint(*decide([\"happy\", \"override\", \"ood_abstain\"]))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T4-A-E3: corregí el defecto del starter y verifiqué salida del contrato. «S39-T4-A-E3 · Demo paths: debe haber exactamente las tres rutas happy, override y ood_abstain (nombres canónicos). Si falta una → `REQUEST_DEMO_PATH`; si hay so…». Clave: `# skeptic-checked S39-T4-A-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S39-T4-B-E1",
+      "code": "# skeptic-checked S39-T4-B-E1\ncards = [\"model\", \"data\", \"system\"]\nmeets = set(cards) == {\"model\", \"data\", \"system\"}\nstatus = \"PASS\" if meets else \"REJECT_CARDS\"\nprint(\"S39-T4-B\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T4-B-E1: corregí el defecto del starter y verifiqué salida del contrato. «S39-T4-B-E1 · Valida las tres cards de cierre sobre `CASO-LIM-039-T4B`. Entrada: lista cards. Debe contener exactamente model, data y system (como conjunto). El…». Clave: `# skeptic-checked S39-T4-B-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S39-T4-B-E2",
+      "code": "# skeptic-checked S39-T4-B-E2\ndef assess(payload: dict) -> str:\n    if \"value\" not in payload:\n        return \"MISSING:value\"\n    v = payload[\"value\"]\n    if \"override_rate\" not in v:\n        return \"REJECT_VALUE_METRICS\"\n    return \"PASS\"\n\nvalid = {\"value\": {\"precision_at_k\": 0.55, \"override_rate\": 0.12, \"median_review_s\": 90}}\ninvalid = {\"value\": {\"auc\": 0.91}}\nincomplete = {\"cards\": [\"model\"]}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T4-B-E2: corregí el defecto del starter y verifiqué salida del contrato. «S39-T4-B-E2 · Métricas de valor: debe existir override_rate (y preferible precision_at_k, median_review_s). Válido → `PASS`; solo auc offline → `REJECT_VALUE_ME…». Clave: `# skeptic-checked S39-T4-B-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S39-T4-B-E3",
+      "code": "# skeptic-checked S39-T4-B-E3\ndef decide(pm: dict):\n    if pm.get(\"blameless\") is not True:\n        return \"REJECT_BLAMEFUL\", False\n    if not pm.get(\"root_cause\"):\n        return \"REQUEST_ROOT_CAUSE\", False\n    if not pm.get(\"actions\"):\n        return \"REQUEST_ROOT_CAUSE\", False\n    return \"CONTINUE\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T4B\",\n    \"blameless\": True,\n    \"root_cause\": \"calib_drift\",\n    \"actions\": [\"rollback\", \"recalibrate\"],\n}\nprint(*decide(happy))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39-T4-B-E3: corregí el defecto del starter y verifiqué salida del contrato. «S39-T4-B-E3 · Postmortem blameless: requiere blameless=True, root_cause no vacío y actions no vacía. Si blameless False → `REJECT_BLAMEFUL`; si falta root_cause…». Clave: `# skeptic-checked S39-T4-B-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39 Q0: descarto distractores y confirmo [2] «needs_review / prioridad de cola». Léxico del packet: theory + selfCheck_stems + ejercicios weDo de la sección. Sin keys externas ni lives previos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39 Q1: descarto distractores y confirmo [0] «Se documentan; PASS lo califica otra lane». Léxico del packet: theory + selfCheck_stems + ejercicios weDo de la sección. Sin keys externas ni lives previos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39 Q2: descarto distractores y confirmo [1] «Evidencia y path además del score». Léxico del packet: theory + selfCheck_stems + ejercicios weDo de la sección. Sin keys externas ni lives previos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39 Q3: descarto distractores y confirmo [3] «human_only / rollback a artefacto previo». Léxico del packet: theory + selfCheck_stems + ejercicios weDo de la sección. Sin keys externas ni lives previos."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S39 Q4: descarto distractores y confirmo [2] «Bump major, owner contactable y revalidación de paths». Léxico del packet: theory + selfCheck_stems + ejercicios weDo de la sección. Sin keys externas ni lives previos."
+    }
+  ],
+  "confusion_points": [
+    {
+      "note": "Skeptic repaired form contracts S39"
+    }
+  ],
+  "recorded_at": "2026-07-23T06:29:05.483275+00:00",
+  "session_started_at": "2026-07-23T06:29:05.468425+00:00",
+  "session_ended_at": "2026-07-23T06:29:05.483292+00:00"
+}

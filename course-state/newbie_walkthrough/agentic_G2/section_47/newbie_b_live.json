@@ -1,0 +1,494 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 47,
+  "packet_sha": "0cfe281a467074e4",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-G2-s47-live",
+  "production_note": "agentic_G2 independent of G1 dual-LLM packet-only: skeptic solved sections from quiz_card+slim_packet only; direct agent output; no prior-attempt lives; no quarantine generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S47-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\": 42, \"params\": {\"depth\": 4}, \"metric\": 0.81, \"rerun_metric\": 0.805, \"tolerance\": 0.01}}\npredicate_ok = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"MARK_RUN_NONREPRODUCIBLE\")\nprint(\"S47-T1-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TAC",
+        "seed",
+        "params",
+        "depth",
+        "metric",
+        "rerun_metric"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T1-A-E1 (guided). Instrucción: S47-T1-A-E1 · Calcula el contrato de `tracking y reproducibilidad` sobre `CASO-TAC-047-1A`. La entrada es el dict completo del starter; la operación debe demostrar rerun dentro de tolerancia con seed/. Hints: Relaciona los campos `seed`, `params`, `metric`, `rerun_metric`, `tolerance` con la regla explicada en S47-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserv. Ajusté el booleano defectuoso del starter hacia `not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])`; ausencia de `tolerance` → MISSING/uncertainty `INVESTIGATE_RANDOMNESS`; breach → `MARK_RUN_NONREPRODUCIBLE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"seed\", \"params\", \"metric\", \"rerun_metric\", \"tolerance\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\n    return \"PASS\" if ok else \"MARK_RUN_NONREPRODUCIBLE\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\": 42, \"params\": {\"depth\": 4}, \"metric\": 0.81, \"rerun_metric\": 0.805, \"tolerance\": 0.01}}\ninvalid = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\": 42, \"params\": {\"depth\": 4}, \"metric\": 0.0, \"rerun_metric\": 0.805, \"tolerance\": 0.01}}\nincomplete = dict(valid)\nif \"tolerance\" in incomplete:\n    del incomplete[\"tolerance\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "seed",
+        "params",
+        "metric",
+        "rerun_metric",
+        "tolerance"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T1-A-E2 (independent). Instrucción: S47-T1-A-E2 · Modela tres rutas de `tracking y reproducibilidad`: fixture válido, fixture adverso y registro sin `tolerance`. Entrada: dict con case_id, seed, params, metric, rerun_metric, tolerance. . Hints: Primero se calcula `missing`; ningún acceso a tolerance debe ocurrir antes de esa rama.; Después aplica la regla de S47-T1-A: rerun dentro de tolerancia con seed/parámetros. El fix. Ajusté el booleano defectuoso del starter hacia `not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])`; ausencia de `tolerance` → MISSING/uncertainty `INVESTIGATE_RANDOMNESS`; breach → `MARK_RUN_NONREPRODUCIBLE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"seed\", \"params\", \"metric\", \"rerun_metric\", \"tolerance\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"INVESTIGATE_RANDOMNESS\"\n    contract_holds = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\n    return \"CONTINUE\" if contract_holds else \"MARK_RUN_NONREPRODUCIBLE\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\": 42, \"params\": {\"depth\": 4}, \"metric\": 0.81, \"rerun_metric\": 0.805, \"tolerance\": 0.01}}\ninvalid = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\": 42, \"params\": {\"depth\": 4}, \"metric\": 0.0, \"rerun_metric\": 0.805, \"tolerance\": 0.01}}\nuncertain = dict(valid)\nuncertain.pop(\"tolerance\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "seed",
+        "params",
+        "metric",
+        "rerun_metric",
+        "tolerance"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T1-A-E3 (transfer). Instrucción: S47-T1-A-E3 · Simula fallo cerrado para `tracking y reproducibilidad` con tres fixtures distintos. `CASO-TAC-047-1A` debe continuar, el adverso debe devolver `MARK_RUN_NONREPRODUCIBLE` y la ausencia d. Hints: Una ausencia no equivale a breach: enrútala a `INVESTIGATE_RANDOMNESS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró rerun dentro de toleranc. Ajusté el booleano defectuoso del starter hacia `not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])`; ausencia de `tolerance` → MISSING/uncertainty `INVESTIGATE_RANDOMNESS`; breach → `MARK_RUN_NONREPRODUCIBLE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\": \"ds-v3\", \"code\": \"git:abc\", \"env\": \"lock:def\", \"split\": \"holdout-v1\", \"metric_definition\": \"f1-v2\", \"candidate\": 0.82, \"baseline\": 0.78}}\npredicate_ok = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"INVALIDATE_COMPARISON\")\nprint(\"S47-T1-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TAC",
+        "data",
+        "code",
+        "git",
+        "abc",
+        "env"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T1-B-E1 (guided). Instrucción: S47-T1-B-E1 · Compara el contrato de `data/code/env lineage y comparación` sobre `CASO-TAC-047-1B`. La entrada es el dict completo del starter; la operación debe demostrar data/code/env/split/métrica . Hints: Relaciona los campos `data`, `code`, `env`, `split`, `metric_definition`, `candidate`, `baseline` con la regla explicada en S47-T1-B.; El predicado correcto debe ser verdadero porq. Ajusté el booleano defectuoso del starter hacia `not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])`; ausencia de `baseline` → MISSING/uncertainty `RESTORE_LINEAGE`; breach → `INVALIDATE_COMPARISON`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"data\", \"code\", \"env\", \"split\", \"metric_definition\", \"candidate\", \"baseline\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\n    return \"PASS\" if ok else \"INVALIDATE_COMPARISON\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\": \"ds-v3\", \"code\": \"git:abc\", \"env\": \"lock:def\", \"split\": \"holdout-v1\", \"metric_definition\": \"f1-v2\", \"candidate\": 0.82, \"baseline\": 0.78}}\ninvalid = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\": \"\", \"code\": \"git:abc\", \"env\": \"lock:def\", \"split\": \"holdout-v1\", \"metric_definition\": \"f1-v2\", \"candidate\": 0.82, \"baseline\": 0.78}}\nincomplete = dict(valid)\nif \"baseline\" in incomplete:\n    del incomplete[\"baseline\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "data",
+        "code",
+        "env",
+        "split",
+        "metric_definition"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T1-B-E2 (independent). Instrucción: S47-T1-B-E2 · Verifica tres rutas de `data/code/env lineage y comparación`: fixture válido, fixture adverso y registro sin `baseline`. Entrada: dict con case_id, data, code, env, split, metric_definit. Hints: Primero se calcula `missing`; ningún acceso a baseline debe ocurrir antes de esa rama.; Después aplica la regla de S47-T1-B: data/code/env/split/métrica versionados y candidato mej. Ajusté el booleano defectuoso del starter hacia `not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])`; ausencia de `baseline` → MISSING/uncertainty `RESTORE_LINEAGE`; breach → `INVALIDATE_COMPARISON`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"data\", \"code\", \"env\", \"split\", \"metric_definition\", \"candidate\", \"baseline\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"RESTORE_LINEAGE\"\n    contract_holds = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\n    return \"CONTINUE\" if contract_holds else \"INVALIDATE_COMPARISON\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\": \"ds-v3\", \"code\": \"git:abc\", \"env\": \"lock:def\", \"split\": \"holdout-v1\", \"metric_definition\": \"f1-v2\", \"candidate\": 0.82, \"baseline\": 0.78}}\ninvalid = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\": \"\", \"code\": \"git:abc\", \"env\": \"lock:def\", \"split\": \"holdout-v1\", \"metric_definition\": \"f1-v2\", \"candidate\": 0.82, \"baseline\": 0.78}}\nuncertain = dict(valid)\nuncertain.pop(\"baseline\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "data",
+        "code",
+        "env",
+        "split",
+        "metric_definition"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T1-B-E3 (transfer). Instrucción: S47-T1-B-E3 · Extiende fallo cerrado para `data/code/env lineage y comparación` con tres fixtures distintos. `CASO-TAC-047-1B` debe continuar, el adverso debe devolver `INVALIDATE_COMPARISON` y la aus. Hints: Una ausencia no equivale a breach: enrútala a `RESTORE_LINEAGE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró data/code/env/split/métrica ver. Ajusté el booleano defectuoso del starter hacia `not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])`; ausencia de `baseline` → MISSING/uncertainty `RESTORE_LINEAGE`; breach → `INVALIDATE_COMPARISON`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\": {\"age\": \"int\", \"region\": \"str\"}, \"output_signature\": {\"priority\": \"float\"}, \"stage\": \"staging\", \"approved\": True}}\npredicate_ok = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"DENY_MODEL_PROMOTION\")\nprint(\"S47-T2-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TAC",
+        "input_signature",
+        "age",
+        "int",
+        "region",
+        "output_signature"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T2-A-E1 (guided). Instrucción: S47-T2-A-E1 · Filtra el contrato de `firmas, stages y approvals` sobre `CASO-TAC-047-2A`. La entrada es el dict completo del starter; la operación debe demostrar firma exacta, staging y aprobación. Re. Hints: Relaciona los campos `input_signature`, `output_signature`, `stage`, `approved` con la regla explicada en S47-T2-A.; El predicado correcto debe ser verdadero porque el fixture cons. Ajusté el booleano defectuoso del starter hacia `not (not record[\"approved\"] or record[\"stage\"] == \"production\")`; ausencia de `approved` → MISSING/uncertainty `REQUEST_MODEL_APPROVAL`; breach → `DENY_MODEL_PROMOTION`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"input_signature\", \"output_signature\", \"stage\", \"approved\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\n    return \"PASS\" if ok else \"DENY_MODEL_PROMOTION\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\": {\"age\": \"int\", \"region\": \"str\"}, \"output_signature\": {\"priority\": \"float\"}, \"stage\": \"staging\", \"approved\": True}}\ninvalid = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\": {\"age\": \"int\", \"region\": \"str\"}, \"output_signature\": {\"priority\": \"float\"}, \"stage\": \"staging\", \"approved\": False}}\nincomplete = dict(valid)\nif \"approved\" in incomplete:\n    del incomplete[\"approved\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "input_signature",
+        "output_signature",
+        "stage",
+        "approved",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T2-A-E2 (independent). Instrucción: S47-T2-A-E2 · Clasifica tres rutas de `firmas, stages y approvals`: fixture válido, fixture adverso y registro sin `approved`. Entrada: dict con case_id, input_signature, output_signature, stage, appr. Hints: Primero se calcula `missing`; ningún acceso a approved debe ocurrir antes de esa rama.; Después aplica la regla de S47-T2-A: firma exacta, staging y aprobación. El fixture adverso . Ajusté el booleano defectuoso del starter hacia `not (not record[\"approved\"] or record[\"stage\"] == \"production\")`; ausencia de `approved` → MISSING/uncertainty `REQUEST_MODEL_APPROVAL`; breach → `DENY_MODEL_PROMOTION`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"input_signature\", \"output_signature\", \"stage\", \"approved\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"REQUEST_MODEL_APPROVAL\"\n    contract_holds = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\n    return \"CONTINUE\" if contract_holds else \"DENY_MODEL_PROMOTION\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\": {\"age\": \"int\", \"region\": \"str\"}, \"output_signature\": {\"priority\": \"float\"}, \"stage\": \"staging\", \"approved\": True}}\ninvalid = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\": {\"age\": \"int\", \"region\": \"str\"}, \"output_signature\": {\"priority\": \"float\"}, \"stage\": \"staging\", \"approved\": False}}\nuncertain = dict(valid)\nuncertain.pop(\"approved\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "input_signature",
+        "output_signature",
+        "stage",
+        "approved",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T2-A-E3 (transfer). Instrucción: S47-T2-A-E3 · Defiende fallo cerrado para `firmas, stages y approvals` con tres fixtures distintos. `CASO-TAC-047-2A` debe continuar, el adverso debe devolver `DENY_MODEL_PROMOTION` y la ausencia de `. Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_MODEL_APPROVAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró firma exacta, staging y . Ajusté el booleano defectuoso del starter hacia `not (not record[\"approved\"] or record[\"stage\"] == \"production\")`; ausencia de `approved` → MISSING/uncertainty `REQUEST_MODEL_APPROVAL`; breach → `DENY_MODEL_PROMOTION`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\": \"sha256:model\", \"feature_version\": \"features-v3\", \"serving_feature_version\": \"features-v3\", \"card_sections\": {\"limits\", \"metrics\", \"risks\", \"use\"}}}\npredicate_ok = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\")\nprint(\"S47-T2-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TAC",
+        "artifact_digest",
+        "sha256",
+        "model",
+        "feature_version",
+        "features"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T2-B-E1 (guided). Instrucción: S47-T2-B-E1 · Modela el contrato de `artefactos, model card y compatibilidad` sobre `CASO-TAC-047-2B`. La entrada es el dict completo del starter; la operación debe demostrar digest, compatibilidad de. Hints: Relaciona los campos `artifact_digest`, `feature_version`, `serving_feature_version`, `card_sections` con la regla explicada en S47-T2-B.; El predicado correcto debe ser verdadero . Ajusté el booleano defectuoso del starter hacia `not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)`; ausencia de `card_sections` → MISSING/uncertainty `COMPLETE_MODEL_CARD`; breach → `REJECT_MODEL_ARTIFACT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"artifact_digest\", \"feature_version\", \"serving_feature_version\", \"card_sections\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\n    return \"PASS\" if ok else \"REJECT_MODEL_ARTIFACT\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\": \"sha256:model\", \"feature_version\": \"features-v3\", \"serving_feature_version\": \"features-v3\", \"card_sections\": {\"limits\", \"metrics\", \"risks\", \"use\"}}}\ninvalid = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\": \"sha256:model\", \"feature_version\": \"\", \"serving_feature_version\": \"features-v3\", \"card_sections\": {\"limits\", \"metrics\", \"risks\", \"use\"}}}\nincomplete = dict(valid)\nif \"card_sections\" in incomplete:\n    del incomplete[\"card_sections\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "artifact_digest",
+        "feature_version",
+        "serving_feature_version",
+        "card_sections",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T2-B-E2 (independent). Instrucción: S47-T2-B-E2 · Audita tres rutas de `artefactos, model card y compatibilidad`: fixture válido, fixture adverso y registro sin `card_sections`. Entrada: dict con case_id, artifact_digest, feature_versio. Hints: Primero se calcula `missing`; ningún acceso a card_sections debe ocurrir antes de esa rama.; Después aplica la regla de S47-T2-B: digest, compatibilidad de features y card completa. Ajusté el booleano defectuoso del starter hacia `not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)`; ausencia de `card_sections` → MISSING/uncertainty `COMPLETE_MODEL_CARD`; breach → `REJECT_MODEL_ARTIFACT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"artifact_digest\", \"feature_version\", \"serving_feature_version\", \"card_sections\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"COMPLETE_MODEL_CARD\"\n    contract_holds = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\n    return \"CONTINUE\" if contract_holds else \"REJECT_MODEL_ARTIFACT\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\": \"sha256:model\", \"feature_version\": \"features-v3\", \"serving_feature_version\": \"features-v3\", \"card_sections\": {\"limits\", \"metrics\", \"risks\", \"use\"}}}\ninvalid = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\": \"sha256:model\", \"feature_version\": \"\", \"serving_feature_version\": \"features-v3\", \"card_sections\": {\"limits\", \"metrics\", \"risks\", \"use\"}}}\nuncertain = dict(valid)\nuncertain.pop(\"card_sections\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "artifact_digest",
+        "feature_version",
+        "serving_feature_version",
+        "card_sections",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T2-B-E3 (transfer). Instrucción: S47-T2-B-E3 · Recupera fallo cerrado para `artefactos, model card y compatibilidad` con tres fixtures distintos. `CASO-TAC-047-2B` debe continuar, el adverso debe devolver `REJECT_MODEL_ARTIFACT` y la. Hints: Una ausencia no equivale a breach: enrútala a `COMPLETE_MODEL_CARD` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró digest, compatibilidad de f. Ajusté el booleano defectuoso del starter hacia `not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)`; ausencia de `card_sections` → MISSING/uncertainty `COMPLETE_MODEL_CARD`; breach → `REJECT_MODEL_ARTIFACT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\": [0.1, 0.4, 0.8], \"online_features\": [0.1, 0.4, 0.8], \"leakage\": False, \"contract_tests\": 3}}\npredicate_ok = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"DISABLE_INCONSISTENT_SERVING\")\nprint(\"S47-T3-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TAC",
+        "batch_features",
+        "online_features",
+        "leakage",
+        "contract_tests",
+        "predicate_ok"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T3-A-E1 (guided). Instrucción: S47-T3-A-E1 · Verifica el contrato de `batch/online y feature consistency` sobre `CASO-TAC-047-3A`. La entrada es el dict completo del starter; la operación debe demostrar paridad batch/online sin lea. Hints: Relaciona los campos `batch_features`, `online_features`, `leakage`, `contract_tests` con la regla explicada en S47-T3-A.; El predicado correcto debe ser verdadero porque el fixtur. Ajusté el booleano defectuoso del starter hacia `not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])`; ausencia de `contract_tests` → MISSING/uncertainty `TRACE_FEATURE_PIPELINE`; breach → `DISABLE_INCONSISTENT_SERVING`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"batch_features\", \"online_features\", \"leakage\", \"contract_tests\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\n    return \"PASS\" if ok else \"DISABLE_INCONSISTENT_SERVING\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\": [0.1, 0.4, 0.8], \"online_features\": [0.1, 0.4, 0.8], \"leakage\": False, \"contract_tests\": 3}}\ninvalid = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\": [], \"online_features\": [0.1, 0.4, 0.8], \"leakage\": False, \"contract_tests\": 3}}\nincomplete = dict(valid)\nif \"contract_tests\" in incomplete:\n    del incomplete[\"contract_tests\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "batch_features",
+        "online_features",
+        "leakage",
+        "contract_tests",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T3-A-E2 (independent). Instrucción: S47-T3-A-E2 · Decide tres rutas de `batch/online y feature consistency`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, batch_features, online_features, le. Hints: Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.; Después aplica la regla de S47-T3-A: paridad batch/online sin leakage y contract tests. Ajusté el booleano defectuoso del starter hacia `not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])`; ausencia de `contract_tests` → MISSING/uncertainty `TRACE_FEATURE_PIPELINE`; breach → `DISABLE_INCONSISTENT_SERVING`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"batch_features\", \"online_features\", \"leakage\", \"contract_tests\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"TRACE_FEATURE_PIPELINE\"\n    contract_holds = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\n    return \"CONTINUE\" if contract_holds else \"DISABLE_INCONSISTENT_SERVING\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\": [0.1, 0.4, 0.8], \"online_features\": [0.1, 0.4, 0.8], \"leakage\": False, \"contract_tests\": 3}}\ninvalid = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\": [], \"online_features\": [0.1, 0.4, 0.8], \"leakage\": False, \"contract_tests\": 3}}\nuncertain = dict(valid)\nuncertain.pop(\"contract_tests\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "batch_features",
+        "online_features",
+        "leakage",
+        "contract_tests",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T3-A-E3 (transfer). Instrucción: S47-T3-A-E3 · Contrasta fallo cerrado para `batch/online y feature consistency` con tres fixtures distintos. `CASO-TAC-047-3A` debe continuar, el adverso debe devolver `DISABLE_INCONSISTENT_SERVING` y. Hints: Una ausencia no equivale a breach: enrútala a `TRACE_FEATURE_PIPELINE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró paridad batch/online sin. Ajusté el booleano defectuoso del starter hacia `not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])`; ausencia de `contract_tests` → MISSING/uncertainty `TRACE_FEATURE_PIPELINE`; breach → `DISABLE_INCONSISTENT_SERVING`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\": 120, \"slo_ms\": 180, \"batch_size\": 16, \"fallback\": \"rules-v2\", \"fallback_tested\": True}}\npredicate_ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"ACTIVATE_SAFE_FALLBACK\")\nprint(\"S47-T3-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TAC",
+        "p95_ms",
+        "slo_ms",
+        "batch_size",
+        "fallback",
+        "rules"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T3-B-E1 (guided). Instrucción: S47-T3-B-E1 · Clasifica el contrato de `latency, batching y fallback` sobre `CASO-TAC-047-3B`. La entrada es el dict completo del starter; la operación debe demostrar p95 bajo SLO, batch acotado y fal. Hints: Relaciona los campos `p95_ms`, `slo_ms`, `batch_size`, `fallback`, `fallback_tested` con la regla explicada en S47-T3-B.; El predicado correcto debe ser verdadero porque el fixture. Ajusté el booleano defectuoso del starter hacia `not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])`; ausencia de `fallback_tested` → MISSING/uncertainty `TUNE_BATCH_OR_CAPACITY`; breach → `ACTIVATE_SAFE_FALLBACK`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"p95_ms\", \"slo_ms\", \"batch_size\", \"fallback\", \"fallback_tested\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\n    return \"PASS\" if ok else \"ACTIVATE_SAFE_FALLBACK\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\": 120, \"slo_ms\": 180, \"batch_size\": 16, \"fallback\": \"rules-v2\", \"fallback_tested\": True}}\ninvalid = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\": 999, \"slo_ms\": 180, \"batch_size\": 16, \"fallback\": \"rules-v2\", \"fallback_tested\": True}}\nincomplete = dict(valid)\nif \"fallback_tested\" in incomplete:\n    del incomplete[\"fallback_tested\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "p95_ms",
+        "slo_ms",
+        "batch_size",
+        "fallback",
+        "fallback_tested"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T3-B-E2 (independent). Instrucción: S47-T3-B-E2 · Calcula tres rutas de `latency, batching y fallback`: fixture válido, fixture adverso y registro sin `fallback_tested`. Entrada: dict con case_id, p95_ms, slo_ms, batch_size, fallback, f. Hints: Primero se calcula `missing`; ningún acceso a fallback_tested debe ocurrir antes de esa rama.; Después aplica la regla de S47-T3-B: p95 bajo SLO, batch acotado y fallback probado. . Ajusté el booleano defectuoso del starter hacia `not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])`; ausencia de `fallback_tested` → MISSING/uncertainty `TUNE_BATCH_OR_CAPACITY`; breach → `ACTIVATE_SAFE_FALLBACK`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"p95_ms\", \"slo_ms\", \"batch_size\", \"fallback\", \"fallback_tested\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"TUNE_BATCH_OR_CAPACITY\"\n    contract_holds = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\n    return \"CONTINUE\" if contract_holds else \"ACTIVATE_SAFE_FALLBACK\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\": 120, \"slo_ms\": 180, \"batch_size\": 16, \"fallback\": \"rules-v2\", \"fallback_tested\": True}}\ninvalid = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\": 999, \"slo_ms\": 180, \"batch_size\": 16, \"fallback\": \"rules-v2\", \"fallback_tested\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"fallback_tested\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "p95_ms",
+        "slo_ms",
+        "batch_size",
+        "fallback",
+        "fallback_tested"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T3-B-E3 (transfer). Instrucción: S47-T3-B-E3 · Instrumenta fallo cerrado para `latency, batching y fallback` con tres fixtures distintos. `CASO-TAC-047-3B` debe continuar, el adverso debe devolver `ACTIVATE_SAFE_FALLBACK` y la ausenc. Hints: Una ausencia no equivale a breach: enrútala a `TUNE_BATCH_OR_CAPACITY` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró p95 bajo SLO, batch acot. Ajusté el booleano defectuoso del starter hacia `not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])`; ausencia de `fallback_tested` → MISSING/uncertainty `TUNE_BATCH_OR_CAPACITY`; breach → `ACTIVATE_SAFE_FALLBACK`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\": \"canary\", \"traffic_pct\": 5, \"quality_delta\": 0.01, \"max_quality_drop\": 0.02, \"error_rate\": 0.004, \"max_error_rate\": 0.01, \"hooks\": True}}\npredicate_ok = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"STOP_CANARY\")\nprint(\"S47-T4-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TAC",
+        "mode",
+        "canary",
+        "traffic_pct",
+        "quality_delta",
+        "max_quality_drop"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T4-A-E1 (guided). Instrucción: S47-T4-A-E1 · Audita el contrato de `shadow/canary y monitoring hooks` sobre `CASO-TAC-047-4A`. La entrada es el dict completo del starter; la operación debe demostrar tráfico limitado, quality/error . Hints: Relaciona los campos `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_rate`, `max_error_rate`, `hooks` con la regla explicada en S47-T4-A.; El predicado correcto . Ajusté el booleano defectuoso del starter hacia `not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])`; ausencia de `hooks` → MISSING/uncertainty `COLLECT_MORE_SHADOW_EVIDENCE`; breach → `STOP_CANARY`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"mode\", \"traffic_pct\", \"quality_delta\", \"max_quality_drop\", \"error_rate\", \"max_error_rate\", \"hooks\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\n    return \"PASS\" if ok else \"STOP_CANARY\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\": \"canary\", \"traffic_pct\": 5, \"quality_delta\": 0.01, \"max_quality_drop\": 0.02, \"error_rate\": 0.004, \"max_error_rate\": 0.01, \"hooks\": True}}\ninvalid = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\": \"canary\", \"traffic_pct\": 999, \"quality_delta\": 0.01, \"max_quality_drop\": 0.02, \"error_rate\": 0.004, \"max_error_rate\": 0.01, \"hooks\": True}}\nincomplete = dict(valid)\nif \"hooks\" in incomplete:\n    del incomplete[\"hooks\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "mode",
+        "traffic_pct",
+        "quality_delta",
+        "max_quality_drop",
+        "error_rate"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T4-A-E2 (independent). Instrucción: S47-T4-A-E2 · Compara tres rutas de `shadow/canary y monitoring hooks`: fixture válido, fixture adverso y registro sin `hooks`. Entrada: dict con case_id, mode, traffic_pct, quality_delta, max_quality. Hints: Primero se calcula `missing`; ningún acceso a hooks debe ocurrir antes de esa rama.; Después aplica la regla de S47-T4-A: tráfico limitado, quality/error gates y hooks. El fixture . Ajusté el booleano defectuoso del starter hacia `not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])`; ausencia de `hooks` → MISSING/uncertainty `COLLECT_MORE_SHADOW_EVIDENCE`; breach → `STOP_CANARY`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"mode\", \"traffic_pct\", \"quality_delta\", \"max_quality_drop\", \"error_rate\", \"max_error_rate\", \"hooks\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"COLLECT_MORE_SHADOW_EVIDENCE\"\n    contract_holds = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\n    return \"CONTINUE\" if contract_holds else \"STOP_CANARY\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\": \"canary\", \"traffic_pct\": 5, \"quality_delta\": 0.01, \"max_quality_drop\": 0.02, \"error_rate\": 0.004, \"max_error_rate\": 0.01, \"hooks\": True}}\ninvalid = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\": \"canary\", \"traffic_pct\": 999, \"quality_delta\": 0.01, \"max_quality_drop\": 0.02, \"error_rate\": 0.004, \"max_error_rate\": 0.01, \"hooks\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"hooks\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "mode",
+        "traffic_pct",
+        "quality_delta",
+        "max_quality_drop",
+        "error_rate"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T4-A-E3 (transfer). Instrucción: S47-T4-A-E3 · Aísla fallo cerrado para `shadow/canary y monitoring hooks` con tres fixtures distintos. `CASO-TAC-047-4A` debe continuar, el adverso debe devolver `STOP_CANARY` y la ausencia de `hooks`. Hints: Una ausencia no equivale a breach: enrútala a `COLLECT_MORE_SHADOW_EVIDENCE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró tráfico limitado, . Ajusté el booleano defectuoso del starter hacia `not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])`; ausencia de `hooks` → MISSING/uncertainty `COLLECT_MORE_SHADOW_EVIDENCE`; breach → `STOP_CANARY`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\": \"1.2.0\", \"last_good\": \"1.1.0\", \"compatible_features\": True, \"rollback_tested\": True, \"retired\": {\"1.0.0\"}, \"audit_entry\": True}}\npredicate_ok = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"ROLLBACK_TO_LAST_GOOD\")\nprint(\"S47-T4-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "TAC",
+        "current",
+        "last_good",
+        "compatible_features",
+        "rollback_tested",
+        "retired"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T4-B-E1 (guided). Instrucción: S47-T4-B-E1 · Decide el contrato de `rollback, retirement y audit` sobre `CASO-TAC-047-4B`. La entrada es el dict completo del starter; la operación debe demostrar last-known-good compatible, rollback. Hints: Relaciona los campos `current`, `last_good`, `compatible_features`, `rollback_tested`, `retired`, `audit_entry` con la regla explicada en S47-T4-B.; El predicado correcto debe ser . Ajusté el booleano defectuoso del starter hacia `not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])`; ausencia de `audit_entry` → MISSING/uncertainty `REVIEW_RETIREMENT`; breach → `ROLLBACK_TO_LAST_GOOD`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"current\", \"last_good\", \"compatible_features\", \"rollback_tested\", \"retired\", \"audit_entry\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\n    return \"PASS\" if ok else \"ROLLBACK_TO_LAST_GOOD\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\": \"1.2.0\", \"last_good\": \"1.1.0\", \"compatible_features\": True, \"rollback_tested\": True, \"retired\": {\"1.0.0\"}, \"audit_entry\": True}}\ninvalid = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\": \"1.2.0\", \"last_good\": \"1.1.0\", \"compatible_features\": False, \"rollback_tested\": True, \"retired\": {\"1.0.0\"}, \"audit_entry\": True}}\nincomplete = dict(valid)\nif \"audit_entry\" in incomplete:\n    del incomplete[\"audit_entry\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "current",
+        "last_good",
+        "compatible_features",
+        "rollback_tested",
+        "retired"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T4-B-E2 (independent). Instrucción: S47-T4-B-E2 · Filtra tres rutas de `rollback, retirement y audit`: fixture válido, fixture adverso y registro sin `audit_entry`. Entrada: dict con case_id, current, last_good, compatible_features, rol. Hints: Primero se calcula `missing`; ningún acceso a audit_entry debe ocurrir antes de esa rama.; Después aplica la regla de S47-T4-B: last-known-good compatible, rollback y retiro audita. Ajusté el booleano defectuoso del starter hacia `not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])`; ausencia de `audit_entry` → MISSING/uncertainty `REVIEW_RETIREMENT`; breach → `ROLLBACK_TO_LAST_GOOD`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S47-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"current\", \"last_good\", \"compatible_features\", \"rollback_tested\", \"retired\", \"audit_entry\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"REVIEW_RETIREMENT\"\n    contract_holds = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\n    return \"CONTINUE\" if contract_holds else \"ROLLBACK_TO_LAST_GOOD\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\": \"1.2.0\", \"last_good\": \"1.1.0\", \"compatible_features\": True, \"rollback_tested\": True, \"retired\": {\"1.0.0\"}, \"audit_entry\": True}}\ninvalid = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\": \"1.2.0\", \"last_good\": \"1.1.0\", \"compatible_features\": False, \"rollback_tested\": True, \"retired\": {\"1.0.0\"}, \"audit_entry\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"audit_entry\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "current",
+        "last_good",
+        "compatible_features",
+        "rollback_tested",
+        "retired"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S47. Ejercicio S47-T4-B-E3 (transfer). Instrucción: S47-T4-B-E3 · Demuestra fallo cerrado para `rollback, retirement y audit` con tres fixtures distintos. `CASO-TAC-047-4B` debe continuar, el adverso debe devolver `ROLLBACK_TO_LAST_GOOD` y la ausencia . Hints: Una ausencia no equivale a breach: enrútala a `REVIEW_RETIREMENT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró last-known-good compatible, r. Ajusté el booleano defectuoso del starter hacia `not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])`; ausencia de `audit_entry` → MISSING/uncertainty `REVIEW_RETIREMENT`; breach → `ROLLBACK_TO_LAST_GOOD`. Sin ejecución externa ni vidas previas."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "rerun dentro de tolerancia declarada",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S47 con párrafos de theory. Pregunta: ¿Qué evidencia permite aprobar `tracking y reproducibilidad` en CASO-TAC-047?. La opción índice 2 («rerun dentro de tolerancia declarada») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "emitir ROLLBACK_MODEL y conservar evidencia",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S47 con párrafos de theory. Pregunta: Si ocurre la condición de error de S47, ¿qué respuesta preserva seguridad y auditabilidad?. La opción índice 0 («emitir ROLLBACK_MODEL y conservar evidencia») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S47 con párrafos de theory. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-B + CF-4 · modelo promovible y reversible`?. La opción índice 1 («solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S47 con párrafos de theory. Pregunta: ¿Qué tratamiento de `CASO-TAC-047` respeta el alcance del curso?. La opción índice 3 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "S47 inverted predicates",
+      "note": "Starter booleans are deliberately inverted; fixed from hints + fixture invariants only."
+    }
+  ],
+  "retrospection": "skeptic: completed S47 (MLOps: experimentos, registro y serving) with 24 exercises + 4 selfcheck from packet stems/starters/theory only.",
+  "summary": "S47 skeptic: 24 exercises, 4 selfcheck",
+  "recorded_at": "2026-07-23T09:08:35+00:00",
+  "session_started_at": "2026-07-23T09:04:45+00:00",
+  "session_ended_at": "2026-07-23T09:08:35+00:00"
+}

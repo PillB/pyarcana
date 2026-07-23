@@ -1,0 +1,387 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G1",
+  "section_index": 33,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-explorer-s33-newbie_a-live",
+  "production_note": "agentic_G1 dual-LLM explorer: solved from quiz_card+slim_packet only; no generators, no transplant, no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S33-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\nmeets_contract = not (\"fraud\" in record[\"target\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_FRAUD_TARGET\"\nprint(\"S33-T1-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Relaciona los campos `unit, target, horizon` con la regla explicada en S33-T1-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva target needs_review con horizonte y unit; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T1-A-E1: instruction del paquete «S33-T1-A-E1 · Calcula el contrato de `unidad, target y horizonte` sobre `CASO-LIM-033-1A`. La entrada es el dict completo del starter; la operación debe demostr…». Completé el starter del quiz_card (hints: Relaciona los campos `unit, target, horizon` con la regla explicada en S33-T1-A.) con código operativo que incluye `record = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'nee` … `print(\"S33-T1-A\", status)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'unit', 'target', 'horizon'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (\"fraud\" in record[\"target\"]) else \"REJECT_FRAUD_TARGET\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}\nincomplete = {**valid}\nincomplete.pop(\"horizon\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Primero se calcula `missing`; ningún acceso a horizon debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T1-A: target needs_review con horizonte y unit. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T1-A-E2: instruction del paquete «S33-T1-A-E2 · Modela tres rutas de `unidad, target y horizonte`: fixture válido, fixture adverso y registro sin `horizon`. Entrada: dict con case_id, unit, targ…». Completé el starter del quiz_card (hints: Primero se calcula `missing`; ningún acceso a horizon debe ocurrir antes de esa ) con código operativo que incluye `def assess(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'unit', 'target', 'horizon'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_HORIZON\"\n    return \"CONTINUE\" if not (\"fraud\" in record[\"target\"]) else \"REJECT_FRAUD_TARGET\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}\nuncertain = {**valid}\nuncertain.pop(\"horizon\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_HORIZON` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró target needs_review con horizonte y unit; solo ese caso devuelve `CONTINUE`."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T1-A-E3: instruction del paquete «S33-T1-A-E3 · Contrasta fallo cerrado para `unidad, target y horizonte` con tres fixtures distintos. `CASO-LIM-033-1A` debe continuar, el adverso debe devolver …». Completé el starter del quiz_card (hints: Una ausencia no equivale a breach: enrútala a `REQUEST_HORIZON` antes de evaluar) con código operativo que incluye `def decide(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\nmeets_contract = record[\"has_baseline\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_NO_BASELINE\"\nprint(\"S33-T1-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Relaciona los campos `dummy_acc, cost, has_baseline` con la regla explicada en S33-T1-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva baseline y costo no nulos; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T1-B-E1: instruction del paquete «S33-T1-B-E1 · Calcula el contrato de `costos, baseline de regla y dummy estimator` sobre `CASO-LIM-033-1B`. La entrada es el dict completo del starter; la opera…». Completé el starter del quiz_card (hints: Relaciona los campos `dummy_acc, cost, has_baseline` con la regla explicada en S) con código operativo que incluye `record = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_b` … `print(\"S33-T1-B\", status)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'dummy_acc', 'cost', 'has_baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"has_baseline\"] is True else \"REJECT_NO_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}\nincomplete = {**valid}\nincomplete.pop(\"cost\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Primero se calcula `missing`; ningún acceso a cost debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T1-B: baseline y costo no nulos. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T1-B-E2: instruction del paquete «S33-T1-B-E2 · Modela tres rutas de `costos, baseline de regla y dummy estimator`: fixture válido, fixture adverso y registro sin `cost`. Entrada: dict con case_…». Completé el starter del quiz_card (hints: Primero se calcula `missing`; ningún acceso a cost debe ocurrir antes de esa ram) con código operativo que incluye `def assess(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'dummy_acc', 'cost', 'has_baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_COST\"\n    return \"CONTINUE\" if record[\"has_baseline\"] is True else \"REJECT_NO_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}\nuncertain = {**valid}\nuncertain.pop(\"cost\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_COST` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró baseline y costo no nulos; solo ese caso devuelve `CONTINUE`."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T1-B-E3: instruction del paquete «S33-T1-B-E3 · Contrasta fallo cerrado para `costos, baseline de regla y dummy estimator` con tres fixtures distintos. `CASO-LIM-033-1B` debe continuar, el adver…». Completé el starter del quiz_card (hints: Una ausencia no equivale a breach: enrútala a `REQUEST_COST` antes de evaluar el) con código operativo que incluye `def decide(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\nmeets_contract = record[\"l2\"] != 0\nstatus = \"PASS\" if meets_contract else \"REJECT_UNREGULARIZED\"\nprint(\"S33-T2-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Relaciona los campos `p, pred, l2` con la regla explicada en S33-T2-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva sigmoid p con L2>0 y pred binaria; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T2-A-E1: instruction del paquete «S33-T2-A-E1 · Calcula el contrato de `regresión/logística y regularización` sobre `CASO-LIM-033-2A`. La entrada es el dict completo del starter; la operación de…». Completé el starter del quiz_card (hints: Relaciona los campos `p, pred, l2` con la regla explicada en S33-T2-A., El predi) con código operativo que incluye `record = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}` … `print(\"S33-T2-A\", status)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'pred', 'l2'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"l2\"] != 0 else \"REJECT_UNREGULARIZED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}\nincomplete = {**valid}\nincomplete.pop(\"p\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Primero se calcula `missing`; ningún acceso a p debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T2-A: sigmoid p con L2>0 y pred binaria. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T2-A-E2: instruction del paquete «S33-T2-A-E2 · Modela tres rutas de `regresión/logística y regularización`: fixture válido, fixture adverso y registro sin `p`. Entrada: dict con case_id, p, pre…». Completé el starter del quiz_card (hints: Primero se calcula `missing`; ningún acceso a p debe ocurrir antes de esa rama.,) con código operativo que incluye `def assess(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'p', 'pred', 'l2'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SIGMOID\"\n    return \"CONTINUE\" if record[\"l2\"] != 0 else \"REJECT_UNREGULARIZED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}\nuncertain = {**valid}\nuncertain.pop(\"p\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_SIGMOID` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró sigmoid p con L2>0 y pred binaria; solo ese caso devuelve `CONTINUE`."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T2-A-E3: instruction del paquete «S33-T2-A-E3 · Contrasta fallo cerrado para `regresión/logística y regularización` con tres fixtures distintos. `CASO-LIM-033-2A` debe continuar, el adverso debe…». Completé el starter del quiz_card (hints: Una ausencia no equivale a breach: enrútala a `REQUEST_SIGMOID` antes de evaluar) con código operativo que incluye `def decide(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\nmeets_contract = record[\"scaled\"] is True or record[\"causal\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSCALED_COEF\"\nprint(\"S33-T2-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Relaciona los campos `coefs, scaled, causal` con la regla explicada en S33-T2-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva coefs scaled con causal=False; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T2-B-E1: instruction del paquete «S33-T2-B-E1 · Calcula el contrato de `coeficientes, supuestos y scaling` sobre `CASO-LIM-033-2B`. La entrada es el dict completo del starter; la operación debe …». Completé el starter del quiz_card (hints: Relaciona los campos `coefs, scaled, causal` con la regla explicada en S33-T2-B.) con código operativo que incluye `record = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scal` … `print(\"S33-T2-B\", status)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'coefs', 'scaled', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record['causal'] is False and record['scaled'] is True else \"REJECT_UNSCALED_COEF\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"scaled\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Primero se calcula `missing`; ningún acceso a scaled debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T2-B: coefs scaled con causal=False. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T2-B-E2: instruction del paquete «S33-T2-B-E2 · Modela tres rutas de `coeficientes, supuestos y scaling`: fixture válido, fixture adverso y registro sin `scaled`. Entrada: dict con case_id, coef…». Completé el starter del quiz_card (hints: Primero se calcula `missing`; ningún acceso a scaled debe ocurrir antes de esa r) con código operativo que incluye `def assess(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'coefs', 'scaled', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SCALE_FLAG\"\n    return \"CONTINUE\" if record['causal'] is False and record['scaled'] is True else \"REJECT_UNSCALED_COEF\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}\nuncertain = {**valid}\nuncertain.pop(\"scaled\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_SCALE_FLAG` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró coefs scaled con causal=False; solo ese caso devuelve `CONTINUE`."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T2-B-E3: instruction del paquete «S33-T2-B-E3 · Contrasta fallo cerrado para `coeficientes, supuestos y scaling` con tres fixtures distintos. `CASO-LIM-033-2B` debe continuar, el adverso debe de…». Completé el starter del quiz_card (hints: Una ausencia no equivale a breach: enrútala a `REQUEST_SCALE_FLAG` antes de eval) con código operativo que incluye `def decide(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\nmeets_contract = record[\"depth_unlimited\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_DEPTH_UNLIMITED\"\nprint(\"S33-T3-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Relaciona los campos `stump_preds, majority, depth_unlimited` con la regla explicada en S33-T3-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva stump/vote con depth controlada; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T3-A-E1: instruction del paquete «S33-T3-A-E1 · Calcula el contrato de `decisiones y random forest/boosting` sobre `CASO-LIM-033-3A`. La entrada es el dict completo del starter; la operación deb…». Completé el starter del quiz_card (hints: Relaciona los campos `stump_preds, majority, depth_unlimited` con la regla expli) con código operativo que incluye `record = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1,` … `print(\"S33-T3-A\", status)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'stump_preds', 'majority', 'depth_unlimited'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"depth_unlimited\"] is False else \"REJECT_DEPTH_UNLIMITED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}\nincomplete = {**valid}\nincomplete.pop(\"stump_preds\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Primero se calcula `missing`; ningún acceso a stump_preds debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T3-A: stump/vote con depth controlada. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T3-A-E2: instruction del paquete «S33-T3-A-E2 · Modela tres rutas de `decisiones y random forest/boosting`: fixture válido, fixture adverso y registro sin `stump_preds`. Entrada: dict con case_i…». Completé el starter del quiz_card (hints: Primero se calcula `missing`; ningún acceso a stump_preds debe ocurrir antes de ) con código operativo que incluye `def assess(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'stump_preds', 'majority', 'depth_unlimited'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STUMP\"\n    return \"CONTINUE\" if record[\"depth_unlimited\"] is False else \"REJECT_DEPTH_UNLIMITED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}\nuncertain = {**valid}\nuncertain.pop(\"stump_preds\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_STUMP` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró stump/vote con depth controlada; solo ese caso devuelve `CONTINUE`."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T3-A-E3: instruction del paquete «S33-T3-A-E3 · Contrasta fallo cerrado para `decisiones y random forest/boosting` con tres fixtures distintos. `CASO-LIM-033-3A` debe continuar, el adverso debe …». Completé el starter del quiz_card (hints: Una ausencia no equivale a breach: enrútala a `REQUEST_STUMP` antes de evaluar e) con código operativo que incluye `def decide(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\nmeets_contract = record[\"train_acc\"] - record[\"valid_acc\"] <= 0.2\nstatus = \"PASS\" if meets_contract else \"REJECT_OVERFIT\"\nprint(\"S33-T3-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Relaciona los campos `train_acc, valid_acc, seed` con la regla explicada en S33-T3-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva gap controlado y seed fija; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T3-B-E1: instruction del paquete «S33-T3-B-E1 · Calcula el contrato de `overfit, profundidad y reproducibilidad` sobre `CASO-LIM-033-3B`. La entrada es el dict completo del starter; la operación…». Completé el starter del quiz_card (hints: Relaciona los campos `train_acc, valid_acc, seed` con la regla explicada en S33-) con código operativo que incluye `record = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, ` … `print(\"S33-T3-B\", status)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'train_acc', 'valid_acc', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"train_acc\"] - record[\"valid_acc\"] <= 0.2 else \"REJECT_OVERFIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.99, 'valid_acc': 0.6, 'seed': 42}}\nincomplete = {**valid}\nincomplete.pop(\"seed\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Primero se calcula `missing`; ningún acceso a seed debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T3-B: gap controlado y seed fija. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T3-B-E2: instruction del paquete «S33-T3-B-E2 · Modela tres rutas de `overfit, profundidad y reproducibilidad`: fixture válido, fixture adverso y registro sin `seed`. Entrada: dict con case_id, …». Completé el starter del quiz_card (hints: Primero se calcula `missing`; ningún acceso a seed debe ocurrir antes de esa ram) con código operativo que incluye `def assess(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'train_acc', 'valid_acc', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SEED\"\n    return \"CONTINUE\" if record[\"train_acc\"] - record[\"valid_acc\"] <= 0.2 else \"REJECT_OVERFIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.99, 'valid_acc': 0.6, 'seed': 42}}\nuncertain = {**valid}\nuncertain.pop(\"seed\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_SEED` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró gap controlado y seed fija; solo ese caso devuelve `CONTINUE`."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T3-B-E3: instruction del paquete «S33-T3-B-E3 · Contrasta fallo cerrado para `overfit, profundidad y reproducibilidad` con tres fixtures distintos. `CASO-LIM-033-3B` debe continuar, el adverso d…». Completé el starter del quiz_card (hints: Una ausencia no equivale a breach: enrútala a `REQUEST_SEED` antes de evaluar el) con código operativo que incluye `def decide(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\nmeets_contract = record[\"metrics\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNLOGGED_RUN\"\nprint(\"S33-T4-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Relaciona los campos `metrics, beats_dummy, run_id` con la regla explicada en S33-T4-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva metrics no vacías con beats_dummy y run_id; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T4-A-E1: instruction del paquete «S33-T4-A-E1 · Calcula el contrato de `pipeline y tracking mínimo` sobre `CASO-LIM-033-4A`. La entrada es el dict completo del starter; la operación debe demostr…». Completé el starter del quiz_card (hints: Relaciona los campos `metrics, beats_dummy, run_id` con la regla explicada en S3) con código operativo que incluye `record = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.` … `print(\"S33-T4-A\", status)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'metrics', 'beats_dummy', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"metrics\"] else \"REJECT_UNLOGGED_RUN\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {}, 'beats_dummy': False, 'run_id': 'run-1'}}\nincomplete = {**valid}\nincomplete.pop(\"metrics\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Primero se calcula `missing`; ningún acceso a metrics debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T4-A: metrics no vacías con beats_dummy y run_id. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T4-A-E2: instruction del paquete «S33-T4-A-E2 · Modela tres rutas de `pipeline y tracking mínimo`: fixture válido, fixture adverso y registro sin `metrics`. Entrada: dict con case_id, metrics, b…». Completé el starter del quiz_card (hints: Primero se calcula `missing`; ningún acceso a metrics debe ocurrir antes de esa ) con código operativo que incluye `def assess(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'metrics', 'beats_dummy', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_METRICS\"\n    return \"CONTINUE\" if record[\"metrics\"] else \"REJECT_UNLOGGED_RUN\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {}, 'beats_dummy': False, 'run_id': 'run-1'}}\nuncertain = {**valid}\nuncertain.pop(\"metrics\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_METRICS` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró metrics no vacías con beats_dummy y run_id; solo ese caso devuelve `CONTINUE`."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T4-A-E3: instruction del paquete «S33-T4-A-E3 · Contrasta fallo cerrado para `pipeline y tracking mínimo` con tres fixtures distintos. `CASO-LIM-033-4A` debe continuar, el adverso debe devolver …». Completé el starter del quiz_card (hints: Una ausencia no equivale a breach: enrútala a `REQUEST_METRICS` antes de evaluar) con código operativo que incluye `def decide(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\nmeets_contract = record[\"random_split\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_RANDOM_LEAK\"\nprint(\"S33-T4-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Relaciona los campos `fold_scores, entities, random_split` con la regla explicada en S33-T4-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva group CV con entities y sin random leak; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T4-B-E1: instruction del paquete «S33-T4-B-E1 · Calcula el contrato de `validación cruzada apropiada y error analysis` sobre `CASO-LIM-033-4B`. La entrada es el dict completo del starter; la ope…». Completé el starter del quiz_card (hints: Relaciona los campos `fold_scores, entities, random_split` con la regla explicad) con código operativo que incluye `record = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities'` … `print(\"S33-T4-B\", status)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'fold_scores', 'entities', 'random_split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"random_split\"] is False else \"REJECT_RANDOM_LEAK\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}\nincomplete = {**valid}\nincomplete.pop(\"entities\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Primero se calcula `missing`; ningún acceso a entities debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S33-T4-B: group CV con entities y sin random leak. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T4-B-E2: instruction del paquete «S33-T4-B-E2 · Modela tres rutas de `validación cruzada apropiada y error analysis`: fixture válido, fixture adverso y registro sin `entities`. Entrada: dict con…». Completé el starter del quiz_card (hints: Primero se calcula `missing`; ningún acceso a entities debe ocurrir antes de esa) con código operativo que incluye `def assess(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    },
+    {
+      "exercise_id": "S33-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'fold_scores', 'entities', 'random_split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_GROUP_IDS\"\n    return \"CONTINUE\" if record[\"random_split\"] is False else \"REJECT_RANDOM_LEAK\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}\nuncertain = {**valid}\nuncertain.pop(\"entities\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_GROUP_IDS` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró group CV con entities y sin random leak; solo ese caso devuelve `CONTINUE`."
+      ],
+      "justification_from_packet": "Explorer G1-S33 S33-T4-B-E3: instruction del paquete «S33-T4-B-E3 · Contrasta fallo cerrado para `validación cruzada apropiada y error analysis` con tres fixtures distintos. `CASO-LIM-033-4B` debe continuar, el adv…». Completé el starter del quiz_card (hints: Una ausencia no equivale a breach: enrútala a `REQUEST_GROUP_IDS` antes de evalu) con código operativo que incluye `def decide(record: dict) -> str:` … `print(*results)`. Conceptos del theory/iDo de la sección activa; fixture sintético CASO-LIM, sin PII ni etiqueta de fraude."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S33 Q0: pregunta «El target del workbench debe:» → opción[0] «Ser needs_review con horizonte». Apoyado en theory/outcomes del quiz_card de la sección activa y el iDo del subtema; descarto opciones que etiquetan fraude/parentesco o borran evidencia.",
+      "answer": "Ser needs_review con horizonte"
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S33 Q1: pregunta «Antes del modelo ML conviene:» → opción[2] «Dummy/regla y costos». Apoyado en theory/outcomes del quiz_card de la sección activa y el iDo del subtema; descarto opciones que etiquetan fraude/parentesco o borran evidencia.",
+      "answer": "Dummy/regla y costos"
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S33 Q2: pregunta «Comparar coeficientes exige:» → opción[3] «Features scaled y causal=False». Apoyado en theory/outcomes del quiz_card de la sección activa y el iDo del subtema; descarto opciones que etiquetan fraude/parentesco o borran evidencia.",
+      "answer": "Features scaled y causal=False"
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S33 Q3: pregunta «Group CV por entidad evita:» → opción[1] «Leakage de la misma entidad entre folds». Apoyado en theory/outcomes del quiz_card de la sección activa y el iDo del subtema; descarto opciones que etiquetan fraude/parentesco o borran evidencia.",
+      "answer": "Leakage de la misma entidad entre folds"
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:23:56.404946+00:00",
+  "session_started_at": "2026-07-23T06:39:56.240602+00:00",
+  "session_ended_at": "2026-07-23T06:23:56.404961+00:00",
+  "packet_sha": "0db82e9b54fc554f",
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33
+    ],
+    "note": "G1 dual-LLM explorer: sections 29-35 packet-only solve"
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  }
+}

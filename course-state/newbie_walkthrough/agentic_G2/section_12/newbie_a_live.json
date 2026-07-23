@@ -1,0 +1,292 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 12,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-exp-s12-61dc673f73",
+  "production_note": "agentic_G2 dual-LLM explorer: packet-only; no generators; independent of G1",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "code": "def classify_status(code):\n    if 200 <= code < 300:\n        return \"ok\"\n    if 400 <= code < 500:\n        return \"client_error_no_blind_retry\"\n    if 500 <= code < 600:\n        return \"server_error_maybe_retry\"\n    return \"other\"\nprint(classify_status(400), classify_status(503), classify_status(200))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T1-A-E1] 400 no retry ciego; 503 maybe retry. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "http"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "code": "def should_retry(code):\n    return code in {408, 429, 500, 502, 503, 504}\nprint(should_retry(400), should_retry(503))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T1-A-E2] allowlist de reintento. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "retry"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "code": "class ApiError(Exception):\n    def __init__(self, code, msg):\n        self.code = code\n        super().__init__(msg)\ne = ApiError(400, \"bad request\")\nprint(e.code, str(e))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T1-A-E3] error de API tipado. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "ApiError"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "code": "import os\ndef get_token():\n    tok = os.environ.get(\"API_TOKEN\")\n    if not tok:\n        raise RuntimeError(\"API_TOKEN missing\")\n    return tok\n# no hardcode\nprint(\"env_only\")",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T1-B-E1] token desde env. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "secrets"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "code": "def redact_headers(h):\n    out = dict(h)\n    if \"Authorization\" in out:\n        out[\"Authorization\"] = \"Bearer ***\"\n    return out\nprint(redact_headers({\"Authorization\": \"Bearer SECRET\", \"Accept\": \"json\"}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T1-B-E2] redact Authorization en logs. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "redact"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "code": "ALLOWED_EGRESS_FIELDS = {\"city\", \"address_line\", \"country\"}\ndef filter_egress(payload):\n    return {k: v for k, v in payload.items() if k in ALLOWED_EGRESS_FIELDS}\nprint(filter_egress({\"city\": \"Lima\", \"document_id\": \"SECRET\"}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T1-B-E3] no enviar document_id a geocoder. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "egress"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "code": "import hashlib, json\nbody = {\"lat\": -12.0, \"lon\": -77.0}\nprov = {\n    \"source_url\": \"https://example.com/geo\",\n    \"status_code\": 200,\n    \"body_sha12\": hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()[:12],\n}\nprint(prov)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T2-A-E1] provenance de fetch. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "provenance"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "code": "cache = {}\ndef get_cached(key, fetcher):\n    if key not in cache:\n        cache[key] = fetcher()\n    return cache[key]\nprint(get_cached(\"Lima\", lambda: {\"lat\": -12.04}))\nprint(get_cached(\"Lima\", lambda: {\"lat\": 0}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T2-A-E2] cache evita segundo fetch. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "cache"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "code": "def timeout_policy(seconds):\n    if seconds <= 0:\n        raise ValueError(\"timeout\")\n    return seconds\nprint(timeout_policy(5))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T2-A-E3] timeout obligatorio en cliente HTTP. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "timeout"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "code": "REQUIRED = {\"lat\", \"lon\", \"provider\"}\nPRECALC = {\"Lima\": {\"lat\": -12.0464, \"lon\": -77.0428, \"provider\": \"precalc\"}}\ndef contract_ok(d):\n    return not (REQUIRED - set(d.keys()))\ndef geocode(city, fail_online=False):\n    if fail_online:\n        return {**PRECALC[city], \"mode\": \"offline_fallback\"}\n    return {\"lat\": -12.0464, \"lon\": -77.0428, \"provider\": \"online\", \"mode\": \"online\"}\nprint(contract_ok(geocode(\"Lima\")))\nprint(geocode(\"Lima\", fail_online=True)[\"mode\"])",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T2-B-E1] fallback offline precalc. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "geocode"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "code": "def validate_geo(d):\n    for k in (\"lat\", \"lon\"):\n        if k not in d:\n            return False\n        if not isinstance(d[k], (int, float)):\n            return False\n    return True\nprint(validate_geo({\"lat\": 1.0, \"lon\": 2.0}), validate_geo({\"lat\": \"x\"}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T2-B-E2] valida tipos geo. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "validate"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "code": "def offline_table():\n    return {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}\nprint(sorted(offline_table()))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T2-B-E3] tabla precalc autorizada. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "precalc"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES (?, ?)\", (\"C001\", \"Ana\"))\nprint(con.execute(\"SELECT name FROM clients WHERE id = ?\", (\"C001\",)).fetchone())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T3-A-E1] placeholders ? no f-string. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "sql"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('CREATE TABLE clients(id TEXT PRIMARY KEY);\\nCREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT);\\nCREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT);\\n')\nprint(\"tables_ok\")",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T3-A-E2] schema minimo 3 tablas. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "schema"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "code": "def bad_sql(user):\n    # ANTIPATRON: f\"SELECT * FROM t WHERE name='{user}'\"\n    return \"use placeholders instead\"\nprint(bad_sql(\"x\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T3-A-E3] documenta antipatron inyeccion. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "injection"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT UNIQUE)\")\nbatch = [(\"C001\", \"DOC1\"), (\"C002\", \"DOC2\"), (\"C003\", \"DOC1\")]\ntry:\n    con.execute(\"BEGIN\")\n    con.executemany(\"INSERT INTO clients VALUES (?,?)\", batch)\n    con.commit()\n    print(\"unexpected_commit\")\nexcept sqlite3.IntegrityError:\n    con.rollback()\n    print(\"rollback_on_conflict\")",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T3-B-E1] UNIQUE conflict -> rollback. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "tx"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE t(id TEXT PRIMARY KEY)\")\ncon.execute(\"INSERT INTO t VALUES ('a')\")\ntry:\n    con.execute(\"INSERT INTO t VALUES ('a')\")\nexcept sqlite3.IntegrityError as e:\n    print(type(e).__name__)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T3-B-E2] IntegrityError en PK duplicada. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "integrity"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "code": "def unit_of_work(ops):\n    done = []\n    try:\n        for op in ops:\n            done.append(op())\n        return done\n    except Exception:\n        return \"rollback\"\nprint(unit_of_work([lambda: 1, lambda: 2]))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T3-B-E3] unidad de trabajo simple. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "uow"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "code": "class MockGeocoder:\n    DB = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}\n    def geocode(self, city):\n        if city not in self.DB:\n            return None\n        lat, lon = self.DB[city]\n        return {\"city\": city, \"lat\": lat, \"lon\": lon, \"provider\": \"authorized_mock\"}\ng = MockGeocoder()\nprint(g.geocode(\"Lima\")[\"provider\"], g.geocode(\"Iquitos\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T4-A-E1] MockGeocoder autorizado. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "mock"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "code": "def assert_mock_only(provider):\n    assert provider in {\"authorized_mock\", \"precalc\", \"offline_fallback\"}\n    return True\nprint(assert_mock_only(\"authorized_mock\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T4-A-E2] solo providers permitidos en curso. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "policy"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "code": "points = {\"Lima\": (-12.0464, -77.0428), \"Callao\": (-12.05, -77.125)}\nprint(points[\"Lima\"])",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T4-A-E3] fixtures geo sinteticas. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "fixtures"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "code": "import math\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\nlima = (-12.0464, -77.0428)\ncallao = (-12.0500, -77.1250)\nprint(round(haversine_km(lima, callao), 2))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T4-B-E1] haversine Lima-Callao ~km. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "haversine"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "code": "def geo_signal(km, threshold=2.0):\n    return {\"geo_distance_km\": km, \"close\": km <= threshold, \"verdict\": None}\nprint(geo_signal(1.2))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T4-B-E2] 1.2 km close; verdict None. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "signal"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "code": "def as_relationship_signal(km):\n    return {\n        \"type\": \"geo_distance\",\n        \"km\": km,\n        \"relationship_signal_score\": max(0.0, min(1.0, 1.0 - km / 10.0)),\n        \"verdict\": None,\n    }\nprint(as_relationship_signal(1.2)[\"verdict\"])",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S12-T4-B-E3] verdict None siempre aqui. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "relationship"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "400 Bad Request es error de cliente: no retry ciego."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Token de API en env / secret store, no hardcode."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SQL con f-string e input es inyeccion; usar placeholders ?."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "document_id a geocoder publico viola politica egress CP-N1-C."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "1.2 km es geosenal de relacion, no veredicto de parentesco/fraude."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:07:46.962105+00:00",
+  "session_started_at": "2026-07-23T07:07:24.320532+00:00",
+  "session_ended_at": "2026-07-23T07:07:46.962105+00:00"
+}

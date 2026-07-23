@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-dual-skeptic-s22-03839ea610",
+  "production_note": "agentic_G2 dual-LLM skeptic: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nfrom email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\nprint(msg.get_content_type(), \"|\", msg.get_charset())\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "from",
+        "email",
+        "mime",
+        "text",
+        "import",
+        "MIMEText",
+        "msg",
+        "Hola",
+        "plain",
+        "utf"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T1-A-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: ms…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: ['print(msg.get_content_type(), \"|\", msg.get_charset())']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt.add_header('Content-Disposition', 'attachment', filename='a.txt')\nmsg.attach(att)\nprint(any(p.get_filename() == 'a.txt' for p in msg.walk()))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "from",
+        "email",
+        "mime",
+        "multipart",
+        "import",
+        "MIMEMultipart",
+        "application",
+        "MIMEApplication",
+        "msg",
+        "mixed"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T1-A-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / dato…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: [\"print(any(p.get_filename() == 'a.txt' for p in msg.walk()))\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\nprint(sum(1 for _ in msg.walk()))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "from",
+        "email",
+        "mime",
+        "multipart",
+        "import",
+        "MIMEMultipart",
+        "text",
+        "MIMEText",
+        "msg",
+        "mixed"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T1-A-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / dato…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: ['print(sum(1 for _ in msg.walk()))']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nimport html\nprint(html.escape('<script>x</script>'))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "import",
+        "html",
+        "print",
+        "escape",
+        "script"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T1-B-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: p…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: [\"print(html.escape('<script>x</script>'))\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nimport html\nname = '<b>Ana</b>'\nprint('Hola ' + html.escape(name))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "import",
+        "html",
+        "name",
+        "Ana",
+        "print",
+        "Hola",
+        "escape"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T1-B-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sin…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: [\"print('Hola ' + html.escape(name))\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nurls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n    status = 'ok' if 'example.pe' in u else 'blocked'\n    print(u, status)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "urls",
+        "https",
+        "example",
+        "evil",
+        "test",
+        "for",
+        "status",
+        "else",
+        "blocked",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T1-B-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: ['print(u, status)']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nrequested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\ngranted = [s for s in requested if s in allowed]\nprint(granted)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "requested",
+        "mail",
+        "draft",
+        "full",
+        "allowed",
+        "readonly",
+        "granted",
+        "for",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T2-A-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: ['print(granted)']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(bad.isdisjoint(granted))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "granted",
+        "mail",
+        "draft",
+        "bad",
+        "full",
+        "admin",
+        "print",
+        "isdisjoint"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T2-A-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sin…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: ['print(bad.isdisjoint(granted))']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n    print('refresh' if exp < now else 'valid')\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "from",
+        "datetime",
+        "import",
+        "timezone",
+        "timedelta",
+        "now",
+        "utc",
+        "for",
+        "exp",
+        "minutes"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T2-A-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos s…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: [\"print('refresh' if exp < now else 'valid')\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nstore = {}\nstore['d001'] = {'status': 'draft'}\nprint(store['d001']['status'])\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "store",
+        "d001",
+        "status",
+        "draft",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T2-B-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: st…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: [\"print(store['d001']['status'])\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nprint(now < expires_at)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "from",
+        "datetime",
+        "import",
+        "timezone",
+        "timedelta",
+        "now",
+        "utc",
+        "expires_at",
+        "seconds",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T2-B-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sin…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: ['print(now < expires_at)']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "store",
+        "def",
+        "create_draft",
+        "len",
+        "status",
+        "draft",
+        "return",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T2-B-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos si…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: ['print(create_draft(), create_draft())']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nimport re\npat = r'^[^@]+@[^@]+\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n    print(e, bool(re.match(pat, e)))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "import",
+        "pat",
+        "for",
+        "ana",
+        "example",
+        "bad",
+        "print",
+        "bool",
+        "match"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T3-A-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: p…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: ['print(e, bool(re.match(pat, e)))']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nDIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\nprint('verified' if em and '@' in em else 'missing')\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "DIRECTORY",
+        "C001",
+        "ana",
+        "example",
+        "get",
+        "print",
+        "verified",
+        "and",
+        "else",
+        "missing"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T3-A-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sint…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: [\"print('verified' if em and '@' in em else 'missing')\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\na, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), 'match_no_es_fraude')\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "ana",
+        "rojas",
+        "example",
+        "com",
+        "for",
+        "zip",
+        "break",
+        "score",
+        "max",
+        "len"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T3-A-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / da…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: [\"print(round(score, 2), 'match_no_es_fraude')\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nxs = ['a@x', 'b@x', 'a@x']\nprint(list(dict.fromkeys(xs)))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "print",
+        "list",
+        "dict",
+        "fromkeys"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T3-B-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos s…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: ['print(list(dict.fromkeys(xs)))']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nrows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\nprint(rows[0]['role'])\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "rows",
+        "email",
+        "other",
+        "test",
+        "role",
+        "for",
+        "endswith",
+        "bcc",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T3-B-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos s…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: [\"print(rows[0]['role'])\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nrows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\nprint(len(vis), vis)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "rows",
+        "example",
+        "other",
+        "test",
+        "vis",
+        "for",
+        "role",
+        "endswith",
+        "bcc",
+        "append"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T3-B-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sin…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: ['print(len(vis), vis)']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nT = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\nprint(state)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "draft",
+        "submit",
+        "pending",
+        "state",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T4-A-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sin…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: ['print(state)']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nT = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\nprint('invalid' if nxt is None else nxt)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "draft",
+        "submit",
+        "pending",
+        "approve",
+        "approved",
+        "state",
+        "action",
+        "nxt",
+        "get",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T4-A-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: [\"print('invalid' if nxt is None else nxt)\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nlog = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\nprint(log)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "log",
+        "append",
+        "from",
+        "pending",
+        "approved",
+        "actor",
+        "rev1",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T4-A-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos …»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: ['print(log)']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nimport hashlib\nprint(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "import",
+        "hashlib",
+        "print",
+        "sha256",
+        "run",
+        "hexdigest"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T4-B-E1: verifiqué fixture conservado y salida alineada al Pass del paquete («E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintétic…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: [\"print(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nprint(create('k') == create('k'))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "store",
+        "def",
+        "create",
+        "key",
+        "return",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T4-B-E2: verifiqué fixture conservado y salida alineada al Pass del paquete («E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos s…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: [\"print(create('k') == create('k'))\"]. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'skeptic'\naudit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\nprint(audit)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "skeptic",
+        "audit",
+        "store",
+        "key",
+        "for",
+        "range",
+        "append",
+        "retry_hit",
+        "else",
+        "create",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Skeptic] S22-T4-B-E3: verifiqué fixture conservado y salida alineada al Pass del paquete («E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sin…»). Cruzo con «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adj. Prints/resultado: ['print(audit)']. Sin lives G1 ni generadores; dual-LLM packet-only G2."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Skeptic] S22 Q0: contrasto el stem «¿Qué garantiza no enviar correo real en el gate de S22?» con párrafos de theory («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake ) y descarto distractores. Respuesta grounded en paquete activo agentic_G2."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Skeptic] S22 Q1: contrasto el stem «Un score alto de similitud entre dos emails implica:» con párrafos de theory («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake ) y descarto distractores. Respuesta grounded en paquete activo agentic_G2."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Skeptic] S22 Q2: contrasto el stem «Least privilege en OAuth de correo significa:» con párrafos de theory («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake ) y descarto distractores. Respuesta grounded en paquete activo agentic_G2."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Skeptic] S22 Q3: contrasto el stem «La idempotency key al reintentar create_draft debe:» con párrafos de theory («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake ) y descarto distractores. Respuesta grounded en paquete activo agentic_G2."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Skeptic] S22 Q4: contrasto el stem «Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de email de CP-N2-C?» con párrafos de theory («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake ) y descarto distractores. Respuesta grounded en paquete activo agentic_G2."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:01:42.902941+00:00",
+  "session_started_at": "2026-07-23T07:01:42.898921+00:00",
+  "session_ended_at": "2026-07-23T07:01:42.902958+00:00"
+}

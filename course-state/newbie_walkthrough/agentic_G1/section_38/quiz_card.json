@@ -1,0 +1,503 @@
+{
+  "section_index": 38,
+  "title": "Concurrencia, observabilidad y workflows resilientes",
+  "outcomes": [
+    "Elegir threads, processes o async según bottleneck medido (I/O vs CPU)",
+    "Razonar GIL, costo de serialización e IPC con payloads compactos",
+    "Aplicar pools, backpressure (queue maxsize) y rate limits (token bucket)",
+    "Definir timeouts, cancelación y cierre de recursos en finally",
+    "Emitir logs estructurados, metrics de cola y traces con correlation_id",
+    "Redactar PII, definir SLI/SLO y consumir error budget con criterio",
+    "Implementar estados, checkpoint e idempotency keys sin side effects duplicados",
+    "Operar retry con backoff, DLQ, replay controlado y runbook de on-call"
+  ],
+  "theory": [
+    {
+      "subtopicId": "S38-T1-A",
+      "heading": "threads/processes/async",
+      "paragraphs": [
+        "Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cuando el cuello es CPU (features densas, scoring vectorial) y quieres evadir el GIL de CPython. Async brilla con muchos I/O en un solo hilo de evento, siempre que no bloquees el loop con CPU pesada.",
+        "Contrato operativo. Entrada: etiqueta de bound (`io` | `cpu` | `mixed`) medida en el path caliente del triage. Salida: elección documentada `async_or_threads` | `processes` | `batch_then_io`. Error: elegir async por moda sin medir, o lanzar cientos de procesos para I/O trivial. Criterio de éxito: la decisión se justifica con bottleneck observado y un plan de medición, no con preferencia de framework.",
+        "Aplicación a `CASO-LIM-038-T1A`: el intake llama a un proveedor mock de normalización (I/O) y luego calcula features locales (CPU). Primero midimos wall vs CPU; si wall >> CPU en el tramo de red, usamos async/threads; si el tramo de features satura un core, movemos ese tramo a process pool. Datos sintéticos; sin credenciales ni red real."
+      ],
+      "code": "def pick(bound):\n    return {\"io\": \"async_or_threads\", \"cpu\": \"processes\", \"mixed\": \"batch_then_io\"}.get(bound, \"measure\")\nprint(pick(\"io\"))\nprint(pick(\"cpu\"))\nprint(\"measure_first\", True)",
+      "code_output": "async_or_threads\nprocesses\nmeasure_first True"
+    },
+    {
+      "subtopicId": "S38-T1-B",
+      "heading": "I/O vs CPU, GIL y serialización",
+      "paragraphs": [
+        "El GIL de CPython limita el paralelismo de CPU multi-thread: varios hilos de Python puro casi no aceleran un cálculo denso. Los procesos evitan el GIL, pero pagan serialización e IPC (pickle/json). Si el payload entre procesos es grande, el pool puede ser más lento que un solo proceso bien vectorizado.",
+        "Contrato operativo. Entrada: payload del caso (case_id, score, features compactas) y decisión de modelo de concurrencia. Salida: tamaño en bytes del payload y preferencia `compact_payload`. Error: copiar DataFrames enteros entre procesos o loguear el blob crudo con PII. Criterio: el costo de serialización está medido y el payload entre workers es el mínimo necesario para el paso.",
+        "Aplicación a `CASO-LIM-038-T1B`: en lugar de enviar el registro completo del cliente sintético al worker, enviamos `{case_id, score, feature_ids}`. json.dumps del dict compacto cabe en decenas de bytes; el GIL sigue limitando threads CPU, así que el scoring denso va a processes solo si el payload compacto justifica el IPC."
+      ],
+      "code": "import json\npayload = {\"case_id\": \"c1\", \"score\": 0.2}\nblob = json.dumps(payload)\nprint(\"bytes\", len(blob.encode()))\nprint(\"gil_cpu_threads\", \"limited\")\nprint(\"prefer\", \"compact_payload\")",
+      "code_output": "bytes 31\ngil_cpu_threads limited\nprefer compact_payload"
+    },
+    {
+      "subtopicId": "S38-T2-A",
+      "heading": "pools, backpressure y rate limits",
+      "paragraphs": [
+        "Un pool acota la concurrencia máxima (N workers). Una cola con `maxsize` aplica backpressure: el productor se bloquea o rechaza cuando la cola está llena, en lugar de crecer hasta OOM. Un rate limit (token bucket didáctico) protege al proveedor mock de un ban o de saturación.",
+        "Contrato operativo. Entrada: tasa permitida R, profundidad máxima de cola Q, ráfaga de casos sintéticos. Salida: secuencia de allow/deny y señal de backpressure. Error: cola infinita, o ignorar 429 del proveedor. Criterio: bajo pico sintético, la memoria se mantiene acotada y el proveedor no recibe más de R tokens por ventana.",
+        "Aplicación a `CASO-LIM-038-T2A`: el batch de Lima (ficticio) intenta encolar 1000 casos; con maxsize=50 y bucket de 2 tokens, los productores esperan y el tercer allow inmediato es False. Esto evita tumbar el worker de scoring y el mock API. No hay PII real; solo case_id sintéticos."
+      ],
+      "code": "class TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n        self.rate = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(2)\nprint([b.allow() for _ in range(3)])\nprint(\"backpressure\", \"queue_maxsize\")\nprint(\"ok\", True)",
+      "code_output": "[True, True, False]\nbackpressure queue_maxsize\nok True"
+    },
+    {
+      "subtopicId": "S38-T2-B",
+      "heading": "cancelación, timeout y recursos",
+      "paragraphs": [
+        "Sin timeout, un proveedor lento puede colgar un worker indefinidamente y tumbar el SLA del batch. La política didáctica define segundos de espera y on_fail (`retry_or_dlq`). La cancelación libera la tarea colgada; el `finally` o context manager cierra conexiones y archivos aunque falle el fetch.",
+        "Contrato operativo. Entrada: función de fetch mock, timeout_s y política on_fail. Salida: dict de política y flag de cierre de recurso. Error: olvidar close, o retry infinito sin tope. Criterio: toda I/O externa del triage tiene timeout y camino de fallo explícito hacia retry o DLQ.",
+        "Aplicación a `CASO-LIM-038-T2B`: el mock de geocoding tarda más que el budget; la política marca timeout y enruta a DLQ tras N reintentos. El socket sintético se cierra en finally. Incidente clásico documentado en runbook: «sin timeout → cola bloqueada → p95 explotado»."
+      ],
+      "code": "def fetch_with_timeout(fn, timeout_s=0.01):\n    # didáctico: no lanza threads; simula política\n    return {\"policy\": \"timeout\", \"seconds\": timeout_s, \"on_fail\": \"retry_or_dlq\"}\nprint(fetch_with_timeout(lambda: None))\nprint(\"close_in_finally\", True)\nprint(\"ok\", True)",
+      "code_output": "{'policy': 'timeout', 'seconds': 0.01, 'on_fail': 'retry_or_dlq'}\nclose_in_finally True\nok True"
+    },
+    {
+      "subtopicId": "S38-T3-A",
+      "heading": "logs, metrics y traces",
+      "paragraphs": [
+        "Los tres pilares de observabilidad: logs (eventos discretos), metrics (agregados: cola, latencia, errores) y traces (spans por caso a lo largo de intake→score→queue). correlation_id / corr une el camino sin volcar el payload completo del cliente.",
+        "Contrato operativo. Entrada: evento de scoring con case_id sintético, score y corr. Salida: línea de log estructurado + métrica nombrada + pii_raw=False. Error: loguear email/teléfono en claro, o métricas sin dimensiones útiles. Criterio: un on-call puede reconstruir el path de un caso con corr sin abrir PII.",
+        "Aplicación a `CASO-LIM-038-T3A`: al marcar `scored` emitimos `{level:INFO, case_id, event, score, corr}` y la métrica `queue_depth`. Nivel DEBUG solo en sandbox. No usamos OpenTelemetry real en el ejercicio; modelamos el contrato con dicts locales."
+      ],
+      "code": "event = {\"level\": \"INFO\", \"case_id\": \"c-synth-1\", \"event\": \"scored\", \"score\": 0.4, \"corr\": \"corr-9\"}\nprint(event[\"event\"], event[\"corr\"])\nprint(\"metric\", \"queue_depth\")\nprint(\"pii_raw\", False)",
+      "code_output": "scored corr-9\nmetric queue_depth\npii_raw False"
+    },
+    {
+      "subtopicId": "S38-T3-B",
+      "heading": "correlation, redacción y SLI/SLO",
+      "paragraphs": [
+        "Redactar PII en logs es obligatorio: un email sintético `ana@example.pe` se muestra como `an***`. Los SLI miden realidad (p95 de score_ms, error_rate); el SLO es el objetivo acordado con el dueño del servicio. El error budget se consume cuando se viola el SLO.",
+        "Contrato operativo. Entrada: SLI observados y umbrales SLO. Salida: slo_ok booleano y valor redactado. Error: comparar al revés (celebrar latencia peor que el límite) o guardar PII completa «por si acaso». Criterio: dashboards y alertas se basan en SLI; el runbook dice qué hacer cuando el error budget se agota.",
+        "Aplicación a `CASO-LIM-038-T3B`: p95=120ms vs SLO 200ms y error_rate=0.01 vs 0.02 → slo_ok True. Si p95 sube a 400ms, se abre incidente y se pausan deploys no urgentes según política de error budget. Solo datos sintéticos."
+      ],
+      "code": "def redact(s):\n    return s[:2] + \"***\" if len(s) > 2 else \"***\"\nsli = {\"p95_ms\": 120, \"error_rate\": 0.01}\nslo = {\"p95_ms\": 200, \"error_rate\": 0.02}\nprint(\"redacted\", redact(\"ana@example.pe\"))\nprint(\"slo_ok\", sli[\"p95_ms\"] <= slo[\"p95_ms\"] and sli[\"error_rate\"] <= slo[\"error_rate\"])\nprint(\"corr_header\", \"X-Corr-Id\")",
+      "code_output": "redacted an***\nslo_ok True\ncorr_header X-Corr-Id"
+    },
+    {
+      "subtopicId": "S38-T4-A",
+      "heading": "states, checkpoint e idempotencia",
+      "paragraphs": [
+        "Un workflow de triage avanza por estados: pending → running → done | failed. Tras cada paso caro (features, score) se escribe un checkpoint. La idempotency key (`case:step:ver`) garantiza que reejecutar el mismo paso no duplica side effects (doble enqueue, doble notificación mock).",
+        "Contrato operativo. Entrada: state dict del caso y clave de idempotencia. Salida: checkpoint con step/status y resume_from. Error: reintentar sin key y crear dos tickets de review. Criterio: tras matar el worker a mitad de batch, el resume continúa desde el último checkpoint bueno sin rehacer pasos done.",
+        "Aplicación a `CASO-LIM-038-T4A`: caso c1 completó features; al reiniciar, resume_from=features (o el siguiente paso pendiente según diseño). La key `c1:features:v3` evita recalcular y reescribir dos veces. Sin secretos ni PII real en el store de checkpoint."
+      ],
+      "code": "state = {\"case\": \"c1\", \"step\": \"features\", \"status\": \"done\"}\nidem_key = \"c1:features:v3\"\nprint(\"checkpoint\", state)\nprint(\"idem_key\", idem_key)\nprint(\"resume_from\", state[\"step\"])",
+      "code_output": "checkpoint {'case': 'c1', 'step': 'features', 'status': 'done'}\nidem_key c1:features:v3\nresume_from features"
+    },
+    {
+      "subtopicId": "S38-T4-B",
+      "heading": "retry, dead-letter, replay y runbook",
+      "paragraphs": [
+        "Retry con backoff exponencial (y jitter en prod) absorbe fallos transitorios. La DLQ (dead-letter queue) aísla mensajes venenosos que fallan siempre. El replay es controlado: no se reinyecta la DLQ entera sin inspección. El runbook lista síntomas → checks → acciones para el on-call.",
+        "Contrato operativo. Entrada: attempt number y base de backoff; mensaje marcado poison o retriable. Salida: serie de esperas, ruta dlq y flag runbook. Error: retry infinito, o borrar DLQ sin análisis. Criterio: el camino de fallo se prueba en sandbox antes de prod; el runbook existe y se actualiza tras cada incidente sintético de drill.",
+        "Aplicación a `CASO-LIM-038-T4B`: attempts 0..3 con base 0.1 → [0.1, 0.2, 0.4, 0.8]. Un payload malformado va a DLQ como poison; el replay se hace caso a caso tras fix del parser. Drill de on-call: reiniciar worker, verificar checkpoint, rejugar batch acotado."
+      ],
+      "code": "def backoff(attempt, base=0.1):\n    return base * (2 ** attempt)\nprint([round(backoff(i), 3) for i in range(4)])\nprint(\"dlq\", \"poison_messages\")\nprint(\"runbook\", True)",
+      "code_output": "[0.1, 0.2, 0.4, 0.8]\ndlq poison_messages\nrunbook True"
+    }
+  ],
+  "iDo": {
+    "steps": [
+      {
+        "demoId": "S38-T1-A-DEMO",
+        "subtopicId": "S38-T1-A",
+        "environment": "local-python",
+        "description": "Demo: elección de concurrencia io vs cpu en el triage sintético.",
+        "why": "Hace observable la tabla de decisión bound→modelo sin lanzar pools reales; evidencia: elección documentada.",
+        "code": "print('async_or_threads')\nprint('cpu', 'processes')\nprint('ok', True)",
+        "language": "python",
+        "output": "async_or_threads\ncpu processes\nok True"
+      },
+      {
+        "demoId": "S38-T1-B-DEMO",
+        "subtopicId": "S38-T1-B",
+        "environment": "local-python",
+        "description": "Demo: bytes del payload compacto y nota de GIL.",
+        "why": "Muestra el costo de serialización del dict mínimo y recuerda que threads CPU están limitados por el GIL.",
+        "code": "import json; print(len(json.dumps({'a':1}).encode()))\nprint('gil', 'limited')\nprint('ok', True)",
+        "language": "python",
+        "output": "8\ngil limited\nok True"
+      },
+      {
+        "demoId": "S38-T2-A-DEMO",
+        "subtopicId": "S38-T2-A",
+        "environment": "local-python",
+        "description": "Demo: token bucket y maxsize como backpressure.",
+        "why": "Modela allow/deny y cola acotada sin red real; evidencia de control de carga.",
+        "code": "print([True, True, False])\nprint('maxsize', 100)\nprint('ok', True)",
+        "language": "python",
+        "output": "[True, True, False]\nmaxsize 100\nok True"
+      },
+      {
+        "demoId": "S38-T2-B-DEMO",
+        "subtopicId": "S38-T2-B",
+        "environment": "local-python",
+        "description": "Demo: política de timeout y cierre en finally.",
+        "why": "Fija el contrato de fallo de I/O: timeout, on_fail y liberación de recursos.",
+        "code": "print({'seconds': 1, 'on_fail': 'dlq'})\nprint('finally', True)\nprint('ok', True)",
+        "language": "python",
+        "output": "{'seconds': 1, 'on_fail': 'dlq'}\nfinally True\nok True"
+      },
+      {
+        "demoId": "S38-T3-A-DEMO",
+        "subtopicId": "S38-T3-A",
+        "environment": "local-python",
+        "description": "Demo: evento scored con corr y métrica sin PII.",
+        "why": "Emite el mínimo de o11y del path de scoring con correlation id sintético.",
+        "code": "print('scored', 'corr-1')\nprint('metric', 'latency_ms')\nprint('pii_raw', False)",
+        "language": "python",
+        "output": "scored corr-1\nmetric latency_ms\npii_raw False"
+      },
+      {
+        "demoId": "S38-T3-B-DEMO",
+        "subtopicId": "S38-T3-B",
+        "environment": "local-python",
+        "description": "Demo: SLO ok y valor redactado.",
+        "why": "Comprueba umbral de latencia y redacción; el error budget se discute en teoría.",
+        "code": "print(True)\nprint('redacted', 'an***')\nprint('ok', True)",
+        "language": "python",
+        "output": "True\nredacted an***\nok True"
+      },
+      {
+        "demoId": "S38-T4-A-DEMO",
+        "subtopicId": "S38-T4-A",
+        "environment": "local-python",
+        "description": "Demo: idempotency key y status done.",
+        "why": "Muestra key estable y checkpoint done para reanudación segura.",
+        "code": "print('c1:score:v1')\nprint('status', 'done')\nprint('ok', True)",
+        "language": "python",
+        "output": "c1:score:v1\nstatus done\nok True"
+      },
+      {
+        "demoId": "S38-T4-B-DEMO",
+        "subtopicId": "S38-T4-B",
+        "environment": "local-python",
+        "description": "Demo: serie de backoff y flags DLQ/runbook.",
+        "why": "Hace observables retry, aislamiento de veneno y existencia de runbook.",
+        "code": "print([0.1, 0.2, 0.4])\nprint('dlq', True)\nprint('runbook', True)",
+        "language": "python",
+        "output": "[0.1, 0.2, 0.4]\ndlq True\nrunbook True"
+      }
+    ]
+  },
+  "selfCheck_stems": [
+    {
+      "question": "Para CPU bound en CPython suele preferirse:",
+      "options": [
+        "Miles de threads CPU",
+        "Procesos",
+        "Quitar timeouts",
+        "Logs con PII"
+      ]
+    },
+    {
+      "question": "Backpressure evita:",
+      "options": [
+        "Solo tests",
+        "Checkpoints",
+        "SLOs",
+        "Colas infinitas y OOM"
+      ]
+    },
+    {
+      "question": "Idempotencia permite:",
+      "options": [
+        "Reejecutar sin side effects duplicados",
+        "Duplicar cobros",
+        "Borrar DLQ siempre",
+        "Ignorar corr ids"
+      ]
+    },
+    {
+      "question": "En logs de prod debes:",
+      "options": [
+        "PII completa",
+        "Desactivar métricas",
+        "Redactar PII y correlacionar",
+        "No usar case_id"
+      ]
+    },
+    {
+      "question": "Un proveedor sin timeout en el worker suele causar:",
+      "options": [
+        "Mejor p95 mágico",
+        "Hang de workers y cola bloqueada",
+        "Idempotencia automática",
+        "Menos necesidad de DLQ"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S38-T1-A-E1",
+      "instruction": "S38-T1-A-E1 · CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Contrato: entrada bound='cpu'; salida exacta tres líneas con la elección de concurrencia para CPU, la etiqueta bound y ok. El starter elige mal 'async_or_threads'; corrige solo la decisión. Token: S38-T1-A PASS al final vía prints de la solución (processes / bound cpu / ok True).",
+      "hints": [
+        "Para CPU-bound en CPython prefiere processes por el GIL.",
+        "No uses async para saturar CPU pura; mide bound antes de elegir."
+      ],
+      "kind": "guided",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T1-A-E1.",
+      "starterCode": "# CASO-LIM-038-1A — defect: wrong concurrency for CPU-bound features\nbound = \"cpu\"\nchoice = \"async_or_threads\"  # TODO: fix for CPU-bound in CPython\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n"
+    },
+    {
+      "id": "S38-T1-A-E2",
+      "instruction": "S38-T1-A-E2 · CASO-LIM-038-1A2: el tramo de normalización espera red mock (I/O-bound). Contrato: entrada bound='io'; imprime async_or_threads, bound io y ok True. El starter deja choice='processes' por error de copy-paste; corrige la elección. Fixture sintético sin red real. Token alineado a solution output.",
+      "hints": [
+        "I/O-bound: threads o async liberan espera de red.",
+        "processes añaden IPC innecesario si no hay CPU densa."
+      ],
+      "kind": "independent",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T1-A-E2.",
+      "starterCode": "# CASO-LIM-038-1A2 — defect: processes for pure I/O\nbound = \"io\"\nchoice = \"processes\"  # TODO: I/O should use async_or_threads\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n"
+    },
+    {
+      "id": "S38-T1-A-E3",
+      "instruction": "S38-T1-A-E3 · CASO-LIM-038-1A3 (transfer): antes de fijar arquitectura, el contrato exige measure_first=True. Entrada: flag de política; salida: True, ok True, n 1. El starter imprime False (defect: saltarse medición). Corrige para afirmar que se mide el bottleneck primero. Pass: solution output exacto.",
+      "hints": [
+        "measure_first es política de equipo, no opcional.",
+        "Sin medir, la elección de pool es teatro."
+      ],
+      "kind": "transfer",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T1-A-E3.",
+      "starterCode": "# defect: skip measurement\nmeasure_first = False  # TODO: must be True before picking model\nprint(measure_first)\nprint(\"ok\", True)\nprint(\"n\", 1)\n"
+    },
+    {
+      "id": "S38-T1-B-E1",
+      "instruction": "S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json y reporta len en bytes UTF-8. Contrato: print del tamaño (8), ok True, compact True. El starter usa str() del dict (defect: tamaño distinto / no portable). Usa json.dumps(...).encode() como en teoría. Fixture local sin PII.",
+      "hints": [
+        "json.dumps produce el blob estable; mide len(...encode()).",
+        "str(dict) no es el contrato de IPC."
+      ],
+      "kind": "guided",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T1-B-E1.",
+      "starterCode": "import json\npayload = {\"x\": 2}\n# defect: wrong serialization metric\nprint(len(str(payload)))  # TODO: use json.dumps(payload).encode()\nprint(\"ok\", True)\nprint(\"compact\", True)\n"
+    },
+    {
+      "id": "S38-T1-B-E2",
+      "instruction": "S38-T1-B-E2 · Documenta el efecto del GIL en threads CPU: imprime 'limited', ok True, cpu_threads True. Contrato de etiqueta operativa para el runbook de Red Andina sintética. El starter imprime 'unlimited' (defect). No lances threads reales; solo el contrato textual alineado a la demo.",
+      "hints": [
+        "GIL limita paralelismo CPU en threads Python puros.",
+        "Para CPU densa documenta limited y evalúa processes."
+      ],
+      "kind": "independent",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T1-B-E2.",
+      "starterCode": "# defect: wrong GIL note\nprint(\"unlimited\")  # TODO: CPython GIL limits CPU multi-thread\nprint(\"ok\", True)\nprint(\"cpu_threads\", True)\n"
+    },
+    {
+      "id": "S38-T1-B-E3",
+      "instruction": "S38-T1-B-E3 · Política de payload entre workers: imprime preferencia compact_payload, ok True, n 1. El starter prefiere full_record (defect: arrastra PII y bytes de más). Corrige la preferencia del contrato de IPC del triage sintético CASO-LIM-038.",
+      "hints": [
+        "Solo case_id, score y feature_ids cruzan el IPC.",
+        "full_record infla serialización y riesgo de PII en logs de cola."
+      ],
+      "kind": "transfer",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T1-B-E3.",
+      "starterCode": "# defect: send full record between processes\nprint(\"full_record\")  # TODO: prefer compact_payload\nprint(\"ok\", True)\nprint(\"n\", 1)\n"
+    },
+    {
+      "id": "S38-T2-A-E1",
+      "instruction": "S38-T2-A-E1 · Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, third False, ok True. Starter usa rate=3 (defect) o cuenta mal. Implementa el bucket mínimo del fixture CASO-LIM-038-2A. Pass: solution output.",
+      "hints": [
+        "rate=2 ⇒ dos True y el tercero False.",
+        "No rellenes tokens entre llamadas en este fixture estático."
+      ],
+      "kind": "guided",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T2-A-E1.",
+      "starterCode": "class TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(3)  # TODO: rate must be 2 for fixture\nallows = [b.allow() for _ in range(3)]\nprint(sum(1 for a in allows if a))\nprint(\"third\", allows[2])\nprint(\"ok\", True)\n"
+    },
+    {
+      "id": "S38-T2-A-E2",
+      "instruction": "S38-T2-A-E2 · Rol de queue maxsize=50: imprime 'backpressure', ok True, maxsize 50. Contrato: la cola acotada es la política de backpressure del worker de scoring. Starter imprime 'buffer_infinite' y maxsize 0 (defect). Corrige etiquetas del runbook sintético.",
+      "hints": [
+        "maxsize finito = backpressure.",
+        "Cola infinita ⇒ OOM bajo pico."
+      ],
+      "kind": "independent",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T2-A-E2.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"backpressure\")\n"
+    },
+    {
+      "id": "S38-T2-A-E3",
+      "instruction": "S38-T2-A-E3 · ¿A quién protege el rate limit? Imprime 'provider', ok True, ban_risk True. El starter dice 'only_cpu' (defect). El contrato de transferencia: rate limit defiende al proveedor mock y reduce ban_risk en el path de triage CASO-LIM-038.",
+      "hints": [
+        "Sin rate limit el mock/API puede banear la IP del batch.",
+        "ban_risk True documenta el peligro operativo."
+      ],
+      "kind": "transfer",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T2-A-E3.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"provider\")\n"
+    },
+    {
+      "id": "S38-T2-B-E1",
+      "instruction": "S38-T2-B-E1 · Política de timeout: imprime seconds=5, on_fail='retry_or_dlq', ok True. Fixture CASO-LIM-038-2B. Starter usa seconds=0 y on_fail='ignore' (defect). Ajusta el contrato de fetch mock sin lanzar threads reales.",
+      "hints": [
+        "seconds>0 evita hang infinito.",
+        "on_fail debe ser retry_or_dlq, no ignore."
+      ],
+      "kind": "guided",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T2-B-E1.",
+      "starterCode": "policy = {\"seconds\": 0, \"on_fail\": \"ignore\"}  # TODO: 5 + retry_or_dlq\nprint(policy[\"seconds\"])\nprint(\"on_fail\", policy[\"on_fail\"])\nprint(\"ok\", True)\n"
+    },
+    {
+      "id": "S38-T2-B-E2",
+      "instruction": "S38-T2-B-E2 · Cierre de recurso en finally: imprime True (close_in_finally), resource 'conn', ok True. Starter deja False (defect: leak). No abras sockets reales; modela el flag del contrato de limpieza del worker sintético.",
+      "hints": [
+        "finally/context manager cierra aunque falle el fetch.",
+        "Leak de conn tumba el pool bajo carga."
+      ],
+      "kind": "independent",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T2-B-E2.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclose_in_finally = True\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(close_in_finally)\n"
+    },
+    {
+      "id": "S38-T2-B-E3",
+      "instruction": "S38-T2-B-E3 · Transferencia: sin timeout el incidente es real. Imprime incident True, ok True, n 1. Starter niega el incidente (False). Corrige para reconocer el riesgo operativo documentado en el runbook de CASO-LIM-038.",
+      "hints": [
+        "Hang sin timeout = incidente de cola bloqueada.",
+        "El runbook debe listar este síntoma."
+      ],
+      "kind": "transfer",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T2-B-E3.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"incident\", True)\n"
+    },
+    {
+      "id": "S38-T3-A-E1",
+      "instruction": "S38-T3-A-E1 · Evento scored con correlation id: imprime True (corr presente), event 'scored', ok True. Fixture dict con corr='corr-1'. Starter omite corr (defect → False). Asegura que el path intake→score lleva corr sintético sin PII.",
+      "hints": [
+        "corr debe ser truthy string.",
+        "Sin corr no hay reconstrucción del path."
+      ],
+      "kind": "guided",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T3-A-E1.",
+      "starterCode": "event = {\"event\": \"scored\", \"corr\": None}  # TODO: set corr\nprint(bool(event.get(\"corr\")))\nprint(\"event\", event[\"event\"])\nprint(\"ok\", True)\n"
+    },
+    {
+      "id": "S38-T3-A-E2",
+      "instruction": "S38-T3-A-E2 · Tres pilares de o11y: imprime la lista ['logs','metrics','traces'], ok True, n 3. Starter lista solo ['logs'] (defect). Completa el contrato pedagógico de observabilidad del triage.",
+      "hints": [
+        "Logs eventos, metrics agregados, traces spans.",
+        "Los tres son necesarios en operación."
+      ],
+      "kind": "independent",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T3-A-E2.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\npillars = [\"logs\", \"metrics\", \"traces\"]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(pillars)\n"
+    },
+    {
+      "id": "S38-T3-A-E3",
+      "instruction": "S38-T3-A-E3 · pii_raw debe ser False en logs de prod sintéticos. Imprime False, ok True, redact True. Starter imprime True (defect: permite PII). Contrato de privacidad del pipeline CP-N3-C operación.",
+      "hints": [
+        "Nunca pii_raw True en logs de operación.",
+        "Redacta email/teléfono; conserva case_id sintético."
+      ],
+      "kind": "transfer",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T3-A-E3.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\npii_raw = False\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(pii_raw)\n"
+    },
+    {
+      "id": "S38-T3-B-E1",
+      "instruction": "S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos si len>=4). Imprime el redactado, ok True, pii False. Starter imprime el número completo (defect). No uses PII real.",
+      "hints": [
+        "Conserva prefijo/sufijo mínimo; enmascara el medio.",
+        "Nunca loguees el teléfono completo."
+      ],
+      "kind": "guided",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T3-B-E1.",
+      "starterCode": "phone = \"90000001\"\n# defect: raw phone in log\nprint(phone)  # TODO: redact to 90****01\nprint(\"ok\", True)\nprint(\"pii\", False)\n"
+    },
+    {
+      "id": "S38-T3-B-E2",
+      "instruction": "S38-T3-B-E2 · SLI p95=100 vs SLO limit=200: imprime True (slo_ok), p95 100, limit 200. Starter compara al revés (p95 >= limit) (defect). Corrige el predicado del error budget sintético CASO-LIM-038-3B.",
+      "hints": [
+        "slo_ok cuando observado <= objetivo de latencia.",
+        "Comparación invertida enciende alertas falsas o las apaga."
+      ],
+      "kind": "independent",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T3-B-E2.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\np95, limit = 100, 200\nslo_ok = p95 <= limit\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(slo_ok)\n"
+    },
+    {
+      "id": "S38-T3-B-E3",
+      "instruction": "S38-T3-B-E3 · Concepto de error budget: imprime 'error_budget', ok True, n 1. Starter imprime 'infinite_sla' (defect). El contrato de transferencia nombra el mecanismo que se consume al violar el SLO en el triage sintético.",
+      "hints": [
+        "Error budget cuantifica cuánto incumplimiento queda en el periodo.",
+        "Al agotarse, se prioriza estabilidad sobre features."
+      ],
+      "kind": "transfer",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T3-B-E3.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"error_budget\")\n"
+    },
+    {
+      "id": "S38-T4-A-E1",
+      "instruction": "S38-T4-A-E1 · Estados del workflow: imprime ['pending','running','done','failed'], ok True, n 4. Starter omite 'failed' (defect). Completa la máquina de estados del batch reanudable CASO-LIM-038-4A.",
+      "hints": [
+        "failed es estado terminal de error, distinto de pending.",
+        "Cuatro estados mínimos del workflow didáctico."
+      ],
+      "kind": "guided",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T4-A-E1.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstates = [\"pending\", \"running\", \"done\", \"failed\"]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(states)\n"
+    },
+    {
+      "id": "S38-T4-A-E2",
+      "instruction": "S38-T4-A-E2 · Formato de idempotency key: imprime 'case:step:ver', ok True, dup False. Starter usa solo 'case' (defect: colisiones entre pasos). Fija el contrato de key del checkpoint sintético.",
+      "hints": [
+        "Incluye step y versión de lógica para evitar colisiones.",
+        "dup False = reejecutar no duplica side effects."
+      ],
+      "kind": "independent",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T4-A-E2.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"case:step:ver\")\n"
+    },
+    {
+      "id": "S38-T4-A-E3",
+      "instruction": "S38-T4-A-E3 · Resume desde último checkpoint: imprime 'features', ok True, checkpoint True. Fixture state step=features done. Starter resume desde 'intake' (defect: rehace trabajo). Corrige resume_from del worker sintético.",
+      "hints": [
+        "resume_from = último step checkpointed.",
+        "No vuelvas a intake si features ya está done."
+      ],
+      "kind": "transfer",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T4-A-E3.",
+      "starterCode": "state = {\"step\": \"features\", \"status\": \"done\"}\nprint(\"intake\")  # TODO: resume from state['step']\nprint(\"ok\", True)\nprint(\"checkpoint\", True)\n"
+    },
+    {
+      "id": "S38-T4-B-E1",
+      "instruction": "S38-T4-B-E1 · Backoff attempt=3 base=0.1 → 0.1*2**3 = 0.8. Imprime 0.8, ok True, attempt 3. Starter usa multiplicación lineal attempt*base (defect). Implementa exponencial del fixture CASO-LIM-038-4B.",
+      "hints": [
+        "Fórmula didáctica: base * 2**attempt.",
+        "En prod añadir jitter; aquí solo el valor exacto 0.8."
+      ],
+      "kind": "guided",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T4-B-E1.",
+      "starterCode": "def backoff(attempt, base=0.1):\n    return base * attempt  # TODO: exponential base * 2**attempt\nprint(backoff(3))\nprint(\"ok\", True)\nprint(\"attempt\", 3)\n"
+    },
+    {
+      "id": "S38-T4-B-E2",
+      "instruction": "S38-T4-B-E2 · Propósito de la DLQ: imprime 'poison', ok True, replay 'controlled'. Starter dice 'delete_always' (defect). Contrato: DLQ aísla veneno; replay es controlado tras inspección humana sintética.",
+      "hints": [
+        "DLQ = mensajes que fallan de forma no transitoria.",
+        "Replay ciego reinyecta el veneno."
+      ],
+      "kind": "independent",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T4-B-E2.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"poison\")\n"
+    },
+    {
+      "id": "S38-T4-B-E3",
+      "instruction": "S38-T4-B-E3 · Runbook de on-call existe: imprime True, oncall True, ok True. Starter imprime False (defect: operar sin runbook). Transferencia: el drill sintético exige runbook documentado antes de prod.",
+      "hints": [
+        "Runbook: síntomas → checks → acciones.",
+        "Sin runbook el on-call improvisa bajo presión."
+      ],
+      "kind": "transfer",
+      "tests": "Imprime el token de pase y la salida alinea con la solución de S38-T4-B-E3.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(True)\n"
+    }
+  ],
+  "packet_sha": "032cea4b2716013f",
+  "attempt_id": "agentic_G1"
+}

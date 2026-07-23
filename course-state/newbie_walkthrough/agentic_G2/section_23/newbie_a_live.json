@@ -1,0 +1,503 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 23,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-dual-explorer-s23-e142883093",
+  "production_note": "agentic_G2 dual-LLM explorer: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "nodes",
+        "role",
+        "link",
+        "name",
+        "Inicio",
+        "print",
+        "next",
+        "for",
+        "and"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T1-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Locator por rol: nodes=[{'role':'link','name':'Inicio','id':'n1'}]. Encuentra role=link y …»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa [\"print(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "strats",
+        "css",
+        "role",
+        "testid",
+        "order",
+        "print",
+        "sorted",
+        "key",
+        "lambda"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T1-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Prioridad de estrategias: strats=['css','role','testid']. Ordena priorizando role, testid,…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa ['print(sorted(strats, key=lambda s: order[s]))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint(hits[0]['name'] if hits else 'need_testid')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "nodes",
+        "role",
+        "img",
+        "name",
+        "logo",
+        "hits",
+        "for",
+        "button",
+        "print",
+        "else"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T1-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Sin control button en nodes (solo img logo): al buscar button imprime 'need_testid' si no …»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa [\"print(hits[0]['name'] if hits else 'need_testid')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        break\nprint(i)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "for",
+        "range",
+        "ready",
+        "break",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T1-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Auto-wait simulado: ready se vuelve True en el intento 2 de un loop 1..N. Imprime el númer…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa ['print(i)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nvalue = 0\nprint(value)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "value",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T1-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Timeout de espera: ready=False fijo; tras 3 intentos sin ready imprime 'timeout'. Contrato…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa ['print(value)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nexpected, actual = 'Portal demo', 'Portal demo'\nprint('pass' if expected == actual else 'fail')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "expected",
+        "actual",
+        "Portal",
+        "demo",
+        "print",
+        "pass",
+        "else",
+        "fail"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T1-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Assertion de título: expected=actual='Portal demo'. Imprime 'pass' si iguales else 'fail'.…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa [\"print('pass' if expected == actual else 'fail')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nform = {}\nform['usuario'] = 'ana'\nprint(form)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "form",
+        "usuario",
+        "ana",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T2-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Fill de formulario sintético: form={}; asigna usuario='ana'; imprime form. Contrato: updat…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa ['print(form)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "hashlib",
+        "print",
+        "sha256",
+        "data",
+        "hexdigest"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T2-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Verificación de download: sha256 hex de b'data', primeros 8 chars. import hashlib. Contrat…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa [\"print(hashlib.sha256(b'data').hexdigest()[:8])\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nstate={'token':'t'}\nprint('reuse' if state.get('token') else 'login')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "state",
+        "token",
+        "print",
+        "reuse",
+        "get",
+        "else",
+        "login"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T2-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Reuso de sesión: state={'token':'t'}. Si token presente imprime 'reuse' (no re-login). Con…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa [\"print('reuse' if state.get('token') else 'login')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nclass LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        if password == 'sandbox':\n            self.auth = True\n        return self.auth\n\np = LoginPage()\np.submit('u', 'sandbox')\nprint(p.auth)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "class",
+        "LoginPage",
+        "def",
+        "__init__",
+        "self",
+        "auth",
+        "False",
+        "submit",
+        "user",
+        "password"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T2-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prueba e impri…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa ['print(p.auth)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\nexcept PermissionError:\n    print('ok')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "ctx",
+        "auth",
+        "False",
+        "try",
+        "not",
+        "get",
+        "raise",
+        "PermissionError",
+        "login",
+        "required"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T2-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («ReportPage sin auth: ctx auth False; open debe denegar. Captura PermissionError e imprime …»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa [\"print('ok')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint(state)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "state",
+        "anonymous",
+        "login_ok",
+        "True",
+        "authenticated",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T2-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Transición de estado: state='anonymous'; tras login ok imprime 'authenticated'. Contrato: …»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa ['print(state)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.keys()))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "trace",
+        "zip",
+        "screenshot",
+        "png",
+        "error",
+        "print",
+        "sorted",
+        "keys"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T3-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Paquete de evidencia: ev con trace, screenshot, error. Imprime sorted(keys). Contrato: key…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa ['print(sorted(ev.keys()))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nlogs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "logs",
+        "ERR",
+        "timeout",
+        "nav",
+        "print",
+        "for"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T3-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Filtro de console: logs=['ok','ERR timeout','nav']; imprime solo líneas que contienen 'ERR…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa [\"print([l for l in logs if 'ERR' in l])\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint(pkg)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "False",
+        "pkg",
+        "step",
+        "not",
+        "trace",
+        "traces",
+        "zip",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T3-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Adjuntar trace en falla: ok=False, pkg={'step':'s1'}; si not ok añade trace 'traces/s1.zip…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa ['print(pkg)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ndef should_retry(k):\n    return k in ('timeout', '429')\n\nfor k in ['timeout','captcha','429']:\n    print(k, should_retry(k))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "def",
+        "should_retry",
+        "return",
+        "timeout",
+        "for",
+        "captcha",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T3-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha, 429 e im…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa ['print(k, should_retry(k))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nerr='stale'\nprint('goto_home' if err=='stale' else 'continue')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "err",
+        "stale",
+        "print",
+        "goto_home",
+        "else",
+        "continue"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T3-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Recovery stale DOM: err='stale' → action 'goto_home'. Imprime action. Contrato: re-nav, no…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa [\"print('goto_home' if err=='stale' else 'continue')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nvalue = 0\nprint(value)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "value",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T3-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Máx 3 timeouts: errors lista de tres 'timeout' → imprime 'fail 3' con conteo. Contrato: ex…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa ['print(value)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\napi=True\nprint('api' if api else 'rpa')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "api",
+        "True",
+        "print",
+        "else",
+        "rpa"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T4-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («API-first gate: api=True → elige 'api'. Imprime la elección del método de obtención de dat…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa [\"print('api' if api else 'rpa')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint(c)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "api",
+        "False",
+        "export",
+        "True",
+        "rpa",
+        "get",
+        "elif",
+        "else",
+        "human",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T4-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Orden api>export>rpa: flags api False, export True, rpa True → imprime 'export'. Contrato:…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa ['print(c)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ndecision={'method':'rpa','reason':'no_api'}\nprint(decision)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "decision",
+        "method",
+        "rpa",
+        "reason",
+        "no_api",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T4-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Decisión documentada: cae a rpa con reason 'no_api'. Imprime dict method/reason. Contrato:…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa ['print(decision)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ncaptcha=True\nprint('human_handoff' if captcha else 'continue')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "captcha",
+        "True",
+        "print",
+        "human_handoff",
+        "else",
+        "continue"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T4-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («CAPTCHA en portal demo: captcha=True → imprime 'human_handoff' sin intentar bypass ni gran…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa [\"print('human_handoff' if captcha else 'continue')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nsig={'tos_forbidden':True,'captcha':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "sig",
+        "tos_forbidden",
+        "True",
+        "captcha",
+        "print",
+        "abort",
+        "get",
+        "else",
+        "human_handoff"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T4-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («ToS gana: sig con tos_forbidden True (y captcha True). action abort. Imprime action. Contr…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa [\"print('abort' if sig.get('tos_forbidden') else 'human_handoff')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "payload",
+        "url",
+        "https",
+        "demo",
+        "test",
+        "app",
+        "step",
+        "export",
+        "screenshot",
+        "png"
+      ],
+      "justification_from_packet": "[G2-Explorer] S23-T4-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Payload handoff: arma estructura con url, step, screenshot; imprime keys sorted y marca ex…»). Teoría activa: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y e. Código usa [\"print(sorted(payload.keys()), payload['step'])\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S23 Q0: «¿Por qué preferir get_by_role a CSS nth-child?». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil. Opts vistas: ['Es más corto de escribir siempre', 'Playwright no soporta CSS', 'Refleja la UI accesible y suele ser más ', 'Evita assertions']."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S23 Q1: «Ante un CAPTCHA el robot debe:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil. Opts vistas: ['Detenerse y hacer handoff humano', 'Resolverlo con un servicio externo', 'Reintentar 100 veces', 'Ignorar ToS']."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S23 Q2: «API/export primero significa:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil. Opts vistas: ['RPA siempre', 'Buscar integración no-UI antes de automa', 'Prohibir Excel', 'Solo cloud']."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S23 Q3: «Un retry seguro reintenta:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «DOM y locators orientados a usuario» Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibil. Opts vistas: ['Cualquier error', 'Solo éxitos', 'Captchas', 'Solo fallas transitorias (timeout/red), ']."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:01:42.919339+00:00",
+  "session_started_at": "2026-07-23T07:01:42.911129+00:00",
+  "session_ended_at": "2026-07-23T07:01:42.919356+00:00"
+}

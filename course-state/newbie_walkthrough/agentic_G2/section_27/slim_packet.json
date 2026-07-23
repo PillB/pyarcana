@@ -1,0 +1,995 @@
+{
+  "attempt_id": "agentic_G2",
+  "section_index": 27,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "78058f8237924509"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "stdlib-deep",
+      "title": "Pandas: ingesta, selección y tipos",
+      "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+      "learningOutcomes": [
+        "Modelar Series/DataFrame con Index estable",
+        "Leer CSV/Excel con parser y dtypes controlados",
+        "Seleccionar con loc/iloc y assign de forma idiomática",
+        "Evitar chained assignment y controlar copias",
+        "Tipar strings, nullable, fechas y categorías",
+        "Aplicar coerción explícita con schema y reporte",
+        "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+        "Documentar índices, provenance y uso de memoria"
+      ]
+    },
+    {
+      "index": 16,
+      "id": "wxpython-gui",
+      "title": "Calidad, limpieza y contratos de datos",
+      "tagline": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
+      "learningOutcomes": [
+        "Definir políticas de null por campo",
+        "Limitar imputación y usar indicadores de ausencia",
+        "Distinguir duplicados exactos de conflictos",
+        "Conservar evidencia al resolver claves/cardinalidad",
+        "Normalizar strings/números/fechas/categorías",
+        "Clasificar outliers plausibles vs errores",
+        "Implementar contratos de schema y cross-field",
+        "Cuarentenar fallos con métricas y audit trail"
+      ]
+    },
+    {
+      "index": 17,
+      "id": "packaging",
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "tagline": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
+      "learningOutcomes": [
+        "Diseñar joins con claves y cardinalidad correctas",
+        "Usar validate y anti-join para detectar fan-out/huérfanos",
+        "Reshapear con concat/melt/pivot",
+        "Mantener nombres estables long/wide",
+        "Agregar con groupby/agg/transform",
+        "Construir ventanas, fechas y cohortes",
+        "Reconciliar denominadores y totales",
+        "Controlar leakage temporal antes/después"
+      ]
+    },
+    {
+      "index": 18,
+      "id": "data-engineering",
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "tagline": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+      "learningOutcomes": [
+        "Resumir distribuciones con centro, dispersión y cuantiles",
+        "Elegir métricas robustas y escalas honestas",
+        "Identificar sesgo de población/muestra",
+        "Reportar intervalos y tamaños de efecto básicos",
+        "Interpretar correlación sin confundir causalidad",
+        "Segmentar y marcar anomalías con límites claros",
+        "Estructurar preguntas, hipótesis y evidencia",
+        "Entregar notebook/script reproducible con data notes"
+      ]
+    },
+    {
+      "index": 19,
+      "id": "databases-orm",
+      "title": "Visualización y comunicación accesible",
+      "tagline": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
+      "learningOutcomes": [
+        "Elegir charts por pregunta y audiencia",
+        "Diseñar ejes, escalas y encodings honestos",
+        "Producir figuras Matplotlib (estilo Seaborn opcional)",
+        "Anotar y exportar de forma reproducible",
+        "Construir vistas interactivas lógicas (filtros/tooltips simulados)",
+        "Proveer alternativas accesibles y cuidar performance",
+        "Documentar unidades, fuente y limitaciones",
+        "Aplicar contraste, alt text y no sobreclaim"
+      ]
+    },
+    {
+      "index": 20,
+      "id": "rag",
+      "title": "Automatización robusta de Excel",
+      "tagline": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
+      "learningOutcomes": [
+        "Manipular sheets, celdas, tablas y named ranges",
+        "Distinguir fórmulas de valores cacheados",
+        "Aplicar estilos, charts y plantillas",
+        "Manejar fechas, locales, merged cells y protección",
+        "Conciliar totales y trabajar con pivots lógicos",
+        "Preservar estructura y validaciones",
+        "Operar batch con corruptos y locks",
+        "Garantizar backups, idempotencia y tests estructurales"
+      ]
+    },
+    {
+      "index": 21,
+      "id": "fastapi",
+      "title": "Documentos, plantillas y reportes trazables",
+      "tagline": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
+      "learningOutcomes": [
+        "Separar datos y presentación con Jinja",
+        "Renderizar condiciones/tablas con formato seguro",
+        "Generar, abrir, extraer y renderizar DOCX/PDF locales",
+        "Distinguir PDF digital de imagen/OCR",
+        "Estructurar informe ejecutivo con método y hallazgos",
+        "Embeber gráficos/tablas con fuentes y limitaciones",
+        "Revisar redacción, a11y y consistencia numérica",
+        "Documentar provenance y flujo de aprobación"
+      ]
+    },
+    {
+      "index": 22,
+      "id": "rapidfuzz-entity",
+      "title": "Email, identidad y aprobación humana",
+      "tagline": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
+      "learningOutcomes": [
+        "Construir mensajes MIME con encoding y attachments",
+        "Sanitizar templates HTML de correo",
+        "Configurar OAuth/service account con scopes mínimos",
+        "Crear drafts vía adaptadores con expiración",
+        "Resolver y verificar destinatarios",
+        "Aplicar privacidad y mínima divulgación en listas",
+        "Implementar approval queue y state machine",
+        "Garantizar idempotencia, audit log y reintentos seguros"
+      ]
+    },
+    {
+      "index": 23,
+      "id": "computer-vision",
+      "title": "Browser RPA con Playwright",
+      "tagline": "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y reanudación idempotente",
+      "learningOutcomes": [
+        "Usar locators orientados a usuario",
+        "Aplicar auto-waiting y assertions fiables",
+        "Automatizar formularios, uploads y downloads",
+        "Modelar auth y Page Objects",
+        "Diagnosticar con trace, screenshot y logs",
+        "Diseñar retries y recovery robustos",
+        "Priorizar API/export sobre RPA",
+        "Respetar ToS/CAPTCHA y handoff humano"
+      ]
+    },
+    {
+      "index": 24,
+      "id": "rpa-advanced",
+      "title": "OCR y Document AI",
+      "tagline": "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico",
+      "learningOutcomes": [
+        "Preprocesar imágenes (DPI, deskew, crop, contraste)",
+        "Corregir ruido y orientación",
+        "Ejecutar OCR con idiomas, layout y confidence",
+        "Extraer texto, tablas y pares clave–valor",
+        "Normalizar a schema de extracción",
+        "Validar cross-field y encolar revisión",
+        "Evaluar exactitud por campo en golden set",
+        "Manejar privacidad, hostiles y fallback"
+      ]
+    },
+    {
+      "index": 25,
+      "id": "streamlit-dashboards",
+      "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+      "tagline": "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline",
+      "learningOutcomes": [
+        "Elegir regla vs modelo especializado vs LLM",
+        "Usar model cards, licencias y decidir local/cloud",
+        "Ejecutar pipelines/endpoints de Hugging Face",
+        "Operar batching, timeout, cache, costo y fallback",
+        "Diseñar prompts con salida estructurada",
+        "Usar thinking/tools/checkpoints de forma controlada",
+        "Evaluar con golden set, schema y revisión humana",
+        "Mitigar injection, exfiltración, sesgo y minimizar datos"
+      ]
+    },
+    {
+      "index": 26,
+      "id": "integrator-phase1",
+      "title": "Orquestación y VP RPA + AI Analyst",
+      "tagline": "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas",
+      "learningOutcomes": [
+        "Modelar tasks/flows/DAG con estados",
+        "Configurar límites, metadata y schedules",
+        "Implementar checkpoints, retry/backoff y dead-letter",
+        "Garantizar idempotencia, concurrencia y rollback",
+        "Diseñar revisión humana de análisis/reporte/destinatario",
+        "Operar aprobación, rechazo, edición y auditoría",
+        "Definir SLO, alerts y runbook",
+        "Validar E2E, seguridad, costo y métricas de valor"
+      ]
+    }
+  ],
+  "active": {
+    "id": "async-concurrency",
+    "index": 27,
+    "title": "Estrategia de pruebas con pytest",
+    "tagline": "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión",
+    "jobRelevance": "Un motor de **entity resolution** solo es confiable si sus supuestos de normalización y matching son contratos ejecutables. S27 inicia CP-N3-A con pirámide de riesgo, AAA, fixtures y regresión. Matching no implica fraude ni parentesco.",
+    "learningOutcomes": [
+      "Priorizar pruebas según riesgo y pirámide",
+      "Escribir tests AAA con oráculos confiables",
+      "Usar discovery y assertions de pytest",
+      "Aislar estado con fixtures y scopes",
+      "Cubrir excepciones, floats, fechas y tmp files",
+      "Diseñar casos negativos con mensajes útiles",
+      "Medir cobertura por rama y riesgo",
+      "Interpretar mutación conceptual y fallas útiles"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S27-T1-A",
+        "heading": "riesgos y pirámide de pruebas",
+        "paragraphs": [
+          "La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más tests que un typo de log. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
+          "Clasifica riesgo por impacto (datos incorrectos, regresión silenciosa) y probabilidad. En ER, normalización y comparadores son capa de alto riesgo. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
+          "No inviertas la pirámide: E2E lentas no sustituyen contratos unitarios de `strip`/`casefold`. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas. Documenta evidencia y límites del fixture `CASO-LIM-027` (run_id=cpn3a-01): sin PII real y sin auto-veredicto."
+        ],
+        "code": "# priorización sintética de suites por riesgo (CP-N3-A)\nrisks = [\n    {\"area\": \"normalize_name\", \"impact\": 5, \"likelihood\": 4, \"layer\": \"unit\"},\n    {\"area\": \"exact_match\", \"impact\": 5, \"likelihood\": 3, \"layer\": \"unit\"},\n    {\"area\": \"sqlite_repo\", \"impact\": 4, \"likelihood\": 2, \"layer\": \"integration\"},\n    {\"area\": \"ui_review_queue\", \"impact\": 3, \"likelihood\": 2, \"layer\": \"e2e\"},\n]\nfor r in risks:\n    r[\"score\"] = r[\"impact\"] * r[\"likelihood\"]\nranked = sorted(risks, key=lambda x: (-x[\"score\"], x[\"area\"]))\nprint(\"top\", ranked[0][\"area\"], ranked[0][\"score\"])\nprint(\"layers\", [r[\"layer\"] for r in ranked])\nprint(\"unit_heavy\", sum(1 for r in ranked if r[\"layer\"] == \"unit\") >= 2)",
+        "code_output": "top normalize_name 20\nlayers ['unit', 'unit', 'integration', 'e2e']\nunit_heavy True"
+      },
+      {
+        "subtopicId": "S27-T1-B",
+        "heading": "Arrange–Act–Assert y oráculos confiables",
+        "paragraphs": [
+          "**AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Evita asserts mezclados con setup. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles. Documenta evidencia y límites del fixture `CASO-LIM-027` (run_id=cpn3a-01): sin PII real y sin auto-veredicto.",
+          "Un **oráculo** es la fuente de verdad del assert: valor fijo conocido, propiedad invariante o resultado de un algoritmo de referencia simple. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
+          "Oráculos frágiles (timestamps de reloj real, orden de dicts en JSON sin sort) generan flakes. Prefiere fixtures sintéticas deterministas. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas."
+        ],
+        "code": "def normalize_name(s: str) -> str:\n    return \" \".join(s.casefold().split())\n\n# Arrange\nraw = \"  JUAN   Pérez \"\nexpected = \"juan pérez\"  # oráculo fijo\n# Act\ngot = normalize_name(raw)\n# Assert\nassert got == expected, f\"oráculo falló: {got!r} != {expected!r}\"\nprint(\"aaa_ok\", got)\nprint(\"phases\", \"arrange-act-assert\")",
+        "code_output": "aaa_ok juan pérez\nphases arrange-act-assert"
+      },
+      {
+        "subtopicId": "S27-T2-A",
+        "heading": "discovery y assertions",
+        "paragraphs": [
+          "pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** identifican cada caso (`path::name`). La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
+          "Las **assertions** reescritas muestran diff útil: `assert a == b` explica ambos lados. Usa `pytest.raises` para excepciones esperadas. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
+          "Parametriza con `@pytest.mark.parametrize` para tablas de casos sin copiar el cuerpo del test. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas. Documenta evidencia y límites del fixture `CASO-LIM-027` (run_id=cpn3a-01): sin PII real y sin auto-veredicto."
+        ],
+        "code": "# simulación didáctica de discovery + assert rewrite (sin invocar pytest CLI)\nimport ast\n\nsrc = '''\ndef test_normalize_spaces():\n    assert \" \".join(\"a  b\".split()) == \"a b\"\n\ndef helper_not_a_test():\n    return 1\n\ndef test_casefold():\n    assert \"Á\".casefold() == \"á\"\n'''\ntree = ast.parse(src)\ndiscovered = [n.name for n in tree.body if isinstance(n, ast.FunctionDef) and n.name.startswith(\"test_\")]\nprint(\"discovered\", discovered)\nprint(\"count\", len(discovered))\n# assert rewrite conceptual: mensaje con ambos lados\na, b = \"juan\", \"Juan\".casefold()\ntry:\n    assert a == b\n    print(\"assert_ok\", True)\nexcept AssertionError:\n    print(\"assert_ok\", False)",
+        "code_output": "discovered ['test_normalize_spaces', 'test_casefold']\ncount 2\nassert_ok True"
+      },
+      {
+        "subtopicId": "S27-T2-B",
+        "heading": "fixtures, scopes y aislamiento",
+        "paragraphs": [
+          "Las **fixtures** inyectan dependencias (datos sintéticos, tmp paths) sin globals. **Scopes**: function (default), class, module, session. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
+          "El aislamiento evita que un test contamine al siguiente: cada function-scope recrea el estado. Session-scope sirve para recursos caros de solo lectura. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
+          "Factory fixtures devuelven callables para crear N entidades sintéticas por caso. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas. Documenta evidencia y límites del fixture `CASO-LIM-027` (run_id=cpn3a-01): sin PII real y sin auto-veredicto."
+        ],
+        "code": "# fixtures conceptuales (diccionario de proveedores)\nfrom copy import deepcopy\n\n_base_contacts = [\n    {\"id\": \"c1\", \"name\": \"Ana López\", \"email\": \"ana@example.pe\"},\n    {\"id\": \"c2\", \"name\": \"ANA  lopez\", \"email\": \"ana@example.pe\"},\n]\n\ndef fixture_contacts(scope=\"function\"):\n    # function-scope: copia profunda por test\n    if scope == \"function\":\n        return deepcopy(_base_contacts)\n    return _base_contacts  # session-like: misma lista (peligroso si mutas)\n\nt1 = fixture_contacts(\"function\")\nt1[0][\"name\"] = \"MUTADO\"\nt2 = fixture_contacts(\"function\")\nprint(\"isolated\", t2[0][\"name\"] == \"Ana López\")\nprint(\"n\", len(t2))\nprint(\"scope_default\", \"function\")",
+        "code_output": "isolated True\nn 2\nscope_default function"
+      },
+      {
+        "subtopicId": "S27-T3-A",
+        "heading": "excepciones, floats, fechas y archivos temporales",
+        "paragraphs": [
+          "Prueba **excepciones** con el tipo y, si aplica, el mensaje. Para **floats** usa tolerancia (`math.isclose`) o decimal cuantizado. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
+          "**Fechas**: fija el reloj o usa valores UTC sintéticos; no compares `now()` con literales frágiles. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
+          "**tmp_path** / `tempfile` evita escribir en el repo. Limpia o usa context managers. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas. Documenta evidencia y límites del fixture `CASO-LIM-027` (run_id=cpn3a-01): sin PII real y sin auto-veredicto.",
+          "Dos APIs frecuentes: (1) **`tempfile.TemporaryDirectory()`** crea un directorio temporal y lo borra al salir del `with`; ideal para varios archivos (`Path(td) / \"f.txt\"`). (2) **`tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8')`** crea un archivo con nombre en disco: escribes, lees `f.name`, y con `delete=False` el archivo permanece hasta que tú lo borres (útil si otra API necesita una ruta). Siempre usa `encoding='utf-8'` para texto y preferible `Path(path).read_text(...)` al reabrir. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles."
+        ],
+        "code": "import math\nfrom datetime import date, datetime, timezone\nfrom pathlib import Path\nimport tempfile\n\ndef parse_score(s: str) -> float:\n    if s.strip() == \"\":\n        raise ValueError(\"score vacío\")\n    return float(s)\n\n# excepción\ntry:\n    parse_score(\"  \")\n    raised = False\nexcept ValueError as e:\n    raised = \"vacío\" in str(e)\nprint(\"exc_ok\", raised)\n\n# float\nprint(\"close\", math.isclose(0.1 + 0.2, 0.3, rel_tol=1e-9, abs_tol=1e-12))\n\n# fecha fija\nd = date(2026, 7, 20)\nprint(\"iso\", d.isoformat())\n\n# TemporaryDirectory\nwith tempfile.TemporaryDirectory() as td:\n    p = Path(td) / \"norm.txt\"\n    p.write_text(\"juan\\n\", encoding=\"utf-8\")\n    print(\"tmp_bytes\", p.read_text(encoding=\"utf-8\").strip())\n\n# NamedTemporaryFile (delete=False → queda path para reabrir)\nwith tempfile.NamedTemporaryFile(\"w+\", delete=False, encoding=\"utf-8\") as f:\n    f.write(\"ok\")\n    path = f.name\nprint(\"named\", Path(path).read_text(encoding=\"utf-8\").strip())",
+        "code_output": "exc_ok True\nclose True\niso 2026-07-20\ntmp_bytes juan\nnamed ok"
+      },
+      {
+        "subtopicId": "S27-T3-B",
+        "heading": "casos negativos y mensajes",
+        "paragraphs": [
+          "Los **casos negativos** prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
+          "Mensajes de error **útiles** nombran el campo y el valor ofensivo (sin PII real). Facilita debug en CI. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
+          "Tabla: input → excepción esperada → fragmento de mensaje. Cubre al menos un caso happy path y tres negativos por función pública. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas."
+        ],
+        "code": "def require_email(value):\n    if value is None:\n        raise TypeError(\"email: se esperaba str, recibió None\")\n    if not isinstance(value, str):\n        raise TypeError(f\"email: se esperaba str, recibió {type(value).__name__}\")\n    v = value.strip()\n    if not v or \"@\" not in v:\n        raise ValueError(f\"email inválido: {value!r}\")\n    return v.casefold()\n\ncases = [\n    (None, TypeError, \"None\"),\n    (123, TypeError, \"int\"),\n    (\"\", ValueError, \"inválido\"),\n    (\"ok@example.pe\", None, \"ok@example.pe\"),\n]\nresults = []\nfor raw, exp_exc, frag in cases:\n    try:\n        out = require_email(raw)\n        results.append(exp_exc is None and frag in out)\n    except Exception as e:\n        results.append(exp_exc is not None and isinstance(e, exp_exc) and frag in str(e))\nprint(\"neg_ok\", all(results))\nprint(\"n_cases\", len(cases))",
+        "code_output": "neg_ok True\nn_cases 4"
+      },
+      {
+        "subtopicId": "S27-T4-A",
+        "heading": "branch y risk coverage",
+        "paragraphs": [
+          "**Branch coverage** mide si cada rama (if/else) se ejecutó. 100% de líneas ≠ 100% de riesgo cubierto. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles. Documenta evidencia y límites del fixture `CASO-LIM-027` (run_id=cpn3a-01): sin PII real y sin auto-veredicto.",
+          "**Risk coverage**: prioriza ramas de negocio (match/no-match, missing fields) sobre logs y pretty-print. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
+          "Reporta cobertura como evidencia, no como meta vacía: una rama de umbral sin test es deuda del gate CP-N3-A. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas."
+        ],
+        "code": "def classify_pair(score: float, thr_auto=0.9, thr_review=0.6) -> str:\n    if score >= thr_auto:\n        return \"auto_match\"\n    if score >= thr_review:\n        return \"review\"\n    return \"non_match\"\n\n# instrumentación simple de ramas\nbranches = {\"auto\": 0, \"review\": 0, \"non\": 0}\nfor s in [0.95, 0.7, 0.2, 0.9]:\n    c = classify_pair(s)\n    if c == \"auto_match\":\n        branches[\"auto\"] += 1\n    elif c == \"review\":\n        branches[\"review\"] += 1\n    else:\n        branches[\"non\"] += 1\ncovered = sum(1 for v in branches.values() if v > 0)\nprint(\"branch_covered\", covered, \"of\", 3)\nprint(\"branches\", branches)\nprint(\"risk_focus\", \"thresholds\")",
+        "code_output": "branch_covered 3 of 3\nbranches {'auto': 2, 'review': 1, 'non': 1}\nrisk_focus thresholds"
+      },
+      {
+        "subtopicId": "S27-T4-B",
+        "heading": "mutación conceptual, fallas útiles y mantenimiento",
+        "paragraphs": [
+          "**Mutación conceptual**: cambia deliberadamente el código (quita un strip, invierte un umbral) y verifica que algún test falle. Si no falla, el test es débil. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
+          "Fallas **útiles** muestran input sintético, esperado vs actual y el contrato violado. Evita `assert False`. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
+          "Mantenimiento: borra tests que solo copian implementación; renombra; parametriza tablas; no duplices oráculos en tres sitios. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas."
+        ],
+        "code": "def normalize_name(s: str) -> str:\n    return \" \".join(s.casefold().split())\n\ndef normalize_name_mutated(s: str) -> str:\n    # mutación: sin strip de espacios internos colapsados\n    return s.casefold()\n\nraw = \"  Ana  López \"\noracle = \"ana lópez\"\ngood = normalize_name(raw) == oracle\n# el test de regresión DEBE detectar la mutación\nmut_detected = normalize_name_mutated(raw) != oracle\nprint(\"good_passes\", good)\nprint(\"mutation_killed\", mut_detected)\nprint(\"maintain\", \"one_oracle\")",
+        "code_output": "good_passes True\nmutation_killed True\nmaintain one_oracle"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S27-T1-A-DEMO",
+          "subtopicId": "S27-T1-A",
+          "environment": "local-python",
+          "description": "Prioriza suites unit/integration/e2e por score de riesgo para el motor ER sintético.",
+          "why": "La pirámide + riesgo pone primero los contratos de normalización.",
+          "code": "areas = [\n    (\"normalize\", 5, 5, \"unit\"),\n    (\"blocking\", 4, 4, \"unit\"),\n    (\"repo_sql\", 4, 2, \"integration\"),\n    (\"review_ui\", 2, 2, \"e2e\"),\n]\nscored = sorted(((i*l, n, layer) for n,i,l,layer in areas), reverse=True)\nprint(\"order\", [n for _, n, _ in scored])\nprint(\"top_layer\", scored[0][2])\nprint(\"pyramid_ok\", scored[0][2] == \"unit\")",
+          "language": "python",
+          "output": "order ['normalize', 'blocking', 'repo_sql', 'review_ui']\ntop_layer unit\npyramid_ok True"
+        },
+        {
+          "demoId": "S27-T1-B-DEMO",
+          "subtopicId": "S27-T1-B",
+          "environment": "local-python",
+          "description": "Test AAA con oráculo fijo para normalize_name sobre dato sintético peruano.",
+          "why": "Oráculo determinista = regresión confiable.",
+          "code": "def normalize_name(s: str) -> str:\n    return \" \".join(s.casefold().split())\n\n# Arrange\nraw, oracle = \"  María  Ríos \", \"maría ríos\"\n# Act\ngot = normalize_name(raw)\n# Assert\nassert got == oracle\nprint(\"got\", got)\nprint(\"aaa\", \"pass\")",
+          "language": "python",
+          "output": "got maría ríos\naaa pass"
+        },
+        {
+          "demoId": "S27-T2-A-DEMO",
+          "subtopicId": "S27-T2-A",
+          "environment": "local-python",
+          "description": "Descubre nombres test_* y valida un assert de matching exacto post-normalización.",
+          "why": "Discovery predecible y asserts claros aceleran CI.",
+          "code": "import re\nmodule = '''\ndef test_exact_after_norm():\n    a = \" \".join(\"A B\".split()).casefold()\n    b = \"a b\"\n    assert a == b\ndef util():\n    pass\ndef test_email_domain():\n    assert \"x@example.pe\".endswith(\"@example.pe\")\n'''\nnames = re.findall(r\"^def (test_\\w+)\", module, flags=re.M)\nprint(\"node_ids\", names)\na = \" \".join(\"A B\".split()).casefold()\nprint(\"assert_exact\", a == \"a b\")\nprint(\"n_tests\", len(names))",
+          "language": "python",
+          "output": "node_ids ['test_exact_after_norm', 'test_email_domain']\nassert_exact True\nn_tests 2"
+        },
+        {
+          "demoId": "S27-T2-B-DEMO",
+          "subtopicId": "S27-T2-B",
+          "environment": "local-python",
+          "description": "Fixture factory con scope function: dos tests no se contaminan al mutar contactos.",
+          "why": "Aislamiento function-scope evita flakes de orden.",
+          "code": "from copy import deepcopy\nBASE = [{\"id\": \"e1\", \"name\": \"Luis\"}]\n\ndef contacts_fx():\n    return deepcopy(BASE)\n\na = contacts_fx(); a[0][\"name\"] = \"X\"\nb = contacts_fx()\nprint(\"isolated\", b[0][\"name\"] == \"Luis\")\nprint(\"a_mut\", a[0][\"name\"])\nprint(\"scope\", \"function\")",
+          "language": "python",
+          "output": "isolated True\na_mut X\nscope function"
+        },
+        {
+          "demoId": "S27-T3-A-DEMO",
+          "subtopicId": "S27-T3-A",
+          "environment": "local-python",
+          "description": "Excepción ValueError, isclose de score y escritura en directorio temporal.",
+          "why": "Bordes numéricos/temporales evitan tests frágiles.",
+          "code": "import math, tempfile\nfrom pathlib import Path\nfrom datetime import date\n\ndef score(x):\n    if x is None:\n        raise ValueError(\"score None\")\n    return float(x)\n\ntry:\n    score(None)\nexcept ValueError as e:\n    print(\"exc\", str(e))\nprint(\"close\", math.isclose(0.30000000000000004, 0.3, abs_tol=1e-9))\nprint(\"day\", date(2026, 1, 15).isoformat())\nwith tempfile.TemporaryDirectory() as td:\n    p = Path(td) / \"s.txt\"\n    p.write_text(\"0.85\", encoding=\"utf-8\")\n    print(\"tmp\", p.read_text(encoding=\"utf-8\"))",
+          "language": "python",
+          "output": "exc score None\nclose True\nday 2026-01-15\ntmp 0.85"
+        },
+        {
+          "demoId": "S27-T3-B-DEMO",
+          "subtopicId": "S27-T3-B",
+          "environment": "local-python",
+          "description": "Tabla de casos negativos para validador de RUC sintético (formato, no consulta SUNAT real).",
+          "why": "Mensajes con valor ofensivo (sintético) aceleran el fix.",
+          "code": "def check_ruc(s: str) -> str:\n    if not s or not s.isdigit() or len(s) != 11:\n        raise ValueError(f\"ruc inválido: {s!r}\")\n    return s\n\nok = []\nfor val, bad in [(\"20123456789\", False), (\"123\", True), (\"\", True), (\"abcdefghijk\", True)]:\n    try:\n        check_ruc(val)\n        ok.append(not bad)\n    except ValueError as e:\n        ok.append(bad and \"inválido\" in str(e))\nprint(\"neg_table\", all(ok))\nprint(\"n\", len(ok))",
+          "language": "python",
+          "output": "neg_table True\nn 4"
+        },
+        {
+          "demoId": "S27-T4-A-DEMO",
+          "subtopicId": "S27-T4-A",
+          "environment": "local-python",
+          "description": "Cubre las tres ramas de umbral auto/review/non_match y reporta cobertura de ramas.",
+          "why": "Branch coverage enfocada en umbrales de matching.",
+          "code": "def decide(score):\n    if score >= 0.9:\n        return \"auto\"\n    if score >= 0.6:\n        return \"review\"\n    return \"non\"\n\nhits = {decide(s) for s in (0.95, 0.75, 0.1)}\nprint(\"covered\", sorted(hits))\nprint(\"full\", hits == {\"auto\", \"review\", \"non\"})\nprint(\"risk\", \"threshold_branches\")",
+          "language": "python",
+          "output": "covered ['auto', 'non', 'review']\nfull True\nrisk threshold_branches"
+        },
+        {
+          "demoId": "S27-T4-B-DEMO",
+          "subtopicId": "S27-T4-B",
+          "environment": "local-python",
+          "description": "Mutación: quitar casefold; el test de regresión debe fallar (mutante eliminado).",
+          "why": "Si el mutante vive, el test no protege el contrato.",
+          "code": "def good(s):\n    return s.casefold().strip()\ndef mutant(s):\n    return s.strip()  # mutación\noracle = \"ana\"\nraw = \"ANA\"\nprint(\"test_good\", good(raw) == oracle)\nprint(\"kills_mutant\", mutant(raw) != oracle)\nprint(\"policy\", \"regression_on_bug\")",
+          "language": "python",
+          "output": "test_good True\nkills_mutant True\npolicy regression_on_bug"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S27-T1-A-E1",
+          "instruction": "S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "Multiplica enteros",
+            "print del producto"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(impact * likelihood)\n"
+        },
+        {
+          "id": "S27-T1-A-E2",
+          "instruction": "S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "sorted reverse",
+            "key con producto"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n"
+        },
+        {
+          "id": "S27-T1-A-E3",
+          "instruction": "S27-T1-A-E3 · Imprime True si la capa top es 'unit'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "compara layer",
+            "pirámide"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(top_layer == 'unit')\n"
+        },
+        {
+          "id": "S27-T1-B-E1",
+          "instruction": "S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A  B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "casefold",
+            "split/join"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(' '.join(s.casefold().split()))\n"
+        },
+        {
+          "id": "S27-T1-B-E2",
+          "instruction": "S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "assert luego print",
+            "oráculo 'ana'"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('pass')\n"
+        },
+        {
+          "id": "S27-T1-B-E3",
+          "instruction": "S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "normaliza ambos",
+            "compara"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n"
+        },
+        {
+          "id": "S27-T2-A-E1",
+          "instruction": "S27-T2-A-E1 · Filtra nombres que empiezan con 'test_' de la lista dada. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "startswith",
+            "list comp"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print([n for n in names if n.startswith('test_')])\n"
+        },
+        {
+          "id": "S27-T2-A-E2",
+          "instruction": "S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "ternario",
+            "diff conceptual"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('ok' if left == right else 'fail')\n"
+        },
+        {
+          "id": "S27-T2-A-E3",
+          "instruction": "S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "lista de tuplas",
+            "tabla"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print([(' x ', 'x')])\n"
+        },
+        {
+          "id": "S27-T2-B-E1",
+          "instruction": "S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "deepcopy",
+            "mutación local"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\n# TODO: imprime la salida contractual (ver instruction / solution output)\n"
+        },
+        {
+          "id": "S27-T2-B-E2",
+          "instruction": "S27-T2-B-E2 · Imprime 'function' como scope por defecto de fixture. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "literal",
+            "scopes pytest"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('function')\n"
+        },
+        {
+          "id": "S27-T2-B-E3",
+          "instruction": "S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "list comp",
+            "ids sintéticos"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "def make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\n# TODO: imprime la salida contractual (ver instruction / solution output)\n"
+        },
+        {
+          "id": "S27-T3-A-E1",
+          "instruction": "S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "import math",
+            "isclose"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(math.isclose(0.1 + 0.2, 0.3))\n"
+        },
+        {
+          "id": "S27-T3-A-E2",
+          "instruction": "S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "try/except",
+            "ValueError"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('bad')\n"
+        },
+        {
+          "id": "S27-T3-A-E3",
+          "instruction": "S27-T3-A-E3 · Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip(). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "tempfile",
+            "utf-8"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\n# TODO: imprime la salida contractual (ver instruction / solution output)\n"
+        },
+        {
+          "id": "S27-T3-B-E1",
+          "instruction": "S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "raise ValueError",
+            "except"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "email=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n# TODO: imprime la salida contractual (ver instruction / solution output)\n"
+        },
+        {
+          "id": "S27-T3-B-E2",
+          "instruction": "S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "in",
+            "guard"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('ok' if '@' in s else 'invalid')\n"
+        },
+        {
+          "id": "S27-T3-B-E3",
+          "instruction": "S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "f-string !r",
+            "sin PII"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(f'campo score inválido: {v!r}')\n"
+        },
+        {
+          "id": "S27-T4-A-E1",
+          "instruction": "S27-T4-A-E1 · Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "if/else",
+            "dos prints o tupla"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(f(1), f(-1))\n"
+        },
+        {
+          "id": "S27-T4-A-E2",
+          "instruction": "S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "membership",
+            "cobertura"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('non' not in hit)\n"
+        },
+        {
+          "id": "S27-T4-A-E3",
+          "instruction": "S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "int(100*k/n)",
+            "branch %"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(int(100 * k / n))\n"
+        },
+        {
+          "id": "S27-T4-B-E1",
+          "instruction": "S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "compara",
+            "kill mutant"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(good == 'a' and mutant != 'a')\n"
+        },
+        {
+          "id": "S27-T4-B-E2",
+          "instruction": "S27-T4-B-E2 · Falla útil: imprime dict con keys expected, actual para expected=1 actual=2. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "dict",
+            "debug CI"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print({'expected': 1, 'actual': 2})\n"
+        },
+        {
+          "id": "S27-T4-B-E3",
+          "instruction": "S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "string",
+            "mantenimiento"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('bug_repro → regression_test')\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Contratos pytest de normalización y matching — inicio CP-N3-A",
+      "context": "Construye una mini suite sobre funciones sintéticas de normalización y exact match (contactos fakes @example.pe, run_id cpn3a-01). Cada supuesto del ER futuro debe ser un test ejecutable. Incluye pirámide de riesgo, AAA, fixtures aisladas, bordes y al menos una prueba de mutación conceptual. No marques section_passed ni edites ledger/seed.",
+      "objectives": [
+        "Mapa de riesgos y capas unit/integration/e2e",
+        "Tests AAA con oráculos fijos para normalize y exact_match",
+        "Fixtures function-scope y casos negativos con mensajes",
+        "Cobertura de ramas de umbral + mutante eliminado",
+        "Documentación es-PE del contrato de pruebas"
+      ],
+      "requirements": [
+        "Datos sintéticos only; sin PII real ni secretos",
+        "Cada bug documentado → test de regresión",
+        "Matching no implica fraude ni parentesco",
+        "Demo reproducible (python -m pytest o scripts de assert)",
+        "Alineación a CP-N3-A (inicio)"
+      ],
+      "portfolioNote": "Paquete de inicio CP-N3-A: suite de contratos pytest (o asserts ejecutables) sobre normalización/matching sintético. Otra lane califica PASS; no editar checkpoint/ledger.",
+      "starterCode": "# CP-N3-A inicio — contratos de normalización/matching\ndef normalize_name(s: str) -> str:\n    return \" \".join(s.casefold().split())\n\ndef exact_match(a: str, b: str) -> bool:\n    return normalize_name(a) == normalize_name(b)\n\n# TODO: tests AAA, negativos, umbrales, mutación conceptual\nif __name__ == \"__main__\":\n    assert exact_match(\" Ana  \", \"ana\")\n    print(\"starter_ok\")\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "En la pirámide de pruebas, la base más ancha suele ser:",
+        "options": [
+          "E2E UI",
+          "Solo manual",
+          "Pruebas unitarias",
+          "Load tests en prod"
+        ]
+      },
+      {
+        "question": "Un oráculo confiable es:",
+        "options": [
+          "Una fuente de verdad determinista para el assert",
+          "Un print en consola",
+          "El reloj del sistema sin fijar",
+          "El orden de un set"
+        ]
+      },
+      {
+        "question": "Si mutas un casefold y ningún test falla:",
+        "options": [
+          "Está bien",
+          "El contrato es débil; el mutante sobrevivió",
+          "pytest está roto siempre",
+          "Ignora cobertura"
+        ]
+      },
+      {
+        "question": "Las pruebas de matching en CP-N3-A demuestran:",
+        "options": [
+          "Fraude automático",
+          "Parentescos",
+          "Envío de correos",
+          "Contratos de misma entidad / normalización — no riesgo ni relación"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "effa396a740261f6"
+}

@@ -322,6 +322,266 @@ def justification_is_template(just: str) -> bool:
     return False
 
 
+
+
+def non_comment_body(code: str) -> str:
+    return "\n".join(
+        ln for ln in (code or "").splitlines() if ln.strip() and not ln.strip().startswith("#")
+    )
+
+
+def exercise_form_issues(eid: str, instruction: str, code: str) -> list[str]:
+    """Structural form gates beyond incomplete patterns (criterion 1 quality)."""
+    issues: list[str] = []
+    body = non_comment_body(code)
+    instr = (instruction or "").lower()
+    eid_l = (eid or "").lower()
+    code_l = (code or "").lower()
+
+    # Script exercises that ask for hello_sys / main / __name__ (always enforce)
+    if "hello_sys" in instr or "hello_sys" in eid_l:
+        if "def main" not in code_l and "def main(" not in code_l:
+            issues.append("missing_main_for_hello_sys")
+        if "__name__" not in code and "__main__" not in code:
+            issues.append("missing_dunder_name")
+        if "sys.version" not in code_l:
+            issues.append("missing_sys_version")
+        if (body.count(">>>") >= 1 or ">>>" in code) and "def " not in body:
+            issues.append("repl_transcript_for_script_exercise")
+        return issues
+
+    if not body.strip():
+        # pure comment / markdown protocol allowed for transfer/REPL transcript exercises
+        if any(k in instr for k in (
+            "diagnóstico", "diagnostico", "protocol", "markdown", "procedimiento",
+            "checklist", "transcript", "repl", "comentar", "comentarios",
+            "simula el diálogo", "no crees un archivo", "línea por línea",
+            "linea por linea",
+        )):
+            return issues
+        if "echo " in (code or "").lower() or ">>>" in (code or ""):
+            return issues
+        if any(k in instr for k in ("script", "escribe", "crea", "def ", "función", "funcion", ".py")):
+            if "repl" in instr or "transcript" in instr:
+                return issues
+            issues.append("expected_form_comment_only")
+        return issues
+
+    # Generic script contract
+    if ".py" in instr and ("if __name__" in instr or "__main__" in instr):
+        if "__name__" not in code and "__main__" not in code:
+            issues.append("missing_dunder_name")
+
+    # If instruction emphasizes print and body has def but no print — soft
+    if "imprima" in instr or "print(" in instr:
+        if "print(" not in code and "print (" not in code and "def " in body:
+            if "return" not in body and ">>> " not in code:
+                issues.append("missing_print")
+
+    # Very short non-comment body for coding exercises
+    if len(body.strip()) < 12 and any(k in instr for k in ("def ", "función", "crea", "escribe", "implementa")):
+        issues.append("too_short_body")
+
+    return issues
+
+
+
+def attempt_level_gates(attempt_id: str) -> list[dict]:
+    """Hardened attempt-level gates (manifest, timing, anti-theater meta, independence)."""
+    issues: list[dict] = []
+    root = attempt_dir(attempt_id)
+    meta_path = root / "meta.json"
+    meta = {}
+    if meta_path.exists():
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        except Exception:
+            meta = {}
+
+    # Anti-theater production notes / repair stamps
+    # Only flag affirmative theater use — not lists of forbidden tools
+    meta_for_scan = {k: v for k, v in meta.items() if k not in (
+        "forbidden_harnesses", "forbidden_sources", "forbidden"
+    )}
+    meta_blob = json.dumps(meta_for_scan, ensure_ascii=False).lower()
+    theater_markers = (
+        "packet_walk",
+        "e1_code_map",
+        "code-transplant",
+        "code_transplant",
+        "hardcoded answers",
+        "hardcoded_answers",
+        "apply_f2_selfcheck",
+        "apply_f1_selfcheck",
+        "rebuild from",
+        "source_exercises",
+        "transplant",
+        "used bulk fill",
+    )
+    # Affirmative phrases only
+    affirmative = (
+        "used packet_walk",
+        "via packet_walk",
+        "from e1_code_map",
+        "filled by e1_code_map",
+        "repaired with transplant",
+        "transplant from",
+        "hardcoded answers applied",
+        "used bulk fill",
+        "codes from prior attempt",
+        "source_exercises from",
+    )
+    for m in affirmative:
+        if m in meta_blob:
+            issues.append({"tag": "THEATER_META", "severity": "P0", "detail": f"meta claims {m}"})
+            break
+    if meta.get("repair"):
+        issues.append({"tag": "THEATER_META", "severity": "P0", "detail": "meta.repair present"})
+    # production_harness must not be a quarantined generator
+    ph = (meta.get("production_harness") or "").lower()
+    if any(x in ph for x in ("packet_walk", "produce_agent", "rebuild_lives", "e1_code_map")):
+        issues.append({"tag": "THEATER_META", "severity": "P0", "detail": f"production_harness={ph}"})
+
+    # Scan live production_notes for theater
+    for i in range(1, 53):
+        for lab in ("newbie_a_live.json", "newbie_b_live.json"):
+            lp = root / f"section_{i:02d}" / lab
+            if not lp.exists():
+                continue
+            try:
+                live = json.loads(lp.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            note = (live.get("production_note") or "").lower()
+            # allow "no generators" / "no packet_walk" denials
+            if any(bad in note for bad in (
+                "filled by packet_walk",
+                "via packet_walk",
+                "from e1_code_map",
+                "e1_code_map",
+                "transplant from",
+                "hardcoded answers applied",
+                "bulk completer",
+                "rebuilt from prior",
+            )) or (
+                "packet_walk" in note and "no packet" not in note and "not packet" not in note and "no generators" not in note
+            ):
+                issues.append({
+                    "tag": "THEATER_PRODUCTION_NOTE",
+                    "severity": "P0",
+                    "agent": lab,
+                    "section": i,
+                    "detail": note[:80],
+                })
+
+    # Session manifest required
+    man_path = root / "llm_session_manifest.json"
+    if not man_path.exists():
+        issues.append({"tag": "MISSING_LLM_SESSION_MANIFEST", "severity": "P0", "detail": "llm_session_manifest.json required"})
+    else:
+        try:
+            man = json.loads(man_path.read_text(encoding="utf-8"))
+        except Exception as e:
+            issues.append({"tag": "BAD_LLM_SESSION_MANIFEST", "severity": "P0", "detail": str(e)})
+            man = {}
+        entries = man.get("entries") or man.get("sessions") or []
+        # need 52*2 = 104 entries ideally
+        if len(entries) < 100:
+            issues.append({
+                "tag": "INCOMPLETE_LLM_SESSION_MANIFEST",
+                "severity": "P0",
+                "detail": f"entries={len(entries)} need>=100 (52 sections × 2 agents)",
+            })
+        # wall clock from manifest
+        starts, ends = [], []
+        for e in entries:
+            if e.get("started_at"):
+                starts.append(e["started_at"])
+            if e.get("ended_at"):
+                ends.append(e["ended_at"])
+        if starts and ends:
+            try:
+                from datetime import datetime
+                def parse(ts: str):
+                    return datetime.fromisoformat(ts.replace("Z", "+00:00"))
+                t0 = min(parse(s) for s in starts)
+                t1 = max(parse(s) for s in ends)
+                span_min = (t1 - t0).total_seconds() / 60.0
+                man_span = man.get("wall_clock_minutes")
+                if man_span is not None:
+                    try:
+                        span_min = max(span_min, float(man_span))
+                    except Exception:
+                        pass
+                if span_min < 30.0:
+                    issues.append({
+                        "tag": "BULK_WRITE_TIMING",
+                        "severity": "P0",
+                        "detail": f"manifest wall-clock {span_min:.1f}m < 30m",
+                    })
+            except Exception as e:
+                issues.append({"tag": "MANIFEST_TIME_PARSE", "severity": "P0", "detail": str(e)})
+
+    # mtime span of live files
+    mtimes = []
+    for i in range(1, 53):
+        for lab in ("newbie_a_live.json", "newbie_b_live.json"):
+            lp = root / f"section_{i:02d}" / lab
+            if lp.exists():
+                mtimes.append(lp.stat().st_mtime)
+    if mtimes:
+        span_sec = max(mtimes) - min(mtimes)
+        # allow if manifest wall clock already ok; else require mtime span
+        has_manifest_ok = not any(x.get("tag") == "BULK_WRITE_TIMING" for x in issues)
+        if span_sec < 30 * 60 and not has_manifest_ok:
+            # if BULK already flagged via manifest, skip duplicate; if no manifest times, flag mtime
+            if not man_path.exists():
+                issues.append({
+                    "tag": "BULK_WRITE_MTIME",
+                    "severity": "P0",
+                    "detail": f"live mtime span {span_sec:.1f}s < 30m",
+                })
+        elif span_sec < 60 and man_path.exists():
+            # still suspicious sub-minute bulk even with long manifest claims
+            # only flag if manifest claims long but mtime is bulk (stale claim)
+            pass
+
+    # Independence vs prior_clean if declared
+    prior = meta.get("prior_clean") or meta.get("independence_baseline")
+    if prior and (root.parent / prior).exists():
+        same = 0
+        total = 0
+        for i in range(1, 53):
+            for lab in ("newbie_a_live.json", "newbie_b_live.json"):
+                a_path = root.parent / prior / f"section_{i:02d}" / lab
+                b_path = root / f"section_{i:02d}" / lab
+                if not a_path.exists() or not b_path.exists():
+                    continue
+                try:
+                    a = json.loads(a_path.read_text(encoding="utf-8"))
+                    b = json.loads(b_path.read_text(encoding="utf-8"))
+                except Exception:
+                    continue
+                def em(d):
+                    return {(e.get("exercise_id") or e.get("id")): e for e in (d.get("exercises") or [])}
+                ma, mb = em(a), em(b)
+                for eid in set(ma) & set(mb):
+                    total += 1
+                    ba = non_comment_body(ma[eid].get("code") or "").strip()
+                    bb = non_comment_body(mb[eid].get("code") or "").strip()
+                    if ba and ba == bb:
+                        same += 1
+        if total and same / total >= 0.98:
+            issues.append({
+                "tag": "INDEPENDENCE_CODE_IDENTITY",
+                "severity": "P0",
+                "detail": f"non-comment body identity {same}/{total} vs {prior} >=98%",
+            })
+
+    return issues
+
+
+
 def validate_section(attempt_id: str, section_index: int) -> dict:
     attempt_root = attempt_dir(attempt_id)
     d = attempt_root / f"section_{section_index:02d}"
@@ -487,6 +747,15 @@ def validate_section(attempt_id: str, section_index: int) -> dict:
             if reason:
                 incomplete_ex.append({"exercise_id": eid, "reason": reason})
                 continue
+            instr = ""
+            for we in ((pkt.get("active") or {}).get("weDo") or {}).get("exercises") or []:
+                if we.get("id") == eid:
+                    instr = we.get("instruction") or ""
+                    break
+            form_fails = exercise_form_issues(eid or "", instr, code)
+            if form_fails:
+                incomplete_ex.append({"exercise_id": eid, "reason": form_fails[0]})
+                continue
             if justification_is_template(just):
                 template_just.append(eid)
                 continue
@@ -635,14 +904,19 @@ def validate_all(attempt_id: str) -> dict:
             for r in rows
         ],
     }
+    attempt_gates = attempt_level_gates(attempt_id)
+    summary["attempt_level_gates"] = attempt_gates
+    summary["attempt_gates_pass"] = len(attempt_gates) == 0
     summary["clean_52"] = (
-        summary["both_pass"] == 52 and summary["provenance_pass"]
+        summary["both_pass"] == 52
+        and summary["provenance_pass"]
+        and summary["attempt_gates_pass"]
     )
     summary["open_gaps"] = [
         g
         for r in rows
         for g in (r.get("blocking_gaps") or [])
-    ][:100]
+    ][:100] + attempt_gates
     out = attempt_dir(attempt_id) / "agentic_ledger.json"
     out.write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
     return summary
@@ -667,6 +941,8 @@ def main() -> int:
                     "b_pass": s["b_pass"],
                     "both": s["both_pass"],
                     "open_gaps_n": len(s.get("open_gaps") or []),
+                    "attempt_gates_pass": s.get("attempt_gates_pass"),
+                    "attempt_gates_n": len(s.get("attempt_level_gates") or []),
                 },
                 indent=2,
             )

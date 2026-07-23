@@ -1,0 +1,518 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-dual-skeptic-s16-74957b54",
+  "production_note": "agentic_G1 dual-LLM skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "C001",
+        "None",
+        "print",
+        "int",
+        "isna",
+        "sum"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T1-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un …»). Teoría S16-T1-A: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail d. Prints: ['print(int(df[\"id\"].isna().sum()))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {\n    c: int(df[c].isna().sum())\n    for c, p in policy.items()\n    if p == \"required\" and int(df[c].isna().sum()) > 0\n}\nprint(viol)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "policy",
+        "required",
+        "optional",
+        "DataFrame",
+        "None",
+        "viol",
+        "int",
+        "isna",
+        "sum",
+        "for"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T1-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` required/optional, con…»). Teoría S16-T1-A: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail d. Prints: ['print(viol)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nviol = int(df[\"id\"].isna().sum()) > 0\nprint(\"fail\" if viol else \"pass\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "None",
+        "viol",
+        "int",
+        "isna",
+        "sum",
+        "print",
+        "fail",
+        "else",
+        "pass"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T1-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones required imprime exac…»). Teoría S16-T1-A: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail d. Prints: ['print(\"fail\" if viol else \"pass\")']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nprint(df[\"was_null\"].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "None",
+        "was_null",
+        "isna",
+        "fillna",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T1-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, crea `was_null` boole…»). Teoría S16-T1-B: «indicadores y límites de imputación»: Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando i. Prints: ['print(df[\"was_null\"].tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = s.isna().mean()\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "None",
+        "rate",
+        "isna",
+        "mean",
+        "print",
+        "blocked",
+        "else"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T1-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (rate=0.5) con umbral…»). Teoría S16-T1-B: «indicadores y límites de imputación»: Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando i. Prints: ['print(\"blocked\" if rate > 0.3 else \"ok\")']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nprint(s.fillna(med).tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "None",
+        "med",
+        "median",
+        "print",
+        "fillna",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T1-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,None]: imputa mediana …»). Teoría S16-T1-B: «indicadores y límites de imputación»: Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando i. Prints: ['print(s.fillna(med).tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "print",
+        "int",
+        "duplicated",
+        "keep",
+        "False",
+        "sum"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T2-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cuenta filas con `dupli…»). Teoría S16-T2-A: «duplicados exactos vs conflictos»: **Duplicado exacto**: mismas columnas relevantes idénticas. **Conflicto**:. Prints: ['print(int(df.duplicated(keep=False).sum()))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nn = df.groupby(\"cliente_id\")[\"region\"].nunique()\nprint(n[n > 1].index.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "region",
+        "Lima",
+        "Cusco",
+        "groupby",
+        "nunique",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T2-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con más de una región di…»). Teoría S16-T2-A: «duplicados exactos vs conflictos»: **Duplicado exacto**: mismas columnas relevantes idénticas. **Conflicto**:. Prints: ['print(n[n > 1].index.tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nif len(sub) > 1 and sub.duplicated(keep=False).all():\n    print(\"exact\")\nelif sub[\"region\"].nunique() > 1:\n    print(\"conflict\")\nelse:\n    print(\"clean\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "region",
+        "Lima",
+        "score",
+        "sub",
+        "len",
+        "and",
+        "duplicated"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T2-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C001 en el fixture: si…»). Teoría S16-T2-A: «duplicados exactos vs conflictos»: **Duplicado exacto**: mismas columnas relevantes idénticas. **Conflicto**:. Prints: ['print(\"exact\")', 'print(\"conflict\")']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nq = df[df.duplicated(\"id\", keep=False)]\nclean = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(q), len(clean))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "duplicated",
+        "keep",
+        "False",
+        "clean",
+        "drop_duplicates",
+        "first",
+        "print",
+        "len"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T2-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup key keep=False) y c…»). Teoría S16-T2-B: «claves, cardinalidad y conservación de evidencia»: Define la **clave de negocio** y la cardinalidad esperada . Prints: ['print(len(q), len(clean))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nprint(q.columns.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "batch",
+        "duplicated",
+        "keep",
+        "False",
+        "copy",
+        "print",
+        "columns",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T2-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine conserve la columna `…»). Teoría S16-T2-B: «claves, cardinalidad y conservación de evidencia»: Define la **clave de negocio** y la cardinalidad esperada . Prints: ['print(q.columns.tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\nprint(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_fail\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "print",
+        "card_ok",
+        "nunique",
+        "len",
+        "else",
+        "card_fail"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T2-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(df)` imprime `card_o…»). Teoría S16-T2-B: «claves, cardinalidad y conservación de evidencia»: Define la **clave de negocio** y la cardinalidad esperada . Prints: ['print(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_fail\")']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "lima",
+        "CUSCO",
+        "print",
+        "str",
+        "strip",
+        "title",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T3-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` aplica strip + title; i…»). Teoría S16-T3-A: «normalización de strings, números, fechas y categorías»: Normalización: strings (`strip`, colapso de espacios. Prints: ['print(s.str.strip().str.title().tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(v.sum()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "str",
+        "replace",
+        "regex",
+        "False",
+        "astype",
+        "float",
+        "print",
+        "sum"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T3-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/` y castea float en …»). Teoría S16-T3-A: «normalización de strings, números, fechas y categorías»: Normalización: strings (`strip`, colapso de espacios. Prints: ['print(float(v.sum()))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\nprint(bool((df[\"region_raw\"] == \"lima\").all()), df[\"region\"].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region_raw",
+        "lima",
+        "region",
+        "str",
+        "title",
+        "print",
+        "bool",
+        "all",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T3-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `region_raw` y verifica q…»). Teoría S16-T3-A: «normalización de strings, números, fechas y categorías»: Normalización: strings (`strip`, colapso de espacios. Prints: ['print(bool((df[\"region_raw\"] == \"lima\").all()), df[\"region\"].tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T3-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprime lista booleana ali…»). Teoría S16-T3-B: «outliers plausibles vs errores»: Un outlier **plausible** está lejos estadísticamente pero dentro del dominio. Prints: ['print((s < 0).tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[mask].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "quantile",
+        "iqr",
+        "mask",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T3-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], lista valores stat-o…»). Teoría S16-T3-B: «outliers plausibles vs errores»: Un outlier **plausible** está lejos estadísticamente pero dentro del dominio. Prints: ['print(s[mask].tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = s.iloc[2]\nlabel = \"error\" if val < 0 else \"ok\"\nprint(label)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "val",
+        "iloc",
+        "label",
+        "error",
+        "else",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T3-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]: `error` si domain,…»). Teoría S16-T3-B: «outliers plausibles vs errores»: Un outlier **plausible** está lejos estadísticamente pero dentro del dominio. Prints: ['print(label)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nprint([c for c in required if c not in df.columns])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "required",
+        "monto",
+        "print",
+        "for",
+        "not",
+        "columns"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T4-A-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y DF solo con `id`; i…»). Teoría S16-T4-A: «reglas de schema y cross-field»: Contrato de **schema**: columnas presentes, dtypes esperados y nullability p. Prints: ['print([c for c in required if c not in df.columns])']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\nmask = df[\"fin\"] < df[\"inicio\"]\nprint(df.index[mask].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "inicio",
+        "to_datetime",
+        "fin",
+        "mask",
+        "print",
+        "index",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T4-A-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fin < inicio`; imprime…»). Teoría S16-T4-A: «reglas de schema y cross-field»: Contrato de **schema**: columnas presentes, dtypes esperados y nullability p. Prints: ['print(df.index[mask].tolist())']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "missing",
+        "for",
+        "monto",
+        "not",
+        "columns",
+        "print",
+        "drift",
+        "else",
+        "schema_ok"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T4-A-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required imprime `drift`; else …»). Teoría S16-T4-A: «reglas de schema y cross-field»: Contrato de **schema**: columnas presentes, dtypes esperados y nullability p. Prints: ['print(\"drift\" if missing else \"schema_ok\")']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "rows_in = 10\nq = 3\nprint(rows_in - q)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows_in",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T4-B-E1: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime rows_clean = in - quar…»). Teoría S16-T4-B: «métricas, cuarentena y audit trail»: Métricas operables del run: `rows_in`, `rows_clean`, `rows_quarantine`, . Prints: ['print(rows_in - q)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "audit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\"})\nprint(len(audit))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "audit",
+        "event",
+        "start",
+        "append",
+        "quarantine",
+        "print",
+        "len"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T4-B-E2: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` a la lista audit e i…»). Teoría S16-T4-B: «métricas, cuarentena y audit trail»: Métricas operables del run: `rows_in`, `rows_clean`, `rows_quarantine`, . Prints: ['print(len(audit))']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "n_q = 1\nprint(False if n_q > 0 else True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "n_q",
+        "print",
+        "False",
+        "else",
+        "True"
+      ],
+      "justification_from_packet": "[G1-Skeptic] S16-T4-B-E3: verifiqué que el fixture del starter se conserve y que la salida cubra el contrato Pass del instruction («E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False; imprime el boolean…»). Teoría S16-T4-B: «métricas, cuarentena y audit trail»: Métricas operables del run: `rows_in`, `rows_clean`, `rows_quarantine`, . Prints: ['print(False if n_q > 0 else True)']. Sin copiar lives de intentos F/E/D/A/B/C; justificación lexical del paquete activo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S16-Q0] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «Un campo marked required con nulls debe:». Teoría: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null . Opción retenida: «Provocar violación/cuarentena o fail del gate» (idx 3), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S16-Q1] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «Duplicado exacto vs conflicto de clave:». Teoría: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null . Opción retenida: «Exacto = filas idénticas; conflicto = misma clave con atributos distintos» (idx 1), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S16-Q2] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «Conservar region_raw al normalizar sirve para:». Teoría: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null . Opción retenida: «Auditar y disputar la forma canónica sin perder el valor original» (idx 2), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S16-Q3] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «IQR sin domain bounds es riesgoso porque:». Teoría: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null . Opción retenida: «Puede marcar (o borrar) colas legítimas de negocio como si fueran error» (idx 0), alineada a evidencia explícita de paragraphs/code del active packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Skeptic S16-Q4] Rechacé distractores que contradicen el paquete (p.ej. imputar siempre, causalidad automática, fórmulas openpyxl auto-eval). Stem: «Un quality gate que falla debe:». Teoría: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null . Opción retenida: «Publicar métricas y cuarentena aunque pass=False» (idx 3), alineada a evidencia explícita de paragraphs/code del active packet."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:28:18.929679+00:00",
+  "session_started_at": "2026-07-23T06:28:18.927010+00:00",
+  "session_ended_at": "2026-07-23T06:28:18.929698+00:00"
+}

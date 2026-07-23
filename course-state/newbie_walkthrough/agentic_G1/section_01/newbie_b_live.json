@@ -1,0 +1,364 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 1,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-skeptic-s01-40537974",
+  "production_note": "agentic_G1 dual-LLM Skeptic: packet-only; no generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "answer": "# Transcript REPL (copiar línea por línea al intérprete; no es un script ejecutable)\n# >>> 2 + 2\n# 4\n#\n# >>> type(\"x\")\n# <class 'str'>\n#\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n#\n# >>> quit()   # salir del REPL; la terminal sigue viva\n",
+      "code": "# Transcript REPL (copiar línea por línea al intérprete; no es un script ejecutable)\n# >>> 2 + 2\n# 4\n#\n# >>> type(\"x\")\n# <class 'str'>\n#\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n#\n# >>> quit()   # salir del REPL; la terminal sigue viva\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "REPL",
+        "sys.version",
+        "quit()"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T1-A-E1 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "answer": "import sys\n\ndef main() -> None:\n    nombre = \"Ana Quispe\"\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\nif __name__ == \"__main__\":\n    main()\n",
+      "code": "import sys\n\ndef main() -> None:\n    nombre = \"Ana Quispe\"\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\nif __name__ == \"__main__\":\n    main()\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "sys",
+        "if __name__",
+        "main",
+        "f-string"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T1-A-E2 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "answer": "# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. Descargar e instalar Python 3.12+ solo desde la fuente oficial https://www.python.org/downloads/ (en Windows marcar \"Add python.exe to PATH\").\n2. Cerrar y reabrir la terminal para recargar el PATH tras la instalación.\n3. En Windows verificar con `python --version` y `where python`; desactivar el alias de la Microsoft Store si interfiere.\n4. En macOS/Linux usar de forma consistente `python3 --version` (y preferir `python3` en scripts/docs).\n5. (opcional) Crear un alias o usar el full path del binario verificado si hay varios Pythons.\n6. (opcional) Confirmar `python3 -m pip --version` atado al mismo intérprete.\n\n## Verificación final\n- Comando: `python3 --version` (o `python --version` en Windows con PATH correcto)\n- Resultado esperado: Python 3.12+ (o 3.x del curso)\n",
+      "code": "# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. Descargar e instalar Python 3.12+ solo desde la fuente oficial https://www.python.org/downloads/ (en Windows marcar \"Add python.exe to PATH\").\n2. Cerrar y reabrir la terminal para recargar el PATH tras la instalación.\n3. En Windows verificar con `python --version` y `where python`; desactivar el alias de la Microsoft Store si interfiere.\n4. En macOS/Linux usar de forma consistente `python3 --version` (y preferir `python3` en scripts/docs).\n5. (opcional) Crear un alias o usar el full path del binario verificado si hay varios Pythons.\n6. (opcional) Confirmar `python3 -m pip --version` atado al mismo intérprete.\n\n## Verificación final\n- Comando: `python3 --version` (o `python --version` en Windows con PATH correcto)\n- Resultado esperado: Python 3.12+ (o 3.x del curso)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "PATH",
+        "python3",
+        "python.org"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T1-A-E3 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "answer": "# Transcript de terminal — códigos de salida (bash/zsh)\n\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"    # bash/zsh: $?  |  PowerShell: $LASTEXITCODE\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n\n# 3) Shell usada\n# SHELL_USADA=zsh\n# Esperado: codigo_ok=0 (éxito) y codigo_fail=1 (fallo); 0=ok, no-cero=error según S01-T1-B\n",
+      "code": "# Transcript de terminal — códigos de salida (bash/zsh)\n\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"    # bash/zsh: $?  |  PowerShell: $LASTEXITCODE\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n\n# 3) Shell usada\n# SHELL_USADA=zsh\n# Esperado: codigo_ok=0 (éxito) y codigo_fail=1 (fallo); 0=ok, no-cero=error según S01-T1-B\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "exit code",
+        "$?",
+        "sys.exit"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T1-B-E1 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "answer": "import sys\n\ndef main() -> None:\n    # sys.argv: [script, arg1, arg2, ...]\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()\n",
+      "code": "import sys\n\ndef main() -> None:\n    # sys.argv: [script, arg1, arg2, ...]\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "sys.argv",
+        "sys.stderr",
+        "sys.exit"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T1-B-E2 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "answer": "# Diagnóstico pip / ModuleNotFoundError\n\n## Escenario A — \"pip no se reconoce como comando\"\n**Clasificación:** PATH o nombre de ejecutable: la shell no encuentra `pip`.\n\nPasos de verificación:\n1. Preguntar qué falló: `which pip` / `where pip` y `python3 --version`.\n2. Preferir no depender del comando suelto `pip`: usar `python3 -m pip --version` con el intérprete verificado.\n3. Si `-m pip` funciona, instalar con `python3 -m pip install ...` (ata pip al mismo ejecutable). Si no, reinstalar/reparar PATH del Python oficial, no del SO completo.\n\n## Escenario B — pip corre pero `import pandas` falla (ModuleNotFoundError)\n**Clasificación:** intérprete distinto / venv no activado: pip instaló en un Python y `import` usa otro.\n\nPasos de verificación:\n1. Imprimir `python -c \"import sys; print(sys.executable)\"` y `python -m pip --version` (deben compartir el mismo prefijo).\n2. Confirmar si el venv está activo (`sys.prefix` contiene `.venv`) y reactivar con `source .venv/bin/activate`.\n3. Reinstalar en el intérprete correcto: `python -m pip install pandas` (mismo `python` que falló el import).\n\n## Regla de oro del paquete\nUsar siempre `python -m pip` para atar instalador e intérprete; stdlib no necesita pip.\n",
+      "code": "# Diagnóstico pip / ModuleNotFoundError\n\n## Escenario A — \"pip no se reconoce como comando\"\n**Clasificación:** PATH o nombre de ejecutable: la shell no encuentra `pip`.\n\nPasos de verificación:\n1. Preguntar qué falló: `which pip` / `where pip` y `python3 --version`.\n2. Preferir no depender del comando suelto `pip`: usar `python3 -m pip --version` con el intérprete verificado.\n3. Si `-m pip` funciona, instalar con `python3 -m pip install ...` (ata pip al mismo ejecutable). Si no, reinstalar/reparar PATH del Python oficial, no del SO completo.\n\n## Escenario B — pip corre pero `import pandas` falla (ModuleNotFoundError)\n**Clasificación:** intérprete distinto / venv no activado: pip instaló en un Python y `import` usa otro.\n\nPasos de verificación:\n1. Imprimir `python -c \"import sys; print(sys.executable)\"` y `python -m pip --version` (deben compartir el mismo prefijo).\n2. Confirmar si el venv está activo (`sys.prefix` contiene `.venv`) y reactivar con `source .venv/bin/activate`.\n3. Reinstalar en el intérprete correcto: `python -m pip install pandas` (mismo `python` que falló el import).\n\n## Regla de oro del paquete\nUsar siempre `python -m pip` para atar instalador e intérprete; stdlib no necesita pip.\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "python -m pip",
+        "ModuleNotFoundError",
+        "sys.executable"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T1-B-E3 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "answer": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\n\n# 1) Crear\npython3 -m venv .venv\n\n# 2) Activar (Unix)\nsource .venv/bin/activate\n# Windows: .venv\\Scripts\\Activate.ps1\n\n# 3) Verificar\npython -c \"import sys; print(sys.prefix)\"\n\n# 4) Salir\ndeactivate\n",
+      "code": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\n\n# 1) Crear\npython3 -m venv .venv\n\n# 2) Activar (Unix)\nsource .venv/bin/activate\n# Windows: .venv\\Scripts\\Activate.ps1\n\n# 3) Verificar\npython -c \"import sys; print(sys.prefix)\"\n\n# 4) Salir\ndeactivate\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "venv",
+        ".venv",
+        "sys.prefix",
+        "activate"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T2-A-E1 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "answer": "# Supón que ya tienes hello.py en el proyecto y un .venv roto.\n\n# 0) Asegúrate de no estar usando el venv viejo\ndeactivate 2>/dev/null || true\n\n# 1) Eliminar entorno roto\nrm -rf .venv\n\n# 2) Recrear\npython3 -m venv .venv\n\n# 3) Activar y verificar\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py u otros .py NO se borran\n",
+      "code": "# Supón que ya tienes hello.py en el proyecto y un .venv roto.\n\n# 0) Asegúrate de no estar usando el venv viejo\ndeactivate 2>/dev/null || true\n\n# 1) Eliminar entorno roto\nrm -rf .venv\n\n# 2) Recrear\npython3 -m venv .venv\n\n# 3) Activar y verificar\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py u otros .py NO se borran\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "rm -rf .venv",
+        "recreate venv"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T2-A-E2 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T2-A-E3",
+      "answer": "# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\nEl Proyecto A necesita pandas 1.x y el Proyecto B necesita pandas 2.x. Un solo site-packages global no puede satisfacer ambas versiones a la vez: al actualizar para B rompes A (y al revés). Eso genera el clásico \"a mí me funciona\" entre colegas con distintas necesidades.\n\n## Flujo recomendado (este curso)\n1. `python -m venv .venv` (un entorno por proyecto; nombre canónico `.venv`)\n2. Activar: `source .venv/bin/activate` (Unix) o `.venv\\Scripts\\Activate.ps1` (Windows)\n3. Instalar solo en ese entorno: `python -m pip install pandas==...` y congelar con freeze\n\n## Nota sobre la herramienta\n- venv es **stdlib** (viene con Python; no requiere descarga extra)\n- Nombre canónico de carpeta: **`.venv`**\n",
+      "code": "# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\nEl Proyecto A necesita pandas 1.x y el Proyecto B necesita pandas 2.x. Un solo site-packages global no puede satisfacer ambas versiones a la vez: al actualizar para B rompes A (y al revés). Eso genera el clásico \"a mí me funciona\" entre colegas con distintas necesidades.\n\n## Flujo recomendado (este curso)\n1. `python -m venv .venv` (un entorno por proyecto; nombre canónico `.venv`)\n2. Activar: `source .venv/bin/activate` (Unix) o `.venv\\Scripts\\Activate.ps1` (Windows)\n3. Instalar solo en ese entorno: `python -m pip install pandas==...` y congelar con freeze\n\n## Nota sobre la herramienta\n- venv es **stdlib** (viene con Python; no requiere descarga extra)\n- Nombre canónico de carpeta: **`.venv`**\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "dependency isolation",
+        "stdlib venv"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T2-A-E3 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T2-B-E1",
+      "answer": "source .venv/bin/activate   # o Activate.ps1 en Windows\n\npython -m pip install requests==2.32.3\npython -m pip freeze > requirements.txt\n\n# Verifica:\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n",
+      "code": "source .venv/bin/activate   # o Activate.ps1 en Windows\n\npython -m pip install requests==2.32.3\npython -m pip freeze > requirements.txt\n\n# Verifica:\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "pip freeze",
+        "requirements.txt",
+        "pin"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T2-B-E1 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T2-B-E2",
+      "answer": "# Parte de un requirements.txt existente en la raíz\npython3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r requirements.txt\npython -m pip list | head\npython -c \"import requests; print('ok', requests.__version__)\"\n",
+      "code": "# Parte de un requirements.txt existente en la raíz\npython3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r requirements.txt\npython -m pip list | head\npython -c \"import requests; print('ok', requests.__version__)\"\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "install -r",
+        "clean env"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T2-B-E2 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T2-B-E3",
+      "answer": "# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\nEl módulo de terceros no está en el entorno activo; `pip list` no lo muestra.\n\n## Hipótesis B — instalado en otro intérprete\n`pip list` (de otro binario) muestra el paquete, pero `sys.executable` del `python` que importa es distinto.\n\n## Protocolo (5 pasos)\n1. Identificar el intérprete: `python -c \"import sys; print(sys.executable, sys.prefix)\"`.\n2. Clasificar el módulo: ¿stdlib (`sys`, `datetime`) o terceros (`requests`)?\n3. Listar en el mismo intérprete: `python -m pip list | grep -i requests`.\n4. Si falta, instalar atado: `python -m pip install requests` (con venv activado si aplica).\n5. Reintentar el import y confirmar que `python -m pip` y `sys.executable` comparten prefijo.\n\n## ¿stdlib o terceros?\n- requests: **terceros** (requiere pip)\n- datetime: **stdlib** (no va a requirements)\n",
+      "code": "# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\nEl módulo de terceros no está en el entorno activo; `pip list` no lo muestra.\n\n## Hipótesis B — instalado en otro intérprete\n`pip list` (de otro binario) muestra el paquete, pero `sys.executable` del `python` que importa es distinto.\n\n## Protocolo (5 pasos)\n1. Identificar el intérprete: `python -c \"import sys; print(sys.executable, sys.prefix)\"`.\n2. Clasificar el módulo: ¿stdlib (`sys`, `datetime`) o terceros (`requests`)?\n3. Listar en el mismo intérprete: `python -m pip list | grep -i requests`.\n4. Si falta, instalar atado: `python -m pip install requests` (con venv activado si aplica).\n5. Reintentar el import y confirmar que `python -m pip` y `sys.executable` comparten prefijo.\n\n## ¿stdlib o terceros?\n- requests: **terceros** (requiere pip)\n- datetime: **stdlib** (no va a requirements)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "sys.executable",
+        "stdlib vs third-party"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T2-B-E3 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T3-A-E1",
+      "answer": "mkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README de practica\"\ngit log -1 --oneline\n",
+      "code": "mkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README de practica\"\ngit log -1 --oneline\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "git init",
+        "Conventional Commits"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T3-A-E1 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T3-A-E2",
+      "answer": "# Lectura de diff\n\n## Comandos usados\necho \"Setup con venv.\" >> README.md\ngit add README.md\ngit commit -m \"docs: documentar setup con venv\"\nGIT_PAGER=cat git show HEAD\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\nLas líneas añadidas del README (texto nuevo \"Setup con venv.\") aparecen con prefijo `+`.\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\nModificado: solo las líneas tocadas tienen `+`/`-`. Un archivo nuevo mostraría casi todo el contenido con `+`.\n\n## 3) Resumen en una frase\nEl commit documenta el setup con venv añadiendo una línea al README ya existente.\n",
+      "code": "# Lectura de diff\n\n## Comandos usados\necho \"Setup con venv.\" >> README.md\ngit add README.md\ngit commit -m \"docs: documentar setup con venv\"\nGIT_PAGER=cat git show HEAD\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\nLas líneas añadidas del README (texto nuevo \"Setup con venv.\") aparecen con prefijo `+`.\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\nModificado: solo las líneas tocadas tienen `+`/`-`. Un archivo nuevo mostraría casi todo el contenido con `+`.\n\n## 3) Resumen en una frase\nEl commit documenta el setup con venv añadiendo una línea al README ya existente.\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "git show",
+        "diff +/-"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T3-A-E2 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T3-A-E3",
+      "answer": "# Mejor mensaje de commit\n\nCandidatos:\n- A: `wip`\n- B: `feat: agregar smoke hello_env`\n- C: `Actualicé cosas del setup`\n\n## Elección\nB\n\n## Justificación\nB sigue Conventional Commits con prefijo `feat:` y descripción imperativa clara del cambio observable (script smoke). El historial y el PR quedan legibles en code review. A (`wip`) no describe el valor y no es aceptable en main. C es vago: no dice qué archivo ni qué aporta.\n\n## Reescritura de A (si fuera un commit temporal local que luego se limpia)\n`chore: wip local antes de reordenar commits`\n\n## Reescritura de C\n`docs: actualizar README de instalación del entorno`\n",
+      "code": "# Mejor mensaje de commit\n\nCandidatos:\n- A: `wip`\n- B: `feat: agregar smoke hello_env`\n- C: `Actualicé cosas del setup`\n\n## Elección\nB\n\n## Justificación\nB sigue Conventional Commits con prefijo `feat:` y descripción imperativa clara del cambio observable (script smoke). El historial y el PR quedan legibles en code review. A (`wip`) no describe el valor y no es aceptable en main. C es vago: no dice qué archivo ni qué aporta.\n\n## Reescritura de A (si fuera un commit temporal local que luego se limpia)\n`chore: wip local antes de reordenar commits`\n\n## Reescritura de C\n`docs: actualizar README de instalación del entorno`\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "feat:",
+        "commit message quality"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T3-A-E3 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T3-B-E1",
+      "answer": "git switch main\ngit switch -c feat/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"feat: agregar nota de practica\"\ngit branch\n",
+      "code": "git switch main\ngit switch -c feat/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"feat: agregar nota de practica\"\ngit branch\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "git switch -c",
+        "feature branch"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T3-B-E1 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T3-B-E2",
+      "answer": "# Título del PR\nfeat: agregar smoke hello_env y documentar install\n\n## Resumen\n- Agrega `scripts/hello_env.py` como smoke del intérprete/venv\n- Actualiza el README con pasos de instalación (venv + pip -r)\n- Prepara la base clonable del esqueleto CP-N1-A\n\n## Plan de prueba\n1. `python -m venv .venv` y activar el entorno\n2. `python -m pip install -r requirements.txt`\n3. `python scripts/hello_env.py` → exit 0 y versión Python visible\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] `.env` está en `.gitignore`; solo se versiona `.env.example` con placeholders\n",
+      "code": "# Título del PR\nfeat: agregar smoke hello_env y documentar install\n\n## Resumen\n- Agrega `scripts/hello_env.py` como smoke del intérprete/venv\n- Actualiza el README con pasos de instalación (venv + pip -r)\n- Prepara la base clonable del esqueleto CP-N1-A\n\n## Plan de prueba\n1. `python -m venv .venv` y activar el entorno\n2. `python -m pip install -r requirements.txt`\n3. `python scripts/hello_env.py` → exit 0 y versión Python visible\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] `.env` está en `.gitignore`; solo se versiona `.env.example` con placeholders\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "Pull Request",
+        "test plan"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T3-B-E2 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T3-B-E3",
+      "answer": "# Recuperación no destructiva\n\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. Revisar el diff no staged: `git diff README.md`\n2. Descartar el cambio indeseado: `git restore README.md` (vuelve a la última versión commiteada/staged)\n\n## ¿Cuándo stash en su lugar?\nSi parte del cambio te sirve después, usa `git stash push -m \"wip readme\"` en vez de descartar; recuperas con `git stash pop`.\n\n## Por qué NO force-push a main\n`git push --force` a main reescribe historial compartido y puede borrar trabajo de colegas; el curso lo prohíbe.\n\n## Por qué no reset --hard como default\n`reset --hard` borra trabajo no commiteado sin red de seguridad; preferir restore/stash como primer reflejo.\n",
+      "code": "# Recuperación no destructiva\n\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. Revisar el diff no staged: `git diff README.md`\n2. Descartar el cambio indeseado: `git restore README.md` (vuelve a la última versión commiteada/staged)\n\n## ¿Cuándo stash en su lugar?\nSi parte del cambio te sirve después, usa `git stash push -m \"wip readme\"` en vez de descartar; recuperas con `git stash pop`.\n\n## Por qué NO force-push a main\n`git push --force` a main reescribe historial compartido y puede borrar trabajo de colegas; el curso lo prohíbe.\n\n## Por qué no reset --hard como default\n`reset --hard` borra trabajo no commiteado sin red de seguridad; preferir restore/stash como primer reflejo.\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "git restore",
+        "stash",
+        "no force-push"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T3-B-E3 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T4-A-E1",
+      "answer": "[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n",
+      "code": "[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "pyproject.toml",
+        "ruff",
+        "E F I"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T4-A-E1 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T4-A-E2",
+      "answer": "from datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n",
+      "code": "from datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "F401",
+        "unused import"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T4-A-E2 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T4-A-E3",
+      "answer": "# Select mínimo para repo de datos (S01)\n\n## Propuesta\n`select = [\"E\", \"F\", \"I\"]`\n\n## Por qué no ALL el día 1\n`ALL` genera cientos de hallazgos en notebooks/analytics; el ruido abruma y el equipo deja de mirar el linter. Un mínimo respetado vale más que un máximo ignorado.\n\n## Qué cubren E, F, I\nE (pycodestyle errores), F (pyflakes: imports muertos, errores reales) e I (isort: orden de imports). Atrapan basura barata antes del review.\n\n## Cuándo ampliar\nCuando `ruff check` limpio en E/F/I ya es hábito del equipo y hay acuerdo para sumar reglas (p. ej. bugbear) sin saturar el día 1.\n",
+      "code": "# Select mínimo para repo de datos (S01)\n\n## Propuesta\n`select = [\"E\", \"F\", \"I\"]`\n\n## Por qué no ALL el día 1\n`ALL` genera cientos de hallazgos en notebooks/analytics; el ruido abruma y el equipo deja de mirar el linter. Un mínimo respetado vale más que un máximo ignorado.\n\n## Qué cubren E, F, I\nE (pycodestyle errores), F (pyflakes: imports muertos, errores reales) e I (isort: orden de imports). Atrapan basura barata antes del review.\n\n## Cuándo ampliar\nCuando `ruff check` limpio en E/F/I ya es hábito del equipo y hay acuerdo para sumar reglas (p. ej. bugbear) sin saturar el día 1.\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "select mínimo",
+        "ruido vs señal"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T4-A-E3 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T4-B-E1",
+      "answer": "# Entornos\n.venv/\nvenv/\n\n# Bytecode\n__pycache__/\n*.pyc\n\n# Secretos\n.env\n\n# Jupyter\n.ipynb_checkpoints/\n\n# Verificación en repo de prueba:\n# git check-ignore -v .env\n# → .gitignore:N:.env    .env\n",
+      "code": "# Entornos\n.venv/\nvenv/\n\n# Bytecode\n__pycache__/\n*.pyc\n\n# Secretos\n.env\n\n# Jupyter\n.ipynb_checkpoints/\n\n# Verificación en repo de prueba:\n# git check-ignore -v .env\n# → .gitignore:N:.env    .env\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        ".gitignore",
+        ".env"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T4-B-E1 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T4-B-E2",
+      "answer": "# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=https://example.com\nDB_HOST=localhost\nLOG_LEVEL=INFO\n",
+      "code": "# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=https://example.com\nDB_HOST=localhost\nLOG_LEVEL=INFO\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        ".env.example",
+        "placeholders"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T4-B-E2 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    },
+    {
+      "exercise_id": "S01-T4-B-E3",
+      "answer": "# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. Clonar el repo y `cd` al root; `git status` limpio o esperado\n- [ ] 2. `python -m venv .venv` + activate; `python -c \"import sys; print(sys.prefix)\"` contiene `.venv`\n- [ ] 3. `python -m pip install -r requirements.txt` exit 0\n- [ ] 4. `python scripts/hello_env.py` exit 0 e imprime versión Python\n- [ ] 5. `git check-ignore -v .env` confirma que `.env` está ignorado\n\n## Datos\n- [ ] data/clients_synthetic.csv es sintético\n- [ ] data/data_dictionary.md describe columnas\n",
+      "code": "# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. Clonar el repo y `cd` al root; `git status` limpio o esperado\n- [ ] 2. `python -m venv .venv` + activate; `python -c \"import sys; print(sys.prefix)\"` contiene `.venv`\n- [ ] 3. `python -m pip install -r requirements.txt` exit 0\n- [ ] 4. `python scripts/hello_env.py` exit 0 e imprime versión Python\n- [ ] 5. `git check-ignore -v .env` confirma que `.env` está ignorado\n\n## Datos\n- [ ] data/clients_synthetic.csv es sintético\n- [ ] data/data_dictionary.md describe columnas\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "CP-N1-A",
+        "checklist máquina limpia"
+      ],
+      "justification_from_packet": "Como escéptico contrasté S01-T4-B-E3 con theory+hints del packet: evité atajos globales/force-push/secretos y dejé el código/markdown alineado a tests del ejercicio."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones",
+      "justification_from_packet": "Dudo de las opciones de «acelerar» o «compilar»: el packet (S01-T2-A) solo justifica venv por aislamiento de dependencias y conflicto de versiones, no por performance de ejecución.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": ".venv/ (o venv/)",
+      "justification_from_packet": "Reviso el .gitignore mínimo del packet: incluye `.venv/` y `venv/`; requirements.txt y el código fuente deben trackearse, así que la única opción correcta de la lista es el entorno virtual.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "\"feat: agregar cálculo de churn por segmento\"",
+      "justification_from_packet": "Como escéptico descarto wip/cambios: la teoría Conventional Commits exige prefijo+imperativo legible en el historial; solo `feat: agregar cálculo de churn por segmento` cumple el contrato del curso.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "pip install -r requirements.txt",
+      "justification_from_packet": "No basta `git clone` ni `python -m venv`: sin `install -r requirements.txt` (S01-T2-B) no replicas las versiones pinneadas del colega.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Porque suele contener credenciales (API keys, passwords, tokens) que son secretos",
+      "justification_from_packet": "El peso del archivo o la extensión no son el argumento del packet; S01-T4-B insiste en credenciales/secretos y rotación si se filtraron — por eso `.env` no se sube.",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [
+    "Confirmo que E1 REPL es transcript en comentarios y no un .py ejecutable, según instruction."
+  ],
+  "recorded_at": "2026-07-23T06:24:55.615191+00:00",
+  "session_started_at": "2026-07-23T06:23:40.615191+00:00",
+  "session_ended_at": "2026-07-23T06:24:55.615191+00:00"
+}

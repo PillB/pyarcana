@@ -1,0 +1,282 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G1",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-dual-explorer-s27-89bd3d6f",
+  "production_note": "agentic_G1 dual-LLM explorer: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "justification_from_packet": "Explorer A en S27-T1-A-E1: leí la instruction del quiz_card («S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el sta…») y el starter con TODO. Completé el contrato I/O con `impact, likelihood = 5, 4` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «Multiplica enteros» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "justification_from_packet": "Explorer A en S27-T1-A-E2: leí la instruction del quiz_card («S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter …») y el starter con TODO. Completé el contrato I/O con `rows=[('e2e',2,1),('unit',5,5)]` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «sorted reverse» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "justification_from_packet": "Explorer A en S27-T1-A-E3: leí la instruction del quiz_card («S27-T1-A-E3 · Imprime True si la capa top es 'unit'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; impleme…») y el starter con TODO. Completé el contrato I/O con `top_layer='unit'` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «compara layer» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "justification_from_packet": "Explorer A en S27-T1-B-E1: leí la instruction del quiz_card («S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A  B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la…») y el starter con TODO. Completé el contrato I/O con `s=' A  B '` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «casefold» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "justification_from_packet": "Explorer A en S27-T1-B-E2: leí la instruction del quiz_card («S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el sta…») y el starter con TODO. Completé el contrato I/O con `raw='ANA'` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «assert luego print» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "justification_from_packet": "Explorer A en S27-T1-B-E3: leí la instruction del quiz_card («S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la en…») y el starter con TODO. Completé el contrato I/O con `a,b='X Y','x  y'` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «normaliza ambos» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "justification_from_packet": "Explorer A en S27-T2-A-E1: leí la instruction del quiz_card («S27-T2-A-E1 · Filtra nombres que empiezan con 'test_' de la lista dada. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starte…») y el starter con TODO. Completé el contrato I/O con `names=['test_a','helper','test_b']` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «startswith» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "justification_from_packet": "Explorer A en S27-T2-A-E2: leí la instruction del quiz_card («S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter…») y el starter con TODO. Completé el contrato I/O con `left,right='a','b'` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «ternario» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "justification_from_packet": "Explorer A en S27-T2-A-E3: leí la instruction del quiz_card («S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe…») y el starter con TODO. Completé el contrato I/O con `case_id = \"CASO-LIM-SYN\"` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «lista de tuplas» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "code": "from copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n",
+      "justification_from_packet": "Explorer A en S27-T2-B-E1: leí la instruction del quiz_card («S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la …») y el starter con TODO. Completé el contrato I/O con `orig=[{'n':1}]` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «deepcopy» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n",
+      "justification_from_packet": "Explorer A en S27-T2-B-E2: leí la instruction del quiz_card («S27-T2-B-E2 · Imprime 'function' como scope por defecto de fixture. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter co…») y el starter con TODO. Completé el contrato I/O con `case_id = \"CASO-LIM-SYN\"` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «literal» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "code": "def make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+      "justification_from_packet": "Explorer A en S27-T2-B-E3: leí la instruction del quiz_card («S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe)…») y el starter con TODO. Completé el contrato I/O con `def make(n):` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «list comp» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "justification_from_packet": "Explorer A en S27-T3-A-E1: leí la instruction del quiz_card («S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter co…») y el starter con TODO. Completé el contrato I/O con `print(math.isclose(0.1 + 0.2, 0.3))` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «import math» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "justification_from_packet": "Explorer A en S27-T3-A-E2: leí la instruction del quiz_card («S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo…») y el starter con TODO. Completé el contrato I/O con `try:` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «try/except» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "code": "import tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "justification_from_packet": "Explorer A en S27-T3-A-E3: leí la instruction del quiz_card («S27-T3-A-E3 · Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip(). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la …») y el starter con TODO. Completé el contrato I/O con `with tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «tempfile» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "code": "email=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(e)\n",
+      "justification_from_packet": "Explorer A en S27-T3-B-E1: leí la instruction del quiz_card («S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la ent…») y el starter con TODO. Completé el contrato I/O con `email=''` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «raise ValueError» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "justification_from_packet": "Explorer A en S27-T3-B-E2: leí la instruction del quiz_card («S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el s…») y el starter con TODO. Completé el contrato I/O con `s='sin-arroba'` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «in» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "justification_from_packet": "Explorer A en S27-T3-B-E3: leí la instruction del quiz_card («S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada…») y el starter con TODO. Completé el contrato I/O con `v=-1` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «f-string !r» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "justification_from_packet": "Explorer A en S27-T4-A-E1: leí la instruction del quiz_card («S27-T4-A-E1 · Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el…») y el starter con TODO. Completé el contrato I/O con `def f(x):` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «if/else» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "justification_from_packet": "Explorer A en S27-T4-A-E2: leí la instruction del quiz_card («S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada…») y el starter con TODO. Completé el contrato I/O con `hit={'auto','review'}` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «membership» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "justification_from_packet": "Explorer A en S27-T4-A-E3: leí la instruction del quiz_card («S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es …») y el starter con TODO. Completé el contrato I/O con `k,n=2,3` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «int(100*k/n)» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "justification_from_packet": "Explorer A en S27-T4-B-E1: leí la instruction del quiz_card («S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @ex…») y el starter con TODO. Completé el contrato I/O con `raw=' a '` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «compara» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "justification_from_packet": "Explorer A en S27-T4-B-E2: leí la instruction del quiz_card («S27-T4-B-E2 · Falla útil: imprime dict con keys expected, actual para expected=1 actual=2. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la e…») y el starter con TODO. Completé el contrato I/O con `case_id = \"CASO-LIM-SYN\"` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «dict» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n",
+      "justification_from_packet": "Explorer A en S27-T4-B-E3: leí la instruction del quiz_card («S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es e…») y el starter con TODO. Completé el contrato I/O con `case_id = \"CASO-LIM-SYN\"` alineado al Pass/salida del oráculo. Me apoyé en el subtema «riesgos y pirámide de pruebas» y el hint «string» del slim_packet; no usé lives de intentos previos.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Explorer: en selfCheck elegí «Pruebas unitarias» para «En la pirámide de pruebas, la base más ancha suele ser:». El quiz_card/theory lo sostiene vía «riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables» y el outcome «Priorizar pruebas según riesgo y pirámide»; descarté opciones que contradicen HITL/sandbox/no-fraude del paquete."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Explorer: en selfCheck elegí «Una fuente de verdad determinista para el assert» para «Un oráculo confiable es:». El quiz_card/theory lo sostiene vía «riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables» y el outcome «Priorizar pruebas según riesgo y pirámide»; descarté opciones que contradicen HITL/sandbox/no-fraude del paquete."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Explorer: en selfCheck elegí «El contrato es débil; el mutante sobrevivió» para «Si mutas un casefold y ningún test falla:». El quiz_card/theory lo sostiene vía «riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables» y el outcome «Priorizar pruebas según riesgo y pirámide»; descarté opciones que contradicen HITL/sandbox/no-fraude del paquete."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Explorer: en selfCheck elegí «Contratos de misma entidad / normalización — no riesgo ni relación» para «Las pruebas de matching en CP-N3-A demuestran:». El quiz_card/theory lo sostiene vía «riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables» y el outcome «Priorizar pruebas según riesgo y pirámide»; descarté opciones que contradicen HITL/sandbox/no-fraude del paquete."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:23:03.036292+00:00",
+  "session_started_at": "2026-07-23T06:38:01.981032+00:00",
+  "session_ended_at": "2026-07-23T06:23:03.036310+00:00"
+}

@@ -1,0 +1,266 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 42,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-s42-newbie_b-b832a8de5622",
+  "production_note": "agentic_G1 dual-LLM Skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S42-T1-A-E1",
+      "code": "# skeptic-checked S42-T1-A-E1\nrecord = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\":\"forbid\",\"json_schema\":True,\"valid_fixture\":True,\"business_rule\":True}}\nok = record.get(\"extra_policy\") == \"forbid\" and record.get(\"json_schema\") and record.get(\"valid_fixture\") and record.get(\"business_rule\")\nstatus = \"PASS\" if ok else \"REJECT_SCHEMA\"\nprint(\"S42-T1-A\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T1-A-E1: corregí el defecto del starter y verifiqué salida del contrato. «S42-T1-A-E1 · Calcula el contrato de `Pydantic y JSON Schema` sobre `CASO-CUS-042-1A`. La entrada es el dict completo del starter; la operación debe demostrar s…». Clave: `# skeptic-checked S42-T1-A-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S42-T1-A-E2",
+      "code": "# skeptic-checked S42-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"extra_policy\", \"json_schema\", \"valid_fixture\", \"business_rule\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"extra_policy\") == \"forbid\" and record.get(\"json_schema\") and record.get(\"valid_fixture\") and record.get(\"business_rule\")) else \"REJECT_SCHEMA\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\":\"forbid\",\"json_schema\":True,\"valid_fixture\":True,\"business_rule\":True}}\ninvalid = {**valid, **{\"extra_policy\": \"allow\", \"business_rule\": False}}\nincomplete = {k: v for k, v in valid.items() if k != \"business_rule\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T1-A-E2: corregí el defecto del starter y verifiqué salida del contrato. «S42-T1-A-E2 · Modela tres rutas de `Pydantic y JSON Schema`: fixture válido, fixture adverso y registro sin `business_rule`. Entrada: dict con case_id, extra_po…». Clave: `# skeptic-checked S42-T1-A-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S42-T1-A-E3",
+      "code": "# skeptic-checked S42-T1-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"extra_policy\", \"json_schema\", \"valid_fixture\", \"business_rule\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_BUSINESS_INVARIANT\"\n    if record.get(\"extra_policy\") == \"forbid\" and record.get(\"json_schema\") and record.get(\"valid_fixture\") and record.get(\"business_rule\"):\n        return \"CONTINUE\"\n    return \"REJECT_SCHEMA\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\":\"forbid\",\"json_schema\":True,\"valid_fixture\":True,\"business_rule\":True}}\ninvalid = {**valid, **{\"extra_policy\": \"allow\", \"business_rule\": False}}\nincomplete = {k: v for k, v in valid.items() if k != \"business_rule\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T1-A-E3: corregí el defecto del starter y verifiqué salida del contrato. «S42-T1-A-E3 · Simula fallo cerrado para `Pydantic y JSON Schema` con tres fixtures distintos. `CASO-CUS-042-1A` debe continuar, el adverso debe devolver `REJECT…». Clave: `# skeptic-checked S42-T1-A-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S42-T1-B-E1",
+      "code": "# skeptic-checked S42-T1-B-E1\nrecord = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\":\"add_optional\",\"old_reader_passes\":True,\"union_tags\":{\"email\",\"phone\"},\"handled_tags\":{\"email\",\"phone\"}}}\nok = record.get(\"change\") == \"add_optional\" and record.get(\"old_reader_passes\") and record.get(\"union_tags\") == record.get(\"handled_tags\")\nstatus = \"PASS\" if ok else \"VERSION_SCHEMA\"\nprint(\"S42-T1-B\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T1-B-E1: corregí el defecto del starter y verifiqué salida del contrato. «S42-T1-B-E1 · Compara el contrato de `evolución, discriminated unions y validación de negocio` sobre `CASO-CUS-042-1B`. La entrada es el dict completo del start…». Clave: `# skeptic-checked S42-T1-B-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S42-T1-B-E2",
+      "code": "# skeptic-checked S42-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"change\", \"old_reader_passes\", \"union_tags\", \"handled_tags\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"change\") == \"add_optional\" and record.get(\"old_reader_passes\") and record.get(\"union_tags\") == record.get(\"handled_tags\")) else \"VERSION_SCHEMA\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\":\"add_optional\",\"old_reader_passes\":True,\"union_tags\":{\"email\",\"phone\"},\"handled_tags\":{\"email\",\"phone\"}}}\ninvalid = {**valid, **{\"change\": \"rename_required\", \"handled_tags\": {\"email\"}}}\nincomplete = {k: v for k, v in valid.items() if k != \"handled_tags\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T1-B-E2: corregí el defecto del starter y verifiqué salida del contrato. «S42-T1-B-E2 · Verifica tres rutas de `evolución, discriminated unions y validación de negocio`: fixture válido, fixture adverso y registro sin `handled_tags`. E…». Clave: `# skeptic-checked S42-T1-B-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S42-T1-B-E3",
+      "code": "# skeptic-checked S42-T1-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"change\", \"old_reader_passes\", \"union_tags\", \"handled_tags\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MIGRATE_CONSUMERS\"\n    if record.get(\"change\") == \"add_optional\" and record.get(\"old_reader_passes\") and record.get(\"union_tags\") == record.get(\"handled_tags\"):\n        return \"CONTINUE\"\n    return \"VERSION_SCHEMA\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\":\"add_optional\",\"old_reader_passes\":True,\"union_tags\":{\"email\",\"phone\"},\"handled_tags\":{\"email\",\"phone\"}}}\ninvalid = {**valid, **{\"change\": \"rename_required\", \"handled_tags\": {\"email\"}}}\nincomplete = {k: v for k, v in valid.items() if k != \"handled_tags\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T1-B-E3: corregí el defecto del starter y verifiqué salida del contrato. «S42-T1-B-E3 · Extiende fallo cerrado para `evolución, discriminated unions y validación de negocio` con tres fixtures distintos. `CASO-CUS-042-1B` debe continua…». Clave: `# skeptic-checked S42-T1-B-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S42-T2-A-E1",
+      "code": "# skeptic-checked S42-T2-A-E1\nrecord = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\":True,\"actor\":\"user-a\",\"resource_owner\":\"user-a\",\"roles\":{\"case:read\"}}}\nok = record.get(\"authenticated\") and record.get(\"actor\") == record.get(\"resource_owner\") and bool(record.get(\"roles\"))\nstatus = \"PASS\" if ok else \"DENY_CROSS_TENANT\"\nprint(\"S42-T2-A\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T2-A-E1: corregí el defecto del starter y verifiqué salida del contrato. «S42-T2-A-E1 · Filtra el contrato de `authn/authz y RBAC` sobre `CASO-CUS-042-2A`. La entrada es el dict completo del starter; la operación debe demostrar identi…». Clave: `# skeptic-checked S42-T2-A-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S42-T2-A-E2",
+      "code": "# skeptic-checked S42-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"authenticated\", \"actor\", \"resource_owner\", \"roles\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"authenticated\") and record.get(\"actor\") == record.get(\"resource_owner\") and bool(record.get(\"roles\"))) else \"DENY_CROSS_TENANT\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\":True,\"actor\":\"user-a\",\"resource_owner\":\"user-a\",\"roles\":{\"case:read\"}}}\ninvalid = {**valid, **{\"actor\": \"user-b\"}}\nincomplete = {k: v for k, v in valid.items() if k != \"roles\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T2-A-E2: corregí el defecto del starter y verifiqué salida del contrato. «S42-T2-A-E2 · Clasifica tres rutas de `authn/authz y RBAC`: fixture válido, fixture adverso y registro sin `roles`. Entrada: dict con case_id, authenticated, ac…». Clave: `# skeptic-checked S42-T2-A-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S42-T2-A-E3",
+      "code": "# skeptic-checked S42-T2-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"authenticated\", \"actor\", \"resource_owner\", \"roles\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"VERIFY_RESOURCE_OWNER\"\n    if record.get(\"authenticated\") and record.get(\"actor\") == record.get(\"resource_owner\") and bool(record.get(\"roles\")):\n        return \"CONTINUE\"\n    return \"DENY_CROSS_TENANT\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\":True,\"actor\":\"user-a\",\"resource_owner\":\"user-a\",\"roles\":{\"case:read\"}}}\ninvalid = {**valid, **{\"actor\": \"user-b\"}}\nincomplete = {k: v for k, v in valid.items() if k != \"roles\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T2-A-E3: corregí el defecto del starter y verifiqué salida del contrato. «S42-T2-A-E3 · Defiende fallo cerrado para `authn/authz y RBAC` con tres fixtures distintos. `CASO-CUS-042-2A` debe continuar, el adverso debe devolver `DENY_CRO…». Clave: `# skeptic-checked S42-T2-A-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S42-T2-B-E1",
+      "code": "# skeptic-checked S42-T2-B-E1\nrecord = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\":\"report:prepare\",\"granted_scopes\":{\"report:prepare\"},\"service_id\":\"svc-reporter\",\"route_declared\":True}}\nok = record[\"requested_scope\"] in record[\"granted_scopes\"] and bool(record.get(\"service_id\")) and record.get(\"route_declared\") is True\nstatus = \"PASS\" if ok else \"DENY_SCOPE\"\nprint(\"S42-T2-B\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T2-B-E1: corregí el defecto del starter y verifiqué salida del contrato. «S42-T2-B-E1 · Modela el contrato de `scopes, service identities y deny-by-default` sobre `CASO-CUS-042-2B`. La entrada es el dict completo del starter; la opera…». Clave: `# skeptic-checked S42-T2-B-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S42-T2-B-E2",
+      "code": "# skeptic-checked S42-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"requested_scope\", \"granted_scopes\", \"route_declared\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"requested_scope\"] in record[\"granted_scopes\"] and bool(record.get(\"service_id\")) and record.get(\"route_declared\") is True) else \"DENY_SCOPE\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\":\"report:prepare\",\"granted_scopes\":{\"report:prepare\"},\"service_id\":\"svc-reporter\",\"route_declared\":True}}\ninvalid = {**valid, **{\"requested_scope\": \"admin:all\", \"route_declared\": False}}\nincomplete = {k: v for k, v in valid.items() if k != \"route_declared\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T2-B-E2: corregí el defecto del starter y verifiqué salida del contrato. «S42-T2-B-E2 · Audita tres rutas de `scopes, service identities y deny-by-default`: fixture válido, fixture adverso y registro sin `route_declared`. Entrada: dic…». Clave: `# skeptic-checked S42-T2-B-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S42-T2-B-E3",
+      "code": "# skeptic-checked S42-T2-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"requested_scope\", \"granted_scopes\", \"route_declared\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_NARROW_GRANT\"\n    if record[\"requested_scope\"] in record[\"granted_scopes\"] and bool(record.get(\"service_id\")) and record.get(\"route_declared\") is True:\n        return \"CONTINUE\"\n    return \"DENY_SCOPE\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\":\"report:prepare\",\"granted_scopes\":{\"report:prepare\"},\"service_id\":\"svc-reporter\",\"route_declared\":True}}\ninvalid = {**valid, **{\"requested_scope\": \"admin:all\", \"route_declared\": False}}\nincomplete = {k: v for k, v in valid.items() if k != \"route_declared\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T2-B-E3: corregí el defecto del starter y verifiqué salida del contrato. «S42-T2-B-E3 · Recupera fallo cerrado para `scopes, service identities y deny-by-default` con tres fixtures distintos. `CASO-CUS-042-2B` debe continuar, el adver…». Clave: `# skeptic-checked S42-T2-B-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S42-T3-A-E1",
+      "code": "# skeptic-checked S42-T3-A-E1\nrecord = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\":2048,\"max_bytes\":4096,\"host\":\"docs.local\",\"allowed_hosts\":{\"docs.local\"},\"resolved_path\":\"/safe/reports/a.txt\",\"root\":\"/safe/reports\"}}\nok = record[\"bytes\"] <= record[\"max_bytes\"] and record[\"host\"] in record[\"allowed_hosts\"] and record[\"resolved_path\"].startswith(record[\"root\"])\nstatus = \"PASS\" if ok else \"REJECT_UNTRUSTED_INPUT\"\nprint(\"S42-T3-A\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T3-A-E1: corregí el defecto del starter y verifiqué salida del contrato. «S42-T3-A-E1 · Verifica el contrato de `input limits, injection y SSRF/path traversal` sobre `CASO-CUS-042-3A`. La entrada es el dict completo del starter; la op…». Clave: `# skeptic-checked S42-T3-A-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S42-T3-A-E2",
+      "code": "# skeptic-checked S42-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"bytes\", \"max_bytes\", \"host\", \"allowed_hosts\", \"root\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"bytes\"] <= record[\"max_bytes\"] and record[\"host\"] in record[\"allowed_hosts\"] and record[\"resolved_path\"].startswith(record[\"root\"])) else \"REJECT_UNTRUSTED_INPUT\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\":2048,\"max_bytes\":4096,\"host\":\"docs.local\",\"allowed_hosts\":{\"docs.local\"},\"resolved_path\":\"/safe/reports/a.txt\",\"root\":\"/safe/reports\"}}\ninvalid = {**valid, **{\"bytes\": 99999, \"host\": \"evil.example\", \"resolved_path\": \"/etc/passwd\"}}\nincomplete = {k: v for k, v in valid.items() if k != \"root\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T3-A-E2: corregí el defecto del starter y verifiqué salida del contrato. «S42-T3-A-E2 · Decide tres rutas de `input limits, injection y SSRF/path traversal`: fixture válido, fixture adverso y registro sin `root`. Entrada: dict con cas…». Clave: `# skeptic-checked S42-T3-A-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S42-T3-A-E3",
+      "code": "# skeptic-checked S42-T3-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"bytes\", \"max_bytes\", \"host\", \"allowed_hosts\", \"root\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SECURITY_REVIEW\"\n    if record[\"bytes\"] <= record[\"max_bytes\"] and record[\"host\"] in record[\"allowed_hosts\"] and record[\"resolved_path\"].startswith(record[\"root\"]):\n        return \"CONTINUE\"\n    return \"REJECT_UNTRUSTED_INPUT\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\":2048,\"max_bytes\":4096,\"host\":\"docs.local\",\"allowed_hosts\":{\"docs.local\"},\"resolved_path\":\"/safe/reports/a.txt\",\"root\":\"/safe/reports\"}}\ninvalid = {**valid, **{\"bytes\": 99999, \"host\": \"evil.example\", \"resolved_path\": \"/etc/passwd\"}}\nincomplete = {k: v for k, v in valid.items() if k != \"root\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T3-A-E3: corregí el defecto del starter y verifiqué salida del contrato. «S42-T3-A-E3 · Contrasta fallo cerrado para `input limits, injection y SSRF/path traversal` con tres fixtures distintos. `CASO-CUS-042-3A` debe continuar, el adv…». Clave: `# skeptic-checked S42-T3-A-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S42-T3-B-E1",
+      "code": "# skeptic-checked S42-T3-B-E1\nrecord = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\":False,\"secret_in_log\":False,\"rotation_tested\":True,\"dependency_pinned\":True,\"critical_cves\":0}}\nok = not record.get(\"secret_in_repo\") and not record.get(\"secret_in_log\") and record.get(\"rotation_tested\") and record.get(\"dependency_pinned\") and record.get(\"critical_cves\") == 0\nstatus = \"PASS\" if ok else \"ROTATE_AND_BLOCK\"\nprint(\"S42-T3-B\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T3-B-E1: corregí el defecto del starter y verifiqué salida del contrato. «S42-T3-B-E1 · Clasifica el contrato de `secretos, cifrado y dependency risk` sobre `CASO-CUS-042-3B`. La entrada es el dict completo del starter; la operación d…». Clave: `# skeptic-checked S42-T3-B-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S42-T3-B-E2",
+      "code": "# skeptic-checked S42-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"secret_in_repo\", \"secret_in_log\", \"rotation_tested\", \"dependency_pinned\", \"critical_cves\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not record.get(\"secret_in_repo\") and not record.get(\"secret_in_log\") and record.get(\"rotation_tested\") and record.get(\"dependency_pinned\") and record.get(\"critical_cves\") == 0) else \"ROTATE_AND_BLOCK\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\":False,\"secret_in_log\":False,\"rotation_tested\":True,\"dependency_pinned\":True,\"critical_cves\":0}}\ninvalid = {**valid, **{\"secret_in_repo\": True, \"dependency_pinned\": False, \"critical_cves\": 3}}\nincomplete = {k: v for k, v in valid.items() if k != \"critical_cves\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T3-B-E2: corregí el defecto del starter y verifiqué salida del contrato. «S42-T3-B-E2 · Calcula tres rutas de `secretos, cifrado y dependency risk`: fixture válido, fixture adverso y registro sin `critical_cves`. Entrada: dict con cas…». Clave: `# skeptic-checked S42-T3-B-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S42-T3-B-E3",
+      "code": "# skeptic-checked S42-T3-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"secret_in_repo\", \"secret_in_log\", \"rotation_tested\", \"dependency_pinned\", \"critical_cves\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ASSESS_DEPENDENCY_RISK\"\n    if not record.get(\"secret_in_repo\") and not record.get(\"secret_in_log\") and record.get(\"rotation_tested\") and record.get(\"dependency_pinned\") and record.get(\"critical_cves\") == 0:\n        return \"CONTINUE\"\n    return \"ROTATE_AND_BLOCK\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\":False,\"secret_in_log\":False,\"rotation_tested\":True,\"dependency_pinned\":True,\"critical_cves\":0}}\ninvalid = {**valid, **{\"secret_in_repo\": True, \"dependency_pinned\": False, \"critical_cves\": 3}}\nincomplete = {k: v for k, v in valid.items() if k != \"critical_cves\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T3-B-E3: corregí el defecto del starter y verifiqué salida del contrato. «S42-T3-B-E3 · Instrumenta fallo cerrado para `secretos, cifrado y dependency risk` con tres fixtures distintos. `CASO-CUS-042-3B` debe continuar, el adverso deb…». Clave: `# skeptic-checked S42-T3-B-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S42-T4-A-E1",
+      "code": "# skeptic-checked S42-T4-A-E1\nrecord = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\":{\"case_id\",\"region\"},\"needed\":{\"case_id\",\"region\"},\"purpose\":\"status-report\",\"retention_days\":30,\"max_retention_days\":30}}\nok = record[\"collected\"] <= record[\"needed\"] and record[\"retention_days\"] <= record[\"max_retention_days\"] and bool(record.get(\"purpose\"))\nstatus = \"PASS\" if ok else \"MINIMIZE_AND_EXPIRE\"\nprint(\"S42-T4-A\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T4-A-E1: corregí el defecto del starter y verifiqué salida del contrato. «S42-T4-A-E1 · Audita el contrato de `minimización, purpose y retención` sobre `CASO-CUS-042-4A`. La entrada es el dict completo del starter; la operación debe d…». Clave: `# skeptic-checked S42-T4-A-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S42-T4-A-E2",
+      "code": "# skeptic-checked S42-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"collected\", \"max_retention_days\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"collected\"] <= record[\"needed\"] and record[\"retention_days\"] <= record[\"max_retention_days\"] and bool(record.get(\"purpose\"))) else \"MINIMIZE_AND_EXPIRE\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\":{\"case_id\",\"region\"},\"needed\":{\"case_id\",\"region\"},\"purpose\":\"status-report\",\"retention_days\":30,\"max_retention_days\":30}}\ninvalid = {**valid, **{\"collected\": {\"case_id\", \"region\", \"email\"}, \"retention_days\": 3650}}\nincomplete = {k: v for k, v in valid.items() if k != \"max_retention_days\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T4-A-E2: corregí el defecto del starter y verifiqué salida del contrato. «S42-T4-A-E2 · Compara tres rutas de `minimización, purpose y retención`: fixture válido, fixture adverso y registro sin `max_retention_days`. Entrada: dict con …». Clave: `# skeptic-checked S42-T4-A-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S42-T4-A-E3",
+      "code": "# skeptic-checked S42-T4-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"collected\", \"max_retention_days\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"PRIVACY_OWNER_REVIEW\"\n    if record[\"collected\"] <= record[\"needed\"] and record[\"retention_days\"] <= record[\"max_retention_days\"] and bool(record.get(\"purpose\")):\n        return \"CONTINUE\"\n    return \"MINIMIZE_AND_EXPIRE\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\":{\"case_id\",\"region\"},\"needed\":{\"case_id\",\"region\"},\"purpose\":\"status-report\",\"retention_days\":30,\"max_retention_days\":30}}\ninvalid = {**valid, **{\"collected\": {\"case_id\", \"region\", \"email\"}, \"retention_days\": 3650}}\nincomplete = {k: v for k, v in valid.items() if k != \"max_retention_days\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T4-A-E3: corregí el defecto del starter y verifiqué salida del contrato. «S42-T4-A-E3 · Aísla fallo cerrado para `minimización, purpose y retención` con tres fixtures distintos. `CASO-CUS-042-4A` debe continuar, el adverso debe devolv…». Clave: `# skeptic-checked S42-T4-A-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S42-T4-B-E1",
+      "code": "# skeptic-checked S42-T4-B-E1\nrecord = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\":{\"actor_id\",\"action\",\"at\",\"case_token\"},\"pii_fields\":{\"full_name\",\"email\"},\"deleted\":True,\"derived_deleted\":True,\"key_separate\":True}}\nok = not (record[\"audit_fields\"] & record[\"pii_fields\"]) and record.get(\"deleted\") and record.get(\"derived_deleted\") and record.get(\"key_separate\")\nstatus = \"PASS\" if ok else \"PURGE_DERIVATIVES\"\nprint(\"S42-T4-B\", status)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T4-B-E1: corregí el defecto del starter y verifiqué salida del contrato. «S42-T4-B-E1 · Decide el contrato de `audit, deletion, pseudonymization y acceso` sobre `CASO-CUS-042-4B`. La entrada es el dict completo del starter; la operaci…». Clave: `# skeptic-checked S42-T4-B-E1`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S42-T4-B-E2",
+      "code": "# skeptic-checked S42-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"audit_fields\", \"key_separate\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"audit_fields\"] & record[\"pii_fields\"]) and record.get(\"deleted\") and record.get(\"derived_deleted\") and record.get(\"key_separate\")) else \"PURGE_DERIVATIVES\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\":{\"actor_id\",\"action\",\"at\",\"case_token\"},\"pii_fields\":{\"full_name\",\"email\"},\"deleted\":True,\"derived_deleted\":True,\"key_separate\":True}}\ninvalid = {**valid, **{\"audit_fields\": {\"actor_id\", \"full_name\"}, \"derived_deleted\": False}}\nincomplete = {k: v for k, v in valid.items() if k != \"key_separate\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T4-B-E2: corregí el defecto del starter y verifiqué salida del contrato. «S42-T4-B-E2 · Filtra tres rutas de `audit, deletion, pseudonymization y acceso`: fixture válido, fixture adverso y registro sin `key_separate`. Entrada: dict co…». Clave: `# skeptic-checked S42-T4-B-E2`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S42-T4-B-E3",
+      "code": "# skeptic-checked S42-T4-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"audit_fields\", \"key_separate\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"VERIFY_DELETION_SCOPE\"\n    if not (record[\"audit_fields\"] & record[\"pii_fields\"]) and record.get(\"deleted\") and record.get(\"derived_deleted\") and record.get(\"key_separate\"):\n        return \"CONTINUE\"\n    return \"PURGE_DERIVATIVES\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\":{\"actor_id\",\"action\",\"at\",\"case_token\"},\"pii_fields\":{\"full_name\",\"email\"},\"deleted\":True,\"derived_deleted\":True,\"key_separate\":True}}\ninvalid = {**valid, **{\"audit_fields\": {\"actor_id\", \"full_name\"}, \"derived_deleted\": False}}\nincomplete = {k: v for k, v in valid.items() if k != \"key_separate\"}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42-T4-B-E3: corregí el defecto del starter y verifiqué salida del contrato. «S42-T4-B-E3 · Demuestra fallo cerrado para `audit, deletion, pseudonymization y acceso` con tres fixtures distintos. `CASO-CUS-042-4B` debe continuar, el advers…». Clave: `# skeptic-checked S42-T4-B-E3`. Material del paquete activo únicamente.",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42 Q0: descarto distractores y confirmo [1] «schema exportado y fixtures válidos/inválidos». Léxico del packet: theory + selfCheck_stems + ejercicios weDo de la sección. Sin keys externas ni lives previos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42 Q1: descarto distractores y confirmo [3] «emitir DENY y conservar evidencia». Léxico del packet: theory + selfCheck_stems + ejercicios weDo de la sección. Sin keys externas ni lives previos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42 Q2: descarto distractores y confirmo [0] «un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos». Léxico del packet: theory + selfCheck_stems + ejercicios weDo de la sección. Sin keys externas ni lives previos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic B S42 Q3: descarto distractores y confirmo [2] «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana». Léxico del packet: theory + selfCheck_stems + ejercicios weDo de la sección. Sin keys externas ni lives previos."
+    }
+  ],
+  "confusion_points": [
+    {
+      "note": "Skeptic repaired form contracts S42"
+    }
+  ],
+  "recorded_at": "2026-07-23T06:29:05.537976+00:00",
+  "session_started_at": "2026-07-23T06:29:05.532943+00:00",
+  "session_ended_at": "2026-07-23T06:29:05.537996+00:00"
+}

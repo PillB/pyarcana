@@ -1,0 +1,292 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 8,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-exp-s08-c31a2ac002",
+  "production_note": "agentic_G2 dual-LLM explorer: packet-only; no generators; independent of G1",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S08-T1-A-E1",
+      "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / \"intake.txt\"\np.write_text(\"linea1\\njosé\\n\", encoding=\"utf-8\")\nprint(p.exists(), p.read_text(encoding=\"utf-8\").splitlines())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T1-A-E1] pathlib write/read utf-8. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "pathlib"
+      ]
+    },
+    {
+      "exercise_id": "S08-T1-A-E2",
+      "code": "from pathlib import Path\nimport tempfile\np = Path(tempfile.mkdtemp()) / \"a.txt\"\nwith p.open(\"w\", encoding=\"utf-8\") as f:\n    f.write(\"hola\\n\")\nprint(p.read_text(encoding=\"utf-8\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T1-A-E2] with open encoding. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "with"
+      ]
+    },
+    {
+      "exercise_id": "S08-T1-A-E3",
+      "code": "from pathlib import Path\nimport tempfile\np = Path(tempfile.mkdtemp()) / \"b.txt\"\np.write_text(\"x\", encoding=\"utf-8\")\nprint(p.stat().st_size, p.resolve().name)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T1-A-E3] stat size + name. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "stat"
+      ]
+    },
+    {
+      "exercise_id": "S08-T1-B-E1",
+      "code": "from pathlib import Path\nimport os, tempfile\ndef write_atomic(path: Path, text: str) -> None:\n    path = Path(path)\n    tmp = path.with_name(path.name + \".tmp\")\n    tmp.write_text(text, encoding=\"utf-8\")\n    os.replace(tmp, path)\ndest = Path(tempfile.mkdtemp()) / \"out.txt\"\nwrite_atomic(dest, \"hola\\n\")\nprint(dest.read_text(encoding=\"utf-8\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T1-B-E1] temp + os.replace atomico. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "atomic"
+      ]
+    },
+    {
+      "exercise_id": "S08-T1-B-E2",
+      "code": "sample = b\"a\\r\\nb\\n\"\nprint(\"tiene CRLF\", b\"\\r\\n\" in sample)\ntext = sample.replace(b\"\\r\\n\", b\"\\n\").decode(\"utf-8\")\nprint(text.splitlines())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T1-B-E2] normaliza newlines CRLF. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "newlines"
+      ]
+    },
+    {
+      "exercise_id": "S08-T1-B-E3",
+      "code": "from pathlib import Path\nimport os, tempfile\ndef write_atomic(path, text):\n    path = Path(path)\n    tmp = path.with_suffix(path.suffix + \".tmp\")\n    tmp.write_text(text, encoding=\"utf-8\")\n    os.replace(tmp, path)\n    return path\nprint(write_atomic(Path(tempfile.mkdtemp())/\"c.csv\", \"id\\n1\\n\").name)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T1-B-E3] atomic csv write. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "atomic"
+      ]
+    },
+    {
+      "exercise_id": "S08-T2-A-E1",
+      "code": "import csv, io\nfrom decimal import Decimal\nraw = \"id,nombre,monto\\nC001,Ana,10.5\\nC002,Luis,20\\n\"\nfor row in csv.DictReader(io.StringIO(raw)):\n    row[\"monto\"] = Decimal(row[\"monto\"]).quantize(Decimal(\"0.01\"))\n    print(row)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T2-A-E1] DictReader + Decimal monto. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "csv"
+      ]
+    },
+    {
+      "exercise_id": "S08-T2-A-E2",
+      "code": "import csv, io\nraw = \"id,nombre\\nC001,Ana\\n\"\nprint(list(csv.DictReader(io.StringIO(raw))))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T2-A-E2] headers del dialecto default. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "DictReader"
+      ]
+    },
+    {
+      "exercise_id": "S08-T2-A-E3",
+      "code": "import csv, io\nfrom decimal import Decimal, InvalidOperation\ndef parse_monto(s):\n    try:\n        return Decimal(s).quantize(Decimal(\"0.01\"))\n    except InvalidOperation:\n        return None\nraw = \"id,monto\\nC1,10.5\\nC2,xx\\n\"\nfor row in csv.DictReader(io.StringIO(raw)):\n    print(row[\"id\"], parse_monto(row[\"monto\"]))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T2-A-E3] monto invalido -> None sin tumbar lote. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "parse"
+      ]
+    },
+    {
+      "exercise_id": "S08-T2-B-E1",
+      "code": "import csv, io\ntext = \"id,nombre\\nC001,Ana\\nC002,Luis,EXTRA\\nC003\\n\"\nreader = csv.reader(io.StringIO(text))\nheader = next(reader)\ngood, bad = [], []\nfor row in reader:\n    if len(row) != len(header):\n        bad.append({\"raw\": row, \"reason\": f\"cols {len(row)}!={len(header)}\"})\n    else:\n        good.append(dict(zip(header, row)))\nprint(\"good\", good)\nprint(\"bad\", bad)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T2-B-E1] filas irregulares a cuarentena. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "quarantine"
+      ]
+    },
+    {
+      "exercise_id": "S08-T2-B-E2",
+      "code": "def quarantine_row(row, reason):\n    return {\"raw\": row, \"reason\": reason, \"status\": \"quarantine\"}\nprint(quarantine_row([\"C1\", \"x\", \"y\"], \"cols 3!=2\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T2-B-E2] estructura de cuarentena. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "quarantine"
+      ]
+    },
+    {
+      "exercise_id": "S08-T2-B-E3",
+      "code": "good, bad = [{\"id\": \"C1\"}], [{\"raw\": [\"C2\"], \"reason\": \"cols\"}]\nprint(len(good) + len(bad) == 2)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T2-B-E3] balance good+bad. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "balance"
+      ]
+    },
+    {
+      "exercise_id": "S08-T3-A-E1",
+      "code": "import json\nfrom datetime import date\ndata = [{\"id\": \"T1\", \"dia\": date(2026, 1, 15).isoformat()}]\ns = json.dumps(data, ensure_ascii=False, sort_keys=True)\nprint(s)\nprint(json.loads(s)[0][\"id\"])",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T3-A-E1] dumps sort_keys + iso date. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "json"
+      ]
+    },
+    {
+      "exercise_id": "S08-T3-A-E2",
+      "code": "import json\nprint(json.loads('{\"a\":1,\"b\":null}')[\"b\"] is None)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T3-A-E2] null JSON -> None Python. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "null"
+      ]
+    },
+    {
+      "exercise_id": "S08-T3-A-E3",
+      "code": "import json\nobj = {\"id\": \"C1\"}\nobj.setdefault(\"segment\", \"default\")\nprint(json.dumps(obj, sort_keys=True))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T3-A-E3] evolucion compatible setdefault. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "schema evo"
+      ]
+    },
+    {
+      "exercise_id": "S08-T3-B-E1",
+      "code": "def validate_schema(obj, required):\n    missing = [k for k in required if k not in obj]\n    return (len(missing) == 0, missing)\nprint(validate_schema({\"id\": \"C1\", \"email\": None}, [\"id\", \"email\"]))\nprint(validate_schema({\"id\": \"C1\"}, [\"id\", \"email\"]))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T3-B-E1] required keys; null cuenta presente. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "schema"
+      ]
+    },
+    {
+      "exercise_id": "S08-T3-B-E2",
+      "code": "def is_compatible(old_keys, new_obj):\n    return all(k in new_obj for k in old_keys)\nprint(is_compatible([\"id\"], {\"id\": \"x\", \"extra\": 1}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T3-B-E2] compat hacia adelante con extra fields. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "compat"
+      ]
+    },
+    {
+      "exercise_id": "S08-T3-B-E3",
+      "code": "record = {\"id\": \"C1\"}\nrecord.setdefault(\"email\", None)\nprint(record)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T3-B-E3] null explicito vs ausente. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "nulls"
+      ]
+    },
+    {
+      "exercise_id": "S08-T4-A-E1",
+      "code": "from pathlib import Path\nimport hashlib, tempfile, shutil\ntd = Path(tempfile.mkdtemp())\nsrc = td / \"clients.csv\"\nsrc.write_text(\"id,nombre\\nC001,Ana\\n\", encoding=\"utf-8\")\nh = hashlib.sha256(src.read_bytes()).hexdigest()\nbak = td / \"clients.csv.bak\"\nshutil.copy2(src, bak)\nprint(\"sha256\", h[:16] + \"...\")\nprint(\"bak exists\", bak.exists())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T4-A-E1] hash + backup copy2. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "hash"
+      ]
+    },
+    {
+      "exercise_id": "S08-T4-A-E2",
+      "code": "import hashlib\nb = b\"hello\"\nprint(hashlib.sha256(b).hexdigest()[:12])",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T4-A-E2] sha256 corto para manifest. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "sha256"
+      ]
+    },
+    {
+      "exercise_id": "S08-T4-A-E3",
+      "code": "provenance = {\"path\": \"clients.csv\", \"sha256\": \"abc\", \"bytes\": 12}\nprint(provenance)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T4-A-E3] registro de provenance. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "provenance"
+      ]
+    },
+    {
+      "exercise_id": "S08-T4-B-E1",
+      "code": "sources = [\n    {\"name\": \"clients.csv\", \"n_in\": 6, \"n_clean\": 5, \"n_quarantine\": 1},\n    {\"name\": \"transactions.json\", \"n_in\": 4, \"n_clean\": 3, \"n_quarantine\": 1},\n]\nfor source in sources:\n    source[\"reconcile_ok\"] = source[\"n_in\"] == source[\"n_clean\"] + source[\"n_quarantine\"]\nprint(sources)\nprint(all(s[\"reconcile_ok\"] for s in sources))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T4-B-E1] n_in == clean + quarantine. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "reconcile"
+      ]
+    },
+    {
+      "exercise_id": "S08-T4-B-E2",
+      "code": "def fail_closed(reconcile_ok):\n    if not reconcile_ok:\n        raise SystemExit(1)\n    return 0\nprint(fail_closed(True))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S08-T4-B-E2] fail closed si reconcile falla. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "fail closed"
+      ]
+    },
+    {
+      "exercise_id": "S08-T4-B-E3",
+      "code": "manifest = {\n    \"n_in\": 10, \"n_clean\": 8, \"n_quarantine\": 2,\n    \"reconcile_ok\": 10 == 8 + 2,\n}\nprint(manifest)\nif not manifest[\"reconcile_ok\"]:\n    raise SystemExit(\"reconcile failed\")\nprint(\"publish_ok\")",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "manifest de corrida + publish solo si ok. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "manifest"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "encoding utf-8 evita depender del locale del SO (p.ej. Windows)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Escritura atomica: temp + os.replace al destino."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Fila con columnas de mas va a cuarentena con motivo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Reconciliacion: n_in == n_clean + n_quarantine."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Si reconcile falla: fail closed / exit non-zero."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:07:46.947245+00:00",
+  "session_started_at": "2026-07-23T07:07:24.302643+00:00",
+  "session_ended_at": "2026-07-23T07:07:46.947245+00:00"
+}

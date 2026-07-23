@@ -1,0 +1,286 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 28,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-exp-s28-df4935514989",
+  "production_note": "agentic_G2 dual-LLM explorer: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "code": "# explorer S28-T1-A-E1\nimport random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\nprint(True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T1-A-E1: leí instruction «S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime…» y theory «invariantes y generación de casos»: Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Genera casos desde la invariante (tabla. Completé el starter del paquete; línea clave: `import random`. Hints/iDo del subtopic S28-T1-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "code": "# explorer S28-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0,0.5,1]\nprint(all(0 <= s <= 1 for s in scores))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T1-A-E2: leí instruction «S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id…» y theory «invariantes y generación de casos»: Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Genera casos desde la invariante (tabla. Completé el starter del paquete; línea clave: `scores=[0,0.5,1]`. Hints/iDo del subtopic S28-T1-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "code": "# explorer S28-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='  x '\nf=lambda x: x.strip()\nprint(f(f(s)) == f(s))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T1-A-E3: leí instruction «S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s='  x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa,…» y theory «invariantes y generación de casos»: Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Genera casos desde la invariante (tabla. Completé el starter del paquete; línea clave: `f=lambda x: x.strip()`. Hints/iDo del subtopic S28-T1-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "code": "# explorer S28-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='x','x'\nprint((a == b) == (b == a))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T1-B-E1: leí instruction «S28-T1-B-E1 · Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'. Fixture sintético `CASO-LIM-028` (run_id=cp…» y theory «idempotencia, simetría y metamorphic tests»: **Idempotencia**: aplicar dos veces = una. **Simetría**: `sim(a,b)==sim(b,a)` en comparadores simétricos. Los tests de datos convierten supuestos de schem. Completé el starter del paquete; línea clave: `a,b='x','x'`. Hints/iDo del subtopic S28-T1-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "code": "# explorer S28-T1-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('Ana'.casefold() == 'ANA'.casefold())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T1-B-E2: leí instruction «S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028`…» y theory «idempotencia, simetría y metamorphic tests»: **Idempotencia**: aplicar dos veces = una. **Simetría**: `sim(a,b)==sim(b,a)` en comparadores simétricos. Los tests de datos convierten supuestos de schem. Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S28-T1-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "code": "# explorer S28-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b=1,1\nprint((a == b) == (b == a))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T1-B-E3: leí instruction «S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-…» y theory «idempotencia, simetría y metamorphic tests»: **Idempotencia**: aplicar dos veces = una. **Simetría**: `sim(a,b)==sim(b,a)` en comparadores simétricos. Los tests de datos convierten supuestos de schem. Completé el starter del paquete; línea clave: `print((a == b) == (b == a))`. Hints/iDo del subtopic S28-T1-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "code": "# explorer S28-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nr={}\nprint('id requerido' if not r.get('id') else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T2-A-E1: leí instruction «S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @examp…» y theory «schema y quality contracts»: Un **schema contract** fija tipos, nullability y dominios (email con @, score 0..1). Un **quality contract** fija reglas de negocio (unique id, cardinalidad de pares). Lo. Completé el starter del paquete; línea clave: `print('id requerido' if not r.get('id') else 'ok')`. Hints/iDo del subtopic S28-T2-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "code": "# explorer S28-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=1.2\nprint('score' if not (0 <= score <= 1) else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T2-A-E2: leí instruction «S28-T2-A-E2 · score=1.2 fuera de rango → imprime 'score'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @exampl…» y theory «schema y quality contracts»: Un **schema contract** fija tipos, nullability y dominios (email con @, score 0..1). Un **quality contract** fija reglas de negocio (unique id, cardinalidad de pares). Lo. Completé el starter del paquete; línea clave: `score=1.2`. Hints/iDo del subtopic S28-T2-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "code": "# explorer S28-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'id':'1'},{'id':''}]\nprint(sum(1 for r in rows if not r.get('id')))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T2-A-E3: leí instruction «S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (r…» y theory «schema y quality contracts»: Un **schema contract** fija tipos, nullability y dominios (email con @, score 0..1). Un **quality contract** fija reglas de negocio (unique id, cardinalidad de pares). Lo. Completé el starter del paquete; línea clave: `rows=[{'id':'1'},{'id':''}]`. Hints/iDo del subtopic S28-T2-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "code": "# explorer S28-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngolden,current={'n':1},{'n':2}\nprint('drift' if golden != current else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T2-B-E1: leí instruction «S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): l…» y theory «golden datasets, drift y reconciliación»: Un **golden** es un snapshot de salida esperada (JSON/CSV sintético versionado). Sirve de regresión de pipeline. Los tests de datos convierten supuestos de s. Completé el starter del paquete; línea clave: `golden,current={'n':1},{'n':2}`. Hints/iDo del subtopic S28-T2-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "code": "# explorer S28-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndiff, approved = True, False\nprint('blocked' if diff and not approved else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T2-B-E2: leí instruction «S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a…» y theory «golden datasets, drift y reconciliación»: Un **golden** es un snapshot de salida esperada (JSON/CSV sintético versionado). Sirve de regresión de pipeline. Los tests de datos convierten supuestos de s. Completé el starter del paquete; línea clave: `diff, approved = True, False`. Hints/iDo del subtopic S28-T2-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "code": "# explorer S28-T2-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'golden_version': 3}['golden_version'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T2-B-E3: leí instruction «S28-T2-B-E3 · Imprime version del golden = 3. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la en…» y theory «golden datasets, drift y reconciliación»: Un **golden** es un snapshot de salida esperada (JSON/CSV sintético versionado). Sirve de regresión de pipeline. Los tests de datos convierten supuestos de s. Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S28-T2-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "code": "# explorer S28-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndb={'e1':{'name':'Ana'}}\nprint(db['e1']['name'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T3-A-E1: leí instruction «S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @examp…» y theory «mocks/fakes de HTTP, DB y reloj»: **Mock**: verifica interacciones. **Fake**: implementación liviana en memoria. **Stub**: respuestas fijas. Los tests de datos convierten supuestos de schema y matchi. Completé el starter del paquete; línea clave: `db={'e1':{'name':'Ana'}}`. Hints/iDo del subtopic S28-T3-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "code": "# explorer S28-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nprint(date(2026, 7, 20).isoformat())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T3-A-E2: leí instruction «S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dat…» y theory «mocks/fakes de HTTP, DB y reloj»: **Mock**: verifica interacciones. **Fake**: implementación liviana en memoria. **Stub**: respuestas fijas. Los tests de datos convierten supuestos de schema y matchi. Completé el starter del paquete; línea clave: `from datetime import date`. Hints/iDo del subtopic S28-T3-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "code": "# explorer S28-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus=503\nprint('retry' if status >= 500 else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T3-A-E3: leí instruction «S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe…» y theory «mocks/fakes de HTTP, DB y reloj»: **Mock**: verifica interacciones. **Fake**: implementación liviana en memoria. **Stub**: respuestas fijas. Los tests de datos convierten supuestos de schema y matchi. Completé el starter del paquete; línea clave: `status=503`. Hints/iDo del subtopic S28-T3-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "code": "# explorer S28-T3-B-E1\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A'.casefold() == 'a'.casefold())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T3-B-E1: leí instruction «S28-T3-B-E1 · Contrato: match real 'A'/'a' → True. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): …» y theory «contract tests sin sobre-mocking»: El **sobre-mocking** acopla el test a detalles internos (orden de calls, nombres privados) y se rompe en refactors inocuos. Los tests de datos convierten supuestos . Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S28-T3-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "code": "# explorer S28-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nf=lambda a,b: True\nprint('weak' if f('x','y') and f('1','2') else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T3-B-E2: leí instruction «S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-…» y theory «contract tests sin sobre-mocking»: El **sobre-mocking** acopla el test a detalles internos (orden de calls, nombres privados) y se rompe en refactors inocuos. Los tests de datos convierten supuestos . Completé el starter del paquete; línea clave: `f=lambda a,b: True`. Hints/iDo del subtopic S28-T3-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "code": "# explorer S28-T3-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'rows_written': 1}['rows_written'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T3-B-E3: leí instruction «S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example…» y theory «contract tests sin sobre-mocking»: El **sobre-mocking** acopla el test a detalles internos (orden de calls, nombres privados) y se rompe en refactors inocuos. Los tests de datos convierten supuestos . Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S28-T3-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "code": "# explorer S28-T4-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\nprint('deterministic')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T4-A-E1: leí instruction «S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @…» y theory «integración/E2E y test containers»: Integración ejerce 2+ componentes reales (app + sqlite). E2E cubre flujo de punta a punta (ingest→pares→review) con datos sintéticos. Los tests de datos convierten. Completé el starter del paquete; línea clave: `import sqlite3`. Hints/iDo del subtopic S28-T4-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "code": "# explorer S28-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n * (n - 1) // 2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T4-A-E2: leí instruction «S28-T4-A-E2 · Cardinalidad de pares C(n,2) para n=4 → 6. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example…» y theory «integración/E2E y test containers»: Integración ejerce 2+ componentes reales (app + sqlite). E2E cubre flujo de punta a punta (ingest→pares→review) con datos sintéticos. Los tests de datos convierten. Completé el starter del paquete; línea clave: `print(n * (n - 1) // 2)`. Hints/iDo del subtopic S28-T4-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "code": "# explorer S28-T4-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndone, items={'a'}, ['a','b']\nprint([i for i in items if i not in done])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T4-A-E3: leí instruction «S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a…» y theory «integración/E2E y test containers»: Integración ejerce 2+ componentes reales (app + sqlite). E2E cubre flujo de punta a punta (ingest→pares→review) con datos sintéticos. Los tests de datos convierten. Completé el starter del paquete; línea clave: `done, items={'a'}, ['a','b']`. Hints/iDo del subtopic S28-T4-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "code": "# explorer S28-T4-B-E1\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(sorted(['b', 'a']))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T4-B-E1: leí instruction «S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-data…» y theory «flakes, determinismo y CI»: Un **flake** pasa/falla sin cambio de código: orden, tiempo, red, random. En CI del ER son inaceptables en la suite gate. Los tests de datos convierten supuestos de schema. Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S28-T4-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "code": "# explorer S28-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflake_rate=0.01\nprint('fail_job' if flake_rate > 0 else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T4-B-E2: leí instruction «S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @e…» y theory «flakes, determinismo y CI»: Un **flake** pasa/falla sin cambio de código: orden, tiempo, red, random. En CI del ER son inaceptables en la suite gate. Los tests de datos convierten supuestos de schema. Completé el starter del paquete; línea clave: `flake_rate=0.01`. Hints/iDo del subtopic S28-T4-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "code": "# explorer S28-T4-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('unit→data→integration')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S28-T4-B-E3: leí instruction «S28-T4-B-E3 · Imprime pipeline CI: unit→data→integration. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @exampl…» y theory «flakes, determinismo y CI»: Un **flake** pasa/falla sin cambio de código: orden, tiempo, red, random. En CI del ER son inaceptables en la suite gate. Los tests de datos convierten supuestos de schema. Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S28-T4-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S28-T4-B"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S28 Q0: elegí índice 3 «Relaciones predecibles entre entradas transformadas y salidas» porque la theory del paquete dice: «invariantes y generación de casos»: Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Genera casos desde la invariante (tabla, random acotado con. Coherente con learning outcomes y iDo de la sección."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S28 Q1: elegí índice 1 «Riesgo de ocultar regresiones» porque la theory del paquete dice: «invariantes y generación de casos»: Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Genera casos desde la invariante (tabla, random acotado con. Coherente con learning outcomes y iDo de la sección."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S28 Q2: elegí índice 2 «Acoplar el test a detalles internos y ocultar bugs» porque la theory del paquete dice: «invariantes y generación de casos»: Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Genera casos desde la invariante (tabla, random acotado con. Coherente con learning outcomes y iDo de la sección."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S28 Q3: elegí índice 0 «Con determinismo (seed/reloj/sort) y fallo de job si persisten» porque la theory del paquete dice: «invariantes y generación de casos»: Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Genera casos desde la invariante (tabla, random acotado con. Coherente con learning outcomes y iDo de la sección."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:18:42.466739+00:00",
+  "session_started_at": "2026-07-23T06:17:22.466739+00:00",
+  "session_ended_at": "2026-07-23T06:18:42.466739+00:00"
+}

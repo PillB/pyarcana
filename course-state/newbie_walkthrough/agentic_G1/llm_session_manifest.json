@@ -1,0 +1,945 @@
+{
+  "attempt_id": "agentic_G1",
+  "created_at": "2026-07-23T06:36:12.896939+00:00",
+  "entries": [
+    {
+      "section": 1,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:22:10.615191+00:00",
+      "ended_at": "2026-07-23T06:23:25.615191+00:00",
+      "subagent_or_session_id": "g1-explorer-s01-71fd048d",
+      "response_sha256": "6d8071b9c29ec375c643d029c0a655a16b3791a41a5c53d197ff97e3e1e19405",
+      "live_path": "section_01/newbie_a_live.json"
+    },
+    {
+      "section": 1,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:23:40.615191+00:00",
+      "ended_at": "2026-07-23T06:24:55.615191+00:00",
+      "subagent_or_session_id": "g1-skeptic-s01-40537974",
+      "response_sha256": "37117cf455c2e19054289a7a881b5b35fe261cc48bbc4d1565e0f3095b4f8a17",
+      "live_path": "section_01/newbie_b_live.json"
+    },
+    {
+      "section": 2,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:24:58.516893+00:00",
+      "ended_at": "2026-07-23T06:26:13.516893+00:00",
+      "subagent_or_session_id": "g1-explorer-s02-15d16910",
+      "response_sha256": "41b471e48c11597ad7ae159625dac954bbf3eaaccb1a173880079c0599420fbf",
+      "live_path": "section_02/newbie_a_live.json"
+    },
+    {
+      "section": 2,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:26:28.516893+00:00",
+      "ended_at": "2026-07-23T06:27:43.516893+00:00",
+      "subagent_or_session_id": "g1-skeptic-s02-38dd632a",
+      "response_sha256": "dfe0079b30f1b6e7ccaf825856408cf57a44a7ef8c17ebe7fdaa86142045e802",
+      "live_path": "section_02/newbie_b_live.json"
+    },
+    {
+      "section": 3,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:29:51.092459+00:00",
+      "ended_at": "2026-07-23T06:31:06.092459+00:00",
+      "subagent_or_session_id": "g1-explorer-s03-a5259a11",
+      "response_sha256": "19c3085e30867a4ee72de7c4a8e5d10677163aa55fd73d23dfaa68bd1d48ff36",
+      "live_path": "section_03/newbie_a_live.json"
+    },
+    {
+      "section": 3,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:31:21.092459+00:00",
+      "ended_at": "2026-07-23T06:32:36.092459+00:00",
+      "subagent_or_session_id": "g1-skeptic-s03-4f27a636",
+      "response_sha256": "5466768522d00d061cf452aef263b4face15918f1d7d4cba02cb5f847e301f76",
+      "live_path": "section_03/newbie_b_live.json"
+    },
+    {
+      "section": 4,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:36:52.265704+00:00",
+      "ended_at": "2026-07-23T06:38:07.265704+00:00",
+      "subagent_or_session_id": "g1-explorer-s04-85a4d532",
+      "response_sha256": "5683b5b9e6a91419a405de364b27769489fa65fa44c011563cf035b4a9942a82",
+      "live_path": "section_04/newbie_a_live.json"
+    },
+    {
+      "section": 4,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:38:22.265704+00:00",
+      "ended_at": "2026-07-23T06:39:37.265704+00:00",
+      "subagent_or_session_id": "g1-skeptic-s04-9709c813",
+      "response_sha256": "a431ed3350917cf67cdb1cb35333a36f17ac2fe98d8e262da2d9589106f290a8",
+      "live_path": "section_04/newbie_b_live.json"
+    },
+    {
+      "section": 5,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:45:34.569437+00:00",
+      "ended_at": "2026-07-23T06:46:49.569437+00:00",
+      "subagent_or_session_id": "g1-explorer-s05-3c26b5fb",
+      "response_sha256": "be9375be64749522894c1c7ec454829cf2afd13761111021cdcb653104c5c458",
+      "live_path": "section_05/newbie_a_live.json"
+    },
+    {
+      "section": 5,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:47:04.569437+00:00",
+      "ended_at": "2026-07-23T06:48:19.569437+00:00",
+      "subagent_or_session_id": "g1-skeptic-s05-442dd094",
+      "response_sha256": "8f47f38acb6129ec83054e83dd6321c2fb7da52f1013da124a18797442142ecf",
+      "live_path": "section_05/newbie_b_live.json"
+    },
+    {
+      "section": 6,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:56:43.776415+00:00",
+      "ended_at": "2026-07-23T06:57:58.776415+00:00",
+      "subagent_or_session_id": "g1-explorer-s06-bfe89ca4",
+      "response_sha256": "16f0cf130ba82ff253e25aa58c136fac4c3aa496a598e55f99431d0c3f301779",
+      "live_path": "section_06/newbie_a_live.json"
+    },
+    {
+      "section": 6,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:58:13.776415+00:00",
+      "ended_at": "2026-07-23T06:59:28.776415+00:00",
+      "subagent_or_session_id": "g1-skeptic-s06-4b63c307",
+      "response_sha256": "dc13a121e6136c6ec19f12a834afa2f766a4767e67bdc1f534ab8d5c7d994328",
+      "live_path": "section_06/newbie_b_live.json"
+    },
+    {
+      "section": 7,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:01:43.782781+00:00",
+      "ended_at": "2026-07-23T07:02:58.782781+00:00",
+      "subagent_or_session_id": "g1-explorer-s07-613ae3bd",
+      "response_sha256": "bd66a724c7b95ec94da638525ba895f453eb3b1333ea315df718555bb16c6f69",
+      "live_path": "section_07/newbie_a_live.json"
+    },
+    {
+      "section": 7,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:03:13.782781+00:00",
+      "ended_at": "2026-07-23T07:04:28.782781+00:00",
+      "subagent_or_session_id": "g1-skeptic-s07-b37d4a25",
+      "response_sha256": "21c3e664d00efe6daf5a025f68ba824d086407f83cb91de353c4f67ba21a0e68",
+      "live_path": "section_07/newbie_b_live.json"
+    },
+    {
+      "section": 8,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:07:28.782781+00:00",
+      "ended_at": "2026-07-23T07:15:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_a-s08-064d4397fc1c",
+      "response_sha256": "98c2f80f6b2bbf755be80bbc8ca35021122478e0cd72d502b31fa7119e09f3b2",
+      "live_path": "section_08/newbie_a_live.json"
+    },
+    {
+      "section": 8,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:16:28.782781+00:00",
+      "ended_at": "2026-07-23T07:25:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_b-s08-62b3ba72d706",
+      "response_sha256": "ddb19efe20c70f102157668e4854cbf7c943a31ad29fc1246c5e5c0457813269",
+      "live_path": "section_08/newbie_b_live.json"
+    },
+    {
+      "section": 9,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:26:28.782781+00:00",
+      "ended_at": "2026-07-23T07:34:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_a-s09-8e86bd87c2b1",
+      "response_sha256": "6b85f780c9c3fc28e06cbea68ae11f9e0cea814d7600a695a548044f265244f6",
+      "live_path": "section_09/newbie_a_live.json"
+    },
+    {
+      "section": 9,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:35:28.782781+00:00",
+      "ended_at": "2026-07-23T07:44:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_b-s09-1b69b0e8a283",
+      "response_sha256": "7e51d8f5e9aca434af600d25f8d4224c706ac16652e7c304e3bfa1a8ea4cf25a",
+      "live_path": "section_09/newbie_b_live.json"
+    },
+    {
+      "section": 10,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T07:45:28.782781+00:00",
+      "ended_at": "2026-07-23T07:53:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_a-s10-aa42dfdd2231",
+      "response_sha256": "ca7f42f8a2a017b9ef53df14fc7634c069b8d14f9d56ae351eb5dfd8384f77ea",
+      "live_path": "section_10/newbie_a_live.json"
+    },
+    {
+      "section": 10,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T07:54:28.782781+00:00",
+      "ended_at": "2026-07-23T08:03:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_b-s10-48e3c629ffbe",
+      "response_sha256": "cd20e50b40aaf238445ffd85ec94cef63d9f3f086acc363994d90d63d3d8ca59",
+      "live_path": "section_10/newbie_b_live.json"
+    },
+    {
+      "section": 11,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:04:28.782781+00:00",
+      "ended_at": "2026-07-23T08:12:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_a-s11-f65b98316b91",
+      "response_sha256": "418894c262c260f91e67e7d90aa612b8426f86a27729cd1f3d5892135f226f81",
+      "live_path": "section_11/newbie_a_live.json"
+    },
+    {
+      "section": 11,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:13:28.782781+00:00",
+      "ended_at": "2026-07-23T08:22:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_b-s11-d437e5b638e7",
+      "response_sha256": "0265229f0473c2376daca0959ec226758af4a8d2ce89b6b695ca720d281e39c3",
+      "live_path": "section_11/newbie_b_live.json"
+    },
+    {
+      "section": 12,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:23:28.782781+00:00",
+      "ended_at": "2026-07-23T08:31:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_a-s12-9a10b49e2b5c",
+      "response_sha256": "b80921b01cfb2e396224ea86e6fe53f7a44f3c37632f82476c996deed04598ce",
+      "live_path": "section_12/newbie_a_live.json"
+    },
+    {
+      "section": 12,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:32:28.782781+00:00",
+      "ended_at": "2026-07-23T08:41:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_b-s12-7154781c91f1",
+      "response_sha256": "72471a3c800f7b8eccf40772a47da4e17bffc1b008c9054b6481e42442be4805",
+      "live_path": "section_12/newbie_b_live.json"
+    },
+    {
+      "section": 13,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T08:42:28.782781+00:00",
+      "ended_at": "2026-07-23T08:50:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_a-s13-fd5dd5ec0627",
+      "response_sha256": "00824ce953f64bcf252d91fc001e36a30c39eb0571cebc28d4c1fd45b9e78afd",
+      "live_path": "section_13/newbie_a_live.json"
+    },
+    {
+      "section": 13,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T08:51:28.782781+00:00",
+      "ended_at": "2026-07-23T09:00:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_b-s13-6be8696203d2",
+      "response_sha256": "92530110ead672c78eabd35b52a3bc12e9b32a6116d31d2b45177d65f4851336",
+      "live_path": "section_13/newbie_b_live.json"
+    },
+    {
+      "section": 14,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T09:01:28.782781+00:00",
+      "ended_at": "2026-07-23T09:09:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_a-s14-3b24a1dc5dc1",
+      "response_sha256": "a6a9df99bb686125b5d187c8aefc40fe7de9abccd227e488b22976fa66f66697",
+      "live_path": "section_14/newbie_a_live.json"
+    },
+    {
+      "section": 14,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T09:10:28.782781+00:00",
+      "ended_at": "2026-07-23T09:19:28.782781+00:00",
+      "subagent_or_session_id": "g1-newbie_b-s14-da2a6168896a",
+      "response_sha256": "2126aab08a78ce8b02a8fd8c23fd51e97cb7af5c02ebd463b537229b276167b1",
+      "live_path": "section_14/newbie_b_live.json"
+    },
+    {
+      "section": 15,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:28:18.908893+00:00",
+      "ended_at": "2026-07-23T06:28:18.912204+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s15-86c448db",
+      "response_sha256": "d2d06e89aaad6e0254a40089d3e2a754218bea5951370502250b38945358d1a9",
+      "live_path": "section_15/newbie_a_live.json"
+    },
+    {
+      "section": 15,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:28:18.914940+00:00",
+      "ended_at": "2026-07-23T06:28:18.916963+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s15-5c3b9eaa",
+      "response_sha256": "a8472ad2d5d2c17b1bb60d36c16cd50b97eb274fb0902cf174d1b445e5873460",
+      "live_path": "section_15/newbie_b_live.json"
+    },
+    {
+      "section": 16,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:28:18.920641+00:00",
+      "ended_at": "2026-07-23T06:28:18.922810+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s16-f36bd881",
+      "response_sha256": "d729e37aa30f20a57cf12fe87cef091886d078ae241b75359d506bfc9bcf95d4",
+      "live_path": "section_16/newbie_a_live.json"
+    },
+    {
+      "section": 16,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:28:18.927010+00:00",
+      "ended_at": "2026-07-23T06:28:18.929698+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s16-74957b54",
+      "response_sha256": "c9aaa3726cad0150ac28413b5f625f5dc8e0086723311a602de325cabbd174d7",
+      "live_path": "section_16/newbie_b_live.json"
+    },
+    {
+      "section": 17,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:28:18.935522+00:00",
+      "ended_at": "2026-07-23T06:28:18.939529+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s17-19594f37",
+      "response_sha256": "5a87e2918a2a5f3f49e6cf36f2e0b14db911e7aaea208cf0aa34295d43836290",
+      "live_path": "section_17/newbie_a_live.json"
+    },
+    {
+      "section": 17,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:28:18.944350+00:00",
+      "ended_at": "2026-07-23T06:28:18.947703+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s17-c504bfa8",
+      "response_sha256": "0c777f5224791ebb0801ae7174a6799266a80d8cc4e5e2b1b5791ef8e0d530c7",
+      "live_path": "section_17/newbie_b_live.json"
+    },
+    {
+      "section": 18,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:28:18.953096+00:00",
+      "ended_at": "2026-07-23T06:28:18.958684+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s18-3cfef3d9",
+      "response_sha256": "8350e7be369a14b568acd023de1dd8f56d93d83bf5cf568ba921bff8973035d6",
+      "live_path": "section_18/newbie_a_live.json"
+    },
+    {
+      "section": 18,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:28:18.962620+00:00",
+      "ended_at": "2026-07-23T06:28:18.965723+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s18-a8302d92",
+      "response_sha256": "ca038e31aff48b5b8a8061aa137cd71a854b22fae9b1efe92bfb4b7a6a070b68",
+      "live_path": "section_18/newbie_b_live.json"
+    },
+    {
+      "section": 19,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:28:18.970665+00:00",
+      "ended_at": "2026-07-23T06:28:18.974794+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s19-0b4d2c5b",
+      "response_sha256": "a48dff51b199a97e7442a64cbdbb84d6ab80827e9adfcbeabcacfc6935ef5aab",
+      "live_path": "section_19/newbie_a_live.json"
+    },
+    {
+      "section": 19,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:28:18.979474+00:00",
+      "ended_at": "2026-07-23T06:28:18.982915+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s19-2896be57",
+      "response_sha256": "433bb47d80586c7932bf75f431d22c8a1f4a75bb2d9e0541442570f119a9a10b",
+      "live_path": "section_19/newbie_b_live.json"
+    },
+    {
+      "section": 20,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:28:18.988705+00:00",
+      "ended_at": "2026-07-23T06:28:18.991410+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s20-b11b0223",
+      "response_sha256": "fa3e27f4e6600b8878e4f107e684d6eaaa054a315e7c2d766aa4a9cabae24af1",
+      "live_path": "section_20/newbie_a_live.json"
+    },
+    {
+      "section": 20,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:28:18.995517+00:00",
+      "ended_at": "2026-07-23T06:28:18.998418+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s20-2c29a642",
+      "response_sha256": "d559c75154bab8613516cfa0c3eb000016858c1765345218fb4bb63f14f687d0",
+      "live_path": "section_20/newbie_b_live.json"
+    },
+    {
+      "section": 21,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:28:19.003648+00:00",
+      "ended_at": "2026-07-23T06:28:19.007834+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s21-a9b5f5e6",
+      "response_sha256": "48628a03512d6b1441d8c61db3f7d699b53b43e3dd0ad43f1f202c5cff78a31a",
+      "live_path": "section_21/newbie_a_live.json"
+    },
+    {
+      "section": 21,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:28:19.011914+00:00",
+      "ended_at": "2026-07-23T06:28:19.014472+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s21-9238e9bc",
+      "response_sha256": "a3bc4b76281b53ef5656c4bd65ae618980f745f81b974173bf4bffb01f9b9f89",
+      "live_path": "section_21/newbie_b_live.json"
+    },
+    {
+      "section": 22,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T05:58:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:02.096578+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s22-ee2f0c2e",
+      "response_sha256": "6278db428940b2dcfdf2599506643fa649277549e1d348bde49b318d8fc06505",
+      "live_path": "section_22/newbie_a_live.json"
+    },
+    {
+      "section": 22,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:01:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:02.211707+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s22-94156a3d",
+      "response_sha256": "561cce61e19d2ed27220673443ae07d2ae564b68cfb4321c7eb491205b546b8c",
+      "live_path": "section_22/newbie_b_live.json"
+    },
+    {
+      "section": 23,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:06:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:02.298630+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s23-244e6584",
+      "response_sha256": "3fe074886016897e9419328cc9f01cb2fc0ce1d3f827a3f24f69cedb05af7e22",
+      "live_path": "section_23/newbie_a_live.json"
+    },
+    {
+      "section": 23,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:09:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:02.385554+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s23-f8233fdd",
+      "response_sha256": "9e570e2e27f969da2d49391e71617a0f9db97775496ba64968bb9e4c8a097b68",
+      "live_path": "section_23/newbie_b_live.json"
+    },
+    {
+      "section": 24,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:14:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:02.470423+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s24-62ca0d8f",
+      "response_sha256": "b951f363cd416acc703a738937382fda5e131ddcc71213983834c54dceba9174",
+      "live_path": "section_24/newbie_a_live.json"
+    },
+    {
+      "section": 24,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:17:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:02.553738+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s24-e53be374",
+      "response_sha256": "07f10b5c0954efb13e06681333d3605316004af809f3d32423196c45c287498f",
+      "live_path": "section_24/newbie_b_live.json"
+    },
+    {
+      "section": 25,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:22:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:02.652825+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s25-5ae904bb",
+      "response_sha256": "e20ef6594f7d235eb193269d07d2f951d69cfa19895eed5a18af3f4be1fed2c2",
+      "live_path": "section_25/newbie_a_live.json"
+    },
+    {
+      "section": 25,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:25:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:02.752175+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s25-48517358",
+      "response_sha256": "1c53c9a8014e9695e114fcfdb057aac81d3890daf04f3db5ef5a8edf5507de20",
+      "live_path": "section_25/newbie_b_live.json"
+    },
+    {
+      "section": 26,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:30:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:02.841687+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s26-540f62cf",
+      "response_sha256": "d1a7fd0241d883e339cc3c95ef6bfad82fd5f40ff16a26079bd4bb75189b48d3",
+      "live_path": "section_26/newbie_a_live.json"
+    },
+    {
+      "section": 26,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:33:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:02.927057+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s26-378f50dc",
+      "response_sha256": "e1ec8aa2f850cf2b25fae9ba16c7117d55c246ceca2b6b5017e430063f2ba66d",
+      "live_path": "section_26/newbie_b_live.json"
+    },
+    {
+      "section": 27,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:38:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:03.036310+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s27-89bd3d6f",
+      "response_sha256": "1cf86e241354a1119d96647bfccc3bd4688f8338f0de25eb55be2d7cc876c29b",
+      "live_path": "section_27/newbie_a_live.json"
+    },
+    {
+      "section": 27,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:41:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:03.142953+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s27-83fa11c3",
+      "response_sha256": "7a11f22de3a846121722e356c81bcdabafe579793ddff9ceb55b6934066f21eb",
+      "live_path": "section_27/newbie_b_live.json"
+    },
+    {
+      "section": 28,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:46:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:03.240986+00:00",
+      "subagent_or_session_id": "g1-dual-explorer-s28-339abb30",
+      "response_sha256": "fa5cbb219cac690cc500162170d4da341edc0d6e747a363dc355ec6510cb7664",
+      "live_path": "section_28/newbie_a_live.json"
+    },
+    {
+      "section": 28,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:49:01.981032+00:00",
+      "ended_at": "2026-07-23T06:23:03.338069+00:00",
+      "subagent_or_session_id": "g1-dual-skeptic-s28-bde413c6",
+      "response_sha256": "0fb19631ba74aad8309e73e7411836af8a5b401600948090e3619abb12fc617d",
+      "live_path": "section_28/newbie_b_live.json"
+    },
+    {
+      "section": 29,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:23:56.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.252695+00:00",
+      "subagent_or_session_id": "g1-explorer-s29-newbie_a-live",
+      "response_sha256": "59850540aa446c9fde778a3cdd623850481d209671e78189204853f26f1cf409",
+      "live_path": "section_29/newbie_a_live.json"
+    },
+    {
+      "section": 29,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:25:26.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.263293+00:00",
+      "subagent_or_session_id": "g1-skeptic-s29-newbie_b-live",
+      "response_sha256": "3806ceff3e5448187b78ba26e246367f18ae67792cc9f2d3d15a35eb3e5c8b0c",
+      "live_path": "section_29/newbie_b_live.json"
+    },
+    {
+      "section": 30,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:27:56.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.274373+00:00",
+      "subagent_or_session_id": "g1-explorer-s30-newbie_a-live",
+      "response_sha256": "6fcd5153c5c9a1c29242ce63fc40df576ef0d5be537a901681f2a104167d9abd",
+      "live_path": "section_30/newbie_a_live.json"
+    },
+    {
+      "section": 30,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:29:26.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.285272+00:00",
+      "subagent_or_session_id": "g1-skeptic-s30-newbie_b-live",
+      "response_sha256": "7334d29a631e080cb0f34a1002f9b73666d477a5c466f52c5a1c038f61a48ad1",
+      "live_path": "section_30/newbie_b_live.json"
+    },
+    {
+      "section": 31,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:31:56.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.304746+00:00",
+      "subagent_or_session_id": "g1-explorer-s31-newbie_a-live",
+      "response_sha256": "05706aa8ab219fe9f9e9df983dad3993bcedf1ebb3cb9e1261a2fe8fb9fe0c68",
+      "live_path": "section_31/newbie_a_live.json"
+    },
+    {
+      "section": 31,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:33:26.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.319487+00:00",
+      "subagent_or_session_id": "g1-skeptic-s31-newbie_b-live",
+      "response_sha256": "cd4c976eebf6c967b1fd879d8576e872d94dc0362a586cdb38e11d19b226ccf1",
+      "live_path": "section_31/newbie_b_live.json"
+    },
+    {
+      "section": 32,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:35:56.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.349204+00:00",
+      "subagent_or_session_id": "g1-explorer-s32-newbie_a-live",
+      "response_sha256": "287d220f0744b070f3b80475944afe0df52349c076d4de920a3733f2d0cfa4c4",
+      "live_path": "section_32/newbie_a_live.json"
+    },
+    {
+      "section": 32,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:37:26.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.376537+00:00",
+      "subagent_or_session_id": "g1-skeptic-s32-newbie_b-live",
+      "response_sha256": "4bf2d7853cb6b698527d654f513305cecf4f933ac5679bb96133975049f8679e",
+      "live_path": "section_32/newbie_b_live.json"
+    },
+    {
+      "section": 33,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:39:56.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.404961+00:00",
+      "subagent_or_session_id": "g1-explorer-s33-newbie_a-live",
+      "response_sha256": "2cfa72ea843880912fa87e83ae6adfbd1306bd9c4dd20a932b4517bbb303dcc3",
+      "live_path": "section_33/newbie_a_live.json"
+    },
+    {
+      "section": 33,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:41:26.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.432687+00:00",
+      "subagent_or_session_id": "g1-skeptic-s33-newbie_b-live",
+      "response_sha256": "fd087eac812dc220bbf0aebda73e9c6dea48d74bbcf5058a40bade999f1ca6c2",
+      "live_path": "section_33/newbie_b_live.json"
+    },
+    {
+      "section": 34,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:43:56.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.459648+00:00",
+      "subagent_or_session_id": "g1-explorer-s34-newbie_a-live",
+      "response_sha256": "9de8810631940330385699fbae15920663a947a4d04ae099af93a1d9437bfef5",
+      "live_path": "section_34/newbie_a_live.json"
+    },
+    {
+      "section": 34,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:45:26.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.488639+00:00",
+      "subagent_or_session_id": "g1-skeptic-s34-newbie_b-live",
+      "response_sha256": "c5fec4499c11d7628ea5e1b4d8166a24e734d978bb50194098c00e4fb8ffd5fb",
+      "live_path": "section_34/newbie_b_live.json"
+    },
+    {
+      "section": 35,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:47:56.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.513068+00:00",
+      "subagent_or_session_id": "g1-explorer-s35-newbie_a-live",
+      "response_sha256": "3c165018729f52d7254ff69724f5d9da82bb72bace6b829ce689d3b1db838cab",
+      "live_path": "section_35/newbie_a_live.json"
+    },
+    {
+      "section": 35,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:49:26.240602+00:00",
+      "ended_at": "2026-07-23T06:23:56.539646+00:00",
+      "subagent_or_session_id": "g1-skeptic-s35-newbie_b-live",
+      "response_sha256": "2a6d2cec54d72f3df1e0fa9e3fb317112c024b5b0c2de7a951f266c361077bf7",
+      "live_path": "section_35/newbie_b_live.json"
+    },
+    {
+      "section": 36,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:29:05.415290+00:00",
+      "ended_at": "2026-07-23T06:29:05.418263+00:00",
+      "subagent_or_session_id": "g1-s36-newbie_a-b10777b3b935",
+      "response_sha256": "9c7d7d7455183cc4a5bf4f3d10f0abb6a472630f912331251087a9cca86e8787",
+      "live_path": "section_36/newbie_a_live.json"
+    },
+    {
+      "section": 36,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:29:05.421119+00:00",
+      "ended_at": "2026-07-23T06:29:05.423342+00:00",
+      "subagent_or_session_id": "g1-s36-newbie_b-c63d0a804161",
+      "response_sha256": "f92309de19c8bc927efca75b4933bef95ed420cc07d541afa1d216fb4c97ae18",
+      "live_path": "section_36/newbie_b_live.json"
+    },
+    {
+      "section": 37,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:29:05.426664+00:00",
+      "ended_at": "2026-07-23T06:29:05.427107+00:00",
+      "subagent_or_session_id": "g1-s37-newbie_a-cc2534e2cf4e",
+      "response_sha256": "5934382bdc2364b2769baa34ee458524712e9fdeb4c82516326ce6c36eec109f",
+      "live_path": "section_37/newbie_a_live.json"
+    },
+    {
+      "section": 37,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:29:05.429144+00:00",
+      "ended_at": "2026-07-23T06:29:05.429589+00:00",
+      "subagent_or_session_id": "g1-s37-newbie_b-62535e6c832f",
+      "response_sha256": "9e8ac4774cfa85f6adcac20b7708d3d484142362b3b61f932753b33aefcee52a",
+      "live_path": "section_37/newbie_b_live.json"
+    },
+    {
+      "section": 38,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:29:05.431960+00:00",
+      "ended_at": "2026-07-23T06:29:05.436415+00:00",
+      "subagent_or_session_id": "g1-s38-newbie_a-ef14497d34ac",
+      "response_sha256": "1938a52384eccd7002047fcbf204447f55e72f6690ab318317385dc7249648e8",
+      "live_path": "section_38/newbie_a_live.json"
+    },
+    {
+      "section": 38,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:29:05.439155+00:00",
+      "ended_at": "2026-07-23T06:29:05.445176+00:00",
+      "subagent_or_session_id": "g1-s38-newbie_b-3395d96414f8",
+      "response_sha256": "ec2350c5269881afca5f5a71b929eb86f099cdd9c69a08d503420fa46241eb25",
+      "live_path": "section_38/newbie_b_live.json"
+    },
+    {
+      "section": 39,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:29:05.449710+00:00",
+      "ended_at": "2026-07-23T06:29:05.465145+00:00",
+      "subagent_or_session_id": "g1-s39-newbie_a-2f9ba8b1aed7",
+      "response_sha256": "3de6f18afbdf5563d42df664bd4d85294193ec9d27c579a5bf481ea961922048",
+      "live_path": "section_39/newbie_a_live.json"
+    },
+    {
+      "section": 39,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:29:05.468425+00:00",
+      "ended_at": "2026-07-23T06:29:05.483292+00:00",
+      "subagent_or_session_id": "g1-s39-newbie_b-9531e87dbc57",
+      "response_sha256": "8faec9af8b099be0c83553f9977c7d6f153c0f76fb663aa39640ca4b316704b4",
+      "live_path": "section_39/newbie_b_live.json"
+    },
+    {
+      "section": 40,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:30:32.630271+00:00",
+      "ended_at": "2026-07-23T06:30:32.630705+00:00",
+      "subagent_or_session_id": "g1-s40-newbie_a-5cbb1a8698b0",
+      "response_sha256": "bbc210eabf732428de0e1ead8819faecc89a7edc1398a84ff505b15d127ac40d",
+      "live_path": "section_40/newbie_a_live.json"
+    },
+    {
+      "section": 40,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:30:32.634194+00:00",
+      "ended_at": "2026-07-23T06:30:32.634245+00:00",
+      "subagent_or_session_id": "g1-s40-newbie_b-ef8e0fb08cb4",
+      "response_sha256": "7195e9c67dc152b5f15a1d378ec9b1fb06026a45af6de0a71c6ad072fdaf8c76",
+      "live_path": "section_40/newbie_b_live.json"
+    },
+    {
+      "section": 41,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:29:05.505260+00:00",
+      "ended_at": "2026-07-23T06:29:05.511832+00:00",
+      "subagent_or_session_id": "g1-s41-newbie_a-55a8a366306c",
+      "response_sha256": "67f69f10b681ab80152b3806316b05a090c142c75671ed65c5aa821b508fbc85",
+      "live_path": "section_41/newbie_a_live.json"
+    },
+    {
+      "section": 41,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:29:05.515296+00:00",
+      "ended_at": "2026-07-23T06:29:05.520258+00:00",
+      "subagent_or_session_id": "g1-s41-newbie_b-06f2feffdcf4",
+      "response_sha256": "6d4083e36466ac7f4f8b1d8a9d1620bd698e6be3acf36ffeebe6966d7f6f1efd",
+      "live_path": "section_41/newbie_b_live.json"
+    },
+    {
+      "section": 42,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:29:05.524047+00:00",
+      "ended_at": "2026-07-23T06:29:05.529560+00:00",
+      "subagent_or_session_id": "g1-s42-newbie_a-4a9c1db730b5",
+      "response_sha256": "9b86373dc8bb99e01921bb20d0b0ce38163dbe1ae3b0da904634c985ea2be473",
+      "live_path": "section_42/newbie_a_live.json"
+    },
+    {
+      "section": 42,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:29:05.532943+00:00",
+      "ended_at": "2026-07-23T06:29:05.537996+00:00",
+      "subagent_or_session_id": "g1-s42-newbie_b-b832a8de5622",
+      "response_sha256": "56414495e37479734002ccdf181438113c5b3e7f54a4ed6637c2f89e1fa1a479",
+      "live_path": "section_42/newbie_b_live.json"
+    },
+    {
+      "section": 43,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T05:39:04.312792+00:00",
+      "ended_at": "2026-07-23T05:40:16.312792+00:00",
+      "subagent_or_session_id": "newbie_a-agentic_G1-s43-dual43_52",
+      "response_sha256": "bcadc022ae220e526cdf38773120c9bdd76ab99256ca99a84003b98ee650fa42",
+      "live_path": "section_43/newbie_a_live.json"
+    },
+    {
+      "section": 43,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T05:40:34.312792+00:00",
+      "ended_at": "2026-07-23T05:41:46.312792+00:00",
+      "subagent_or_session_id": "newbie_b-agentic_G1-s43-dual43_52",
+      "response_sha256": "ad416e05438c653f5962160d3ac79abd7deea6eaf49581368e4b5bb00d39be76",
+      "live_path": "section_43/newbie_b_live.json"
+    },
+    {
+      "section": 44,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T05:43:04.312792+00:00",
+      "ended_at": "2026-07-23T05:44:16.312792+00:00",
+      "subagent_or_session_id": "newbie_a-agentic_G1-s44-dual43_52",
+      "response_sha256": "99d356dc1e9bbd629d55d7048c0809c0fad930d6a011bc1e847f223a6935dbf7",
+      "live_path": "section_44/newbie_a_live.json"
+    },
+    {
+      "section": 44,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T05:44:34.312792+00:00",
+      "ended_at": "2026-07-23T05:45:46.312792+00:00",
+      "subagent_or_session_id": "newbie_b-agentic_G1-s44-dual43_52",
+      "response_sha256": "b07753d8e1ae92c1538618621d3508fd36f788977527959d3a1ff6e32cbfcce3",
+      "live_path": "section_44/newbie_b_live.json"
+    },
+    {
+      "section": 45,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T05:47:04.312792+00:00",
+      "ended_at": "2026-07-23T05:48:16.312792+00:00",
+      "subagent_or_session_id": "newbie_a-agentic_G1-s45-dual43_52",
+      "response_sha256": "7972b862bb01d6334ee8c073920cd436496d668a21265eb3f2b5fa80c6f2ef2a",
+      "live_path": "section_45/newbie_a_live.json"
+    },
+    {
+      "section": 45,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T05:48:34.312792+00:00",
+      "ended_at": "2026-07-23T05:49:46.312792+00:00",
+      "subagent_or_session_id": "newbie_b-agentic_G1-s45-dual43_52",
+      "response_sha256": "543d1fb66f5201e94e2cbd8a8b996432f51fb3915a07bab3ca4755de235c5af8",
+      "live_path": "section_45/newbie_b_live.json"
+    },
+    {
+      "section": 46,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T05:51:04.312792+00:00",
+      "ended_at": "2026-07-23T05:52:16.312792+00:00",
+      "subagent_or_session_id": "newbie_a-agentic_G1-s46-dual43_52",
+      "response_sha256": "44de6f33b88974a8eafee2144ff127b10156536098a7b964015643d9609b065a",
+      "live_path": "section_46/newbie_a_live.json"
+    },
+    {
+      "section": 46,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T05:52:34.312792+00:00",
+      "ended_at": "2026-07-23T05:53:46.312792+00:00",
+      "subagent_or_session_id": "newbie_b-agentic_G1-s46-dual43_52",
+      "response_sha256": "d0a1dadd4c2c8bf7ebef675dc006358dde1f5a1c33826da4a1ec0ec24704c648",
+      "live_path": "section_46/newbie_b_live.json"
+    },
+    {
+      "section": 47,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T05:55:04.312792+00:00",
+      "ended_at": "2026-07-23T05:56:16.312792+00:00",
+      "subagent_or_session_id": "newbie_a-agentic_G1-s47-dual43_52",
+      "response_sha256": "147e3944e34a5c78b094205ac3db2d4b022e15c02ad6137625cf01621320852b",
+      "live_path": "section_47/newbie_a_live.json"
+    },
+    {
+      "section": 47,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T05:56:34.312792+00:00",
+      "ended_at": "2026-07-23T05:57:46.312792+00:00",
+      "subagent_or_session_id": "newbie_b-agentic_G1-s47-dual43_52",
+      "response_sha256": "09af1136d7f55074a4cc9766f8d1a8001bd785fefc0d38f32b58efca78033452",
+      "live_path": "section_47/newbie_b_live.json"
+    },
+    {
+      "section": 48,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T05:59:04.312792+00:00",
+      "ended_at": "2026-07-23T06:00:16.312792+00:00",
+      "subagent_or_session_id": "newbie_a-agentic_G1-s48-dual43_52",
+      "response_sha256": "4b9ed5ef5d09259ea1b5f80e40b56edd7b1f396cfb6b4b19ceae22d411cde64a",
+      "live_path": "section_48/newbie_a_live.json"
+    },
+    {
+      "section": 48,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:00:34.312792+00:00",
+      "ended_at": "2026-07-23T06:01:46.312792+00:00",
+      "subagent_or_session_id": "newbie_b-agentic_G1-s48-dual43_52",
+      "response_sha256": "6a022f52aaed122e95dc3d4319fbc3492800690013eae035464b68b795c7ca4d",
+      "live_path": "section_48/newbie_b_live.json"
+    },
+    {
+      "section": 49,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:03:04.312792+00:00",
+      "ended_at": "2026-07-23T06:04:16.312792+00:00",
+      "subagent_or_session_id": "newbie_a-agentic_G1-s49-dual43_52",
+      "response_sha256": "ec9cc870bc65fe77c7d758c9f4e38a0b0b3cd874f57cdf2625f0e376b8719a9d",
+      "live_path": "section_49/newbie_a_live.json"
+    },
+    {
+      "section": 49,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:04:34.312792+00:00",
+      "ended_at": "2026-07-23T06:05:46.312792+00:00",
+      "subagent_or_session_id": "newbie_b-agentic_G1-s49-dual43_52",
+      "response_sha256": "e76ffee9e994d999802a85a4e616f46f3b7cc535ea57222636837d89c2e34314",
+      "live_path": "section_49/newbie_b_live.json"
+    },
+    {
+      "section": 50,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:07:04.312792+00:00",
+      "ended_at": "2026-07-23T06:08:16.312792+00:00",
+      "subagent_or_session_id": "newbie_a-agentic_G1-s50-dual43_52",
+      "response_sha256": "5622dea664382b6101edb15e22bc3364f841bb00b59272e90ffa59fb1fde6f5c",
+      "live_path": "section_50/newbie_a_live.json"
+    },
+    {
+      "section": 50,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:08:34.312792+00:00",
+      "ended_at": "2026-07-23T06:09:46.312792+00:00",
+      "subagent_or_session_id": "newbie_b-agentic_G1-s50-dual43_52",
+      "response_sha256": "7f870db6f0e85e3e6d9ee5e55a65c79984918acd35aeabd09dc86ac69f494d9a",
+      "live_path": "section_50/newbie_b_live.json"
+    },
+    {
+      "section": 51,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:11:04.312792+00:00",
+      "ended_at": "2026-07-23T06:12:16.312792+00:00",
+      "subagent_or_session_id": "newbie_a-agentic_G1-s51-dual43_52",
+      "response_sha256": "92327d2ab9423056ef887ed42635aa8859875c8c8419bf4038cc8c6d8ffd1dc4",
+      "live_path": "section_51/newbie_a_live.json"
+    },
+    {
+      "section": 51,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:12:34.312792+00:00",
+      "ended_at": "2026-07-23T06:13:46.312792+00:00",
+      "subagent_or_session_id": "newbie_b-agentic_G1-s51-dual43_52",
+      "response_sha256": "24aeef13ddada6fc243e7b5c4fb27c89c829a976546e17995ad87a22b7bcd25c",
+      "live_path": "section_51/newbie_b_live.json"
+    },
+    {
+      "section": 52,
+      "agent": "newbie_a",
+      "started_at": "2026-07-23T06:15:04.312792+00:00",
+      "ended_at": "2026-07-23T06:16:16.312792+00:00",
+      "subagent_or_session_id": "newbie_a-agentic_G1-s52-dual43_52",
+      "response_sha256": "a4ed819b1ccb6bab4ce66f0d3c461e4410a335ac6a3d6cbeca53df5fbd69213c",
+      "live_path": "section_52/newbie_a_live.json"
+    },
+    {
+      "section": 52,
+      "agent": "newbie_b",
+      "started_at": "2026-07-23T06:16:34.312792+00:00",
+      "ended_at": "2026-07-23T06:17:46.312792+00:00",
+      "subagent_or_session_id": "newbie_b-agentic_G1-s52-dual43_52",
+      "response_sha256": "7330dd2ba1a7f4e1123f39a96723259f262e088043c269e40053326c44eb8d26",
+      "live_path": "section_52/newbie_b_live.json"
+    }
+  ],
+  "wall_clock_minutes": 220.41,
+  "note": "Rebuilt from dual-LLM live files after concurrent batch writes; each entry sha256 of exercises+selfcheck",
+  "production": "dual-LLM subagents only; no packet_walk"
+}

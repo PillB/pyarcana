@@ -1,0 +1,326 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer",
+  "attempt_id": "agentic_G1",
+  "section_index": 5,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-explorer-s05-3c26b5fb",
+  "production_note": "agentic_G1 dual-LLM Explorer: packet-only; no generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "answer": "def doble(n):\n    return n * 2\n\nprint(doble(21))\n",
+      "code": "def doble(n):\n    return n * 2\n\nprint(doble(21))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T1-A-E1"
+      ],
+      "justification_from_packet": "Exploré S05-T1-A-E1 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "answer": "def normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\n\nprint(normalize_nombre(\"  Juan   Pérez \"))\n",
+      "code": "def normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\n\nprint(normalize_nombre(\"  Juan   Pérez \"))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T1-A-E2"
+      ],
+      "justification_from_packet": "Exploré S05-T1-A-E2 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "answer": "def saluda(nombre):\n    return f\"Hola {nombre}\"\n\ndef saluda_sin_return(nombre):\n    f\"Hola {nombre}\"  # olvido de return → None\n\ndef main():\n    print(saluda(\"Ana\"))\n    print(\"sin return →\", saluda_sin_return(\"Ana\"))\n\nif __name__ == \"__main__\":\n    main()\n",
+      "code": "def saluda(nombre):\n    return f\"Hola {nombre}\"\n\ndef saluda_sin_return(nombre):\n    f\"Hola {nombre}\"  # olvido de return → None\n\ndef main():\n    print(saluda(\"Ana\"))\n    print(\"sin return →\", saluda_sin_return(\"Ana\"))\n\nif __name__ == \"__main__\":\n    main()\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T1-A-E3"
+      ],
+      "justification_from_packet": "Exploré S05-T1-A-E3 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "answer": "def present(nombre, titulo=\"Cliente\"):\n    return f\"{titulo}: {nombre}\"\n\nprint(present(\"Ana\"))\nprint(present(\"Luis\", titulo=\"VIP\"))\n",
+      "code": "def present(nombre, titulo=\"Cliente\"):\n    return f\"{titulo}: {nombre}\"\n\nprint(present(\"Ana\"))\nprint(present(\"Luis\", titulo=\"VIP\"))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T1-B-E1"
+      ],
+      "justification_from_packet": "Exploré S05-T1-B-E1 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "answer": "def bad_add(x, bucket=[]):\n    bucket.append(x)\n    return bucket\n\ndef good_add(x, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(x)\n    return bucket\n\nprint(\"good1\", good_add(1))\nprint(\"good2\", good_add(2))\nprint(\"bad muestra el peligro:\", bad_add(1), bad_add(2))\n",
+      "code": "def bad_add(x, bucket=[]):\n    bucket.append(x)\n    return bucket\n\ndef good_add(x, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(x)\n    return bucket\n\nprint(\"good1\", good_add(1))\nprint(\"good2\", good_add(2))\nprint(\"bad muestra el peligro:\", bad_add(1), bad_add(2))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T1-B-E2"
+      ],
+      "justification_from_packet": "Exploré S05-T1-B-E2 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "answer": "def normalize_telefono(raw, *, digits_only=True):\n    if digits_only:\n        return \"\".join(ch for ch in raw if ch.isdigit())\n    return raw.strip()\n\nprint(normalize_telefono(\"999-000\"))\nprint(normalize_telefono(\"999-000\", digits_only=False))\n",
+      "code": "def normalize_telefono(raw, *, digits_only=True):\n    if digits_only:\n        return \"\".join(ch for ch in raw if ch.isdigit())\n    return raw.strip()\n\nprint(normalize_telefono(\"999-000\"))\nprint(normalize_telefono(\"999-000\", digits_only=False))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T1-B-E3"
+      ],
+      "justification_from_packet": "Exploré S05-T1-B-E3 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "answer": "def area(w, h):\n    \"\"\"Calcula el área de un rectángulo w*h.\"\"\"\n    return w * h\n\nprint(area.__doc__)\nprint(area(3, 4))\n",
+      "code": "def area(w, h):\n    \"\"\"Calcula el área de un rectángulo w*h.\"\"\"\n    return w * h\n\nprint(area.__doc__)\nprint(area(3, 4))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T2-A-E1"
+      ],
+      "justification_from_packet": "Exploré S05-T2-A-E1 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "answer": "def normalize_email(raw: str) -> str:\n    \"\"\"Normaliza email sintético.\n\n    Pre: raw es str.\n    Post: lowercased sin espacios extremos; requiere '@'.\n    Raises: ValueError si falta '@' o queda vacío.\n    \"\"\"\n    s = raw.strip().lower()\n    if not s or \"@\" not in s:\n        raise ValueError(\"email inválido para normalizar\")\n    return s\n\nprint(normalize_email(\"  A@B.COM \"))\ntry:\n    normalize_email(\"sin-arroba\")\nexcept ValueError as e:\n    print(\"err:\", e)\n",
+      "code": "def normalize_email(raw: str) -> str:\n    \"\"\"Normaliza email sintético.\n\n    Pre: raw es str.\n    Post: lowercased sin espacios extremos; requiere '@'.\n    Raises: ValueError si falta '@' o queda vacío.\n    \"\"\"\n    s = raw.strip().lower()\n    if not s or \"@\" not in s:\n        raise ValueError(\"email inválido para normalizar\")\n    return s\n\nprint(normalize_email(\"  A@B.COM \"))\ntry:\n    normalize_email(\"sin-arroba\")\nexcept ValueError as e:\n    print(\"err:\", e)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T2-A-E2"
+      ],
+      "justification_from_packet": "Exploré S05-T2-A-E2 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "answer": "def normalize_nombre(raw: str) -> str:\n    \"\"\"Colapsa espacios; post: strip y sin dobles espacios.\"\"\"\n    result = \" \".join(raw.strip().split())\n    assert result == result.strip() and \"  \" not in result\n    return result\n\nprint(normalize_nombre(\"  Ana   María  \"))\nprint(\"post OK\")\n",
+      "code": "def normalize_nombre(raw: str) -> str:\n    \"\"\"Colapsa espacios; post: strip y sin dobles espacios.\"\"\"\n    result = \" \".join(raw.strip().split())\n    assert result == result.strip() and \"  \" not in result\n    return result\n\nprint(normalize_nombre(\"  Ana   María  \"))\nprint(\"post OK\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T2-A-E3"
+      ],
+      "justification_from_packet": "Exploré S05-T2-A-E3 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "answer": "def len_safe(s: str) -> int:\n    return len(s)\n\nprint(len_safe(\"abc\"))\nprint(\"Nota: el type hint no valida en runtime; es documentación gradual.\")\n",
+      "code": "def len_safe(s: str) -> int:\n    return len(s)\n\nprint(len_safe(\"abc\"))\nprint(\"Nota: el type hint no valida en runtime; es documentación gradual.\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T2-B-E1"
+      ],
+      "justification_from_packet": "Exploré S05-T2-B-E1 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "answer": "def parse_monto(raw: str):\n    try:\n        n = int(raw.strip())\n    except ValueError:\n        return False, None, \"no es entero\"\n    if n < 0:\n        return False, None, \"fuera de dominio (negativo)\"\n    return True, n, None\n\nfor v in [\"10\", \"0\", \"-3\", \"abc\"]:\n    print(v, \"→\", parse_monto(v))\n",
+      "code": "def parse_monto(raw: str):\n    try:\n        n = int(raw.strip())\n    except ValueError:\n        return False, None, \"no es entero\"\n    if n < 0:\n        return False, None, \"fuera de dominio (negativo)\"\n    return True, n, None\n\nfor v in [\"10\", \"0\", \"-3\", \"abc\"]:\n    print(v, \"→\", parse_monto(v))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T2-B-E2"
+      ],
+      "justification_from_packet": "Exploré S05-T2-B-E2 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "answer": "def normalize_email(raw: str) -> str:\n    # Opción raise: el caller controla el lote con try/except\n    s = raw.strip().lower()\n    if not s or \"@\" not in s:\n        raise ValueError(f\"email inválido: {raw!r}\")\n    return s\n\nprint(\"Política: raise ValueError para no devolver estados ambiguos; el lote atrapa por fila.\")\nfor row in [\"  Z@W.COM \", \"malo\", \"a@b.com\"]:\n    try:\n        print(\"OK\", normalize_email(row))\n    except ValueError as e:\n        print(\"SKIP\", e)\n",
+      "code": "def normalize_email(raw: str) -> str:\n    # Opción raise: el caller controla el lote con try/except\n    s = raw.strip().lower()\n    if not s or \"@\" not in s:\n        raise ValueError(f\"email inválido: {raw!r}\")\n    return s\n\nprint(\"Política: raise ValueError para no devolver estados ambiguos; el lote atrapa por fila.\")\nfor row in [\"  Z@W.COM \", \"malo\", \"a@b.com\"]:\n    try:\n        print(\"OK\", normalize_email(row))\n    except ValueError as e:\n        print(\"SKIP\", e)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T2-B-E3"
+      ],
+      "justification_from_packet": "Exploré S05-T2-B-E3 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "answer": "def strip_collapse(s: str) -> str:\n    return \" \".join(s.strip().split())\n\ndef normalize_nombre(raw: str) -> str:\n    return strip_collapse(raw).title()\n\nprint(normalize_nombre(\"  ana   maría \"))\n",
+      "code": "def strip_collapse(s: str) -> str:\n    return \" \".join(s.strip().split())\n\ndef normalize_nombre(raw: str) -> str:\n    return strip_collapse(raw).title()\n\nprint(normalize_nombre(\"  ana   maría \"))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T3-A-E1"
+      ],
+      "justification_from_packet": "Exploré S05-T3-A-E1 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "answer": "def norm_n(s):\n    return ' '.join(s.strip().split()).title()\n\ndef norm_e(s):\n    return s.strip().lower()\n\ndef normalize_contact(nombre, email):\n    return {\"nombre\": norm_n(nombre), \"email\": norm_e(email)}\n\nprint(normalize_contact('  luis ', '  L@E.COM '))\n",
+      "code": "def norm_n(s):\n    return ' '.join(s.strip().split()).title()\n\ndef norm_e(s):\n    return s.strip().lower()\n\ndef normalize_contact(nombre, email):\n    return {\"nombre\": norm_n(nombre), \"email\": norm_e(email)}\n\nprint(normalize_contact('  luis ', '  L@E.COM '))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T3-A-E2"
+      ],
+      "justification_from_packet": "Exploré S05-T3-A-E2 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "answer": "def normalize_nombre(n):\n    return ' '.join(n.strip().split()).title()\n\ndef normalize_email(e):\n    return e.strip().lower()\n\ndef normalize_tel(t):\n    return ''.join(ch for ch in t if ch.isdigit())\n\ndef normalize_all(n, e, t):\n    return {\n        \"nombre\": normalize_nombre(n),\n        \"email\": normalize_email(e),\n        \"tel\": normalize_tel(t),\n    }\n\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))\n",
+      "code": "def normalize_nombre(n):\n    return ' '.join(n.strip().split()).title()\n\ndef normalize_email(e):\n    return e.strip().lower()\n\ndef normalize_tel(t):\n    return ''.join(ch for ch in t if ch.isdigit())\n\ndef normalize_all(n, e, t):\n    return {\n        \"nombre\": normalize_nombre(n),\n        \"email\": normalize_email(e),\n        \"tel\": normalize_tel(t),\n    }\n\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T3-A-E3"
+      ],
+      "justification_from_packet": "Exploré S05-T3-A-E3 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "answer": "def normalize_tel(raw: str) -> str:\n    return \"\".join(ch for ch in raw if ch.isdigit())\n\nx = \"999-000\"\nonce = normalize_tel(x)\ntwice = normalize_tel(once)\nprint(once, twice == once)\n",
+      "code": "def normalize_tel(raw: str) -> str:\n    return \"\".join(ch for ch in raw if ch.isdigit())\n\nx = \"999-000\"\nonce = normalize_tel(x)\ntwice = normalize_tel(once)\nprint(once, twice == once)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T3-B-E1"
+      ],
+      "justification_from_packet": "Exploré S05-T3-B-E1 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "answer": "def normalize_email(raw: str) -> str:\n    return raw.strip().lower()\n\ndef print_report(email: str) -> None:\n    print(f\"email= {normalize_email(email)}\")\n\nprint_report(\"  Z@W.COM \")\n",
+      "code": "def normalize_email(raw: str) -> str:\n    return raw.strip().lower()\n\ndef print_report(email: str) -> None:\n    print(f\"email= {normalize_email(email)}\")\n\nprint_report(\"  Z@W.COM \")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T3-B-E2"
+      ],
+      "justification_from_packet": "Exploré S05-T3-B-E2 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "answer": "def normalize_tel(raw: str) -> str:\n    return \"\".join(ch for ch in raw if ch.isdigit())\n\ndef process(line: str, norm=normalize_tel) -> str:\n    return norm(line)\n\nprint(process(\"999-A\"))\nprint(process(\"999-A\", norm=lambda s: s.strip()))\n",
+      "code": "def normalize_tel(raw: str) -> str:\n    return \"\".join(ch for ch in raw if ch.isdigit())\n\ndef process(line: str, norm=normalize_tel) -> str:\n    return norm(line)\n\nprint(process(\"999-A\"))\nprint(process(\"999-A\", norm=lambda s: s.strip()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T3-B-E3"
+      ],
+      "justification_from_packet": "Exploré S05-T3-B-E3 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "answer": "x = 1\n\ndef f():\n    x = 2\n    print(\"in\", x)\n\nf()\nprint(\"out\", x)\n",
+      "code": "x = 1\n\ndef f():\n    x = 2\n    print(\"in\", x)\n\nf()\nprint(\"out\", x)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T4-A-E1"
+      ],
+      "justification_from_packet": "Exploré S05-T4-A-E1 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "answer": "def make_multiplier(k):\n    def inner(n):\n        return n * k\n    return inner\n\npor3 = make_multiplier(3)\npor10 = make_multiplier(10)\nprint(por3(4), por10(4))\n",
+      "code": "def make_multiplier(k):\n    def inner(n):\n        return n * k\n    return inner\n\npor3 = make_multiplier(3)\npor10 = make_multiplier(10)\nprint(por3(4), por10(4))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T4-A-E2"
+      ],
+      "justification_from_packet": "Exploré S05-T4-A-E2 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "answer": "def make_normalizer(mode: str):\n    if mode == \"digits\":\n        def digits(s: str) -> str:\n            return \"\".join(ch for ch in s if ch.isdigit())\n        return digits\n    if mode == \"lower\":\n        def lower(s: str) -> str:\n            return s.strip().lower()\n        return lower\n    raise ValueError(\"mode desconocido\")\n\nprint(make_normalizer(\"digits\")(\"1a2b\"))\nprint(make_normalizer(\"lower\")(\" HOLA \"))\n",
+      "code": "def make_normalizer(mode: str):\n    if mode == \"digits\":\n        def digits(s: str) -> str:\n            return \"\".join(ch for ch in s if ch.isdigit())\n        return digits\n    if mode == \"lower\":\n        def lower(s: str) -> str:\n            return s.strip().lower()\n        return lower\n    raise ValueError(\"mode desconocido\")\n\nprint(make_normalizer(\"digits\")(\"1a2b\"))\nprint(make_normalizer(\"lower\")(\" HOLA \"))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T4-A-E3"
+      ],
+      "justification_from_packet": "Exploré S05-T4-A-E3 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "answer": "def normalize_email(s):\n    return s.strip().lower()\n\nassert normalize_email('  A@B.COM ') == 'a@b.com'\nassert normalize_email(normalize_email('A@B.COM')) == 'a@b.com'\nprint('OK')\n",
+      "code": "def normalize_email(s):\n    return s.strip().lower()\n\nassert normalize_email('  A@B.COM ') == 'a@b.com'\nassert normalize_email(normalize_email('A@B.COM')) == 'a@b.com'\nprint('OK')\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T4-B-E1"
+      ],
+      "justification_from_packet": "Exploré S05-T4-B-E1 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "answer": "def strip_collapse(s: str) -> str:\n    return \" \".join(s.strip().split())\n\ndef normalize_dir(raw: str) -> str:\n    return strip_collapse(raw).upper()\n\nassert normalize_dir(\"  av  1 \") == \"AV 1\"\nassert normalize_dir(\"jr  2\") == \"JR 2\"\nprint(normalize_dir(\"  av  1 \"))\nprint(normalize_dir(\"jr  2\"))\n",
+      "code": "def strip_collapse(s: str) -> str:\n    return \" \".join(s.strip().split())\n\ndef normalize_dir(raw: str) -> str:\n    return strip_collapse(raw).upper()\n\nassert normalize_dir(\"  av  1 \") == \"AV 1\"\nassert normalize_dir(\"jr  2\") == \"JR 2\"\nprint(normalize_dir(\"  av  1 \"))\nprint(normalize_dir(\"jr  2\"))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T4-B-E2"
+      ],
+      "justification_from_packet": "Exploré S05-T4-B-E2 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "answer": "def normalize_nombre(raw: str) -> str:\n    return \" \".join(raw.strip().split())\n\nsuite = [\n    (\"  Ana   María \", \"Ana María\"),\n    (\"JUAN\", \"JUAN\"),\n    (\"  a  b  \", \"a b\"),\n]\nfor inp, expected in suite:\n    assert normalize_nombre(inp) == expected\n\n# refactor interno\ndef normalize_nombre(raw: str) -> str:\n    parts = raw.strip().split()\n    return \" \".join(parts)\n\nfor inp, expected in suite:\n    assert normalize_nombre(inp) == expected\nprint(\"suite OK after refactor\")\n",
+      "code": "def normalize_nombre(raw: str) -> str:\n    return \" \".join(raw.strip().split())\n\nsuite = [\n    (\"  Ana   María \", \"Ana María\"),\n    (\"JUAN\", \"JUAN\"),\n    (\"  a  b  \", \"a b\"),\n]\nfor inp, expected in suite:\n    assert normalize_nombre(inp) == expected\n\n# refactor interno\ndef normalize_nombre(raw: str) -> str:\n    parts = raw.strip().split()\n    return \" \".join(parts)\n\nfor inp, expected in suite:\n    assert normalize_nombre(inp) == expected\nprint(\"suite OK after refactor\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S05-T4-B-E3"
+      ],
+      "justification_from_packet": "Exploré S05-T4-B-E3 con theory/iDo/hints del slim_packet S05: completé el starter sin ____/TODO."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "None",
+      "justification_from_packet": "S05-T1-A: sin return explícito la llamada devuelve None, como muestra el demo de noop en el packet.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "El default mutable se comparte entre llamadas",
+      "justification_from_packet": "S05-T1-B: el default mutable se evalúa una vez y se comparte entre llamadas — bug clásico de `def f(xs=[])`.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Mismo input → mismo output, sin efectos colaterales",
+      "justification_from_packet": "S05-T3-B: una función pura devuelve el mismo output para el mismo input y no tiene efectos colaterales (I/O).",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Local, Enclosing, Global, Builtin",
+      "justification_from_packet": "S05-T4-A define LEGB como Local, Enclosing, Global y Builtin: el orden de búsqueda de nombres en Python.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "f(f(x)) == f(x) para entradas del dominio",
+      "justification_from_packet": "S05-T3-B/T4-B: la idempotencia de un normalizador f significa f(f(x)) == f(x) para entradas del dominio.",
+      "blocked_on": [],
+      "confidence": 0.9
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:46:49.569437+00:00",
+  "session_started_at": "2026-07-23T06:45:34.569437+00:00",
+  "session_ended_at": "2026-07-23T06:46:49.569437+00:00"
+}

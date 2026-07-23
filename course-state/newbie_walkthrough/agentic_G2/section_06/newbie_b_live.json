@@ -1,0 +1,292 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-ske-s06-aa620ea69e",
+  "production_note": "agentic_G2 dual-LLM skeptic: packet-only; no generators; independent of G1",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "code": "txs = [10, 20, 30, 40, 50]\nprint(txs[-2:])\nprint(len(txs[-2:]))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T1-A-E1] slicing [-2:]. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "slice"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "code": "xs = [1, 2, 3, 4]\nprint(xs[1:3], xs[:2], xs[2:])",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T1-A-E2] inicio:fin exclusivo. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "slice"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "code": "window = [1, 2, 3, 4, 5, 6]\nk = 3\nprint([window[i:i+k] for i in range(0, len(window), k)])",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T1-A-E3] chunks sin perder orden. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "chunks"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "code": "a = [1, 2]\nb = a\nb.append(3)\nprint(a, a is b)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T1-B-E1] a is b True. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "alias"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "code": "a = [1, 2]\nc = a.copy()\nc.append(9)\nprint(a, c, a is c)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T1-B-E2] a intacto. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "code": "rows = [{\"id\": 1}, {\"id\": 2}]\nshallow = rows[:]\nshallow[0][\"id\"] = 99\nprint(rows[0][\"id\"])  # 99 shallow\nimport copy\ndeep = copy.deepcopy(rows)\ndeep[0][\"id\"] = 1\nprint(rows[0][\"id\"], deep[0][\"id\"])",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T1-B-E3] mutacion anidada. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "deepcopy"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "code": "d = {\"a\": 1, \"b\": 2}\nprint(d.get(\"a\"), d.get(\"c\", 0))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T2-A-E1] evita KeyError. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "dict"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "code": "d = {\"nombres\": \"Ana\", \"edad\": 30}\nfor k, v in d.items():\n    print(k, v)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T2-A-E2] pares clave valor. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "items"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "code": "raw = [(\"C1\", \"accept\"), (\"C2\", \"reject\"), (\"C1\", \"review\")]\nby_id = {}\nconflicts = []\nfor i, st in raw:\n    if i in by_id and by_id[i] != st:\n        conflicts.append({\"id\": i, \"prev\": by_id[i], \"new\": st})\n    by_id[i] = st\nprint(by_id, conflicts)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T2-A-E3] no silenciar colision. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "conflicts"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "code": "s = {1, 2, 2, 3}\nprint(s, 2 in s)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T2-B-E1] membership in. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "set"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "code": "a, b = {1, 2, 3}, {2, 3, 4}\nprint(a & b, a | b, a - b)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T2-B-E2] ops de conjuntos. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "set ops"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "code": "seen = set()\norder = []\nfor x in [\"a\", \"b\", \"a\", \"c\", \"b\"]:\n    if x not in seen:\n        seen.add(x)\n        order.append(x)\nprint(order)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T2-B-E3] set + lista. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "unique"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "code": "rows = [{\"id\": \"b\"}, {\"id\": \"a\"}, {\"id\": \"c\"}]\nrows.sort(key=lambda r: r[\"id\"])\nprint(rows)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T3-A-E1] retorna None implicitamente. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "sort"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "code": "rows = [{\"score\": 2}, {\"score\": 5}, {\"score\": 1}]\nprint(sorted(rows, key=lambda r: r[\"score\"], reverse=True))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T3-A-E2] orden descendente. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "sorted"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "code": "from operator import itemgetter\nrows = [{\"id\": \"C2\", \"n\": 1}, {\"id\": \"C1\", \"n\": 2}]\nprint(sorted(rows, key=itemgetter(\"id\")))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T3-A-E3] alternativa a lambda. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "itemgetter"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "code": "t = (1, 2, 3)\nprint(t[0], len(t))\n# t[0] = 9  # TypeError si se descomenta\nprint(\"tuple inmutable\")",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T3-B-E1] buen key de dict. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "tuple"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "code": "pair = (\"C1\", \"accept\")\ni, st = pair\nprint(i, st)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T3-B-E2] patron de pares. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "unpack"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "code": "from collections import Counter\nprint(Counter([\"accept\", \"reject\", \"accept\"]))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T3-B-E3] frecuencias. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "Counter"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "code": "import json\nprint(json.dumps({\"b\": 1, \"a\": 2}, sort_keys=True))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T4-A-E1] salida estable. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "json"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "code": "import json\ns = json.dumps([{\"id\": \"C1\"}], ensure_ascii=False)\nprint(s)\nprint(json.loads(s)[0][\"id\"])",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T4-A-E2] ensure_ascii False. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "json"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "code": "import json\npayload = {\"ids\": [\"C1\", \"C2\"], \"n\": 2}\nprint(json.dumps(payload, sort_keys=True, indent=2))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T4-A-E3] contrato serializado. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "json"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "code": "records = [{\"id\": \"C1\"}, {\"id\": \"C1\"}, {\"id\": \"C2\"}]\nby = {}\nfor r in records:\n    by.setdefault(r[\"id\"], []).append(r)\nprint({k: len(v) for k, v in by.items()})",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T4-B-E1] conteo por id. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "groupby"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "code": "from collections import defaultdict\ng = defaultdict(list)\nfor r in [{\"region\": \"Lima\"}, {\"region\": \"Cusco\"}, {\"region\": \"Lima\"}]:\n    g[r[\"region\"]].append(r)\nprint(dict(g))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T4-B-E2] agrupar por region. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "defaultdict"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "code": "def merge_unique(rows):\n    seen = {}\n    conflicts = []\n    for r in rows:\n        i = r[\"id\"]\n        if i in seen and seen[i] != r:\n            conflicts.append(i)\n        seen[i] = r\n    return list(seen.values()), conflicts\nprint(merge_unique([{\"id\": \"A\", \"v\": 1}, {\"id\": \"A\", \"v\": 2}, {\"id\": \"B\", \"v\": 1}]))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S06-T4-B-E3] ultima gana pero traza conflicto. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "merge"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Slicing negativo: desde el penultimo hasta el final."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Teoria de alias de listas mutables. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Politica de conflicts en dedupe del paquete."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "sort in-place vs sorted que retorna lista."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Reproducibilidad con sort_keys=True. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:07:46.939931+00:00",
+  "session_started_at": "2026-07-23T07:07:24.294666+00:00",
+  "session_ended_at": "2026-07-23T07:07:46.939931+00:00"
+}

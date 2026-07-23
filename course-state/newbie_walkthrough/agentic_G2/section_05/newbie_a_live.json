@@ -1,0 +1,292 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 5,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-exp-s05-f4ff16ee24",
+  "production_note": "agentic_G2 dual-LLM explorer: packet-only; no generators; independent of G1",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "code": "def doble(n):\n    return n * 2\nprint(doble(21))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T1-A-E1] doble retorna n*2; print 42. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "def"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "code": "def saludo(nombre, prefijo=\"Hola\"):\n    return f\"{prefijo}, {nombre}\"\nprint(saludo(\"Ana\"))\nprint(saludo(\"Ana\", prefijo=\"Buenas\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T1-A-E2] default prefijo + override. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "defaults"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "code": "def area_rect(base, altura):\n    \"\"\"Retorna base*altura; no imprime.\"\"\"\n    return base * altura\nprint(area_rect(3, 4))\nassert area_rect(3, 4) == 12",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T1-A-E3] contrato return sin print interno. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "code": "def f(xs=None):\n    if xs is None:\n        xs = []\n    xs.append(1)\n    return xs\nprint(f())\nprint(f())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "None sentinel evita default mutable compartido. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "mutable default"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "code": "def normalize_name(s: str) -> str:\n    return \" \".join(s.strip().split())\nprint(normalize_name(\"  Ana   Quispe \"))\nprint(normalize_name(normalize_name(\"  Ana   Quispe \")))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T1-B-E2] idempotente strip/join espacios. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "idempotent"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "code": "def parse_edad(txt: str):\n    try:\n        return int(txt.strip())\n    except ValueError as e:\n        raise ValueError(f\"edad invalida: {txt!r}\") from e\nprint(parse_edad(\" 19 \"))\ntry:\n    parse_edad(\"x\")\nexcept ValueError as e:\n    print(type(e).__name__, e)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T1-B-E3] ValueError con mensaje de campo. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "errors"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "code": "def add(a, b):\n    return a + b\nprint(add(2, 3))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T2-A-E1] firma posicional simple. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "params"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "code": "def report(*, title, n_rows):\n    return f\"{title}: {n_rows} filas\"\nprint(report(title=\"intake\", n_rows=3))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T2-A-E2] keyword-only con *. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "kwonly"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "code": "def clamp(x, lo=0, hi=100):\n    if x < lo:\n        return lo\n    if x > hi:\n        return hi\n    return x\nprint(clamp(-5), clamp(50), clamp(200))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T2-A-E3] defaults lo/hi; clamp rango. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "clamp"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "code": "def summarize(nums):\n    return {\"n\": len(nums), \"total\": sum(nums)}\nprint(summarize([1, 2, 3]))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T2-B-E1] dict de resumen puro. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "pure"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "code": "def apply_all(fn, values):\n    return [fn(v) for v in values]\nprint(apply_all(lambda x: x * 2, [1, 2, 3]))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T2-B-E2] higher-order map simple. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "hof"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "code": "def pipeline(x, steps):\n    for step in steps:\n        x = step(x)\n    return x\nprint(pipeline(\"  Ana  \", [str.strip, str.upper]))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T2-B-E3] pipeline de funciones puras. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "pipeline"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "code": "def outer(msg):\n    def inner():\n        return msg\n    return inner\nprint(outer(\"hola\")())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T3-A-E1] closure lee enclosing msg. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "closure"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "code": "x = 10\ndef show():\n    x = 5  # local\n    return x\nprint(show(), x)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T3-A-E2] local no pisa global sin global. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "scope"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "code": "def make_counter():\n    n = 0\n    def inc():\n        nonlocal n\n        n += 1\n        return n\n    return inc\nc = make_counter()\nprint(c(), c(), c())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T3-A-E3] nonlocal para contador. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "nonlocal"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "code": "def safe_div(a, b):\n    if b == 0:\n        return None\n    return a / b\nprint(safe_div(10, 2), safe_div(1, 0))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T3-B-E1] guard de division por cero. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "guard"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "code": "def validate_score(s):\n    if not isinstance(s, (int, float)):\n        return {\"ok\": False, \"error\": \"type\"}\n    if not 0 <= s <= 100:\n        return {\"ok\": False, \"error\": \"range\"}\n    return {\"ok\": True, \"value\": s}\nprint(validate_score(80), validate_score(-1), validate_score(\"x\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T3-B-E2] contrato resultado dict. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "validate"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "code": "def decompose_intake(raw: dict):\n    errors = []\n    clean = {}\n    for k, v in raw.items():\n        if v is None or (isinstance(v, str) and not v.strip()):\n            errors.append(k)\n        else:\n            clean[k] = v.strip() if isinstance(v, str) else v\n    return clean, errors\nprint(decompose_intake({\"nombres\": \" Ana \", \"edad\": \"\"}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T3-B-E3] descomposicion clean/errors. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "decompose"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "code": "def total_lineas(montos):\n    t = 0\n    for m in montos:\n        t += m\n    return t\nprint(total_lineas([10, 20, 5]))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T4-A-E1] acumulador en funcion. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "sum"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "code": "def mean(xs):\n    if not xs:\n        return None\n    return sum(xs) / len(xs)\nprint(mean([2, 4, 6]), mean([]))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T4-A-E2] media o None si vacio. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "mean"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "code": "def reject_rate(statuses):\n    n = len(statuses)\n    if n == 0:\n        return None\n    return sum(1 for s in statuses if s == \"reject\") / n\nprint(reject_rate([\"accept\", \"reject\"]), reject_rate([]))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T4-A-E3] tasa reutilizable. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "rate"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "code": "def main():\n    print(\"demo funciones S05\")\nif __name__ == \"__main__\":\n    main()",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T4-B-E1] entrypoint main + __name__. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "main"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "code": "def build_api():\n    def health():\n        return {\"status\": \"ok\"}\n    return {\"health\": health}\napi = build_api()\nprint(api[\"health\"]())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T4-B-E2] fabrica de funciones/API simple. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "factory"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "code": "def document_contract(fn):\n    return {\n        \"name\": fn.__name__,\n        \"doc\": (fn.__doc__ or \"\").strip(),\n    }\ndef parse_monto(s: str) -> str:\n    \"\"\"Normaliza monto textual strip.\"\"\"\n    return s.strip()\nprint(document_contract(parse_monto))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S05-T4-B-E3] metadatos de contrato. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "docs"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Sin return explicito la llamada devuelve None."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Default mutable [] se comparte entre llamadas: peligroso."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Pura: mismo input -> mismo output sin efectos colaterales."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "LEGB = Local, Enclosing, Global, Builtin."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Idempotencia: f(f(x)) == f(x) en el dominio."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:07:46.935594+00:00",
+  "session_started_at": "2026-07-23T07:07:24.288449+00:00",
+  "session_ended_at": "2026-07-23T07:07:46.935594+00:00"
+}

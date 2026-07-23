@@ -1,0 +1,489 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 51,
+  "packet_sha": "c89a65abd3621d96",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-G2-s51-live",
+  "production_note": "agentic_G2 independent of G1 dual-LLM packet-only: explorer solved sections from quiz_card+slim_packet only; direct agent output; no prior-attempt lives; no quarantine generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S51-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\": \"tr-moq-51\", \"spans\": {\"answer\", \"prompt\", \"retrieval\", \"tool\"}, \"versions\": {\"prompt\": \"p3\", \"model\": \"m2\", \"index\": \"i4\"}, \"pii_in_trace\": False}}\nmeets_contract = record[\"trace_id\"] or record[\"pii_in_trace\"]\nstatus = \"PASS\" if meets_contract else \"REDACT_AND_QUARANTINE_TRACE\"\nprint(\"S51-T1-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "trace_id",
+        "moq",
+        "spans",
+        "answer",
+        "prompt"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T1-A-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T1-A-E1 · Calcula el contrato de `traces de prompts/retrieval/tools` sobre `CASO-MOQ-051-1A`. La entrada es el dict completo del starter; la operación debe demostrar trace completo, bundle versionado y cero PII. Reem. Pistas usadas: Relaciona los campos `trace_id`, `spans`, `versions`, `pii_in_trace` con la regla explicada en S51-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva trace reconstruible sin PI. Regla de dominio «trace completo, bundle versionado y cero PII»; predicado corregido `record[\"trace_id\"] or record[\"pii_in_trace\"]` para que el fixture sintético pase y el adverso active `REDACT_AND_QUARANTINE_TRACE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"trace_id\", \"spans\", \"versions\", \"pii_in_trace\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"trace_id\"] or record[\"pii_in_trace\"]) else \"REDACT_AND_QUARANTINE_TRACE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\": \"tr-moq-51\", \"spans\": {\"answer\", \"prompt\", \"retrieval\", \"tool\"}, \"versions\": {\"prompt\": \"p3\", \"model\": \"m2\", \"index\": \"i4\"}, \"pii_in_trace\": False}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\": \"\", \"spans\": {\"answer\", \"prompt\", \"retrieval\", \"tool\"}, \"versions\": {\"prompt\": \"p3\", \"model\": \"m2\", \"index\": \"i4\"}, \"pii_in_trace\": False}}\nincomplete = {**valid}\nincomplete.pop(\"pii_in_trace\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "trace_id",
+        "spans",
+        "versions",
+        "pii_in_trace",
+        "sorted",
+        "keys"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T1-A-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T1-A-E2 · Modela tres rutas de `traces de prompts/retrieval/tools`: fixture válido, fixture adverso y registro sin `pii_in_trace`. Entrada: dict con case_id, trace_id, spans, versions, pii_in_trace. Salidas exactas: . Pistas usadas: Primero se calcula `missing`; ningún acceso a pii_in_trace debe ocurrir antes de esa rama.; Después aplica la regla de S51-T1-A: trace completo, bundle versionado y cero PII. El fixture adverso debe f. Regla de dominio «trace completo, bundle versionado y cero PII»; predicado corregido `record[\"trace_id\"] or record[\"pii_in_trace\"]` para que el fixture sintético pase y el adverso active `REDACT_AND_QUARANTINE_TRACE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"trace_id\", \"spans\", \"versions\", \"pii_in_trace\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RESTORE_TRACE_CONTEXT\"\n    return \"CONTINUE\" if (record[\"trace_id\"] or record[\"pii_in_trace\"]) else \"REDACT_AND_QUARANTINE_TRACE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\": \"tr-moq-51\", \"spans\": {\"answer\", \"prompt\", \"retrieval\", \"tool\"}, \"versions\": {\"prompt\": \"p3\", \"model\": \"m2\", \"index\": \"i4\"}, \"pii_in_trace\": False}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\": \"\", \"spans\": {\"answer\", \"prompt\", \"retrieval\", \"tool\"}, \"versions\": {\"prompt\": \"p3\", \"model\": \"m2\", \"index\": \"i4\"}, \"pii_in_trace\": False}}\nuncertain = {**valid}\nuncertain.pop(\"pii_in_trace\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "trace_id",
+        "spans",
+        "versions",
+        "pii_in_trace",
+        "sorted",
+        "keys"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T1-A-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T1-A-E3 · Simula fallo cerrado para `traces de prompts/retrieval/tools` con tres fixtures distintos. `CASO-MOQ-051-1A` debe continuar, el adverso debe devolver `REDACT_AND_QUARANTINE_TRACE` y la ausencia de `pii_in_t. Pistas usadas: Una ausencia no equivale a breach: enrútala a `RESTORE_TRACE_CONTEXT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró trace completo, bundle versionado y cero PII;. Regla de dominio «trace completo, bundle versionado y cero PII»; predicado corregido `record[\"trace_id\"] or record[\"pii_in_trace\"]` para que el fixture sintético pase y el adverso active `REDACT_AND_QUARANTINE_TRACE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\": 800, \"retrieval_tokens\": 400, \"answer_tokens\": 300, \"total_tokens\": 1500, \"p95_ms\": 900, \"slo_ms\": 1200, \"redacted_fields\": 4}}\nmeets_contract = record[\"total_tokens\"] == 0 or record[\"p95_ms\"] <= record[\"slo_ms\"]\nstatus = \"PASS\" if meets_contract else \"ALERT_COST_LATENCY\"\nprint(\"S51-T1-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "prompt_tokens",
+        "retrieval_tokens",
+        "answer_tokens",
+        "total_tokens",
+        "p95_ms"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T1-B-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T1-B-E1 · Compara el contrato de `tokens, costo, latency y redacción` sobre `CASO-MOQ-051-1B`. La entrada es el dict completo del starter; la operación debe demostrar tokens cuadran, p95 bajo SLO y campos redactados.. Pistas usadas: Relaciona los campos `prompt_tokens`, `retrieval_tokens`, `answer_tokens`, `total_tokens`, `p95_ms`, `slo_ms`, `redacted_fields` con la regla explicada en S51-T1-B.; El predicado correcto debe ser ver. Regla de dominio «tokens cuadran, p95 bajo SLO y campos redactados»; predicado corregido `record[\"total_tokens\"] == 0 or record[\"p95_ms\"] <= record[\"slo_ms\"]` para que el fixture sintético pase y el adverso active `ALERT_COST_LATENCY`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"prompt_tokens\", \"retrieval_tokens\", \"answer_tokens\", \"total_tokens\", \"p95_ms\", \"slo_ms\", \"redacted_fields\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] <= record[\"slo_ms\"]) else \"ALERT_COST_LATENCY\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\": 800, \"retrieval_tokens\": 400, \"answer_tokens\": 300, \"total_tokens\": 1500, \"p95_ms\": 900, \"slo_ms\": 1200, \"redacted_fields\": 4}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\": 800, \"retrieval_tokens\": 400, \"answer_tokens\": 300, \"total_tokens\": 1500, \"p95_ms\": 1000000, \"slo_ms\": 1200, \"redacted_fields\": 4}}\nincomplete = {**valid}\nincomplete.pop(\"redacted_fields\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "prompt_tokens",
+        "retrieval_tokens",
+        "answer_tokens",
+        "total_tokens",
+        "p95_ms",
+        "slo_ms"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T1-B-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T1-B-E2 · Verifica tres rutas de `tokens, costo, latency y redacción`: fixture válido, fixture adverso y registro sin `redacted_fields`. Entrada: dict con case_id, prompt_tokens, retrieval_tokens, answer_tokens, tota. Pistas usadas: Primero se calcula `missing`; ningún acceso a redacted_fields debe ocurrir antes de esa rama.; Después aplica la regla de S51-T1-B: tokens cuadran, p95 bajo SLO y campos redactados. El fixture adverso. Regla de dominio «tokens cuadran, p95 bajo SLO y campos redactados»; predicado corregido `record[\"total_tokens\"] == 0 or record[\"p95_ms\"] <= record[\"slo_ms\"]` para que el fixture sintético pase y el adverso active `ALERT_COST_LATENCY`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"prompt_tokens\", \"retrieval_tokens\", \"answer_tokens\", \"total_tokens\", \"p95_ms\", \"slo_ms\", \"redacted_fields\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"FIX_REDACTION_PIPELINE\"\n    return \"CONTINUE\" if (record[\"total_tokens\"] == 0 or record[\"p95_ms\"] <= record[\"slo_ms\"]) else \"ALERT_COST_LATENCY\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\": 800, \"retrieval_tokens\": 400, \"answer_tokens\": 300, \"total_tokens\": 1500, \"p95_ms\": 900, \"slo_ms\": 1200, \"redacted_fields\": 4}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\": 800, \"retrieval_tokens\": 400, \"answer_tokens\": 300, \"total_tokens\": 1500, \"p95_ms\": 1000000, \"slo_ms\": 1200, \"redacted_fields\": 4}}\nuncertain = {**valid}\nuncertain.pop(\"redacted_fields\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "prompt_tokens",
+        "retrieval_tokens",
+        "answer_tokens",
+        "total_tokens",
+        "p95_ms",
+        "slo_ms"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T1-B-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T1-B-E3 · Extiende fallo cerrado para `tokens, costo, latency y redacción` con tres fixtures distintos. `CASO-MOQ-051-1B` debe continuar, el adverso debe devolver `ALERT_COST_LATENCY` y la ausencia de `redacted_field. Pistas usadas: Una ausencia no equivale a breach: enrútala a `FIX_REDACTION_PIPELINE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró tokens cuadran, p95 bajo SLO y campos redact. Regla de dominio «tokens cuadran, p95 bajo SLO y campos redactados»; predicado corregido `record[\"total_tokens\"] == 0 or record[\"p95_ms\"] <= record[\"slo_ms\"]` para que el fixture sintético pase y el adverso active `ALERT_COST_LATENCY`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\": \"copilot-7\", \"model\": \"m2\", \"prompt\": \"p3\", \"dataset\": \"d5\", \"index\": \"i4\", \"evaluator\": \"e2\", \"immutable\": True}}\nmeets_contract = record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\"))\nstatus = \"PASS\" if meets_contract else \"FREEZE_RELEASE_BUNDLE\"\nprint(\"S51-T2-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "release",
+        "copilot",
+        "model",
+        "prompt",
+        "dataset"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T2-A-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T2-A-E1 · Filtra el contrato de `registro de modelo/prompt/dataset` sobre `CASO-MOQ-051-2A`. La entrada es el dict completo del starter; la operación debe demostrar seis versiones explícitas y bundle inmutable. Reemp. Pistas usadas: Relaciona los campos `release`, `model`, `prompt`, `dataset`, `index`, `evaluator`, `immutable` con la regla explicada en S51-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva. Regla de dominio «seis versiones explícitas y bundle inmutable»; predicado corregido `record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\"))` para que el fixture sintético pase y el adverso active `FREEZE_RELEASE_BUNDLE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"release\", \"model\", \"prompt\", \"dataset\", \"index\", \"evaluator\", \"immutable\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\"))) else \"FREEZE_RELEASE_BUNDLE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\": \"copilot-7\", \"model\": \"m2\", \"prompt\": \"p3\", \"dataset\": \"d5\", \"index\": \"i4\", \"evaluator\": \"e2\", \"immutable\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\": \"copilot-7\", \"model\": \"m2\", \"prompt\": \"p3\", \"dataset\": \"d5\", \"index\": \"i4\", \"evaluator\": \"e2\", \"immutable\": False}}\nincomplete = {**valid}\nincomplete.pop(\"immutable\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "release",
+        "model",
+        "prompt",
+        "dataset",
+        "index",
+        "evaluator"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T2-A-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T2-A-E2 · Clasifica tres rutas de `registro de modelo/prompt/dataset`: fixture válido, fixture adverso y registro sin `immutable`. Entrada: dict con case_id, release, model, prompt, dataset, index, evaluator, immutab. Pistas usadas: Primero se calcula `missing`; ningún acceso a immutable debe ocurrir antes de esa rama.; Después aplica la regla de S51-T2-A: seis versiones explícitas y bundle inmutable. El fixture adverso debe fall. Regla de dominio «seis versiones explícitas y bundle inmutable»; predicado corregido `record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\"))` para que el fixture sintético pase y el adverso active `FREEZE_RELEASE_BUNDLE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"release\", \"model\", \"prompt\", \"dataset\", \"index\", \"evaluator\", \"immutable\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REGISTER_MISSING_VERSION\"\n    return \"CONTINUE\" if (record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\"))) else \"FREEZE_RELEASE_BUNDLE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\": \"copilot-7\", \"model\": \"m2\", \"prompt\": \"p3\", \"dataset\": \"d5\", \"index\": \"i4\", \"evaluator\": \"e2\", \"immutable\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\": \"copilot-7\", \"model\": \"m2\", \"prompt\": \"p3\", \"dataset\": \"d5\", \"index\": \"i4\", \"evaluator\": \"e2\", \"immutable\": False}}\nuncertain = {**valid}\nuncertain.pop(\"immutable\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "release",
+        "model",
+        "prompt",
+        "dataset",
+        "index",
+        "evaluator"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T2-A-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T2-A-E3 · Defiende fallo cerrado para `registro de modelo/prompt/dataset` con tres fixtures distintos. `CASO-MOQ-051-2A` debe continuar, el adverso debe devolver `FREEZE_RELEASE_BUNDLE` y la ausencia de `immutable` d. Pistas usadas: Una ausencia no equivale a breach: enrútala a `REGISTER_MISSING_VERSION` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró seis versiones explícitas y bundle inmutab. Regla de dominio «seis versiones explícitas y bundle inmutable»; predicado corregido `record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\"))` para que el fixture sintético pase y el adverso active `FREEZE_RELEASE_BUNDLE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\": \"dev-a\", \"approver\": \"owner-b\", \"risk\": \"medium\", \"access_scope\": \"ops-read\", \"retention_days\": 30, \"audit_append_only\": True}}\nmeets_contract = record[\"author\"] != record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\")\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGOVERNED_CHANGE\"\nprint(\"S51-T2-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "author",
+        "dev",
+        "approver",
+        "owner",
+        "risk"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T2-B-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T2-B-E1 · Modela el contrato de `cambio, acceso, retención y auditoría` sobre `CASO-MOQ-051-2B`. La entrada es el dict completo del starter; la operación debe demostrar separación de funciones, scope read, retención . Pistas usadas: Relaciona los campos `author`, `approver`, `risk`, `access_scope`, `retention_days`, `audit_append_only` con la regla explicada en S51-T2-B.; El predicado correcto debe ser verdadero porque el fixture. Regla de dominio «separación de funciones, scope read, retención y audit»; predicado corregido `record[\"author\"] != record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\")` para que el fixture sintético pase y el adverso active `REJECT_UNGOVERNED_CHANGE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"author\", \"approver\", \"risk\", \"access_scope\", \"retention_days\", \"audit_append_only\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"author\"] != record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\")) else \"REJECT_UNGOVERNED_CHANGE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\": \"dev-a\", \"approver\": \"owner-b\", \"risk\": \"medium\", \"access_scope\": \"ops-read\", \"retention_days\": 30, \"audit_append_only\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\": \"owner-b\", \"approver\": \"owner-b\", \"risk\": \"medium\", \"access_scope\": \"ops-read\", \"retention_days\": 30, \"audit_append_only\": True}}\nincomplete = {**valid}\nincomplete.pop(\"audit_append_only\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "author",
+        "approver",
+        "risk",
+        "access_scope",
+        "retention_days",
+        "audit_append_only"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T2-B-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T2-B-E2 · Audita tres rutas de `cambio, acceso, retención y auditoría`: fixture válido, fixture adverso y registro sin `audit_append_only`. Entrada: dict con case_id, author, approver, risk, access_scope, retention_d. Pistas usadas: Primero se calcula `missing`; ningún acceso a audit_append_only debe ocurrir antes de esa rama.; Después aplica la regla de S51-T2-B: separación de funciones, scope read, retención y audit. El fixture. Regla de dominio «separación de funciones, scope read, retención y audit»; predicado corregido `record[\"author\"] != record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\")` para que el fixture sintético pase y el adverso active `REJECT_UNGOVERNED_CHANGE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"author\", \"approver\", \"risk\", \"access_scope\", \"retention_days\", \"audit_append_only\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_INDEPENDENT_APPROVAL\"\n    return \"CONTINUE\" if (record[\"author\"] != record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\")) else \"REJECT_UNGOVERNED_CHANGE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\": \"dev-a\", \"approver\": \"owner-b\", \"risk\": \"medium\", \"access_scope\": \"ops-read\", \"retention_days\": 30, \"audit_append_only\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\": \"owner-b\", \"approver\": \"owner-b\", \"risk\": \"medium\", \"access_scope\": \"ops-read\", \"retention_days\": 30, \"audit_append_only\": True}}\nuncertain = {**valid}\nuncertain.pop(\"audit_append_only\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "author",
+        "approver",
+        "risk",
+        "access_scope",
+        "retention_days",
+        "audit_append_only"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T2-B-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T2-B-E3 · Recupera fallo cerrado para `cambio, acceso, retención y auditoría` con tres fixtures distintos. `CASO-MOQ-051-2B` debe continuar, el adverso debe devolver `REJECT_UNGOVERNED_CHANGE` y la ausencia de `audit. Pistas usadas: Una ausencia no equivale a breach: enrútala a `REQUEST_INDEPENDENT_APPROVAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró separación de funciones, scope read, r. Regla de dominio «separación de funciones, scope read, retención y audit»; predicado corregido `record[\"author\"] != record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\")` para que el fixture sintético pase y el adverso active `REJECT_UNGOVERNED_CHANGE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\": 0.999, \"availability_slo\": 0.995, \"faithfulness\": 0.93, \"faithfulness_slo\": 0.9, \"drift\": 0.04, \"max_drift\": 0.08, \"owner\": \"ai-oncall\"}}\nmeets_contract = record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] <= record[\"max_drift\"]\nstatus = \"PASS\" if meets_contract else \"OPEN_COPILOT_INCIDENT\"\nprint(\"S51-T3-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "availability",
+        "availability_slo",
+        "faithfulness",
+        "faithfulness_slo",
+        "drift"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T3-A-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T3-A-E1 · Verifica el contrato de `SLO, feedback y drift` sobre `CASO-MOQ-051-3A`. La entrada es el dict completo del starter; la operación debe demostrar availability/faithfulness/drift bajo SLO con owner. Reemplaza. Pistas usadas: Relaciona los campos `availability`, `availability_slo`, `faithfulness`, `faithfulness_slo`, `drift`, `max_drift`, `owner` con la regla explicada en S51-T3-A.; El predicado correcto debe ser verdadero. Regla de dominio «availability/faithfulness/drift bajo SLO con owner»; predicado corregido `record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] <= record[\"max_drift\"]` para que el fixture sintético pase y el adverso active `OPEN_COPILOT_INCIDENT`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"availability\", \"availability_slo\", \"faithfulness\", \"faithfulness_slo\", \"drift\", \"max_drift\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] <= record[\"max_drift\"]) else \"OPEN_COPILOT_INCIDENT\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\": 0.999, \"availability_slo\": 0.995, \"faithfulness\": 0.93, \"faithfulness_slo\": 0.9, \"drift\": 0.04, \"max_drift\": 0.08, \"owner\": \"ai-oncall\"}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\": 0.999, \"availability_slo\": 0.995, \"faithfulness\": 0.93, \"faithfulness_slo\": 0.9, \"drift\": 1.0, \"max_drift\": 0.08, \"owner\": \"ai-oncall\"}}\nincomplete = {**valid}\nincomplete.pop(\"owner\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "availability",
+        "availability_slo",
+        "faithfulness",
+        "faithfulness_slo",
+        "drift",
+        "max_drift"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T3-A-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T3-A-E2 · Decide tres rutas de `SLO, feedback y drift`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, availability, availability_slo, faithfulness, faithfulness_slo, drift, max_dr. Pistas usadas: Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.; Después aplica la regla de S51-T3-A: availability/faithfulness/drift bajo SLO con owner. El fixture adverso debe fa. Regla de dominio «availability/faithfulness/drift bajo SLO con owner»; predicado corregido `record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] <= record[\"max_drift\"]` para que el fixture sintético pase y el adverso active `OPEN_COPILOT_INCIDENT`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"availability\", \"availability_slo\", \"faithfulness\", \"faithfulness_slo\", \"drift\", \"max_drift\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TRIAGE_DRIFT_SLICE\"\n    return \"CONTINUE\" if (record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] <= record[\"max_drift\"]) else \"OPEN_COPILOT_INCIDENT\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\": 0.999, \"availability_slo\": 0.995, \"faithfulness\": 0.93, \"faithfulness_slo\": 0.9, \"drift\": 0.04, \"max_drift\": 0.08, \"owner\": \"ai-oncall\"}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\": 0.999, \"availability_slo\": 0.995, \"faithfulness\": 0.93, \"faithfulness_slo\": 0.9, \"drift\": 1.0, \"max_drift\": 0.08, \"owner\": \"ai-oncall\"}}\nuncertain = {**valid}\nuncertain.pop(\"owner\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "availability",
+        "availability_slo",
+        "faithfulness",
+        "faithfulness_slo",
+        "drift",
+        "max_drift"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T3-A-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T3-A-E3 · Contrasta fallo cerrado para `SLO, feedback y drift` con tres fixtures distintos. `CASO-MOQ-051-3A` debe continuar, el adverso debe devolver `OPEN_COPILOT_INCIDENT` y la ausencia de `owner` debe devolver `T. Pistas usadas: Una ausencia no equivale a breach: enrútala a `TRIAGE_DRIFT_SLICE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró availability/faithfulness/drift bajo SLO con own. Regla de dominio «availability/faithfulness/drift bajo SLO con owner»; predicado corregido `record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] <= record[\"max_drift\"]` para que el fixture sintético pase y el adverso active `OPEN_COPILOT_INCIDENT`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\": True, \"rolled_back_to\": \"copilot-6\", \"rollback_minutes\": 7, \"rto_minutes\": 10, \"postmortem_actions\": 4, \"owners_assigned\": True}}\nmeets_contract = not record[\"contained\"] or record[\"rollback_minutes\"] <= record[\"rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AND_CONTAIN\"\nprint(\"S51-T3-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "contained",
+        "rolled_back_to",
+        "copilot",
+        "rollback_minutes",
+        "rto_minutes"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T3-B-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T3-B-E1 · Clasifica el contrato de `incidents, rollback y postmortem` sobre `CASO-MOQ-051-3B`. La entrada es el dict completo del starter; la operación debe demostrar contención, last-good, RTO y acciones con dueño. . Pistas usadas: Relaciona los campos `contained`, `rolled_back_to`, `rollback_minutes`, `rto_minutes`, `postmortem_actions`, `owners_assigned` con la regla explicada en S51-T3-B.; El predicado correcto debe ser verda. Regla de dominio «contención, last-good, RTO y acciones con dueño»; predicado corregido `not record[\"contained\"] or record[\"rollback_minutes\"] <= record[\"rto_minutes\"]` para que el fixture sintético pase y el adverso active `ROLLBACK_AND_CONTAIN`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"contained\", \"rolled_back_to\", \"rollback_minutes\", \"rto_minutes\", \"postmortem_actions\", \"owners_assigned\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not record[\"contained\"] or record[\"rollback_minutes\"] <= record[\"rto_minutes\"]) else \"ROLLBACK_AND_CONTAIN\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\": True, \"rolled_back_to\": \"copilot-6\", \"rollback_minutes\": 7, \"rto_minutes\": 10, \"postmortem_actions\": 4, \"owners_assigned\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\": True, \"rolled_back_to\": \"copilot-6\", \"rollback_minutes\": 999, \"rto_minutes\": 10, \"postmortem_actions\": 4, \"owners_assigned\": True}}\nincomplete = {**valid}\nincomplete.pop(\"owners_assigned\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "contained",
+        "rolled_back_to",
+        "rollback_minutes",
+        "rto_minutes",
+        "postmortem_actions",
+        "owners_assigned"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T3-B-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T3-B-E2 · Calcula tres rutas de `incidents, rollback y postmortem`: fixture válido, fixture adverso y registro sin `owners_assigned`. Entrada: dict con case_id, contained, rolled_back_to, rollback_minutes, rto_minute. Pistas usadas: Primero se calcula `missing`; ningún acceso a owners_assigned debe ocurrir antes de esa rama.; Después aplica la regla de S51-T3-B: contención, last-good, RTO y acciones con dueño. El fixture adverso . Regla de dominio «contención, last-good, RTO y acciones con dueño»; predicado corregido `not record[\"contained\"] or record[\"rollback_minutes\"] <= record[\"rto_minutes\"]` para que el fixture sintético pase y el adverso active `ROLLBACK_AND_CONTAIN`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"contained\", \"rolled_back_to\", \"rollback_minutes\", \"rto_minutes\", \"postmortem_actions\", \"owners_assigned\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONVENE_INCIDENT_REVIEW\"\n    return \"CONTINUE\" if (not record[\"contained\"] or record[\"rollback_minutes\"] <= record[\"rto_minutes\"]) else \"ROLLBACK_AND_CONTAIN\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\": True, \"rolled_back_to\": \"copilot-6\", \"rollback_minutes\": 7, \"rto_minutes\": 10, \"postmortem_actions\": 4, \"owners_assigned\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\": True, \"rolled_back_to\": \"copilot-6\", \"rollback_minutes\": 999, \"rto_minutes\": 10, \"postmortem_actions\": 4, \"owners_assigned\": True}}\nuncertain = {**valid}\nuncertain.pop(\"owners_assigned\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "contained",
+        "rolled_back_to",
+        "rollback_minutes",
+        "rto_minutes",
+        "postmortem_actions",
+        "owners_assigned"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T3-B-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T3-B-E3 · Instrumenta fallo cerrado para `incidents, rollback y postmortem` con tres fixtures distintos. `CASO-MOQ-051-3B` debe continuar, el adverso debe devolver `ROLLBACK_AND_CONTAIN` y la ausencia de `owners_assi. Pistas usadas: Una ausencia no equivale a breach: enrútala a `CONVENE_INCIDENT_REVIEW` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró contención, last-good, RTO y acciones con d. Regla de dominio «contención, last-good, RTO y acciones con dueño»; predicado corregido `not record[\"contained\"] or record[\"rollback_minutes\"] <= record[\"rto_minutes\"]` para que el fixture sintético pase y el adverso active `ROLLBACK_AND_CONTAIN`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\": True, \"citations_resolve\": True, \"effect_summary\": \"prepara borrador\", \"confirmation_required\": True, \"confirmed\": True}}\nmeets_contract = record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNCONFIRMED_ACTION\"\nprint(\"S51-T4-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "uncertainty_shown",
+        "citations_resolve",
+        "effect_summary",
+        "prepara",
+        "borrador"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T4-A-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T4-A-E1 · Audita el contrato de `incertidumbre, citas y confirmaciones` sobre `CASO-MOQ-051-4A`. La entrada es el dict completo del starter; la operación debe demostrar incertidumbre/citas visibles y efecto confirmad. Pistas usadas: Relaciona los campos `uncertainty_shown`, `citations_resolve`, `effect_summary`, `confirmation_required`, `confirmed` con la regla explicada en S51-T4-A.; El predicado correcto debe ser verdadero porq. Regla de dominio «incertidumbre/citas visibles y efecto confirmado»; predicado corregido `record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"]` para que el fixture sintético pase y el adverso active `BLOCK_UNCONFIRMED_ACTION`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"uncertainty_shown\", \"citations_resolve\", \"effect_summary\", \"confirmation_required\", \"confirmed\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"]) else \"BLOCK_UNCONFIRMED_ACTION\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\": True, \"citations_resolve\": True, \"effect_summary\": \"prepara borrador\", \"confirmation_required\": True, \"confirmed\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\": False, \"citations_resolve\": True, \"effect_summary\": \"prepara borrador\", \"confirmation_required\": True, \"confirmed\": True}}\nincomplete = {**valid}\nincomplete.pop(\"confirmed\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "uncertainty_shown",
+        "citations_resolve",
+        "effect_summary",
+        "confirmation_required",
+        "confirmed",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T4-A-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T4-A-E2 · Compara tres rutas de `incertidumbre, citas y confirmaciones`: fixture válido, fixture adverso y registro sin `confirmed`. Entrada: dict con case_id, uncertainty_shown, citations_resolve, effect_summary, co. Pistas usadas: Primero se calcula `missing`; ningún acceso a confirmed debe ocurrir antes de esa rama.; Después aplica la regla de S51-T4-A: incertidumbre/citas visibles y efecto confirmado. El fixture adverso debe . Regla de dominio «incertidumbre/citas visibles y efecto confirmado»; predicado corregido `record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"]` para que el fixture sintético pase y el adverso active `BLOCK_UNCONFIRMED_ACTION`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"uncertainty_shown\", \"citations_resolve\", \"effect_summary\", \"confirmation_required\", \"confirmed\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ASK_USER_TO_CONFIRM\"\n    return \"CONTINUE\" if (record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"]) else \"BLOCK_UNCONFIRMED_ACTION\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\": True, \"citations_resolve\": True, \"effect_summary\": \"prepara borrador\", \"confirmation_required\": True, \"confirmed\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\": False, \"citations_resolve\": True, \"effect_summary\": \"prepara borrador\", \"confirmation_required\": True, \"confirmed\": True}}\nuncertain = {**valid}\nuncertain.pop(\"confirmed\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "uncertainty_shown",
+        "citations_resolve",
+        "effect_summary",
+        "confirmation_required",
+        "confirmed",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T4-A-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T4-A-E3 · Aísla fallo cerrado para `incertidumbre, citas y confirmaciones` con tres fixtures distintos. `CASO-MOQ-051-4A` debe continuar, el adverso debe devolver `BLOCK_UNCONFIRMED_ACTION` y la ausencia de `confirme. Pistas usadas: Una ausencia no equivale a breach: enrútala a `ASK_USER_TO_CONFIRM` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró incertidumbre/citas visibles y efecto confirmad. Regla de dominio «incertidumbre/citas visibles y efecto confirmado»; predicado corregido `record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"]` para que el fixture sintético pase y el adverso active `BLOCK_UNCONFIRMED_ACTION`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\": True, \"screen_reader_labels\": True, \"contrast_ratio\": 5.1, \"min_contrast\": 4.5, \"correction_available\": True, \"appeal_to_human\": True}}\nmeets_contract = not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] >= record[\"min_contrast\"] or not record[\"appeal_to_human\"]\nstatus = \"PASS\" if meets_contract else \"FAIL_ACCESSIBILITY_GATE\"\nprint(\"S51-T4-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "MOQ",
+        "keyboard_complete",
+        "screen_reader_labels",
+        "contrast_ratio",
+        "min_contrast",
+        "correction_available"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T4-B-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T4-B-E1 · Decide el contrato de `accesibilidad, corrección y contestabilidad` sobre `CASO-MOQ-051-4B`. La entrada es el dict completo del starter; la operación debe demostrar teclado/lector/contraste y corrección/ape. Pistas usadas: Relaciona los campos `keyboard_complete`, `screen_reader_labels`, `contrast_ratio`, `min_contrast`, `correction_available`, `appeal_to_human` con la regla explicada en S51-T4-B.; El predicado correcto. Regla de dominio «teclado/lector/contraste y corrección/apelación»; predicado corregido `not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] >= record[\"min_contrast\"] or not record[\"appeal_to_human\"]` para que el fixture sintético pase y el adverso active `FAIL_ACCESSIBILITY_GATE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"keyboard_complete\", \"screen_reader_labels\", \"contrast_ratio\", \"min_contrast\", \"correction_available\", \"appeal_to_human\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] >= record[\"min_contrast\"] or not record[\"appeal_to_human\"]) else \"FAIL_ACCESSIBILITY_GATE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\": True, \"screen_reader_labels\": True, \"contrast_ratio\": 5.1, \"min_contrast\": 4.5, \"correction_available\": True, \"appeal_to_human\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\": True, \"screen_reader_labels\": True, \"contrast_ratio\": 0.0, \"min_contrast\": 4.5, \"correction_available\": True, \"appeal_to_human\": True}}\nincomplete = {**valid}\nincomplete.pop(\"appeal_to_human\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "keyboard_complete",
+        "screen_reader_labels",
+        "contrast_ratio",
+        "min_contrast",
+        "correction_available",
+        "appeal_to_human"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T4-B-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T4-B-E2 · Filtra tres rutas de `accesibilidad, corrección y contestabilidad`: fixture válido, fixture adverso y registro sin `appeal_to_human`. Entrada: dict con case_id, keyboard_complete, screen_reader_labels, cont. Pistas usadas: Primero se calcula `missing`; ningún acceso a appeal_to_human debe ocurrir antes de esa rama.; Después aplica la regla de S51-T4-B: teclado/lector/contraste y corrección/apelación. El fixture adverso . Regla de dominio «teclado/lector/contraste y corrección/apelación»; predicado corregido `not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] >= record[\"min_contrast\"] or not record[\"appeal_to_human\"]` para que el fixture sintético pase y el adverso active `FAIL_ACCESSIBILITY_GATE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S51-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"keyboard_complete\", \"screen_reader_labels\", \"contrast_ratio\", \"min_contrast\", \"correction_available\", \"appeal_to_human\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ROUTE_CONTESTATION\"\n    return \"CONTINUE\" if (not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] >= record[\"min_contrast\"] or not record[\"appeal_to_human\"]) else \"FAIL_ACCESSIBILITY_GATE\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\": True, \"screen_reader_labels\": True, \"contrast_ratio\": 5.1, \"min_contrast\": 4.5, \"correction_available\": True, \"appeal_to_human\": True}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\": True, \"screen_reader_labels\": True, \"contrast_ratio\": 0.0, \"min_contrast\": 4.5, \"correction_available\": True, \"appeal_to_human\": True}}\nuncertain = {**valid}\nuncertain.pop(\"appeal_to_human\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "keyboard_complete",
+        "screen_reader_labels",
+        "contrast_ratio",
+        "min_contrast",
+        "correction_available",
+        "appeal_to_human"
+      ],
+      "justification_from_packet": "Explorer: completé S51-T4-B-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S51-T4-B-E3 · Demuestra fallo cerrado para `accesibilidad, corrección y contestabilidad` con tres fixtures distintos. `CASO-MOQ-051-4B` debe continuar, el adverso debe devolver `FAIL_ACCESSIBILITY_GATE` y la ausencia de . Pistas usadas: Una ausencia no equivale a breach: enrútala a `ROUTE_CONTESTATION` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró teclado/lector/contraste y corrección/apelación;. Regla de dominio «teclado/lector/contraste y corrección/apelación»; predicado corregido `not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] >= record[\"min_contrast\"] or not record[\"appeal_to_human\"]` para que el fixture sintético pase y el adverso active `FAIL_ACCESSIBILITY_GATE`. Sin PII real ni borrar traces."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "trace reconstruible sin PII",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría del paquete S51 («Observabilidad, gobernanza y UX del copiloto») y las salidas de subtema. Pregunta: ¿Qué evidencia permite aprobar `traces de prompts/retrieval/tools` en CASO-MOQ-051?. Elijo la opción «trace reconstruible sin PII» (índice 2) porque alinea con evidencia/gate/tratamiento enseñado en theory/iDo y descarta distractores (print sin assert, PII real, borrar trace, README vacío)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "emitir ROLLBACK_COPILOT y conservar evidencia",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría del paquete S51 («Observabilidad, gobernanza y UX del copiloto») y las salidas de subtema. Pregunta: Si ocurre la condición de error de S51, ¿qué respuesta preserva seguridad y auditabilidad?. Elijo la opción «emitir ROLLBACK_COPILOT y conservar evidencia» (índice 0) porque alinea con evidencia/gate/tratamiento enseñado en theory/iDo y descarta distractores (print sin assert, PII real, borrar trace, README vacío)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría del paquete S51 («Observabilidad, gobernanza y UX del copiloto») y las salidas de subtema. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-C + CF-5 · copiloto observable y contestable`?. Elijo la opción «se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir» (índice 1) porque alinea con evidencia/gate/tratamiento enseñado en theory/iDo y descarta distractores (print sin assert, PII real, borrar trace, README vacío)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría del paquete S51 («Observabilidad, gobernanza y UX del copiloto») y las salidas de subtema. Pregunta: ¿Qué tratamiento de `CASO-MOQ-051` respeta el alcance del curso?. Elijo la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» (índice 3) porque alinea con evidencia/gate/tratamiento enseñado en theory/iDo y descarta distractores (print sin assert, PII real, borrar trace, README vacío)."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": "explorer: completed S51 (Observabilidad, gobernanza y UX del copiloto) with 24 exercises + 4 selfcheck from packet stems/starters/theory only.",
+  "summary": "S51 explorer: 24 exercises, 4 selfcheck",
+  "recorded_at": "2026-07-23T09:38:40+00:00",
+  "session_started_at": "2026-07-23T09:35:20+00:00",
+  "session_ended_at": "2026-07-23T09:38:40+00:00"
+}

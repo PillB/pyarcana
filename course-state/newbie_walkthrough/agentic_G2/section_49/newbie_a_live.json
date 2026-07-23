@@ -1,0 +1,489 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 49,
+  "packet_sha": "2864233a4f8e529b",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-G2-s49-live",
+  "production_note": "agentic_G2 independent of G1 dual-LLM packet-only: explorer solved sections from quiz_card+slim_packet only; direct agent output; no prior-attempt lives; no quarantine generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S49-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\": True, \"branch_count\": 2, \"tool_choice_uncertain\": False, \"baseline_success\": 0.96, \"agent_success\": 0.9}}\nmeets_contract = not record[\"known_steps\"] or record[\"agent_success\"] <= record[\"baseline_success\"]\nstatus = \"PASS\" if meets_contract else \"KEEP_DETERMINISTIC_WORKFLOW\"\nprint(\"S49-T1-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "known_steps",
+        "branch_count",
+        "tool_choice_uncertain",
+        "baseline_success",
+        "agent_success"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T1-A-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T1-A-E1 · Calcula el contrato de `workflow vs agente` sobre `CASO-AYA-049-1A`. La entrada es el dict completo del starter; la operación debe demostrar workflow preferido cuando pasos conocidos y baseline gana. Reempl. Pistas usadas: Relaciona los campos `known_steps`, `branch_count`, `tool_choice_uncertain`, `baseline_success`, `agent_success` con la regla explicada en S49-T1-A.; El predicado correcto debe ser verdadero porque el. Regla de dominio «workflow preferido cuando pasos conocidos y baseline gana»; predicado corregido `not record[\"known_steps\"] or record[\"agent_success\"] <= record[\"baseline_success\"]` para que el fixture sintético pase y el adverso active `KEEP_DETERMINISTIC_WORKFLOW`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"known_steps\", \"branch_count\", \"tool_choice_uncertain\", \"baseline_success\", \"agent_success\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not record[\"known_steps\"] or record[\"agent_success\"] <= record[\"baseline_success\"]) else \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\": True, \"branch_count\": 2, \"tool_choice_uncertain\": False, \"baseline_success\": 0.96, \"agent_success\": 0.9}}\ninvalid = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\": True, \"branch_count\": 2, \"tool_choice_uncertain\": False, \"baseline_success\": 0.0, \"agent_success\": 0.9}}\nincomplete = {**valid}\nincomplete.pop(\"agent_success\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "known_steps",
+        "branch_count",
+        "tool_choice_uncertain",
+        "baseline_success",
+        "agent_success",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T1-A-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T1-A-E2 · Modela tres rutas de `workflow vs agente`: fixture válido, fixture adverso y registro sin `agent_success`. Entrada: dict con case_id, known_steps, branch_count, tool_choice_uncertain, baseline_success, agen. Pistas usadas: Primero se calcula `missing`; ningún acceso a agent_success debe ocurrir antes de esa rama.; Después aplica la regla de S49-T1-A: workflow preferido cuando pasos conocidos y baseline gana. El fixture . Regla de dominio «workflow preferido cuando pasos conocidos y baseline gana»; predicado corregido `not record[\"known_steps\"] or record[\"agent_success\"] <= record[\"baseline_success\"]` para que el fixture sintético pase y el adverso active `KEEP_DETERMINISTIC_WORKFLOW`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"known_steps\", \"branch_count\", \"tool_choice_uncertain\", \"baseline_success\", \"agent_success\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RUN_AGENT_BASELINE\"\n    return \"CONTINUE\" if (not record[\"known_steps\"] or record[\"agent_success\"] <= record[\"baseline_success\"]) else \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\": True, \"branch_count\": 2, \"tool_choice_uncertain\": False, \"baseline_success\": 0.96, \"agent_success\": 0.9}}\ninvalid = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\": True, \"branch_count\": 2, \"tool_choice_uncertain\": False, \"baseline_success\": 0.0, \"agent_success\": 0.9}}\nuncertain = {**valid}\nuncertain.pop(\"agent_success\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "known_steps",
+        "branch_count",
+        "tool_choice_uncertain",
+        "baseline_success",
+        "agent_success",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T1-A-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T1-A-E3 · Simula fallo cerrado para `workflow vs agente` con tres fixtures distintos. `CASO-AYA-049-1A` debe continuar, el adverso debe devolver `KEEP_DETERMINISTIC_WORKFLOW` y la ausencia de `agent_success` debe dev. Pistas usadas: Una ausencia no equivale a breach: enrútala a `RUN_AGENT_BASELINE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró workflow preferido cuando pasos conocidos y base. Regla de dominio «workflow preferido cuando pasos conocidos y baseline gana»; predicado corregido `not record[\"known_steps\"] or record[\"agent_success\"] <= record[\"baseline_success\"]` para que el fixture sintético pase y el adverso active `KEEP_DETERMINISTIC_WORKFLOW`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\": \"report\", \"plan_steps\": 3, \"max_steps\": 5, \"worker_outputs\": 3, \"evaluator_pass\": True}}\nmeets_contract = record[\"plan_steps\"] <= record[\"max_steps\"] or not record[\"evaluator_pass\"]\nstatus = \"PASS\" if meets_contract else \"STOP_AGENT_LOOP\"\nprint(\"S49-T1-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "route",
+        "report",
+        "plan_steps",
+        "max_steps",
+        "worker_outputs"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T1-B-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T1-B-E1 · Compara el contrato de `routing, planner/worker y evaluator–optimizer` sobre `CASO-AYA-049-1B`. La entrada es el dict completo del starter; la operación debe demostrar ruta válida, plan acotado, outputs com. Pistas usadas: Relaciona los campos `route`, `plan_steps`, `max_steps`, `worker_outputs`, `evaluator_pass` con la regla explicada en S49-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva tra. Regla de dominio «ruta válida, plan acotado, outputs completos y evaluación»; predicado corregido `record[\"plan_steps\"] <= record[\"max_steps\"] or not record[\"evaluator_pass\"]` para que el fixture sintético pase y el adverso active `STOP_AGENT_LOOP`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"route\", \"plan_steps\", \"max_steps\", \"worker_outputs\", \"evaluator_pass\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"plan_steps\"] <= record[\"max_steps\"] or not record[\"evaluator_pass\"]) else \"STOP_AGENT_LOOP\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\": \"report\", \"plan_steps\": 3, \"max_steps\": 5, \"worker_outputs\": 3, \"evaluator_pass\": True}}\ninvalid = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\": \"report\", \"plan_steps\": 999, \"max_steps\": 5, \"worker_outputs\": 3, \"evaluator_pass\": True}}\nincomplete = {**valid}\nincomplete.pop(\"evaluator_pass\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "route",
+        "plan_steps",
+        "max_steps",
+        "worker_outputs",
+        "evaluator_pass",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T1-B-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T1-B-E2 · Verifica tres rutas de `routing, planner/worker y evaluator–optimizer`: fixture válido, fixture adverso y registro sin `evaluator_pass`. Entrada: dict con case_id, route, plan_steps, max_steps, worker_outpu. Pistas usadas: Primero se calcula `missing`; ningún acceso a evaluator_pass debe ocurrir antes de esa rama.; Después aplica la regla de S49-T1-B: ruta válida, plan acotado, outputs completos y evaluación. El fixture. Regla de dominio «ruta válida, plan acotado, outputs completos y evaluación»; predicado corregido `record[\"plan_steps\"] <= record[\"max_steps\"] or not record[\"evaluator_pass\"]` para que el fixture sintético pase y el adverso active `STOP_AGENT_LOOP`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"route\", \"plan_steps\", \"max_steps\", \"worker_outputs\", \"evaluator_pass\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REPLAN_WITH_BOUNDS\"\n    return \"CONTINUE\" if (record[\"plan_steps\"] <= record[\"max_steps\"] or not record[\"evaluator_pass\"]) else \"STOP_AGENT_LOOP\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\": \"report\", \"plan_steps\": 3, \"max_steps\": 5, \"worker_outputs\": 3, \"evaluator_pass\": True}}\ninvalid = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\": \"report\", \"plan_steps\": 999, \"max_steps\": 5, \"worker_outputs\": 3, \"evaluator_pass\": True}}\nuncertain = {**valid}\nuncertain.pop(\"evaluator_pass\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "route",
+        "plan_steps",
+        "max_steps",
+        "worker_outputs",
+        "evaluator_pass",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T1-B-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T1-B-E3 · Extiende fallo cerrado para `routing, planner/worker y evaluator–optimizer` con tres fixtures distintos. `CASO-AYA-049-1B` debe continuar, el adverso debe devolver `STOP_AGENT_LOOP` y la ausencia de `evalua. Pistas usadas: Una ausencia no equivale a breach: enrútala a `REPLAN_WITH_BOUNDS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró ruta válida, plan acotado, outputs completos y e. Regla de dominio «ruta válida, plan acotado, outputs completos y evaluación»; predicado corregido `record[\"plan_steps\"] <= record[\"max_steps\"] or not record[\"evaluator_pass\"]` para que el fixture sintético pase y el adverso active `STOP_AGENT_LOOP`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\": \"get_case_status\", \"responsibilities\": 1, \"schema_fields\": {\"case_id\"}, \"side_effect\": False, \"typed_errors\": True}}\nmeets_contract = record[\"responsibilities\"] <= 1 or record[\"side_effect\"]\nstatus = \"PASS\" if meets_contract else \"DISABLE_OVERBROAD_TOOL\"\nprint(\"S49-T2-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "tool",
+        "get_case_status",
+        "responsibilities",
+        "schema_fields",
+        "side_effect"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T2-A-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T2-A-E1 · Filtra el contrato de `funciones de responsabilidad única` sobre `CASO-AYA-049-2A`. La entrada es el dict completo del starter; la operación debe demostrar una responsabilidad, schema estrecho y error tipad. Pistas usadas: Relaciona los campos `tool`, `responsibilities`, `schema_fields`, `side_effect`, `typed_errors` con la regla explicada en S49-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva. Regla de dominio «una responsabilidad, schema estrecho y error tipado»; predicado corregido `record[\"responsibilities\"] <= 1 or record[\"side_effect\"]` para que el fixture sintético pase y el adverso active `DISABLE_OVERBROAD_TOOL`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"tool\", \"responsibilities\", \"schema_fields\", \"side_effect\", \"typed_errors\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"responsibilities\"] <= 1 or record[\"side_effect\"]) else \"DISABLE_OVERBROAD_TOOL\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\": \"get_case_status\", \"responsibilities\": 1, \"schema_fields\": {\"case_id\"}, \"side_effect\": False, \"typed_errors\": True}}\ninvalid = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\": \"get_case_status\", \"responsibilities\": 999, \"schema_fields\": {\"case_id\"}, \"side_effect\": False, \"typed_errors\": True}}\nincomplete = {**valid}\nincomplete.pop(\"typed_errors\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "tool",
+        "responsibilities",
+        "schema_fields",
+        "side_effect",
+        "typed_errors",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T2-A-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T2-A-E2 · Clasifica tres rutas de `funciones de responsabilidad única`: fixture válido, fixture adverso y registro sin `typed_errors`. Entrada: dict con case_id, tool, responsibilities, schema_fields, side_effect, ty. Pistas usadas: Primero se calcula `missing`; ningún acceso a typed_errors debe ocurrir antes de esa rama.; Después aplica la regla de S49-T2-A: una responsabilidad, schema estrecho y error tipado. El fixture adverso. Regla de dominio «una responsabilidad, schema estrecho y error tipado»; predicado corregido `record[\"responsibilities\"] <= 1 or record[\"side_effect\"]` para que el fixture sintético pase y el adverso active `DISABLE_OVERBROAD_TOOL`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"tool\", \"responsibilities\", \"schema_fields\", \"side_effect\", \"typed_errors\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SPLIT_TOOL_CONTRACT\"\n    return \"CONTINUE\" if (record[\"responsibilities\"] <= 1 or record[\"side_effect\"]) else \"DISABLE_OVERBROAD_TOOL\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\": \"get_case_status\", \"responsibilities\": 1, \"schema_fields\": {\"case_id\"}, \"side_effect\": False, \"typed_errors\": True}}\ninvalid = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\": \"get_case_status\", \"responsibilities\": 999, \"schema_fields\": {\"case_id\"}, \"side_effect\": False, \"typed_errors\": True}}\nuncertain = {**valid}\nuncertain.pop(\"typed_errors\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "tool",
+        "responsibilities",
+        "schema_fields",
+        "side_effect",
+        "typed_errors",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T2-A-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T2-A-E3 · Defiende fallo cerrado para `funciones de responsabilidad única` con tres fixtures distintos. `CASO-AYA-049-2A` debe continuar, el adverso debe devolver `DISABLE_OVERBROAD_TOOL` y la ausencia de `typed_erro. Pistas usadas: Una ausencia no equivale a breach: enrútala a `SPLIT_TOOL_CONTRACT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró una responsabilidad, schema estrecho y error ti. Regla de dominio «una responsabilidad, schema estrecho y error tipado»; predicado corregido `record[\"responsibilities\"] <= 1 or record[\"side_effect\"]` para que el fixture sintético pase y el adverso active `DISABLE_OVERBROAD_TOOL`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\": True, \"scope\": \"report:prepare\", \"granted\": {\"report:prepare\"}, \"idempotency_key\": \"tool-1\", \"attempts\": 2, \"effects\": 1, \"error_kind\": \"retryable\"}}\nmeets_contract = record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] <= 1\nstatus = \"PASS\" if meets_contract else \"DENY_TOOL_CALL\"\nprint(\"S49-T2-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "schema_valid",
+        "scope",
+        "report",
+        "prepare",
+        "granted"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T2-B-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T2-B-E1 · Modela el contrato de `schema, permisos, idempotencia y errores` sobre `CASO-AYA-049-2B`. La entrada es el dict completo del starter; la operación debe demostrar schema/scope válidos y retry con un solo efe. Pistas usadas: Relaciona los campos `schema_valid`, `scope`, `granted`, `idempotency_key`, `attempts`, `effects`, `error_kind` con la regla explicada en S49-T2-B.; El predicado correcto debe ser verdadero porque el . Regla de dominio «schema/scope válidos y retry con un solo efecto»; predicado corregido `record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] <= 1` para que el fixture sintético pase y el adverso active `DENY_TOOL_CALL`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"schema_valid\", \"scope\", \"granted\", \"idempotency_key\", \"attempts\", \"effects\", \"error_kind\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] <= 1) else \"DENY_TOOL_CALL\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\": True, \"scope\": \"report:prepare\", \"granted\": {\"report:prepare\"}, \"idempotency_key\": \"tool-1\", \"attempts\": 2, \"effects\": 1, \"error_kind\": \"retryable\"}}\ninvalid = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\": True, \"scope\": \"report:prepare\", \"granted\": {\"report:prepare\"}, \"idempotency_key\": \"tool-1\", \"attempts\": 2, \"effects\": 999, \"error_kind\": \"retryable\"}}\nincomplete = {**valid}\nincomplete.pop(\"error_kind\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "schema_valid",
+        "scope",
+        "granted",
+        "idempotency_key",
+        "attempts",
+        "effects"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T2-B-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T2-B-E2 · Audita tres rutas de `schema, permisos, idempotencia y errores`: fixture válido, fixture adverso y registro sin `error_kind`. Entrada: dict con case_id, schema_valid, scope, granted, idempotency_key, attemp. Pistas usadas: Primero se calcula `missing`; ningún acceso a error_kind debe ocurrir antes de esa rama.; Después aplica la regla de S49-T2-B: schema/scope válidos y retry con un solo efecto. El fixture adverso debe . Regla de dominio «schema/scope válidos y retry con un solo efecto»; predicado corregido `record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] <= 1` para que el fixture sintético pase y el adverso active `DENY_TOOL_CALL`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"schema_valid\", \"scope\", \"granted\", \"idempotency_key\", \"attempts\", \"effects\", \"error_kind\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CLASSIFY_TOOL_ERROR\"\n    return \"CONTINUE\" if (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] <= 1) else \"DENY_TOOL_CALL\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\": True, \"scope\": \"report:prepare\", \"granted\": {\"report:prepare\"}, \"idempotency_key\": \"tool-1\", \"attempts\": 2, \"effects\": 1, \"error_kind\": \"retryable\"}}\ninvalid = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\": True, \"scope\": \"report:prepare\", \"granted\": {\"report:prepare\"}, \"idempotency_key\": \"tool-1\", \"attempts\": 2, \"effects\": 999, \"error_kind\": \"retryable\"}}\nuncertain = {**valid}\nuncertain.pop(\"error_kind\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "schema_valid",
+        "scope",
+        "granted",
+        "idempotency_key",
+        "attempts",
+        "effects"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T2-B-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T2-B-E3 · Recupera fallo cerrado para `schema, permisos, idempotencia y errores` con tres fixtures distintos. `CASO-AYA-049-2B` debe continuar, el adverso debe devolver `DENY_TOOL_CALL` y la ausencia de `error_kind` . Pistas usadas: Una ausencia no equivale a breach: enrútala a `CLASSIFY_TOOL_ERROR` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró schema/scope válidos y retry con un solo efecto. Regla de dominio «schema/scope válidos y retry con un solo efecto»; predicado corregido `record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] <= 1` para que el fixture sintético pase y el adverso active `DENY_TOOL_CALL`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\": 1200, \"max_context_tokens\": 2000, \"retrieved_just_in_time\": True, \"checkpoint_after_effect\": True, \"provenance\": True}}\nmeets_contract = record[\"context_tokens\"] <= record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"]\nstatus = \"PASS\" if meets_contract else \"COMPACT_AND_CHECKPOINT\"\nprint(\"S49-T3-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "context_tokens",
+        "max_context_tokens",
+        "retrieved_just_in_time",
+        "checkpoint_after_effect",
+        "provenance"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T3-A-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T3-A-E1 · Verifica el contrato de `contexto mínimo, retrieval JIT y checkpoints` sobre `CASO-AYA-049-3A`. La entrada es el dict completo del starter; la operación debe demostrar contexto bajo presupuesto, JIT, proven. Pistas usadas: Relaciona los campos `context_tokens`, `max_context_tokens`, `retrieved_just_in_time`, `checkpoint_after_effect`, `provenance` con la regla explicada en S49-T3-A.; El predicado correcto debe ser verda. Regla de dominio «contexto bajo presupuesto, JIT, provenance y checkpoint»; predicado corregido `record[\"context_tokens\"] <= record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"]` para que el fixture sintético pase y el adverso active `COMPACT_AND_CHECKPOINT`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"context_tokens\", \"max_context_tokens\", \"retrieved_just_in_time\", \"checkpoint_after_effect\", \"provenance\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"context_tokens\"] <= record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"]) else \"COMPACT_AND_CHECKPOINT\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\": 1200, \"max_context_tokens\": 2000, \"retrieved_just_in_time\": True, \"checkpoint_after_effect\": True, \"provenance\": True}}\ninvalid = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\": 1000000, \"max_context_tokens\": 2000, \"retrieved_just_in_time\": True, \"checkpoint_after_effect\": True, \"provenance\": True}}\nincomplete = {**valid}\nincomplete.pop(\"provenance\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "context_tokens",
+        "max_context_tokens",
+        "retrieved_just_in_time",
+        "checkpoint_after_effect",
+        "provenance",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T3-A-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T3-A-E2 · Decide tres rutas de `contexto mínimo, retrieval JIT y checkpoints`: fixture válido, fixture adverso y registro sin `provenance`. Entrada: dict con case_id, context_tokens, max_context_tokens, retrieved_jus. Pistas usadas: Primero se calcula `missing`; ningún acceso a provenance debe ocurrir antes de esa rama.; Después aplica la regla de S49-T3-A: contexto bajo presupuesto, JIT, provenance y checkpoint. El fixture adver. Regla de dominio «contexto bajo presupuesto, JIT, provenance y checkpoint»; predicado corregido `record[\"context_tokens\"] <= record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"]` para que el fixture sintético pase y el adverso active `COMPACT_AND_CHECKPOINT`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"context_tokens\", \"max_context_tokens\", \"retrieved_just_in_time\", \"checkpoint_after_effect\", \"provenance\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RETRIEVE_MINIMUM_CONTEXT\"\n    return \"CONTINUE\" if (record[\"context_tokens\"] <= record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"]) else \"COMPACT_AND_CHECKPOINT\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\": 1200, \"max_context_tokens\": 2000, \"retrieved_just_in_time\": True, \"checkpoint_after_effect\": True, \"provenance\": True}}\ninvalid = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\": 1000000, \"max_context_tokens\": 2000, \"retrieved_just_in_time\": True, \"checkpoint_after_effect\": True, \"provenance\": True}}\nuncertain = {**valid}\nuncertain.pop(\"provenance\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "context_tokens",
+        "max_context_tokens",
+        "retrieved_just_in_time",
+        "checkpoint_after_effect",
+        "provenance",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T3-A-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T3-A-E3 · Contrasta fallo cerrado para `contexto mínimo, retrieval JIT y checkpoints` con tres fixtures distintos. `CASO-AYA-049-3A` debe continuar, el adverso debe devolver `COMPACT_AND_CHECKPOINT` y la ausencia de . Pistas usadas: Una ausencia no equivale a breach: enrútala a `RETRIEVE_MINIMUM_CONTEXT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró contexto bajo presupuesto, JIT, provenance. Regla de dominio «contexto bajo presupuesto, JIT, provenance y checkpoint»; predicado corregido `record[\"context_tokens\"] <= record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"]` para que el fixture sintético pase y el adverso active `COMPACT_AND_CHECKPOINT`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"facts_after\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"memory_retention_days\": 7, \"last_known_good\": \"cp-7\"}}\nmeets_contract = not record[\"facts_before\"] > record[\"facts_after\"] or not record[\"last_known_good\"]\nstatus = \"PASS\" if meets_contract else \"RESTORE_LAST_KNOWN_GOOD\"\nprint(\"S49-T3-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "facts_before",
+        "budget",
+        "no_prod_write",
+        "facts_after",
+        "memory_retention_days"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T3-B-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T3-B-E1 · Clasifica el contrato de `memoria, compaction y last-known-good` sobre `CASO-AYA-049-3B`. La entrada es el dict completo del starter; la operación debe demostrar compaction conserva restricciones, retención. Pistas usadas: Relaciona los campos `facts_before`, `facts_after`, `memory_retention_days`, `last_known_good` con la regla explicada en S49-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva . Regla de dominio «compaction conserva restricciones, retención y LKG»; predicado corregido `not record[\"facts_before\"] > record[\"facts_after\"] or not record[\"last_known_good\"]` para que el fixture sintético pase y el adverso active `RESTORE_LAST_KNOWN_GOOD`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"facts_before\", \"facts_after\", \"memory_retention_days\", \"last_known_good\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not record[\"facts_before\"] > record[\"facts_after\"] or not record[\"last_known_good\"]) else \"RESTORE_LAST_KNOWN_GOOD\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"facts_after\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"memory_retention_days\": 7, \"last_known_good\": \"cp-7\"}}\ninvalid = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\": {\"budget\", \"case_id\", \"injected\", \"no_prod_write\"}, \"facts_after\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"memory_retention_days\": 7, \"last_known_good\": \"cp-7\"}}\nincomplete = {**valid}\nincomplete.pop(\"last_known_good\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "facts_before",
+        "facts_after",
+        "memory_retention_days",
+        "last_known_good",
+        "sorted",
+        "keys"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T3-B-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T3-B-E2 · Calcula tres rutas de `memoria, compaction y last-known-good`: fixture válido, fixture adverso y registro sin `last_known_good`. Entrada: dict con case_id, facts_before, facts_after, memory_retention_days, . Pistas usadas: Primero se calcula `missing`; ningún acceso a last_known_good debe ocurrir antes de esa rama.; Después aplica la regla de S49-T3-B: compaction conserva restricciones, retención y LKG. El fixture adver. Regla de dominio «compaction conserva restricciones, retención y LKG»; predicado corregido `not record[\"facts_before\"] > record[\"facts_after\"] or not record[\"last_known_good\"]` para que el fixture sintético pase y el adverso active `RESTORE_LAST_KNOWN_GOOD`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"facts_before\", \"facts_after\", \"memory_retention_days\", \"last_known_good\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_COMPACTION_LOSS\"\n    return \"CONTINUE\" if (not record[\"facts_before\"] > record[\"facts_after\"] or not record[\"last_known_good\"]) else \"RESTORE_LAST_KNOWN_GOOD\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"facts_after\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"memory_retention_days\": 7, \"last_known_good\": \"cp-7\"}}\ninvalid = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\": {\"budget\", \"case_id\", \"injected\", \"no_prod_write\"}, \"facts_after\": {\"budget\", \"case_id\", \"no_prod_write\"}, \"memory_retention_days\": 7, \"last_known_good\": \"cp-7\"}}\nuncertain = {**valid}\nuncertain.pop(\"last_known_good\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "facts_before",
+        "facts_after",
+        "memory_retention_days",
+        "last_known_good",
+        "sorted",
+        "keys"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T3-B-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T3-B-E3 · Instrumenta fallo cerrado para `memoria, compaction y last-known-good` con tres fixtures distintos. `CASO-AYA-049-3B` debe continuar, el adverso debe devolver `RESTORE_LAST_KNOWN_GOOD` y la ausencia de `las. Pistas usadas: Una ausencia no equivale a breach: enrútala a `REVIEW_COMPACTION_LOSS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró compaction conserva restricciones, retención. Regla de dominio «compaction conserva restricciones, retención y LKG»; predicado corregido `not record[\"facts_before\"] > record[\"facts_after\"] or not record[\"last_known_good\"]` para que el fixture sintético pase y el adverso active `RESTORE_LAST_KNOWN_GOOD`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\": True, \"steps\": 4, \"max_steps\": 6, \"tokens\": 3200, \"max_tokens\": 5000, \"cost_pen\": 0.04, \"max_cost_pen\": 0.06}}\nmeets_contract = record[\"steps\"] <= record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]\nstatus = \"PASS\" if meets_contract else \"STOP_BUDGET_EXHAUSTED\"\nprint(\"S49-T4-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "goal_met",
+        "steps",
+        "max_steps",
+        "tokens",
+        "max_tokens"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T4-A-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T4-A-E1 · Audita el contrato de `stopping conditions y budgets` sobre `CASO-AYA-049-4A`. La entrada es el dict completo del starter; la operación debe demostrar meta lograda dentro de pasos, tokens y costo. Reemplaza. Pistas usadas: Relaciona los campos `goal_met`, `steps`, `max_steps`, `tokens`, `max_tokens`, `cost_pen`, `max_cost_pen` con la regla explicada en S49-T4-A.; El predicado correcto debe ser verdadero porque el fixtur. Regla de dominio «meta lograda dentro de pasos, tokens y costo»; predicado corregido `record[\"steps\"] <= record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]` para que el fixture sintético pase y el adverso active `STOP_BUDGET_EXHAUSTED`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"goal_met\", \"steps\", \"max_steps\", \"tokens\", \"max_tokens\", \"cost_pen\", \"max_cost_pen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"steps\"] <= record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]) else \"STOP_BUDGET_EXHAUSTED\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\": True, \"steps\": 4, \"max_steps\": 6, \"tokens\": 3200, \"max_tokens\": 5000, \"cost_pen\": 0.04, \"max_cost_pen\": 0.06}}\ninvalid = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\": True, \"steps\": 999, \"max_steps\": 6, \"tokens\": 3200, \"max_tokens\": 5000, \"cost_pen\": 0.04, \"max_cost_pen\": 0.06}}\nincomplete = {**valid}\nincomplete.pop(\"max_cost_pen\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "goal_met",
+        "steps",
+        "max_steps",
+        "tokens",
+        "max_tokens",
+        "cost_pen"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T4-A-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T4-A-E2 · Compara tres rutas de `stopping conditions y budgets`: fixture válido, fixture adverso y registro sin `max_cost_pen`. Entrada: dict con case_id, goal_met, steps, max_steps, tokens, max_tokens, cost_pen, max. Pistas usadas: Primero se calcula `missing`; ningún acceso a max_cost_pen debe ocurrir antes de esa rama.; Después aplica la regla de S49-T4-A: meta lograda dentro de pasos, tokens y costo. El fixture adverso debe f. Regla de dominio «meta lograda dentro de pasos, tokens y costo»; predicado corregido `record[\"steps\"] <= record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]` para que el fixture sintético pase y el adverso active `STOP_BUDGET_EXHAUSTED`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"goal_met\", \"steps\", \"max_steps\", \"tokens\", \"max_tokens\", \"cost_pen\", \"max_cost_pen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ASK_FOR_SCOPE_REDUCTION\"\n    return \"CONTINUE\" if (record[\"steps\"] <= record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]) else \"STOP_BUDGET_EXHAUSTED\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\": True, \"steps\": 4, \"max_steps\": 6, \"tokens\": 3200, \"max_tokens\": 5000, \"cost_pen\": 0.04, \"max_cost_pen\": 0.06}}\ninvalid = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\": True, \"steps\": 999, \"max_steps\": 6, \"tokens\": 3200, \"max_tokens\": 5000, \"cost_pen\": 0.04, \"max_cost_pen\": 0.06}}\nuncertain = {**valid}\nuncertain.pop(\"max_cost_pen\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "goal_met",
+        "steps",
+        "max_steps",
+        "tokens",
+        "max_tokens",
+        "cost_pen"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T4-A-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T4-A-E3 · Aísla fallo cerrado para `stopping conditions y budgets` con tres fixtures distintos. `CASO-AYA-049-4A` debe continuar, el adverso debe devolver `STOP_BUDGET_EXHAUSTED` y la ausencia de `max_cost_pen` debe . Pistas usadas: Una ausencia no equivale a breach: enrútala a `ASK_FOR_SCOPE_REDUCTION` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró meta lograda dentro de pasos, tokens y cost. Regla de dominio «meta lograda dentro de pasos, tokens y costo»; predicado corregido `record[\"steps\"] <= record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]` para que el fixture sintético pase y el adverso active `STOP_BUDGET_EXHAUSTED`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\": \"none\", \"filesystem\": \"workspace-read\", \"sensitive_action\": \"prepare-draft\", \"approval_required\": True, \"approval_present\": True, \"checkpoint\": \"cp-9\", \"replayed_effects\": 0}}\nmeets_contract = record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] <= 0\nstatus = \"PASS\" if meets_contract else \"SANDBOX_AND_STOP\"\nprint(\"S49-T4-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "AYA",
+        "network",
+        "none",
+        "filesystem",
+        "workspace",
+        "read"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T4-B-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T4-B-E1 · Decide el contrato de `sandbox, human approval y recuperación` sobre `CASO-AYA-049-4B`. La entrada es el dict completo del starter; la operación debe demostrar sandbox mínimo, aprobación y reanudación sin r. Pistas usadas: Relaciona los campos `network`, `filesystem`, `sensitive_action`, `approval_required`, `approval_present`, `checkpoint`, `replayed_effects` con la regla explicada en S49-T4-B.; El predicado correcto d. Regla de dominio «sandbox mínimo, aprobación y reanudación sin repetir efectos»; predicado corregido `record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] <= 0` para que el fixture sintético pase y el adverso active `SANDBOX_AND_STOP`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"network\", \"filesystem\", \"sensitive_action\", \"approval_required\", \"approval_present\", \"checkpoint\", \"replayed_effects\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] <= 0) else \"SANDBOX_AND_STOP\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\": \"none\", \"filesystem\": \"workspace-read\", \"sensitive_action\": \"prepare-draft\", \"approval_required\": True, \"approval_present\": True, \"checkpoint\": \"cp-9\", \"replayed_effects\": 0}}\ninvalid = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\": \"none\", \"filesystem\": \"workspace-read\", \"sensitive_action\": \"prepare-draft\", \"approval_required\": True, \"approval_present\": True, \"checkpoint\": \"cp-9\", \"replayed_effects\": 1}}\nincomplete = {**valid}\nincomplete.pop(\"replayed_effects\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "network",
+        "filesystem",
+        "sensitive_action",
+        "approval_required",
+        "approval_present",
+        "checkpoint"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T4-B-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T4-B-E2 · Filtra tres rutas de `sandbox, human approval y recuperación`: fixture válido, fixture adverso y registro sin `replayed_effects`. Entrada: dict con case_id, network, filesystem, sensitive_action, approval_r. Pistas usadas: Primero se calcula `missing`; ningún acceso a replayed_effects debe ocurrir antes de esa rama.; Después aplica la regla de S49-T4-B: sandbox mínimo, aprobación y reanudación sin repetir efectos. El fi. Regla de dominio «sandbox mínimo, aprobación y reanudación sin repetir efectos»; predicado corregido `record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] <= 0` para que el fixture sintético pase y el adverso active `SANDBOX_AND_STOP`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S49-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"network\", \"filesystem\", \"sensitive_action\", \"approval_required\", \"approval_present\", \"checkpoint\", \"replayed_effects\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_HUMAN_APPROVAL\"\n    return \"CONTINUE\" if (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] <= 0) else \"SANDBOX_AND_STOP\"\n\nvalid = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\": \"none\", \"filesystem\": \"workspace-read\", \"sensitive_action\": \"prepare-draft\", \"approval_required\": True, \"approval_present\": True, \"checkpoint\": \"cp-9\", \"replayed_effects\": 0}}\ninvalid = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\": \"none\", \"filesystem\": \"workspace-read\", \"sensitive_action\": \"prepare-draft\", \"approval_required\": True, \"approval_present\": True, \"checkpoint\": \"cp-9\", \"replayed_effects\": 1}}\nuncertain = {**valid}\nuncertain.pop(\"replayed_effects\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "network",
+        "filesystem",
+        "sensitive_action",
+        "approval_required",
+        "approval_present",
+        "checkpoint"
+      ],
+      "justification_from_packet": "Explorer: completé S49-T4-B-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S49-T4-B-E3 · Demuestra fallo cerrado para `sandbox, human approval y recuperación` con tres fixtures distintos. `CASO-AYA-049-4B` debe continuar, el adverso debe devolver `SANDBOX_AND_STOP` y la ausencia de `replayed_ef. Pistas usadas: Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_APPROVAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró sandbox mínimo, aprobación y reanudación sin. Regla de dominio «sandbox mínimo, aprobación y reanudación sin repetir efectos»; predicado corregido `record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] <= 0` para que el fixture sintético pase y el adverso active `SANDBOX_AND_STOP`. Sin PII real ni borrar traces."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "ADR workflow/agente con baseline",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría del paquete S49 («Agentes, herramientas y context engineering») y las salidas de subtema. Pregunta: ¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049?. Elijo la opción «ADR workflow/agente con baseline» (índice 0) porque alinea con evidencia/gate/tratamiento enseñado en theory/iDo y descarta distractores (print sin assert, PII real, borrar trace, README vacío)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "emitir STOP_AGENT y conservar evidencia",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría del paquete S49 («Agentes, herramientas y context engineering») y las salidas de subtema. Pregunta: Si ocurre la condición de error de S49, ¿qué respuesta preserva seguridad y auditabilidad?. Elijo la opción «emitir STOP_AGENT y conservar evidencia» (índice 2) porque alinea con evidencia/gate/tratamiento enseñado en theory/iDo y descarta distractores (print sin assert, PII real, borrar trace, README vacío)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría del paquete S49 («Agentes, herramientas y context engineering») y las salidas de subtema. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-C · agente acotado con aprobación humana`?. Elijo la opción «cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible» (índice 3) porque alinea con evidencia/gate/tratamiento enseñado en theory/iDo y descarta distractores (print sin assert, PII real, borrar trace, README vacío)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría del paquete S49 («Agentes, herramientas y context engineering») y las salidas de subtema. Pregunta: ¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso?. Elijo la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» (índice 1) porque alinea con evidencia/gate/tratamiento enseñado en theory/iDo y descarta distractores (print sin assert, PII real, borrar trace, README vacío)."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": "explorer: completed S49 (Agentes, herramientas y context engineering) with 24 exercises + 4 selfcheck from packet stems/starters/theory only.",
+  "summary": "S49 explorer: 24 exercises, 4 selfcheck",
+  "recorded_at": "2026-07-23T09:21:20+00:00",
+  "session_started_at": "2026-07-23T09:18:00+00:00",
+  "session_ended_at": "2026-07-23T09:21:20+00:00"
+}

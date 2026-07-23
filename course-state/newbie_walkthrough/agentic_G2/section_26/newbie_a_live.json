@@ -1,0 +1,486 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 26,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-dual-explorer-s26-4cf9bbe496",
+  "production_note": "agentic_G2 dual-LLM explorer: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S26-T1-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\npath = ['ingest', 'validate', 'analyze', 'report']\nprint(path)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "path",
+        "ingest",
+        "validate",
+        "analyze",
+        "report",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T1-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («CASO-PE orquestación VP: con el path canónico de cuatro pasos de negocio (sin AI ni email …»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa ['print(path)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T1-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nnodes=['a','b','c']\nedges=list(zip(nodes, nodes[1:]))\nprint(len(edges), edges)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "nodes",
+        "edges",
+        "list",
+        "zip",
+        "print",
+        "len"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T1-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Dado nodes=['a','b','c'] como path lineal del flow sintético, construye edges (a,b),(b,c) …»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa ['print(len(edges), edges)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T1-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ntasks={'a':'success','b':'failed'}\nprint('failed' if any(v=='failed' for v in tasks.values()) else 'success')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "tasks",
+        "success",
+        "failed",
+        "print",
+        "any",
+        "for",
+        "values",
+        "else"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T1-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Agregación de estado global del flow: tasks={'a':'success','b':'failed'}. Si cualquier tas…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print('failed' if any(v=='failed' for v in tasks.values()) else 'success')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T1-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nm={'run_id':'cpn2c-1'}\nprint(m['run_id'])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "run_id",
+        "cpn2c",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T1-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Metadata de run CP-N2-C: m={'run_id':'cpn2c-1'}. Extrae e imprime m['run_id'] sin mutar el…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print(m['run_id'])\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T1-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\napi_rpm=90\nprint('too_high' if api_rpm>60 else 'ok')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "api_rpm",
+        "print",
+        "too_high",
+        "else"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T1-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Preflight de límites: api_rpm=90 supera el umbral didáctico 60 del adapter sintético. Impr…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print('too_high' if api_rpm>60 else 'ok')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T1-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('0 6 * * 1-5', 'America/Lima')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T1-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Schedule del escritorio PE: imprime el cron de días hábiles a las 06:00 y la zona 'America…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print('0 6 * * 1-5', 'America/Lima')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T2-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nattempt, base = 3, 100\nprint(base * (2 ** (attempt - 1)))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "attempt",
+        "base",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T2-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Backoff exponencial de reintentos: attempt=3, base=100 → base*(2**(attempt-1)). Imprime el…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa ['print(base * (2 ** (attempt - 1)))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T2-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ndlq=[]\nfail=True\nif fail:\n    dlq.append('x')\nprint(dlq)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "dlq",
+        "fail",
+        "True",
+        "append",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T2-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Dead-letter: dlq=[] y fail=True modelan un item irrecuperable del export sintético. Si fai…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa ['print(dlq)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T2-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nckpt={'a'}; items=['a','b']\nprint([i for i in items if i not in ckpt])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "ckpt",
+        "items",
+        "print",
+        "for",
+        "not"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T2-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Checkpoint de reanudación: ckpt={'a'}; items=['a','b']. Imprime solo los ids aún no proces…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa ['print([i for i in items if i not in ckpt])']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T2-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nstore={}  # create-once store\n\ndef put(k,v):\n    if k not in store:\n        store[k] = v\n\nput('r','v1'); put('r','v2')\nprint(store.get('r'))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "store",
+        "create",
+        "once",
+        "def",
+        "put",
+        "not",
+        "print",
+        "get"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T2-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Write idempotente create-once: implementa put(k,v) que solo escribe si k no está en store.…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print(store.get('r'))\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T2-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nstate={'report':'ok','draft':'ok'}\nstate.pop('draft', None)\nprint(state)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "state",
+        "report",
+        "draft",
+        "pop",
+        "None",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T2-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Compensación/rollback: state={'report':'ok','draft':'ok'}. Elimina la key draft (pop) tras…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa ['print(state)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T2-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nlocked=True\nprint('busy' if locked else 'enter')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "locked",
+        "True",
+        "print",
+        "busy",
+        "else",
+        "enter"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T2-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Lock optimista de concurrencia: locked=True significa otro worker en la entidad. Imprime '…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print('busy' if locked else 'enter')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T3-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nanalysis=[{'status':'pending'},{'status':'done'}]\nprint(sum(1 for x in analysis if x['status']=='pending'))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "analysis",
+        "status",
+        "pending",
+        "done",
+        "print",
+        "sum",
+        "for"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T3-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Cola HITL analysis: analysis=[{'status':'pending'},{'status':'done'}]. Cuenta cuántos stat…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print(sum(1 for x in analysis if x['status']=='pending'))\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T3-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nq={'analysis':1,'report':0,'recipient':0}\nprint(any(v>0 for v in q.values()))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "analysis",
+        "report",
+        "recipient",
+        "print",
+        "any",
+        "for",
+        "values"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T3-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Gate multi-cola: q={'analysis':1,'report':0,'recipient':0}. Imprime True si alguna cola >0…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa ['print(any(v>0 for v in q.values()))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T3-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(['metrics','narrative','recipient'])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T3-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Checklist mínima de revisión humana antes del borrador: imprime exactamente ['metrics','na…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print(['metrics','narrative','recipient'])\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T3-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\naudit=[]\naudit.append({'action':'approve','actor':'rev'})\nprint(audit[0]['action'])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "audit",
+        "append",
+        "action",
+        "approve",
+        "actor",
+        "rev",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T3-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Auditoría append-only: audit=[] registra la decisión. Append un dict con action 'approve' …»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print(audit[0]['action'])\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T3-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\naction, reason = 'reject', None\nprint('invalid' if action=='reject' and not reason else 'ok')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "action",
+        "reason",
+        "reject",
+        "None",
+        "print",
+        "invalid",
+        "and",
+        "not",
+        "else"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T3-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Reject con razón obligatoria: action='reject', reason=None. Si reject y reason vacío/None …»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print('invalid' if action=='reject' and not reason else 'ok')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T3-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nver=1\nver += 1\nprint(ver)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "ver",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T3-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Edit versiona artefacto del informe sintético: partiendo de ver=1, al editar incrementa a …»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa ['print(ver)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T4-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nrate=0.9\nprint('alert' if rate < 0.95 else 'ok')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "rate",
+        "print",
+        "alert",
+        "else"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T4-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («SLO success_rate del VP: rate=0.9. Si rate < 0.95 imprime 'alert', si no 'ok'. Contrato: u…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print('alert' if rate < 0.95 else 'ok')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T4-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nn=1\nprint('P0_unapproved_send' if n>0 else 'ok')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "print",
+        "P0_unapproved_send",
+        "else"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T4-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Control P0 de cumplimiento: n=sends_without_approve=1. Si n>0 imprime 'P0_unapproved_send'…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print('P0_unapproved_send' if n>0 else 'ok')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T4-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('disable_schedule -> drain -> page')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T4-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Runbook de incidente one-liner: imprime la secuencia disable_schedule -> drain -> page (es…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print('disable_schedule -> drain -> page')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T4-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nsteps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\nprint(all(status[s]=='success' for s in steps))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "steps",
+        "ingest",
+        "validate",
+        "draft",
+        "status",
+        "success",
+        "for",
+        "print",
+        "all"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T4-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2E sintético: steps=['ingest','validate','draft'] con status success en todos. Imprime Tr…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print(all(status[s]=='success' for s in steps))\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T4-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nfraud_labels=0\nprint('ok' if fraud_labels==0 else 'fail')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "fraud_labels",
+        "print",
+        "else",
+        "fail"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T4-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Política anti-fraude-auto: fraud_labels=0 en el paquete del VP. Imprime 'ok' si fraud_labe…»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa [\"print('ok' if fraud_labels==0 else 'fail')\"]. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S26-T4-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "[G2-Explorer] S26-T4-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («Cierre de regresión N2: imprime el dict con n2_regression='CP-N2-A/B/C critical+privacy', …»). Teoría activa: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen. Código usa ['(lógica sin print explícito)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S26 Q0: «El orden draft_email respecto a approve es:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni generar draft_email ant. Opts vistas: ['Draft antes de approve', 'Approve antes de draft_email', 'En paralelo sin gate', 'Solo schedule']."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S26 Q1: «La regresión N2 incluye:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni generar draft_email ant. Opts vistas: ['Solo un print', 'Borrar S14', 'Marcar passed sin tests', 'Tests críticos de capstones N2, E2E y co']."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S26 Q2: «Un send sin approve es:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni generar draft_email ant. Opts vistas: ['Incidente P0', 'Warning menor', 'OK en sandbox siempre', 'Ignorable']."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S26 Q3: «fraud_labels automáticos en el VP deben ser:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni generar draft_email ant. Opts vistas: ['Maximizados', 'Igual al score de matching', '0 — solo evidencia para humanos', 'Exportados a prensa']."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:01:42.993967+00:00",
+  "session_started_at": "2026-07-23T07:01:42.988875+00:00",
+  "session_ended_at": "2026-07-23T07:01:42.993990+00:00"
+}

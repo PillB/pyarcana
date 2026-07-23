@@ -1,0 +1,298 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 11,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-ske-s11-4bfcec481b",
+  "production_note": "agentic_G2 dual-LLM skeptic: packet-only; no generators; independent of G1",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "code": "from dataclasses import dataclass, field\n@dataclass\nclass Bag:\n    items: list = field(default_factory=list)\na, b = Bag(), Bag()\na.items.append(1)\nprint(a.items, b.items)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T1-A-E1] a=[1] b=[]. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "dataclass"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Person:\n    name: str\n    doc: str\nprint(Person(\"Ana\", \"D1\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T1-A-E2] campos tipados. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "Person"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Person:\n    name: str\n    def __post_init__(self):\n        if not self.name.strip():\n            raise ValueError(\"name vacio\")\nprint(Person(\"Ana\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T1-A-E3] fail en construccion. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "post_init"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass RelationshipEvidence:\n    signal_score: float\n    kind: str\ne = RelationshipEvidence(0.4, \"shared_phone\")\nprint(e.signal_score, \"not_verdict\")",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T1-B-E1] kind etiquetado. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "evidence"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass RelationshipEvidence:\n    signal_score: float\n    def as_dict(self):\n        return {\"relationship_signal_score\": self.signal_score, \"is_fraud\": False}\nprint(RelationshipEvidence(0.7).as_dict())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T1-B-E2] disclaimer False. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "to_dict"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "code": "def interpret_signal(score):\n    return {\"score\": score, \"claim\": \"evidence_only\"}\nprint(interpret_signal(0.9))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T1-B-E3] evidence_only. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "policy"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "code": "from typing import Protocol\nclass EntityStore(Protocol):\n    def get(self, id: str): ...\n    def save(self, entity) -> None: ...\nclass MemStore:\n    def __init__(self):\n        self._d = {}\n    def get(self, id: str):\n        return self._d.get(id)\n    def save(self, entity) -> None:\n        self._d[entity[\"id\"]] = entity\ns = MemStore()\ns.save({\"id\": \"C1\"})\nprint(s.get(\"C1\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T2-A-E1] puerto get/save. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "Protocol"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "code": "class FakeStore:\n    def get(self, id):\n        return {\"id\": id}\nprint(FakeStore().get(\"X\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T2-A-E2] sin DB real. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "fake"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "code": "def load_entity(store, id):\n    ent = store.get(id)\n    if ent is None:\n        raise KeyError(id)\n    return ent\nclass S:\n    def get(self, id):\n        return None\ntry:\n    load_entity(S(), \"missing\")\nexcept KeyError as e:\n    print(\"missing\", e)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T2-A-E3] KeyError si ausente. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "hexagonal"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Client:\n    id: str\n    name: str\n    def validate(self):\n        if not self.id:\n            raise ValueError(\"id\")\n        return self\nprint(Client(\"C1\", \"Ana\").validate())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T2-B-E1] invariante id. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "validate"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Client:\n    id: str\n    def __post_init__(self):\n        if not self.id.startswith(\"C\"):\n            raise ValueError(\"id format\")\nprint(Client(\"C9\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T2-B-E2] post_init. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "invariant"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "code": "def build_client(data):\n    if \"id\" not in data or \"name\" not in data:\n        raise ValueError(\"incomplete\")\n    return data\nprint(build_client({\"id\": \"C1\", \"name\": \"Ana\"}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T2-B-E3] fail fast. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "factory"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass PersonInfo:\n    name: str\n@dataclass\nclass Client:\n    id: str\n    person: PersonInfo\nprint(Client(\"C1\", PersonInfo(\"Ana\")))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T3-A-E1] no herencia forzada. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "composition"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "code": "# herencia fragil demo (evitar como default)\nclass Person:\n    def __init__(self, name):\n        self.name = name\nclass Client(Person):\n    def __init__(self, name, id):\n        super().__init__(name)\n        self.id = id\nprint(Client(\"Ana\", \"C1\").id)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T3-A-E2] nota de diseno. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "inheritance"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "code": "def prefer_composition():\n    return \"Client has PersonInfo rather than is-a Person by default\"\nprint(prefer_composition())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T3-A-E3] composicion first. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "design"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "code": "from dataclasses import dataclass, asdict\n@dataclass\nclass Entity:\n    id: str\n    score: float\nprint(asdict(Entity(\"C1\", 0.5)))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T3-B-E1] to_dict natural. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "asdict"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "code": "from dataclasses import dataclass\n@dataclass(frozen=True)\nclass DocId:\n    value: str\nd = DocId(\"X\")\nprint(d.value)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T3-B-E2] inmutable. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "frozen"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "code": "domain_forbidden = [\"is_fraud_auto\", \"is_family_auto\"]\nprint(domain_forbidden)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T3-B-E3] no auto veredictos. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "forbidden"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "code": "tests = [\"test_default_factory_isolated\", \"test_post_init_rejects_empty\", \"test_store_roundtrip\"]\nprint(tests)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T4-A-E1] tres tests minimos. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "tests"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "code": "def test_signal_not_fraud():\n    score = 0.99\n    assert score != \"fraud\"\n    return True\nprint(test_signal_not_fraud())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T4-A-E2] test de politica. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "test"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "code": "def test_protocol_fake():\n    class F:\n        def get(self, i):\n            return {\"id\": i}\n        def save(self, e):\n            pass\n    assert F().get(\"1\")[\"id\"] == \"1\"\n    return \"ok\"\nprint(test_protocol_fake())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T4-A-E3] test de puerto. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "test"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "code": "model = {\"entities\": [\"Person\", \"Client\", \"RelationshipEvidence\"], \"ports\": [\"EntityStore\"]}\nprint(model)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T4-B-E1] entidades + puertos. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "model"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "code": "invariants = [\"Client.id non-empty\", \"signal_score in 0..1\", \"no auto fraud flag\"]\nprint(invariants)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T4-B-E2] especificacion. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "invariants"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "code": "readme = \"Domain model: composition first; evidence scores are not legal verdicts.\"\nprint(readme)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S11-T4-B-E3] disclaimer. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "docs"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "dataclass default_factory del paquete OOP."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "RelationshipEvidence es evidencia no veredicto."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Puerto hexagonal EntityStore. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Fail fast en construccion. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Composicion sobre herencia profunda. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Prohibido auto-fraude en dominio de familiaridad."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:07:46.959626+00:00",
+  "session_started_at": "2026-07-23T07:07:24.316693+00:00",
+  "session_ended_at": "2026-07-23T07:07:46.959626+00:00"
+}

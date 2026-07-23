@@ -1,0 +1,414 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer A",
+  "attempt_id": "agentic_G1",
+  "section_index": 10,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-newbie_a-s10-aa42dfdd2231",
+  "production_note": "agentic_G1 dual-LLM Explorer A: solved from quiz_card+slim_packet only; no generators, no transplant, no prior-attempt lives; dual-LLM packet-only no generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "code": "def _ws(s: str) -> str:\n    return \" \".join(s.split())\n\ndef clean(s: str) -> str:\n    return _ws(s).strip()\n\n__all__ = [\"clean\"]\nprint(__all__, \"|\", clean(\"  X \"))\n",
+      "justification_from_packet": "Explorer A en S10/S10-T1-A-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético de…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "code": "def util_norm(s: str) -> str:\n    return s.strip().casefold()\n\ndef module_a_greet(name: str) -> str:\n    return f\"hola:{util_norm(name)}\"\n\ndef module_b_greet(name: str) -> str:\n    return f\"hola:{util_norm(name)}\"\n\nprint(module_a_greet(\"A\"), \"|\", module_b_greet(\"B\"), \"|\", \"ok\")\n",
+      "justification_from_packet": "Explorer A en S10/S10-T1-A-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "code": "recs = {\n    \"normalize.py importa compare en el mismo paquete\": \"relativo o absoluto del paquete (from . import compare)\",\n    \"plugin externo usa familiarity_core\": \"absoluto (import familiarity_core)\",\n    \"ejecutar el CLI del paquete\": \"python -m familiarity_core\",\n}\nfor c, r in recs.items():\n    print(f\"{c} -> {r}\")\n",
+      "justification_from_packet": "Explorer A en S10/S10-T1-A-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "code": "def _tokenize(s):\n    return s.strip()\n\ndef public_clean(s):\n    return _tokenize(s)\n\nnames = [\"_tokenize\", \"public_clean\"]\nprivate = [n for n in names if n.startswith(\"_\")]\npublic = [n for n in names if not n.startswith(\"_\")]\nprint(\"public\", public, \"private\", private)\n",
+      "justification_from_packet": "Explorer A en S10/S10-T1-B-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético de…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "code": "def normalize(s: str) -> str:\n    return s.strip().casefold()\n\ndef compare(a: str, b: str) -> bool:\n    return normalize(a) == normalize(b)\n\n__all__ = [\"normalize\", \"compare\"]\nprint(__all__, \"|\", compare(\" Ana \", \"ana\"))\n",
+      "justification_from_packet": "Explorer A en S10/S10-T1-B-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "code": "print(\"BREAKING: compare(a,b)->bool  =>  compare(a,b)->float score\")\nprint(\"NEW_VERSION: major 2.0.0\")\n",
+      "justification_from_packet": "Explorer A en S10/S10-T1-B-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "code": "project = {\n    \"name\": \"familiarity-core\",\n    \"version\": \"0.1.0\",\n    \"requires-python\": \">=3.11\",\n}\nprint(project)\n",
+      "justification_from_packet": "Explorer A en S10/S10-T2-A-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético de…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "code": "paths = [\n    \"src/familiarity_core/__init__.py\",\n    \"src/familiarity_core/normalize.py\",\n    \"src/familiarity_core/cli.py\",\n    \"pyproject.toml\",\n]\nprint(\" | \".join(paths))\n",
+      "justification_from_packet": "Explorer A en S10/S10-T2-A-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "code": "causes = [\n    \"cause: paquete no instalado (falta pip install -e .)\",\n    \"cause: nombre de import distinto al del package (familiarity_core vs familiarity-core)\",\n    \"cause: cwd/PYTHONPATH no ve src layout sin editable install\",\n]\nfor c in causes:\n    print(c)\n",
+      "justification_from_packet": "Explorer A en S10/S10-T2-A-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "code": "niveles = {\n    \"renombrar normalize a clean_name (API pública)\": \"major\",\n    \"añadir flag --format a report\": \"minor\",\n    \"corregir typo en help\": \"patch\",\n    \"eliminar subcomando compare\": \"major\",\n}\nfor c, n in niveles.items():\n    print(f\"{c}: {n}\")\n",
+      "justification_from_packet": "Explorer A en S10/S10-T2-B-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético de…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "code": "deps = {\n    \"requires-python\": \">=3.11\",\n    \"dependencies\": [],\n    \"optional-dependencies\": {\"dev\": [\"pytest\"]},\n}\nprint(deps)\n",
+      "justification_from_packet": "Explorer A en S10/S10-T2-B-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "code": "print(\"POLICY: renombrar ClientRecord es MAJOR; documenta migración\")\nprint(\"POLICY: añadir campo opcional a entidad de dominio es MINOR\")\nprint(\"POLICY: S11 dominio debe respetar semver del paquete familiarity-core\")\n",
+      "justification_from_packet": "Explorer A en S10/S10-T2-B-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "code": "import argparse\np = argparse.ArgumentParser()\nsub = p.add_subparsers(dest=\"cmd\", required=True)\nr = sub.add_parser(\"report\")\nr.add_argument(\"--format\", choices=[\"text\", \"json\"], default=\"text\")\nns = p.parse_args([\"report\", \"--format\", \"json\"])\nprint(ns)\n",
+      "justification_from_packet": "Explorer A en S10/S10-T3-A-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético de…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "code": "codes = {\n    \"normalize ok\": 0,\n    \"archivo de input no existe\": 1,\n    \"flag desconocido\": 2,\n    \"subcomando ausente\": 2,\n    \"validación de config falla al arrancar\": 1,\n}\nfor c, code in codes.items():\n    print(f\"{c}: {code}\")\n",
+      "justification_from_packet": "Explorer A en S10/S10-T3-A-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "code": "print(\"HELP: report --format text|json  Genera el informe del lote sintético\")\nprint(\"HELP: Usa - para leer desde stdin; los logs van a stderr\")\nprint(\"HELP: Exit 0 ok, 1 error de datos/runtime, 2 uso incorrecto de flags\")\n",
+      "justification_from_packet": "Explorer A en S10/S10-T3-A-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "code": "from io import StringIO\n\ndef process(n: int, err: StringIO) -> int:\n    err.write(\"event=done\")\n    return n * 2\n\nerr = StringIO()\nout = process(3, err)\nprint(out, \"| stderr:\", err.getvalue())\n",
+      "justification_from_packet": "Explorer A en S10/S10-T3-B-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético de…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "code": "def read_input(path_or_dash, stdin_text=\"\", file_text=None):\n    if path_or_dash == \"-\":\n        return stdin_text\n    return file_text if file_text is not None else f\"content-of:{path_or_dash}\"\n\nprint(read_input(\"-\", stdin_text=\"from-stdin\"))\nprint(read_input(\"data.csv\", file_text=\"from-file\"))\n",
+      "justification_from_packet": "Explorer A en S10/S10-T3-B-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "code": "from io import StringIO\n\ndef bad_cli():\n    print(\"progress...\")\n    print('{\"ok\": true}')\n\ndef good_cli(err: StringIO):\n    err.write(\"progress...\\n\")\n    print('{\"ok\": true}')\n\nprint(\"BAD: progreso y JSON mezclados en stdout\")\nerr = StringIO()\ngood_cli(err)\nprint(\"GOOD: solo JSON en stdout; progreso en stderr:\", err.getvalue().strip())\n",
+      "justification_from_packet": "Explorer A en S10/S10-T3-B-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "code": "layers = [\"defaults\", \"file\", \"env\", \"flags\"]\nfor i, name in enumerate(layers, 1):\n    print(f\"{i}:{name}\")\n",
+      "justification_from_packet": "Explorer A en S10/S10-T4-A-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético de…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "code": "def merge(defaults, file_cfg, env_cfg, flags):\n    out = dict(defaults)\n    for layer in (file_cfg, env_cfg, flags):\n        for k, v in layer.items():\n            if v is not None:\n                out[k] = v\n    return out\n\nprint(merge({\"log_level\": \"INFO\"}, {\"log_level\": \"WARNING\"}, {\"log_level\": \"DEBUG\"}, {\"log_level\": \"ERROR\"}))\nprint(merge({\"log_level\": \"INFO\"}, {}, {\"log_level\": \"DEBUG\"}, {\"log_level\": None}))\n",
+      "justification_from_packet": "Explorer A en S10/S10-T4-A-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "code": "print(\"result=INFO | razon=el flag CLI tiene mayor precedencia que env\")\n",
+      "justification_from_packet": "Explorer A en S10/S10-T4-A-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "code": "for item in [\".env\", \".env.*\", \"*.pem\", \"credentials.json\"]:\n    print(f\"ignore: {item}\")\n",
+      "justification_from_packet": "Explorer A en S10/S10-T4-B-E1: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E1 (guiado) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético de…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "code": "def validate_config(cfg: dict) -> None:\n    for key in (\"log_level\", \"data_dir\"):\n        if not cfg.get(key):\n            raise RuntimeError(f\"missing required config key: {key}\")\n\nvalidate_config({\"log_level\": \"INFO\", \"data_dir\": \"/tmp/data\"})\nprint(\"ok\")\ntry:\n    validate_config({\"log_level\": \"INFO\"})\nexcept RuntimeError as e:\n    print(\"fail\", e)\n",
+      "justification_from_packet": "Explorer A en S10/S10-T4-B-E2: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E2 (independiente) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "code": "inseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}\nseguro = {\"log_level\": \"INFO\", \"echo_sql\": False, \"api_token\": None}\nfor k in inseguro:\n    print(f\"{k}: {inseguro[k]!r} -> {seguro[k]!r}\")\n",
+      "justification_from_packet": "Explorer A en S10/S10-T4-B-E3: leí theory e iDo del slim_packet y el instruction del quiz_card. Usé if __name__ == '__main__' argparse subparsers exit code stderr pyproject semver flags env file defaults .env API_TOKEN. Completé el starter sin ____/TODO; la salida sigue el Salida/pass del instruction («E3 (transferencia) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sinté…»). Anclé tokens pathlib/csv/json o del tema de la sección del paquete activo.",
+      "concepts_used": [
+        "if",
+        "__name__",
+        "==",
+        "'__main__'",
+        "argparse",
+        "subparsers",
+        "exit",
+        "code"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Explorer A, selfcheck S10 Q0: elegí «Ejecutar el CLI/demo solo al correr el módulo, no al importar» porque en theory del slim_packet if __name__ == '__main__' ejecuta el CLI/demo solo al correr el módulo, no al importar Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Explorer A, selfcheck S10 Q1: elegí «flags > env > file > defaults» porque en theory del slim_packet precedencia de config: flags > env > file > defaults Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Explorer A, selfcheck S10 Q2: elegí «Error de uso/parseo de argumentos» porque en theory del slim_packet exit code 2 en argparse suele ser error de uso/parseo de argumentos Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Explorer A, selfcheck S10 Q3: elegí «stderr» porque en theory del slim_packet logs de progreso van a stderr, no mezclados con JSON en stdout Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Explorer A, selfcheck S10 Q4: elegí «minor» porque en theory del slim_packet añadir un subcomando compatible es tipicamente minor (semver) Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "justification_from_packet": "Explorer A, selfcheck S10 Q5: elegí «.env con API_TOKEN» porque en theory del slim_packet .env con API_TOKEN no debe ir al git del paquete Eso se alinea con outcomes e iDo del paquete activo agentic_G1."
+    }
+  ],
+  "confusion_points": [
+    "S10-T2-A-E3: las 3 causas de ModuleNotFoundError se infieren de theory packaging; el starter solo listaba la primera."
+  ],
+  "recorded_at": "2026-07-23T07:53:28.782781+00:00",
+  "session_started_at": "2026-07-23T07:45:28.782781+00:00",
+  "session_ended_at": "2026-07-23T07:53:28.782781+00:00"
+}
